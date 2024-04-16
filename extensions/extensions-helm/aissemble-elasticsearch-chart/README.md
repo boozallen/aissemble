@@ -16,6 +16,7 @@ The following properties are unique to the `aissemble-elasticsearch-chart` chart
 | basicAuth.user.username    | Default username for basic auth      | No                | elastic    |
 | basicAuth.user.password    | Default password for basic auth      | No                | elastic    |
 | basicAuth.user.roles       | Default role for the basic auth user | No                | superuser  |
+| namespaceOverride          | Namespace to deploy to instead of the Helm release namespace | No                | .Release.Namespace |
 
 Enabling basicAuth packages a kubernetes basic-auth secret into the chart named `elastic-user-secret` with the default credentials described above. This secret is then mounted into the elasticsearch pod with the property: `eck-stack.eck-elasticsearch.auth.fileRealm.secretName`. These credentials can be used for accessing elasticsearch via the less secure HTTP basic authentication. To exclude this secret from being created, simply set the `basicAuth.enabled` to `false`.
 

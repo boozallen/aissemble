@@ -41,6 +41,7 @@ For more information on what properties can be configured for SparkApplication, 
 | service.spec.ports.name                         | A friendly name for a service port definition                                      | No                | "debug"                                         |
 | service.spec.ports.port                         | The port to be exposed                                                             | No                | 4747                                            |
 | service.spec.ports.targetPort                   | The port that the exposed port should map to                                       | No                | 4747                                            |
+| namespaceOverride                               | Namespace to deploy to instead of the Helm release namespace                       | No                | .Release.Namespace                              |
 
 # Interoperability with the aiSSEMBLE Spark Operator Helm Chart
 The aiSSEMBLE Spark Application Helm Chart is largely intended to be used in conjunction with the [aiSSEMBLE Spark

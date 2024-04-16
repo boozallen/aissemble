@@ -6,6 +6,9 @@ aissemble_version = '${archetypeVersion}'
 build_args = { 'DOCKER_BASELINE_REPO_ID': 'ghcr.io/',
                'VERSION_AISSEMBLE': aissemble_version}
 
+load('ext://namespace', 'namespace_create')
+namespace_create('${artifactId}')
+
 # Kafka
 yaml = helm(
     '${artifactId}-deploy/src/main/resources/apps/kafka-cluster',

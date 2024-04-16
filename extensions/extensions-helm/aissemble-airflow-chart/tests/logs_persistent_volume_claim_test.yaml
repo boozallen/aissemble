@@ -15,6 +15,9 @@ tests:
           path: metadata.name
           value: airflow-logs
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: metadata.labels.tier
           value: airflow
       - notExists:

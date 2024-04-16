@@ -8,6 +8,9 @@ tests:
         enabled: true
     asserts:
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: spec.ports[0].name
           value: debug
       - equal:

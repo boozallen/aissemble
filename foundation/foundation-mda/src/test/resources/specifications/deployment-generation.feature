@@ -31,3 +31,25 @@ Feature: Generating deployments
       | profile                               |
       | mlflow-deploy-v2                      |
       | aissemble-spark-infrastructure-deploy |
+
+  @manual
+  Scenario Outline: Project specific namespaces
+    Given I have a genreated project named "namespace-test"
+    When the deployment profile "<profile>" is generated
+    Then the generated chart deploys in a namespace of "namespace-test"
+    Examples:
+      | profile                                     |
+      | airflow-kubernetes-v2                       |
+      | elasticsearch-kubernetes                    |
+      | elasticsearch-kubernetes-v2                 |
+      | inference-kubernetes                        |
+      | aissemble-inference-kubernetes              |
+      | s3local-kubernetes-v2                       |
+      | metadata-kubernetes-v2                      |
+      | policy-decision-point-kubernetes-v2         |
+      | data-access-kubernetes-v2                   |
+      | pipeline-invocation-service-v2              |
+      | lineage-custom-consumer-kubernetes          |
+      | lineage-http-consumer-kubernetes            |
+      | spark-operator-kubernetes                   |
+      | spark-operator-kubernetes-v2                |

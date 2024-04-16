@@ -24,7 +24,7 @@ The following properties are specific to the aiSSEMBLE Spark Operator chart.
 | ivyCache.storageClass     | Storage class for the Ivy cache. Ignored if `ivyCache.storeCacheOnNode` is `true`                               |                      |
 | ivyCache.storeCacheOnNode | Store the shared Ivy cache on the Node and reuse it between deployments                                         | false                |
 | ivyCache.cachePathOnNode  | The location on the node for to store the reusable Ivy cache. Ignored if `ivyCache.storeCacheOnNode` is `false` | /tmp/spark-ivy-cache |
-
+| namespaceOverride         | Namespace to deploy to instead of the Helm release namespace                                                    | .Release.Namespace   |
 
 ## Overridden Inherited Properties
 For an exhaustive list of available properties, see the source material at https://github.com/kubeflow/spark-operator/blob/master/charts/spark-operator-chart/README.md#values.

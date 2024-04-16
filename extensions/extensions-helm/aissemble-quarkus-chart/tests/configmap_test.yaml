@@ -7,6 +7,9 @@ tests:
       - isKind:
           of: ConfigMap
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: data
           value:
             quarkus-properties-file: |-

@@ -10,6 +10,9 @@ tests:
           path: metadata.name
           value: aissemble-inference-chart
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: spec.template.spec.automountServiceAccountToken
           value: false
       - matchRegex:

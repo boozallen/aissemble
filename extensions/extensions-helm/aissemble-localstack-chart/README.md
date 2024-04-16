@@ -36,10 +36,11 @@ https://github.com/localstack/helm-charts/tree/main/charts/localstack
 The following properties are provided by the `aissemble-localstack-chart` chart
 
 | Property                 | Description                                         | Required Override | Default            |
-|--------------------------|-----------------------------------------------------|-------------------|--------------------|
-| buckets                  | Collection of buckets and keys to create in s3      | No                | []                 |
-| credentialSecret.enabled | Whether to use a secret to store the S3 credentials | No                | true               |
-| credentialSecret.name    | Name of the credential secret                       | No                | remote-auth-config |
+|--------------------------|-----------------------------------------------------|-----------------|--------------------|
+| buckets                  | Collection of buckets and keys to create in s3      | No              | []                 |
+| credentialSecret.enabled | Whether to use a secret to store the S3 credentials | No              | true               |
+| credentialSecret.name    | Name of the credential secret                       | No              | remote-auth-config |
+| namespaceOverride        | Namespace to deploy to instead of the Helm release namespace | No     | .Release.Namespace |
 
 # Migration From v1 Structure
 

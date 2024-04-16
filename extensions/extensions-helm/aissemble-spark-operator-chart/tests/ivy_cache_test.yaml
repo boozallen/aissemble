@@ -17,6 +17,9 @@ tests:
           path: metadata.name
           value: ivy-cache
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: spec.resources.requests.storage
           value: 5Gi
       - contains:

@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: spark-worker-image
-  namespace: default
+  namespace: "${projectName}"
 spec:
   backoffLimit: 0
   template:

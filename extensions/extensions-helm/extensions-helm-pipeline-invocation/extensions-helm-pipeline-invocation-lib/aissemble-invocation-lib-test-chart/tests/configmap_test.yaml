@@ -9,6 +9,9 @@ tests:
       - equal:
           path: metadata.name
           value: pipeline-invocation-service
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
       - isKind:
           of: ConfigMap
       - isNullOrEmpty:

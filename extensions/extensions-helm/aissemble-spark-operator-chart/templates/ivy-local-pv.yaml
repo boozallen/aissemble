@@ -5,6 +5,7 @@ metadata:
   labels:
     type: local
   name: {{ .Values.ivyCache.name }}
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace}}
 spec:
   {{- with .Values.ivyCache.accessModes }}
   accessModes:

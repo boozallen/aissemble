@@ -10,6 +10,9 @@ tests:
           path: metadata.name
           value: hive-metastore-service
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: spec.selector["app.kubernetes.io/name"]
           value: hive-metastore-service
       - contains:

@@ -21,6 +21,7 @@ helm install policy-decision-point ghcr.io/boozallen/aissemble-policy-decision-p
 | service.spec.ports            | The service spec ports                      | No                | - name: rest-api <br/>&emsp;&emsp;port: 8080 <br/>&emsp;&emsp;targetPort: 8080     |
 | deployment.ports              | The deployment ports                        | No                | - name: http-1 <br/>&emsp;&emsp;containerPort: 8080 <br/>&emsp;&emsp;protocol: TCP |
 | deployment.restartPolicy      | The deployment restart policy               | No                | Always                                                                             |
+| namespaceOverride        | Namespace to deploy to instead of the Helm release namespace | No                | .Release.Namespace                                                                 |
 
 # Migration from aiSSEMBLE v1 Helm Charts
 If you are migrating from the v1 version of the policy decision point chart, use the tables below to apply any existing customizations from the old chart to the new v2 chart.
