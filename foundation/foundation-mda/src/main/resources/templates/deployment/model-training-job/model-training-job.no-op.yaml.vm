@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: no-op-${projectName}-${appName.replace("-image", "")}
-  namespace: default
+  namespace: "${projectName}"
 spec:
   backoffLimit: 0
   template:

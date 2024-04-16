@@ -11,6 +11,7 @@ aissemble-versioning-chart:
   aissemble-fastapi-chart:
       app:
         name: ${projectName}-versioning
+        namespace: ${appName}
       image:
         name: boozallen/${projectName}-versioning
         tag: latest

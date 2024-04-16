@@ -2,7 +2,7 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: {{ .Values.metadata.name | default .Chart.Name }}
-  namespace: {{ .Values.metadata.namespace }}
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace }}
 {{- with .Values.sparkApp }}
   {{ printf "\n" }}
   {{- toYaml . }}

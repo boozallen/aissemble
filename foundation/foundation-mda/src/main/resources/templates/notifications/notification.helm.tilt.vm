@@ -1,6 +1,7 @@
 yaml = helm(
    '${deployArtifactId}/src/main/resources/apps/${appName}',
    name='${appName}',
+   namespace='${projectName}',
    values=['${deployArtifactId}/src/main/resources/apps/${appName}/values.yaml',
        '${deployArtifactId}/src/main/resources/apps/${appName}/values-dev.yaml']
 )

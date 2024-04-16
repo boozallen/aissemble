@@ -7,6 +7,9 @@ tests:
       - isKind:
           of: SparkApplication
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: spec.type
           value: "placeholder"
       - equal:

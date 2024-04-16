@@ -2,5 +2,6 @@
 {{- define "tester.configmap" -}}
 metadata:
   name: pipeline-invocation-service
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace}}
 data: {}
 {{- end -}}

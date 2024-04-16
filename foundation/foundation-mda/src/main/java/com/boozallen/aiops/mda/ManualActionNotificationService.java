@@ -403,6 +403,7 @@ public class ManualActionNotificationService {
                 VelocityNotification notification = new VelocityNotification("helm-" + appName, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.helm.tilt.vm");
                 notification.addToVelocityContext("appName", appName);
                 notification.addToVelocityContext("deployArtifactId", deployArtifactId);
+                notification.addToVelocityContext("projectName", context.getRootArtifactId());
                 addManualAction(tiltFilePath, notification);
             }
 

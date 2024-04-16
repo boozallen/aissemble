@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
     app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
   name: {{ .Values.app.name | default .Chart.Name }}
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace}}
 spec:
   replicas: 1
   selector:

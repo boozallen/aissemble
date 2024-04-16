@@ -3,6 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.app.name | default .Chart.Name }}
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace}}
   {{- with .Values.ingress.metadata.annotations }}
   annotations:
   {{- toYaml . | nindent 8 }}

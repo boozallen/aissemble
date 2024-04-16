@@ -9,6 +9,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.airflow.logs.persistence.existingClaim }}
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace}}
   labels:
     tier: airflow
     component: logs-pvc

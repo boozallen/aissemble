@@ -10,6 +10,9 @@ tests:
           path: metadata.name
           value: aissemble-inference-chart
       - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
           path: spec.selector["app.kubernetes.io/name"]
           value: aissemble-inference-chart
       - equal:

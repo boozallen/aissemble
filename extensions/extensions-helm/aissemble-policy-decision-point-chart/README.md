@@ -9,18 +9,20 @@ helm install policy-decision-point ghcr.io/boozallen/aissemble-policy-decision-p
 **Note**: *the version should match the aiSSEMBLE project version.*
 
 # Properties
-| Property                      | Description                                 | Required Override | Default                                                                            |
-|-------------------------------|---------------------------------------------|-------------------|------------------------------------------------------------------------------------|
-| app.name                      | Sets label for app.kubernetes.io/name       | No                | Chart.Name (aissemble-policy-decision-point)                                       |
-| app.version                   | Sets label for app.kubernetes.io/version    | No                | Chart.AppVersion (aiSSEMBLE project version)                                       |
-| hostname                      | The hostname for the application            | No                | policy-decision-point                                                              |
-| image.name                    | The image name                              | Yes               | boozallen/aissemble-policy-decision-point                                          |
-| image.imagePullPolicy         | The image pull policy                       | No                | Always (ensures local docker image is pulled, rather than from Nexus repo)         |
-| image.dockerRepo              | The image docker repository                 | No                | NB: OSS: update with aissemble docker repository                                   |
-| image.tag                     | The image tag                               | No                | Chart.AppVersion                                                                   |
-| service.spec.ports            | The service spec ports                      | No                | - name: rest-api <br/>&emsp;&emsp;port: 8080 <br/>&emsp;&emsp;targetPort: 8080     |
-| deployment.ports              | The deployment ports                        | No                | - name: http-1 <br/>&emsp;&emsp;containerPort: 8080 <br/>&emsp;&emsp;protocol: TCP |
-| deployment.restartPolicy      | The deployment restart policy               | No                | Always                                                                             |
+| Property                 | Description                                                  | Required Override | Default                                                                            |
+|--------------------------|--------------------------------------------------------------|-------------------|------------------------------------------------------------------------------------|
+| app.name                 | Sets label for app.kubernetes.io/name                        | No                | Chart.Name (aissemble-policy-decision-point)                                       |
+| app.version              | Sets label for app.kubernetes.io/version                     | No                | Chart.AppVersion (aiSSEMBLE project version)                                       |
+| hostname                 | The hostname for the application                             | No                | policy-decision-point                                                              |
+| image.name               | The image name                                               | Yes               | boozallen/aissemble-policy-decision-point                                          |
+| image.imagePullPolicy    | The image pull policy                                        | No                | Always (ensures local docker image is pulled, rather than from Nexus repo)         |
+| image.dockerRepo         | The image docker repository                                  | No                | NB: OSS: update with aissemble docker repository                                   |
+| image.tag                | The image tag                                                | No                | Chart.AppVersion                                                                   |
+| service.spec.ports       | The service spec ports                                       | No                | - name: rest-api <br/>&emsp;&emsp;port: 8080 <br/>&emsp;&emsp;targetPort: 8080     |
+| deployment.ports         | The deployment ports                                         | No                | - name: http-1 <br/>&emsp;&emsp;containerPort: 8080 <br/>&emsp;&emsp;protocol: TCP |
+| deployment.restartPolicy | The deployment restart policy                                | No                | Always                                                                             |
+| namespaceOverride        | Namespace to deploy to instead of the Helm release namespace | No                | .Release.Namespace                                                                 |
+
 
 # Migration from aiSSEMBLE v1 Helm Charts
 If you are migrating from the v1 version of the policy decision point chart, use the tables below to apply any existing customizations from the old chart to the new v2 chart.

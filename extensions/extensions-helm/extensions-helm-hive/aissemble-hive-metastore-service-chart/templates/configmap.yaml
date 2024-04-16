@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: metastore-service-config
+  namespace: {{ .Values.namespaceOverride | default .Release.Namespace}}
 data:
   # Add all the default properties from the local values.yaml to the ConfigMap
   # Then check if theres any downstream properties and add them as well
