@@ -1,0 +1,57 @@
+metadata:
+    name: pyspark-pipeline
+sparkApp:
+  spec:
+    type: Python
+    image: "boozallen/aiops-2977-spark-worker-docker:latest"
+    mainApplicationFile: "local:///opt/spark/jobs/pipelines/pyspark-pipeline/pyspark_pipeline_driver.py"
+    deps:
+      packages:
+        - mysql:mysql-connector-java:8.0.30
+        - org.apache.hadoop:hadoop-aws:3.3.4
+        - com.amazonaws:aws-java-sdk-bundle:1.12.262
+      excludePackages: []
+    hadoopConf:
+      fs.s3a.fast.upload: "true"
+      fs.s3a.path.style: "true"
+    driver:
+      cores: 1
+      coreLimit: "1200m"
+      memory: "1024m"
+      env:
+        - name: KRAUSENING_BASE
+          value: /opt/spark/krausening/base
+        - name: AWS_ACCESS_KEY_ID
+          value: "123"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "456"
+        - name: STORAGE_ENDPOINT
+          value: "http://s3-local:4566"
+        - name: MyFileStore_FS_PROVIDER
+          value: "s3"
+        - name: MyFileStore_FS_ACCESS_KEY_ID
+          value: ""
+        - name: MyFileStore_FS_SECRET_ACCESS_KEY
+          value: ""
+        - name: MyFileStore_FS_SECURE
+          value: "false"
+        - name: MyFileStoreAsync_FS_PROVIDER
+          value: "s3"
+        - name: MyFileStoreAsync_FS_ACCESS_KEY_ID
+          value: ""
+        - name: MyFileStoreAsync_FS_SECRET_ACCESS_KEY
+          value: ""
+        - name: MyFileStoreAsync_FS_SECURE
+          value: "false"  
+    executor:
+      cores: 1
+      memory: "1024m"
+      env:
+        - name: KRAUSENING_BASE
+          value: /opt/spark/krausening/base
+        - name: AWS_ACCESS_KEY_ID
+          value: "123"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "456"
+        - name: STORAGE_ENDPOINT
+          value: "http://s3-local:4566"
