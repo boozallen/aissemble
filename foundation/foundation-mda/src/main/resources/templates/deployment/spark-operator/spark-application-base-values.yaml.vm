@@ -69,7 +69,7 @@ sparkApp:
     driver:
       cores: 1
       coreLimit: "1200m"
-      memory: "512m"
+      memory: "4096m"
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
@@ -90,7 +90,7 @@ sparkApp:
       #end
     executor:
       cores: 1
-      memory: "512m"
+      memory: "4096m"
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
