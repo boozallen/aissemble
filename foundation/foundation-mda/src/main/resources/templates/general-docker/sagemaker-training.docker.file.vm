@@ -1,0 +1,34 @@
+ARG DOCKER_BASELINE_REPO_ID
+ARG VERSION_AISSEMBLE
+
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-nvidia:${VERSION_AISSEMBLE}
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update repositories and add necessary ones
+RUN apt-get -y update \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository universe \
+    && add-apt-repository ppa:deadsnakes/ppa
+
+# Install Python 3.11 and related packages, and perform cleanup
+RUN apt-get -y update \
+    && apt install python3.11 python3.11-distutils gcc python3.11-dev curl -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+
+# Install mlflow
+RUN python3.11 -m pip install "mlflow>=2.3.1,<3.0.0" --ignore-installed
+
+# Install ${trainingModule} dependencies
+COPY ./target/dockerbuild/requirements/${trainingPipeline}/${trainingModule}/requirements.txt /installation/${trainingModule}/
+RUN python3.11 -m pip install -r /installation/${trainingModule}/requirements.txt
+
+# Install ${trainingModule}
+COPY ./target/dockerbuild/${trainingPipeline}/${trainingModule}/*.tar.gz /installation/${trainingModule}/
+RUN find /installation/${trainingModule}/ -name *.tar.gz -type f -exec python3.11 -m pip install --no-deps --no-cache-dir '{}' ';'
+
+ENTRYPOINT ["python3.11", "-m", "${trainingModuleSnakeCase}.${trainingPipelineSnakeCase}"]

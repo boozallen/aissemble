@@ -1,0 +1,146 @@
+    ${step.encryptionSignature}:
+        """
+        Checks for encryption policies and applies encryption to the designated fields.
+        If no policies are found then the original data is returned.
+        """
+       #if (${step.hasMessagingInbound()} && !${step.hasInboundRecordType()})
+
+        ${step.capitalizedName}Base.logger.warn('Encryption is not yet supported for messaging without specifying an inbound record type!')
+        ${step.capitalizedName}Base.logger.warn('If desired, please add encryption manually by overriding check_and_apply_encryption_policy()!')
+        return inbound
+       #else
+
+        return_payload = inbound
+        ${step.capitalizedName}Base.logger.info('Checking encryption policies')
+
+        # Check if the KRAUSENING_BASE is set in the environment and use a default if it isn't
+        if not os.environ.get('KRAUSENING_BASE'):
+            ${step.capitalizedName}Base.logger.warn('KRAUSENING_BASE environment variable was not set.  Using default path -> ./config')
+            os.environ['KRAUSENING_BASE'] = 'resources/krausening/base/'
+
+        directory = PolicyConfiguration().policiesLocation()
+
+        policy_manager = DataEncryptionPolicyManager.getInstance()
+        retrieved_policies = policy_manager.policies
+
+        for key, encrypt_policy in retrieved_policies.items():
+            # Encryption policies have a property called encryptPhase.
+            # If that property is missing then we should ignore the policy.
+            if encrypt_policy.encryptPhase:
+                if self.step_phase.lower() == encrypt_policy.encryptPhase.lower():
+
+                    encrypt_fields = encrypt_policy.encryptFields
+                    input_fields = self.get_fields_list(inbound)
+                    field_intersection = list(set(encrypt_fields) & set(input_fields))
+
+                    return_payload = self.apply_encryption_to_dataset(inbound, field_intersection, encrypt_policy.encryptAlgorithm)
+                else:
+                    ${step.capitalizedName}Base.logger.info('Encryption policy does not apply to this phase: ' + self.step_phase)
+
+        return return_payload
+       #end
+
+
+    #if (!$step.hasInboundRecordType())
+    def aiops_encrypt_aes_udf(self):
+        return udf(lambda text: aiops_encrypt_simple_aes(text))
+
+
+    def aiops_encrypt_vault_udf(self, key):
+        return udf(lambda text: aiops_encrypt_with_vault_key(key, text))
+    #end
+
+
+    ${step.applyEncryptionSignature}:
+        '''
+            This method applies encryption to the given fields
+        '''
+        ${step.capitalizedName}Base.logger.info('applying encryption')
+
+       #if ($step.hasInboundNativeCollectionType() && !$step.hasInboundRecordType())
+## If inbound is a set of dataframes we will create another method to loop over the dataframes
+## and call a method within the loop to process a single dataframe
+        # return type is a set
+        return_dataframe_set = set([])
+
+        # loop over dataframe set
+        for dataframe in inbound:
+            encrypted_dataframe = self.apply_encryption_when_native_collection_is_supplied(dataframe, fields_to_update, algorithm)
+            return_dataframe_set.add(encrypted_dataframe)
+
+        return return_dataframe_set
+
+
+    def apply_encryption_when_native_collection_is_supplied(self, inbound: Set[DataFrame], fields_to_update: List[str], algorithm: str):
+       #end
+
+       #if ($step.hasInboundNativeCollectionType() && $step.hasInboundRecordType())
+## process a set[CustomRecord]
+        # return type is a set
+        return_payload = set([])
+        aiops_encrypt = AesCbcEncryptionStrategy()
+        if(algorithm == 'VAULT_ENCRYPT'):
+            aiops_encrypt = VaultRemoteEncryptionStrategy()
+
+        for record in inbound:
+            for column in fields_to_update:
+                encrypted_column_value = aiops_encrypt.encrypt(getattr(record, column))
+                # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
+                try:
+                    encrypted_column_value = encrypted_column_value.decode('utf-8')
+                except (UnicodeDecodeError, AttributeError):
+                    pass
+
+                setattr(record, column, encrypted_column_value)
+
+                return_payload.add(record)
+       #elseif (!$step.hasInboundNativeCollectionType() && $step.hasInboundRecordType())
+## process a CustomRecord
+        # return type is a single custom data type
+        aiops_encrypt = AesCbcEncryptionStrategy()
+        if(algorithm == 'VAULT_ENCRYPT'):
+            aiops_encrypt = VaultRemoteEncryptionStrategy()
+
+        for column in fields_to_update:
+            encrypted_column_value = aiops_encrypt.encrypt(getattr(record, column))
+            # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
+            try:
+                encrypted_column_value = encrypted_column_value.decode('utf-8')
+            except (UnicodeDecodeError, AttributeError):
+                pass
+
+            setattr(record, column, encrypted_column_value)
+
+        return_payload = inbound
+       #elseif (!$step.hasInboundRecordType())
+## process a dataframe or set[dataframe]
+        # some other text
+        return_payload = []
+        for encrypt_field in fields_to_update:
+            if(algorithm == 'VAULT_ENCRYPT'):
+                # Because of the restrictive nature of PySpark UDF's we have to retrieve the Vault key outside of
+                # the udf call to avoid threading errors
+                vault_key_util = VaultKeyUtil.get_instance()
+                vault_key = vault_key_util.get_vault_key_encoded()
+                return_payload = inbound.withColumn(encrypt_field, self.aiops_encrypt_vault_udf(vault_key)(col(encrypt_field)))
+            else:
+                return_payload = inbound.withColumn(encrypt_field, self.aiops_encrypt_aes_udf()(col(encrypt_field)))
+
+            return_payload.show()
+       #end
+
+        return return_payload
+
+
+    ${step.fieldListSignature}:
+        '''
+            This method gets the field names from the given data type
+        '''
+       #if ($step.hasInboundRecordType())
+        return [p for p in dir(${step.inbound.recordType.name}) if isinstance(getattr(${step.inbound.recordType.name},p),property)]
+       #elseif (!$step.hasInboundRecordType())
+        # Get the column names
+        return inbound.columns
+       #else
+        return []
+        #end

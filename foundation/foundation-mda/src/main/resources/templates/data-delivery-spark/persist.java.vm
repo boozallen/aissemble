@@ -1,0 +1,73 @@
+    /**
+    * Saves a dataset.
+    *
+    * @param dataset the dataset to save
+    #if ($step.isPersistTypeElasticsearch())
+    * @param esResource the Elasticsearch resource to save the dataset to
+    #elseif ($step.isPersistTypeNeo4j())
+    * @param labels the neo4j label(s) to save the dataset to
+    #else
+    * @param tableName the table name to save the dataset to
+    #end
+    */
+    #if ($step.isPersistTypeElasticsearch())
+    protected void saveDataset(${step.persist.shortCollectionType}<${step.persist.shortRecordType}> dataset, String esResource) {
+    #elseif ($step.isPersistTypeNeo4j())
+    protected void saveDataset(${step.persist.shortCollectionType}<${step.persist.shortRecordType}> dataset, String... labels) {
+    #else
+    protected void saveDataset(${step.persist.shortCollectionType}<${step.persist.shortRecordType}> dataset, String tableName) {
+    #end
+    #if ($step.isPersistTypeDeltaLake())
+        logger.info("Saving {} to Delta Lake...", this.action);
+
+        String path = DELTA_DATA_ROOT + tableName;
+        dataset.write()
+               .format("delta")
+               .mode(${step.persist.mode})
+               .save(path);
+        if(!sparkSession.catalog().tableExists(tableName)) {
+            sparkSession.catalog().createTable(tableName, path, "delta");
+        }
+
+        logger.info("Saved {} to Delta Lake", this.action);
+    #elseif ($step.isPersistTypeHive())
+        logger.info("Saving {} to Hive...", this.action);
+
+        dataset.write()
+               .format("hive")
+               .mode(${step.persist.mode})
+               .saveAsTable(tableName);
+
+                logger.info("Saved {} to Hive", this.action);
+    #elseif ($step.isPersistTypeRdbms() || $step.isPersistTypePostgres())
+        logger.info("Saving {} to Rdbms...", this.action);
+
+        dataset.write()
+               .mode(${step.persist.mode})
+               .jdbc(SparkPostgresUtils.getJdbcUrl(), tableName, SparkPostgresUtils.getJdbcProperties());
+
+        logger.info("Saved {} to Rdbms", this.action);
+
+    #elseif ($step.isPersistTypeElasticsearch())
+        logger.info("Saving {} to Elasticsearch...", this.action);
+
+        JavaEsSparkSQL.saveToEs(dataset, esResource);
+
+        logger.info("Saved {} to Elasticsearch", this.action);
+    #elseif ($step.isPersistTypeNeo4j())
+        logger.info("Saving {} to Neo4j...", this.action);
+
+        dataset.write()
+               .format(SparkNeo4jUtils.NEO4J_FORMAT)
+               .options(SparkNeo4jUtils.getSparkOptions())
+               .option(SparkNeo4jUtils.LABELS_OPTION, StringUtils.join(labels, ":"))
+               .mode(${step.persist.mode})
+               .save();
+
+        logger.info("Saved {} to Neo4j", this.action);
+    #else
+        logger.warn("Persist type '${step.persist.type}' is not yet supported by the aiSSEMBLE Solution Baseline!");
+        logger.warn("Please encode persistence logical manually by overriding saveDataset(..)");
+    #end
+
+    }

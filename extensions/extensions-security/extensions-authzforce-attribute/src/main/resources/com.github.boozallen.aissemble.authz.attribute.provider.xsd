@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://github.com/boozallen/aissemble/authz/attribute/1"
+           xmlns="http://github.com/boozallen/aissemble/authz/attribute/1"
+           xmlns:authz-ext="http://authzforce.github.io/xmlns/pdp/ext/3"
+   xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.5.9">
+   <xs:import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" />
+   <xs:import namespace="http://authzforce.github.io/xmlns/pdp/ext/3" />
+   <xs:annotation>
+      <xs:documentation xml:lang="en">
+         Data Model for the Aiops  Attribute Extension
+      </xs:documentation>
+   </xs:annotation>
+   <xs:complexType name="AiopsAttributeExtension">
+      <xs:annotation>
+         <xs:documentation>
+            aiSSEMBLE Attribute Extensions. This extension provides easier attribute store configuration for aiSSEMBLE.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="authz-ext:AbstractAttributeProvider">
+            <xs:sequence>
+               <xs:element ref="xacml:Attributes" minOccurs="1" maxOccurs="10" />
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+</xs:schema>

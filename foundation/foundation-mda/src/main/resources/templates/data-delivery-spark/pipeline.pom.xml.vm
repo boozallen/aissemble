@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <artifactId>${moduleArtifactId}</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${parentDescriptiveName}::${descriptiveName}</name>
+    <description>${pipeline.description}</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>${pipeline.package}</basePackage>
+                    <profile>data-delivery-spark-pipeline</profile>
+                    <propertyVariables>
+                        <targetPipeline>${pipeline.name}</targetPipeline>
+                        <aissembleVersion>${version.aissemble}</aissembleVersion>
+                    </propertyVariables>
+                    <!-- see ${parentArtifactId} for base configuration settings -->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+                <artifactId>maven-java-formatter-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <!-- NOTE: These are the minimum required transformers needed to run a basic
+                                data-delivery-spark pipeline within the Spark container. Please be aware that
+                                it is tricky to debug issues related to the transformer configuration, and
+                                you may need to add additional transformers depending on your implementation. -->
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${basePackage}.${pipeline.name}Driver</mainClass>
+                                </transformer>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/services/</resource>
+                                </transformer>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</resource>
+                                </transformer>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/services/javax.ws.rs.ext.Providers</resource>
+                                </transformer>
+                                #if ($pipeline.fileStores)
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/services/org.jclouds.apis.ApiMetadata</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/services/org.jclouds.providers.ProviderMetadata</resource>
+                                </transformer>
+                                #end
+                            </transformers>
+                            #if ($pipeline.fileStores)
+                            <!-- Spark relies on older, incompatible versions of several of Google's libraries, but JClouds
+                            depends on newer versions, so re-package Guava, Guice, and Gson libraries under different package
+                            in the shaded JAR. This allows for older versions of these JARs to be on Spark's classpath while
+                            everything within the shaded uber JAR leverages the newer, repackaged versions.
+                            -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.google</pattern>
+                                    <shadedPattern>repackaged.com.google</shadedPattern>
+                                    <includes>
+                                        <include>com.google.common.**</include>
+                                        <include>com.google.inject.**</include>
+                                        <include>com.google.gson.**</include>
+                                    </includes>
+                                </relocation>
+                            </relocations>
+                            #end
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            #set($mainValuesPath = "src/main/resources/apps")
+            #set($testValuesPath = "src/test/resources/apps")
+            #parse("templates/data-delivery-common/pipeline.chart.pom.configuration.vm")
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.technologybrewery.krausening</groupId>
+            <artifactId>krausening</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-core-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-metadata-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <version>${version.aissemble}</version>
+        </dependency>
+        #if ($pipeline.isAlertingSupportNeeded())
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-alerting</artifactId>
+        </dependency>
+        #end
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-pdp-client-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-authzforce</artifactId>
+        </dependency>
+        #if ($enableSedonaSupport)
+		<dependency>
+			<groupId>org.apache.sedona</groupId>
+			<artifactId>sedona-python-adapter-3.0_2.12</artifactId>
+			<version>${version.sedona}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.sedona</groupId>
+			<artifactId>sedona-viz-3.0_2.12</artifactId>
+			<version>${version.sedona}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.datasyslab</groupId>
+			<artifactId>geotools-wrapper</artifactId>
+			<version>${version.geotools.wrapper}</version>
+		</dependency>
+        #end
+        #if ($enablePostgresSupport)
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-data-delivery-spark-postgres</artifactId>
+        </dependency>
+        #end
+        #if ($enableElasticsearchSupport)
+        <!-- Version must match the version set in the elasticsearch helm chart-->
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch-spark-30_2.12</artifactId>
+			<version>${version.elasticsearch}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>commons-compiler</artifactId>
+			<version>${version.janino}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>${version.janino}</version>
+		</dependency>
+        #end
+        #if ($enableNeo4jSupport)
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-data-delivery-spark-neo4j</artifactId>
+        </dependency>
+        #end
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-encryption-policy-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-encryption-vault-java</artifactId>
+        </dependency>
+        #if ($pipeline.getDataLineage())
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-data-lineage-java</artifactId>
+        </dependency>
+        #end
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+        </dependency>
+        #if ($pipeline.fileStores)
+        <dependency>
+            <groupId>org.apache.jclouds</groupId>
+            <artifactId>jclouds-allblobstore</artifactId>
+            <version>${version.jclouds}</version>
+        </dependency>
+        <!-- the Quarkus BOM uses gson 2.9.0, but JClouds is only compatible up to version 1.8.9-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
+        #end
+        #if($enableSemanticDataSupport)
+        <dependency>
+            <groupId>#[[${project.groupId}]]#</groupId>
+            <artifactId>${javaDataRecords}</artifactId>
+            <version>#[[${project.version}]]#</version>
+        </dependency>
+        #end
+        <!-- Test dependencies: -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>${version.cucumber.reporting.plugin}</version>
+            <scope>test</scope>
+        </dependency>
+        #if ($pipeline.fileStores)
+        <dependency>
+            <groupId>org.apache.jclouds.api</groupId>
+            <artifactId>filesystem</artifactId>
+            <version>${version.jclouds}</version>
+            <scope>test</scope>
+        </dependency>
+        #end
+    </dependencies>
+
+</project>

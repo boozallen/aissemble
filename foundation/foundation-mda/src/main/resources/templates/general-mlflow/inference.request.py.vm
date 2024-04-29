@@ -1,0 +1,48 @@
+"""
+Inference request implementation.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName} 
+"""
+
+from typing import Dict, List, Optional
+from pydantic import BaseModel
+from pandas import DataFrame
+import numpy as np
+
+
+class Record(BaseModel):
+    """
+    Represents a raw record in the inference request.
+    """
+    # TODO: define expected fields for the data in the inference request
+    raw_field_example: bool
+
+
+class RequestBody(BaseModel):
+    """
+    Represents an inference request containing the data to use for the model prediction.
+    """
+    data: List[Record]
+
+
+    def data_to_dict(self) -> Dict:
+        """
+        Convenience method to convert the data records into dictionaries.
+        """
+        return [ record.dict() for record in self.data ]
+
+
+    def prep_data(self) -> DataFrame:
+        """
+        Method to prep the data in the inference request for the model prediction.
+        """
+
+        data = DataFrame(self.data_to_dict())
+
+        # TODO: prep the data into the format needed for the predictions
+        data['prepped_field_example'] = np.where(data['raw_field_example'], 1, 0)
+        del data['raw_field_example']
+
+        return data

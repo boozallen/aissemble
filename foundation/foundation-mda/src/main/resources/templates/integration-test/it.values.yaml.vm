@@ -1,0 +1,4 @@
+image:
+  name: boozallen/${artifactId}
+  imagePullPolicy: IfNotPresent
+  dockerRepo: ""

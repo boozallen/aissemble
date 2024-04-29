@@ -1,0 +1,4 @@
+public_key_path = some/path/to/publicKey.pem
+jks_path = some/path/to/truststore/aiops-secure.jks
+jks_password = somepassword
+key_alias = somekeyalias

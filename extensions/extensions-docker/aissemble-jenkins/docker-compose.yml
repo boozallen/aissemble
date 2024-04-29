@@ -1,0 +1,18 @@
+version: '2'
+services:
+  jenkins-controller:
+    image: ${CONTAINER_REGISTRY}boozallen/aissemble-jenkins-controller
+    environment:
+      PATH: /var/pyenv/bin:/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - "8080:8080"
+    restart: always
+
+# Re-enable in a subsequent ticket (though likely migrate to K8s):
+#  jenkins-agent:
+#    image: ${CONTAINER_REGISTRY}boozallen/aiops-jenkins-agent
+#    ports:
+#      - "10022:22"
+#    restart: always
+#    links:
+#      - "jenkins-controller:jenkins-controller"

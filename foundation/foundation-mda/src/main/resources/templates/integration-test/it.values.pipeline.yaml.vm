@@ -1,0 +1,8 @@
+deployment:
+  command: '[ "java" ]'
+  args: '[ "-jar", "${artifactId}.jar" ]'
+  initContainers:
+    - name: wait-for-spark-operator
+      image: busybox:latest
+      command: [ "/bin/sh","-c" ]
+      args: [ "until nc -vz spark-operator-webhook.default 443; do sleep 5; echo 'waiting for spark operator...'; done" ]

@@ -1,0 +1,9 @@
+
+In ${rootPath}:
+Remove the empty "[]" from "buckets: []" and include the following content to the list:
+
+    - name: ${bucketName}
+      keys:
+      #foreach ($item in $items)
+      - ${item}
+      #end

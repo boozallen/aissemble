@@ -1,0 +1,17 @@
+package ${basePackage}.filestore;
+
+import com.boozallen.aiops.core.filestore.AbstractFileStore;
+
+/**
+ * Base implementation of this file store.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${pipeline.capitalizedName}Driver).
+ *
+ * Generated from: ${templateName}
+ */
+public class ${fileStore.fullName}Base extends AbstractFileStore {
+
+	public ${fileStore.fullName}Base(final String name) {
+		super(name);
+	}
+}

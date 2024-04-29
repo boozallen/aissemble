@@ -1,0 +1,2 @@
+data.lineage.enabled=true
+data.lineage.producer=${scmUrl}

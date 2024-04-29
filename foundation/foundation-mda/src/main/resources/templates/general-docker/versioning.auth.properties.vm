@@ -1,0 +1,8 @@
+# Properties file for versioning authorization.
+#
+# GENERATED PROPERTIES FILE - please ***DO*** modify.
+#
+# Generated from: ${templateName}
+
+pdp_host_url = http://policy-decision-point:8080/api/pdp
+is_authorization_enabled = True

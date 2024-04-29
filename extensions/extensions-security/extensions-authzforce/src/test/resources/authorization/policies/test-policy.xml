@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  #%L
+ * aiSSEMBLE::Extensions::Security::Authzforce
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	PolicyId="urn:oasis:names:tc:xacml:2.0:unit-test:policy"
+	RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides"
+	Version="1.0">
+	<Description>Policies for Aiops authorization testing</Description>
+	<Target />
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:resource:single:permit">
+		<Description>Allow Tony Gwynn to get singles</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">hit/single</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="true"></AttributeDesignator>
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-subset">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+					<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#string">tonyGwynn</AttributeValue>
+				</Apply>
+				<AttributeDesignator
+					AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+					Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+					DataType="http://www.w3.org/2001/XMLSchema#string"
+					MustBePresent="true" />
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Deny"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:resource:single:deny">
+		<Description>Ensure the Mendoza Line exists</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">hit/single</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="true"></AttributeDesignator>
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-subset">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+					<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#string">marioMendoza</AttributeValue>
+				</Apply>
+				<AttributeDesignator
+					AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+					Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+					DataType="http://www.w3.org/2001/XMLSchema#string"
+					MustBePresent="true" />
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:strikeout:permit">
+		<Description>Permit Reggie Jackson to strike out</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">strikeout</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-subset">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+					<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#string">reggieJackson</AttributeValue>
+				</Apply>
+				<AttributeDesignator
+					AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+					Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+					DataType="http://www.w3.org/2001/XMLSchema#string"
+					MustBePresent="true" />
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Deny"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:strikeout:deny">
+		<Description>Deny Tony Gwynn from striking out</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">strikeout</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-subset">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+					<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#string">tonyGwynn</AttributeValue>
+				</Apply>
+				<AttributeDesignator
+					AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+					Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+					DataType="http://www.w3.org/2001/XMLSchema#string"
+					MustBePresent="true" />
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:is-jersey-number-44">
+		<Description>Test a custom attribute - user has a jersey number that
+			matches Reggie Jackson's
+		</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">reggie-jackson-jersey-number-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:jerseyNumber"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#integer"
+						MustBePresent="true" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#integer">44</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:any-uri-custom-attribute:permit">
+		<Description>Test a custom attribute - user has a valid Hall of Fame
+			Profile link
+		</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">hall-of-fame-profile-uri-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:3.0:function:anyURI-contains">
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#string">https://baseballhall.org/hall-of-famers/</AttributeValue>
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:anyURI-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:hallOfFameProfile"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#anyURI"
+						MustBePresent="false" />
+				</Apply>
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:boolean-custom-attribute:permit">
+		<Description>Test a custom attribute - has un-tainted statistics</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">peds-boolean-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:suspectedPedUser"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#boolean"
+						MustBePresent="false" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>		
+	<Rule Effect="Deny"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:boolean-custom-attribute:deny">
+		<Description>Test a custom attribute - has tainted statistics</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">peds-boolean-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:suspectedPedUser"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#boolean"
+						MustBePresent="false" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>	
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:double-custom-attribute:permit">
+		<Description>Test a custom attribute - user hit above the Mendoza Line</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">hit-above-mendoza-line-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:battingAverage"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#double"
+						MustBePresent="true" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#double">0.215</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Deny"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:double-custom-attribute:deny">
+		<Description>Test a custom attribute - user hit below the Mendoza Line</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">hit-above-mendoza-line-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:battingAverage"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#double"
+						MustBePresent="true" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#double">0.215</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>	
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:date-custom-attribute:permit">
+		<Description>Test a custom attribute - user is allowed to wear a helmet without ear flaps</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">no-ear-flap-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:date-less-than">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:date-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:serviceEntryDate"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#date"
+						MustBePresent="true" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#date">1983-01-01</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Deny"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:date-custom-attribute:deny">
+		<Description>Test a custom attribute - user is NOT allowed to wear a helmet without ear flaps</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">no-ear-flap-test</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:date-greater-than-or-equal">
+				<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:date-one-and-only">
+					<AttributeDesignator
+						AttributeId="urn:aiops:serviceEntryDate"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#date"
+						MustBePresent="true" />
+				</Apply>
+				<AttributeValue
+					DataType="http://www.w3.org/2001/XMLSchema#date">1983-01-01</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>	
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:testPemitAlwaysForAnAction">
+		<Description>
+			Permit anything for testUser
+		</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">atBat</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="true" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+	</Rule>
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:testUserSuperuserAccess">
+		<Description>
+			Permit anything for testUser
+		</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">testUser</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+							Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="true" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+	</Rule>
+	<Rule Effect="Permit"
+		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:multiple-attributes:permit">
+		<Description>Test a custom attribute - multiple attributes returned</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+						MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+							DataType="http://www.w3.org/2001/XMLSchema#string">hit-over-350-in-1984</AttributeValue>
+						<AttributeDesignator
+							AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+							Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+							DataType="http://www.w3.org/2001/XMLSchema#string"
+							MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+				FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-is-in">
+					<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#integer">1984</AttributeValue>
+					<AttributeDesignator
+						AttributeId="urn:aiops:seasonsBattingOver350"
+						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+						DataType="http://www.w3.org/2001/XMLSchema#integer"
+						MustBePresent="false" />
+			</Apply>
+		</Condition>
+	</Rule>		
+</Policy>

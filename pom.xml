@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>aissemble-parent</artifactId>
+        <version>2</version>
+    </parent>
+
+    <artifactId>aissemble-root</artifactId>
+    <version>1.7.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>aiSSEMBLE(TM)</name>
+    <description>aiSSEMBLE - blueprints, reusable components, fabrication, and deployment of holistic AI solutions</description>
+    <url>https://github.com/boozallen/aissemble</url>
+    <inceptionYear>2021</inceptionYear>
+
+    <organization>
+        <name>Booz Allen</name>
+        <url>https://www.boozallen.com</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>aissemble</id>
+            <name>aiSSEMBLE Baseline Community</name>
+            <organization>Booz Allen Hamilton</organization>
+            <organizationUrl>https://boozallen.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>build-support</module>
+        <module>build-parent</module>
+        <module>bom</module>
+        <module>foundation</module>
+        <module>extensions</module>
+        <module>test</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:https://github.com/boozallen/aissemble.git</connection>
+        <developerConnection>scm:git:https://github.com/boozallen/aissemble.git</developerConnection>
+        <url>https://github.com/boozallen/aissemble</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/boozallen/aissemble/issues</url>
+    </issueManagement>
+
+    <properties>
+        <ossrh.repo.url>https://oss.sonatype.org/content/repositories</ossrh.repo.url>
+        <s01.ossrh.repo.url>https://s01.oss.sonatype.org/content/repositories</s01.ossrh.repo.url>
+        <version.avro>1.10.1</version.avro>
+        <version.camel>2.7.0</version.camel>
+        <version.cucumber>6.10.4</version.cucumber>
+        <version.feature.discovery>1.2.0</version.feature.discovery>
+        <version.gitflow-incremental-builder>4.4.1</version.gitflow-incremental-builder>
+        <version.jersey>2.30</version.jersey>
+        <version.junit>4.13.2</version.junit>
+        <version.kafka>2.6.0</version.kafka>
+        <version.pegasus>27.7.18</version.pegasus>
+        <version.smile>2.6.0</version.smile>
+        <version.weld>3.1.4.Final</version.weld>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.technologybrewery.krausening</groupId>
+                <artifactId>krausening</artifactId>
+                <version>${version.krausening}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-lang3</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.haifengl</groupId>
+                <artifactId>smile-core</artifactId>
+                <version>${version.smile}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.haifengl</groupId>
+                <artifactId>smile-math</artifactId>
+                <version>${version.smile}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.haifengl</groupId>
+                <artifactId>smile-plot</artifactId>
+                <version>${version.smile}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${version.cucumber}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${version.cucumber}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+            <id>ossrh-snapshots</id>
+            <name>oss.sonatype.org-snapshots</name>
+            <url>${ossrh.repo.url}/snapshots/</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+            <id>s01.ossrh-snapshots</id>
+            <name>s01.oss.sonatype.org-snapshots</name>
+            <url>${s01.ossrh.repo.url}/snapshots/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+            <id>ossrh</id>
+            <name>oss.sonatype.org-snapshots</name>
+            <url>${ossrh.repo.url}</url>
+        </pluginRepository>
+        <pluginRepository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+            <id>s01.ossrh</id>
+            <name>s01.oss.sonatype.org-snapshots</name>
+            <url>${s01.ossrh.repo.url}</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <profiles>
+        <profile>
+            <id>incremental</id>
+            <activation>
+                <property>
+                    <name>incremental</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.gitflow-incremental-builder</groupId>
+                        <artifactId>gitflow-incremental-builder</artifactId>
+                        <version>${version.gitflow-incremental-builder}</version>
+                        <extensions>true</extensions>
+                        <configuration/>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <gib.referenceBranch>dev</gib.referenceBranch>
+            </properties>
+        </profile>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.0.0-M7</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>skip-docker</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.technologybrewery.orphedomos</groupId>
+                            <artifactId>orphedomos-maven-plugin</artifactId>
+                            <configuration>
+                                <skip>true</skip>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!-- This plugin should never run as part of a normal build, and is only ever triggered by
+                      devops/JenkinsRelease.groovy. We configure it here because it's a bit easier to read/edit/verify
+                      in the native POM compared to configuring the execution through groovy code. -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <scmCommentPrefix>:bookmark: [maven-release-plugin] </scmCommentPrefix>
+                        <!-- The helm charts can't be built at all once the version changes unless they are being
+                          released.  Many charts depend on other charts, and so cannot be packaged properly unless those
+                          dependencies are already available in the helm repo. !!WARNING!! though it seems that we should
+                          just be using preparationProfiles, unfortunately this adds the enabled profiles to the
+                          release.properties file that the plugin uses to track settings.  This file is required to run
+                          the release:perform goal, but will always allow preparationProfiles to bleed into the perform
+                          step.  So if we do this naively, it ends up skipping the helm modules during release so the
+                          charts aren't published.  We could add a "un-skip-helm" profile that's enabled by
+                          releaseProfiles, but that seemed worse than simply using the goals config property to bypass
+                          updating the activate profiles of release.properties.
+
+                          Also add pyproject.toml changes to git (see below)-->
+                        <preparationGoals>clean install scm:add -Pskip-helm</preparationGoals>
+
+                        <!-- Because the release plugin doesn't build after updating to the next development snapshot,
+                          the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
+                          committer after a release from needing to commit these files, we force the update here. -->
+                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu</completionGoals>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <!-- This plugin should not run in a normal build. It's called directly during the preparation phase
+                    of the release plugin. This adds the modified pyproject.toml file that Habushu has updated with the
+                    fixed version from the POM files for all python modules. -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <inherited>false</inherited>
+                    <configuration>
+                        <includes>**/pyproject.toml</includes>
+                        <excludes>**/target/**</excludes>
+                        <pushChanges>false</pushChanges>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>maven-cucumber-reporting</artifactId>
+                    <configuration>
+                        <skip>${skipTests}</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

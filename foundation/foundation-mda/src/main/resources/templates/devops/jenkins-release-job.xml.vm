@@ -1,0 +1,81 @@
+<?xml version='1.1' encoding='UTF-8'?>
+
+<!--
+    This configuration file will create a release pipeline for the ${artifactId} project within your Jenkins instance
+    automatically.  To load it, use the following Jenkins CLI command.  To get the jenkins-cli.jar file, see your
+    Jenkin's instances at the following relative URL: <root jenkins url here>/jnlpJars/jenkins-cli.jar.  For instance,
+    http://localhost:8080/jnlpJars/jenkins-cli.jar.
+
+    java -jar <PATH TO CLI JAR>/jenkins-cli.jar -s <ROOT JENKINS URL> -auth <YOUR USERNAME>:<YOUR PASSWORD> create-job ${artifactId}-release < <PATH TO FILE>/jenkins-release-job.xml
+-->
+<flow-definition plugin="workflow-job@2.40">
+  <actions/>
+  <description>Releases and tags the ${artifactId} project</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>3</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.33.1">
+      <projectUrl>${projectGitUrl}</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>releaseVersion</name>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>developmentVersion</name>
+          <defaultValue>&lt;replace me&gt;-SNAPSHOT</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>scmCommentPrefix</name>
+          <defaultValue>:bookmark: [maven-release-plugin] </defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>releaseBranch</name>
+          <description>The branch to use for running the release</description>
+          <defaultValue>dev</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers/>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.boozallen.plugins.jte.job.AdHocTemplateFlowDefinition" plugin="templating-engine@2.4">
+        <configProvider class="org.boozallen.plugins.jte.job.ScmAdHocTemplateFlowDefinitionConfiguration">
+            <scm class="hudson.plugins.git.GitSCM" plugin="git@4.11.2">
+                <configVersion>2</configVersion>
+                <userRemoteConfigs>
+                    <hudson.plugins.git.UserRemoteConfig>
+                        <url>${projectGitUrl}</url>
+                        <credentialsId>github</credentialsId>
+                    </hudson.plugins.git.UserRemoteConfig>
+                </userRemoteConfigs>
+                <branches>
+                    <hudson.plugins.git.BranchSpec>
+                        <name>*/dev</name>
+                    </hudson.plugins.git.BranchSpec>
+                </branches>
+                <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+                <submoduleCfg class="empty-list"/>
+                <extensions/>
+            </scm>
+            <pipelineConfigurationPath>devops/PipelineConfig.groovy</pipelineConfigurationPath>
+            <pipelineTemplatePath>devops/JenkinsfileRelease.groovy</pipelineTemplatePath>
+        </configProvider>
+    </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

@@ -1,0 +1,3 @@
+# Dev values for kafka-connect.
+image:
+  dockerRepo: ""

@@ -1,0 +1,10 @@
+#[[########################################
+## CONFIG | Elasticsearch Operator Configs
+## See aiSSEMBLE extensions-helm-elasticsearch-operator: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+
+aissemble-elasticsearch-operator-chart:
+    eck-operator:
+        nameOverride: "elasticsearch-operator"
+        fullnameOverride: "elasticsearch-operator"

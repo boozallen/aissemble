@@ -1,0 +1,8 @@
+# Inference properties file for defining configurations.
+
+# GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+# Originally generated from: ${templateName} 
+
+# TODO: set the location of the model to load
+model_directory = /path/to/model/location

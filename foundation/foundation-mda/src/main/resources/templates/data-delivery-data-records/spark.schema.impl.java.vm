@@ -1,0 +1,18 @@
+package ${basePackage};
+
+/**
+ * Spark schema for ${record.capitalizedName}.
+ *
+ * This schema serves the following purpose: ${record.description}
+ *
+ * GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class ${record.capitalizedName}Schema extends ${record.capitalizedName}SchemaBase {
+
+    public ${record.capitalizedName}Schema() {
+        super();
+    }
+
+}

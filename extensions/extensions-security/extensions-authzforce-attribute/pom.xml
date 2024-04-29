@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>extensions-security</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>extensions-authzforce-attribute</artifactId>
+    <name>aiSSEMBLE::Extensions::Security::Authzforce Attribute</name>
+    <description>Provides custom attribute extension utilizing Authzforce.</description>
+    <packaging>jar</packaging>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.13.2</version>
+                <configuration>
+                    <debug>false</debug>
+                    <strict>false</strict>
+                    <verbose>false</verbose>
+                    <removeOldOutput>true</removeOldOutput>
+                    <extension>true</extension>
+                    <useDependenciesAsEpisodes>false</useDependenciesAsEpisodes>
+                    <episodes>
+                        <episode>
+                            <groupId>org.ow2.authzforce</groupId>
+                            <artifactId>authzforce-ce-pdp-ext-model</artifactId>
+                            <!-- NOTE: any change to this version requires updating src/main/jaxb/catalog.xml -->
+                            <version>${version.authzforce.model}</version>
+                        </episode>
+                        <episode>
+                            <groupId>org.ow2.authzforce</groupId>
+                            <artifactId>authzforce-ce-xacml-model</artifactId>
+                            <!-- NOTE: any change to this version requires updating src/main/jaxb/catalog.xml -->
+                            <version>${version.authzforce.model}</version>
+                        </episode>
+                    </episodes>
+                    <catalog>src/main/jaxb/catalog.xml</catalog>
+                    <bindingDirectory>src/main/jaxb</bindingDirectory>
+                    <schemaDirectory>src/main/resources</schemaDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jaxb-generate-compile-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.ow2.authzforce</groupId>
+                        <artifactId>authzforce-ce-core-pdp-api</artifactId>
+                        <version>${version.authzforce.api}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics-runtime</artifactId>
+                        <version>0.11.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.ow2.authzforce</groupId>
+            <artifactId>authzforce-ce-core-pdp-api</artifactId>
+            <version>${version.authzforce.api}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.authzforce</groupId>
+            <artifactId>authzforce-ce-core-pdp-engine</artifactId>
+            <version>${version.authzforce}</version>
+        </dependency>
+    </dependencies>
+
+</project>

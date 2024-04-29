@@ -1,0 +1,5 @@
+# Dev values for postgres.
+service:
+  spec:
+    type: LoadBalancer
+

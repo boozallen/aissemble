@@ -1,0 +1,49 @@
+# GENERATED STUB - PLEASE ***DO*** MODIFY
+# Generated from: ${templateName}
+
+[tool.poetry]
+name = "${packageName}"
+version = "1.0.0.dev"
+description = "${pipeline.description|'Description of package'}"
+authors = ["Your Name <you@example.com>"]
+
+# Ensure that generated code is included in package archives
+include = ["src/${packageFolderName}/generated/**/*"]
+
+[tool.poetry.dependencies]
+python = "^3.11.4"
+krausening = ">=17"
+pyspark = "${versionSpark}"
+jsonpickle = "^2.1.0"
+pyyaml = "^6.0"
+
+aissemble-foundation-core-python = "${aissemblePythonVersion}"
+aissemble-foundation-pdp-client-python = "${aissemblePythonVersion}"
+aissemble-foundation-encryption-policy-python = "${aissemblePythonVersion}"
+aissemble-extensions-encryption-vault-python = "${aissemblePythonVersion}"
+aissemble-extensions-data-delivery-spark-py = "${aissemblePythonVersion}"
+#if ($pipeline.getDataLineage())
+aissemble-foundation-data-lineage-python = "${aissemblePythonVersion}"
+#end
+
+#if ($pipeline.hasMessaging() || $pipeline.isMetadataNeeded() || $pipeline.getDataLineage())
+confluent-kafka = { version = "2.1.1", optional = true }
+kafka-python = "^2.0.2"
+#end
+#if ($pipeline.isSedonaSupportNeeded())
+apache-sedona = "~${version.sedona}"
+#end
+
+#if ($enableSemanticDataSupport)
+[tool.poetry.group.monorepo.dependencies]
+${pythonDataRecords} = {path = "../../${projectName}-shared/${pythonDataRecords}", develop = true}
+
+#end
+[tool.poetry.group.dev.dependencies]
+black = ">=22.1.0"
+behave = ">=1.2.6"
+nose = ">=1.3.7"
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Archetype
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<!---
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<cache xmlns="http://maven.apache.org/BUILD-CACHE-CONFIG/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://maven.apache.org/BUILD-CACHE-CONFIG/1.0.0 https://maven.apache.org/xsd/build-cache-config-1.0.0.xsd">
+
+    <!--
+        Maven build cache configuration for aiSSEMBLE
+
+        This feature requires Maven 3.9+ and is currently disabled by default while we work out the kinks. To use it,
+        you must pass the -Dmaven.build.cache.enabled=true flag to your build. It is also useful to look over the other
+        build options available: https://maven.apache.org/extensions/maven-build-cache-extension/parameters.html
+     -->
+
+    <configuration>
+        <enabled>true</enabled>
+        <hashAlgorithm>SHA-256</hashAlgorithm>
+        <validateXml>true</validateXml>
+        <remote enabled="false">
+            <url>http://host:port</url>
+        </remote>
+        <attachedOutputs>
+            <dirNames>
+                <dirName>../dist</dirName>
+                <dirName>quarkus-app</dirName>
+                <dirName>helm</dirName>
+                <!-- Reports needed on CI to ensure consistent reporting of QA metrics: -->
+                <dirName>cucumber-reports</dirName>
+                <dirName>surefire-reports</dirName>
+                <dirName>failsafe-reports</dirName>
+            </dirNames>
+        </attachedOutputs>
+        <local>
+            <maxBuildsCached>5</maxBuildsCached>
+        </local>
+        <projectVersioning adjustMetaInf="true"/>
+    </configuration>
+
+    <input>
+        <global>
+            <glob>
+                {*.java,*.json,*.groovy,*.yaml,*.svcd,*.proto,*.xml,*.vm,*.ini,*.jks,*.properties,*.sh,*.bat,*.py,Dockerfile,*.feature}
+            </glob>
+            <includes>
+                <include>src/</include>
+                <include>pom.xml</include>
+                <include>pyproject.toml</include>
+            </includes>
+            <excludes>
+                <exclude>poetry.lock</exclude>
+            </excludes>
+        </global>
+    </input>
+    <executionControl>
+        <runAlways>
+            <goalsLists>
+                <!-- For this archetype test, we need to ensure we are generating new projects during each pass: -->
+                <goalsList artifactId="fermenter-mda">
+                    <goals>
+                        <goal>generate-sources</goal>
+                    </goals>
+                </goalsList>
+
+                <!-- standard plugin configurations: -->
+                <goalsList artifactId="maven-install-plugin">
+                    <goals>
+                        <goal>install</goal>
+                    </goals>
+                </goalsList>
+                <goalsList artifactId="maven-deploy-plugin">
+                    <goals>
+                        <goal>deploy</goal>
+                    </goals>
+                </goalsList>
+            </goalsLists>
+        </runAlways>
+        <reconcile logAllProperties="true">
+            <plugins>
+                <plugin artifactId="maven-compiler-plugin" goal="compile">
+                    <reconciles>
+                        <reconcile propertyName="source"/>
+                        <reconcile propertyName="target"/>
+                        <reconcile propertyName="debug"/>
+                        <reconcile propertyName="debuglevel"/>
+                    </reconciles>
+                    <!-- whitelist of logged properties-->
+                    <logs>
+                        <log propertyName="includes"/>
+                        <log propertyName="excludes"/>
+                        <log propertyName="argLine"/>
+                    </logs>
+                </plugin>
+                <plugin artifactId="maven-enforcer-plugin" goal="enforce">
+                    <reconciles>
+                        <reconcile propertyName="skip" skipValue="true"/>
+                    </reconciles>
+                </plugin>
+            </plugins>
+        </reconcile>
+    </executionControl>
+</cache>

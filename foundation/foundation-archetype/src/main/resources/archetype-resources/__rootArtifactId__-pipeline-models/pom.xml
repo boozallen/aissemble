@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <artifactId>${parentArtifactId}-pipeline-models</artifactId>
+
+    <name>${projectName}::Models</name>
+    <description>Contains MDA metamodels that will be used to control generation of scaffolding code</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <basePackage>src/main/</basePackage>
+                    <profile>aissemble-deployment-config</profile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

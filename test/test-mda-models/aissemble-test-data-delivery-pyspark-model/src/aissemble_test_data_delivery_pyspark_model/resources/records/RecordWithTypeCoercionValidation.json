@@ -1,0 +1,21 @@
+{
+  "name": "RecordWithTypeCoercionValidation",
+  "package": "com.boozallen.aiops.mda.pattern.record",
+  "description": "Example record with fields that require validation",
+  "fields": [
+    {
+      "name": "integerValidation",
+      "type": {
+        "name": "integerWithValidation",
+        "package": "com.boozallen.aiops.mda.pattern.dictionary"
+      }
+    },
+    {
+      "name": "floatValidation",
+      "type": {
+        "name": "floatWithValidation",
+        "package": "com.boozallen.aiops.mda.pattern.dictionary"
+      }
+    }
+  ]
+}

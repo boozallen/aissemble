@@ -1,0 +1,37 @@
+package ${basePackage};
+
+import com.boozallen.aissemble.data.lineage.consumer.MessageHandler;
+import org.eclipse.microprofile.reactive.messaging.Acknowledgment;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Message;
+import javax.enterprise.context.ApplicationScoped;
+import io.openlineage.client.OpenLineage;
+import java.util.concurrent.CompletionStage;
+
+/**
+ * Entrypoint for consuming lineage events with custom behavior. Accepts incoming messages, triggers processing,
+ * and responds as appropriate.
+ */
+
+@ApplicationScoped
+public class DataLineageMessageHandler extends MessageHandler {
+    /**
+     *
+     * @param event: The received String-serialized Lineage Event Message
+     * @return: CompletionStage representing the final asynchronous ack/nack of the message
+     */
+    @Acknowledgment(Acknowledgment.Strategy.MANUAL)
+    @Incoming(CHANNEL_NAME)
+    public CompletionStage<Void> receiveLineageEvent(Message<String> event) {
+        getLogger().debug("Received event: " + event.getPayload());
+        return handleReceivedEvent(event);
+    }
+
+    /***** Implement any or all of the below functions as needed to provide your custom processing *****/
+
+    protected void processRunEvent(Message<String> eventMessage) {}
+
+    protected void processRunEvent(String json) {}
+
+    protected void processRunEvent(OpenLineage.RunEvent olEvent) {}
+}

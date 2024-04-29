@@ -1,0 +1,59 @@
+# Base Kubernetes deployment artifact.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+    app.kubernetes.io/version: {{ .Values.app.version | default .Chart.AppVersion }}
+  name: {{ .Values.app.name | default .Chart.Name }}
+spec:
+  replicas: {{ .Values.deployment.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+      app.kubernetes.io/version: {{ .Values.app.version | default .Chart.AppVersion }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+        app.kubernetes.io/version: {{ .Values.app.version | default .Chart.AppVersion }}
+    spec:
+      {{- with .Values.deployment.volumes }}
+      volumes:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      {{- with .Values.deployment.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.deployment.serviceAccountName | default "default" }}
+      automountServiceAccountToken: {{ .Values.deployment.automountServiceAccountToken | default false }}
+      {{- with .Values.deployment.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.app.name | default .Chart.Name }}
+          image: {{ .Values.deployment.image.repo }}{{ .Values.deployment.image.name }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion}}
+          imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
+          {{- with .Values.deployment.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+          {{- range $v := .Values.service.ports }}
+            - name: {{ $v.name }}
+              containerPort: {{ $v.targetPort }}
+              protocol: {{ $v.protocol}}
+          {{- end }}
+          {{- with .Values.deployment.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12}}
+          {{- end }}
+      hostname: {{ .Values.deployment.hostname | default .Chart.Name }}
+      restartPolicy: {{ .Values.deployment.restartPolicy | default "Always" }}

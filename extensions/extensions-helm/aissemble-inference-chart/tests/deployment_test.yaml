@@ -1,0 +1,45 @@
+suite: inference
+templates:
+  - deployment.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: aissemble-inference-chart
+      - equal:
+          path: spec.template.spec.automountServiceAccountToken
+          value: false
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ghcr.io/boozallen/aissemble-fastapi:.*
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+  - it: Should set values appropriately
+    set:
+      deployment:
+        securityContext:
+          runAsUser: 50000
+          runAsGroup: 0
+          fsGroup: 0
+      app:
+        name: project-inference
+    asserts:
+      - equal:
+          path: spec.template.spec.securityContext.runAsUser
+          value: 50000
+      - equal:
+          path: spec.template.spec.securityContext.runAsGroup
+          value: 0
+      - equal:
+          path: spec.template.spec.securityContext.fsGroup
+          value: 0
+      - notEqual:
+          path: metadata.name
+          value: aissemble-inference
+      - equal:
+          path: metadata.name
+          value: project-inference

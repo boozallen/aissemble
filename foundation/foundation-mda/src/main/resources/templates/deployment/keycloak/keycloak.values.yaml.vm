@@ -1,0 +1,40 @@
+# Default values for Keycloak.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: keycloak
+image:
+  name: keycloak/keycloak
+  imagePullPolicy: Always
+  dockerRepo: quay.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+  spec:
+    ports:
+      - name: "9980"
+        port: 9980
+        targetPort: 8080
+      - name: "8543"
+        port: 8543
+        targetPort: 8443
+
+deployment:
+  ports:
+    - name: "http-1"
+      containerPort: 8080
+      protocol: TCP
+    - name: "http-2"
+      containerPort: 8443
+      protocol: TCP
+  # The user and command are for dev use only. Do not run in production without updating.
+  env:
+    - name: KEYCLOAK_ADMIN_USER
+      value: admin
+    - name: KEYCLOAK_ADMIN_PASSWORD
+      value: aissemble
+  command: "start-dev"
+  restartPolicy: Always

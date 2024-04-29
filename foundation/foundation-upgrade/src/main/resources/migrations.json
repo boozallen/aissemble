@@ -1,0 +1,49 @@
+[
+  {
+    "name": "upgrade-tiltfile-aissemble-version-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.TiltfileMigration",
+    "fileSets": [
+      {
+        "includes": ["Tiltfile"]
+      }
+    ]
+  },
+  {
+    "name": "upgrade-v2-chart-files-aissemble-version-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV2Migration",
+    "fileSets": [
+      {
+        "includes": ["**/apps/**/Chart.yaml"]
+      }
+    ]
+  },
+  {
+    "name": "upgrade-v1-chart-files-aissemble-version-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV1Migration",
+    "fileSets": [
+      {
+        "includes": [
+          "**/spark-operator/values.yaml",
+          "**/spark-infrastructure/values.yaml",
+          "**/jenkins/values.yaml",
+          "**/kafka-cluster/values.yaml",
+          "**/hive-metastore-db/values.yaml",
+          "**/hive-metastore-service/values.yaml",
+          "**/metadata/values.yaml",
+          "**/model-training-api/values.yaml",
+          "**/pipeline-invocation-service/values.yaml"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "upgrade-mlflow-v2-external-s3-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.MlflowV2ExternalS3Migration",
+    "fileSets": [
+      {
+        "includes": ["*-deploy/src/main/resources/apps/*/Chart.yaml"],
+        "excludes": ["**/target/**/Chart.yaml"]
+      }
+    ]
+  }
+]

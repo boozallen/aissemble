@@ -1,0 +1,150 @@
+from abc import ABC
+from pyspark.sql.dataframe import DataFrame
+from pyspark.sql.column import Column
+from pyspark.sql.types import StructType
+from pyspark.sql.types import DataType
+from pyspark.sql.functions import col
+from typing import List
+import types
+#foreach ($import in $record.baseImports)
+${import}
+#end
+
+
+class ${record.capitalizedName}SchemaBase(ABC):
+    """
+    Base implementation of the PySpark schema for ${record.capitalizedName}.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}).
+
+    Generated from: ${templateName}
+    """
+
+#foreach ($field in $record.fields)
+    ${field.upperSnakecaseName}_COLUMN: str = '${field.sparkAttributes.columnName}'
+#end
+
+
+    def __init__(self):
+        self._schema = StructType()
+
+  #foreach ($field in $record.fields)
+      #set ($nullable = "#if($field.sparkAttributes.isNullable())True#{else}False#end")
+      #if ($field.sparkAttributes.isDecimalType())
+        self.add(${record.capitalizedName}SchemaBase.${field.upperSnakecaseName}_COLUMN, ${field.shortType}(${field.sparkAttributes.defaultDecimalPrecision}, ${field.sparkAttributes.decimalScale}), ${nullable})
+      #else
+        self.add(${record.capitalizedName}SchemaBase.${field.upperSnakecaseName}_COLUMN, ${field.shortType}(), ${nullable})
+      #end
+  #end
+
+
+    def cast(self, dataset: DataFrame) -> DataFrame:
+        """
+        Returns the given dataset cast to this schema.
+        """
+    #foreach ($field in $record.fields)
+        ${field.snakeCaseName}_type = self.get_data_type(${record.capitalizedName}SchemaBase.${field.upperSnakecaseName}_COLUMN)
+    #end
+
+        return dataset \
+        #foreach ($field in $record.fields)
+            .withColumn(${record.capitalizedName}SchemaBase.${field.upperSnakecaseName}_COLUMN, dataset[${record.capitalizedName}SchemaBase.${field.upperSnakecaseName}_COLUMN].cast(${field.snakeCaseName}_type))#if ($foreach.hasNext) \\#end
+        #end
+
+
+    @property
+    def struct_type(self) -> StructType:
+        """
+        Returns the structure type for this schema.
+        """
+        return self._schema
+
+
+    @struct_type.setter
+    def struct_type(self, struct_type: StructType) -> None:
+        raise Exception('Schema structure type should not be set manually!')
+
+
+    def get_data_type(self, name: str) -> str:
+        """
+        Returns the data type for a field in this schema.
+        """
+        data_type = None
+        if name in self._schema.fieldNames():
+            data_type = self._schema[name].dataType
+
+        return data_type
+
+
+    def add(self, name: str, data_type: DataType, nullable: bool) -> None:
+        """
+        Adds a field to this schema.
+        """
+        self._schema.add(name, data_type, nullable)
+
+
+    def update(self, name: str, data_type: DataType) -> None:
+        """
+        Updates the data type of a field in this schema.
+        """
+        fields = self._schema.fields
+        if fields and len(fields) > 0:
+            update = StructType()
+            for field in fields:
+                if field.name == name:
+                    update.add(name, data_type, field.nullable)
+                else:
+                    update.add(field)
+
+            self._schema = update
+
+    def validate_dataset(ingest_dataset: DataFrame) -> DataFrame:
+        """
+        Validates the given dataset and returns the lists of validated records.
+        """
+        data_with_validations = ingest_dataset
+        #foreach ($field in $record.fields)
+        #set ( $columnName = "#if($field.column)$field.column#{else}$field.upperSnakecaseName#end" )
+        #if (${field.isRequired()})
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_IS_NOT_NULL", col("${columnName}").isNotNull())
+        #end
+        #if (${field.getValidation().getMinValue()})
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_GREATER_THAN_MIN", col("${columnName}").cast('double') >= ${field.getValidation().getMinValue()})
+        #end
+        #if (${field.getValidation().getMaxValue()})
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_LESS_THAN_MAX", col("${columnName}").cast('double') <= ${field.getValidation().getMaxValue()})
+        #end
+        #if (${field.getValidation().getScale()})
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_MATCHES_SCALE", col("${columnName}").cast(StringType()).rlike(r"^[0-9]*(?:\.[0-9]{0,${field.getValidation().getScale()}})?$"))
+        #end
+        #if (${field.getValidation().getMinLength()})
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_GREATER_THAN_MAX_LENGTH", col("${columnName}").rlike("^.{${field.getValidation().getMinLength()},}"))
+        #end
+        #if (${field.getValidation().getMaxLength()})
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_LESS_THAN_MAX_LENGTH", col("${columnName}").rlike("^.{${field.getValidation().getMaxLength()},}").eqNullSafe(False))
+        #end
+        #foreach ($format in $field.getValidation().getFormats())
+        #if ($foreach.first)
+        data_with_validations = data_with_validations.withColumn("${field.upperSnakecaseName}_MATCHES_FORMAT", col("${columnName}").rlike("$format.replace("\","\\")")#if($foreach.last))#end
+        #else
+            | col("${columnName}").rlike("$format.replace("\","\\")")#if($foreach.last))#end
+        #end
+        #end
+        #end
+
+        validation_columns = [x for x in data_with_validations.columns if x not in ingest_dataset.columns]
+
+        # Schema for filtering for valid data
+        filter_schema = None
+        for column_name in validation_columns:
+            if isinstance(filter_schema, Column):
+                filter_schema = filter_schema & col(column_name).eqNullSafe(True)
+            else:
+                filter_schema = col(column_name).eqNullSafe(True)
+
+        valid_data = data_with_validations
+        # Isolate the valid data and drop validation columns
+        if isinstance(filter_schema, Column):
+            valid_data = data_with_validations.filter(filter_schema)
+        valid_data = valid_data.drop(*validation_columns)
+        return valid_data

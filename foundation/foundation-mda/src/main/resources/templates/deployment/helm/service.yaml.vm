@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: ${appName}
+    app.kubernetes.io/name: ${appName}
+  name: ${appName}
+spec:
+  {{- with .Values.service.spec.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{ if .Values.service.spec.type }}
+  type: {{ .Values.service.spec.type }}
+  {{ end }}
+  selector:
+    app.kubernetes.io/instance: ${appName}
+    app.kubernetes.io/name: ${appName}

@@ -1,0 +1,12 @@
+# Script for extending Jenkins controller base image
+#
+# GENERATED DockerFile - please ***DO*** modify.
+#
+# Generated from: ${templateName}
+
+ARG DOCKER_BASELINE_REPO_ID
+ARG VERSION_AISSEMBLE
+
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-jenkins-controller:${VERSION_AISSEMBLE}
+
+# Configure for project specific needs

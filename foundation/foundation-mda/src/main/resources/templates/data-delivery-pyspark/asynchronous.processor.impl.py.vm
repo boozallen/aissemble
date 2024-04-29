@@ -1,0 +1,63 @@
+from ..generated.step.${step.lowercaseSnakeCaseName}_base import ${step.capitalizedName}Base
+from krausening.logging import LogManager
+#if (!$step.provenance || $step.provenance.enabled)
+from aiops_core_metadata.metadata_model import MetadataModel
+#end
+#foreach ($import in $step.implImports)
+${import}
+#end
+#if (!$step.getFileStores().isEmpty())
+from aiops_core_filestore.file_store_factory import FileStoreFactory
+#end
+
+
+class ${step.capitalizedName}(${step.capitalizedName}Base):
+    """
+    Performs the business logic for ${step.capitalizedName}.
+
+    GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+    Originally generated from: ${templateName}
+    """
+
+    logger = LogManager.get_instance().get_logger('${step.capitalizedName}')
+    #if (!$step.getFileStores().isEmpty())
+    file_stores = {}
+    #end
+
+
+    def __init__(self):
+        #if (!$step.getFileStores().isEmpty())
+        """
+        TODO: Configure file store(s)
+        In order for the factory to set up your file store, you will need to set a couple of environment
+        variables through whichever deployment tool(s) you are using, and in the environment.py file for your tests.
+        For more information: https://boozallen.github.io/aissemble/current/file-storage-details.html
+        """
+        #end
+        super().__init__('${step.type}', self.get_data_action_descriptive_label())
+        #if (!$step.getFileStores().isEmpty())
+        #foreach ($fileStore in $step.fileStores)
+        self.file_stores['${fileStore}'] = FileStoreFactory.create_file_store('${fileStore}')
+        #end
+        #end
+
+
+    def get_data_action_descriptive_label(self) -> str:
+        """
+        Provides a descriptive label for the action that can be used for logging (e.g., provenance details).
+        """
+        # TODO: replace with descriptive label
+        return '${step.capitalizedName}'
+
+
+    ${step.concreteSignature}:
+        """
+        This method performs the business logic of this step.
+        """
+        # TODO: Add your business logic here for this step!
+        ${step.capitalizedName}.logger.warn('Implement execute_step_impl(..) or remove this pipeline step!')
+      #if ($step.outbound)
+
+        return None
+      #end

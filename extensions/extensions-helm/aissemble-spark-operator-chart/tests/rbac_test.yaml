@@ -1,0 +1,206 @@
+suite: spark-operator
+templates:
+  - rbac.yaml
+tests:
+  - it: Should contain ClusterRole document
+    documentIndex: 0
+    asserts:
+      - containsDocument:
+          kind: ClusterRole
+          apiVersion: rbac.authorization.k8s.io/v1
+  - it: Should contain ClusterRoleBinding document
+    documentIndex: 1
+    asserts:
+      - containsDocument:
+          kind: ClusterRoleBinding
+          apiVersion: rbac.authorization.k8s.io/v1
+  - it: Should be 2 documents in total
+    asserts:
+      - hasDocuments:
+          count: 2
+  - it: Does not produce documents if options are disabled
+    set:
+      rbac.create: false
+      rbac.createClusterRole: false
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: ClusterRoleBinding should include appropriate default values
+    documentIndex: 1
+    release:
+      namespace: default
+    asserts:
+      - equal:
+          path: metadata.name
+          value: spark-operator
+      - contains:
+          path: subjects
+          content:
+            kind: ServiceAccount
+            name: sparkoperator
+            namespace: default
+      - equal:
+          path: roleRef.kind
+          value: ClusterRole
+      - equal:
+          path: roleRef.name
+          value: spark-operator
+      - equal:
+          path: roleRef.apiGroup
+          value: rbac.authorization.k8s.io
+  - it: ClusterRole conditional rules should be responsive to values setting
+    documentIndex: 0
+    set:
+      batchScheduler.enable: true
+      webhook.enable: false
+    asserts:
+      - notContains:
+          path: rules
+          content:
+            apiGroups:
+              - batch
+            resources:
+              - jobs
+            verbs:
+              - delete
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - scheduling.incubator.k8s.io
+              - scheduling.sigs.dev
+              - scheduling.volcano.sh
+            resources:
+              - podgroups
+            verbs:
+              - "*"
+  - it: ClusterRole should include appropriate default values
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: metadata.name
+          value: spark-operator
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - ""
+              resources:
+                - pods
+              verbs:
+                - "*"
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - ""
+              resources:
+                - services
+                - configmaps
+                - secrets
+              verbs:
+                - create
+                - get
+                - delete
+                - update
+                - list
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - extensions
+                - networking.k8s.io
+              resources:
+                - ingresses
+              verbs:
+                - create
+                - get
+                - delete
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - ""
+              resources:
+                - nodes
+              verbs:
+                - get
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - ""
+              resources:
+                - events
+              verbs:
+                - create
+                - update
+                - patch
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - ""
+              resources:
+                - resourcequotas
+              verbs:
+                - get
+                - list
+                - watch
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - apiextensions.k8s.io
+              resources:
+                - customresourcedefinitions
+              verbs:
+                - create
+                - get
+                - update
+                - delete
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - admissionregistration.k8s.io
+              resources:
+                - mutatingwebhookconfigurations
+                - validatingwebhookconfigurations
+              verbs:
+                - create
+                - get
+                - update
+                - delete
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - sparkoperator.k8s.io
+              resources:
+                - sparkapplications
+                - sparkapplications/status
+                - scheduledsparkapplications
+                - scheduledsparkapplications/status
+              verbs:
+                - "*"
+      - notContains:
+          path: rules
+          content:
+              apiGroups:
+                - scheduling.incubator.k8s.io
+                - scheduling.sigs.dev
+                - scheduling.volcano.sh
+              resources:
+                - podgroups
+              verbs:
+                - "*"
+      - contains:
+          path: rules
+          content:
+              apiGroups:
+                - batch
+              resources:
+                - jobs
+              verbs:
+                - delete

@@ -1,0 +1,513 @@
+{
+	"name": "SparkJavaDataDeliveryPatterns",
+	"package": "com.boozallen.aiops.mda.pattern",
+	"type": {
+		"name": "data-flow",
+		"implementation": "data-delivery-spark",
+		"platforms": [
+			{
+				"name": "sedona"
+			}
+		]
+	},
+	"dataLineage": true,
+	"fileStores": [
+		{
+			"name": "S3RawData"
+		},
+		{
+			"name": "GCSPublishedReports"
+		}
+	],
+	"steps": [
+		{
+			"name": "MessagingInboundAndOutbound",
+			"type": "synchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel"
+			},
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
+			},
+			"provenance": {
+				"resource": "MessagingResource",
+				"subject": "MessagingSubject",
+				"action": "MessagingAction"
+			},
+			"fileStores": ["S3RawData"]
+		},
+		{
+			"name": "MessagingInboundAndOutboundAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel"
+			},
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
+			},
+			"fileStores": ["GCSPublishedReports"]
+		},
+		{
+			"name": "VoidInboundAndOutbound",
+			"type": "synchronous",
+			"fileStores": ["S3RawData", "GCSPublishedReports"]
+		},
+		{
+			"name": "VoidInboundAndOutboundAsync",
+			"type": "asynchronous"
+		},
+		{
+			"name": "VoidInboundAndMessagingOutbound",
+			"type": "synchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
+			}
+		},
+		{
+			"name": "VoidInboundAndMessagingOutboundAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
+			}
+		},
+		{
+			"name": "MessagingInboundAndVoidOutbound",
+			"type": "synchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel"
+			}
+		},
+		{
+			"name": "MessagingInboundAndVoidOutboundAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel"
+			}
+		},
+		{
+			"name": "NativeInboundAndOutbound",
+			"type": "synchronous",
+			"inbound": {
+				"type": "native"
+			},
+			"outbound": {
+				"type": "native"
+			}
+		},
+		{
+			"name": "NativeInboundAndOutboundAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "native"
+			},
+			"outbound": {
+				"type": "native"
+			}
+		},
+		{
+			"name": "NativeInboundAndVoidOutbound",
+			"type": "synchronous",
+			"inbound": {
+				"type": "native"
+			}
+		},
+		{
+			"name": "NativeInboundAndVoidOutboundAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "native"
+			}
+		},
+		{
+			"name": "VoidInboundAndNativeOutbound",
+			"type": "synchronous",
+			"outbound": {
+				"type": "native"
+			}
+		},
+		{
+			"name": "VoidInboundAndNativeOutboundAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "native"
+			}
+		},
+		{
+			"name": "NativeInboundAndMessagingOutbound",
+			"type": "synchronous",
+			"inbound": {
+				"type": "native"
+			},
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
+			}
+		},
+		{
+			"name": "NativeInboundAndMessagingOutboundAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "native"
+			},
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
+			}
+		},
+		{
+			"name": "DeltaLakePersistence",
+			"type": "synchronous",
+			"persist": {
+				"type": "delta-lake"
+			}
+		},
+		{
+			"name": "DeltaLakePersistenceAsync",
+			"type": "asynchronous",
+			"persist": {
+				"type": "delta-lake"
+			}
+		},
+		{
+			"name": "HivePersistence",
+			"type": "synchronous",
+			"persist": {
+				"type": "hive"
+			}
+		},
+		{
+			"name": "HivePersistenceAsync",
+			"type": "asynchronous",
+			"persist": {
+				"type": "hive"
+			}
+		},
+		{
+			"name": "PostgresPersistence",
+			"type": "synchronous",
+			"persist": {
+				"type": "postgres"
+			}
+		},
+		{
+			"name": "PostgresPersistenceAsync",
+			"type": "asynchronous",
+			"persist": {
+				"type": "postgres"
+			}
+		},
+		{
+			"name": "ElasticsearchPersistence",
+			"type": "synchronous",
+			"persist": {
+				"type": "elasticsearch"
+			}
+		},
+		{
+			"name": "ElasticsearchPersistenceAsync",
+			"type": "asynchronous",
+			"persist": {
+				"type": "elasticsearch"
+			}
+		},
+		{
+			"name": "Neo4jPersistence",
+			"type": "synchronous",
+			"persist": {
+				"type": "neo4j"
+			}
+		},
+		{
+			"name": "Neo4jPersistenceAsync",
+			"type": "asynchronous",
+			"persist": {
+				"type": "neo4j"
+			}
+		},
+		{
+			"name": "PersistWithCustomTypes",
+			"type": "synchronous",
+			"persist": {
+				"type": "custom",
+				"collectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				},
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "PersistWithCustomTypesAsync",
+			"type": "asynchronous",
+			"persist": {
+				"type": "custom",
+				"collectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				},
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "NativeInboundWithCustomTypes",
+			"type": "synchronous",
+			"inbound": {
+				"type": "native",
+				"nativeCollectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				},
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "NativeInboundWithCustomTypesAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "native",
+				"nativeCollectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				},
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "NativeInboundWithCustomCollectionType",
+			"type": "synchronous",
+			"inbound": {
+				"type": "native",
+				"nativeCollectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				}
+			}
+		},
+		{
+			"name": "NativeInboundWithCustomCollectionTypeAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "native",
+				"nativeCollectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				}
+			}
+		},
+		{
+			"name": "NativeInboundWithCustomRecordType",
+			"type": "synchronous",
+			"inbound": {
+				"type": "native",
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "NativeInboundWithCustomRecordTypeAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "native",
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "NativeOutboundWithCustomTypes",
+			"type": "synchronous",
+			"outbound": {
+				"type": "native",
+				"nativeCollectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				},
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "NativeOutboundWithCustomTypesAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "native",
+				"nativeCollectionType": {
+					"name": "customCollection",
+					"package": "com.boozallen.aiops.mda.pattern.dictionary"
+				},
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingInboundWithCustomTypes",
+			"type": "synchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel",
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingInboundWithCustomTypesAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel",
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingOutboundWithCustomTypes",
+			"type": "synchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel",
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingOutboundWithCustomTypesAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel",
+				"recordType": {
+					"name": "CustomRecord",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingOutboundWithCustomRec",
+			"type": "synchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel",
+				"recordType": {
+					"name": "CustomRec",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingOutboundWithCustomRecAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel",
+				"recordType": {
+					"name": "CustomRec",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingInboundWithCustomRec",
+			"type": "synchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel",
+				"recordType": {
+					"name": "CustomRec",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "MessagingInboundWithCustomRecAsync",
+			"type": "asynchronous",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "inboundChannel",
+				"recordType": {
+					"name": "CustomRec",
+					"package": "com.boozallen.aiops.mda.pattern.record"
+				}
+			}
+		},
+		{
+			"name": "IngestAlertingEnabledSync",
+			"type": "synchronous",
+			"outbound": {
+				"type": "native"
+			},
+			"alerting": {
+				"enabled":true
+			}
+		},
+		{
+			"name": "IngestAlertingDisabledSync",
+			"type": "synchronous",
+			"outbound": {
+				"type": "native"
+			},
+			"alerting": {
+				"enabled":false
+			}
+		},
+		{
+			"name": "IngestAlertingEnabledAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "native"
+			},
+			"alerting": {
+				"enabled":true
+			}
+		},
+		{
+			"name": "IngestAlertingDisabledAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "native"
+			},
+			"alerting": {
+				"enabled":false
+			}
+		},
+		{
+			"name": "Ingest",
+			"type": "synchronous",
+			"persist": {
+				"type": "hive"
+			}
+		}
+	]
+}

@@ -1,0 +1,9 @@
+
+The following dependencies are required for ${description}!
+
+Please add them to the ${artifactId}/pyproject.toml file:
+
+#foreach ($item in $items)
+${item}
+
+#end

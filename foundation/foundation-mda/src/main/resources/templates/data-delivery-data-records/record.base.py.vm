@@ -1,0 +1,184 @@
+from abc import ABC
+#foreach ($import in $record.baseImports)
+${import}
+#end
+from .${record.snakeCaseName}_field import ${record.capitalizedName}Field
+from typing import Any, Dict
+import jsonpickle
+
+#set ($pysparkSupport = $record.hasFramework("pyspark"))
+class ${record.capitalizedName}Base(ABC):
+    """
+    Base implementation of the Record for ${record.capitalizedName}.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}).
+
+    Generated from: ${templateName}
+    """
+
+    def __init__(self):
+        """
+        Default constructor for this record.
+        """
+    #foreach ($field in $record.fields)
+        self._${field.snakeCaseName}: ${field.shortType} = None
+    #end
+
+    #if ($pysparkSupport)
+    @classmethod
+    def from_row(cls, row: Row):
+        """
+        Creates a record with the given PySpark dataframe row's data.
+        """
+        record = cls()
+        if row is not None:
+        #foreach ($field in $record.fields)
+            #set ($rowField = "#if($field.column)${field.column}#else${field.name}#end")
+            ${field.snakeCaseName}_value = cls.get_row_value(row, '${rowField}')
+            #if ($field.type.dictionaryType.isComplex())
+            record.${field.snakeCaseName} = ${field.shortType}(${field.snakeCaseName}_value)
+            #else
+            record.${field.snakeCaseName} = ${field.snakeCaseName}_value
+            #end
+
+        #end
+        return record
+
+
+    @classmethod
+    def get_row_value(cls, row: Row, field: str) -> any:
+        """
+        Returns the value of a field in a PySpark dataframe row.
+        """
+        return row[field] if field in row else None
+
+    def as_row(self) -> Row:
+        """
+        Returns this record as a PySpark dataframe row.
+        """
+        return Row(
+            #foreach ($field in $record.fields)
+                #if ($field.type.dictionaryType.isComplex())
+                    self.${field.snakeCaseName}.value if self.${field.snakeCaseName} is not None else None#if ($foreach.hasNext),#end
+                #else
+                    self.${field.snakeCaseName}#if ($foreach.hasNext),#end
+                #end
+            #end
+        )
+    #end
+
+    @classmethod
+    def from_dict(cls, dict_obj: Dict[str, Any]):
+        """
+        Creates a record with the given dictionary's data.
+        """
+        record = cls()
+        if dict_obj is not None:
+        #foreach ($field in $record.fields)
+            #if ($field.type.dictionaryType.isComplex())
+            if dict_obj.get('${field.fieldName}') is not None:
+                record.${field.snakeCaseName} = ${field.shortType}(dict_obj.get('${field.fieldName}'))
+            else:
+                record.${field.snakeCaseName} = None
+            #else
+            record.${field.snakeCaseName} = dict_obj.get('${field.fieldName}')
+            #end
+
+        #end
+        return record
+
+
+    def as_dict(self) -> Dict[str, Any]:
+        """
+        Returns this record as a dictionary.
+        """
+        dict_obj = dict()
+
+    #foreach ($field in $record.fields)
+        #if ($field.type.dictionaryType.isComplex())
+        if self.${field.snakeCaseName} is not None:
+            dict_obj['${field.fieldName}'] = self.${field.snakeCaseName}.value
+        else:
+            dict_obj['${field.fieldName}'] = None
+        #else
+        dict_obj['${field.fieldName}'] = self.${field.snakeCaseName}
+        #end
+    #end
+
+        return dict_obj
+
+
+    @classmethod
+    def from_json(cls, json_str: str):
+        """
+        Creates a record with the given json string's data.
+        """
+        dict_obj = jsonpickle.decode(json_str)
+        return cls.from_dict(dict_obj)
+
+
+    def as_json(self) -> str:
+        """
+        Returns this record as a json string.
+        """
+        return jsonpickle.encode(self.as_dict())
+#foreach ($field in $record.fields)
+
+
+    @property
+    def ${field.snakeCaseName}(self) -> ${field.shortType}:
+        return self._${field.snakeCaseName}
+
+
+    @${field.snakeCaseName}.setter
+    def ${field.snakeCaseName}(self, ${field.snakeCaseName}: ${field.shortType}) -> None:
+        self._${field.snakeCaseName} = ${field.snakeCaseName}
+#end
+
+
+    def validate(self) -> None:
+        """
+        Performs the validation for this record.
+        """
+    #if ($record.hasFieldValidations())
+        self.validate_fields()
+    #else
+        pass
+    #end
+
+#if ($record.hasFieldValidations())
+
+    def validate_fields(self) -> None:
+    #foreach ($field in $record.fields)
+        #if ($field.isRequired())
+        if self.${field.snakeCaseName} is None:
+            raise ValueError('Field \'${field.name}\' is required')
+            #if ($field.hasValidation())
+        else:
+            self.${field.snakeCaseName}.validate()
+            #end
+
+        #elseif ($field.hasValidation())
+        if self.${field.snakeCaseName} is not None:
+            self.${field.snakeCaseName}.validate()
+
+        #end
+    #end
+#end
+
+
+    def get_value_by_field(self, field: ${record.capitalizedName}Field) -> any:
+        """
+        Returns the value of the given field for this record.
+        """
+        value = None
+        #foreach ($field in $record.fields)
+        if field == ${record.capitalizedName}Field.${field.upperSnakecaseName}:
+            #if ($field.type.dictionaryType.isComplex())
+            value = self.${field.snakeCaseName}.value if self.${field.snakeCaseName} is not None else None
+            #else
+            value = self.${field.snakeCaseName}
+            #end
+        #end
+
+        return value

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: localstack-resources
+data:
+  create-s3-resources.sh:
+    {{ range .Values.buckets }}
+    {{ $name := .name }}
+    awslocal s3api create-bucket --bucket {{ .name }}
+    {{ range .keys }}
+    awslocal s3api put-object --bucket {{ $name }} --key {{ . }}
+    {{ end }}
+    {{ end }}
+    echo "Buckets generated."

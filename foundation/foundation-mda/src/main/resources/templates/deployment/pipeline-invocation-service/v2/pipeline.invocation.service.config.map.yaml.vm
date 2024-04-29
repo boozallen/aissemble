@@ -1,0 +1,11 @@
+{{- /*
+  # aiSSEMBLE will gather all YAML files from your specified valuesFileDirectory into a configmap, which is then
+  # mounted to the pipeline invocation service filesystem for subsequent composition through helm.
+  # Additions or changes made in this file are given priority over library-generated content.
+  */}}
+{{- include "filegather.configmap" (list . "invocationservice.configmap") -}}
+{{- define "invocationservice.configmap" -}}
+metadata:
+  name: spark-application-values-files
+data: {}
+{{- end -}}

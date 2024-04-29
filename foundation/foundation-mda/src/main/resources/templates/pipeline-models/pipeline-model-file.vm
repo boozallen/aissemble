@@ -1,0 +1,8 @@
+{
+  "name": "${pipelineName}",
+  "package": "${basePackage}",
+  "type": {
+    "name": "${pipelineTypeName}",
+    "implementation": "${implementationName}"
+  }
+}

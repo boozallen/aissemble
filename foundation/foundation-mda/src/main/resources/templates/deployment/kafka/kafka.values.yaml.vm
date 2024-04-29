@@ -1,0 +1,53 @@
+# Default values for inference.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: kafka-cluster
+image:
+  name: boozallen/aissemble-kafka
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "${versionTag}"
+
+deployment:
+  ports:
+    - name: http-1
+      containerPort: 9092
+      protocol: TCP
+    - name: http-2
+      containerPort: 9093
+      protocol: TCP
+    - name: http-3
+      containerPort: 19092
+      protocol: TCP
+  env:
+    - name: KAFKA_ADVERTISED_LISTENERS
+      value: INSIDE://kafka-cluster:9093,OUTSIDE://localhost:19092
+    - name: KAFKA_CREATE_TOPICS
+      value: alerts:1:1,train:1:1,metadata-ingest:1:1
+    - name: KAFKA_INTER_BROKER_LISTENER_NAME
+      value: INSIDE
+    - name: KAFKA_LISTENERS
+      value: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+    - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+      value: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+    - name: KAFKA_ZOOKEEPER_CONNECT
+      value: zookeeper-alert:12181
+  restartPolicy: Always
+  resources:
+      limits:
+        memory: 2G
+
+# kafka Service
+service:
+  spec:
+    ports:
+      - name: "19092"
+        port: 19092
+        targetPort: 9092
+      - name: "9093"
+        port: 9093
+        targetPort: 9093

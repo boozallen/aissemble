@@ -1,0 +1,16 @@
+You must add the following to Tiltfile to configure it for local deployment!
+
+# ${srcModuleName}-compiler
+local_resource(
+    name='compile-${srcModuleName}',
+    cmd='cd ${srcModulePath} && poetry run behave tests/features && poetry build && cd - && \
+    #if (${copyFullPath} == true)
+    cp -r ${srcModulePath}/dist ${dockerModulePath}/target/${srcModuleName}',
+    #else
+    cp -r ${srcModulePath}/dist/* ${dockerModulePath}/target/dockerbuild/${srcModuleName} && \
+    cp ${srcModulePath}/dist/requirements.txt ${dockerModulePath}/target/dockerbuild/requirements/${srcModuleName}',
+    #end
+    deps=['${srcModulePath}'],
+    auto_init=False,
+    ignore=['**/dist/']
+)

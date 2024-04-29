@@ -1,0 +1,20 @@
+localstack:
+  fullnameOverride: s3-local
+  startServices: s3
+  enableStartupScripts: true
+  startupScriptContent: |
+    #!/bin/sh
+    sh /opt/scripts/create_s3_resources.sh
+  volumeMounts:
+    - name: create-s3-resources-sh
+      mountPath: /opt/scripts/create_s3_resources.sh
+      subPath: create-s3-resources.sh
+  volumes:
+    - name: create-s3-resources-sh
+      configMap:
+        name: localstack-resources
+        items:
+          - key: create-s3-resources.sh
+            path: create-s3-resources.sh
+
+buckets: []

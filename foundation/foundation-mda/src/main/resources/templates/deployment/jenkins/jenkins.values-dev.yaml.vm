@@ -1,0 +1,4 @@
+# Dev values for jenkins
+service:
+  spec:
+    type: LoadBalancer

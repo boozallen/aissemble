@@ -1,0 +1,25 @@
+from krausening.logging import LogManager
+from data_delivery_spark_py.test_utils.spark_session_manager import create_standalone_spark_session
+
+"""
+Behave test environment setup to configure Spark for unit tests.
+
+GENERATED CODE - DO NOT MODIFY (add your customizations in environment.py).
+
+Originally generated from: ${templateName}
+"""
+logger = LogManager.get_instance().get_logger("Environment")
+
+
+"""
+Generated or model-dependent setup to be executed prior to unit tests.
+"""
+def initialize(sparkapplication_path = "target/apps/${artifactId}-test-chart.yaml"):
+    create_standalone_spark_session(sparkapplication_path)
+
+
+"""
+Generated or model-dependent setup to be executed after completion of unit tests.
+"""
+def cleanup():
+    pass

@@ -1,0 +1,16 @@
+# Script for creating versioning service image
+#
+# GENERATED DOCKERFILE - please ***DO*** modify.
+#
+# Generated from: ${templateName}
+
+ARG DOCKER_BASELINE_REPO_ID
+ARG VERSION_AISSEMBLE
+
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-versioning:${VERSION_AISSEMBLE}
+
+COPY ./src/main/resources/config/settings.xml /root/.m2/settings.xml
+COPY ./src/main/resources/config/model-pom.xml /app/model_versioning/model-pom.xml
+
+COPY ./src/main/resources/krausening/base/auth.properties /app/model_versioning/config/auth.properties
+ENV KRAUSENING_BASE /app/model_versioning/config

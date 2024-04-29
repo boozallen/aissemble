@@ -1,0 +1,22 @@
+package ${basePackage};
+
+import org.aeonbits.owner.KrauseningConfigFactory;
+import com.boozallen.aiops.data.delivery.spark.AbstractDataAction;
+import com.boozallen.aiops.data.delivery.spark.SparkConfig;
+
+ /**
+ * Contains the general concepts needed to perform a base AIOps Reference Architecture Data Action. A Data Action is a
+ * step within a Data Flow.
+  *
+ * GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+  *
+  * Generated from: ${templateName}
+  */
+public abstract class AbstractDataActionImpl extends AbstractDataAction {
+
+    protected static final SparkConfig config = KrauseningConfigFactory.create(SparkConfig.class);
+
+    protected AbstractDataActionImpl(String subject, String action) {
+        super(subject, action);
+    }
+}

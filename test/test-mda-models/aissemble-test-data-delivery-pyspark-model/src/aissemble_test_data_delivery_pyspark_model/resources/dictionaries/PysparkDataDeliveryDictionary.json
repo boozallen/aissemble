@@ -1,0 +1,64 @@
+{
+	"name": "PysparkDataDeliveryDictionary",
+	"package": "com.boozallen.aiops.mda.pattern.dictionary",
+	"dictionaryTypes": [
+		{
+			"name": "customType",
+			"simpleType": "string"
+		},
+		{
+			"name": "customCollection",
+			"simpleType": "set"
+		},
+		{
+			"name": "stringWithValidation",
+			"simpleType": "string",
+			"validation": {
+				"maxLength": 50,
+				"minLength": 5,
+				"formats": [
+					"example-regex",
+					"[A-Z]*[1-5]+",
+					"\\D*"
+				]
+			}
+		},
+		{
+			"name": "integerWithValidation",
+			"simpleType": "integer",
+			"validation": {
+				"maxValue": "999",
+				"minValue": "100"
+			}
+		},
+		{
+			"name": "decimalWithValidation",
+			"simpleType": "decimal",
+			"validation": {
+				"maxValue": "100.0",
+				"minValue": "12.345",
+				"scale": 3
+			}
+		},
+		{
+			"name": "floatWithValidation",
+			"simpleType": "float",
+			"validation": {
+				"maxValue": "100.0",
+				"minValue": "12.345",
+				"scale": 3
+			}
+		},
+		{
+		    "name": "typeWithPolicies",
+		    "simpleType": "string",
+		    "driftPolicy": "dictionaryTypeDriftPolicy",
+		    "ethicsPolicy": "dictionaryTypeEthicsPolicy",
+		    "protectionPolicy": "dictionaryTypeProtectionPolicy"
+		},
+		{
+			"name": "binarydata",
+			"simpleType": "bytearray"
+		}
+	]
+}

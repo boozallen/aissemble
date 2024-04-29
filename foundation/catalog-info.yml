@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "aissemble"
+  title: "aissemble"
+  description: "This repository represents the foundational components in aiSSEMBLE."
+  tags:
+    - aissemble
+    - foundation
+  annotations:
+    github.com/project-slug: aissemble/aissemble
+spec:
+  type: docs
+  lifecycle: experimental
+  owner: "sig-aiops/aiops-team"

@@ -1,0 +1,6 @@
+
+Update the <propertyVariables> section for deployment profile ${profile} in ${deployArtifactId}/pom.xml to include the following application dependencies:
+
+#foreach ($item in $appDependencies)
+<appDependencies>${item}</appDependencies>
+#end

@@ -1,0 +1,10 @@
+# Dev values for elasticsearch.
+image:
+  dockerRepo: ""
+
+service:
+  spec:
+    type: LoadBalancer
+
+ingress:
+  enabled: false

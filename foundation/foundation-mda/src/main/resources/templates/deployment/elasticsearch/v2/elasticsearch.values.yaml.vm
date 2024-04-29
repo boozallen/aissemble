@@ -1,0 +1,21 @@
+#[[########################################
+## CONFIG | Elasticsearch Configs
+## See aiSSEMBLE aissemble-elasticsearch-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-elasticsearch-chart:
+  basicAuth:
+    # Allows for access to elasticsearch using basic-auth credentials.
+    # See the chart module README for default values
+    enabled: true
+
+  # An enterprise license is required to use ECK Stack helm charts, including elasticsearch.
+  # See https://github.com/elastic/cloud-on-k8s/tree/main/deploy#licensing for more details.
+  # Setting the license to basic can be used for testing locally, but it is recommended to 
+  # upgrade your license to enterprise when using these charts in a production environment.
+  # The Elasticsearch Operator chart license will also need to be upgraded to the enterprise
+  # level to maintain interoperability.
+  eck-stack:
+    eck-elasticsearch:
+      annotations:
+        eck.k8s.elastic.co/license: basic

@@ -1,0 +1,17 @@
+#[[#################################################################################
+## CONFIG | Lineage HTTP Consumer Configs                                         ##
+## See aiSSEMBLE aissemble-lineage-http-consumer-chart: README for more details.  ##
+## https://github.com/boozallen/aissemble/                           ##
+################################################################################]]##
+
+aissemble-lineage-http-consumer-chart:
+  aissemble-quarkus-chart:
+    configMap:
+      supplementalQuarkusConfig:
+          - kafka.bootstrap.servers=kafka-cluster:9093
+          - quarkus.rest-client."com.boozallen.aissemble.datalineage.consumer.HttpProducerService".uri=http://marquez:80/api/v1/lineage
+          - mp.messaging.incoming.data-lineage-in.connector=smallrye-kafka
+          - mp.messaging.incoming.data-lineage-in.topic=lineage-event-out
+          - mp.messaging.incoming.data-lineage-in.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+          - com.boozallen.aissemble.datalineage.consumer.HttpProducer/postEventHttp/Retry/maxRetries=5
+          - com.boozallen.aissemble.datalineage.consumer.HttpProducer/postEventHttp/Timeout/value=3000

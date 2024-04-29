@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- Originally generated from ${templateName} -->
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <artifactId>${stepArtifactId}</artifactId>
+    <packaging>habushu</packaging>
+
+    <name>${parentDescriptiveName}::${descriptiveName}</name>
+    <description>${step.description}</description>
+
+    <build>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>${moduleArtifactIdPythonCase}</basePackage>
+                    <profile>machine-learning-${step.type}</profile>
+                    <propertyVariables>
+                        <targetPipeline>${pipeline.name}</targetPipeline>
+                        <behaveFeature>${step.type}</behaveFeature>
+                        <aissembleVersion>${version.aissemble}</aissembleVersion>
+                    </propertyVariables>
+                </configuration>
+                <executions>
+                    <!-- As we're generating out the required Poetry/Habushu project
+                    configurations and structure through the utilized Fermenter MDA profile,
+                    generate all files during the validate phase *before* Habushu peforms
+                    Poetry specific intialization checks in the subsequent initialize phase -->
+                    <execution>
+                        <id>generate-python-sources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                    </execution>
+                    <!-- Override the default generated source code directory that is
+                     targeted by Fermenter's clean goal -->
+                    <execution>
+                        <id>clean-unmodifiable-generated-python-sources</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <generatedBasedir>${basedir}/src/${stepArtifactIdSnakeCase}/generated</generatedBasedir>
+                        </configuration>
+                    </execution>
+#if ($step.type == "inference")
+                    <execution>
+                        <id>clean-unmodifiable-generated-proto-sources</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <generatedBasedir>${basedir}/src/${stepArtifactIdSnakeCase}/resources/proto/${stepArtifactIdSnakeCase}/generated/inference/grpc/generated</generatedBasedir>
+                        </configuration>
+                    </execution>
+#end
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
+#if ($step.type == "inference")
+                <executions>
+                    <execution>
+                        <configuration>
+                            <runCommandArgs>python -m grpc_tools.protoc -I=src/${stepArtifactIdSnakeCase}/resources/proto
+                                --python_out=src
+                                --grpc_python_out=src
+                                src/${stepArtifactIdSnakeCase}/resources/proto/${stepArtifactIdSnakeCase}/generated/inference/grpc/inference_api.proto
+                                src/${stepArtifactIdSnakeCase}/resources/proto/${stepArtifactIdSnakeCase}/generated/inference/grpc/generated/inference_payload_definition.proto</runCommandArgs>
+                        </configuration>
+                        <id>generate-protobuf-bindings</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run-command-in-virtual-env</goal>
+                        </goals>
+                    </execution>
+                </executions>
+#end
+            </plugin>
+
+            <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<configuration>
+					<licenseFile>LICENSE</licenseFile>
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
+
+
+</project>

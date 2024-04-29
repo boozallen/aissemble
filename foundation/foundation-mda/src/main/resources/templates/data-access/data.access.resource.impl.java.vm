@@ -1,0 +1,21 @@
+package ${basePackage};
+
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import org.eclipse.microprofile.graphql.GraphQLApi;
+
+import io.quarkus.runtime.StartupEvent;
+
+/**
+ * GraphQL resource that exposes the /graphql REST endpoint for Data Access requests.
+ *
+ * GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName}
+ */
+@GraphQLApi
+@ApplicationScoped
+public class DataAccessResource extends DataAccessResourceBase {
+
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+    <!-- Generated from: ${templateName} -->
+
+    <artifactId>${artifactId}</artifactId>
+
+    <name>${parentDescriptiveName}::Data Records Spark</name>
+    <description>Spark support for data records</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <profile>data-delivery-data-spark</profile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>#[[${project.groupId}]]#</groupId>
+            <artifactId>${javaDataRecords}</artifactId>
+            <version>#[[${project.version}]]#</version>
+        </dependency>
+    </dependencies>
+</project>

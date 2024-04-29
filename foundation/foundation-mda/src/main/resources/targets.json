@@ -1,0 +1,3170 @@
+[
+  {
+    "name": "globalDeploymentConfigFile",
+    "templateName": "templates/pipeline-models/deployment-config.json.vm",
+    "outputFile": "deployment-config.json",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelinePomFile",
+    "templateName": "templates/${pipelineImplementation}/pipeline.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.PipelineModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaPipelineBaseDriver",
+    "templateName": "templates/pipeline.driver.base.java.vm",
+    "outputFile": "${basePackage}/${pipelineName}BaseDriver.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaPipelineDriver",
+    "templateName": "templates/pipeline.driver.impl.java.vm",
+    "outputFile": "${basePackage}/${pipelineName}Driver.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineCdiContextBase",
+    "templateName": "templates/pipeline.cdi.context.base.java.vm",
+    "outputFile": "${basePackage}/cdi/PipelinesCdiContextBase.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pipelineCdiContextImpl",
+    "templateName": "templates/pipeline.cdi.context.impl.java.vm",
+    "outputFile": "${basePackage}/cdi/PipelinesCdiContext.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkPipelineBase",
+    "templateName": "templates/pipeline.base.java.vm",
+    "outputFile": "${basePackage}/pipeline/PipelineBase.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "cdiContainerFactory",
+    "templateName": "templates/cdi.container.factory.java.vm",
+    "outputFile": "${basePackage}/cdi/CdiContainerFactory.java",
+    "generator": "com.boozallen.aiops.mda.generator.ConfigurationJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "cdiBeansXml",
+    "templateName": "templates/beans.xml.vm",
+    "outputFile": "META-INF/beans.xml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "cucumberProperties",
+    "templateName": "templates/cucumber.properties.vm",
+    "outputFile": "cucumber.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "cucumberPipelineFeature",
+    "templateName": "templates/cucumber.pipeline.feature.vm",
+    "outputFile": "specifications/pipeline.feature",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "cucumberPipelineSteps",
+    "templateName": "templates/cucumber.pipeline.steps.java.vm",
+    "outputFile": "${basePackage}/PipelineSteps.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "cucumberSparkBaseHarness",
+    "templateName": "templates/cucumber.spark.test.base.harness.java.vm",
+    "outputFile": "${basePackage}/SparkTestBaseHarness.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true,
+    "artifactType": "test"
+  },
+  {
+    "name": "cucumberSparkHarness",
+    "templateName": "templates/cucumber.spark.test.impl.harness.java.vm",
+    "outputFile": "${basePackage}/SparkTestHarness.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "cucumberSurefireHarness",
+    "templateName": "templates/cucumber.surefire.harness.java.vm",
+    "outputFile": "${basePackage}/CucumberTest.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "cucumberCdiContext",
+    "templateName": "templates/cucumber.test.cdi.context.java.vm",
+    "outputFile": "${basePackage}/TestCdiContext.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "testLog4jConfiguration",
+    "templateName": "templates/log4j2.xml.vm",
+    "outputFile": "log4j2.xml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "jteJenkinsfileBuild",
+    "templateName": "templates/devops/jte.JenkinsfileBuild.groovy.vm",
+    "outputFile": "devops/JenkinsfileBuild.groovy",
+    "generator": "com.boozallen.aiops.mda.generator.JteMigrationRootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jteJenkinsfileRelease",
+    "templateName": "templates/devops/jte.JenkinsfileRelease.groovy.vm",
+    "outputFile": "devops/JenkinsfileRelease.groovy",
+    "generator": "com.boozallen.aiops.mda.generator.JteMigrationRootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jteConfiguration",
+    "templateName": "templates/devops/jte.PipelineConfig.groovy.vm",
+    "outputFile": "devops/PipelineConfig.groovy",
+    "generator": "com.boozallen.aiops.mda.generator.JteMigrationRootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsBuildJob",
+    "templateName": "templates/devops/jenkins-build-job.xml.vm",
+    "outputFile": "devops/jenkins-build-job.xml",
+    "generator": "com.boozallen.aiops.mda.generator.RootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsReleaseJob",
+    "templateName": "templates/devops/jenkins-release-job.xml.vm",
+    "outputFile": "devops/jenkins-release-job.xml",
+    "generator": "com.boozallen.aiops.mda.generator.RootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaAbstractPipelineStep",
+    "templateName": "templates/data-delivery-spark/abstract.pipeline.step.java.vm",
+    "outputFile": "${basePackage}/AbstractPipelineStep.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaBatchCreatorBase",
+    "templateName": "templates/data-delivery-spark/asynchronous.processor.base.java.vm",
+    "outputFile": "${basePackage}/${name}Base.java",
+    "generator": "com.boozallen.aiops.mda.generator.AsynchronousStepJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaBatchCreatorImpl",
+    "templateName": "templates/data-delivery-spark/asynchronous.processor.impl.java.vm",
+    "outputFile": "${basePackage}/${name}.java",
+    "generator": "com.boozallen.aiops.mda.generator.AsynchronousStepJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaSynchronousProcessorBase",
+    "templateName": "templates/data-delivery-spark/synchronous.processor.base.java.vm",
+    "outputFile": "${basePackage}/${name}Base.java",
+    "generator": "com.boozallen.aiops.mda.generator.SynchronousStepJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaSynchronousProcessorImpl",
+    "templateName": "templates/data-delivery-spark/synchronous.processor.impl.java.vm",
+    "outputFile": "${basePackage}/${name}.java",
+    "generator": "com.boozallen.aiops.mda.generator.SynchronousStepJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalValuesFile",
+    "templateName": "templates/deployment/s3-local/s3-local.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalValuesDevFile",
+    "templateName": "templates/deployment/s3-local/s3-local.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalDeploymentFile",
+    "templateName": "templates/deployment/s3-local/templates/deployment.yaml.vm",
+    "outputFile": "apps/${appName}/templates/deployment.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkWorkerDockerFile",
+    "templateName": "templates/general-docker/spark-worker.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkWorkerDockerPomFile",
+    "templateName": "templates/general-docker/spark-worker.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkDockerPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkDataDeliveryProperties",
+    "templateName": "templates/general-docker/spark.data.delivery.properties.vm",
+    "outputFile": "krausening/base/spark-data-delivery.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataLineageProperties",
+    "templateName": "templates/general-docker/data.lineage.properties.vm",
+    "outputFile": "krausening/base/data-lineage.properties",
+    "generator": "com.boozallen.aiops.mda.generator.DataLineageResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowLineageProperties",
+    "templateName": "templates/general-docker/mlflow.lineage.properties.vm",
+    "outputFile": "krausening/base/data-lineage.properties",
+    "generator": "com.boozallen.aiops.mda.generator.DataLineageResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+},
+
+  {
+    "name": "gitignoreFile",
+    "templateName": "templates/gitignore.vm",
+    "outputFile": ".gitignore",
+    "generator": "com.boozallen.aiops.mda.generator.RootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "tiltignoreFile",
+    "templateName": "templates/tiltignore.vm",
+    "outputFile": ".tiltignore",
+    "generator": "com.boozallen.aiops.mda.generator.RootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineStepPomFile",
+    "templateName": "templates/general-mlflow/pipeline.step.pom.xml.vm",
+    "outputFile": "${stepArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineStepModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingPipelinePyProject",
+    "templateName": "templates/general-mlflow/pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.MlTrainingPyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sagemakerTrainingPipelinePyProject",
+    "templateName": "templates/sagemaker-training/pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.PythonPipelinePyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingPipelineBase",
+    "templateName": "templates/general-mlflow/training.base.py.vm",
+    "outputFile": "${pipelineName}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pythonPipelineImplInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "impl/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingPipelineImpl",
+    "templateName": "templates/general-mlflow/training.impl.py.vm",
+    "outputFile": "impl/${pipelineName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sagemakerTrainingPipelineImpl",
+    "templateName": "templates/sagemaker-training/training.impl.py.vm",
+    "outputFile": "${pipelineName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingPipelineDriver",
+    "templateName": "templates/general-mlflow/training.driver.py.vm",
+    "outputFile": "${pipelineName}_driver.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingPipelineConfigScript",
+    "templateName": "templates/general-mlflow/training.config.py.vm",
+    "outputFile": "config/pipeline_config.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineBase",
+    "templateName": "templates/pipeline.base.py.vm",
+    "outputFile": "pipeline/pipeline_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "trainingPipelineConfigResource",
+    "templateName": "templates/general-mlflow/training.config.properties.vm",
+    "outputFile": "krausening/base/pipeline.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "behaveFeature",
+    "templateName": "templates/behave.feature.vm",
+    "outputFile": "features/${behaveFeature}.feature",
+    "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "behaveSteps",
+    "templateName": "templates/behave.steps.py.vm",
+    "outputFile": "features/steps/${behaveFeature}_steps.py",
+    "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "behaveFeatureSagemaker",
+    "templateName": "templates/behave-sagemaker.feature.vm",
+    "outputFile": "features/${behaveFeature}.feature",
+    "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "behaveStepsSagemaker",
+    "templateName": "templates/behave-sagemaker.steps.py.vm",
+    "outputFile": "features/steps/${behaveFeature}_steps.py",
+    "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "inferenceApi",
+    "templateName": "templates/${pipelineImplementation}/inference.api.py.vm",
+    "outputFile": "inference_api.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceRequest",
+    "templateName": "templates/general-mlflow/inference.request.py.vm",
+    "outputFile": "validation/request.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceResponse",
+    "templateName": "templates/general-mlflow/inference.response.py.vm",
+    "outputFile": "validation/response.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceConfigScript",
+    "templateName": "templates/general-mlflow/inference.config.py.vm",
+    "outputFile": "config/inference_config.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceConfigResource",
+    "templateName": "templates/general-mlflow/inference.config.properties.vm",
+    "outputFile": "krausening/base/inference.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceDockerPomFile",
+    "templateName": "templates/general-docker/inference.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.InferenceDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceDockerFile",
+    "templateName": "templates/general-docker/inference.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.InferenceDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceGitkeepFile",
+    "templateName": "templates/general-docker/gitkeep.vm",
+    "outputFile": "krausening/base/.gitkeep",
+    "generator": "com.boozallen.aiops.mda.generator.InferenceDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingDockerFile",
+    "templateName": "templates/general-docker/training.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.TrainingDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingGitkeepFile",
+    "templateName": "templates/general-docker/gitkeep.vm",
+    "outputFile": "krausening/base/.gitkeep",
+    "generator": "com.boozallen.aiops.mda.generator.TrainingDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sagemakerTrainingDockerFile",
+    "templateName": "templates/general-docker/sagemaker-training.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.SagemakerTrainingDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingDockerPomFile",
+    "templateName": "templates/general-docker/training.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.TrainingDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sagemakerTrainingDockerPomFile",
+    "templateName": "templates/general-docker/sagemaker-training.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.SagemakerTrainingDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trainingNoOpFile",
+    "templateName": "templates/deployment/model-training-job/model-training-job.no-op.yaml.vm",
+    "outputFile": "apps/${appName}/${appName}.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.NonHelmKubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "helmChartFile",
+    "templateName": "templates/deployment/helm/chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "helmIgnoreFile",
+    "templateName": "templates/deployment/helm/helmignore.vm",
+    "outputFile": "apps/${appName}/.helmignore",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "helmDeploymentFile",
+    "templateName": "templates/deployment/helm/deployment.yaml.vm",
+    "outputFile": "apps/${appName}/templates/deployment.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "helmServiceFile",
+    "templateName": "templates/deployment/helm/service.yaml.vm",
+    "outputFile": "apps/${appName}/templates/service.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "helmIngressFile",
+    "templateName": "templates/deployment/helm/ingress.yaml.vm",
+    "outputFile": "apps/${appName}/templates/ingress.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelPersistentVolumeClaimFile",
+    "templateName": "templates/deployment/persistentvolumeclaim/model.persistentvolumeclaim.yaml.vm",
+    "outputFile": "apps/${appName}/templates/model-persistentvolumeclaim.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SharedInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlrunsPersistentVolumeClaimFile",
+    "templateName": "templates/deployment/persistentvolumeclaim/mlruns.persistentvolumeclaim.yaml.vm",
+    "outputFile": "apps/${appName}/templates/mlruns-persistentvolumeclaim.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SharedInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "bomPersistentVolumeClaimFile",
+    "templateName": "templates/deployment/persistentvolumeclaim/bom.persistentvolumeclaim.yaml.vm",
+    "outputFile": "apps/${appName}/templates/bom-persistentvolumeclaim.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SharedInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructurePersistentVolumeClaimFile",
+    "templateName": "templates/deployment/persistentvolumeclaim/spark.infrastructure.persistentvolumeclaim.yaml.vm",
+    "outputFile": "apps/${appName}/templates/spark-infrastructure-persistentvolumeclaim.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+
+  {
+    "name": "mlflowIngressFile",
+    "templateName": "templates/deployment/airflow/mlflow.ingress.yaml.vm",
+    "outputFile": "apps/${appName}/templates/mlflow-ingress.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "valuesCIFile",
+    "templateName": "templates/deployment/values-ci.yaml.vm",
+    "outputFile": "apps/${appName}/values-ci.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowHelmChartFileV2",
+    "templateName": "templates/deployment/airflow/v2/airflow.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowValuesFileV2",
+    "templateName": "templates/deployment/airflow/v2/airflow.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowValuesDevFileV2",
+    "templateName": "templates/deployment/airflow/v2/airflow.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/airflow.yaml.vm",
+    "outputFile": "templates/airflow.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowValuesFile",
+    "templateName": "templates/deployment/airflow/airflow.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowValuesDevFile",
+    "templateName": "templates/deployment/airflow/airflow.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowArgoCD",
+    "templateName": "templates/deployment/argocd/airflow.yaml.vm",
+    "outputFile": "templates/airflow.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowDockerPomFile",
+    "templateName": "templates/general-docker/airflow.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.AirflowDockerPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowREADMEFile",
+    "templateName": "templates/general-docker/airflow.readme.file.vm",
+    "outputFile": "README.md",
+    "generator": "com.boozallen.aiops.mda.generator.RootFileGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowDockerFile",
+    "templateName": "templates/general-docker/airflow.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowDataDeliveryDagFiles",
+    "templateName": "templates/deployment/airflow/airflow.data.delivery.dag.vm",
+    "outputFile": "dags/${pipelineName}_dag.py",
+    "generator": "com.boozallen.aiops.mda.generator.DataDeliveryDagGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowMachineLearningDagFiles",
+    "templateName": "templates/deployment/airflow/airflow.machine.learning.dag.vm",
+    "outputFile": "dags/${pipelineStepName}_dag.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningDagGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowRoleFile",
+    "templateName": "templates/deployment/airflow/airflow-role.yaml.vm",
+    "outputFile": "apps/${appName}/templates/airflow-role.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowRoleBindingFile",
+    "templateName": "templates/deployment/airflow/airflow-rolebinding.yaml.vm",
+    "outputFile": "apps/${appName}/templates/airflow-rolebinding.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowServiceAccountFile",
+    "templateName": "templates/deployment/airflow/airflow-serviceaccount.yaml.vm",
+    "outputFile": "apps/${appName}/templates/airflow-serviceaccount.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "airflowServiceAccountTokenFile",
+    "templateName": "templates/deployment/airflow/airflow-serviceaccount-token.yaml.vm",
+    "outputFile": "apps/${appName}/templates/airflow-serviceaccount-token.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowDockerPomFile",
+    "templateName": "templates/general-docker/mlflow.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.MlflowDockerPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowDockerFile",
+    "templateName": "templates/general-docker/mlflow.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowValuesFile",
+    "templateName": "templates/deployment/mlflow/mlflow.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.MlflowKubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowValuesDevFile",
+    "templateName": "templates/deployment/mlflow/mlflow.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.MlflowKubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowArgoCD",
+    "templateName": "templates/deployment/argocd/mlflow-ui.yaml.vm",
+    "outputFile": "templates/mlflow-ui.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.MlflowKubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowHelmChartFileV2",
+    "templateName": "templates/deployment/mlflow/v2/mlflow.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowValuesFileV2",
+    "templateName": "templates/deployment/mlflow/v2/mlflow.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowValuesDevFileV2",
+    "templateName": "templates/deployment/mlflow/v2/mlflow.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/mlflow-ui.yaml.vm",
+    "outputFile": "templates/mlflow-ui.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiValuesFile",
+    "templateName": "templates/deployment/model-training-api/model-training-api.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiValuesDevFile",
+    "templateName": "templates/deployment/model-training-api/model-training-api.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiRbacFile",
+    "templateName": "templates/deployment/model-training-api/model-training-api.rbac.yaml.vm",
+    "outputFile": "apps/${appName}/templates/rbac.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiDeploymentFile",
+    "templateName": "templates/deployment/model-training-api/model-training-api.deployment.yaml.vm",
+    "outputFile": "apps/${appName}/templates/deployment.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiServiceAccountFile",
+    "templateName": "templates/deployment/model-training-api/model-training-api.serviceaccount.yaml.vm",
+    "outputFile": "apps/${appName}/templates/serviceaccount.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiConfigMapFile",
+    "templateName": "templates/deployment/model-training-api/model-training-api.configmap.yaml.vm",
+    "outputFile": "apps/${appName}/templates/configmap.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelTrainingApiArgoCD",
+    "templateName": "templates/deployment/argocd/model-training-api.yaml.vm",
+    "outputFile": "templates/model-training-api.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "mlflowStartScript",
+    "templateName": "templates/general-docker/mlflow.start.sh.vm",
+    "outputFile": "start.sh",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "postgresValuesFile",
+    "templateName": "templates/deployment/postgres/postgres.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "postgresValuesDevFile",
+    "templateName": "templates/deployment/postgres/postgres.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "postgresArgoCD",
+    "templateName": "templates/deployment/argocd/postgres.yaml.vm",
+    "outputFile": "templates/postgres.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleQuarkusArgoCD",
+    "templateName": "templates/deployment/argocd/quarkus.yaml.vm",
+    "outputFile": "templates/${appName}.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleQuarkusHelmChartFile",
+    "templateName": "templates/deployment/quarkus/quarkus.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleQuarkusValuesFile",
+    "templateName": "templates/deployment/quarkus/quarkus.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleQuarkusValuesDevFile",
+    "templateName": "templates/deployment/quarkus/quarkus.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "bomArgoCD",
+    "templateName": "templates/deployment/argocd/bom.yaml.vm",
+    "outputFile": "templates/bom.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "bomValuesFile",
+    "templateName": "templates/deployment/bom/bom.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "bomValuesDevFile",
+    "templateName": "templates/deployment/bom/bom.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkGeneratedInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkStepBaseInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "step/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkStepImplInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "step/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pythonRecordBaseInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "record/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PythonRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pythonRecordImplInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "record/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PythonRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pythonDictionaryTypeBaseInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "dictionary/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.dictionary.PythonDictionaryTypeGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pythonDictionaryTypeImplInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "dictionary/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.dictionary.PythonDictionaryTypeGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pythonGenericStepImpl",
+    "templateName": "templates/pipeline-common/generic.step.py.vm",
+    "outputFile": "impl/${name}.py",
+    "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkGenericStepImpl",
+    "templateName": "templates/pipeline-common/generic.step.py.vm",
+    "outputFile": "impl/${name}.py",
+    "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkSchemaBaseInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "schema/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PySparkSchemaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkSchemaImplInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "schema/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PySparkSchemaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkPyProject",
+    "templateName": "templates/data-delivery-pyspark/pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.PythonPipelinePyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkAbstractDataAction",
+    "templateName": "templates/data-delivery-pyspark/abstract.data.action.py.vm",
+    "outputFile": "step/abstract_data_action.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkAbstractDataActionImpl",
+    "templateName": "templates/data-delivery-pyspark/abstract.data.action.impl.py.vm",
+    "outputFile": "step/abstract_data_action_impl.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkAbstractPipelineStep",
+    "templateName": "templates/data-delivery-pyspark/abstract.pipeline.step.py.vm",
+    "outputFile": "step/abstract_pipeline_step.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkSynchronousProcessorBase",
+    "templateName": "templates/data-delivery-pyspark/synchronous.processor.base.py.vm",
+    "outputFile": "step/${name}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.SynchronousStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkSynchronousProcessorImpl",
+    "templateName": "templates/data-delivery-pyspark/synchronous.processor.impl.py.vm",
+    "outputFile": "step/${name}.py",
+    "generator": "com.boozallen.aiops.mda.generator.SynchronousStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkAsynchronousProcessorBase",
+    "templateName": "templates/data-delivery-pyspark/asynchronous.processor.base.py.vm",
+    "outputFile": "step/${name}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.AsynchronousStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkAsynchronousProcessorImpl",
+    "templateName": "templates/data-delivery-pyspark/asynchronous.processor.impl.py.vm",
+    "outputFile": "step/${name}.py",
+    "generator": "com.boozallen.aiops.mda.generator.AsynchronousStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkPipelineDriver",
+    "templateName": "templates/data-delivery-pyspark/pipeline.driver.py.vm",
+    "outputFile": "${pipelineName}_driver.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkPipelineBase",
+    "templateName": "templates/pipeline.base.py.vm",
+    "outputFile": "pipeline/pipeline_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkBehaveEnvironment",
+    "templateName": "templates/data-delivery-pyspark/behave.environment.py.vm",
+    "outputFile": "features/environment.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonTestGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "pySparkBehaveEnvironmentBase",
+    "templateName": "templates/data-delivery-pyspark/behave.environment.base.py.vm",
+    "outputFile": "environment_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonTestGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "modzyInferenceApi",
+    "templateName": "templates/modzy/modzy.py.vm",
+    "outputFile": "modzy/modzy.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsControllerDeploymentFile",
+    "templateName": "templates/deployment/jenkins/jenkins.controller.deployment.yaml.vm",
+    "outputFile": "apps/${appName}/templates/deployment.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsValuesFile",
+    "templateName": "templates/deployment/jenkins/jenkins.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsValuesDevFile",
+    "templateName": "templates/deployment/jenkins/jenkins.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsPersistentVolumeClaim",
+    "templateName": "templates/deployment/persistentvolumeclaim/jenkins.persistentvolumeclaim.yaml.vm",
+    "outputFile": "apps/${appName}/templates/jenkins-persistentvolumeclaim.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsHelmChartFileV2",
+    "templateName": "templates/deployment/jenkins/v2/jenkins.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsValuesFileV2",
+    "templateName": "templates/deployment/jenkins/v2/jenkins.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsValuesDevFileV2",
+    "templateName": "templates/deployment/jenkins/v2/jenkins.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/jenkins.yaml.vm",
+    "outputFile": "templates/jenkins.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessArgoCD",
+    "templateName": "templates/deployment/argocd/data-access.yaml.vm",
+    "outputFile": "templates/data-access.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessValuesFile",
+    "templateName": "templates/deployment/data-access/data.access.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessValuesDevFile",
+    "templateName": "templates/deployment/data-access/data.access.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessHelmChartFileV2",
+    "templateName": "templates/deployment/data-access/v2/data.access.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessValuesFileV2",
+    "templateName": "templates/deployment/data-access/v2/data.access.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessValuesDevFileV2",
+    "templateName": "templates/deployment/data-access/v2/data.access.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/data-access.yaml.vm",
+    "outputFile": "templates/data-access.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "jenkinsControllerDockerFile",
+    "templateName": "templates/general-docker/jenkins.controller.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceArgoCD",
+    "templateName": "templates/deployment/argocd/hive-metastore-service.yaml.vm",
+    "outputFile": "templates/hive-metastore-service.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceValuesFile",
+    "templateName": "templates/deployment/hive-metastore-service/hive-metastore-service-values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceValuesDevFile",
+    "templateName": "templates/deployment/hive-metastore-service/hive-metastore-service-values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceConfigMapFile",
+    "templateName": "templates/deployment/hive-metastore-service/templates/configmap.yaml.vm",
+    "outputFile": "apps/${appName}/templates/configmap.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceHelmChartFileV2",
+    "templateName": "templates/deployment/hive-metastore-service/v2/hive-metastore-service-chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceValuesFileV2",
+    "templateName": "templates/deployment/hive-metastore-service/v2/hive-metastore-service-values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceValuesDevFileV2",
+    "templateName": "templates/deployment/hive-metastore-service/v2/hive-metastore-service-values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreServiceArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/hive-metastore-service.yaml.vm",
+    "outputFile": "templates/hive-metastore-service.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbValuesFile",
+    "templateName": "templates/deployment/hive-metastore-db/hive.metastore.db.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbValuesDevFile",
+    "templateName": "templates/deployment/hive-metastore-db/hive.metastore.db.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbArgoCD",
+    "templateName": "templates/deployment/argocd/hive-metastore-db.yaml.vm",
+    "outputFile": "templates/hive-metastore-db.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbHelmChartFileV2",
+    "templateName": "templates/deployment/hive-metastore-db/v2/hive.metastore.db.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbValuesFileV2",
+    "templateName": "templates/deployment/hive-metastore-db/v2/hive.metastore.db.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbValuesDevFileV2",
+    "templateName": "templates/deployment/hive-metastore-db/v2/hive.metastore.db.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "hiveMetastoreDbArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/hive-metastore-db.yaml.vm",
+    "outputFile": "templates/hive-metastore-db.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceHelmChartFileV2",
+    "templateName": "templates/deployment/inference/v2/inference.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceValuesFileV2",
+    "templateName": "templates/deployment/inference/v2/inference.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesPortMapGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceValuesDevFileV2",
+    "templateName": "templates/deployment/inference/v2/inference.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesPortMapGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/inference.yaml.vm",
+    "outputFile": "templates/airflow.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceArgoCD",
+    "templateName": "templates/deployment/argocd/inference.yaml.vm",
+    "outputFile": "templates/${appName}.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceValuesFile",
+    "templateName": "templates/deployment/inference/inference.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesPortMapGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceValuesDevFile",
+    "templateName": "templates/deployment/inference/inference.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaArgoCD",
+    "templateName": "templates/deployment/argocd/kafka.yaml.vm",
+    "outputFile": "templates/kafka.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaValuesFile",
+    "templateName": "templates/deployment/kafka/kafka.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaValuesDevFile",
+    "templateName": "templates/deployment/kafka/kafka.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/kafka.yaml.vm",
+    "outputFile": "templates/kafka.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaHelmChartFileV2",
+    "templateName": "templates/deployment/kafka/v2/kafka.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaValuesFileV2",
+    "templateName": "templates/deployment/kafka/v2/kafka.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaValuesDevFileV2",
+    "templateName": "templates/deployment/kafka/v2/kafka.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaConnectArgoCD",
+    "templateName": "templates/deployment/argocd/kafka-connect.yaml.vm",
+    "outputFile": "templates/kafka-connect.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaConnectValuesFile",
+    "templateName": "templates/deployment/kafka-connect/kafka.connect.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "kafkaConnectValuesDevFile",
+    "templateName": "templates/deployment/kafka-connect/kafka.connect.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakArgoCD",
+    "templateName": "templates/deployment/argocd/keycloak.yaml.vm",
+    "outputFile": "templates/keycloak.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakValuesFile",
+    "templateName": "templates/deployment/keycloak/keycloak.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakValuesDevFile",
+    "templateName": "templates/deployment/keycloak/keycloak.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakChartFileV2",
+    "templateName": "templates/deployment/keycloak/v2/keycloak.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakValuesFileV2",
+    "templateName": "templates/deployment/keycloak/v2/keycloak.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakValuesDevFileV2",
+    "templateName": "templates/deployment/keycloak/v2/keycloak.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "keycloakArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/keycloak.yaml.vm",
+    "outputFile": "templates/keycloak.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "nexusArgoCD",
+    "templateName": "templates/deployment/argocd/nexus.yaml.vm",
+    "outputFile": "templates/nexus.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "nexusValuesFile",
+    "templateName": "templates/deployment/nexus/nexus.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "nexusValuesDevFile",
+    "templateName": "templates/deployment/nexus/nexus.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointArgoCD",
+    "templateName": "templates/deployment/argocd/policy-decision-point.yaml.vm",
+    "outputFile": "templates/policy-decision-point.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointValuesFile",
+    "templateName": "templates/deployment/policy-decision-point/policy.decision.point.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointValuesDevFile",
+    "templateName": "templates/deployment/policy-decision-point/policy.decision.point.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointHelmChartFileV2",
+    "templateName": "templates/deployment/policy-decision-point/v2/policy.decision.point.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointValuesFileV2",
+    "templateName": "templates/deployment/policy-decision-point/v2/policy.decision.point.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointValuesDevFileV2",
+    "templateName": "templates/deployment/policy-decision-point/v2/policy.decision.point.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/policy-decision-point.yaml.vm",
+    "outputFile": "templates/policy-decision-point.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkApplicationValuesFile",
+    "templateName": "templates/deployment/spark-operator/spark-application-base-values.yaml.vm",
+    "outputFile": "apps/${pipelineName}-base-values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkApplicationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkApplicationDevValuesFile",
+    "templateName": "templates/deployment/spark-operator/spark-application-dev-values.yaml.vm",
+    "outputFile": "apps/${pipelineName}-dev-values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkApplicationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkApplicationTestValuesFile",
+    "templateName": "templates/deployment/spark-operator/spark-application-test-values.yaml.vm",
+    "outputFile": "apps/${pipelineName}-test-values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkApplicationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "sparkApplicationDebugValuesFile",
+    "templateName": "templates/deployment/spark-operator/spark-application-debug-values.yaml.vm",
+    "outputFile": "apps/${pipelineName}-debug-values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkApplicationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkApplicationCIValuesFile",
+    "templateName": "templates/deployment/spark-operator/spark-application-ci-values.yaml.vm",
+    "outputFile": "apps/${pipelineName}-ci-values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkApplicationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkApplicationDebugScript",
+    "templateName": "templates/deployment/spark-operator/run-debug.sh.vm",
+    "outputFile": "apps/run-debug.sh",
+    "generator": "com.boozallen.aiops.mda.generator.SparkApplicationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorArgoCD",
+    "templateName": "templates/deployment/argocd/spark-operator.yaml.vm",
+    "outputFile": "templates/spark-operator.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorValuesFile",
+    "templateName": "templates/deployment/spark-operator/spark-operator.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorValuesDevFile",
+    "templateName": "templates/deployment/spark-operator/spark-operator.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorScheduledApplicationsCRD",
+    "templateName": "templates/deployment/spark-operator/crds/sparkoperator.k8s.io_scheduledsparkapplications.yaml.vm",
+    "outputFile": "apps/${appName}/crds/sparkoperator.k8s.io_scheduledsparkapplications.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorApplicationsCRD",
+    "templateName": "templates/deployment/spark-operator/crds/sparkoperator.k8s.io_sparkapplications.yaml.vm",
+    "outputFile": "apps/${appName}/crds/sparkoperator.k8s.io_sparkapplications.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorTemplateHelper",
+    "templateName": "templates/deployment/spark-operator/templates/_helpers.tpl.vm",
+    "outputFile": "apps/${appName}/templates/_helpers.tpl",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorHelmDeploymentFile",
+    "templateName": "templates/deployment/spark-operator/templates/deployment.yaml.vm",
+    "outputFile": "apps/${appName}/templates/deployment.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorPrometheusPodMonitorFile",
+    "templateName": "templates/deployment/spark-operator/templates/prometheus-podmonitor.yaml.vm",
+    "outputFile": "apps/${appName}/templates/prometheus-podmonitor.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorRbacFile",
+    "templateName": "templates/deployment/spark-operator/templates/rbac.yaml.vm",
+    "outputFile": "apps/${appName}/templates/rbac.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorServiceAccountFile",
+    "templateName": "templates/deployment/spark-operator/templates/serviceaccount.yaml.vm",
+    "outputFile": "apps/${appName}/templates/serviceaccount.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorSparkRbacFile",
+    "templateName": "templates/deployment/spark-operator/templates/spark-rbac.yaml.vm",
+    "outputFile": "apps/${appName}/templates/spark-rbac.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorSparkServiceAccountFile",
+    "templateName": "templates/deployment/spark-operator/templates/spark-serviceaccount.yaml.vm",
+    "outputFile": "apps/${appName}/templates/spark-serviceaccount.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorWebhookCleanupJobFile",
+    "templateName": "templates/deployment/spark-operator/templates/webhook-cleanup-job.yaml.vm",
+    "outputFile": "apps/${appName}/templates/webhook-cleanup-job.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorWebhookInitJobFile",
+    "templateName": "templates/deployment/spark-operator/templates/webhook-init-job.yaml.vm",
+    "outputFile": "apps/${appName}/templates/webhook-init-job.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorWebhookServiceFile",
+    "templateName": "templates/deployment/spark-operator/templates/webhook-service.yaml.vm",
+    "outputFile": "apps/${appName}/templates/webhook-service.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkWorkerJobFile",
+    "templateName": "templates/deployment/spark-worker-image/spark-worker-image.yaml.vm",
+    "outputFile": "apps/${appName}/spark-worker-image.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.NonHelmKubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureValuesFile",
+    "templateName": "templates/deployment/spark-infrastructure/spark.infrastructure.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureValuesDevFile",
+    "templateName": "templates/deployment/spark-infrastructure/spark.infrastructure.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureConfigMapFile",
+    "templateName": "templates/deployment/spark-infrastructure/templates/configmap.yaml.vm",
+    "outputFile": "apps/${appName}/templates/configmap.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureArgoCD",
+    "templateName": "templates/deployment/argocd/spark-infrastructure.yaml.vm",
+    "outputFile": "templates/spark-infrastructure.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "zookeeperAlertArgoCD",
+    "templateName": "templates/deployment/argocd/zookeeper-alert.yaml.vm",
+    "outputFile": "templates/zookeeper-alert.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "zookeeperAlertValuesFile",
+    "templateName": "templates/deployment/zookeeper-alert/zookeeper.alert.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "zookeeperAlertValuesDevFile",
+    "templateName": "templates/deployment/zookeeper-alert/zookeeper.alert.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningDockerPomFile",
+    "templateName": "templates/general-docker/versioning.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.VersioningDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningDockerFile",
+    "templateName": "templates/general-docker/versioning.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningMavenSettings",
+    "templateName": "templates/general-docker/versioning.docker.maven.settings.xml.vm",
+    "outputFile": "config/settings.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningModelPomFile",
+    "templateName": "templates/general-docker/versioning.docker.model.pom.xml.vm",
+    "outputFile": "config/model-pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningAuthProperties",
+    "templateName": "templates/general-docker/versioning.auth.properties.vm",
+    "outputFile": "krausening/base/auth.properties",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningDeployment",
+    "templateName": "templates/deployment/versioning.deployment.yaml.vm",
+    "outputFile": "kubernetes/versioning/versioning-deployment.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningService",
+    "templateName": "templates/deployment/versioning.service.yaml.vm",
+    "outputFile": "kubernetes/versioning/versioning-service.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchValuesFile",
+    "templateName": "templates/deployment/elasticsearch/elasticsearch.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchValuesDevFile",
+    "templateName": "templates/deployment/elasticsearch/elasticsearch.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchArgoCD",
+    "templateName": "templates/deployment/argocd/elasticsearch.yaml.vm",
+    "outputFile": "templates/elasticsearch.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchHelmChartFileV2",
+    "templateName": "templates/deployment/elasticsearch/v2/elasticsearch.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchValuesFileV2",
+    "templateName": "templates/deployment/elasticsearch/v2/elasticsearch.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchValuesDevFileV2",
+    "templateName": "templates/deployment/elasticsearch/v2/elasticsearch.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/elasticsearch.yaml.vm",
+    "outputFile": "templates/elasticsearch.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchOperatorHelmChartFileV2",
+    "templateName": "templates/deployment/elasticsearch-operator/v2/elasticsearch.operator.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchOperatorValuesFileV2",
+    "templateName": "templates/deployment/elasticsearch-operator/v2/elasticsearch.operator.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchOperatorValuesDevFileV2",
+    "templateName": "templates/deployment/elasticsearch-operator/v2/elasticsearch.operator.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "elasticsearchOperatorArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/elasticsearch.operator.yaml.vm",
+    "outputFile": "templates/elasticsearch-operator.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "neo4jValuesFile",
+    "templateName": "templates/deployment/neo4j/neo4j.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "neo4jValuesDevFile",
+    "templateName": "templates/deployment/neo4j/neo4j.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "neo4jArgoCD",
+    "templateName": "templates/deployment/argocd/neo4j.yaml.vm",
+    "outputFile": "templates/neo4j.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "authConfigResource",
+    "templateName": "templates/general-mlflow/auth.properties.vm",
+    "outputFile": "krausening/base/auth.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaRecordBase",
+    "templateName": "templates/data-delivery-data-records/record.base.java.vm",
+    "outputFile": "${basePackage}/${recordName}Base.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaRecordImpl",
+    "templateName": "templates/data-delivery-data-records/record.impl.java.vm",
+    "outputFile": "${basePackage}/${recordName}.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaRecordFieldEnum",
+    "templateName": "templates/data-delivery-spark/record.field.enum.java.vm",
+    "outputFile": "${basePackage}/${recordName}Field.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaDictionaryTypeBase",
+    "templateName": "templates/data-delivery-spark/dictionary.type.base.java.vm",
+    "outputFile": "${basePackage}/${dictionaryTypeName}Base.java",
+    "generator": "com.boozallen.aiops.mda.generator.dictionary.JavaDictionaryTypeGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaDictionaryTypeImpl",
+    "templateName": "templates/data-delivery-spark/dictionary.type.impl.java.vm",
+    "outputFile": "${basePackage}/${dictionaryTypeName}.java",
+    "generator": "com.boozallen.aiops.mda.generator.dictionary.JavaDictionaryTypeGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pythonRecordBase",
+    "templateName": "templates/data-delivery-data-records/record.base.py.vm",
+    "outputFile": "record/${recordName}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PythonRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pythonRecordImpl",
+    "templateName": "templates/data-delivery-data-records/record.impl.py.vm",
+    "outputFile": "record/${recordName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PythonRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pythonRecordFieldEnum",
+    "templateName": "templates/data-delivery-data-records/record.field.enum.py.vm",
+    "outputFile": "record/${recordName}_field.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PythonRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pythonDictionaryTypeBase",
+    "templateName": "templates/data-delivery-data-records/dictionary.type.base.py.vm",
+    "outputFile": "dictionary/${dictionaryTypeName}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.dictionary.PythonDictionaryTypeGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pythonDictionaryTypeImpl",
+    "templateName": "templates/data-delivery-data-records/dictionary.type.impl.py.vm",
+    "outputFile": "dictionary/${dictionaryTypeName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.dictionary.PythonDictionaryTypeGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkSchemaBase",
+    "templateName": "templates/data-delivery-data-records/spark.schema.base.java.vm",
+    "outputFile": "${basePackage}/${recordName}SchemaBase.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.SparkSchemaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "sparkSchemaImpl",
+    "templateName": "templates/data-delivery-data-records/spark.schema.impl.java.vm",
+    "outputFile": "${basePackage}/${recordName}Schema.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.SparkSchemaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pySparkSchemaBase",
+    "templateName": "templates/data-delivery-data-records/pyspark.schema.base.py.vm",
+    "outputFile": "schema/${recordName}_schema_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PySparkSchemaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkSchemaImpl",
+    "templateName": "templates/data-delivery-data-records/pyspark.schema.impl.py.vm",
+    "outputFile": "schema/${recordName}_schema.py",
+    "generator": "com.boozallen.aiops.mda.generator.record.PySparkSchemaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "vaultDockerFile",
+    "templateName": "templates/general-docker/vault.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "vaultDockerPomFile",
+    "templateName": "templates/general-docker/vault.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.VaultDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "vaultArgoCD",
+    "templateName": "templates/deployment/argocd/vault.yaml.vm",
+    "outputFile": "templates/vault.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "vaultValuesFile",
+    "templateName": "templates/deployment/vault/vault.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "vaultValuesDevFile",
+    "templateName": "templates/deployment/vault/vault.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningArgoCD",
+    "templateName": "templates/deployment/argocd/versioning.yaml.vm",
+    "outputFile": "templates/versioning.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningValuesFile",
+    "templateName": "templates/deployment/versioning/versioning.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningValuesDevFile",
+    "templateName": "templates/deployment/versioning/versioning.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/versioning.yaml.vm",
+    "outputFile": "templates/versioning.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningHelmChartFileV2",
+    "templateName": "templates/deployment/versioning/v2/versioning.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningValuesFileV2",
+    "templateName": "templates/deployment/versioning/v2/versioning.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "versioningValuesDevFileV2",
+    "templateName": "templates/deployment/versioning/v2/versioning.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataArgoCD",
+    "templateName": "templates/deployment/argocd/metadata.yaml.vm",
+    "outputFile": "templates/metadata.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataValuesFile",
+    "templateName": "templates/deployment/metadata/metadata.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataValuesDevFile",
+    "templateName": "templates/deployment/metadata/metadata.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataHelmChartFileV2",
+    "templateName": "templates/deployment/metadata/v2/metadata.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataValuesFileV2",
+    "templateName": "templates/deployment/metadata/v2/metadata.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataValuesDevFileV2",
+    "templateName": "templates/deployment/metadata/v2/metadata.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "metadataArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/metadata.yaml.vm",
+    "outputFile": "templates/metadata.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointDockerPomFile",
+    "templateName": "templates/general-docker/policy.decision.point.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.PolicyDecisionPointDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointDockerFile",
+    "templateName": "templates/general-docker/policy.decision.point.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "policyDecisionPointAiopsSecurityProperties",
+    "templateName": "templates/general-docker/policy-decision-point.aiops-security.properties.vm",
+    "outputFile": "krausening/base/aiops-security.properties",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessPomFile",
+    "templateName": "templates/data-access/data.access.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.record.DataAccessModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessApplicationProperties",
+    "templateName": "templates/data-access/data.access.application.properties.vm",
+    "outputFile": "application.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessRecordBase",
+    "templateName": "templates/data-access/data.access.record.base.java.vm",
+    "outputFile": "${basePackage}/${recordName}Base.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.DataAccessRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "dataAccessRecordImpl",
+    "templateName": "templates/data-access/data.access.record.impl.java.vm",
+    "outputFile": "${basePackage}/${recordName}.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.DataAccessRecordGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessResourceBase",
+    "templateName": "templates/data-access/data.access.resource.base.java.vm",
+    "outputFile": "${basePackage}/DataAccessResourceBase.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.DataAccessJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "dataAccessResourceImpl",
+    "templateName": "templates/data-access/data.access.resource.impl.java.vm",
+    "outputFile": "${basePackage}/DataAccessResource.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.DataAccessJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessDockerPomFile",
+    "templateName": "templates/general-docker/data.access.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.record.DataAccessDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataAccessDockerFile",
+    "templateName": "templates/general-docker/data.access.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itDockerFile",
+    "templateName": "templates/general-docker/it.java.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itPipelineSpecification",
+    "templateName": "templates/integration-test/it.pipeline.spec.vm",
+    "outputFile": "specifications/pipeline.feature",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itTiltfile",
+    "templateName": "templates/integration-test/it.tiltfile.vm",
+    "outputFile": "Tiltfile",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itTestYaml",
+    "templateName": "templates/integration-test/it.test.yaml.vm",
+    "outputFile": "test-chart/templates/test.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itServiceAccountYaml",
+    "templateName": "templates/integration-test/it.serviceaccount.yaml.vm",
+    "outputFile": "test-chart/templates/serviceaccount.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itChartYaml",
+    "templateName": "templates/integration-test/it.chart.yaml.vm",
+    "outputFile": "test-chart/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itValuesYaml",
+    "templateName": "templates/integration-test/it.values.yaml.vm",
+    "outputFile": "test-chart/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itValuesCIYaml",
+    "templateName": "templates/integration-test/it.values.ci.yaml.vm",
+    "outputFile": "test-chart/values-ci.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itValuesPipelineYaml",
+    "templateName": "templates/integration-test/it.values.pipeline.yaml.vm",
+    "outputFile": "test-chart/values-pipeline.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itTestRunner",
+    "templateName": "templates/integration-test/it.test.runner.vm",
+    "outputFile": "${basePackage}/tests/TestRunner.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "itPipelineSteps",
+    "templateName": "templates/integration-test/it.pipeline.steps.vm",
+    "outputFile": "${basePackage}/tests/PipelineSteps.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "messagingProperties",
+    "templateName": "templates/metadata/messaging.properties.vm",
+    "outputFile": "krausening/base/messaging.properties",
+    "generator": "com.boozallen.aiops.mda.generator.KafkaResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "generatedPostActionInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "post_action/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "postActionBase",
+    "templateName": "templates/post-action/post.action.base.py.vm",
+    "outputFile": "post_action/${postActionName}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.post.action.PostActionGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "postActionInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "post_action/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "postActionImpl",
+    "templateName": "templates/post-action/post.action.impl.py.vm",
+    "outputFile": "post_action/${postActionName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.post.action.PostActionGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelConversionPostActionBase",
+    "templateName": "templates/post-action/model.conversion.base.py.vm",
+    "outputFile": "post_action/${modelConversionFileName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.post.action.ModelConversionPostActionGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "generatedBaseInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "configInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "config/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "generatedInferenceBaseInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "inference/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "generatedInferenceGrpcInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "inference/grpc/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "generatedInferenceRestInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "inference/rest/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferenceRestInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "inference/rest/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceApiGrpcBase",
+    "templateName": "templates/inference/inference.api.grpc.base.py.vm",
+    "outputFile": "inference/grpc/inference_api_grpc_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferenceApiDriver",
+    "templateName": "templates/inference/inference.api.driver.py.vm",
+    "outputFile": "inference_api_driver.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceApiGrpcProto",
+    "templateName": "templates/inference/inference.api.grpc.proto.vm",
+    "outputFile": "${artifactIdSnakeCase}/generated/inference/grpc/inference_api.proto",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineGrpcInferenceGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceApiRest",
+    "templateName": "templates/inference/inference.api.rest.py.vm",
+    "outputFile": "inference/rest/inference_api_rest.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferencePayloadDefinitionRest",
+    "templateName": "templates/inference/inference.payload.rest.py.vm",
+    "outputFile": "inference/rest/inference_payload_definition.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "generatedValidationInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "validation/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferencePayloadDefinitionBase",
+    "templateName": "templates/inference/inference.payload.base.py.vm",
+    "outputFile": "generated/validation/inference_payload_definition_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonInferenceGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferencePayloadDefinitionProtoBase",
+    "templateName": "templates/inference/inference.payload.base.proto.vm",
+    "outputFile": "${artifactIdSnakeCase}/generated/inference/grpc/generated/inference_payload_definition.proto",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineGrpcInferenceGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferenceMessageDefinitionBase",
+    "templateName": "templates/inference/inference.message.base.py.vm",
+    "outputFile": "validation/inference_message_definition_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferencePerceptorApp",
+    "templateName": "templates/inference/inference.perceptor.app.py.vm",
+    "outputFile": "perceptor/app.py",
+    "generator": "com.boozallen.aiops.mda.generator.InferenceDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "inferencePerceptorYaml",
+    "templateName": "templates/inference/inference.perceptor.yaml.vm",
+    "outputFile": "perceptor/perceptor.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.InferenceDockerResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "validationImplInit",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "validation/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferencePayloadDefinitionImpl",
+    "templateName": "templates/inference/inference.payload.impl.py.vm",
+    "outputFile": "validation/inference_payload_definition.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceMessageDefinitionImpl",
+    "templateName": "templates/inference/inference.message.impl.py.vm",
+    "outputFile": "validation/inference_message_definition.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceImpl",
+    "templateName": "templates/inference/inference.impl.py.vm",
+    "outputFile": "inference_impl.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pythonInferencePyProject",
+    "templateName": "templates/inference/pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.PythonPipelinePyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "inferenceGrpcGeneratedGrpcPackage",
+    "templateName": "templates/python.init.py.vm",
+    "outputFile": "inference/grpc/generated/__init__.py",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelinePythonMainGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "microprofileConfigProperties",
+    "templateName": "templates/pipeline.microprofile-config.properties.vm",
+    "outputFile": "META-INF/microprofile-config.properties",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "microprofileConfigServices",
+    "templateName": "templates/pipeline.services.microprofile.config.vm",
+    "outputFile": "META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineDefaultConfig",
+    "templateName": "templates/pipeline.default.config.java.vm",
+    "outputFile": "${basePackage}/${pipelineName}DefaultConfig.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pipelineTestConfig",
+    "templateName": "templates/cucumber.test.pipeline-messaging.properties.vm",
+    "outputFile": "krausening/test/pipeline-messaging.properties",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false,
+    "artifactType": "test"
+  },
+  {
+    "name": "javaRecordSerializerBase",
+    "templateName": "templates/data-delivery-spark/record.serializer.base.java.vm",
+    "outputFile": "${basePackage}/${recordName}SerializerBase.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaRecordSerializerImpl",
+    "templateName": "templates/data-delivery-spark/record.serializer.impl.java.vm",
+    "outputFile": "${basePackage}/${recordName}Serializer.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaRecordDeserializerBase",
+    "templateName": "templates/data-delivery-spark/record.deserializer.base.java.vm",
+    "outputFile": "${basePackage}/${recordName}DeserializerBase.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaRecordDeserializerImpl",
+    "templateName": "templates/data-delivery-spark/record.deserializer.impl.java.vm",
+    "outputFile": "${basePackage}/${recordName}Deserializer.java",
+    "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "javaFileStoreBase",
+    "templateName": "templates/file-store/file.store.base.java.vm",
+    "outputFile": "java/${basePackage}/filestore/${name}Base.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineFileStoreGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "javaFileStoreImpl",
+    "templateName": "templates/file-store/file.store.impl.java.vm",
+    "outputFile": "java/${basePackage}/filestore/${name}.java",
+    "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineFileStoreGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineModel",
+    "templateName": "templates/pipeline-models/pipeline-model-file.vm",
+    "outputFile": "${pipeline}.json",
+    "generator": "com.boozallen.aiops.mda.generator.PipelineModelGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "abstractDataActionImpl",
+    "templateName": "templates/data-delivery-spark/abstract.data.action.impl.java.vm",
+    "outputFile": "${basePackage}/AbstractDataActionImpl.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "modelAgnosticAbstractPipelineStep",
+    "templateName": "templates/data-delivery-spark/abstract.pipeline.step.java.vm",
+    "outputFile": "${basePackage}/AbstractPipelineStep.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "sharedInfrastructureArgoCD",
+    "templateName": "templates/deployment/argocd/shared-infrastructure.yaml.vm",
+    "outputFile": "templates/shared-infrastructure.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sharedInfrastructureValuesFile",
+    "templateName": "templates/deployment/shared-infrastructure/shared-infrastructure.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sharedInfrastructureValuesDevFile",
+    "templateName": "templates/deployment/shared-infrastructure/shared-infrastructure.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "lineageHttpConsumerHelmChartFile",
+    "templateName": "templates/deployment/lineage-http-consumer/v2/lineage.http.consumer.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "lineageHttpConsumerValuesFile",
+    "templateName": "templates/deployment/lineage-http-consumer/v2/lineage.http.consumer.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "lineageHttpConsumerValuesDevFile",
+    "templateName": "templates/deployment/lineage-http-consumer/v2/lineage.http.consumer.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "lineageHttpConsumerArgoCD",
+    "templateName": "templates/deployment/argocd/v2/lineage.http.consumer.yaml.vm",
+    "outputFile": "templates/lineage-http-consumer.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataLineageCustomConsumerPomFile",
+    "templateName": "templates/data-lineage-consumer/data-lineage-consumer.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.LineageConsumerServicePomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataLineageCustomConsumerImpl",
+    "templateName": "templates/data-lineage-consumer/data-lineage-consumer-impl.java.vm",
+    "outputFile": "${basePackage}/DataLineageMessageHandler.java",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticJavaGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataLineageCustomConsumerDockerPomFile",
+    "templateName": "templates/general-docker/custom.lineage.consumer.docker.pom.xml.vm",
+    "outputFile": "${moduleArtifactId}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.LineageConsumerDockerModuleGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "quarkusServiceDockerFile",
+    "templateName": "templates/general-docker/quarkus.service.docker.file.vm",
+    "outputFile": "docker/Dockerfile",
+    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },  {
+  "name": "lineageCustomConsumerHelmChartFile",
+  "templateName": "templates/deployment/lineage-custom-consumer/v2/lineage.custom.consumer.chart.yaml.vm",
+  "outputFile": "apps/${appName}/Chart.yaml",
+  "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+  "metadataContext": "targeted",
+  "overwritable": false
+},
+  {
+    "name": "lineageCustomConsumerValuesFile",
+    "templateName": "templates/deployment/lineage-custom-consumer/v2/lineage.custom.consumer.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "lineageCustomConsumerValuesDevFile",
+    "templateName": "templates/deployment/lineage-custom-consumer/v2/lineage.custom.consumer.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "lineageCustomConsumerArgoCD",
+    "templateName": "templates/deployment/argocd/v2/lineage.custom.consumer.yaml.vm",
+    "outputFile": "templates/lineage-custom-consumer.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineInvocationServiceHelmChartFile-v2",
+    "templateName": "templates/deployment/pipeline-invocation-service/v2/pipeline.invocation.service.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineInvocationServiceConfigMapFile-v2",
+    "templateName": "templates/deployment/pipeline-invocation-service/v2/pipeline.invocation.service.config.map.yaml.vm",
+    "outputFile": "apps/${appName}/templates/configmap.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineInvocationServiceValuesFile-v2",
+    "templateName": "templates/deployment/pipeline-invocation-service/v2/pipeline.invocation.service.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineInvocationServiceValuesDevFile-v2",
+    "templateName": "templates/deployment/pipeline-invocation-service/v2/pipeline.invocation.service.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "pipelineInvocationServiceArgoCD-v2",
+    "templateName": "templates/deployment/argocd/v2/pipeline.invocation.service.yaml.vm",
+    "outputFile": "templates/pipeline-invocation-service.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorChartFileV2",
+    "templateName": "templates/deployment/spark-operator/v2/spark.operator.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorValuesFileV2",
+    "templateName": "templates/deployment/spark-operator/v2/spark.operator.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorValuesDevFileV2",
+    "templateName": "templates/deployment/spark-operator/v2/spark.operator.values.dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkOperatorArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/spark.operator.yaml.vm",
+    "outputFile": "templates/spark-operator.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalChartFileV2",
+    "templateName": "templates/deployment/localstack/localstack.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalValuesFileV2",
+    "templateName": "templates/deployment/localstack/localstack.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalValuesDevFileV2",
+    "templateName": "templates/deployment/localstack/localstack.values.dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataDeliverySparkDataPomFileJava",
+    "templateName": "templates/data-delivery-data-records/data-delivery-data-spark.pom.xml.vm",
+    "outputFile": "${project}data-records-spark${lang}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordsJavaPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataDeliveryDataRecordsPythonPomFile",
+    "templateName": "templates/data-delivery-data-records/data-delivery-combined-data-records-python.pom.xml.vm",
+    "outputFile": "${project}data-records${lang}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordsPythonPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataRecordsPyProject",
+    "templateName": "templates/data-delivery-data-records/combined.pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordPyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataRecordsPyProjectCore",
+    "templateName": "templates/data-delivery-data-records/separate.core.pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordPyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataRecordsPyProjectSpark",
+    "templateName": "templates/data-delivery-data-records/separate.spark.pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordPyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataDeliveryDataRecordsJavaPomFile",
+    "templateName": "templates/data-delivery-data-records/data-delivery-combined-data-records-java.pom.xml.vm",
+    "outputFile": "${project}data-records${lang}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordsJavaPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataDeliveryCoreDataRecordsPomFileJava",
+    "templateName": "templates/data-delivery-data-records/data-delivery-separate-data-records-java.pom.xml.vm",
+    "outputFile": "${project}data-records-core${lang}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordsJavaPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataDeliveryCoreDataRecordsPomFilePython",
+    "templateName": "templates/data-delivery-data-records/data-delivery-separate-data-records-python.pom.xml.vm",
+    "outputFile": "${project}data-records-core${lang}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordsPythonPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "dataDeliverySparkDataPomFilePython",
+    "templateName": "templates/data-delivery-data-records/data-delivery-data-pyspark.pom.xml.vm",
+    "outputFile": "${project}data-records-spark${lang}/pom.xml",
+    "generator": "com.boozallen.aiops.mda.generator.DataRecordsPythonPomGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sealedSecretArgoCDFile",
+    "templateName": "templates/deployment/argocd/v2/sealed.secret.yaml.vm",
+    "outputFile": "templates/sealed-secret.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  }
+]

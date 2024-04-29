@@ -1,0 +1,134 @@
+from abc import ABC
+#if ($dictionaryType.simpleTypeImport)
+${dictionaryType.simpleTypeImport}
+#end
+#if ($dictionaryType.hasFormatValidation())
+from re import fullmatch
+from typing import List
+#end
+
+
+class ${dictionaryType.capitalizedName}Base(ABC):
+    """
+    Base implementation of the ${dictionaryType.name} dictionary type from ${dictionary.name}.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in ${dictionaryType.capitalizedName}).
+
+    Generated from: ${templateName}
+    """
+
+#if ($dictionaryType.hasLengthValidation())
+    #if ($dictionaryType.validation.maxLength)
+    MAX_LENGTH: int = int(${dictionaryType.validation.maxLength})
+    #end
+    #if ($dictionaryType.validation.minLength)
+    MIN_LENGTH: int = int(${dictionaryType.validation.minLength})
+    #end
+#end
+#if ($dictionaryType.hasValueValidation())
+    #if ($dictionaryType.validation.maxValue)
+    MAX_VALUE: ${dictionaryType.shortType} = ${dictionaryType.shortType}('${dictionaryType.validation.maxValue}')
+    #end
+    #if ($dictionaryType.validation.minValue)
+    MIN_VALUE: ${dictionaryType.shortType} = ${dictionaryType.shortType}('${dictionaryType.validation.minValue}')
+    #end
+#end
+#if ($dictionaryType.hasFormatValidation())
+    FORMATS: List[str] = [${dictionaryType.commaSeparatedFormats}]
+#end
+#if ($dictionaryType.hasScaleValidation())
+    SCALE: int = int(${dictionaryType.validation.scale})
+#end
+#if ($dictionaryType.driftPolicy)
+    DRIFT_POLICY: str = '${dictionaryType.driftPolicy}'
+#end
+#if ($dictionaryType.ethicsPolicy)
+    ETHICS_POLICY: str = '${dictionaryType.ethicsPolicy}'
+#end
+#if ($dictionaryType.protectionPolicy)
+    PROTECTION_POLICY: str = '${dictionaryType.protectionPolicy}'
+#end
+
+
+    def __init__(self, value: ${dictionaryType.shortType}):
+        if value is not None:
+            self._value = ${dictionaryType.shortType}(value)
+        else:
+            self._value = None
+
+
+    @property
+    def value(self) -> ${dictionaryType.shortType}:
+        return self._value
+
+
+    @value.setter
+    def value(self, value: ${dictionaryType.shortType}) -> None:
+        if value is not None:
+            value = ${dictionaryType.shortType}(value)
+        #if ($dictionaryType.hasScaleValidation())
+            self._value = round(value, ${dictionaryType.capitalizedName}Base.SCALE)
+        #else
+            self._value = value
+        #end
+        else:
+            self._value = None
+
+
+    def validate(self) -> None:
+        """
+        Performs the validation for this dictionary type.
+        """
+    #if ($dictionaryType.hasValidationConstraints())
+        #if ($dictionaryType.hasLengthValidation())
+        self.validate_length()
+        #end
+        #if ($dictionaryType.hasValueValidation())
+        self.validate_value()
+        #end
+        #if ($dictionaryType.hasFormatValidation())
+        self.validate_format()
+        #end
+    #else
+        pass
+    #end
+#if ($dictionaryType.hasLengthValidation())
+
+
+    def validate_length(self) -> None:
+    #if ($dictionaryType.validation.maxLength)
+        if self._value and self._value.strip() and len(self._value) > ${dictionaryType.capitalizedName}Base.MAX_LENGTH:
+            raise ValueError('${dictionaryType.capitalizedName} length of \'%s\' is greater than the maximum length of %s' % (self._value, ${dictionaryType.capitalizedName}Base.MAX_LENGTH))
+    #end
+    #if ($dictionaryType.validation.minLength)
+        if self._value and self._value.strip() and len(self._value) < ${dictionaryType.capitalizedName}Base.MIN_LENGTH:
+            raise ValueError('${dictionaryType.capitalizedName} length of \'%s\' is less than the minimum length of %s' % (self._value, ${dictionaryType.capitalizedName}Base.MIN_LENGTH))
+    #end
+#end
+#if ($dictionaryType.hasValueValidation())
+
+
+    def validate_value(self) -> None:
+    #if ($dictionaryType.validation.maxValue)
+        if (self._value is not None) and (self._value > ${dictionaryType.capitalizedName}Base.MAX_VALUE):
+            raise ValueError('${dictionaryType.capitalizedName} value of \'%s\' is greater than the maximum value of %s' % (self._value, ${dictionaryType.capitalizedName}Base.MAX_VALUE))
+    #end
+    #if ($dictionaryType.validation.minValue)
+        if (self._value is not None) and (self._value < ${dictionaryType.capitalizedName}Base.MIN_VALUE):
+            raise ValueError('${dictionaryType.capitalizedName} value of \'%s\' is less than the minimum value of %s' % (self._value, ${dictionaryType.capitalizedName}Base.MIN_VALUE))
+    #end
+#end
+#if ($dictionaryType.hasFormatValidation())
+
+
+    def validate_format(self) -> None:
+        if self._value and self._value.strip():
+            validFormat = False
+            for format in ${dictionaryType.capitalizedName}Base.FORMATS:
+                if fullmatch(format, self._value):
+                    validFormat = True
+                    break
+
+            if not validFormat:
+                raise ValueError('${dictionaryType.capitalizedName} value of \'%s\' did not match any valid formats' % self._value)
+#end

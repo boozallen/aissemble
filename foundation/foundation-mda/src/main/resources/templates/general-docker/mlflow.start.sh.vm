@@ -1,0 +1,14 @@
+#!/bin/bash
+# Demonstrative script that provides a baseline capability for configuring and launching mlflow.
+# *NOTE*: Developers are expected to modify this script as needed!
+#
+# GENERATED SCRIPT FILE - please ***DO*** modify.
+#
+# Generated from: ${templateName}
+
+mlflow ui \
+    --host 0.0.0.0 \
+    --port 5000 \
+    --artifacts-destination ${BUCKET} \
+    --backend-store-uri postgresql://${PG_USER}:${PG_PASS}@${PG_HOST}:${PG_PORT}/${PG_DB} \
+    --serve-artifacts

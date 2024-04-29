@@ -1,0 +1,10 @@
+#[[########################################
+## CONFIG | Metadata Configs
+## See aiSSEMBLE aissemble-metadata-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-metadata-chart:
+  app:
+    name: "${appName}"
+  image:
+    tag: "${versionTag}"

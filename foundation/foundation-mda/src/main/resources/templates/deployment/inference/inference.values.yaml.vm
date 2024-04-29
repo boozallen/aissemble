@@ -1,0 +1,56 @@
+# Default values for ${appName}.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: ${appName}
+image:
+  name: boozallen/${projectName}-${appName}-docker
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+  spec:
+    ports:
+      - name: "api"
+        port: ${port1}
+        targetPort: 8000
+      - name: "grpc-api"
+        port: ${port2}
+        targetPort: 8081
+deployment:
+  ports:
+    - name: http-1
+      containerPort: 8000
+      protocol: TCP
+    - name: grpc-1
+      containerPort: 8081
+      protocol: TCP
+  restartPolicy: Always
+  volumeMounts:
+    - mountPath: /tmp/model
+      name: model
+  volumes:
+    - name: model
+      persistentVolumeClaim:
+        claimName: model
+
+ingress:
+  enabled: true
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: ${appName}-ai.boozallen.github.io
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: ${appName}
+              port:
+                number: ${port1}
+  status: 10.192.83.167

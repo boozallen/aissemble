@@ -1,0 +1,11 @@
+---
+name: aissemble-spark-application-chart
+# Version is automatically set by the plugin so this is only a placeholder
+version: 1.0.0
+apiVersion: v2
+description: Baseline Spark application chart -- see the extensions-helm directory in aiSSEMBLE for more details.
+# App Version is automatically set by the plugin so this is only a placeholder
+appVersion: 1.0.0
+sources:
+  - https://github.com/boozallen/aissemble
+dependencies: []

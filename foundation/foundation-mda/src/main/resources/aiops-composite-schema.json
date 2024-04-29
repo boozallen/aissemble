@@ -1,0 +1,70 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"id": "#composite",
+	"title": "Composite",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"package": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"fields": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"type": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string"
+							},
+							"package": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"name"
+						]
+					},
+					"description": {
+						"type": "string"
+					},
+					"column": {
+						"type": "string"
+					},
+					"required": {
+						"type": "boolean"
+					},
+					"protectionPolicy": {
+						"type": "string"
+					},
+					"ethicsPolicy": {
+						"type": "string"
+					},
+					"driftPolicy": {
+						"type": "string"
+					},
+					"securityPolicy": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name", "type"
+				]
+			}
+		}
+	},
+	"required": [
+		"name", "package", "fields"
+	]
+}

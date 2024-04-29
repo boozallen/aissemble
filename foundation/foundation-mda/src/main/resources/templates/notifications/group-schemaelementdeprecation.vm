@@ -1,0 +1,5 @@
+The following deprecated metamodel elements were detected in your project and should be removed:
+
+#foreach ($item in $items)
+${item}
+#end

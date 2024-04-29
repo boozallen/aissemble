@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>test</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+    <packaging>pom</packaging>
+
+    <artifactId>test-mda-models</artifactId>
+
+    <name>aiSSEMBLE::Test::MDA</name>
+    <description>Contains metamodel instance examples used by aiSSEMBLE MDA for code generation</description>
+
+    <modules>
+        <module>test-data-delivery-spark-model</module>
+        <module>test-data-delivery-spark-model-basic</module>
+        <module>aissemble-test-data-delivery-pyspark-model</module>
+        <module>aissemble-test-data-delivery-pyspark-model-basic</module>
+        <module>test-machine-learning-model-definition</module>
+        <module>test-machine-learning-model</module>
+        <module>test-machine-learning-base-model</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>bom-component</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>bom-instantiation</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.technologybrewery.fermenter</groupId>
+                    <artifactId>fermenter-mda</artifactId>
+                    <version>${version.fermenter}</version>
+                    <configuration>
+                        <metadataRepositoryImpl>com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory
+                        </metadataRepositoryImpl>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>generate-sources</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>generate-sources</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>foundation-mda</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.technologybrewery.habushu</groupId>
+                    <artifactId>habushu-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <!-- NB: Temp workaround until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <!-- Skip helm test-chart generation during a release, since the necessary helm charts won't be published -->
+            <id>skip-helm</id>
+            <properties>
+                <!-- skip tests since they rely on the generated test SparkApplication yaml that we are disabling -->
+                <skipTests>true</skipTests>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>test-chart</id>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

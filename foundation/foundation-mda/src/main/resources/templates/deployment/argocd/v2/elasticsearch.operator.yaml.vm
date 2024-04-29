@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elasticsearch-operator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argocd
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    path: ${projectName}-deploy/src/main/resources/apps/elasticsearch-operator
+    repoURL: {{ .Values.spec.repo }}
+    targetRevision: {{ .Values.spec.targetRevision }}
+    {{ if .Values.spec.helm.valueFiles }}
+    helm:
+      valueFiles:
+        {{- range .Values.spec.helm.valueFiles }}
+        - {{ . }}
+        {{- end }}    
+    {{ end }}

@@ -1,0 +1,9 @@
+#[[########################################
+## CONFIG | Kafka Configs
+########################################]]#
+aissemble-kafka-chart:
+  kafka:
+    resources:
+      limits:
+        memory: 2G
+    autoCreateTopicsEnable: true # Enable auto creation of topics

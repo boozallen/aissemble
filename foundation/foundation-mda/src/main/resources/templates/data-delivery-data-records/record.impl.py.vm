@@ -1,0 +1,19 @@
+from ..generated.record.${record.snakeCaseName}_base import ${record.capitalizedName}Base
+
+
+class ${record.capitalizedName}(${record.capitalizedName}Base):
+    """
+    Record to represent ${record.capitalizedName}.
+
+    This record serves the following purpose: ${record.description}
+
+    GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+
+    Originally generated from: ${templateName} 
+    """
+
+    def __init__(self):
+        """
+        Default constructor for this record.
+        """
+        super().__init__()

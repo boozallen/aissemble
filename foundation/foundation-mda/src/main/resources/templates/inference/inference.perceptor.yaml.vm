@@ -1,0 +1,8 @@
+template: v2
+app_type: analytic
+wrapper: prime
+language: python
+ 
+name: "${artifactId}" 
+repository: "ghcr.io/boozallen/${artifactId}"
+tag: "${version}"

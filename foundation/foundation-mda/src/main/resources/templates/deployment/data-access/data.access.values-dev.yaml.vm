@@ -1,0 +1,12 @@
+# Dev values for data-access.
+image:
+  dockerRepo: ""
+
+service:
+  spec:
+    type: LoadBalancer
+
+deployment:
+  env:
+    - name: AUTH_TOKEN
+      value: "change me"

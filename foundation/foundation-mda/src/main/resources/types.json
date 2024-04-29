@@ -1,0 +1,372 @@
+[
+	{
+		"name": "dataset",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.Dataset",
+		"shortImplementation": "Dataset"		
+	},
+	{
+		"name": "row",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.Row",
+		"shortImplementation": "Row"		
+	},
+	{
+		"name": "savemode",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.SaveMode",
+		"shortImplementation": "SaveMode"		
+	},
+	{
+		"name": "savemode-append",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.SaveMode",
+		"shortImplementation": "SaveMode.Append"
+	},
+	{
+		"name": "savemode-error",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.SaveMode",
+		"shortImplementation": "SaveMode.ErrorIfExists"
+	},
+	{
+		"name": "savemode-ignore",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.SaveMode",
+		"shortImplementation": "SaveMode.Ignore"
+		},
+	{
+		"name": "savemode-overwrite",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.SaveMode",
+		"shortImplementation": "SaveMode.Overwrite"
+	},
+	{
+		"name": "multimessage",
+		"fullyQualifiedImplementation": "io.smallrye.mutiny.Multi",
+		"shortImplementation": "Multi"
+	},
+	{
+		"name": "message",
+		"fullyQualifiedImplementation": "org.eclipse.microprofile.reactive.messaging.Message",
+		"shortImplementation": "Message"		
+	},
+	{
+		"name": "incoming",
+		"fullyQualifiedImplementation": "org.eclipse.microprofile.reactive.messaging.Incoming",
+		"shortImplementation": "Incoming"		
+	},
+	{
+		"name": "outgoing",
+		"fullyQualifiedImplementation": "org.eclipse.microprofile.reactive.messaging.Outgoing",
+		"shortImplementation": "Outgoing"		
+	},
+	{
+		"name": "string",
+		"fullyQualifiedImplementation": "java.lang.String",
+		"shortImplementation": "String"		
+	},
+	{
+		"name": "string-python",
+		"fullyQualifiedImplementation": "str",
+		"shortImplementation": "str"		
+	},
+	{
+		"name": "string-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.StringType"		
+	},
+	{
+		"name": "string-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.StringType",
+		"shortImplementation": "StringType"		
+	},
+	{
+		"name": "string-proto",
+		"fullyQualifiedImplementation": "string",
+		"shortImplementation": "string"
+	},
+	{
+		"name": "boolean",
+		"fullyQualifiedImplementation": "java.lang.Boolean",
+		"shortImplementation": "Boolean"		
+	},
+	{
+		"name": "boolean-python",
+		"fullyQualifiedImplementation": "bool",
+		"shortImplementation": "bool"		
+	},
+	{
+		"name": "boolean-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.BooleanType"		
+	},
+	{
+		"name": "boolean-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.BooleanType",
+		"shortImplementation": "BooleanType"		
+	},
+	{
+		"name": "boolean-proto",
+		"fullyQualifiedImplementation": "bool",
+		"shortImplementation": "bool"
+	},
+	{
+		"name": "date",
+		"fullyQualifiedImplementation": "java.util.Date",
+		"shortImplementation": "Date"
+	},
+	{
+		"name": "sqlDate",
+		"fullyQualifiedImplementation": "java.sql.Date",
+		"shortImplementation": "Date"
+	},
+	{
+		"name": "date-python",
+		"fullyQualifiedImplementation": "datetime.datetime",
+		"shortImplementation": "datetime"		
+	},
+	{
+		"name": "date-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.DateType"
+	},
+	{
+		"name": "sqlDate-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.DateType"
+	},
+	{
+		"name": "date-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.DateType",
+		"shortImplementation": "DateType"		
+	},
+	{
+		"name": "date-proto",
+		"fullyQualifiedImplementation": "int64",
+		"shortImplementation": "int64"
+	},
+	{
+		"name": "timestamp",
+		"fullyQualifiedImplementation": "java.sql.Timestamp",
+		"shortImplementation": "Timestamp"		
+	},
+	{
+		"name": "timestamp-python",
+		"fullyQualifiedImplementation": "datetime.datetime",
+		"shortImplementation": "datetime"		
+	},
+	{
+		"name": "timestamp-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.TimestampType"		
+	},
+	{
+		"name": "timestamp-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.TimestampType",
+		"shortImplementation": "TimestampType"		
+	},
+	{
+		"name": "double",
+		"fullyQualifiedImplementation": "java.lang.Double",
+		"shortImplementation": "Double"		
+	},
+	{
+		"name": "double-python",
+		"fullyQualifiedImplementation": "float",
+		"shortImplementation": "float"		
+	},
+	{
+		"name": "double-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.DoubleType"		
+	},
+	{
+		"name": "double-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.DoubleType",
+		"shortImplementation": "DoubleType"		
+	},
+	{
+		"name": "double-proto",
+		"fullyQualifiedImplementation": "double",
+		"shortImplementation": "double"
+	},
+	{
+		"name": "float",
+		"fullyQualifiedImplementation": "java.lang.Float",
+		"shortImplementation": "Float"		
+	},
+	{
+		"name": "float-python",
+		"fullyQualifiedImplementation": "float",
+		"shortImplementation": "float"		
+	},
+	{
+		"name": "float-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.FloatType"		
+	},
+	{
+		"name": "float-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.FloatType",
+		"shortImplementation": "FloatType"		
+	},
+	{
+		"name": "float-proto",
+		"fullyQualifiedImplementation": "float",
+		"shortImplementation": "float"
+	},
+	{
+		"name": "byte",
+		"fullyQualifiedImplementation": "java.lang.Byte",
+		"shortImplementation": "Byte"		
+	},
+	{
+		"name": "byte-python",
+		"fullyQualifiedImplementation": "bytearray",
+		"shortImplementation": "bytearray"		
+	},
+	{
+		"name": "byte-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.ByteType"		
+	},
+	{
+		"name": "byte-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.ByteType",
+		"shortImplementation": "ByteType"		
+	},
+	{
+		"name": "integer",
+		"fullyQualifiedImplementation": "java.lang.Integer",
+		"shortImplementation": "Integer"		
+	},
+	{
+		"name": "integer-python",
+		"fullyQualifiedImplementation": "int",
+		"shortImplementation": "int"		
+	},
+	{
+		"name": "integer-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.IntegerType"		
+	},
+	{
+		"name": "integer-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.IntegerType",
+		"shortImplementation": "IntegerType"		
+	},
+	{
+		"name": "integer-proto",
+		"fullyQualifiedImplementation": "int32",
+		"shortImplementation": "int32"
+	},
+	{
+		"name": "long",
+		"fullyQualifiedImplementation": "java.lang.Long",
+		"shortImplementation": "Long"		
+	},
+	{
+		"name": "long-python",
+		"fullyQualifiedImplementation": "int",
+		"shortImplementation": "int"		
+	},
+	{
+		"name": "long-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.LongType"		
+	},
+	{
+		"name": "long-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.LongType",
+		"shortImplementation": "LongType"		
+	},
+	{
+		"name": "long-proto",
+		"fullyQualifiedImplementation": "int64",
+		"shortImplementation": "int64"
+	},
+	{
+		"name": "short",
+		"fullyQualifiedImplementation": "java.lang.Short",
+		"shortImplementation": "Short"		
+	},
+	{
+		"name": "short-python",
+		"fullyQualifiedImplementation": "int",
+		"shortImplementation": "int"		
+	},
+	{
+		"name": "short-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.ShortType"		
+	},
+	{
+		"name": "short-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.ShortType",
+		"shortImplementation": "ShortType"		
+	},
+	{
+		"name": "decimal",
+		"fullyQualifiedImplementation": "java.math.BigDecimal",
+		"shortImplementation": "BigDecimal"		
+	},
+	{
+		"name": "decimal-python",
+		"fullyQualifiedImplementation": "decimal.Decimal",
+		"shortImplementation": "Decimal"		
+	},
+	{
+		"name": "decimal-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DecimalType",
+		"shortImplementation": "DecimalType"		
+	},
+	{
+		"name": "decimal-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.DecimalType",
+		"shortImplementation": "DecimalType"		
+	},
+	{
+		"name": "decimal-proto",
+		"fullyQualifiedImplementation": "double",
+		"shortImplementation": "double"
+	},
+	{
+		"name": "set",
+		"fullyQualifiedImplementation": "java.util.Set",
+		"shortImplementation": "Set"
+	},
+	{
+		"name": "set-python",
+		"fullyQualifiedImplementation": "typing.Set",
+		"shortImplementation": "Set"
+	},
+	{
+		"name": "list",
+		"fullyQualifiedImplementation": "java.util.List",
+		"shortImplementation": "List"
+	},
+	{
+		"name": "list-python",
+		"fullyQualifiedImplementation": "typing.List",
+		"shortImplementation": "List"
+	},
+	{
+		"name": "pysparkDataFrame",
+		"fullyQualifiedImplementation": "pyspark.sql.dataframe.DataFrame",
+		"shortImplementation": "DataFrame"		
+	},
+	{
+		"name": "bytearray",
+		"fullyQualifiedImplementation": "java.lang.Bytes",
+		"shortImplementation": "byte[]"
+	},
+	{
+		"name": "bytearray-spark",
+		"fullyQualifiedImplementation": "org.apache.spark.sql.types.DataTypes",
+		"shortImplementation": "DataTypes.BinaryType"
+	},
+	{
+		"name": "bytearray-python",
+		"fullyQualifiedImplementation": "builtins.bytearray",
+		"shortImplementation": "bytearray"
+	},
+	{
+		"name": "bytearray-pyspark",
+		"fullyQualifiedImplementation": "pyspark.sql.types.BinaryType",
+		"shortImplementation": "BinaryType"
+	}
+]

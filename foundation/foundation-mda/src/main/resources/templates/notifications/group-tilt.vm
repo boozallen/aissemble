@@ -1,0 +1,5 @@
+You must add the following to Tiltfile to configure it for local deployment!
+
+#foreach ($item in $items)
+${item}
+#end

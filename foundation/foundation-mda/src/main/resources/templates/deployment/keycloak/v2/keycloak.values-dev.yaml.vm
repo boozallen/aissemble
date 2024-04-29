@@ -1,0 +1,15 @@
+#[[########################################
+## CONFIG | Keycloak Configs
+########################################]]#
+aissemble-keycloak-chart:
+   keycloak:
+      image:
+      imagePullPolicy: Always
+      repo: ''
+      postgresql:
+         primary:
+            persistence:
+               enabled: false
+         readReplicas:
+            persistence:
+               enabled: false

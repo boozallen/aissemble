@@ -1,0 +1,141 @@
+suite: Shared ivy cache
+templates:
+  - ivy-pvc.yaml
+  - ivy-local-pv.yaml
+  - charts/spark-operator/templates/deployment.yaml
+tests:
+  - it: Should create PersistentVolumeClaim but not PersistentVolume by default
+    template: ivy-pvc.yaml
+    asserts:
+      - template: ivy-local-pv.yaml
+        hasDocuments:
+          count: 0
+      - containsDocument:
+          kind: PersistentVolumeClaim
+          apiVersion: v1
+      - equal:
+          path: metadata.name
+          value: ivy-cache
+      - equal:
+          path: spec.resources.requests.storage
+          value: 5Gi
+      - contains:
+          path: spec.accessModes
+          content:
+            ReadWriteOnce
+      - notExists:
+          path: spec.storageClassName
+  - it: Should include default PersistentVolume if re-using a node cache is enabled
+    template: ivy-local-pv.yaml
+    set:
+      ivyCache.storeCacheOnNode: true
+      ivyCache.storageClass: ignored-value
+    asserts:
+      - template: ivy-pvc.yaml
+        equal:
+          path: spec.storageClassName
+          value: spark-ivy-storage
+      - containsDocument:
+          kind: PersistentVolume
+          apiVersion: v1
+      - equal:
+          path: metadata.name
+          value: ivy-cache
+      - equal:
+          path: spec.capacity.storage
+          value: 5Gi
+      - contains:
+          path: spec.accessModes
+          content:
+              ReadWriteOnce
+      - equal:
+          path: spec.hostPath.path
+          value: /tmp
+      - equal:
+          path: spec.hostPath.type
+          value: DirectoryOrCreate
+      - equal:
+          path: spec.persistentVolumeReclaimPolicy
+          value: Delete
+      - equal:
+          path: spec.storageClassName
+          value: spark-ivy-storage
+  - it: Shared cache can be disabled
+    set:
+      ivyCache.enabled: false
+    asserts:
+      - template: ivy-pvc.yaml
+        hasDocuments:
+          count: 0
+      - template: ivy-local-pv.yaml
+        hasDocuments:
+          count: 0
+  - it: The name can be overridden
+    templates:
+      - ivy-pvc.yaml
+      - ivy-local-pv.yaml
+    set:
+      ivyCache.name: custom-name
+      ivyCache.storeCacheOnNode: true
+    asserts:
+      - equal:
+          path: metadata.name
+          value: custom-name
+  - it: The size can be overridden
+    set:
+      ivyCache.size: 10Gi
+      ivyCache.storeCacheOnNode: true
+    asserts:
+      - template: ivy-pvc.yaml
+        equal:
+          path: spec.resources.requests.storage
+          value: 10Gi
+      - template: ivy-local-pv.yaml
+        equal:
+          path: spec.capacity.storage
+          value: 10Gi
+  - it: The accessModes can be overridden
+    templates:
+      - ivy-pvc.yaml
+      - ivy-local-pv.yaml
+    set:
+      ivyCache.accessModes: [ReadWriteMany]
+      ivyCache.storeCacheOnNode: true
+    asserts:
+      - contains:
+          path: spec.accessModes
+          content:
+            ReadWriteMany
+  - it: The storageClass can be overridden
+    template: ivy-pvc.yaml
+    set:
+      ivyCache.storageClass: custom-storage-class
+    asserts:
+      - equal:
+          path: spec.storageClassName
+          value: custom-storage-class
+  - it: The storage path on the Node can be overridden
+    template: ivy-local-pv.yaml
+    set:
+      ivyCache.storeCacheOnNode: true
+      ivyCache.cachePathOnNode: /my/custom/path
+    asserts:
+      - equal:
+          path: spec.hostPath.path
+          value: /my/custom/path
+#NB: This would be a great test to include, but there is a bug in the Helm unittest plugin that prevents it from working
+#    See: TODO
+#  - it: The ivy cache is attached to the Spark Operator pod
+#    template: charts/spark-operator/templates/deployment.yaml
+#    asserts:
+#      - contains:
+#          path: spec.volumes
+#          content:
+#            name: ivy-cache
+#            persistentVolumeClaim:
+#              claimName: ivy-cache
+#      - contains:
+#          path: spec.volumeMounts
+#          content:
+#            name: ivy-cache
+#            mountPath: /opt/spark/.ivy2

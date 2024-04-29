@@ -1,0 +1,70 @@
+# Default values for versioning.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: versioning
+image:
+  name: boozallen/${projectName}-versioning-docker
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+  spec:
+    ports:
+      - name: "7083"
+        port: 7083
+        targetPort: 80
+
+deployment:
+  ports:
+    - name: "http-1"
+      containerPort: 80
+      protocol: TCP
+  env:
+    # Update the path to the mlflow tracking uri from the training pipeline
+    - name: MLFLOW_TRACKING_URI
+      value: /tmp/mlruns
+    # Update the path to the model directory from the training pipeline
+    - name: MODEL_DIRECTORY
+      value: /tmp/model
+    # Update to the Nexus server you intend to use for versioning purposes
+    - name: NEXUS_SERVER
+      value: http://nexus:7071
+    - name: GUNICORN_CMD_ARGS
+      value: --preload
+  restartPolicy: Always
+  volumeMounts:
+    # Update the path to the mlflow tracking uri from the training pipeline
+    - mountPath: /tmp/mlruns
+      name: mlruns
+    # Update the path to the model directory from the training pipeline
+    - mountPath: /tmp/model
+      name: model
+  volumes:
+    - name: mlruns
+      persistentVolumeClaim:
+        claimName: mlruns
+    - name: model
+      persistentVolumeClaim:
+        claimName: model
+
+ingress:
+  enabled: true
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: versioning-ai.boozallen.github.io
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: versioning
+              port:
+                number: 7083
+  status: 10.192.83.167

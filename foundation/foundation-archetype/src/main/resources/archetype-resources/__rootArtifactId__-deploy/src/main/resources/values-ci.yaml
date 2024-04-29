@@ -1,0 +1,9 @@
+spec:
+  helm:
+    valueFiles:
+      - values.yaml
+      - values-ci.yaml
+
+global:
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/

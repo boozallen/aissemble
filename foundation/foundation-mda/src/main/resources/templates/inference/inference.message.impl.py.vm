@@ -1,0 +1,25 @@
+"""
+Defines the message envelope utilized to interact with an inference analytic.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName}
+"""
+
+from pandas import DataFrame
+
+from ..generated.validation.inference_message_definition_base import RequestBodyBase, ResponseBodyBase
+
+
+class RequestBody(RequestBodyBase):
+    def prep_data(self) -> DataFrame:
+        data = DataFrame(self.data_to_dict())
+
+        # TODO: prep the data into the format needed for the predictions
+        # data['prepped_field_example'] = np.where(data['raw_field_example'], 1, 0)
+        # del data['raw_field_example']
+
+        return data
+
+class ResponseBody(ResponseBodyBase):
+    pass

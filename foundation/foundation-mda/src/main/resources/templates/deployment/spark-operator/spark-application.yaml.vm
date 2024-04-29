@@ -1,0 +1,161 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: ${sparkApplicationName}
+  namespace: default
+spec:
+  type: ${sparkApplicationType}
+  mode: cluster
+  image: "boozallen/${projectName}-spark-worker-docker:latest"
+  imagePullPolicy: IfNotPresent
+#if (${isJavaPipeline})
+  mainClass: ${mainClass}
+#end
+  mainApplicationFile: "local:///opt/spark/jobs/pipelines/${mainApplicationFile}"
+  sparkConfigMap: spark-config # common configuration for spark/hadoop config in spark deploy
+  deps:
+    #if (!${usePackageDeps})
+    jars:
+      - https://repo1.maven.org/maven2/mysql/mysql-connector-java/${versionMysqlConnector}/mysql-connector-java-${versionMysqlConnector}.jar
+      #if (${useS3Local})
+      - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${versionHadoop}/hadoop-aws-${versionHadoop}.jar
+      - https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${versionAwsSdkBundle}/aws-java-sdk-bundle-${versionAwsSdkBundle}.jar
+      #end
+      #if (${enableElasticsearchSupport})
+      - https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-spark-30_2.12/${versionElasticsearch}/elasticsearch-spark-30_2.12-${versionElasticsearch}.jar
+      #end
+      #if (${enableNeo4jSupport})
+      - https://repo1.maven.org/maven2/org/neo4j/neo4j-connector-apache-spark_2.12/${versionNeo4j}/neo4j-connector-apache-spark_2.12-${versionNeo4j}.jar
+      #end
+      #if (${enableSedonaSupport})
+      - https://repo1.maven.org/maven2/org/apache/sedona/sedona-sql-3.0_2.12/${versionSedona}/sedona-sql-3.0_2.12-${versionSedona}.jar
+      #if (${enablePySparkSupport})
+      - https://repo1.maven.org/maven2/org/apache/sedona/sedona-python-adapter-3.0_2.12/${versionSedona}/sedona-python-adapter-3.0_2.12-${versionSedona}.jar
+      - https://repo1.maven.org/maven2/org/datasyslab/geotools-wrapper/${versionGeotools}/geotools-wrapper-${versionGeotools}.jar
+      - https://repo1.maven.org/maven2/org/postgresql/postgresql/${versionPostgresql}/postgresql-${versionPostgresql}.jar
+      #end
+      #end
+    #else
+    packages:
+      - mysql:mysql-connector-java:${versionMysqlConnector}
+      #if (${useS3Local})
+      - org.apache.hadoop:hadoop-aws:${versionHadoop}
+      - com.amazonaws:aws-java-sdk-bundle:${versionAwsSdkBundle}
+      #end
+      #if (${enableNeo4jSupport})
+      - org.neo4j:neo4j-connector-apache-spark_2.12:${versionNeo4j}
+      #end
+      #if (${enableElasticsearchSupport})
+      - org.elasticsearch:elasticsearch-spark-30_2.12:${versionElasticsearch}
+      #end
+      #if (${enableDeltaSupport})
+      - io.delta:delta-core_2.12:${versionDelta}
+      - io.delta:delta-storage:${versionDelta}
+      #end
+      #if (${enableSedonaSupport})
+      - org.apache.sedona:sedona-sql-3.0_2.12:${versionSedona}
+      #if (${enablePySparkSupport})
+      - org.apache.sedona:sedona-python-adapter-3.0_2.12:${versionSedona}
+      - org.datasyslab:geotools-wrapper:${versionGeotools}
+      - org.postgresql:postgresql:${versionPostgresql}
+      #end
+      #end
+    #end
+    excludePackages: []
+  sparkConf:
+#if ("${sparkExtensions}" != "")
+    spark.sql.extensions: "${sparkExtensions}"
+#end
+#if (${enableHiveSupport})
+    spark.sql.catalogImplementation: "hive"
+    #if (${isTestResource})
+    spark.sql.warehouse.dir: "target/warehouse"
+    #end
+#end
+#if (${enableDeltaSupport})
+    spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+#end
+#if (!${isTestResource})
+    spark.sql.streaming.checkpointLocation: "/opt/spark/checkpoint"
+    spark.jars.ivy: "/opt/spark/.ivy2"
+    spark.eventLog.logBlockUpdates.enabled: "true"
+    spark.eventLog.enabled: "true"
+#else
+    spark.driver.host: "localhost"
+    spark.master: "local[*]"
+#end
+#if (${useS3Local})
+    spark.eventLog.dir: "s3a://spark-infrastructure/spark-events"
+#end
+#if (${enableElasticsearchSupport})
+    spark.es.nodes: "elasticsearch-es-http"
+    spark.es.port: "9200"
+
+    # these values can be overridden in [YOUR-PROJECT]-deploy/src/main/resources/apps/elasticsearch/*.yaml
+    spark.es.net.http.auth.user: "elastic"
+    spark.es.net.http.auth.pass: "elastic"
+#end
+#if (${enableSedonaSupport})
+    spark.serializer: "org.apache.spark.serializer.KryoSerializer"
+    #if (${enablePySparkSupport})
+    spark.kryo.registrator: "org.apache.sedona.core.serde.SedonaKryoRegistrator"
+    #else
+    spark.kryo.registrator: "org.apache.sedona.viz.core.Serde.SedonaVizKryoRegistrator"
+    #end
+#end
+  hadoopConf:
+#if (${useS3Local})
+    fs.s3a.fast.upload: "true"
+    fs.s3a.path.style: "true"
+#end
+  restartPolicy:
+    type: Never
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: ${versionSpark}
+    serviceAccount: spark
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+#if (${enableDataLineageSupport})
+      - name: ENABLE_LINEAGE
+        value: "true"
+#end
+#if (${useS3Local})
+      - name: AWS_ACCESS_KEY_ID
+        value: "123"
+      - name: AWS_SECRET_ACCESS_KEY
+        value: "456"
+      - name: STORAGE_ENDPOINT
+        value: "http://s3-local:4566"
+#end
+#if (${isJavaPipeline})
+    javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+#end
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: ${versionSpark}
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+#if (${enableDataLineageSupport})
+      - name: ENABLE_LINEAGE
+        value: "true"
+#end
+#if (${useS3Local})
+      - name: AWS_ACCESS_KEY_ID
+        value: "123"
+      - name: AWS_SECRET_ACCESS_KEY
+        value: "456"
+      - name: STORAGE_ENDPOINT
+        value: "http://s3-local:4566"
+#end
+#if (${isJavaPipeline})
+    javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+#end

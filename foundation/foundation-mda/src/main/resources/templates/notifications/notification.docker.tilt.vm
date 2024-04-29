@@ -1,0 +1,14 @@
+# ${appNameTitle}
+docker_build(  
+    ref='boozallen/${dockerApplicationArtifactId}',
+    context='${dockerArtifactId}/${dockerApplicationArtifactId}',
+    build_args=build_args,
+    #if(${includeLatestTag})
+    extra_tag='boozallen/${dockerApplicationArtifactId}:latest',
+    #end
+    dockerfile='${dockerArtifactId}/${dockerApplicationArtifactId}/src/main/resources/docker/Dockerfile'
+)
+#if(${includeHelmBuild} == true)
+#parse( "templates/notifications/notification.helm.tilt.vm" )
+#end
+

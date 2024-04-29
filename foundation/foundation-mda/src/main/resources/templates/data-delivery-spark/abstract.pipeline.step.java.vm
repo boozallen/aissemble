@@ -1,0 +1,162 @@
+package ${basePackage};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.UUID;
+import java.util.Map;
+#if ($pipeline.getDataLineage())
+import com.boozallen.aiops.data.lineage.Job;
+import com.boozallen.aiops.data.lineage.Run;
+import com.boozallen.aiops.data.lineage.RunEvent;
+import com.boozallen.aiops.data.lineage.util.LineageUtil;
+import com.boozallen.aiops.data.lineage.util.LineageUtil.LineageEventData;
+import io.openlineage.client.OpenLineage.ParentRunFacet;
+#end
+
+/**
+ * Performs common step configuration based on the pipeline.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in your step implementation classes).
+ *
+ * Generated from: ${templateName} 
+ */
+public abstract class AbstractPipelineStep extends AbstractDataActionImpl {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractPipelineStep.class);
+
+    protected AbstractPipelineStep(String subject, String action) {
+        super(subject, action);
+    }
+    #if ($pipeline.getDataLineage())
+
+    /**
+     * Override this method to modify the created RunEvent. Provides an opportunity for adding customizations, such
+     * as Input or Output Datasets.
+     * @param event     the run event to customize
+     * @return event    the customized run event
+     */
+    public RunEvent customizeRunEvent(RunEvent event){
+        return event;
+    }
+
+    /**
+     * Creates the Start RunEvent with given run id, job name, lineage event data or any input parameters
+     * To customize the event, override the customizeLineageStartEvent function to include the job facets, run facets
+     * or the inputs/outputs dataset.
+     *
+     * The customize_run_event() is deprecated override point.
+     *
+     * @param runId the lineage runId to create run for this run event
+     * @param jobName the lineage job name to create the job for this run event
+     * @param parentRunFacet the parent run facet for the event run
+     * @param eventData the lineage event data for this run event
+     * @param params input params to be added to the run event
+     * @return the start run event created from give inputs
+     */
+    public RunEvent createLineageStartEvent(UUID runId, String jobName, String defaultNamespace, ParentRunFacet parentRunFacet, LineageEventData eventData, Map<String, Object> params) {
+        RunEvent event = LineageUtil.createStartRunEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData);
+        event = this.customizeLineageStartEvent(event, params);
+        event = this.customizeRunEvent(event);
+
+        return event;
+    }
+
+    /**
+     * Customize the given Start RunEvent with input parameters
+     *
+     * @param event the start run event to be customized
+     * @param params input params to be added to the run event
+     * @return the customized start run event
+     */
+    public RunEvent customizeLineageStartEvent(RunEvent event, Map<String, Object> params) {
+        return event;
+    }
+
+    /**
+     * Creates the Complete RunEvent with given run id, job name, lineage event data or any input parameters
+     * To customize the event, override the customizeLineageCompleteEvent function to include the job facets, run facets
+     * or the inputs/outputs dataset.
+     *
+     * The customize_run_event() is deprecated override point.
+     *
+     * @param runId the lineage runId to create run for this run event
+     * @param jobName the lineage job name to create the job for this run event
+     * @param parentRunFacet the parent run facet for the event run
+     * @param eventData the lineage event data for this run event
+     * @param params input params to be added to the run event
+     * @return the start run event created from give inputs
+     */
+    public RunEvent createLineageCompleteEvent(UUID runId, String jobName, String defaultNamespace, ParentRunFacet parentRunFacet, LineageEventData eventData, Map<String, Object> params) {
+        RunEvent event = LineageUtil.createCompleteRunEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData);
+        event = this.customizeLineageCompleteEvent(event, params);
+        event = this.customizeRunEvent(event);
+        return event;
+    }
+
+    /**
+     * Customize the given Complete RunEvent with input parameters
+     *
+     * @param event the complete run event to be customized
+     * @param params input params to be added to the run event
+     * @return the customized start run event
+     */
+    public RunEvent customizeLineageCompleteEvent(RunEvent event, Map<String, Object> params) {
+        return event;
+    }
+
+    /**
+     * Creates the Fail RunEvent with given run id, job name, lineage event data or any input parameters
+     * To customize the event, override the customizeLineageFailEvent function to include the job facets, run facets
+     * or the inputs/outputs dataset.
+     *
+     * The customize_run_event() is deprecated override point.
+     *
+     * @param runId the lineage runId to create run for this run event
+     * @param jobName the lineage job name to create the job for this run event
+     * @param parentRunFacet the parent run facet for the event run
+     * @param eventData the lineage event data for this run event
+     * @param params input params to be added to the run event
+     * @return the start run event created from give inputs
+     */
+    public RunEvent createLineageFailEvent(UUID runId, String jobName, String defaultNamespace, ParentRunFacet parentRunFacet, LineageEventData eventData, Map<String, Object> params) {
+        RunEvent event = LineageUtil.createFailRunEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData);
+        event = customizeLineageFailEvent(event, params);
+        event = customizeRunEvent(event);
+        return event;
+    }
+
+    /**
+     * Customize the given Fail RunEvent with input parameters
+     *
+     * @param event the fail run event to be customized
+     * @param params input params to be added to the run event
+     * @return the customized start run event
+     */
+    public RunEvent customizeLineageFailEvent(RunEvent event, Map<String, Object> params) {
+        return event;
+    }
+
+    /**
+     * Create an lineage event data that can be included to the pipeline start/complete/fail event
+     *
+     * @return the lineage event data
+     */
+    public LineageEventData createBaseEventData() {
+        return null;
+    }
+
+    /**
+     * The default job name is step class name. Override this function to change the default job name.
+     */
+    public String getJobName() {
+        return String.format("${pipeline.capitalizedName}.%s", this.getClass().getSimpleName());
+    }
+
+    /**
+     * The default job name is step class name. Override this function to change the default job name.
+     */
+    public String getDefaultNamespace() {
+        return "${pipeline.capitalizedName}";
+    }
+    #end
+}

@@ -1,0 +1,7 @@
+# Set file stores to use local storage for tests
+#foreach($fileStore in $pipeline.fileStores)
+${pipeline.name}.${fileStore.name}.provider=filesystem
+${pipeline.name}.${fileStore.name}.container=$fileStore.name
+${pipeline.name}.${fileStore.name}.jclouds.filesystem.basedir=./target/test-file-stores
+
+#end

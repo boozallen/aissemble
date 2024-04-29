@@ -1,0 +1,35 @@
+suite: aissemble-metadata
+templates:
+  - service.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: aissemble-metadata-chart
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: aissemble-metadata-chart
+      - contains:
+          path: spec.ports
+          content:
+            name: rest-api
+            port: 8082
+            targetPort: 8080
+  - it: Should set values appropriately
+    set:
+      service:
+        spec:
+          ports:
+            - name: test
+              port: 8081
+              targetPort: 8081
+    asserts:
+      - contains:
+          path: spec.ports
+          content:
+            name: test
+            port: 8081
+            targetPort: 8081

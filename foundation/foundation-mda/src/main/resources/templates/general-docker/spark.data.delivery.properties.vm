@@ -1,0 +1,2 @@
+input.directory=/opt/spark/data/
+output.directory=s3a://spark-infrastructure/data/output/

@@ -1,0 +1,21 @@
+package ${basePackage};
+
+/**
+ * Record to represent ${record.capitalizedName}.
+ *
+ * This record serves the following purpose: ${record.description}
+ *
+ * GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class ${record.capitalizedName} extends ${record.capitalizedName}Base {
+
+    /**
+     * Default constructor for this record.
+     */
+    public ${record.capitalizedName}() {
+        super();
+    }
+
+}

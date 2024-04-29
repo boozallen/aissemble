@@ -1,0 +1,42 @@
+#set ($div='################################################################')
+#set ($h1='###')
+#set ($h2='##')
+#set ($c='#')
+$div
+$h1 Example Storage Configurations
+
+$h2 Local file system storage
+${c}[PIPELINE].[FILE_STORE].provider=filesystem
+${c}[PIPELINE].[FILE_STORE].jclouds.filesystem.basedir=STORAGE_ROOT
+
+$h2 S3 storage
+${c}[PIPELINE].[FILE_STORE].provider=aws-s3
+${c}[PIPELINE].[FILE_STORE].auth.identity=ACCESS_KEY_ID
+${c}[PIPELINE].[FILE_STORE].auth.secret=ACCESS_KEY_SECRET
+
+$h2 Testing S3 locally
+${c} Pre-req: execute the following
+${c}   docker run --name localstack_main -d -p 4566:4566 -e SERVICES=s3 localstack/localstack
+${c}[PIPELINE].[FILE_STORE].provider=s3 (note s3 instead of aws-s3 as aws-s3 uses <bucket>.endpoint)
+${c}[PIPELINE].[FILE_STORE].auth.identity=000000000000
+${c}[PIPELINE].[FILE_STORE].auth.secret=E3FF2839C048B25C084DEBE9B26995E310250568
+
+$h2 Other JClouds providers
+${c} See https://jclouds.apache.org/reference/providers/#blobstore
+${c} Properties are passed directly to the overrides of ContextBuilder, so
+${c} any override property that can be used with jclouds can be included
+${c} during a file store's creation by prefixing the property name with the
+${c} name of the file store.
+$div
+
+#foreach ($pipeline in $pipelines)
+#if($pipeline.fileStores)
+$h1 $pipeline.name File Stores
+#foreach($fileStore in $pipeline.fileStores)
+${pipeline.name}.${fileStore.name}.provider=filesystem
+${pipeline.name}.${fileStore.name}.container=$fileStore.name
+${pipeline.name}.${fileStore.name}.jclouds.filesystem.basedir=/tmp/local-file-stores
+
+#end
+#end
+#end

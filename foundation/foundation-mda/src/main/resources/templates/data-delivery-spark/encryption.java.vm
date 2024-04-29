@@ -1,0 +1,123 @@
+/**
+ * Checks for encryption policies and applies encryption to the designated fields.
+ * If no policies are found then the original data is returned.
+ * @param inbound  The data to apply encryption on.
+ * @return The data with encrypted fields
+ */
+${step.encryptionSignature} {
+     // Check Encryption Policy
+    #if (${step.hasMessagingInbound()} && !${step.hasInboundRecordType()})
+    ## Messaging with non-custom record is not implemented
+    logger.warn("Encryption is not yet supported for messaging without specifying an inbound record type!");
+    logger.warn("If desired, please add encryption manually by overriding checkAndApplyEncryptionPolicy(...)!");
+    return inbound;
+    #else
+    #if (${step.hasMessagingInbound()})
+    ${step.getImplInboundType()} datasetWithEncryptionPolicyApplied = inbound.getPayload();
+    #else
+    ${step.getImplInboundType()} datasetWithEncryptionPolicyApplied = inbound;
+    #end
+    EncryptionPolicyManager encryptionPolicyManager = EncryptionPolicyManager.getInstance();
+    String filePath = encryptionPolicyManager.getPoliciesLocation();
+
+    if(Files.isDirectory(Paths.get(filePath))) {
+        Map<String, EncryptionPolicy> policies = encryptionPolicyManager.getEncryptPolicies();
+
+        if(!policies.isEmpty()) {
+            for(EncryptionPolicy encryptionPolicy: policies.values()) {
+                if(stepPhase.equalsIgnoreCase(encryptionPolicy.getEncryptPhase())){
+                    List<String> encryptFields = encryptionPolicy.getEncryptFields();
+                    #if (${step.hasMessagingInbound()})
+                    ## Input is a message
+                    #if ($step.hasInboundRecordType())
+                    ## Input is a message with custom type
+                    List<Row> rows = Arrays.asList(${step.inbound.recordType.name}Schema.asRow(datasetWithEncryptionPolicyApplied));
+                    ${step.inbound.recordType.name}Schema schema = new ${step.inbound.recordType.name}Schema();
+                    Dataset<Row> ds = sparkSession.createDataFrame(rows, schema.getStructType());
+                    List<String> datasetFields = Arrays.asList(ds.columns());
+                    #else
+                    ## Input is a message with string
+                    #end
+                    #end
+                    #if (${step.hasNativeInbound()})
+                    ## Input is native type (non-messaging)
+                    #if ($step.hasInboundRecordType())
+                    ## Input is a custom record
+                    #if ($step.hasInboundNativeCollectionType())
+                    ## Input is a Java set of custom records
+                    List<Row> rows = datasetWithEncryptionPolicyApplied.stream()
+                            .map(${step.inbound.recordType.name}Schema::asRow)
+                            .collect(Collectors.toList());
+                    #else
+                    ## Input is a Spark dataset set of custom records
+                    List<Row> rows = datasetWithEncryptionPolicyApplied
+                            .collectAsList()
+                            .stream()
+                            .map(${step.inbound.recordType.name}Schema::asRow)
+                            .collect(Collectors.toList());
+                    #end
+                    ${step.inbound.recordType.name}Schema schema = new ${step.inbound.recordType.name}Schema();
+                    Dataset<Row> ds = sparkSession.createDataFrame(rows, schema.getStructType());
+                    #else
+                    ## Input is a row
+                    #if ($step.hasInboundNativeCollectionType())
+                    ## Input is a Java set of Row
+                    StructType schema = new ArrayList<>(datasetWithEncryptionPolicyApplied).get(0).schema();
+                    Dataset<Row> ds = sparkSession.createDataFrame(new ArrayList<>(datasetWithEncryptionPolicyApplied), schema);
+                    #else
+                    ## Input is a Spark Dataset of row
+                    Dataset<Row> ds = datasetWithEncryptionPolicyApplied;
+                    #end
+                    #end
+                    List<String> datasetFields = Arrays.asList(ds.columns());
+                    #end
+                    List<String> fieldIntersection = encryptFields.stream()
+                            .filter(datasetFields::contains)
+                            .collect(Collectors.toList());
+
+                    String encryptAlgorithm = encryptionPolicy.getEncryptAlgorithm().toString();
+                    for(String encryptField: fieldIntersection) {
+                        ds = ds.withColumn(encryptField,
+                                functions.callUDF( "encryptUDF", col(encryptField), lit(encryptAlgorithm)));
+                        #if ($step.hasNativeInbound())
+                        #if ($step.hasInboundRecordType())
+                        ## Input is a custom record
+                        Encoder<${step.inbound.recordType.name}> recordEncoder = Encoders.bean(${step.inbound.recordType.name}.class);
+                        #if ($step.hasInboundNativeCollectionType())
+                        ## Input is a Java set of custom records
+                        datasetWithEncryptionPolicyApplied = new ${step.nativeCollectionInstantiationType}<>(ds.as(recordEncoder).collectAsList());
+                        #else
+                        ## Input is a Spark dataset set of custom records
+                        datasetWithEncryptionPolicyApplied = ds.as(recordEncoder);
+                        #end
+                        #else
+                        #if ($step.hasInboundNativeCollectionType())
+                        ## Input was a Java set of rows
+                        datasetWithEncryptionPolicyApplied = new ${step.nativeCollectionInstantiationType}<>(ds.collectAsList());
+                        #else
+                        ## Input was a Spark dataset of rows
+                        datasetWithEncryptionPolicyApplied = ds;
+                        #end
+                        #end
+                        #elseif ($step.hasMessagingInbound())
+                        ## Input was a message
+                        #if ($step.hasInboundRecordType())
+                        ## Input was a message with custom record
+                        Encoder<${step.inbound.recordType.name}> recordEncoder = Encoders.bean(${step.inbound.recordType.name}.class);
+                        datasetWithEncryptionPolicyApplied = (${step.inbound.recordType.name}) ds.as(recordEncoder).collect();
+                        #else
+                        ## Input was a message with string
+                        #end
+                        #end
+                    }
+                }
+            }
+        }
+    }
+    #if ($step.hasMessagingInbound())
+    return inbound.withPayload(datasetWithEncryptionPolicyApplied);
+    #elseif ($step.hasNativeInbound())
+    return datasetWithEncryptionPolicyApplied;
+    #end
+    #end
+}

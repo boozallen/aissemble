@@ -1,0 +1,12 @@
+apiVersion: v2
+name: aissemble-data-access-chart
+description: Data Access Chart
+# Version is automatically set by the plugin so this is only a placeholder
+version: 1.0.0
+# App Version is automatically set by the plugin so this is only a placeholder
+appVersion: 1.0.0
+
+dependencies:
+  - name: aissemble-quarkus-chart
+    version: 1.0.0
+    repository: file://../aissemble-quarkus-chart/

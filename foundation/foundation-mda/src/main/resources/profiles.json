@@ -1,0 +1,2754 @@
+[
+	{
+		"name": "aissemble-maven-modules",
+		"targetReferences": [
+			{
+				"name": "pipelinePomFile"
+			},
+			{
+				"name": "dataAccessPomFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-project-root",
+		"profileReferences": [
+			{
+				"name": "sdp-jenkins-templating-engine"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "gitignoreFile"
+			}
+		]
+	},
+	{
+		"name": "sdp-jenkins-templating-engine",
+		"targetReferences": [
+			{
+				"name": "jteJenkinsfileBuild"
+			},
+			{
+				"name": "jteJenkinsfileRelease"
+			},
+			{
+				"name": "jteConfiguration"
+			},
+			{
+				"name": "jenkinsBuildJob"
+			},
+			{
+				"name": "jenkinsReleaseJob"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-spark",
+		"profileReferences": [
+			{
+				"name": "data-delivery-spark-pipeline"
+			},
+			{
+				"name": "data-delivery-combined-data-records"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-spark-pipeline",
+		"profileReferences": [
+			{
+				"name": "cucumber-pipeline-support"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "sparkApplicationValuesFile"
+			},
+			{
+				"name": "sparkApplicationDevValuesFile"
+			},
+			{
+				"name": "sparkApplicationDebugValuesFile"
+			},
+			{
+				"name": "sparkApplicationCIValuesFile"
+			},
+			{
+				"name": "javaPipelineBaseDriver"
+			},
+			{
+				"name": "javaPipelineDriver"
+			},
+			{
+				"name": "javaAbstractPipelineStep"
+			},
+			{
+				"name": "javaBatchCreatorBase"
+			},
+			{
+				"name": "javaBatchCreatorImpl"
+			},
+			{
+				"name": "javaSynchronousProcessorBase"
+			},
+			{
+				"name": "javaSynchronousProcessorImpl"
+			},
+			{
+				"name": "cdiBeansXml"
+			},
+			{
+				"name": "microprofileConfigProperties"
+			},
+			{
+				"name": "microprofileConfigServices"
+			},
+			{
+				"name": "pipelineDefaultConfig"
+			},
+			{
+				"name": "pipelineTestConfig"
+			},
+			{
+				"name": "pipelineCdiContextBase"
+			},
+			{
+				"name": "pipelineCdiContextImpl"
+			},
+			{
+				"name": "cdiContainerFactory"
+			},
+			{
+				"name": "cucumberProperties"
+			},
+			{
+				"name": "javaFileStoreBase"
+			},
+			{
+				"name": "javaFileStoreImpl"
+			},
+			{
+				"name": "abstractDataActionImpl"
+			},
+			{
+				"name": "sparkPipelineBase"
+			}
+		],
+		"familyReferences": [
+			{
+				"name": "pipelines"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-combined-data-records",
+		"profileReferences": [
+			{
+				"name": "data-delivery-data-records-core-java"
+			},
+			{
+				"name": "data-delivery-data-spark"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-data-records-core-java",
+		"profileReferences": [
+			{
+				"name": "java-record"
+			},
+			{
+				"name": "java-dictionary-type"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-data-spark",
+		"profileReferences": [
+			{
+				"name": "spark-schema"
+			}
+		]
+	},
+	{
+		"name": "cucumber-pipeline-support",
+		"targetReferences": [
+			{
+				"name": "cucumberProperties"
+			},
+			{
+				"name": "cucumberPipelineFeature"
+			},
+			{
+				"name": "cucumberPipelineSteps"
+			},
+			{
+				"name": "cucumberSparkHarness"
+			},
+			{
+				"name": "cucumberSparkBaseHarness"
+			},
+			{
+				"name": "sparkApplicationTestValuesFile"
+			},
+			{
+				"name": "cucumberSurefireHarness"
+			},
+			{
+				"name": "cucumberCdiContext"
+			},
+			{
+				"name": "testLog4jConfiguration"
+			}
+		]
+	},
+	{
+		"name": "aissemble-jenkins-docker",
+		"targetReferences": [
+			{
+				"name": "jenkinsControllerDockerFile"
+			}
+		]
+	},
+	{
+		"name": "data-access",
+		"targetReferences": [
+			{
+				"name": "dataAccessApplicationProperties"
+			},
+			{
+				"name": "dataAccessRecordBase"
+			},
+			{
+				"name": "dataAccessRecordImpl"
+			},
+			{
+				"name": "dataAccessResourceBase"
+			},
+			{
+				"name": "dataAccessResourceImpl"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-access-docker",
+		"targetReferences": [
+			{
+				"name": "dataAccessDockerFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-spark-worker-docker",
+		"targetReferences": [
+			{
+				"name": "sparkWorkerDockerFile"
+			},
+			{
+				"name": "sparkDataDeliveryProperties"
+			},
+			{
+				"name": "dataLineageProperties"
+			}
+		]
+	},
+	{
+		"name": "aissemble-quarkus-deploy",
+		"profileReferences": [
+			{
+				"name": "aissemble-quarkus-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "aissemble-quarkus-kubernetes",
+		"targetReferences": [
+			{
+				"name": "aissembleQuarkusHelmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "aissembleQuarkusValuesFile"
+			},
+			{
+				"name": "aissembleQuarkusValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "aissembleQuarkusArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-spark-infrastructure-deploy",
+		"profileReferences": [
+			{
+				"name": "spark-infrastructure-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "aissemble-spark-operator-deploy",
+		"profileReferences": [
+			{
+				"name": "spark-operator-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "aissemble-spark-operator-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "spark-operator-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "docker-spark-python-pipelines",
+		"targetReferences": [
+			{
+				"name": "airflowDockerPomFile"
+			},
+			{
+				"name": "sparkWorkerDockerPomFile"
+			},
+			{
+				"name": "versioningDockerPomFile"
+			},
+			{
+				"name": "policyDecisionPointDockerPomFile"
+			},
+			{
+				"name": "dataAccessDockerPomFile"
+			},
+			{
+				"name": "vaultDockerPomFile"
+			}
+		],
+		"profileReferences": [
+			{
+				"name": "docker-pom-inference"
+			},
+			{
+				"name": "docker-pom-training"
+			},
+			{
+				"name": "docker-pom-training-sagemaker"
+			}
+		]
+	},
+	{
+		"name": "machine-learning-pipeline",
+		"targetReferences": [
+			{
+				"name": "pipelineStepPomFile"
+			}
+		]
+	},
+	{
+		"name": "behave-support",
+		"targetReferences": [
+			{
+				"name": "behaveFeature"
+			},
+			{
+				"name": "behaveSteps"
+			}
+		]
+	},
+	{
+		"name": "behave-support-sagemaker",
+		"targetReferences": [
+			{
+				"name": "behaveFeatureSagemaker"
+			},
+			{
+				"name": "behaveStepsSagemaker"
+			}
+		]
+	},
+	{
+		"name": "machine-learning-training",
+		"profileReferences": [
+			{
+				"name": "behave-support"
+			},
+			{
+				"name": "training-post-actions"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "generatedBaseInit"
+			},
+			{
+				"name": "trainingPipelinePyProject"
+			},
+			{
+				"name": "trainingPipelineBase"
+			},
+			{
+				"name": "pythonPipelineImplInit"
+			},
+			{
+				"name": "trainingPipelineImpl"
+			},
+			{
+				"name": "pythonGenericStepImpl"
+			},
+			{
+				"name": "trainingPipelineDriver"
+			},
+			{
+				"name": "configInit"
+			},
+			{
+				"name": "trainingPipelineConfigScript"
+			},
+			{
+				"name": "trainingPipelineConfigResource"
+			},
+			{
+				"name": "pipelineBase"
+			}
+		],
+		"familyReferences": [
+			{
+				"name": "pipelines"
+			}
+		]
+	},
+	{
+		"name": "machine-learning-sagemaker-training",
+		"profileReferences": [
+			{
+				"name": "behave-support-sagemaker"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "sagemakerTrainingPipelinePyProject"
+			},
+			{
+				"name": "sagemakerTrainingPipelineImpl"
+			}
+		],
+		"familyReferences": [
+			{
+				"name": "pipelines"
+			}
+		]
+	},
+	{
+		"name": "aissemble-airflow-docker",
+		"targetReferences": [
+			{
+				"name": "airflowDockerFile"
+			},
+			{
+				"name": "airflowREADMEFile"
+			},
+			{
+				"name": "airflowDataDeliveryDagFiles"
+			},
+			{
+				"name": "airflowMachineLearningDagFiles"
+			},
+			{
+				"name": "trainingPipelineConfigResource"
+			},
+			{
+				"name": "authConfigResource"
+			}
+		]
+	},
+	{
+		"name": "aissemble-mlflow-docker",
+		"targetReferences": [
+			{
+				"name": "mlflowDockerFile"
+			},
+			{
+				"name": "mlflowStartScript"
+			}
+		]
+	},
+	{
+		"name": "aissemble-airflow-deploy",
+		"profileReferences": [
+			{
+				"name": "airflow-kubernetes"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-airflow-deploy` is deprecated, please follow the migration instructions for upgrading to the airflow V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+	},
+	{ 
+		"name": "airflow-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "airflow-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "airflow-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "airflowHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "airflowValuesFileV2"
+			},
+			{
+				"name": "airflowValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "airflowArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "aissemble-mlflow-deploy",
+		"profileReferences": [
+			{
+				"name": "mlflow-kubernetes"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-mlflow-deploy` is deprecated, please follow the migration instructions for upgrading to the mlflow V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+	},
+	{
+		"name": "aissemble-training-docker",
+		"targetReferences": [
+			{
+				"name": "trainingDockerFile"
+			},
+			{
+				"name": "mlflowLineageProperties"
+			},
+			{
+				"name": "trainingGitkeepFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-sagemaker-training-docker",
+		"targetReferences": [
+			{
+				"name": "sagemakerTrainingDockerFile"
+			}
+		]
+	},
+	{
+		"name": "training-job",
+		"targetReferences": [
+			{
+				"name": "trainingNoOpFile"
+			}
+		]
+	},
+	{
+        "name": "training-deploy",
+        "profileReferences": [
+            {
+                "name": "model-training-api-kubernetes"
+            }
+        ]
+    },
+	{
+		"name": "postgres-deploy",
+		"profileReferences": [
+			{
+				"name": "postgres-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "bom-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "bomValuesFile"
+			},
+			{
+				"name": "bomValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "bomArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-bom-deploy",
+		"profileReferences": [
+			{
+				"name": "bom-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-pyspark",
+		"profileReferences": [
+			{
+				"name": "data-delivery-pyspark-pipeline"
+			},
+			{
+				"name": "data-delivery-combined-data-records-python-classes"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-pyspark-pipeline",
+		"profileReferences": [
+			{
+				"name": "behave-support"
+			},
+			{
+				"name": "pyspark-metadata"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "sparkApplicationValuesFile"
+			},
+			{
+				"name": "sparkApplicationDevValuesFile"
+			},
+			{
+				"name": "sparkApplicationTestValuesFile"
+			},
+			{
+				"name": "sparkApplicationCIValuesFile"
+			},
+			{
+				"name": "pySparkPyProject"
+			},
+			{
+				"name": "pySparkAbstractDataAction"
+			},
+			{
+				"name": "pySparkAbstractDataActionImpl"
+			},
+			{
+				"name": "pySparkAbstractPipelineStep"
+			},
+			{
+				"name": "pySparkSynchronousProcessorBase"
+			},
+			{
+				"name": "pySparkSynchronousProcessorImpl"
+			},
+			{
+				"name": "pySparkAsynchronousProcessorBase"
+			},
+			{
+				"name": "pySparkAsynchronousProcessorImpl"
+			},
+			{
+				"name": "pySparkPipelineDriver"
+			},
+			{
+				"name": "pySparkBehaveEnvironment"
+			},
+			{
+				"name": "pySparkBehaveEnvironmentBase"
+			},
+			{
+				"name": "pySparkGeneratedInit"
+			},
+			{
+				"name": "pySparkStepBaseInit"
+			},
+			{
+				"name": "pySparkStepImplInit"
+			},
+			{
+				"name": "pySparkGenericStepImpl"
+			},
+			{
+				"name": "pySparkPipelineBase"
+			}
+		],
+		"familyReferences": [
+			{
+				"name": "pipelines"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-combined-data-records-python",
+		"profileReferences": [
+			{
+				"name": "data-delivery-combined-data-records-python-classes"
+			},
+			{
+				"name": "behave-support"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "dataRecordsPyProject"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-data-records-core-python",
+		"profileReferences": [
+			{
+				"name": "data-delivery-data-records-core-python-classes"
+			},
+			{
+				"name": "behave-support"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "dataRecordsPyProjectCore"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-data-pyspark",
+		"profileReferences": [
+			{
+				"name": "data-delivery-data-pyspark-classes"
+			},
+			{
+				"name": "behave-support"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "dataRecordsPyProjectSpark"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-combined-data-records-python-classes",
+		"profileReferences": [
+			{
+				"name": "data-delivery-data-records-core-python-classes"
+			},
+			{
+				"name": "data-delivery-data-pyspark-classes"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-data-records-core-python-classes",
+		"profileReferences": [
+			{
+				"name": "python-record"
+			},
+			{
+				"name": "python-dictionary-type"
+			}
+		]
+	},
+	{
+		"name": "data-delivery-data-pyspark-classes",
+		"profileReferences": [
+			{
+				"name": "pyspark-schema"
+			}
+		]
+	},
+	{
+		"name": "pyspark-metadata",
+		"targetReferences": [
+			{
+				"name": "messagingProperties"
+			}
+		]
+	},
+	{
+		"name": "jenkins-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "jenkinsControllerDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "jenkinsValuesFile"
+			},
+			{
+				"name": "jenkinsValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "jenkinsPersistentVolumeClaim"
+			}
+		]
+	},
+	{
+		"name": "jenkins-deploy",
+		"profileReferences": [
+			{
+				"name": "jenkins-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "jenkins-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "jenkinsHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "jenkinsValuesFileV2"
+			},
+			{
+				"name": "jenkinsValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "jenkinsArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "jenkins-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "jenkins-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "data-access-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "dataAccessValuesFile"
+			},
+			{
+				"name": "dataAccessValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "dataAccessArgoCD"
+			}
+		]
+	},
+	{
+		"name": "data-access-deploy",
+		"profileReferences": [
+			{
+				"name": "data-access-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "data-access-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "data-access-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "data-access-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "dataAccessHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "dataAccessValuesFileV2"
+			},
+			{
+				"name": "dataAccessValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "dataAccessArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "hive-metastore-db-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "hiveMetastoreDbValuesFile"
+			},
+			{
+				"name": "hiveMetastoreDbValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "hiveMetastoreDbArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-hive-metastore-db-kubernetes",
+		"targetReferences": [
+			{
+				"name": "hiveMetastoreDbHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "hiveMetastoreDbValuesFileV2"
+			},
+			{
+				"name": "hiveMetastoreDbValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "hiveMetastoreDbArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "hive-metastore-service-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "hiveMetastoreServiceValuesFile"
+			},
+			{
+				"name": "hiveMetastoreServiceValuesDevFile"
+			},
+			{
+				"name": "hiveMetastoreServiceConfigMapFile"
+			},
+			{
+				"name": "hiveMetastoreServiceArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-hive-metastore-service-kubernetes",
+		"targetReferences": [
+			{
+				"name": "hiveMetastoreServiceHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "hiveMetastoreServiceValuesFileV2"
+			},
+			{
+				"name": "hiveMetastoreServiceValuesDevFileV2"
+			},
+			{
+				"name": "hiveMetastoreServiceArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "hive-metastore-db-deploy",
+		"profileReferences": [
+			{
+				"name": "hive-metastore-db-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "hive-metastore-db-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "aissemble-hive-metastore-db-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "hive-metastore-service-deploy",
+		"profileReferences": [
+			{
+				"name": "hive-metastore-service-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "hive-metastore-service-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "aissemble-hive-metastore-service-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "s3local-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "s3local-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "s3local-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "s3LocalChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "s3LocalValuesFileV2"
+			},
+			{
+				"name": "s3LocalValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			}
+		]
+	},
+	{
+		"name": "s3local-deploy",
+		"profileReferences": [
+			{
+				"name": "s3local-kubernetes"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `s3local-deploy` is deprecated, please follow the migration instructions for upgrading to the s3local V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+	},
+	{
+		"name": "s3local-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "s3LocalValuesFile"
+			},
+			{
+				"name": "s3LocalDeploymentFile"
+			},
+			{
+				"name": "s3LocalValuesDevFile"
+			},
+			{
+				"name": "helmServiceFile"
+			}
+		]
+	},
+	{
+		"name": "kafka-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "kafkaValuesFile"
+			},
+			{
+				"name": "kafkaValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "kafkaArgoCD"
+			}
+		]
+	},
+	{
+		"name": "kafka-deploy-v2",
+		"targetReferences": [
+			{
+				"name": "kafkaHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "kafkaValuesFileV2"
+			},
+			{
+				"name": "kafkaValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "kafkaArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "kafka-deploy",
+		"profileReferences": [
+			{
+				"name": "kafka-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "kafka-connect-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "kafkaConnectValuesFile"
+			},
+			{
+				"name": "kafkaConnectValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "kafkaConnectArgoCD"
+			}
+		]
+	},
+	{
+		"name": "kafka-connect-deploy",
+		"profileReferences": [
+			{
+				"name": "kafka-connect-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "policy-decision-point-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "policyDecisionPointValuesFile"
+			},
+			{
+				"name": "policyDecisionPointValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "policyDecisionPointArgoCD"
+			}
+		]
+	},
+	{
+		"name": "spark-infrastructure-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "sparkInfrastructureValuesFile"
+			},
+			{
+				"name": "sparkInfrastructureValuesDevFile"
+			},
+			{
+				"name": "sparkInfrastructurePersistentVolumeClaimFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "sparkInfrastructureConfigMapFile"
+			},
+			{
+				"name": "sparkInfrastructureArgoCD"
+			},
+			{
+				"name": "sealedSecretArgoCDFile"
+			}
+		]
+	},
+	{
+		"name": "spark-operator-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "sparkOperatorChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "sparkOperatorValuesFileV2"
+			},
+			{
+				"name": "sparkOperatorValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "sparkOperatorArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "spark-operator-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "sparkOperatorHelmDeploymentFile"
+			},
+			{
+				"name": "sparkOperatorPrometheusPodMonitorFile"
+			},
+			{
+				"name": "sparkOperatorRbacFile"
+			},
+			{
+				"name": "sparkOperatorServiceAccountFile"
+			},
+			{
+				"name": "sparkOperatorSparkRbacFile"
+			},
+			{
+				"name": "sparkOperatorSparkServiceAccountFile"
+			},
+			{
+				"name": "sparkOperatorWebhookCleanupJobFile"
+			},
+			{
+				"name": "sparkOperatorWebhookInitJobFile"
+			},
+			{
+				"name": "sparkOperatorWebhookServiceFile"
+			},
+			{
+				"name": "sparkOperatorValuesFile"
+			},
+			{
+				"name": "sparkOperatorValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "sparkOperatorScheduledApplicationsCRD"
+			},
+			{
+				"name": "sparkOperatorApplicationsCRD"
+			},
+			{
+				"name": "sparkOperatorTemplateHelper"
+			},
+			{
+				"name": "sparkOperatorArgoCD"
+			}
+		]
+	},
+	{
+		"name": "zookeeper-alert-deploy",
+		"profileReferences": [
+			{
+				"name": "zookeeper-alert-kubernetes"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The `zookeeper-alert-deploy` profile is deprecated as the v2 Kafka chart now includes Zookeeper. See the instructions for migrating to the v2 Kafka chart: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+	},
+	{
+		"name": "zookeeper-alert-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "zookeeperAlertValuesFile"
+			},
+			{
+				"name": "zookeeperAlertValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "zookeeperAlertArgoCD"
+			}
+		]
+	},
+	{
+		"name": "keycloak-deploy",
+		"profileReferences": [
+			{
+				"name": "keycloak-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "keycloak-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "keycloakValuesFile"
+			},
+			{
+				"name": "keycloakValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "keycloakArgoCD"
+			}
+		]
+	},
+	{
+		"name": "keycloak-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "keycloak-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "keycloak-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "keycloakChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "keycloakValuesFileV2"
+			},
+			{
+				"name": "keycloakValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "keycloakArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "aissemble-deployment-config",
+		"targetReferences": [
+			{
+				"name": "globalDeploymentConfigFile"
+			}
+		]
+	},
+	{
+		"name": "airflow-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "airflowValuesFile"
+			},
+			{
+				"name": "airflowValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "airflowArgoCD"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "mlflowIngressFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "airflowRoleFile"
+			},
+			{
+				"name": "airflowRoleBindingFile"
+			},
+			{
+				"name": "airflowServiceAccountFile"
+			},
+			{
+				"name": "airflowServiceAccountTokenFile"
+			}
+		]
+	},
+	{
+		"name": "mlflow-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "mlflowValuesFile"
+			},
+			{
+				"name": "mlflowValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "mlflowArgoCD"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			}
+		]
+	},
+	{
+		"name": "model-training-api-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "modelTrainingApiValuesFile"
+			},
+			{
+				"name": "modelTrainingApiValuesDevFile"
+			},
+			{
+				"name": "modelTrainingApiRbacFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "modelTrainingApiDeploymentFile"
+			},
+			{
+				"name": "modelTrainingApiServiceAccountFile"
+			},
+			{
+				"name": "modelTrainingApiConfigMapFile"
+			},
+			{
+				"name": "modelTrainingApiArgoCD"
+			}
+		]
+	},
+	{
+		"name": "postgres-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "postgresValuesFile"
+			},
+			{
+				"name": "postgresValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "postgresArgoCD"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			}
+		]
+	},
+	{
+		"name": "nexus-deploy",
+		"profileReferences": [
+			{
+				"name": "nexus-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "nexus-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "nexusValuesFile"
+			},
+			{
+				"name": "nexusValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "nexusArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-versioning-docker",
+		"targetReferences": [
+			{
+				"name": "versioningDockerFile"
+			},
+			{
+				"name": "versioningMavenSettings"
+			},
+			{
+				"name": "versioningModelPomFile"
+			},
+			{
+				"name": "versioningAuthProperties"
+			}
+		]
+	},
+	{
+		"name": "versioning-deploy",
+		"profileReferences": [
+			{
+				"name": "versioning-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "versioning-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "versioningValuesFile"
+			},
+			{
+				"name": "versioningValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "versioningArgoCD"
+			}
+		]
+	},
+	{
+		"name": "versioning-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "aissemble-versioning-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "aissemble-versioning-kubernetes",
+		"targetReferences": [
+			{
+				"name": "versioningHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "versioningValuesFileV2"
+			},
+			{
+				"name": "versioningValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "versioningArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "elasticsearch-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "elasticsearchValuesFile"
+			},
+			{
+				"name": "elasticsearchValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "elasticsearchArgoCD"
+			}
+		]
+	},
+	{
+		"name": "elasticsearch-deploy",
+		"profileReferences": [
+			{
+				"name": "elasticsearch-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "elasticsearch-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "elasticsearchHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "elasticsearchValuesFileV2"
+			},
+			{
+				"name": "elasticsearchValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "elasticsearchArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "lineage-http-consumer-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "lineage-http-consumer-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "lineage-http-consumer-kubernetes",
+		"targetReferences": [
+			{
+				"name": "lineageHttpConsumerHelmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "lineageHttpConsumerValuesFile"
+			},
+			{
+				"name": "lineageHttpConsumerValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "lineageHttpConsumerArgoCD"
+			}
+		]
+	},
+	{
+		"name": "elasticsearch-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "elasticsearch-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "elasticsearch-operator-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "elasticsearchOperatorHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "elasticsearchOperatorValuesFileV2"
+			},
+			{
+				"name": "elasticsearchOperatorValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "elasticsearchOperatorArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "elasticsearch-operator-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "elasticsearch-operator-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "neo4j-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "neo4jValuesFile"
+			},
+			{
+				"name": "neo4jValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "neo4jArgoCD"
+			}
+		]
+	},
+	{
+		"name": "neo4j-deploy",
+		"profileReferences": [
+			{
+				"name": "neo4j-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "metadata-deploy",
+		"profileReferences": [
+			{
+				"name": "metadata-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "metadata-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "metadataValuesFile"
+			},
+			{
+				"name": "metadataValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "metadataArgoCD"
+			}
+		]
+	},
+	{
+		"name": "metadata-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "metadata-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "metadata-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "metadataHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "metadataValuesFileV2"
+			},
+			{
+				"name": "metadataValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "metadataArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "java-record",
+		"targetReferences": [
+			{
+				"name": "javaRecordBase"
+			},
+			{
+				"name": "javaRecordImpl"
+			},
+			{
+				"name": "javaRecordFieldEnum"
+			},
+			{
+				"name": "javaRecordSerializerBase"
+			},
+			{
+				"name": "javaRecordSerializerImpl"
+			},
+			{
+				"name": "javaRecordDeserializerBase"
+			},
+			{
+				"name": "javaRecordDeserializerImpl"
+			}
+		]
+	},
+	{
+		"name": "python-record",
+		"targetReferences": [
+			{
+				"name": "pythonRecordBase"
+			},
+			{
+				"name": "pythonRecordImpl"
+			},
+			{
+				"name": "pythonRecordFieldEnum"
+			},
+			{
+				"name": "pythonRecordBaseInit"
+			},
+			{
+				"name": "pythonRecordImplInit"
+			}
+		]
+	},
+	{
+		"name": "java-dictionary-type",
+		"targetReferences": [
+			{
+				"name": "javaDictionaryTypeBase"
+			},
+			{
+				"name": "javaDictionaryTypeImpl"
+			}
+		]
+	},
+	{
+		"name": "python-dictionary-type",
+		"targetReferences": [
+			{
+				"name": "pythonDictionaryTypeBase"
+			},
+			{
+				"name": "pythonDictionaryTypeImpl"
+			},
+			{
+				"name": "pythonDictionaryTypeBaseInit"
+			},
+			{
+				"name": "pythonDictionaryTypeImplInit"
+			}
+		]
+	},
+	{
+		"name": "spark-schema",
+		"targetReferences": [
+			{
+				"name": "sparkSchemaBase"
+			},
+			{
+				"name": "sparkSchemaImpl"
+			}
+		]
+	},
+	{
+		"name": "pyspark-schema",
+		"targetReferences": [
+			{
+				"name": "pySparkSchemaBase"
+			},
+			{
+				"name": "pySparkSchemaImpl"
+			},
+			{
+				"name": "pySparkSchemaBaseInit"
+			},
+			{
+				"name": "pySparkSchemaImplInit"
+			}
+		]
+	},
+	{
+		"name": "aissemble-vault-docker",
+		"targetReferences": [
+			{
+				"name": "vaultDockerFile"
+			}
+		]
+	},
+	{
+		"name": "vault-deploy",
+		"profileReferences": [
+			{
+				"name": "vault-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "vault-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "vaultValuesFile"
+			},
+			{
+				"name": "vaultValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "vaultArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-policy-decision-point-docker",
+		"targetReferences": [
+			{
+				"name": "policyDecisionPointDockerFile"
+			},
+			{
+				"name": "policyDecisionPointAiopsSecurityProperties"
+			}
+		]
+	},
+	{
+		"name": "aissemble-policy-decision-point-deploy",
+		"profileReferences": [
+			{
+				"name": "policy-decision-point-kubernetes"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-policy-decision-point-deploy` is deprecated, please follow the migration instructions for upgrading to the policy decision point V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+	},
+	{
+		"name": "integration-test-docker",
+		"targetReferences": [
+			{
+				"name": "itDockerFile"
+			}
+		]
+	},
+	{
+		"name": "integration-test-chart",
+		"targetReferences": [
+			{
+				"name": "itTestYaml"
+			},
+			{
+				"name": "itChartYaml"
+			},
+			{
+				"name": "itValuesYaml"
+			},
+			{
+				"name": "itValuesCIYaml"
+			},
+			{
+				"name": "itServiceAccountYaml"
+			},
+			{
+				"name": "itValuesPipelineYaml"
+			},
+			{
+				"name": "itTiltfile"
+			}
+		]
+	},
+	{
+		"name": "integration-test-data-pipeline",
+		"targetReferences": [
+			{
+				"name": "itTestRunner"
+			},
+			{
+				"name": "itPipelineSteps"
+			},
+			{
+				"name": "itPipelineSpecification"
+			}
+		]
+	},
+	{
+		"name": "training-post-actions",
+		"targetReferences": [
+			{
+				"name": "generatedPostActionInit"
+			},
+			{
+				"name": "postActionBase"
+			},
+			{
+				"name": "postActionInit"
+			},
+			{
+				"name": "postActionImpl"
+			},
+			{
+				"name": "modelConversionPostActionBase"
+			}
+		]
+	},
+	{
+		"name": "aissemble-inference-docker",
+		"targetReferences": [
+			{
+				"name": "inferenceDockerFile"
+			},
+			{
+				"name": "inferencePerceptorApp"
+			},
+			{
+				"name": "inferencePerceptorYaml"
+			},
+			{
+				"name": "inferenceGitkeepFile"
+			}
+		]
+	},
+	{
+		"name": "docker-pom-mlflow",
+		"targetReferences": [
+			{
+				"name": "mlflowDockerPomFile"
+			}
+		]
+	},
+	{
+		"name": "docker-pom-inference",
+		"targetReferences": [
+			{
+				"name": "inferenceDockerPomFile"
+			}
+		]
+	},
+	{
+		"name": "docker-pom-training",
+		"targetReferences": [
+			{
+				"name": "trainingDockerPomFile"
+			}
+		]
+	},
+	{
+		"name": "docker-pom-training-sagemaker",
+		"targetReferences": [
+			{
+				"name": "sagemakerTrainingDockerPomFile"
+			}
+		]
+	},
+	{
+		"name": "inference-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "aissemble-inference-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "aissemble-inference-kubernetes",
+		"targetReferences": [
+			{
+				"name": "inferenceHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "inferenceValuesFileV2"
+			},
+			{
+				"name": "inferenceValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "inferenceArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "inference-deploy",
+		"profileReferences": [
+			{
+				"name": "inference-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "inference-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "helmDeploymentFile"
+			},
+			{
+				"name": "helmServiceFile"
+			},
+			{
+				"name": "helmIngressFile"
+			},
+			{
+				"name": "inferenceValuesFile"
+			},
+			{
+				"name": "inferenceValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "inferenceArgoCD"
+			}
+		]
+	},
+	{
+		"name": "machine-learning-inference",
+		"profileReferences": [
+			{
+				"name": "behave-support"
+			},
+			{
+				"name": "python-record"
+			},
+			{
+				"name": "python-dictionary-type"
+			}
+		],
+		"targetReferences": [
+			{
+				"name": "generatedBaseInit"
+			},
+			{
+				"name": "generatedInferenceBaseInit"
+			},
+			{
+				"name": "generatedInferenceGrpcInit"
+			},
+			{
+				"name": "generatedInferenceRestInit"
+			},
+			{
+				"name": "inferenceRestInit"
+			},
+			{
+				"name": "inferenceApiGrpcBase"
+			},
+			{
+				"name": "inferenceApiDriver"
+			},
+			{
+				"name": "inferenceApiGrpcProto"
+			},
+			{
+				"name": "inferenceApiRest"
+			},
+			{
+				"name": "inferencePayloadDefinitionRest"
+			},
+			{
+				"name": "generatedValidationInit"
+			},
+			{
+				"name": "inferencePayloadDefinitionBase"
+			},
+			{
+				"name": "inferencePayloadDefinitionProtoBase"
+			},
+			{
+				"name": "inferenceMessageDefinitionBase"
+			},
+			{
+				"name": "validationImplInit"
+			},
+			{
+				"name": "inferencePayloadDefinitionImpl"
+			},
+			{
+				"name": "inferenceMessageDefinitionImpl"
+			},
+			{
+				"name": "pythonPipelineImplInit"
+			},
+			{
+				"name": "pythonGenericStepImpl"
+			},
+			{
+				"name": "inferenceImpl"
+			},
+			{
+				"name": "configInit"
+			},
+			{
+				"name": "inferenceConfigScript"
+			},
+			{
+				"name": "inferenceConfigResource"
+			},
+			{
+				"name": "authConfigResource"
+			},
+			{
+				"name": "pythonInferencePyProject"
+			},
+			{
+				"name": "inferenceGrpcGeneratedGrpcPackage"
+			}
+		]
+	},
+	{
+		"name": "pipeline-model",
+		"targetReferences": [
+			{
+				"name": "pipelineModel"
+			}
+		]
+	},
+	{
+		"name": "aissemble-shared-infrastructure-deploy",
+		"profileReferences": [
+			{
+				"name": "shared-infrastructure-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "shared-infrastructure-kubernetes",
+		"targetReferences": [
+			{
+				"name": "helmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "sharedInfrastructureValuesFile"
+			},
+			{
+				"name": "sharedInfrastructureValuesDevFile"
+			},
+			{
+				"name": "modelPersistentVolumeClaimFile"
+			},
+			{
+				"name": "mlrunsPersistentVolumeClaimFile"
+			},
+			{
+				"name": "bomPersistentVolumeClaimFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "sharedInfrastructureArgoCD"
+			}
+		]
+	},
+	{
+		"name": "aissemble-spark-worker-deploy",
+		"targetReferences": [
+			{
+				"name": "sparkWorkerJobFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-lineage-custom-consumer-module",
+		"targetReferences": [
+			{
+				"name": "dataLineageCustomConsumerPomFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-lineage-custom-consumer",
+		"targetReferences": [
+			{
+				"name": "dataLineageCustomConsumerImpl"
+			}
+		]
+	},
+	{
+		"name": "aissemble-lineage-consumer-docker-module",
+		"targetReferences": [
+			{
+				"name": "dataLineageCustomConsumerDockerPomFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-lineage-custom-consumer-docker",
+		"targetReferences": [
+			{
+				"name": "quarkusServiceDockerFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-custom-lineage-consumer-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "lineage-custom-consumer-kubernetes"
+			}
+		]
+	},
+	{
+		"name": "lineage-custom-consumer-kubernetes",
+		"targetReferences": [
+			{
+				"name": "lineageCustomConsumerHelmChartFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "lineageCustomConsumerValuesFile"
+			},
+			{
+				"name": "lineageCustomConsumerValuesDevFile"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "lineageCustomConsumerArgoCD"
+			}
+		]
+	},
+	{
+		"name": "pipeline-invocation-service-v2",
+		"targetReferences": [
+			{
+				"name": "pipelineInvocationServiceHelmChartFile-v2"
+			},
+			{
+				"name": "pipelineInvocationServiceConfigMapFile-v2"
+			},
+			{
+				"name": "pipelineInvocationServiceValuesFile-v2"
+			},
+			{
+				"name": "pipelineInvocationServiceValuesDevFile-v2"
+			},
+			{
+				"name": "pipelineInvocationServiceArgoCD-v2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "helmIgnoreFile"
+			}
+		]
+	},
+	{
+		"name": "policy-decision-point-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "policy-decision-point-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "policy-decision-point-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "policyDecisionPointHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "policyDecisionPointValuesFileV2"
+			},
+			{
+				"name": "policyDecisionPointValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "policyDecisionPointArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-records-combined-module",
+		"profileReferences": [
+			{
+				"name": "aissemble-data-records-combined-module-java"
+			},
+			{
+				"name": "aissemble-data-records-combined-module-python"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-records-combined-module-java",
+		"targetReferences": [
+			{
+				"name": "dataDeliveryDataRecordsJavaPomFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-records-combined-module-python",
+		"targetReferences": [
+			{
+				"name": "dataDeliveryDataRecordsPythonPomFile"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-records-module",
+		"profileReferences": [
+			{
+				"name": "aissemble-data-records-combined-module"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-data-records-module` is deprecated, please replace it with the new version: aissemble-data-records-combined-module"
+	},
+	{
+		"name": "data-delivery-spark-data-records",
+		"profileReferences": [
+			{
+				"name": "data-delivery-combined-data-records"
+			}
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `data-delivery-spark-data-records` is deprecated, please replace it with the new version: data-delivery-combined-data-records"
+	},
+	{
+		"name": "aissemble-data-records-separate-module",
+		"profileReferences": [
+			{
+				"name": "aissemble-data-records-separate-module-java"
+			},
+			{
+				"name": "aissemble-data-records-separate-module-python"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-records-separate-module-java",
+		"targetReferences": [
+			{
+				"name": "dataDeliveryCoreDataRecordsPomFileJava"
+			},
+			{
+				"name": "dataDeliverySparkDataPomFileJava"
+			}
+		]
+	},
+	{
+		"name": "aissemble-data-records-separate-module-python",
+		"targetReferences": [
+			{
+				"name": "dataDeliveryCoreDataRecordsPomFilePython"
+			},
+			{
+				"name": "dataDeliverySparkDataPomFilePython"
+			}
+		]
+	},
+	{
+		"name": "mlflow-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "mlflow-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "mlflow-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "mlflowHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "mlflowValuesFileV2"
+			},
+			{
+				"name": "mlflowValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "mlflowArgoCDV2"
+			},
+			{
+				"name": "sealedSecretArgoCDFile"
+			}
+		]
+	}
+]

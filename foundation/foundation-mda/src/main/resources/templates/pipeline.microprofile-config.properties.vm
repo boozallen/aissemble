@@ -1,0 +1,22 @@
+#set ($comment = '#')
+#set ($header = '###')
+$comment properties for the smallrye kafka connector
+$comment see https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2.5/kafka/kafka.html for more details
+
+$comment the kafka server to connect to
+kafka.bootstrap.servers=kafka-cluster:9093
+
+
+$header Metadata Ingest Producer configs $header
+mp.messaging.outgoing.metadata-ingest.connector=smallrye-kafka
+mp.messaging.outgoing.metadata-ingest.topic=metadata-ingest
+mp.messaging.outgoing.metadata-ingest.value.serializer=com.boozallen.aiops.core.metadata.producer.MetadataSerializer
+
+#if (${pipeline.getDataLineage()})
+$header Data Lineage Emitter configs $header
+$comment By default, uses in-memory transport and logs events to console.
+$comment The following sample configuration will enable emission to Kafka.
+$comment mp.messaging.outgoing.${dataLineageChannel}.connector=smallrye-kafka
+$comment mp.messaging.outgoing.${dataLineageChannel}.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+$comment mp.messaging.outgoing.${dataLineageChannel}.topic=${dataLineageChannel}
+#end

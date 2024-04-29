@@ -1,0 +1,54 @@
+"""
+    Base implementation of the request/response payloads for inference analytics.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in validation/inference_payload_definition.py).
+
+    Generated from: ${templateName}
+"""
+
+from pydantic import BaseModel, validator
+#foreach ($import in $step.inboundOutboundRecordImports)
+${import}
+#end
+
+class RecordBase(BaseModel):
+    """
+    Represents a raw record in the inference request.
+    """
+
+#if ($step.hasInboundRecordType())
+  #foreach ($field in $step.inboundRecord.fields)
+    ${field.snakeCaseName}: ${field.type.dictionaryType.shortType}#if (!$field.isRequired()) = None #end
+
+    #if ($field.type.dictionaryType.isComplex())
+    @validator('${field.snakeCaseName}')
+    def validate_${field.snakeCaseName}(cls, v):
+        ${field.shortType}(v).validate()
+        return v
+    #end
+
+  #end
+#else
+    pass
+#end
+
+class InferenceBase(BaseModel):
+    """
+    Represents an inference result of the model prediction.
+    """
+
+#if ($step.hasOutboundRecordType())
+  #foreach ($field in $step.outboundRecord.fields)
+    ${field.snakeCaseName}: ${field.type.dictionaryType.shortType}#if (!$field.isRequired()) = None #end
+
+    #if ($field.type.dictionaryType.isComplex())
+    @validator('${field.snakeCaseName}')
+    def validate_${field.snakeCaseName}(cls, v):
+        ${field.shortType}(v).validate()
+        return v
+    #end
+  #end
+#else
+    pass
+#end
+

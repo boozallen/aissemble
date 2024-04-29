@@ -1,0 +1,25 @@
+suite: quarkus
+templates:
+  - configmap.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: data
+          value:
+            quarkus-properties-file: |-
+  - it: Should override default properties appropriately
+    set:
+      configMap:
+        supplementalQuarkusConfig:
+          - myproperty1=value1
+          - myproperty2=value2
+    asserts:
+      - equal:
+          path: data
+          value:
+            quarkus-properties-file: |-
+              myproperty1=value1
+              myproperty2=value2

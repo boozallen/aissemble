@@ -1,0 +1,11 @@
+package ${basePackage};
+
+/**
+ * Serializes a ${record.capitalizedName} for use with messaging.
+ *
+ * GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class ${record.capitalizedName}Serializer extends ${record.capitalizedName}SerializerBase {
+}

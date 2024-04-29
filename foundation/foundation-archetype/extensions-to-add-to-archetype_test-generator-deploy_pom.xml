@@ -1,0 +1,133 @@
+<!--
+    It's hard to infer the extensions that needed to be added to test-generator-deploy/pom.xml.
+    Thus adding them to this static file. If changes are needed, the build failure points you to this file.
+-->
+
+                    <execution>
+                        <id>aissemble-machine-learning-inference</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>inference-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>aissemble-machine-learning-inference</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>hive-metastore-db</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>hive-metastore-db-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>hive-metastore-db</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>airflow</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>airflow-deploy-v2</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>airflow</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>spark</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>aissemble-spark-operator-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>spark</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>policy-decision-point</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>aissemble-policy-decision-point-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>policy-decision-point</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+					<execution>
+                        <id>metadata</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>metadata-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>metadata</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>spark-infrastructure</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.bah.aiops</basePackage>
+                            <profile>aissemble-spark-infrastructure-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>spark-infrastructure</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>hive-metastore-service</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>org.example</basePackage>
+                            <profile>hive-metastore-service-deploy</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>hive-metastore-service</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>

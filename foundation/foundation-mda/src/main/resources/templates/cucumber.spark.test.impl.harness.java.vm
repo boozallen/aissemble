@@ -1,0 +1,68 @@
+package ${basePackage};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.aeonbits.owner.KrauseningConfigFactory;
+import org.apache.log4j.Level;
+import org.apache.spark.sql.SparkSession;
+
+import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aiops.data.delivery.spark.SparkConfig;
+#if (${pipeline.isAlertingSupportNeeded()})
+import com.boozallen.aissemble.alerting.core.AlertProducer;
+#end
+#if (${pipeline.getDataLineage()})
+import com.boozallen.aissemble.common.Constants;
+#end
+
+import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+
+/**
+ * Sets up Spark to run within Cucumber.
+ *
+ * GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class SparkTestHarness extends SparkTestBaseHarness {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected void setLogging() {
+		// suppress excessive logging from spark and smallrye
+		org.apache.log4j.Logger.getLogger("org").setLevel(Level.WARN);
+		org.apache.log4j.Logger.getLogger("io").setLevel(Level.ERROR);
+		
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	protected void configureMessagingChannels() {
+		// set up smallrye channels to use in-memory connector so we don't
+		// need to bring up kafka for the tests:
+		
+		InMemoryConnector.switchIncomingChannelsToInMemory("request-channel");
+		InMemoryConnector.switchOutgoingChannelsToInMemory("response-channel");
+		InMemoryConnector.switchOutgoingChannelsToInMemory("metadata-ingest");
+## metadata-ingest is needed outside of the "isMetadataNeeded" result. Otherwise gives SRMSG00072: Unknown connector for `metadata-ingest`
+	#if (${pipeline.isAlertingSupportNeeded()})
+		InMemoryConnector.switchOutgoingChannelsToInMemory(AlertProducer.ALERT_TOPIC);
+	#end
+	#if (${pipeline.getDataLineage()})
+	    InMemoryConnector.switchOutgoingChannelsToInMemory(Constants.DATA_LINEAGE_CHANNEL_NAME);
+	#end
+	}
+	
+    /**
+	 * {@inheritDoc}
+	 */
+	protected List<CdiContext> getCdiContexts() {
+		List<CdiContext> testContexts = new ArrayList<>();
+		testContexts.add(new TestCdiContext());
+		return testContexts;
+	}
+	
+}

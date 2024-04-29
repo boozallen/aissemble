@@ -1,0 +1,18 @@
+suite: spark
+templates:
+  - service.yaml
+tests:
+  - it: After enabling service, it should contain correct default value
+    set:
+      service:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.ports[0].name
+          value: debug
+      - equal:
+          path: spec.ports[0].port
+          value: 4747
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 4747

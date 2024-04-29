@@ -1,0 +1,46 @@
+/* GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+ *
+ * Originally generated from: ${templateName}
+ */
+syntax = "proto3";
+
+import "${artifactIdSnakeCase}/generated/inference/grpc/generated/inference_payload_definition.proto";
+
+// Defines an inference analytic service
+service InferenceService {
+  // Perform the relevant inference anayltic against a single input data record
+  rpc Analyze(InferenceRequest) returns (InferenceResponse) {}
+
+  // Perform the relevant inference analytic against multiple input data records
+  rpc AnalyzeBatch(BatchInferenceRequest) returns (BatchInferenceResponse) {}
+}
+
+// Defines the required request message elements needed to perform inferencing against a single input data record.
+message InferenceRequest {
+  Record data = 1;
+}
+
+// Defines the response message containing the results of performing inferencing against a single data record
+message InferenceResponse {
+  Inference result = 1;
+}
+
+/* Defines the required request message elements needed to perform inferencing against a batch of multiple
+ * input data records.  The row_id_key is utilized to specify the attribute within the given input data records
+ * that should be embedded alongside inference results to allow invoking clients to understand to which data record
+ * the inference result correlates. */
+message BatchInferenceRequest {
+  string row_id_key = 1;
+  repeated Record data = 2;
+}
+
+/* Defines the response message containing the results of performing inferencing against the provided batch of multiple
+ * data records.  Each inference result is linked to its corresponding input data record via the row_id attribute value,
+ * which aligns with the attribute from the original input data record that was specified in the BatchInferenceRequest. */
+message BatchInferenceResponse {
+  message RecordRowIdAndInferencePair {
+    string row_id = 1;
+    Inference result = 2;
+  }
+  repeated RecordRowIdAndInferencePair results = 1;
+}

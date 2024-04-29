@@ -1,0 +1,30 @@
+# Default values for elasticsearch
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+eck-stack:
+  eck-elasticsearch:
+    enabled: true
+    version: 8.1.2
+    nameOverride: "elasticsearch"
+    fullnameOverride: "elasticsearch"
+    http:
+        tls:
+          selfSignedCertificate:
+            disabled: true
+    auth:
+        fileRealm:
+        - secretName: elastic-user-secret
+  eck-kibana:
+    enabled: false
+  eck-agent:
+    enabled: false
+  eck-fleet-server:
+    enabled: false
+
+basicAuth:
+  enabled: true
+  user:
+    username: elastic
+    password: elastic
+    roles: superuser
+

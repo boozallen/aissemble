@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.boozallen.aissemble</groupId>
+		<artifactId>foundation-messaging</artifactId>
+		<version>1.7.0-SNAPSHOT</version>
+	</parent>
+	<packaging>pom</packaging>
+
+	<artifactId>foundation-messaging-python</artifactId>
+
+	<name>aiSSEMBLE::Foundation::Messaging::Python</name>
+	<description>Contains the modules used for python messaging</description>
+
+	<modules>
+		<module>aissemble-foundation-messaging-python-client</module>
+		<module>foundation-messaging-python-service</module>
+	</modules>
+
+</project>

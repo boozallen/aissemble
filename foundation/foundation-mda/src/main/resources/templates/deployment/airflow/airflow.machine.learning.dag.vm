@@ -1,0 +1,33 @@
+from datetime import timedelta
+from textwrap import dedent
+
+# The DAG object; we'll need this to instantiate a DAG
+from airflow import DAG
+
+# Operators; we need this to operate!
+from airflow.operators.bash import BashOperator
+from airflow.utils.dates import days_ago
+# These args will get passed on to each operator
+# You can override them on a per-task basis during operator initialization
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'email': ['airflow@example.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5)
+}
+with DAG(
+    '${pipelineStep.getName()}',
+    default_args=default_args,
+    description='A simple skeleton DAG for your machine learning training step ${pipelineStep.getName()}',
+    schedule_interval=None,
+    start_date=days_ago(2),
+    tags=['pipeline'],
+) as dag:
+    ${pipelineStep.getLowercaseSnakeCaseName()} = BashOperator(
+        task_id='${pipelineStep.getLowercaseSnakeCaseName()}_driver',
+        bash_command='source /opt/airflow/pipelines-env/bin/activate && \
+        python -m ${pipelineStep.getLowercaseSnakeCaseName()}.${pythonPipeline.getSnakeCaseName()}_driver',
+    )

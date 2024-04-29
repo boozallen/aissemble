@@ -1,0 +1,7 @@
+# Dev values for Keycloak.
+service:
+  spec:
+    type: LoadBalancer
+
+ingress:
+  enabled: false

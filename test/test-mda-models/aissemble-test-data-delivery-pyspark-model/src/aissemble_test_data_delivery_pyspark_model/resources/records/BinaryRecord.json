@@ -1,0 +1,14 @@
+{
+  "name": "BinaryRecord",
+  "package": "com.boozallen.aiops.mda.pattern.record",
+  "description": "Example record with a binary field for Pyspark Data Delivery Patterns",
+  "fields": [
+    {
+      "name": "binaryField",
+      "type": {
+        "name": "binarydata",
+        "package": "com.boozallen.aiops.mda.pattern.dictionary"
+      }
+    }
+  ]
+}

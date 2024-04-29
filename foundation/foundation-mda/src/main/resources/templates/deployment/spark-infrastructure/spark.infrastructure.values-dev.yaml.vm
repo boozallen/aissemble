@@ -1,0 +1,4 @@
+# Dev values for spark-infrastructure.
+service:
+  spec:
+    type: LoadBalancer

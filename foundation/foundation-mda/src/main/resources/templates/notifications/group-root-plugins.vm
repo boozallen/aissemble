@@ -1,0 +1,6 @@
+
+ You must add the following plugin invocations to pom.xml to activate them in your build!
+
+#foreach ($item in $items)
+${item}
+#end

@@ -1,0 +1,51 @@
+[
+	{
+		"id": "urn:aiops:jerseyNumber",
+		"category": "subject",
+		"type": "int",
+		"required": "true",
+		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint "
+	},
+	{
+		"id": "urn:aiops:hallOfFameProfile",
+		"category": "subject",
+		"type": "uri",
+		"required": "false",
+		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+	},
+	{
+		"id": "urn:aiops:suspectedPedUser",
+		"category": "subject",
+		"type": "boolean",
+		"required": "false",
+		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+	},
+	{
+		"id": "urn:aiops:battingAverage",
+		"category": "subject",
+		"type": "double",
+		"required": "true",
+		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+	},
+	{
+		"id": "urn:aiops:serviceEntryDate",
+		"category": "subject",
+		"type": "date",
+		"required": "true",
+		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+	},
+	{
+		"id": " urn:aiops:trimClassNameTest",
+		"category": "subject ",
+		"type": " date",
+		"required": "true ",
+		"attributePointClass": " com.boozallen.aiops.security.authorization.LocalAttributePoint "
+	},
+	{
+		"id": "urn:aiops:seasonsBattingOver350",
+		"category":"subject",
+		"type": "integer",
+		"required": "false",
+		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+	}
+]

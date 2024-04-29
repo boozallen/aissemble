@@ -1,0 +1,13 @@
+apiVersion: v2
+name: aissemble-elasticsearch-operator-chart
+description: A Helm chart for elasticsearch operator
+# Version is automatically set by the plugin so this is only a placeholder
+version: 1.0.0
+# App Version is automatically set by the plugin so this is only a placeholder
+appVersion: 1.0.0
+sources:
+  - https://github.com/boozallen/aissemble
+dependencies:
+  - name: eck-operator
+    version: 2.8.0
+    repository: https://helm.elastic.co

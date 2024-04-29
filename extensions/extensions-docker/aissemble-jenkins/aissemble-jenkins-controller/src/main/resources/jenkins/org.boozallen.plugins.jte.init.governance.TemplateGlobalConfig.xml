@@ -1,0 +1,38 @@
+<!--
+  #%L
+  AIOps Docker Baseline::Jenkins::Controller
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+<org.boozallen.plugins.jte.init.governance.TemplateGlobalConfig plugin="templating-engine@2.4">
+    <tier>
+        <configurationProvider class="org.boozallen.plugins.jte.init.governance.config.NullPipelineConfigurationProvider"/>
+        <librarySources>
+            <org.boozallen.plugins.jte.init.governance.libs.LibrarySource>
+                <libraryProvider class="org.boozallen.plugins.jte.init.governance.libs.ScmLibraryProvider">
+                    <scm class="hudson.plugins.git.GitSCM" plugin="git@4.11.1">
+                        <configVersion>2</configVersion>
+                        <userRemoteConfigs>
+                            <hudson.plugins.git.UserRemoteConfig>
+                                <url>https://github.com/boozallen/sdp-libraries.git</url>
+                                <credentialsId>github</credentialsId>
+                            </hudson.plugins.git.UserRemoteConfig>
+                        </userRemoteConfigs>
+                        <branches>
+                            <hudson.plugins.git.BranchSpec>
+                                <name>*/release/3.2</name>
+                            </hudson.plugins.git.BranchSpec>
+                        </branches>
+                        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+                        <submoduleCfg class="empty-list"/>
+                        <extensions/>
+                    </scm>
+                    <baseDir>libraries</baseDir>
+                </libraryProvider>
+            </org.boozallen.plugins.jte.init.governance.libs.LibrarySource>
+        </librarySources>
+    </tier>
+</org.boozallen.plugins.jte.init.governance.TemplateGlobalConfig>

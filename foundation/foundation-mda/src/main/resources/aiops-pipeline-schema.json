@@ -1,0 +1,297 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"id": "#pipeline",
+	"title": "Pipeline",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"package": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"type": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"implementation": {
+					"type": "string"
+				},
+				"versioning": {
+					"type": "object",
+					"properties": {
+						"enabled": {
+							"type": "boolean"
+						}
+					}
+				},
+				"platforms": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"executionHelpers": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"name", "implementation"
+			]
+		},
+		"fileStores": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				]
+			}
+		},
+		"dataLineage": {
+			"type": "boolean"
+		},
+		"steps": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"inbound": {
+						"type": "object",
+						"properties": {
+							"type": {
+								"type": "string"
+							},
+							"nativeCollectionType": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"package": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								]
+							},
+							"recordType": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"package": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								]
+							},
+							"channelType": {
+								"type": "string"
+							},
+							"channelName": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"type"
+						]
+					},
+					"outbound": {
+						"type": "object",
+						"properties": {
+							"type": {
+								"type": "string"
+							},
+							"nativeCollectionType": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"package": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								]
+							},
+							"recordType": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"package": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								]
+							},
+							"channelType": {
+								"type": "string"
+							},
+							"channelName": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"type"
+						]
+					},
+					"persist": {
+						"type": "object",
+						"properties": {
+							"type": {
+								"type": "string"
+							},
+							"mode": {
+								"type": "string"
+							},
+							"collectionType": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"package": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								]
+							},
+							"recordType": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"package": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								]
+							}
+						},
+						"required": [
+							"type"
+						]
+					},
+					"metadata": {
+						"type": "object",
+						"properties": {
+							"enabled": {
+								"type": "boolean"
+							}
+						}
+					},
+					"alerting": {
+						"type": "object",
+						"properties": {
+							"enabled": {
+								"type": "boolean"
+							}
+						}
+					},
+					"postActions": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string"
+								},
+								"modelTarget": {
+									"type": "string"
+								},
+								"modelSource": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"name", "type"
+							]
+						}
+					},
+					"configuration": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"key": {
+									"type": "string"
+								},
+								"value": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"key", "value"
+							]
+						}
+					},
+					"fileStores": {
+						"$comment": "References to named file stores defined under pipeline",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"modelLineage": {
+						"type": "object",
+						"properties": {
+							"enabled": {
+								"type": "boolean"
+							}
+						}
+					}
+				},
+				"required": [
+					"name", "type"
+				]
+			}
+		}
+	},
+	"required": [
+		"name", "package", "type"
+	]
+}

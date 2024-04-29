@@ -1,0 +1,4 @@
+
+Add the following to Tiltfile to ensure resources start up in the correct order without misleading errors
+
+k8s_resource('${appName}', resource_deps=[${formattedAppDependencies}])

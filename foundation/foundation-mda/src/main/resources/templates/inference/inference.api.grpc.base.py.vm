@@ -1,0 +1,115 @@
+from google.protobuf import json_format
+from pydantic.error_wrappers import ValidationError
+from grpc import StatusCode
+import logging
+
+from ....inference_impl import *
+from .inference_api_pb2_grpc import InferenceServiceServicer
+
+from .inference_api_pb2 import InferenceResponse as GrpcInferenceResponse, \
+    BatchInferenceResponse as GrpcBatchInferenceResponse
+from .generated.inference_payload_definition_pb2 import Inference as GrpcInference
+from ....validation.inference_payload_definition import Record
+from ....validation.inference_message_definition import RequestBody
+from ....validation.inference_payload_definition import Inference as InferenceImplResult
+
+# Utilized to support Pydantic-based validation of batch requests
+from ..rest.inference_payload_definition import BatchInferenceRequest as RestBatchInferenceRequest
+
+class InferenceGrpcBase(InferenceServiceServicer):
+    """
+    Base implementation of a gRPC endpoint for an inference analytic.
+
+    GENERATED CODE - DO NOT MODIFY (add your inference analytic implementation to inference_impl.py).
+
+    Generated from: ${templateName}
+    """
+    def Analyze(self, request, context):
+        """
+        gRPC implementation for performing inferencing against a single provided input data record.
+        :param request:
+        :param context:
+        :return:
+        """
+        infer_impl_data_record = self.validate_analyze_req_and_create_impl_record(request, context)
+
+        infer_impl_request = RequestBody(data=[infer_impl_data_record])
+        infer_impl_response = execute_inference(infer_impl_request)
+
+        grpc_inference_result = self.convert_inference_impl_result_to_grpc_payload(infer_impl_response.inferences[0])
+        return GrpcInferenceResponse(result=grpc_inference_result)
+
+    def AnalyzeBatch(self, request, context):
+        """
+        gRPC implementation for performing inferencing against a batch of multiple provided input data records.
+        :param request:
+        :param context:
+        :return:
+        """
+        infer_impl_data_records = self.validate_analyze_batch_req_and_create_impl_records(request, context)
+
+        infer_impl_request = RequestBody(data=infer_impl_data_records)
+        infer_impl_response = execute_inference(infer_impl_request)
+
+        record_row_id_and_inference_pairs = []
+        for index, inference_result in enumerate(infer_impl_response.inferences):
+            record_row_id = getattr(request.data[index], request.row_id_key)
+
+            record_row_id_and_inference_pair = GrpcBatchInferenceResponse.RecordRowIdAndInferencePair(
+                row_id=record_row_id, result=self.convert_inference_impl_result_to_grpc_payload(inference_result))
+            record_row_id_and_inference_pairs.append(record_row_id_and_inference_pair)
+
+        return GrpcBatchInferenceResponse(results=record_row_id_and_inference_pairs)
+
+    def convert_inference_impl_result_to_grpc_payload(self, inference_impl_result: InferenceImplResult):
+        """
+        Due to the lack of inheritance support with Protobuf defintions, this method provides an
+        extension point for developers to convert the inference implementation result into its
+        corresponding gRPC protobuf payload.  Typically, the default implementation of this method
+        will suffice if the generated inference_payload_definition.proto is used as is.  However
+        if developers need a hand-build a custom inference_payload_definition.proto, this method
+        should be appropriately extended as needed.
+
+        :param inference_impl_result: Inference result returned by the appropriate inference analytic
+                    implementation.
+        :return: given inference result converted to the appropriate gRPC result payload object.
+        """
+        return json_format.ParseDict(inference_impl_result.dict(), GrpcInference())
+
+    def validate_analyze_req_and_create_impl_record(self, grpc_request, context):
+        """
+        Validates the given analyze request and creates the corresponding Record that will be
+        provided to the relevant inference implementation.
+
+        :param grpc_request:
+        :param context:
+        :return:
+        """
+        try:
+            infer_impl_data_record = Record.parse_obj(
+                json_format.MessageToDict(grpc_request.data, preserving_proto_field_name=True))
+        except ValidationError as e:
+            logging.warning(f"Invalid format exception: {str(e)}")
+            context.abort(StatusCode.INVALID_ARGUMENT, str(e))
+        return infer_impl_data_record
+
+    def validate_analyze_batch_req_and_create_impl_records(self, grpc_request, context):
+        """
+        Validates the given analyze batch request and creates the corresponding list of Records that will be
+        provided to the relevant inference implementation.
+
+        :param grpc_request:
+        :param context:
+        :return:
+        """
+        grpc_data_record_dicts = []
+        for grpc_data_record in grpc_request.data:
+            grpc_data_record_dicts.append(json_format.MessageToDict(grpc_data_record, preserving_proto_field_name=True))
+
+        try:
+            rest_batch_infer_request = RestBatchInferenceRequest(row_id_key='unused', data=grpc_data_record_dicts)
+        except ValidationError as e:
+            logging.warning(f"Invalid format exception: {str(e)}")
+            context.abort(StatusCode.INVALID_ARGUMENT, str(e))
+
+        return rest_batch_infer_request.data

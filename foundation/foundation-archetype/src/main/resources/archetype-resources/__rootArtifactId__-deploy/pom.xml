@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <artifactId>${parentArtifactId}-deploy</artifactId>
+    <name>${projectName}::Deploy</name>
+    <description>Contains the deployment artifacts for ${projectName}</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <profile>deploy</profile>
+                    <propertyVariables>
+                        <aissembleVersion>${version.aissemble}</aissembleVersion>
+                    </propertyVariables>
+                    <metadataDependencies>
+                        <metadataDependency>${parentArtifactId}-pipeline-models</metadataDependency>
+                    </metadataDependencies>
+                    <targetModelInstances>
+                        <targetModelInstance>${parentArtifactId}-pipeline-models</targetModelInstance>
+                    </targetModelInstances>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Have to override default execution in parent pom as it expects a default base package to be set.
+                        Since we want to execute each time with a different profile we don't want anything defined here.-->
+                        <id>generate-sources</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>kafka-cluster</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.boozallen</basePackage>
+                            <profile>kafka-deploy-v2</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                             to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>kafka-cluster</appName>
+                            </propertyVariables>
+                        </configuration>
+                    </execution>
+                    <!-- Add executions for each deployment module -->
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>${parentArtifactId}-pipeline-models</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/src/main/resources/apps/</directory>
+                            <includes>
+                                <include>**/target/**</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clean-app-target-dirs</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>${group.helm.plugin}</groupId>
+                <artifactId>helm-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>resolve-dependencies</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>dependency-update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <chartDirectory>${project.basedir}/src/main/resources/apps</chartDirectory>
+                    <helmExtraRepos>
+                        <helmRepo>
+                            <name>ghcr.io</name>
+                            <url>${aissemble.helm.repo}</url>
+                        </helmRepo>
+                    </helmExtraRepos>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

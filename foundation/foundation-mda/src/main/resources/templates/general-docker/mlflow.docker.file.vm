@@ -1,0 +1,16 @@
+# Script for creating policy decision point service image
+#
+# GENERATED DOCKERFILE - please ***DO*** modify.
+#
+# Generated from: ${templateName}
+
+ARG DOCKER_BASELINE_REPO_ID
+ARG VERSION_AISSEMBLE
+
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-mlflow:${VERSION_AISSEMBLE}
+
+RUN mkdir -p /mlflow/startup
+COPY ./src/main/resources/start.sh /mlflow/startup/
+RUN chmod +x /mlflow/startup/start.sh
+
+CMD ["/mlflow/startup/start.sh"]

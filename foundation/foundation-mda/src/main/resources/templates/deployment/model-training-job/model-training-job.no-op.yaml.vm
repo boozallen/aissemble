@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: no-op-${projectName}-${appName.replace("-image", "")}
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+      - name: no-op
+        image: boozallen/${projectName}-${appName.replace("-image", "")}-docker
+        env:
+        - name: MODE
+          value: "no-op"
+      restartPolicy: Never

@@ -1,0 +1,59 @@
+# The DAG object; we'll need this to instantiate a DAG
+from airflow import DAG
+
+# Operators; we need this to operate!
+from datetime import timedelta, datetime
+from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
+from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+from airflow.operators.bash import BashOperator
+from airflow.utils.dates import days_ago
+import os
+
+execution_environment = os.environ.get("EXECUTION_ENVIRONMENT", "dev")
+if "dev" == execution_environment:
+    file_name = "/opt/airflow/jobs/${pipeline.deriveArtifactIdFromCamelCase()}-dev-chart.yaml"
+elif "ci" == execution_environment:
+    file_name = "/opt/airflow/jobs/${pipeline.deriveArtifactIdFromCamelCase()}-ci-chart.yaml"
+namespace = os.environ.get("KUBERNETES_NAMESPACE", "default")
+
+# These args will get passed on to each operator
+# You can override them on a per-task basis during operator initialization
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'email': ['airflow@example.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5)
+}
+with DAG(
+    '${pipeline.getName()}',
+    default_args=default_args,
+    description='A simple skeleton DAG for your data delivery pipeline ${pipeline.getName()}',
+    schedule_interval=None,
+    start_date=days_ago(2),
+    tags=['pipeline'],
+) as dag:
+    api_group = "sparkoperator.k8s.io"
+    api_version = "v1beta2"
+
+    spark_ingest = SparkKubernetesOperator(
+        task_id="${pipeline.getType().getImplementation()}",
+        application_file=open(file_name).read(),
+        api_group=api_group,
+        api_version=api_version,
+        do_xcom_push=True,
+        namespace=namespace
+    )
+
+    monitor = SparkKubernetesSensor(
+        task_id='spark_monitor',
+        api_group=api_group,
+        api_version=api_version,
+        application_name="${pipeline.deriveArtifactIdFromCamelCase()}",
+        attach_log=True,
+        namespace=namespace
+    )
+
+    spark_ingest >> monitor

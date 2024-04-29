@@ -1,0 +1,7 @@
+# Merges two yaml files.  In the event of conflicts, the second file is given priority.
+{{- define "filegather.util.merge" -}}
+{{- $top := first . -}}
+{{- $overrides := fromYaml (include (index . 1) $top) | default (dict ) -}}
+{{- $tpl := fromYaml (include (index . 2) $top) | default (dict ) -}}
+{{- toYaml (merge $overrides $tpl) -}}
+{{- end -}}

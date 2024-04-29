@@ -1,0 +1,67 @@
+metadata:
+    name: test-data-delivery-spark-model
+    namespace: default
+spec:
+  type: Java
+  mode: cluster
+  image: "boozallen/test-data-delivery-spark-model-spark-worker-docker:latest"
+  imagePullPolicy: IfNotPresent
+  mainClass: com.boozallen.aiops.mda.pattern.SparkJavaDataDeliveryPatternsDriver
+  mainApplicationFile: "local:///opt/spark/jobs/pipelines/test-data-delivery-spark-model.jar"
+  deps:
+    packages:
+      - mysql:mysql-connector-java:8.0.30
+      - org.apache.hadoop:hadoop-aws:3.3.4
+      - com.amazonaws:aws-java-sdk-bundle:1.12.262
+      - org.neo4j:neo4j-connector-apache-spark_2.12:4.1.5_for_spark_3
+      - org.elasticsearch:elasticsearch-spark-30_2.12:8.9.0
+      - io.delta:delta-core_2.12:2.4.0
+      - io.delta:delta-storage:2.4.0
+      - org.apache.sedona:sedona-sql-3.0_2.12:1.4.0
+    excludePackages: []
+  hadoopConf:
+    fs.s3a.fast.upload: "true"
+    fs.s3a.path.style: "true"
+  dynamicAllocation:
+    enabled: true
+    initialExecutors: 0
+    minExecutors: 0
+    maxExecutors: 4
+  restartPolicy:
+    type: Never
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.4.0
+    serviceAccount: spark
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+      - name: ENABLE_LINEAGE
+        value: "true"
+      - name: AWS_ACCESS_KEY_ID
+        value: "123"
+      - name: AWS_SECRET_ACCESS_KEY
+        value: "456"
+      - name: STORAGE_ENDPOINT
+        value: "http://s3-local:4566"
+    javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+  executor:
+    cores: 1
+    memory: "512m"
+    labels:
+      version: 3.4.0
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+      - name: ENABLE_LINEAGE
+        value: "true"
+      - name: AWS_ACCESS_KEY_ID
+        value: "123"
+      - name: AWS_SECRET_ACCESS_KEY
+        value: "456"
+      - name: STORAGE_ENDPOINT
+        value: "http://s3-local:4566"
+    javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"

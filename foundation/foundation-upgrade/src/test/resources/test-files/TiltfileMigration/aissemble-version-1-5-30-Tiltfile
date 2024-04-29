@@ -1,0 +1,162 @@
+allow_k8s_contexts('local')
+docker_prune_settings(num_builds=1, keep_recent=1)
+
+aissemble_version = '1.5.30'
+
+build_args = { 'DOCKER_BASELINE_REPO_ID': 'ghcr.io/',
+               'VERSION_AISSEMBLE': aissemble_version}
+
+# Kafka
+yaml = helm(
+    'pysparkdd-deploy/src/main/resources/apps/kafka-cluster',
+    values=['pysparkdd-deploy/src/main/resources/apps/kafka-cluster/values.yaml',
+        'pysparkdd-deploy/src/main/resources/apps/kafka-cluster/values-dev.yaml']
+)
+k8s_yaml(yaml)
+
+# Zookeeper Alert
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/zookeeper-alert',
+   values=['pysparkdd-deploy/src/main/resources/apps/zookeeper-alert/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/zookeeper-alert/values-dev.yaml']
+)
+k8s_yaml(yaml)
+
+# Add deployment resources here
+# py-spark-data-delivery-compiler
+local_resource(
+    name='compile-py-spark-data-delivery',
+    cmd='cd pysparkdd-pipelines/py-spark-data-delivery && poetry run behave tests/features && poetry build && cd - && \
+    cp -r pysparkdd-pipelines/py-spark-data-delivery/dist/* pysparkdd-docker/pysparkdd-spark-worker-docker/target/dockerbuild/py-spark-data-delivery && \
+    cp pysparkdd-pipelines/py-spark-data-delivery/dist/requirements.txt pysparkdd-docker/pysparkdd-spark-worker-docker/target/dockerbuild/requirements/py-spark-data-delivery',
+    deps=['pysparkdd-pipelines/py-spark-data-delivery'],
+    auto_init=False,
+    ignore=['**/dist/']
+)
+
+# spark-worker-image
+docker_build(
+    ref='boozallen/pysparkdd-spark-worker-docker',
+    context='pysparkdd-docker/pysparkdd-spark-worker-docker',
+    build_args=build_args,
+    extra_tag='boozallen/pysparkdd-spark-worker-docker:latest',
+    dockerfile='pysparkdd-docker/pysparkdd-spark-worker-docker/src/main/resources/docker/Dockerfile'
+)
+
+
+k8s_kind('SparkApplication', image_json_path='{.spec.image}')
+
+# policy-decision-point
+docker_build(
+    ref='boozallen/pysparkdd-policy-decision-point-docker',
+    context='pysparkdd-docker/pysparkdd-policy-decision-point-docker',
+    build_args=build_args,
+    dockerfile='pysparkdd-docker/pysparkdd-policy-decision-point-docker/src/main/resources/docker/Dockerfile'
+)
+
+
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/hive-metastore-db',
+   name='hive-metastore-db',
+   values=['pysparkdd-deploy/src/main/resources/apps/hive-metastore-db/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/hive-metastore-db/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/airflow',
+   name='airflow',
+   values=['pysparkdd-deploy/src/main/resources/apps/airflow/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/airflow/values-dev.yaml']
+)
+k8s_yaml(yaml)
+
+yaml = local('helm template aissemble-spark-application --version %s --values pysparkdd-pipelines/py-spark-data-delivery/src/py_spark_data_delivery/resources/apps/py-spark-data-delivery-base-values.yaml,pysparkdd-pipelines/py-spark-data-delivery/src/py_spark_data_delivery/resources/apps/py-spark-data-delivery-dev-values.yaml --repo oci://ghcr.io/boozallen' % aissemble_version)
+k8s_yaml(yaml)
+k8s_resource('py-spark-data-delivery', port_forwards=[port_forward(4747, 4747, 'debug')], auto_init=False, trigger_mode=TRIGGER_MODE_MANUAL)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/hive-metastore-service',
+   name='hive-metastore-service',
+   values=['pysparkdd-deploy/src/main/resources/apps/hive-metastore-service/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/hive-metastore-service/values-dev.yaml']
+)
+k8s_yaml(yaml)
+k8s_yaml('pysparkdd-deploy/src/main/resources/apps/spark-worker-image/spark-worker-image.yaml')
+
+
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/data-access',
+   name='data-access',
+   values=['pysparkdd-deploy/src/main/resources/apps/data-access/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/data-access/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/shared-infrastructure',
+   name='shared-infrastructure',
+   values=['pysparkdd-deploy/src/main/resources/apps/shared-infrastructure/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/shared-infrastructure/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/spark-operator',
+   name='spark-operator',
+   values=['pysparkdd-deploy/src/main/resources/apps/spark-operator/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/spark-operator/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/policy-decision-point',
+   name='policy-decision-point',
+   values=['pysparkdd-deploy/src/main/resources/apps/policy-decision-point/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/policy-decision-point/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/spark-infrastructure',
+   name='spark-infrastructure',
+   values=['pysparkdd-deploy/src/main/resources/apps/spark-infrastructure/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/spark-infrastructure/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/metadata',
+   name='metadata',
+   values=['pysparkdd-deploy/src/main/resources/apps/metadata/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/metadata/values-dev.yaml']
+)
+k8s_yaml(yaml)
+
+k8s_resource('hive-metastore-service', resource_deps=['hive-metastore-db'])
+
+# airflow
+docker_build(
+    ref='boozallen/pysparkdd-airflow-docker',
+    context='pysparkdd-docker/pysparkdd-airflow-docker',
+    build_args=build_args,
+    extra_tag='boozallen/pysparkdd-airflow-docker:latest',
+    dockerfile='pysparkdd-docker/pysparkdd-airflow-docker/src/main/resources/docker/Dockerfile'
+)
+
+
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/s3-local',
+   name='s3-local',
+   values=['pysparkdd-deploy/src/main/resources/apps/s3-local/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/s3-local/values-dev.yaml']
+)
+k8s_yaml(yaml)
+yaml = helm(
+   'pysparkdd-deploy/src/main/resources/apps/pipeline-invocation-service',
+   name='pipeline-invocation-service',
+   values=['pysparkdd-deploy/src/main/resources/apps/pipeline-invocation-service/values.yaml',
+       'pysparkdd-deploy/src/main/resources/apps/pipeline-invocation-service/values-dev.yaml']
+)
+k8s_yaml(yaml)
+
+# data-access
+docker_build(
+    ref='boozallen/pysparkdd-data-access-docker',
+    context='pysparkdd-docker/pysparkdd-data-access-docker',
+    build_args=build_args,
+    dockerfile='pysparkdd-docker/pysparkdd-data-access-docker/src/main/resources/docker/Dockerfile'
+)

@@ -1,0 +1,6 @@
+spec:
+  sparkConf:
+    spark.eventLog.enabled: "true"
+    spark.sql.extensions: "io.delta.sql.DeltaSparkSessionExtension"
+    spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+    spark.eventLog.dir: "s3a://spark-infrastructure/spark-events"

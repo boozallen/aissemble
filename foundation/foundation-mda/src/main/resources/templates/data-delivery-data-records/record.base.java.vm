@@ -1,0 +1,136 @@
+package ${basePackage};
+
+import java.io.IOException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+#foreach ($import in $record.baseImports)
+import ${import};
+#end
+
+/**
+ * Base implementation of the Record for ${record.capitalizedName}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}).
+ *
+ * Generated from: ${templateName} 
+ */
+public abstract class ${record.capitalizedName}Base {
+    protected static ObjectMapper mapper = new ObjectMapper();
+    private static final Logger logger = LoggerFactory.getLogger(${record.capitalizedName}Base.class);
+
+  #foreach ($field in $record.fields)
+    private ${field.shortType} ${field.name};
+  #end
+
+    /**
+     * Default constructor for this record.
+     */
+    public ${record.capitalizedName}Base() {
+    }
+
+  #foreach ($field in $record.fields)
+    public void set${field.capitalizedName}(${field.shortType} ${field.name}) {
+        this.${field.name} = ${field.name};
+    }
+
+    public ${field.shortType} get${field.capitalizedName}() {
+        return ${field.name};
+    }
+
+  #end
+
+    /**
+     * Performs the validation for this record.
+     */
+    public void validate() {
+    #if ($record.hasFieldValidations())
+        validateFields();
+    #end
+    }
+#if ($record.hasFieldValidations())
+
+    private void validateFields() {
+    #foreach ($field in $record.fields)
+        #if ($field.isRequired())
+            #if ("String" == $field.shortType)
+        if (${field.name} == null || ${field.name}.isBlank()) {
+            #else
+        if (${field.name} == null) {
+            #end
+            throw new ValidationException("Field '${field.name}' is required");
+            #if ($field.hasValidation())
+        } else {
+            ${field.name}.validate();
+            #end
+        }
+
+        #elseif ($field.hasValidation())
+        if (${field.name} != null) {
+            ${field.name}.validate();
+        }
+
+        #end
+    #end
+    }
+#end
+
+    /**
+     * Returns the value of the given field for this record.
+     * 
+     * @param field
+     *            the field whose value to get
+     * @return the value of the field
+     */
+    public Object getValueByField(${record.capitalizedName}Field field) {
+        Object value;
+        switch (field) {
+        #foreach ($field in $record.fields)
+        case ${field.upperSnakecaseName}:
+            #if ($field.type.dictionaryType.isComplex())
+            value = get${field.capitalizedName}() != null ? get${field.capitalizedName}().getValue() : null;
+            #else
+            value = get${field.capitalizedName}();
+            #end
+            break;
+        #end
+        default:
+            value = null;
+            break;
+        }
+
+        return value;
+    }
+
+    /**
+    * Creates a record with the given json string's data.
+    *
+    * @param objectAsJsonString 
+    *    The object as a json string
+    * @return the record as a ${record.capitalizedName}
+    */
+    public static ${record.capitalizedName} fromJson(String objectAsJsonString) {
+        try {
+            return mapper.readValue(objectAsJsonString, ${record.capitalizedName}.class);
+        } catch (Exception e) {
+            logger.error("Failed to parse object {} to ${record.capitalizedName}", objectAsJsonString, e);
+            return null;
+        }
+    }
+
+    /**
+    * Returns this record as a json string.
+    *
+    * @param object 
+    *    The object to convert to a json string
+    * @return the record as a String
+    */
+    public String toJson() {
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (IOException e) {
+            logger.error("Failed to convert object {} to a json string", this.toString(), e);
+            return null;
+        }
+    }
+}

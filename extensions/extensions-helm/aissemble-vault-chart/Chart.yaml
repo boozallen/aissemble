@@ -1,0 +1,13 @@
+name: aissemble-vault-chart
+description: Baseline chart for deploying HashiCorp Vault
+apiVersion: v2
+# The following versions are automatically set by the plugin so these are only a placeholder
+version: 1.0.0
+appVersion: 1.0.0
+sources:
+  - https://github.com/boozallen/aissemble
+
+dependencies:
+  - name: vault
+    version: 0.27.0
+    repository: https://helm.releases.hashicorp.com

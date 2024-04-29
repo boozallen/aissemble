@@ -1,0 +1,37 @@
+---
+app:
+  # Sets labels for app.kubernetes.io/name Default is Chart.Name (aissemble-inference)
+  name: ''
+  # Sets the labels for app.kubernetes.io/version. Default is Chart.AppVersion
+  version: ''
+deployment:
+  replicas: 1
+  image:
+    repo: ghcr.io/
+    # Override with specific image
+    name: boozallen/aissemble-fastapi
+    # Default IfNotPresent
+    imagePullPolicy: ''
+  volumes: []
+  volumeMounts: []
+  securityContext: {}
+  # Defaults to the default user in cluster
+  serviceAccountName: ''
+  automountServiceAccountToken: false
+  env: []
+  args: []
+  # Defaults to Chart.Name
+  hostname: ''
+  restartPolicy: Always
+
+service:
+  type: ClusterIP
+  ports:
+    - name: api
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+    - name: api-grpc
+      port: 8081
+      protocol: TCP
+      targetPort: 8081

@@ -1,0 +1,20 @@
+{{- if and .Values.ivyCache.enabled .Values.ivyCache.storeCacheOnNode }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    type: local
+  name: {{ .Values.ivyCache.name }}
+spec:
+  {{- with .Values.ivyCache.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  capacity:
+    storage: {{ .Values.ivyCache.size }}
+  hostPath:
+    path: {{ .Values.ivyCache.cachePathOnNode }}
+    type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: spark-ivy-storage
+{{- end }}

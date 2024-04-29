@@ -1,0 +1,30 @@
+##########################################################
+## Airflow LOGs PersistentVolumeClaim
+# Mirrors the functionality of the parent airflow PVC for
+# logs except it uses ReadWriteOnce as the access mode to 
+# allow for compatibility with single node clusters
+##########################################################
+{{- if and ( .Values.airflow.logs.persistence.existingClaim ) ( .Values.airflow.logs.persistence.enabled ) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.airflow.logs.persistence.existingClaim }}
+  labels:
+    tier: airflow
+    component: logs-pvc
+  {{- with .Values.airflow.logs.persistence.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: {{ .Values.airflow.logs.persistence.size | quote }}
+  {{- if .Values.airflow.logs.persistence.storageClassName }}
+  {{- if (eq "-" .Values.airflow.logs.persistence.storageClassName) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: "{{ .Values.airflow.logs.persistence.storageClassName }}"
+  {{- end }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,124 @@
+    def customize_run_event(self, event: RunEvent) -> RunEvent:
+        """
+        Override this method to modify the created RunEvent.  Provides an opportunity for adding customizations,
+        such as Input or Output Datasets.
+
+        The customize_run_event() function is now deprecated and should no longer be used for customizations.
+        """
+        return event
+
+    def create_lineage_start_event(self, run_id: UUID = None, job_name: str = "", default_namespace: str = None, parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
+        """
+        Creates the Start RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
+        To customize the event, override the customize_lineage_start_event(...) function to include the job facets, run facets
+        or the inputs/outputs dataset.
+
+        The customize_run_event() is deprecated customize point.
+
+        Returns:
+            RunEvent created from the input arguments
+        """
+        event = self.lineage_util.create_start_run_event(
+            run_id=run_id,
+            parent_run_facet=parent_run_facet,
+            job_name=job_name,
+            default_namespace=default_namespace,
+            event_data=event_data)
+        event = self.customize_lineage_start_event(event, **kwargs)
+        return self.customize_run_event(event)
+
+    def create_lineage_complete_event(self, run_id: UUID = None, job_name: str = "", default_namespace: str = None, parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
+        """
+        Creates the Complete RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
+        To customize the event, override the customize_lineage_complete_event(...) function to include the job facets, run facets
+        or the inputs/outputs dataset.
+
+        The customize_run_event() is deprecated customize point.
+
+        Returns:
+            RunEvent created from the input arguments
+        """
+        event = self.lineage_util.create_complete_run_event(
+            run_id=run_id,
+            parent_run_facet=parent_run_facet,
+            job_name=job_name,
+            default_namespace=default_namespace,
+            event_data=event_data)
+        event = self.customize_lineage_complete_event(event, **kwargs)
+        return self.customize_run_event(event)
+
+    def create_lineage_fail_event(self, run_id: UUID = None, job_name: str = "", default_namespace: str = None, parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
+        """
+        Creates the Fail RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
+        To customize the event, override the customize_lineage_fail_event(...) function to include the job facets, run facets
+        or the inputs/outputs dataset.
+
+        The customize_run_event() is deprecated customize point.
+
+        Returns:
+            RunEvent created from the input arguments
+        """
+        event = self.lineage_util.create_fail_run_event(
+            run_id=run_id,
+            parent_run_facet=parent_run_facet,
+            job_name=job_name,
+            default_namespace=default_namespace,
+            event_data=event_data)
+        event = self.customize_lineage_fail_event(event, **kwargs)
+        return self.customize_run_event(event)
+
+    def record_lineage(self, event: RunEvent):
+        """
+        Records metadata for this step in an OpenLineage format.
+        """
+        self.lineage_util.record_lineage(self.emitter, event)
+
+    def customize_lineage_start_event(self, event: RunEvent, **kwargs) -> RunEvent:
+        """
+        Customize the start event with the given input
+
+        Returns
+            lineage event
+        """
+        # Override this function to customize the lineage start event data
+        return event
+
+    def customize_lineage_complete_event(self, event: RunEvent, **kwargs) -> RunEvent:
+        """
+        Customize the complete event with the given input
+
+        Returns
+            lineage event
+        """
+        # Override this function to customize the lineage complete event data
+        return event
+
+    def customize_lineage_fail_event(self, event: RunEvent, **kwargs) -> RunEvent:
+        """
+        Customize the fail event with the given input
+
+        Returns
+            lineage event
+        """
+        # Override this function to customize the lineage fail event data
+        return event
+
+    def create_base_lineage_event_data(self) -> LineageEventData:
+        """
+        Create a base lineage event data that will included in all the step events
+
+        Returns LineageEventData
+        """
+        return None
+
+    def get_job_name(self) -> str:
+        """
+        The default Job name is the Step name. Override this function to change the default job name.
+        """
+        return "${pipeline.capitalizedName}.{}".format(self.step_phase)
+
+    def get_default_namespace(self) -> str:
+        """
+        The default namespace is the Pipeline name. Override this function to change the default namespace.
+        """
+        return "${pipeline.capitalizedName}"

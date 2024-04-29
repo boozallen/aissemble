@@ -1,0 +1,32 @@
+sparkApp:
+    spec:
+      sparkConf:
+        spark.eventLog.enabled: "true"
+        #if ("${sparkExtensions}" != "")
+        spark.sql.extensions: "${sparkExtensions}"
+        #end
+        #if (${enableHiveSupport})
+        spark.sql.catalogImplementation: "hive"
+        #end
+        #if (${enableDeltaSupport})
+        spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+        #end
+        #if (${useS3Local})
+        spark.eventLog.dir: "s3a://spark-infrastructure/spark-events"
+        #end
+        #if (${enableElasticsearchSupport})
+        spark.es.nodes: "elasticsearch-es-http"
+        spark.es.port: "9200"
+
+        # these values can be overridden in [YOUR-PROJECT]-deploy/src/main/resources/apps/elasticsearch/*.yaml
+        spark.es.net.http.auth.user: "elastic"
+        spark.es.net.http.auth.pass: "elastic"
+        #end
+        #if (${enableSedonaSupport})
+        spark.serializer: "org.apache.spark.serializer.KryoSerializer"
+        #if (${enablePySparkSupport})
+        spark.kry.registrator: "org.apache.sedona.core.serde.SedonaKryoRegistrator"
+        #else
+        spark.kryo.registrator: "org.apache.sedona.viz.core.Serde.SedonaVizKryoRegistrator"
+        #end
+      #end

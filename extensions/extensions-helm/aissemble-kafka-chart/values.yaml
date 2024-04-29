@@ -1,0 +1,24 @@
+########################################
+## CONFIG | Kafka Configs
+########################################
+kafka:
+  fullnameOverride: kafka-cluster
+  # Container Ports Configuration
+  containerPorts:
+    client: 9093
+    controller: 9097
+  # Listener Configuration
+  listenerSecurityProtocolMap: "CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+  advertisedListeners: "CLIENT://kafka-cluster:9093,EXTERNAL://localhost:19092"
+  interBrokerListenerName: CLIENT
+  # Listener Ports Configuration
+  listeners:
+    - "CLIENT://0.0.0.0:9093"
+    - "EXTERNAL://0.0.0.0:9092"
+    - "CONTROLLER://0.0.0.0:9097"
+  # Service Configuration
+  service:
+    ports:
+      client: 9093
+      controller: 9097
+      external: 19092

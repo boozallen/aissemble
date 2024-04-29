@@ -1,0 +1,15 @@
+package ${basePackage}.tests;
+
+import io.cucumber.core.cli.Main;
+
+public class TestRunner {
+    public static void main(String[] args) throws Throwable {
+        String[] defaultArgs = new String[] {
+            "./specifications",
+            "--glue",
+            "${basePackage}.tests"
+        };
+
+        Main.main(defaultArgs);
+    }
+}

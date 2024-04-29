@@ -1,0 +1,88 @@
+"""
+Implementation of the Modzy container API.
+
+GENERATED STUB CODE - PLEASE ***DO NOT*** MODIFY
+
+Originally generated from: ${templateName}
+"""
+
+import logging
+import mlflow
+from fastapi import Request, FastAPI
+from typing import Optional, List
+from pydantic import BaseModel
+from pathlib import Path
+import json
+import os
+import pandas as pd
+from pandas import DataFrame
+import numpy as np
+
+class ModzyRequest(BaseModel):
+    type: str
+    input: str
+    explain: Optional[bool] = None
+    output: str
+
+class ModzyResponse(BaseModel):
+    message: str
+    status: str
+    statusCode: int
+
+class ModzyRunner(object):
+    model = None
+
+    def __init__(self, model):
+        self.model = model
+
+    def run(self, request: ModzyRequest) -> ModzyResponse:
+        response = None
+
+        if not self.input_file_exists(request.input):
+            response = ModzyResponse(message='Failed to find input file', status='Bad Request', statusCode=400)
+        else:
+            self.ensure_output_directory_exists(request.output)
+            try:
+                data = pd.read_csv(request.input)
+
+                # Get all the selected features
+
+                # Use the model to predict using the prepped data
+
+                # Convert data to appropriate values for saving prediction results
+                inferences = []
+
+                # Modzy data is stored in the output directory as results.json
+                with open(request.output + 'results.json', 'w') as f:
+                    json.dump(inferences, f)
+
+                response = ModzyResponse(message='Inferences created at output path', status='OK', statusCode=200)
+            except Exception:
+                # This exception is mainly because we don't have the full pipeline implemented
+                # i.e. no model is loaded
+                with open(request.output + 'results.json', 'w') as f:
+                    json.dump([{}], f)
+
+                response = ModzyResponse(message='Unexpected error loading the model', status='Internal Server Error', statusCode=500)
+
+        return response
+
+    def get_status(self) -> ModzyResponse:
+        status = None
+        if(self.model is not None):
+            status = ModzyResponse(message='The model is loaded', status='OK', statusCode=200)
+        else:
+            status = ModzyResponse(message='The model failed to load', status='Internal Server Error', statusCode=500)
+
+        return status
+
+    def ensure_output_directory_exists(self, output: str):
+        # If the output directory does not exist then create it.
+        output_directory = Path(output)
+        if not output_directory.is_dir():
+            os.makedirs(output_directory)
+
+    def input_file_exists(self, input: str) -> bool:
+        input_file = Path(input)
+
+        return input_file.is_file()

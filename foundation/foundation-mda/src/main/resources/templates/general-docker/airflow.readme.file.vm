@@ -1,0 +1,19 @@
+# Airflow Configuration
+
+If you are using airflow in multiple environments, you may want to configure a CI environment separately. In order to execute airflow DAGs in a different namespace, you will want to update your deployment solution to make use of [PROJECT_NAME]-deploy/src/main/resources/apps/airflow/values-ci.yaml instead of using the values-dev.yaml file in the same location.
+
+Additionally, you will need to set at least one of a couple values in your ci-values.yaml file.
+* `EXECUTION_ENVIRONMENT`: Tells an Airflow DAG script which chart to use for execution. Possible values are [dev|ci]
+* `KUBERNETES_NAMESPACE`: Tells an Airflow DAG script what namespace to execute pipelines in.
+
+
+# Example ci-values.yaml
+
+```yaml
+deployment:
+  env:
+    - name: EXECUTION_ENVIRONMENT
+      value: ci
+    - name: KUBERNETES_NAMESPACE
+      value: ci-env
+```

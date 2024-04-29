@@ -1,0 +1,141 @@
+package ${basePackage};
+
+#foreach ($import in $dictionaryType.baseImports)
+import ${import};
+#end
+
+/**
+ * Base implementation of the ${dictionaryType.name} dictionary type from ${dictionary.name}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${dictionaryType.capitalizedName}).
+ *
+ * Generated from: ${templateName}
+ */
+public abstract class ${dictionaryType.capitalizedName}Base {
+
+#if ($dictionaryType.hasLengthValidation())
+    #if ($dictionaryType.validation.maxLength)
+    public static final Integer MAX_LENGTH = ${dictionaryType.validation.maxLength};
+    #end
+    #if ($dictionaryType.validation.minLength)
+    public static final Integer MIN_LENGTH = ${dictionaryType.validation.minLength};
+    #end
+#end
+#if ($dictionaryType.hasValueValidation())
+    #if ($dictionaryType.validation.maxValue)
+    public static final ${dictionaryType.shortType} MAX_VALUE = new ${dictionaryType.shortType}("${dictionaryType.validation.maxValue}");
+    #end
+    #if ($dictionaryType.validation.minValue)
+    public static final ${dictionaryType.shortType} MIN_VALUE = new ${dictionaryType.shortType}("${dictionaryType.validation.minValue}");
+    #end
+#end
+#if ($dictionaryType.hasFormatValidation())
+    public static final List<String> FORMATS = Arrays.asList(${dictionaryType.commaSeparatedFormats});
+#end
+#if ($dictionaryType.hasScaleValidation())
+    public static final Integer SCALE = ${dictionaryType.validation.scale};
+#end
+#if ($dictionaryType.driftPolicy)
+    public static final String DRIFT_POLICY = "${dictionaryType.driftPolicy}";
+#end
+#if ($dictionaryType.ethicsPolicy)
+    public static final String ETHICS_POLICY = "${dictionaryType.ethicsPolicy}";
+#end
+#if ($dictionaryType.protectionPolicy)
+    public static final String PROTECTION_POLICY = "${dictionaryType.protectionPolicy}";
+#end
+
+    private ${dictionaryType.shortType} value;
+
+    public ${dictionaryType.capitalizedName}Base(${dictionaryType.shortType} value) {
+        setValue(value);
+    }
+
+    public void setValue(${dictionaryType.shortType} value) {
+    #if ($dictionaryType.hasScaleValidation())
+        if (value != null) {
+        #if ($dictionaryType.shortType == 'Float')
+            this.value = new BigDecimal(Float.toString(value)).setScale(SCALE, RoundingMode.HALF_UP).floatValue();
+        #elseif ($dictionaryType.shortType == 'Double')
+            this.value = new BigDecimal(Double.toString(value)).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
+        #else
+            this.value = value.setScale(SCALE, RoundingMode.HALF_UP);
+        #end
+        }
+    #else
+        this.value = value;
+    #end
+    }
+
+    public ${dictionaryType.shortType} getValue() {
+        return value;
+    }
+
+    /**
+     * Performs the validation for this dictionary type.
+     */
+    public void validate() {
+    #if ($dictionaryType.hasLengthValidation())
+        validateLength();
+    #end
+    #if ($dictionaryType.hasValueValidation())
+        validateValue();
+    #end
+    #if ($dictionaryType.hasFormatValidation())
+        validateFormat();
+    #end
+    }
+#if ($dictionaryType.hasLengthValidation())
+
+    private void validateLength() {
+    #if ($dictionaryType.validation.maxLength)
+        if (StringUtils.isNotBlank(value) && value.length() > MAX_LENGTH) {
+            throw new ValidationException(
+                    "${dictionaryType.capitalizedName} length of '" + value + "' is greater than the maximum length of " + MAX_LENGTH);
+        }
+    #end
+    #if ($dictionaryType.validation.minLength)
+        if (StringUtils.isBlank(value) || value.length() < MIN_LENGTH) {
+            throw new ValidationException(
+                    "${dictionaryType.capitalizedName} length of '" + value + "' is less than the minimum length of " + MIN_LENGTH);
+        }
+    #end
+    }
+#end
+#if ($dictionaryType.hasValueValidation())
+
+    private void validateValue() {
+        #if ($dictionaryType.validation.maxValue)
+        if (value != null && value.compareTo(MAX_VALUE) > 0) {
+            throw new ValidationException(
+                    "${dictionaryType.capitalizedName} value of " + value + " is greater than the maximum value of " + MAX_VALUE);
+        }
+        #end
+        #if ($dictionaryType.validation.minValue)
+        if (value != null && value.compareTo(MIN_VALUE) < 0) {
+            throw new ValidationException(
+                    "${dictionaryType.capitalizedName} value of " + value + " is less than the minimum value of " + MIN_VALUE);
+        }
+        #end
+    }
+#end
+#if ($dictionaryType.hasFormatValidation())
+
+    private void validateFormat() {
+        if (StringUtils.isNotBlank(value)) {
+            boolean validFormat = false;
+            for (String format : FORMATS) {
+                validFormat = value.matches(format);
+                if (validFormat) {
+                    break;
+                }
+            }
+
+            if (!validFormat) {
+                throw new ValidationException("${dictionaryType.capitalizedName} value of '" + value + "' did not match any valid formats");
+            }
+        }
+    }
+#end
+
+}

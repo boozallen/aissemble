@@ -1,0 +1,36 @@
+package ${basePackage};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ${basePackage}.cdi.CdiContainerFactory;
+
+/**
+ * Base implementation of this Data Delivery driver.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${pipeline.capitalizedName}Driver).
+ *
+ * Generated from: ${templateName} 
+ */
+public abstract class ${pipeline.capitalizedName}BaseDriver {
+
+	private static final Logger logger = LoggerFactory.getLogger(${pipeline.capitalizedName}BaseDriver.class);
+
+	/**
+	 * Creates the driver for this pipeline, loading all necessary CDI
+	 * configurations from the {@link CdiContainerFactory}.
+	 *
+	 * @param args no arguments are currently specified
+	 */
+	public static void main(String[] args) {
+		long start = System.currentTimeMillis();
+
+		CdiContainerFactory.getCdiContainer();
+		
+
+		long stop = System.currentTimeMillis();
+
+		logger.info("STARTED: {} driver in {}ms", "${pipeline.capitalizedName}", (stop - start));
+	}
+
+}

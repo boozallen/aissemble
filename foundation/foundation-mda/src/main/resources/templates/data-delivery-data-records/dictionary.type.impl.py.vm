@@ -1,0 +1,17 @@
+from ..generated.dictionary.${dictionaryType.snakeCaseName}_base import ${dictionaryType.capitalizedName}Base
+#if ($dictionaryType.simpleTypeImport)
+${dictionaryType.simpleTypeImport}
+#end
+
+
+class ${dictionaryType.capitalizedName}(${dictionaryType.capitalizedName}Base):
+    """
+    Dictionary Type to represent ${dictionaryType.name} from ${dictionary.name}.
+
+    GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+
+    Originally generated from: ${templateName}
+    """
+
+    def __init__(self, value: ${dictionaryType.shortType}):
+        super().__init__(value)

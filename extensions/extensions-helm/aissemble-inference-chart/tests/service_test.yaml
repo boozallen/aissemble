@@ -1,0 +1,51 @@
+suite: inference
+templates:
+  - service.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: aissemble-inference-chart
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: aissemble-inference-chart
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - contains:
+          path: spec.ports
+          content:
+            name: api
+            port: 8000
+            protocol: TCP
+            targetPort: 8000
+      - contains:
+          path: spec.ports
+          content:
+            name: api-grpc
+            port: 8081
+            protocol: TCP
+            targetPort: 8081
+  - it: Should set values appropriately
+    set:
+      service:
+        type: LoadBalancer
+        ports:
+          - name: https
+            port: 8082
+            protocol: TCP
+            targetPort: 8082
+    asserts:
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+      - contains:
+          path: spec.ports
+          content:
+            name: https
+            port: 8082
+            protocol: TCP
+            targetPort: 8082

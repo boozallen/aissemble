@@ -1,0 +1,7 @@
+
+In ${rootPath}:
+Update the ${bucketName} bucket to include the following object key:
+
+      #foreach ($item in $items)
+      - ${item}
+      #end

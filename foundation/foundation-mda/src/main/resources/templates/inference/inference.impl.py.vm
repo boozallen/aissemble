@@ -1,0 +1,45 @@
+"""
+Implementation of the inference analytic.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName}
+"""
+import logging
+
+from .config.inference_config import InferenceConfig
+from .validation.inference_message_definition import RequestBody, ResponseBody
+from .validation.inference_payload_definition import Inference
+
+model = None
+def load_model():
+    """
+    Loads the trained model based on the configuration defined in InferenceConfig and make it available for
+    utilization for inferencing.
+    :return:
+    """
+    try:
+        config = InferenceConfig()
+        # Load the model from the model directory
+        # model = mlflow.sklearn.load_model(config.model_directory())
+    except Exception:
+        logging.exception(f'Failed to load model at {config.model_directory()}')
+
+def execute_inference(request: RequestBody):
+
+    # Prep the data from the inference request
+    prepped_data = request.prep_data()
+
+
+    # Use the model to predict using the prepped data
+    # if not model:
+    #     load_model()
+    #     predictions = model.predict(prepped_data)
+
+    # Process single and batch requests as appropriate
+    if len(request.data) > 1:
+        pass
+    else:
+        pass
+
+    return ResponseBody(inferences=[Inference(prediction="single-prediction", score=10)])

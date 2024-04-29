@@ -1,0 +1,202 @@
+package ${basePackage};
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.aeonbits.owner.KrauseningConfigFactory;
+import org.apache.commons.io.FileUtils;
+import org.apache.spark.sql.SparkSession;
+import org.jboss.weld.environment.se.WeldContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ${basePackage}.cdi.CdiContainerFactory;
+import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aiops.data.delivery.spark.SparkConfig;
+import com.boozallen.aiops.data.delivery.spark.testutils.SparkApplicationConfig;
+
+import io.cucumber.plugin.EventListener;
+import io.cucumber.plugin.event.EventPublisher;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestRunStarted;
+import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+
+/**
+ * Sets up base functionality for Spark to run within Cucumber.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in SparkTestHarness).
+ *
+ * Generated from: ${templateName}
+ */
+public abstract class SparkTestBaseHarness implements EventListener {
+
+	private static final Logger logger = LoggerFactory.getLogger(SparkTestBaseHarness.class);
+	protected static final SparkConfig config = KrauseningConfigFactory.create(SparkConfig.class);
+    private static final File DEFAULT_SPARK_TEST_APPLICATION_SPEC = new File("./target/apps/${artifactId}-test-chart.yaml");
+#if (${pipeline.isHiveSupportNeeded()})
+    private static final String hiveDerbyHome = new File("./target/derby").getAbsolutePath();
+#end
+
+	protected static SparkSession spark;
+	protected WeldContainer container;
+
+
+    private SparkSession configureSparkSession() {
+        SparkSession.Builder builder = SparkSession.builder();
+
+        File applicationFile = getApplicationFile();
+        SparkApplicationConfig sparkApplicationConfig = SparkApplicationConfig.loadApplicationSpec(applicationFile);
+        builder = builder.appName(sparkApplicationConfig.metadata().name());
+        
+        StringBuilder sparkJarsStr = new StringBuilder();
+        if(sparkApplicationConfig.spec().deps().jars()!=null) {
+            for (String entry : sparkApplicationConfig.spec().deps().jars()) {
+                logger.info("jars " + entry);
+                sparkJarsStr.append(entry);
+                sparkJarsStr.append(",");
+            }
+            builder = builder.config("spark.jars", sparkJarsStr.toString());
+        }
+
+        StringBuilder sparkPackagesStr = new StringBuilder();
+        if(sparkApplicationConfig.spec().deps().packages()!=null) {
+            for (String entry : sparkApplicationConfig.spec().deps().packages()) {
+                logger.info("packages " + entry);
+                sparkPackagesStr.append(entry);
+                sparkPackagesStr.append(",");
+            }
+            builder = builder.config("spark.jars.packages", sparkPackagesStr.toString());
+        }
+
+        StringBuilder sparkExcludesStr = new StringBuilder();
+        if(sparkApplicationConfig.spec().deps().excludePackages()!=null) {
+            for (String entry : sparkApplicationConfig.spec().deps().excludePackages()) {
+                logger.info("excludePackages " + entry);
+                sparkExcludesStr.append(entry);
+                sparkExcludesStr.append(",");
+            }
+            builder = builder.config("spark.jars.excludes", sparkExcludesStr.toString());
+        }
+
+        StringBuilder sparkRepositories = new StringBuilder();
+        if(sparkApplicationConfig.spec().deps().repositories()!=null) {
+            for (String entry : sparkApplicationConfig.spec().deps().repositories()) {
+                logger.info("repositories " + entry);
+                sparkExcludesStr.append(entry);
+                sparkExcludesStr.append(",");
+            }
+            builder = builder.config("spark.jars.repositories", sparkRepositories.toString());
+        }
+
+        for (Map.Entry<String, String> entry : sparkApplicationConfig.spec().sparkConf().entrySet()) {
+            logger.warn(entry.getKey() + " " + entry.getValue());
+            builder = builder.config(entry.getKey(), entry.getValue());
+        }
+        return builder.getOrCreate();
+    }
+
+    protected File getApplicationFile() {
+        return DEFAULT_SPARK_TEST_APPLICATION_SPEC;
+    }
+
+   @Override
+    public void setEventPublisher(EventPublisher publisher) {
+        // setup before all cucumber tests
+        publisher.registerHandlerFor(TestRunStarted.class, handler -> {
+            setLogging();
+            applyBeforeTests();
+
+            // one spark session for all tests
+            long sparkStart = System.currentTimeMillis();
+            SparkSession session = configureSparkSession();
+        #if (${pipeline.isHiveSupportNeeded()})
+            // spark uses embedded derby database by default when enabling hive
+            // support - set derby home and spark warehouse so that test output
+            // goes to target directory for easy cleanup
+            System.setProperty("derby.system.home", hiveDerbyHome);
+        #end
+            spark = session;
+            long sparkStop = System.currentTimeMillis();
+            logger.debug("Started Spark test session in {}ms", (sparkStop - sparkStart));
+            logger.debug(spark.sparkContext().getConf().toDebugString());
+            long messagingStart = System.currentTimeMillis();
+            configureMessagingChannels();
+            long messagingStop = System.currentTimeMillis();
+            logger.debug("Started Messaging test resources in {}ms", (messagingStop - messagingStart));
+
+            // one container to run smallrye for all tests
+            long cdiStart = System.currentTimeMillis();
+            List<CdiContext> testContexts = getCdiContexts();
+            container = CdiContainerFactory.getCdiContainer(testContexts);
+            long cdiStop = System.currentTimeMillis();
+            logger.debug("Started CDI test resources in {}ms", (cdiStop - cdiStart));
+        });
+
+        // cleanup after all cucumber tests
+        publisher.registerHandlerFor(TestRunFinished.class, handler -> {
+
+            long tearDownStart = System.currentTimeMillis();
+            InMemoryConnector.clear();
+            container.shutdown();
+            spark.close();
+            applyAfterTests();
+            long tearDownStop = System.currentTimeMillis();
+            logger.debug("Stopped test resources in {}ms", (tearDownStop - tearDownStart));
+
+            try {
+                FileUtils.deleteDirectory(new File(config.outputDirectory()));
+            } catch (IOException e) {
+                logger.error("failed to delete delta lake table: {}", e.getMessage());
+            }
+        });
+    }
+
+    public static SparkSession getSparkSession() {
+        return spark;
+    }
+
+    /**
+     * Tweak logging within Spark container, if desired.
+     */
+    protected void setLogging() {
+    }
+
+    /**
+     * Apply additional setup before the Cucumber tests, if desired.
+     */
+    protected void applyBeforeTests() {
+    }
+
+    /**
+     * Apply additional cleanup actions after the Cucumber tests, if desired.
+     */
+    protected void applyAfterTests() {
+    }
+
+    /**
+     * Provide an opportunity for specifying a different spark application file.
+     *
+     * @return File reference for the spark application spec.
+     */
+    protected File getSparkApplicationFile() {
+        return DEFAULT_SPARK_TEST_APPLICATION_SPEC;
+    }
+
+	/**
+	 * Configure any channels used for messaging. With ReativeMessaging, you can
+	 * override channels that use third party tools (e.g., Kafka, Apache ActiveMQ)
+	 * to instead use local, in-memory channels so tests can remain unit vice
+	 * integration tests.
+	 */
+	protected abstract void configureMessagingChannels();
+
+	/**
+	 * Add any test-specific CDI artifacts via a {@link CdiContext} implementation.
+	 * 
+	 * @return list of test contexts
+	 */
+	protected abstract List<CdiContext> getCdiContexts();
+
+}

@@ -1,0 +1,26 @@
+# Default values for policy-decision-point
+app:
+  # Sets labels for app.kubernetes.io/name Default is Chart.name (aissemble-policy-decision-point)
+  name: ''
+  # Sets the labels for app.kubernetes.io/version. Default is Chart.appVersion
+  version: ''
+
+hostname: policy-decision-point
+image:
+  name: boozallen/aissemble-policy-decision-point
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/
+
+service:
+  spec:
+    ports:
+      - name: rest-api
+        port: 8080
+        targetPort: 8080
+
+deployment:
+  ports:
+    - name: http-1
+      containerPort: 8080
+      protocol: TCP
+  restartPolicy: Always

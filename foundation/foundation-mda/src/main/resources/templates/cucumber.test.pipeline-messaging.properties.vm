@@ -1,0 +1,9 @@
+# Set messaging steps to use in-memory connector for testing
+#foreach($step in $pipeline.steps)
+#if ($step.hasMessagingInbound())
+${step.name}.in.connector=smallrye-in-memory
+#end
+#if ($step.hasMessagingOutbound())
+${step.name}.out.connector=smallrye-in-memory
+#end
+#end

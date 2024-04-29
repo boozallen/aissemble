@@ -1,0 +1,7 @@
+from ${inferenceModuleSnakeCase} import inference_impl
+
+def analyze(input_dict):
+    wrapped_input = {"data": [input_dict]}
+    request_body = inference_impl.RequestBody.parse_obj(wrapped_input)
+    response_body = inference_impl.execute_inference(request_body)
+    return response_body.dict()

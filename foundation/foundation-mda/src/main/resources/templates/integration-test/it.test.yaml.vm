@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "test"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  serviceAccountName: spark
+  automountServiceAccountToken: true
+  containers:
+    - name: test
+      image: "{{ .Values.image.dockerRepo }}{{ .Values.image.name }}"
+      imagePullPolicy: "{{ .Values.image.imagePullPolicy }}"
+      env:
+        - name: CUCUMBER_PUBLISH_ENABLED
+          value: "true"
+      {{- if .Values.deployment }}
+      {{- if .Values.deployment.command }}
+      command: {{ .Values.deployment.command }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.deployment }}
+      {{- if .Values.deployment.args }}
+      args: {{ .Values.deployment.args }}
+      {{- end }}
+      {{- end }}
+  {{- if .Values.deployment }}
+  {{- if .Values.deployment.initContainers }}
+  {{- with .Values.deployment.initContainers }}
+  initContainers:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  restartPolicy: Never

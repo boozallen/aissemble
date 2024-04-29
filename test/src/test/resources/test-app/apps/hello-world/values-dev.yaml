@@ -1,0 +1,11 @@
+# Dev values for data-access.
+aissemble-quarkus:
+  deployment:
+    image:
+      repo: ""
+
+  service:
+    type: LoadBalancer
+
+ingress:
+  enabled: false

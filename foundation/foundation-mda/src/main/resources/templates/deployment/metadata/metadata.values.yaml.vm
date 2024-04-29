@@ -1,0 +1,44 @@
+# Default values for metadata.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: metadata
+image:
+  name: boozallen/aissemble-metadata
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "${versionTag}"
+
+service:
+  spec:
+    ports:
+      - name: "8082"
+        port: 8082
+        targetPort: 8080
+
+deployment:
+  ports:
+    - name: http-1
+      containerPort: 8080
+      protocol: TCP
+  restartPolicy: Always
+
+ingress:
+  enabled: true
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: metadata-ai.boozallen.github.io
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: metadata
+              port:
+                number: 8082
+  status: 10.192.83.167

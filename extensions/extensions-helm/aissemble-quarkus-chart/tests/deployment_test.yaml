@@ -1,0 +1,97 @@
+suite: quarkus
+templates:
+  - deployment.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: aissemble-quarkus-chart
+      - equal:
+          path: spec.template.spec.automountServiceAccountToken
+          value: false
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ghcr.io/boozallen/aissemble-quarkus
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: quarkus-application-properties
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: quarkus-application-properties
+            subPath: quarkus-properties-file
+          any: true
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: quarkus-application-properties
+          any: true
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: quarkus-application-properties
+          any: true
+  - it: Should set values appropriately
+    set:
+      deployment:
+        securityContext:
+          runAsUser: 50000
+          runAsGroup: 0
+          fsGroup: 0
+        supplementalVolumes:
+          - name: some-extra-file
+            configMap:
+              name: supplemental-quarkus-config
+              items:
+                - key: quarkus-properties-file
+                  path: quarkus-properties-file
+        supplementalVolumeMounts:
+          - name: some-extra-file
+            mountPath: /deployments/config/anotherfile.properties
+            subPath: some-extra-file
+      app:
+        name: project-quarkus
+    asserts:
+      - equal:
+          path: spec.template.spec.securityContext.runAsUser
+          value: 50000
+      - equal:
+          path: spec.template.spec.securityContext.runAsGroup
+          value: 0
+      - equal:
+          path: spec.template.spec.securityContext.fsGroup
+          value: 0
+      - notEqual:
+          path: metadata.name
+          value: aissemble-quarkus-chart
+      - equal:
+          path: metadata.name
+          value: project-quarkus
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: some-extra-file
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: quarkus-application-properties
+          any: true
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: some-extra-file
+          any: true
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: quarkus-application-properties
+          any: true

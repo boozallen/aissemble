@@ -1,0 +1,94 @@
+suite: spark
+templates:
+  - deployment.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: SparkApplication
+      - equal:
+          path: spec.type
+          value: "placeholder"
+      - equal:
+          path: spec.sparkVersion
+          value: 3.4.0
+      - equal:
+          path: spec.sparkConfigMap
+          value: spark-config
+      - equal:
+          path: spec.dynamicAllocation.enabled
+          value: true
+      - equal:
+          path: spec.dynamicAllocation.initialExecutors
+          value: 0
+      - equal:
+          path: spec.dynamicAllocation.minExecutors
+          value: 0
+      - equal:
+          path: spec.dynamicAllocation.maxExecutors
+          value: 4
+      - equal:
+          path: spec.driver.cores
+          value: 1
+      - equal:
+          path: spec.driver.coreLimit
+          value: "1200m"
+      - equal:
+          path: spec.driver.memory
+          value: "512m"
+      - equal:
+          path: spec.executor.cores
+          value: 1
+      - equal:
+          path: spec.executor.coreLimit
+          value: "1200m"
+      - equal:
+          path: spec.executor.memory
+          value: "512m"
+      - equal:
+          path: spec.executor.labels.version
+          value: 3.4.0
+
+  - it: Should set nodeSelector and gpu appropriately
+    set:
+      sparkApp:
+        spec:
+          nodeSelector:
+            feature.node.kubernetes.io/test.spec: "true"
+          driver:
+            nodeSelector:
+              feature.node.kubernetes.io/test.driver: "true"
+            gpu:
+              name: "driver.com/gpu"
+              quantity: 1
+          executor:
+            nodeSelector:
+              feature.node.kubernetes.io/test.executor: "true"
+            gpu:
+              name: "executor.com/gpu"
+              quantity: 2
+    asserts:
+      - equal:
+          path: spec.nodeSelector
+          value:
+            feature.node.kubernetes.io/test.spec: "true"
+      - equal:
+          path: spec.driver.nodeSelector
+          value:
+            feature.node.kubernetes.io/test.driver: "true"
+      - equal:
+          path: spec.executor.nodeSelector
+          value:
+            feature.node.kubernetes.io/test.executor: "true"
+      - equal:
+          path: spec.driver.gpu.name
+          value: "driver.com/gpu"
+      - equal:
+          path: spec.driver.gpu.quantity
+          value: 1
+      - equal:
+          path: spec.executor.gpu.name
+          value: "executor.com/gpu"
+      - equal:
+          path: spec.executor.gpu.quantity
+          value: 2

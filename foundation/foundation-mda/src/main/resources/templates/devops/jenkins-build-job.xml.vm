@@ -1,0 +1,57 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<!--
+    This configuration file will create a build pipeline for the ${artifactId} project within your Jenkins instance
+    automatically.  To load it, use the following Jenkins CLI command.  To get the jenkins-cli.jar file, see your
+    Jenkin's instances at the following relative URL: <root jenkins url here>/jnlpJars/jenkins-cli.jar.  For instance,
+    http://localhost:8080/jnlpJars/jenkins-cli.jar.
+
+    java -jar <PATH TO CLI JAR>/jenkins-cli.jar -s <ROOT JENKINS URL> -auth <YOUR USERNAME>:<YOUR PASSWORD> create-job ${artifactId}-build < <PATH TO FILE>/jenkins-build-job.xml
+-->
+<flow-definition plugin="workflow-job@1181.va_25d15548158">
+    <description>Builds the ${artifactId} project</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <jenkins.model.BuildDiscarderProperty>
+            <strategy class="hudson.tasks.LogRotator">
+                <daysToKeep>-1</daysToKeep>
+                <numToKeep>3</numToKeep>
+                <artifactDaysToKeep>-1</artifactDaysToKeep>
+                <artifactNumToKeep>-1</artifactNumToKeep>
+            </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>branch</name>
+                    <defaultValue>dev</defaultValue>
+                    <trim>true</trim>
+                </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <definition class="org.boozallen.plugins.jte.job.AdHocTemplateFlowDefinition" plugin="templating-engine@2.4">
+        <configProvider class="org.boozallen.plugins.jte.job.ScmAdHocTemplateFlowDefinitionConfiguration">
+            <scm class="hudson.plugins.git.GitSCM" plugin="git@4.11.2">
+                <configVersion>2</configVersion>
+                <userRemoteConfigs>
+                    <hudson.plugins.git.UserRemoteConfig>
+                        <url>${projectGitUrl}</url>
+                        <credentialsId>github</credentialsId>
+                    </hudson.plugins.git.UserRemoteConfig>
+                </userRemoteConfigs>
+                <branches>
+                    <hudson.plugins.git.BranchSpec>
+                        <name>*/dev</name>
+                    </hudson.plugins.git.BranchSpec>
+                </branches>
+                <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+                <submoduleCfg class="empty-list"/>
+                <extensions/>
+            </scm>
+            <pipelineConfigurationPath>devops/PipelineConfig.groovy</pipelineConfigurationPath>
+            <pipelineTemplatePath>devops/JenkinsfileBuild.groovy</pipelineTemplatePath>
+        </configProvider>
+    </definition>
+    <triggers/>
+    <disabled>false</disabled>
+</flow-definition>

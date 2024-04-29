@@ -1,0 +1,74 @@
+{
+	"name": "ExampleMachineLearningPipeline",
+	"package": "com.boozallen.aiops",
+	"type": {
+		"name": "machine-learning",
+		"implementation": "machine-learning-mlflow",
+		"versioning": {
+			"enabled": false
+		}
+	},
+	"steps": [
+		{
+			"name": "bootstrap",
+			"type": "generic"
+		},
+		{
+			"name": "AissembleMachineLearningTraining",
+			"type": "training",
+			"inbound": {
+				"type": "messaging",
+				"channelName": "train"
+			},
+			"modelLineage": {
+				"enabled": true
+			},
+			"postActions": [
+				{
+					"name": "ExampleOnnxSklearnConversion",
+					"type": "model-conversion",
+					"modelTarget": "onnx",
+					"modelSource": "sklearn"
+				},
+				{
+					"name": "ExampleOnnxKerasConversion",
+					"type": "model-conversion",
+					"modelTarget": "onnx",
+					"modelSource": "keras"
+				},
+				{
+					"name": "ExampleCustomConversion",
+					"type": "model-conversion",
+					"modelTarget": "custom",
+					"modelSource": "foo"
+				},
+				{
+					"name": "ExampleFreeformPostAction",
+					"type": "freeform"
+				}
+			]
+		},
+		{
+			"name": "AissembleMachineLearningSagemakerTraining",
+			"type": "sagemaker-training"
+		},
+		{
+			"name": "AissembleMachineLearningInference",
+			"type": "inference",
+			"inbound": {
+				"type": "native",
+				"recordType": {
+					"name": "EventLogEntry",
+					"package": "com.boozallen.aiops.foundation.inference"
+				}
+			},
+			"outbound": {
+				"type": "native",
+				"recordType": {
+					"name": "AdversarialThreatPrediction",
+					"package": "com.boozallen.aiops.foundation.inference"
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,68 @@
+# This file contains the default values for the aiSSEMBLE Spark Operator Helm chart.
+
+ivyCache:
+  # ivyCache.enabled creates a shared ivy cache for all Spark applications so Maven dependencies are not downloaded for each execution.
+  enabled: true
+  name: "ivy-cache"
+  size: "5Gi"
+  # ivyCache.accessModes of the cache. See https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes.
+  accessModes:
+    - ReadWriteOnce
+  # ivyCache.storeCacheOnNode creates an ivy cache on the Node to reuse the same cache between deployments (recommended for dev only).
+  storeCacheOnNode: false
+  # ivyCache.cachePathOnNode sets the Node location at which to store the ivy cache.
+  ## Note: we default to tmp because it's nearly guaranteed to exist and be writable. There are alternatives, but they are more complex.
+  cachePathOnNode: /tmp
+
+# -- See https://github.com/kubeflow/spark-operator/blob/master/charts/spark-operator-chart/README.md#values
+spark-operator:
+  image:
+    # -- Image repository
+    repository: "ghcr.io/boozallen/aissemble-spark-operator"
+    tag: "@version.aissemble@"
+
+  # -- String to override release name
+  fullnameOverride: "spark-operator"
+
+  podSecurityContext:
+    runAsUser: 185
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: "OnRootMismatch"
+
+  rbac:
+    # -- Create and use RBAC `ClusterRole` resources
+    # -- Set to false in order to enable overriding with our own RBAC template
+    createClusterRole: false
+
+  # volumes - Operator volumes
+  volumes:
+    - name: spark-logging
+      emptyDir: {}
+    - name: ivy-cache
+      persistentVolumeClaim:
+        claimName: ivy-cache
+
+  # volumeMounts - Operator volumeMounts
+  volumeMounts:
+    - name: spark-logging
+      mountPath: "/tmp/spark-events"
+    - name: ivy-cache
+      mountPath: "/opt/spark/.ivy2"
+
+  webhook:
+    # -- Enable webhook server
+    enable: true
+
+  serviceAccounts:
+    spark:
+      # -- Optional name for the spark service account
+      name: "spark"
+
+    sparkoperator:
+      # -- Optional name for the operator service account
+      name: "sparkoperator"
+
+rbac:
+  # -- Set to True in order to enable overriding with our own RBAC template
+  createClusterRole: True

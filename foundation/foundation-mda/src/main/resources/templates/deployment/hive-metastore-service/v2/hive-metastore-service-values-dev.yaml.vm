@@ -1,0 +1,9 @@
+#[[########################################
+## CONFIG | Hive Metastore Service Configs Development Overrides
+## See aiSSEMBLE aissemble-hive-metastore-service-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-hive-metastore-service-chart:
+  image:
+    imagePullPolicy: IfNotPresent
+    repo: ''

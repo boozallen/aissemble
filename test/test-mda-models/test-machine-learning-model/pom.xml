@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>test-mda-models</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>test-machine-learning-model</artifactId>
+    <packaging>pom</packaging>
+
+    <name>aiSSEMBLE::Test::MDA::Machine Learning</name>
+    <description>Contains models used by aiSSEMBLE Machine Learning MDA</description>
+
+    <modules>
+        <!-- Note: these should match the names that you have in your Pipeline.json that you specify below.
+        These should also not be added until after your first run of mvn clean install so that the modules are generated first. -->
+        <module>aissemble-machine-learning-training</module>
+        <module>aissemble-machine-learning-inference</module>
+        <module>aissemble-machine-learning-sagemaker-training</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>com.boozallen.aiops</basePackage>
+                    <profile>machine-learning-pipeline</profile>
+                    <metadataDependencies>
+                        <metadataDependency>test-machine-learning-model-definition</metadataDependency>
+                    </metadataDependencies>
+                    <targetModelInstances>
+                        <targetModelInstance>test-machine-learning-model-definition</targetModelInstance>
+                    </targetModelInstances>
+                    <propertyVariables>
+                        <!-- Note: this must match the name of your Pipeline.json file -->
+                        <targetPipeline>ExampleMachineLearningPipeline</targetPipeline>
+                    </propertyVariables>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>test-machine-learning-model-definition</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

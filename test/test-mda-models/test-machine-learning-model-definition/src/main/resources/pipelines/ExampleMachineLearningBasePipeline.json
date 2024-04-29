@@ -1,0 +1,21 @@
+{
+	"name": "ExampleMachineLearningBasePipeline",
+	"package": "com.boozallen.aiops",
+	"type": {
+		"name": "machine-learning",
+		"implementation": "machine-learning-mlflow",
+		"versioning": {
+			"enabled": false
+		}
+	},
+	"steps": [
+        {
+			"name": "bootstrap",
+			"type": "generic"
+		},
+        {
+			"name": "AissembleMachineLearningTrainingBase",
+			"type": "training"
+		}
+    ]
+}

@@ -1,0 +1,8 @@
+#[[#################################################################################
+## CONFIG | Spark Operator Configs                                                ##
+## See aiSSEMBLE aissemble-spark-operator-chart: README for more details.         ##
+## https://github.com/boozallen/aissemble/                           ##
+################################################################################]]##
+aissemble-spark-operator-chart:
+  ivyCache:
+    storeCacheOnNode: true

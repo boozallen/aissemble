@@ -1,0 +1,48 @@
+package ${basePackage}.cdi;
+
+import java.util.List;
+
+import javax.enterprise.inject.spi.Extension;
+import com.boozallen.aiops.core.filestore.EnvironmentVariableFileStoreConfig;
+
+import com.boozallen.aiops.core.metadata.producer.MetadataProducer;
+import io.smallrye.reactive.messaging.kafka.KafkaCDIEvents;
+import io.smallrye.reactive.messaging.kafka.KafkaConnector;
+
+/**
+ * Configures the CDI context for this application.
+ *
+ * Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class PipelinesCdiContext extends PipelinesCdiContextBase {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Class<?>> getCdiClasses() {
+		List<Class<?>> customBeans = super.getCdiClasses();
+		
+		// Add any custom CDI classes here
+		customBeans.add(KafkaConnector.class);
+		customBeans.add(KafkaCDIEvents.class);
+		customBeans.add(MetadataProducer.class);
+
+		return customBeans;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Extension> getExtensions() {
+		List<Extension> extensions = super.getExtensions();
+
+		// Add any custom extensions to Weld here
+
+		return extensions;
+	}
+
+}

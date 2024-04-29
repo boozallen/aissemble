@@ -1,0 +1,15 @@
+# Dev values for pipeline invocation service.
+aissemble-pipeline-invocation-chart:
+  aissemble-quarkus-chart:
+    image:
+      dockerRepo: ""
+    service:
+      type: NodePort
+      ports:
+        - name: "invocation-rest"
+          port: 8080
+          targetPort: 8080
+          nodePort: 30004
+        - name: "quarkus-managed"
+          port: 9001
+          targetPort: 9000

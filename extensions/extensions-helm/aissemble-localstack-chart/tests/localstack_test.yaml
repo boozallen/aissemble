@@ -1,0 +1,54 @@
+suite: localstack
+templates:
+  - configmap.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: data["create-s3-resources.sh"]
+          value: echo "Buckets generated."
+  - it: Should create buckets appropriately
+    set:
+      buckets:
+        - name: spark-infrastructure
+        - name: mlflow
+    asserts:
+      - equal:
+          path: data["create-s3-resources.sh"]
+          value:
+            awslocal s3api create-bucket --bucket spark-infrastructure
+            
+            
+            
+            awslocal s3api create-bucket --bucket mlflow 
+            
+            
+            echo "Buckets generated."
+  - it: Should create object keys appropriately
+    set:
+      buckets:
+        - name: spark-infrastructure
+          keys:
+            - spark-events
+            - spark-warehouse
+        - name: mlflow
+    asserts:
+      - equal:
+          path: data["create-s3-resources.sh"]
+          value:
+            awslocal s3api create-bucket --bucket spark-infrastructure
+            
+            awslocal s3api put-object --bucket spark-infrastructure --key spark-events
+            
+            awslocal s3api put-object --bucket spark-infrastructure --key spark-warehouse
+            
+            
+          
+            awslocal s3api create-bucket --bucket mlflow
+          
+          
+            echo "Buckets generated."
+
+

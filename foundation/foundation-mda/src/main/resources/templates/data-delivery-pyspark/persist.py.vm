@@ -1,0 +1,100 @@
+
+   #if ($step.isPersistTypeElasticsearch())
+     #set ($saveParam = "es_resource: str")
+   #elseif ($step.isPersistTypeNeo4j())
+     #set ($saveParam = "labels: list")
+   #else
+     #set ($saveParam = "table_name: str")
+   #end
+  
+
+   #if ($step.isPersistTypeRdbms())
+   #set ($db_url = "db_url: str")
+    def get_connection(self, ${db_url}):
+      """
+      :param db_url: a string that provides the necessary connection details to establish a connection with the RDBMS server.
+      For example, depending on the databse you choose:
+          PostgreSQL: 'postgresql://username:password@host:port/database'
+          MySQL: 'mysql://username:password@host:port/database'
+          SQLite: 'sqlite:///db.sqlite'
+      :return: A connection object from the RDBMS connection pool.
+      """
+      connection = self.rdbms_connection_pool.get_connection(db_url)
+      return connection
+    #end
+
+   #if ($step.persist.shortCollectionType)
+    def save_dataset(self, dataset: ${step.persist.shortCollectionType}[${step.persist.shortRecordType}], ${saveParam}) -> None:
+   #elseif ($step.isPersistTypeRdbms())
+    #set ($db_url = "db_url: str")
+    def save_dataset(self, ${db_url}, dataset: ${step.persist.shortRecordType}, ${saveParam}) -> None:
+      ${step.capitalizedName}Base.logger.info('Saving %s To RDBMS...' % self.descriptive_label)
+      rdbms_session = self.rdbms_connection_pool.get_connection(db_url)
+      engine = rdbms_session.get_bind()
+      dataset.createOrReplaceTempView(table_name)
+      rdbms_session.close()
+      ${step.capitalizedName}Base.logger.info('Saved %s to RDBMS' % self.descriptive_label)
+   #else
+    def save_dataset(self, dataset: ${step.persist.shortRecordType}, ${saveParam}) -> None:
+   #end
+   #if (!$step.isPersistTypeRdbms())
+        """
+        Saves a dataset.
+        """
+   #end
+      #if ($step.isPersistTypeHive())
+        ${step.capitalizedName}Base.logger.info('Saving %s To Hive...' % self.descriptive_label)
+
+        dataset.write.format('hive').mode('${step.persist.mode}').saveAsTable(table_name)
+
+        ${step.capitalizedName}Base.logger.info('Saved %s to Hive' % self.descriptive_label)
+      #elseif ($step.isPersistTypeDeltaLake())
+        ${step.capitalizedName}Base.logger.info('Saving %s To Delta Lake...' % self.descriptive_label)
+
+        path = self.delta_output_directory + table_name
+        dataset.write.format('delta').mode('${step.persist.mode}').save(path)
+        # PySpark 3.0 does not have a tableExists method
+        if table_name not in [t.name for t in self.spark.catalog.listTables()]:
+            self.spark.catalog.createTable(table_name, path, "delta")
+
+        ${step.capitalizedName}Base.logger.info('Saved %s to Delta Lake' % self.descriptive_label)
+
+      #elseif ($step.isPersistTypePostgres())
+        ${step.capitalizedName}Base.logger.info('Saving %s To Postgres...' % self.descriptive_label)
+
+        url = self.spark_postgres_config.jdbc_url()
+        properties = {
+            'driver': self.spark_postgres_config.jdbc_driver(),
+            'user': self.spark_postgres_config.postgres_user(),
+            'password': self.spark_postgres_config.postgres_password()
+        }
+
+        dataset.write.jdbc(url=url, table=table_name, mode='${step.persist.mode}', properties=properties)
+
+        ${step.capitalizedName}Base.logger.info('Saved %s to Postgres' % self.descriptive_label)
+
+      #elseif ($step.isPersistTypeElasticsearch())
+        ${step.capitalizedName}Base.logger.info('Saving %s To Elasticsearch...' % self.descriptive_label)
+
+        options = self.spark_elasticsearch_config.get_es_configs()
+
+        dataset.write.format('es').options(**options).mode('${step.persist.mode}').save(es_resource)
+
+        ${step.capitalizedName}Base.logger.info('Saved %s to Elasticsearch' % self.descriptive_label)
+      #elseif ($step.isPersistTypeNeo4j())
+        ${step.capitalizedName}Base.logger.info('Saving %s To Neo4j...' % self.descriptive_label)
+
+        options = self.spark_neo4j_config.get_spark_options()
+
+        dataset.write \
+            .format(SparkNeo4jConfig.NEO4J_FORMAT) \
+            .options(**options) \
+            .option(SparkNeo4jConfig.LABELS_OPTION, ':'.join(labels)) \
+            .mode('${step.persist.mode}') \
+            .save()
+
+        ${step.capitalizedName}Base.logger.info('Saved %s to Neo4j' % self.descriptive_label)
+      #elseif (!$step.isPersistTypeRdbms())
+        ${step.capitalizedName}Base.logger.warn('Persist type for test "${step.persist.type}" is not yet supported by the AIOps Solution Baseline!')
+        ${step.capitalizedName}Base.logger.warn('Please encode persistence logic manually by overriding save_dataset(..)')
+      #end

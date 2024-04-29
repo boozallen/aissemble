@@ -1,0 +1,1 @@
+k8s_kind('SparkApplication', image_json_path='{.spec.image}')

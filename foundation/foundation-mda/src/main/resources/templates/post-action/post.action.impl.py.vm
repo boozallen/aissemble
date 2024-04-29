@@ -1,0 +1,46 @@
+from ..generated.post_action.${postAction.snakeCaseName}_base import ${postAction.capitalizedName}Base
+from krausening.logging import LogManager
+
+
+class ${postAction.capitalizedName}(${postAction.capitalizedName}Base):
+    """
+    ${postAction.capitalizedName} post-action class.
+
+    GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+
+    Originally generated from: ${templateName}
+    """
+    logger = LogManager.get_instance().get_logger('${postAction.capitalizedName}')
+
+
+#if ($postAction.isFreeformPostAction())
+    def apply(self) -> None:
+        ${postAction.capitalizedName}.logger.warn('Implement apply() or remove this freeform post action!')
+
+
+#elseif ($postAction.isModelConversionPostAction())
+    #if($postAction.isCustomModelConversion())
+    def _convert(self, source_model) -> any:
+        ${postAction.capitalizedName}.logger.warn('Implement _convert() for custom model conversion!')
+        return None
+
+
+    def _save(self, converted_model) -> None:
+        ${postAction.capitalizedName}.logger.warn('Implement _save() for custom model conversion!')
+
+
+    #elseif ($postAction.isOnnxModelConversion())
+        #foreach ($entry in $postAction.onnxConversionParameters.entrySet())
+            #set ($parameterName = $entry.key)
+            #set ($parameterRequired = $entry.value)
+            #if ($parameterRequired)
+    @property
+    def $parameterName(self):
+        ${postAction.capitalizedName}.logger.warn('Return a value for this required ${postAction.modelSource}-to-${postAction.modelTarget} conversion parameter: ${parameterName}!')
+        return None
+
+
+            #end
+        #end
+    #end
+#end

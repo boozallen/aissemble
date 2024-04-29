@@ -1,0 +1,37 @@
+{
+	"name": "SparkJavaDataDeliveryBasic",
+	"package": "com.boozallen.aiops.mda.basic",
+	"type": {
+		"name": "data-flow",
+		"implementation": "data-delivery-spark"
+	},
+	"dataLineage": false,
+	"steps": [
+		{
+		  "name": "ExampleSyncStep",
+		  "type": "synchronous",
+		  "alerting": {
+			"enabled": false
+		  },
+		  "provenance": {
+			"enabled": false
+		  },
+		  "dataProfiling": {
+			"enabled": false
+		  }
+		},
+		{
+		  "name": "ExampleAsyncStep",
+		  "type": "asynchronous",
+		  "alerting": {
+			"enabled": false
+		  },
+		  "provenance": {
+			"enabled": false
+		  },
+		  "dataProfiling": {
+			"enabled": false
+		  }
+		}
+	  ]
+	}

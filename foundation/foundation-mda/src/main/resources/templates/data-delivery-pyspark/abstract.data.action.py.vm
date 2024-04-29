@@ -1,0 +1,122 @@
+from abc import ABC
+from pyspark.sql import SparkSession
+from krausening.properties import PropertyManager
+from aiops_core_metadata.metadata_model import MetadataModel
+from aiops_core_metadata.metadata_api import MetadataAPI
+from aiops_security.pdp_client import PDPClient
+from aiopsauth.json_web_token_util import AiopsSecurityException
+from aiopsauth.auth_config import AuthConfig
+#if ($pipeline.getDataLineage())
+from uuid import uuid4, UUID
+from aissemble_data_lineage import Run, Job, Emitter, RunEvent, from_open_lineage_facet, LineageUtil, LineageEventData
+from openlineage.client.facet import ParentRunFacet
+from aiops_core_config import MessagingConfig
+import os
+#end
+
+
+class AbstractDataAction(ABC):
+    """
+    Contains the general concepts needed to perform a base AIOps Reference Architecture Data Action.
+    A Data Action is a step within a Data Flow.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in the step implementations).
+
+    Generated from: ${templateName}
+    """
+
+    #if ($pipeline.getDataLineage())
+    emitter: Emitter
+    lineage_util: LineageUtil
+    #end
+
+    def __init__(self, data_action_type, descriptive_label):
+        self.data_action_type = data_action_type
+        self.descriptive_label = descriptive_label
+
+        self.spark = self.create_spark_session('${pipeline.capitalizedName}')
+        self.tailor_spark_logging_levels(self.spark)
+
+        #if ($pipeline.getDataLineage())
+        self.messaging_config = MessagingConfig()
+
+        self.emitter = Emitter()
+        self.lineage_util = LineageUtil()
+        #end
+
+    def create_spark_session(self, app_name: str) -> SparkSession:
+        properties = PropertyManager.get_instance().get_properties(
+            "spark-data-delivery.properties"
+        )
+        builder = SparkSession.builder
+        if properties.getProperty("execution.mode.legacy", "false") == "true":
+            builder = builder\
+                .master("local[*]")\
+                .config("spark.driver.host", "localhost")
+        return builder.getOrCreate()
+
+    def tailor_spark_logging_levels(self, spark: SparkSession) -> None:
+        """
+        Allows Spark logging levels to be tailored to prevent excessive logging.
+        Override this method if needed.
+        """
+        logger = spark._jvm.org.apache.log4j
+        logger.LogManager.getRootLogger().setLevel(logger.Level.WARN)
+        logger.LogManager.getLogger('org.apache.spark.sql').setLevel(logger.Level.ERROR)
+
+    #if ($pipeline.getDataLineage())
+    #parse("templates/python.lineage.py.vm")
+    #end
+
+    def authorize(self, token: str, action: str):
+        """
+        Calls the Policy Decision Point server to authorize a jwt
+        """
+        auth_config = AuthConfig()
+
+        if auth_config.is_authorization_enabled():
+            pdp_client = PDPClient(auth_config.pdp_host_url())
+            decision = pdp_client.authorize(token, "", action)
+
+            if 'PERMIT' == decision:
+                self.logger.info('User is authorized to run ' + self.step_phase)
+            else:
+                raise AiopsSecurityException('User is not authorized')
+
+
+    def set_metadata_api_service(self, service: MetadataAPI):
+        self.metadata_api_service = service
+
+    def get_metadata_api_service(self) -> MetadataAPI:
+        return self.metadata_api_service
+
+    def get_provenance_resource_identifier(self) -> str:
+        return "Unspecified " + self.step_phase + " resource"
+
+    def create_provenance_metadata(self) -> MetadataModel:
+        """
+        Controls creating the metadata that will be recorded for provenance purposes.
+        """
+        resource = self.get_provenance_resource_identifier()
+        return MetadataModel(subject=self.data_action_type, action=self.descriptive_label, resource=resource)
+
+    def record_provenance(self) -> None:
+        """
+        Records provenance for this step.
+        """
+        if self.get_metadata_api_service():
+            self.logger.info('Recording provenance...')
+
+            metadata = self.create_provenance_metadata()
+            self.metadata_api_service.create_metadata(metadata)
+
+            self.logger.info('Provenance recorded')
+        else:
+            self.logger.error('Provenance cannot be recorded without a valid Metadata API Service! '
+                + 'Please make sure the service is set!')
+
+
+
+
+
+

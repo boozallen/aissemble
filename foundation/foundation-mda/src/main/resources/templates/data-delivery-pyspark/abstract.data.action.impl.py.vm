@@ -1,0 +1,19 @@
+from ..generated.step.abstract_data_action import AbstractDataAction
+from krausening.logging import LogManager
+
+class AbstractDataActionImpl(AbstractDataAction):
+    """
+    Contains the general concepts needed to perform a base aiSSEMBLE Reference Architecture Data Action.
+    A Data Action is a step within a Data Flow. Business logic implemented in this class will be inherited by
+    all Data Flow pipeline steps.
+
+    GENERATED CODE - DO MODIFY.
+
+    Generated from: ${templateName}
+    """
+
+    logger = LogManager.get_instance().get_logger("AbstractDataActionImpl")
+
+
+    def __init__(self, data_action_type, descriptive_label):
+        super().__init__(data_action_type, descriptive_label)

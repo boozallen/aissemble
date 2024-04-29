@@ -1,0 +1,24 @@
+name: Publish to GitHub Pages
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev, master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install Antora
+        run: npm i antora
+      - name: Generate Site
+        run: GIT_CREDENTIALS="https://${{ secrets.PAT }}:@github.com" npx antora docs/antora-playbook.yml
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/site

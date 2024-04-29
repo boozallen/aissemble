@@ -1,0 +1,103 @@
+<!--
+  #%L
+  AIOps Foundation::Archetype::Project
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+<archetype-descriptor
+		xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 http://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
+		name="aiops-project">
+
+	<requiredProperties>
+		<requiredProperty key="groupId">
+		</requiredProperty>
+		<requiredProperty key="artifactId">
+		</requiredProperty>
+		<requiredProperty key="version">
+			<defaultValue>1.0.0-SNAPSHOT</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="package">
+		</requiredProperty>
+		<requiredProperty key="projectGitUrl">
+		</requiredProperty>
+		<requiredProperty key="projectName">
+		</requiredProperty>
+		<requiredProperty key="projectDescription">
+			<defaultValue>Project that contains aiSSEMBLE compliant pipeline(s)</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="archetypeVersion">
+			<defaultValue>${version}</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="licenseName">
+			<defaultValue>closed-source-license</defaultValue>
+		</requiredProperty>
+	</requiredProperties>
+
+	<fileSets>
+		<fileSet filtered="true" encoding="UTF-8">
+			<directory/>
+			<includes>
+				<include>Tiltfile</include>
+				<include>.tiltignore</include>
+				<include>devops/**</include>
+				<include>jenkinsPipelineSteps.groovy</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>.mvn</directory>
+			<includes/>
+		</fileSet>
+	</fileSets>
+
+	<modules>
+		<module id="${rootArtifactId}-docker"
+				dir="__rootArtifactId__-docker" name="${rootArtifactId}-docker">
+		</module>
+		<module id="${rootArtifactId}-pipeline-models"
+				dir="__rootArtifactId__-pipeline-models"
+				name="${rootArtifactId}-pipeline-models">
+			<fileSets>
+				<fileSet filtered="true" encoding="UTF-8">
+					<directory>src/main/resources</directory>
+					<includes>
+						<include>**</include>
+					</includes>
+				</fileSet>
+			</fileSets>
+		</module>
+		<module id="${rootArtifactId}-pipelines"
+				dir="__rootArtifactId__-pipelines" name="${rootArtifactId}-pipelines">
+		</module>
+		<module id="${rootArtifactId}-deploy"
+				dir="__rootArtifactId__-deploy" name="${rootArtifactId}-deploy">
+			<fileSets>
+				<fileSet filtered="true" encoding="UTF-8">
+					<directory>src/main/resources</directory>
+					<includes>
+						<include>**</include>
+					</includes>
+				</fileSet>
+			</fileSets>
+		</module>
+		<module id="${rootArtifactId}-shared"
+				dir="__rootArtifactId__-shared" name="${rootArtifactId}-shared">
+		</module>
+		<module id="${rootArtifactId}-tests"
+				dir="__rootArtifactId__-tests" name="${rootArtifactId}-tests">
+			<fileSets>
+				<fileSet filtered="true" encoding="UTF-8">
+					<directory/>
+					<includes>
+						<include>**</include>
+					</includes>
+				</fileSet>
+			</fileSets>
+		</module>
+	</modules>
+
+</archetype-descriptor>

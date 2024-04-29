@@ -1,0 +1,25 @@
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>set-habushu-dist-artifact-version</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Captures the version of Habushu distribution artifacts to facilitate
+                             retrieval of artifacts between modules, specifically when the multiple
+                             sdist or wheels may be found in Habushu's dist folder as the result of
+                             publishing developmental/SNAPSHOT releases during the build.
+                             For example, if the current project version is 1.1.0-SNAPSHOT,
+                             ${version.habushu.dist.artifact} will be 1.1.0.dev0 -->
+                            <name>version.habushu.dist.artifact</name>
+                            <value>${project.version}</value>
+                            <regex>-SNAPSHOT</regex>
+                            <replacement>.dev0</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>

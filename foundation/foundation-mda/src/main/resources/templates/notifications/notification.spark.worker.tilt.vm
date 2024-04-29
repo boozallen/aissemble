@@ -1,0 +1,8 @@
+#set($path = "/src/${pythonPipelineArtifactId}/resources/apps/")
+#if(${pipelineImplementation} == "data-delivery-spark")
+#set($path = "/src/main/resources/apps/")
+#end
+
+yaml = local('helm template aissemble-spark-application-chart --version %s --values ${parentArtifactId}/${pipelineArtifactId}${path}${pipelineArtifactId}-base-values.yaml,${parentArtifactId}/${pipelineArtifactId}${path}${pipelineArtifactId}-dev-values.yaml --repo oci://ghcr.io/boozallen' % aissemble_version)
+k8s_yaml(yaml)
+k8s_resource('${pipelineArtifactId}', port_forwards=[port_forward(4747, 4747, 'debug')], auto_init=False, trigger_mode=TRIGGER_MODE_MANUAL)

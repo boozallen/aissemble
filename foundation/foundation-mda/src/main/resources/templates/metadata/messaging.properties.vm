@@ -1,0 +1,2 @@
+server = kafka-cluster:9093
+metadata_topic = metadata-ingest

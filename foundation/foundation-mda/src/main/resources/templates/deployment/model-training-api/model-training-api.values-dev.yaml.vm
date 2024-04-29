@@ -1,0 +1,29 @@
+# Dev values for model training api.
+image:
+  dockerRepo: ""
+
+service:
+  spec:
+    type: LoadBalancer
+
+deployment:
+  env:
+    - name: KRAUSENING_BASE
+      value: /opt/app/resources/config/base
+    - name: KRAUSENING_EXTENSIONS
+      value: /opt/app/resources/config/extensions
+    #if(${appName} == "model-training-api-sagemaker")
+    - name: AWS_ACCESS_KEY_ID
+      value: access_key
+    - name: AWS_SECRET_ACCESS_KEY
+      value: secret_access_key
+    - name: AWS_SESSION_TOKEN
+      value: session_token
+    - name: AWS_DEFAULT_REGION
+      value: default_region
+    - name: AWS_ROLE_ARN
+      value: role_arn
+    #end
+
+ingress:
+  enabled: false

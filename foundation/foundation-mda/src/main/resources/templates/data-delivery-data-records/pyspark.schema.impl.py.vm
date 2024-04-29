@@ -1,0 +1,16 @@
+from ..generated.schema.${record.snakeCaseName}_schema_base import ${record.capitalizedName}SchemaBase
+
+
+class ${record.capitalizedName}Schema(${record.capitalizedName}SchemaBase):
+    """
+    PySpark schema for ${record.capitalizedName}.
+
+    This schema serves the following purpose: ${record.description}
+
+    GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+
+    Originally generated from: ${templateName}
+    """
+
+    def __init__(self):
+        super().__init__()

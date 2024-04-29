@@ -1,0 +1,42 @@
+"""
+    Base implementation of the message envelope for inference analytics.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in validation/inference_message_definition.py).
+
+    Generated from: ${templateName}
+"""
+
+from typing import Dict, List, Optional
+from pydantic import BaseModel
+from pandas import DataFrame
+
+from ...validation.inference_payload_definition import Record, Inference
+
+class RequestBodyBase(BaseModel):
+    """
+    Base class representing an inference request containing the data to use for the model prediction.
+    """
+    data: List[Record]
+
+    def data_to_dict(self) -> Dict:
+        """
+        Convenience method to convert the data records into dictionaries.
+        :return:
+        """
+        return [record.dict() for record in self.data]
+
+    def prep_data(self) -> DataFrame:
+        """
+        Prep the data in the inference request for model prediction - override to
+        provide the appropriate logic.
+        :return:
+        """
+
+        return DataFrame(self.data_to_dict())
+
+
+class ResponseBodyBase(BaseModel):
+    """
+    Base class representing a response containing the inference results of the model prediction.
+    """
+    inferences: List[Inference]

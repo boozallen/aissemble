@@ -1,0 +1,165 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+    name: boozallen/aissemble-spark-infrastructure
+    imagePullPolicy: IfNotPresent
+    dockerRepo: "ghcr.io/"
+    tag: "${versionTag}"
+deployment:
+  args:
+    - /bin/bash
+    - -c
+    - |
+      /bin/bash <<'EOF'
+      $SPARK_HOME/sbin/start-history-server.sh & \
+#if (${useS3Local})
+      $SPARK_HOME/sbin/start-thriftserver.sh \
+      --conf spark.hadoop.fs.AbstractFileSystem.s3a.impl=org.apache.hadoop.fs.s3a.S3A \
+      --conf spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
+      --conf spark.hadoop.fs.s3a.access.key=$AWS_ACCESS_KEY_ID \
+      --conf spark.hadoop.fs.s3a.secret.key=$AWS_SECRET_ACCESS_KEY \
+      --conf spark.hadoop.fs.s3a.endpoint=$STORAGE_ENDPOINT \
+      --conf spark.hadoop.fs.s3a.path.style.access=true \
+      --conf spark.hadoop.hive.metastore.warehouse.dir=s3a://spark-infrastructure/warehouse
+#else
+      $SPARK_HOME/sbin/start-thriftserver.sh
+#end
+      EOF
+  ports:
+    - containerPort: 18080
+    - containerPort: 23
+    - containerPort: 10000
+    - containerPort: 10001
+  volumeMounts:
+    - name: spark-config
+      mountPath: /opt/spark/conf/spark-defaults.conf
+      subPath: spark-defaults.conf
+  volumes:
+    - name: spark-config
+      configMap:
+        name: spark-config
+        items:
+          - key: spark-defaults.conf
+            path: spark-defaults.conf
+  env:
+    - name: KAFKA_BOOTSTRAP_SERVER
+      value: kafka-cluster:19092
+    - name: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+      value: "no"
+    - name: SPARK_RPC_AUTHENTICATION_ENABLED
+      value: "no"
+    - name: SPARK_RPC_ENCRYPTION_ENABLED
+      value: "no"
+    - name: SPARK_SSL_ENABLED
+      value: "no"
+    - name: KRAUSENING_BASE
+      value: /opt/spark/krausening/base
+#if (${useS3Local})
+    - name: AWS_ACCESS_KEY_ID
+      value: "123"
+    - name: AWS_SECRET_ACCESS_KEY
+      value: "456"
+    - name: STORAGE_ENDPOINT
+      value: "http://s3-local:4566"
+#end
+  restartPolicy: Always
+# spark-infrastructure Service
+service:
+    spec:
+      ports:
+        - name: "web-ui-port"
+          port: 18080
+          targetPort: 18080
+        - name: "ssh"
+          port: 20023
+          targetPort: 22
+        - name: "thrift"
+          port: 10000
+          targetPort: 10000
+        - name: "thrift-http"
+          port: 10001
+          targetPort: 10001
+ingress:
+    enabled: true
+    metadata:
+      annotations:
+        kubernetes.io/ingress.class: nginx
+    hosts:
+      - host: spark-history.boozallen.github.io
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spark-history
+                port:
+                  number: 18080
+configMap:
+  sparkDefaults: |
+#if (${useS3Local})
+    spark.history.fs.logDirectory=s3a://spark-infrastructure/spark-events
+    spark.hadoop.fs.s3a.endpoint=http://s3-local:4566
+    spark.hadoop.fs.s3a.access.key=123
+    spark.hadoop.fs.s3a.secret.key=456
+    spark.hadoop.fs.s3a.path.style.access=true
+#end
+  hiveConfig: |
+   <configuration>
+        <property>
+            <name>datanucleus.schema.autoCreateAll</name>
+            <value>true</value>
+            <description>Creates necessary schema on a startup if one does not exist</description>
+        </property>
+        <property>
+             <name>hive.metastore.uris</name>
+             <value>thrift://hive-metastore-service:9083/default</value>
+        </property>
+        <property>
+            <name>hive.metastore.schema.verification</name>
+            <value>false</value>
+            <description>Whether or not to enforce metastore schema version consistency</description>
+        </property>
+        <property>
+            <name>hive.server2.thrift.http.path</name>
+            <value>cliservice</value>
+            <description>Path component of URL endpoint when in HTTP mode</description>
+        </property>
+        <property>
+            <name>hive.server2.transport.mode</name>
+            <value>http</value>
+            <description>Server transport mode</description>
+        </property>
+        <property>
+            <name>hive.server2.thrift.http.port</name>
+            <value>10001</value>
+            <description>Port number when in HTTP mode</description>
+        </property>
+        <property>
+            <name>hive.server2.thrift.port</name>
+            <value>10000</value>
+            <description>Port number of HiveServer2 Thrift interface</description>
+        </property>
+#if (${useS3Local})
+        <property>
+            <name>fs.s3.impl</name>
+            <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+        </property>
+        <property>
+            <name>hive.metastore.warehouse.dir</name>
+            <value>s3a://spark-infrastructure/warehouse</value>
+            <description>Location of default database for the warehouse</description>
+        </property>
+        <property>
+            <name>fs.s3a.endpoint</name>
+            <value>http://s3-local:4566</value>
+        </property>
+        <property>
+            <name>fs.s3a.path.style.access</name>
+            <value>true</value>
+        </property>
+#end
+    </configuration>
+status: 10.192.83.167

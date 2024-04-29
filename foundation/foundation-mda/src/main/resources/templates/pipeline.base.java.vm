@@ -1,0 +1,109 @@
+package ${basePackage}.pipeline;
+
+#if ($pipeline.getDataLineage())
+import java.util.UUID;
+import java.net.URI;
+import com.boozallen.aiops.data.lineage.config.ConfigUtil;
+import com.boozallen.aiops.data.lineage.util.LineageUtil;
+import io.openlineage.client.OpenLineage;
+#end
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ * Perform pipeline level process for ${pipeline.capitalizedName}
+ */
+public class PipelineBase {
+    private static final Logger logger = LoggerFactory.getLogger(PipelineBase.class);
+    private static PipelineBase instance;
+
+#if ($pipeline.getDataLineage())
+    private ConfigUtil configUtil = ConfigUtil.getInstance();
+    private UUID pipelineRunId;
+    private String pipelineJobName = "${pipeline.capitalizedName}";
+    private String pipelineJobNamespace = "${pipeline.capitalizedName}";
+    private boolean lineageEventStarted = false;
+#end
+    private PipelineBase() {}
+
+    public static PipelineBase getInstance() {
+        if (instance == null) {
+            instance = new PipelineBase();
+        }
+        return instance;
+    }
+
+#if ($pipeline.getDataLineage())
+    /**
+     * Record a pipeline lineage Start event
+     */
+    public void recordPipelineLineageStartEvent() {
+        if (!lineageEventStarted) {
+            lineageEventStarted = true;
+            this.pipelineRunId = UUID.randomUUID();
+            LineageUtil.recordLineage(LineageUtil.createStartRunEvent(pipelineRunId, pipelineJobName, pipelineJobNamespace, null, null));
+            logger.info("Start pipeline job run..");
+        } else {
+            logger.warn("Pipeline has recorded a lineage start event");
+        }
+    }
+
+    /**
+     * Record a pipeline lineage Complete event
+     */
+    public void recordPipelineLineageCompleteEvent() {
+        if (lineageEventStarted) {
+            LineageUtil.recordLineage(LineageUtil.createCompleteRunEvent(pipelineRunId, pipelineJobName, pipelineJobNamespace, null, null));
+            pipelineRunId = null;
+            lineageEventStarted = false;
+            logger.info("Complete pipeline job run..");
+        } else {
+            logger.warn("Pipeline hasn't recorded a lineage start event");
+        }
+    }
+
+    /**
+     * Record a pipeline lineage Fail event
+     */
+    public void recordPipelineLineageFailEvent() {
+        if (lineageEventStarted) {
+            LineageUtil.recordLineage(LineageUtil.createFailRunEvent(pipelineRunId, pipelineJobName, pipelineJobNamespace, null, null));
+            pipelineRunId = null;
+            lineageEventStarted = false;
+            logger.info("Fail pipeline job run..");
+        } else {
+            logger.warn("Pipeline hasn't recorded a lineage start event");
+        }
+    }
+
+    /**
+     * Get the pipeline name
+     */
+    public String getPipelineName() {
+        return pipelineJobName;
+    }
+
+    /**
+     * Get the pipeline Job's namespace
+     */
+    public String getPipelineJobName() {
+        return pipelineJobNamespace;
+    }
+
+    /**
+     * Get the pipeline run event information as a ParentRunFacet
+     * @return ParentRunFacet created from pipeline run event information
+     */
+    public OpenLineage.ParentRunFacet getPipelineRunAsParentRunFacet() {
+        if (pipelineRunId != null) {
+            String producer = configUtil.getProducer(this.pipelineJobName);
+            OpenLineage openLineage = new OpenLineage(URI.create(producer));
+            return openLineage.newParentRunFacet(
+                openLineage.newParentRunFacetRun(this.pipelineRunId),
+                openLineage.newParentRunFacetJob(this.pipelineJobNamespace, this.pipelineJobName));
+        }
+        return null;
+    }
+#end
+}

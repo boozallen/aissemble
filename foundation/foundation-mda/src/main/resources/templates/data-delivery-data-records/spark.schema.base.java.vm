@@ -1,0 +1,184 @@
+package ${basePackage};
+
+#foreach ($import in $record.recordBaseImports)
+import ${import};
+#end
+
+#foreach ($import in $record.baseImports)
+import ${import};
+#end
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.apache.spark.sql.Column;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+
+import com.boozallen.aiops.data.delivery.spark.SparkSchema;
+import com.boozallen.aiops.data.delivery.spark.SparkDatasetUtils;
+
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.lit;
+
+/**
+ * Base implementation of the Spark schema for ${record.capitalizedName}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}).
+ *
+ * Generated from: ${templateName} 
+ */
+public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
+
+#foreach ($field in $record.fields)
+    public static final String ${field.upperSnakecaseName}_COLUMN = "${field.sparkAttributes.columnName}";
+#end
+
+    public ${record.capitalizedName}SchemaBase() {
+        super();
+
+  #foreach ($field in $record.fields)
+      #if ($field.sparkAttributes.isDecimalType())
+        add(${field.upperSnakecaseName}_COLUMN, new ${field.shortType}(${field.sparkAttributes.defaultDecimalPrecision}, ${field.sparkAttributes.decimalScale}), ${field.sparkAttributes.isNullable()}, "${field.description}");
+      #else
+        add(${field.upperSnakecaseName}_COLUMN, ${field.shortType}, ${field.sparkAttributes.isNullable()}, "${field.description}");
+      #end
+  #end
+    }
+
+    /**
+     * Casts the given dataset to this schema.
+     * 
+     * @param dataset
+     *            the dataset to cast
+     * @return the dataset cast to this schema
+     */
+    public Dataset<Row> cast(Dataset<Row> dataset) {
+    #foreach ($field in $record.fields)
+        DataType ${field.name}Type = getDataType(${field.upperSnakecaseName}_COLUMN);
+    #end
+
+        return dataset
+        #foreach ($field in $record.fields)
+        		.withColumn(${field.upperSnakecaseName}_COLUMN, col(${field.upperSnakecaseName}_COLUMN).cast(${field.name}Type))#if (!$foreach.hasNext);#end
+        #end
+    }
+
+
+    /***
+     * Gets a list of field names that are of type Date (org.apache.spark.sql.types.DataTypes.DateType)
+     * @return List of field names
+     */
+    public List<String> getDateFields() {
+        List<String> dateFields = new ArrayList<>();
+        List<String> headerFields = Arrays.asList(getStructType().fieldNames());
+        for(String headerField: headerFields) {
+            DataType dataType = getDataType(headerField);
+            if(dataType.equals(DataTypes.DateType)) {
+                dateFields.add(headerField);
+            }
+        }
+
+        return dateFields;
+    }
+
+    /***
+     * Appends spark validation logic to an unvalidated spark DataFrame (org.apache.spark.sql.Dataset)
+     * @return Dataset with appended validation logic
+     */
+    public Dataset<Row> validateDataFrame(Dataset<Row> data) {
+        Dataset<Row> dataWithValidations = data
+            #foreach ($field in $record.fields)
+                #set ( $columnName = "#if($field.column)$field.column#{else}$field.upperSnakecaseName#end" )
+                #if (${field.isRequired()})
+                    .withColumn("${columnName}_IS_NOT_NULL", col("${columnName}").isNotNull())
+                #end
+                #if (${field.getValidation().getMinValue()})
+                    .withColumn("${columnName}_GREATER_THAN_MIN", col("${columnName}").gt(lit(${field.getValidation().getMinValue()})).or(col("${columnName}").equalTo(lit(${field.getValidation().getMinValue()}))))
+                #end
+                #if (${field.getValidation().getMaxValue()})
+                    .withColumn("${columnName}_LESS_THAN_MAX", col("${columnName}").lt(lit(${field.getValidation().getMaxValue()})).or(col("${columnName}").equalTo(lit(${field.getValidation().getMaxValue()}))))
+                #end
+                #if (${field.getValidation().getScale()})
+                    .withColumn("${columnName}_MATCHES_SCALE", col("${columnName}").rlike(("^[0-9]*(?:\\.[0-9]{0,${field.getValidation().getScale()}})?$")))
+                #end
+                #if (${field.getValidation().getMinLength()})
+                    .withColumn("${columnName}_GREATER_THAN_MAX_LENGTH", col("${columnName}").rlike(("^.{${field.getValidation().getMinLength()},}")))
+                #end
+                #if (${field.getValidation().getMaxLength()})
+                    .withColumn("${columnName}_LESS_THAN_MAX_LENGTH", col("${columnName}").rlike(("^.{${field.getValidation().getMaxLength()},}")).equalTo(lit(false)))
+                #end
+                #foreach ($format in $field.getValidation().getFormats())
+                    #if ($foreach.first)
+                        .withColumn("${columnName}_MATCHES_FORMAT", col("${columnName}").rlike(("$format.replace("\","\\")"))
+                    #else
+                        .or(col("${columnName}").rlike(("$format.replace("\","\\")")))
+                    #end
+                    #if ($foreach.last)
+                        )
+                    #end
+                #end
+            #end ;
+
+        Column filterSchema = null;
+        List<String> validationColumns = new ArrayList();
+        Collections.addAll(validationColumns, dataWithValidations.columns());
+        validationColumns.removeAll(Arrays.asList(data.columns()));
+        for (String columnName : validationColumns) {
+            if (filterSchema == null) {
+                filterSchema = col(columnName).equalTo(lit(true));
+            } else {
+                filterSchema = filterSchema.and(col(columnName).equalTo(lit(true)));
+            }
+        }
+        // Isolate the valid data
+        Dataset<Row> validData = data;
+        if (filterSchema != null) {
+            validData = dataWithValidations.filter(filterSchema);
+        }
+
+        // Remove validation columns from valid data
+        Seq<String> columnsToDrop = JavaConversions.asScalaBuffer(validationColumns).toSeq();
+        validData = validData.drop(columnsToDrop);
+
+        return validData;
+    }
+
+    /**
+     * Returns a given record as a Spark dataset row.
+     *
+     * @return the record as a Spark dataset row
+     */
+    public static Row asRow(${record.capitalizedName} record) {
+        return RowFactory.create(
+        #foreach ($field in $record.fields)
+            #if ($field.type.dictionaryType.isComplex())
+            record.get${field.capitalizedName}() != null ? record.get${field.capitalizedName}().getValue() : null#if ($foreach.hasNext),#end
+            #else
+            record.get${field.capitalizedName}()#if ($foreach.hasNext),#end
+            #end
+        #end
+        );
+    }
+
+
+    /**
+     * Returns a given Spark dataset row as a record.
+     *
+     * @return the row as a record
+     */
+    public static ${record.capitalizedName} mapRow(Row row) {
+    ${record.capitalizedName} record = new ${record.capitalizedName}();
+    #foreach ($field in $record.fields)
+        ${field.type.dictionaryType.genericShortType} ${field.name}Value = (${field.type.dictionaryType.genericShortType}) SparkDatasetUtils.getRowValue(row, "${field.fieldName}");
+        #if ($field.type.dictionaryType.isComplex())
+        record.set${field.capitalizedName}(new ${field.genericType}(${field.name}Value));
+        #else
+        record.set${field.capitalizedName}(${field.name}Value);
+        #end
+    #end
+    return record;
+    }
+
+}

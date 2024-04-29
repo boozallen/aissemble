@@ -1,0 +1,19 @@
+#[[#################################################################################
+## CONFIG | Lineage Custom Consumer Configs                                       ##
+## See aiSSEMBLE aissemble-quarkus-chart: README for more details.                ##
+## https://github.com/boozallen/aissemble/                           ##
+################################################################################]]##
+
+aissemble-quarkus-chart:
+  app:
+    name: "lineage-custom-consumer"
+  deployment:
+    image:
+      name: boozallen/${projectName}-custom-lineage-consumer-docker
+  configMap:
+    name: ${appName}-quarkus-config
+    supplementalQuarkusConfig:
+      - kafka.bootstrap.servers=kafka-cluster:9093
+      - mp.messaging.incoming.data-lineage-in.connector=smallrye-kafka
+      - mp.messaging.incoming.data-lineage-in.topic=lineage-event-out
+      - mp.messaging.incoming.data-lineage-in.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer

@@ -1,0 +1,15 @@
+#set ($comment = '#')
+#set ($header = '###')
+$comment Data Lineage properties
+data.lineage.enabled=true
+data.lineage.producer=${scmUrl}
+
+$comment Optional Job namespace configuration overrides
+#foreach($pipeline in $dataLineageStepsByPipeline.entrySet())
+$comment data.lineage.${pipeline.key}.namespace=${pipeline.key}-override
+#foreach($pipelineStep in $pipeline.value)
+$comment data.lineage.${pipelineStep}.namespace=${pipeline.key}-override
+#end
+
+#end
+$comment add Dataset namespace configurations here

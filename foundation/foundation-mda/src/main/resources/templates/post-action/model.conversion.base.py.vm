@@ -1,0 +1,124 @@
+from abc import ABC, abstractmethod
+from ...config.pipeline_config import PipelineConfig
+from krausening.logging import LogManager
+#if ($postAction.isOnnxModelConversion())
+from onnxmltools.convert import ${postAction.onnxConversionMethod}
+from onnxmltools.utils import save_model
+from os import path
+#end
+
+
+class ${postAction.modelConversionClassName}(ABC):
+    """
+    Base ${postAction.modelConversionType.value} model conversion post-action class.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in ${postAction.capitalizedName}).
+
+    Generated from: ${templateName}
+    """
+    logger = LogManager.get_instance().get_logger('${postAction.modelConversionClassName}')
+
+
+    def __init__(self) -> None:
+        """
+        Default constructor for a ${postAction.modelConversionType.value} model conversion post-action.
+        """
+        self._pipeline_config = PipelineConfig()
+
+
+    @property
+    def converted_model_file_directory(self) -> str:
+        """
+        The directory to save the converted model to.
+
+        :return: the directory so save the converted model to
+        """
+        return self._pipeline_config.model_directory()
+
+
+    @property
+    def converted_model_file_name(self) -> str:
+        """
+        The file name to save the converted model as.
+
+        :return: the file name to save the converted model as
+        """
+        return 'converted_${postAction.modelSource}_model.onnx'
+
+
+#if ($postAction.isCustomModelConversion())
+    @abstractmethod
+#end
+    def _convert(self, source_model) -> any:
+        """
+        Performs the ${postAction.modelSource}-to-${postAction.modelTarget} conversion on the source model and returns the converted model.
+
+        :source_model: the model to perform the conversion on
+        :return: the converted model
+        """
+        #if ($postAction.isCustomModelConversion())
+        pass
+        #elseif ($postAction.isOnnxModelConversion())
+        ${postAction.modelConversionClassName}.logger.info('Performing ${postAction.modelTarget} model conversion...')
+
+        converted_model = ${postAction.onnxConversionMethod}(
+            source_model,
+            #foreach ($parameterName in $postAction.onnxConversionParameters.keySet())
+            $parameterName=self.$parameterName,
+            #end
+        )
+
+        ${postAction.modelConversionClassName}.logger.info('Converted ${postAction.modelSource} model to ${postAction.modelTarget} format')
+        return converted_model
+        #end
+
+
+#if ($postAction.isCustomModelConversion())
+    @abstractmethod
+#end
+    def _save(self, converted_model) -> None:
+        """
+        Saves the converted ${postAction.modelTarget} model.
+
+        :converted_model: the converted model to save
+        """
+        #if ($postAction.isCustomModelConversion())
+        pass
+        #elseif ($postAction.isOnnxModelConversion())
+        ${postAction.modelConversionClassName}.logger.info('Saving converted ${postAction.modelTarget} model...')
+
+        model_file_path = path.join(self.converted_model_file_directory, self.converted_model_file_name)
+        save_model(converted_model, model_file_path)
+
+        ${postAction.modelConversionClassName}.logger.info('Saved converted ${postAction.modelTarget} model to {}'.format(model_file_path))
+        #end
+
+
+#if ($postAction.isOnnxModelConversion())
+    #foreach ($entry in $postAction.onnxConversionParameters.entrySet())
+        #set ($parameterName = $entry.key)
+        #set ($parameterRequired = $entry.value)
+    @property
+        #if ($parameterRequired)
+    @abstractmethod
+        #end
+    def ${parameterName}(self):
+        #if ($parameterRequired)
+        """
+        Required ${parameterName} parameter for the ${postAction.modelSource}-to-${postAction.modelTarget} conversion.
+
+        :return: required ${parameterName} parameter value
+        """
+        pass
+        #else
+        """
+        Optional ${parameterName} parameter for the ${postAction.modelSource}-to-${postAction.modelTarget} conversion.
+
+        :return: optional ${parameterName} parameter value
+        """
+        return ${postAction.getDefaultParameterValue($parameterName)}
+        #end
+
+
+    #end
+#end

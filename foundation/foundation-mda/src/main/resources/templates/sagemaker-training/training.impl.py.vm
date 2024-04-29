@@ -1,0 +1,131 @@
+import os
+import sys
+import json
+import traceback
+import mlflow
+
+# Add additional imports here
+
+
+# SageMaker will mount necessary files in the following locations at runtime:
+
+HYPERPARAMETERS_FILE_PATH = "/opt/ml/input/config/hyperparameters.json"
+INPUT_CONFIG_FILE_PATH = "/opt/ml/input/config/inputdataconfig.json"
+RESOURCE_FILE_PATH = "/opt/ml/input/config/resourceconfig.json"
+TRAIN_DATA_DIR = "/opt/ml/input/data/train/"
+VALIDATION_DATA_DIR = "/opt/ml/input/data/validation/"
+TEST_DATA_DIR = "/opt/ml/input/data/test/"
+FAILURE_FILE_PATH = "/opt/ml/output/failure"
+MODEL_ARTIFACTS_PATH = "/opt/ml/model/"
+
+def load_train_data(train_data_dir):
+    """Load training data from file(s) here
+    Args:
+        train_data_dir: training data file(s) will be available in this directory
+    Returns:
+        loaded training data
+    """
+
+    return train_data
+
+def load_validation_data(validation_data_dir):
+    """Load validation data from file(s) here
+    Args:
+        validation_data_dir: validation data file(s) will be available in this directory
+    Returns:
+        loaded validation data
+    """
+
+    return validation_data
+
+def load_test_data(test_data_dir):
+    """Load test data from file(s) here
+    Args:
+        test_data_dir: test data file(s) will be available in this directory
+    Returns:
+        loaded test data
+    """
+
+    return test_data
+
+def validate_model(model, validation_data):
+    """Should be called to evaluate model against validation data from train_model function after each training epoch
+    Args:
+        model: model to be evaluated
+        validation_data: loaded validation dataset
+    Returns:
+        resulting validation metrics
+    """
+
+    return validation_metrics
+
+def train_model(train_data, validation_data, hyperparameters):
+    """Train model based on user-provided hyperparameters, evaluate against validation dataset after each epoch
+    Args:
+        train_data: loaded training dataset
+        validation_data: loaded validation dataset
+        hyperparameters: dictionary containing user-provided hyperparameters
+    Returns:
+        trained model
+    """
+
+    # TODO: initialize model to be trained using the framework of your choice
+
+    # TODO: train model using model.fit(...) on the train_data
+
+    # TODO: Evaluate the model by using the validate_model(...) function. 
+
+    return model
+
+def test_model(model, test_data):
+    """Evaluate model against test data
+    Args:
+        model: trained model
+        test_data: loaded test dataset
+    Returns:
+        resulting metrics
+    """
+
+    # TODO: use model.predict(...) to evaluate model against the test_data
+
+    return metrics
+
+def save_model(model, output_dir):
+    """Save model artifacts to disk
+    Args:
+        model: trained model
+        output_dir: directory in which to save model artifacts
+    """
+    
+    # TODO: save model using the correct mlflow module such as sklearn or keras. Below is an example using sklearn:
+    # mlflow.sklearn.save_model(model, output_dir)
+    
+    pass
+
+if __name__ == "__main__":
+    try:
+        # Load model training hyperparameters
+        hyperparameters = json.load(open(HYPERPARAMETERS_FILE_PATH))
+
+        # Load input data configuration
+        input_data_config = json.load(open(INPUT_CONFIG_FILE_PATH))
+
+        # Load train, validation, and test datasets
+        train_data = load_train_data(TRAIN_DATA_DIR)
+        validation_data = load_validation_data(VALIDATION_DATA_DIR)
+        test_data = load_test_data(TEST_DATA_DIR)
+
+        # Train model, evaluate against test dataset
+        model = train_model(train_data, validation_data, hyperparameters)
+        final_metrics = test_model(model, test_data)
+
+        # Save model artifacts to path required by SageMaker
+        save_model(model, MODEL_ARTIFACTS_PATH)
+
+    except Exception as e:
+        with open(FAILURE_FILE_PATH, "w") as f:
+            f.write(str(e))
+            f.write(traceback.format_exc())
+
+        print(e, file=sys.stderr)
+        sys.exit(1)

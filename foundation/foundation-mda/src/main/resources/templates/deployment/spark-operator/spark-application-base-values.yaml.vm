@@ -1,0 +1,111 @@
+metadata:
+    name: ${sparkApplicationName}
+sparkApp:
+  spec:
+    type: ${sparkApplicationType}
+    image: "boozallen/${projectName}-spark-worker-docker:latest"
+    #if (${isJavaPipeline})
+    mainClass: ${mainClass}
+    #end
+    mainApplicationFile: "local:///opt/spark/jobs/pipelines/${mainApplicationFile}"
+    deps:
+      #if (!${usePackageDeps})
+      jars:
+        - https://repo1.maven.org/maven2/mysql/mysql-connector-java/${versionMysqlConnector}/mysql-connector-java-${versionMysqlConnector}.jar
+        #if (${enableDeltaSupport})
+        - https://repo1.maven.org/maven2/io/delta/delta-core_2.12/${versionDelta}/delta-core_2.12-${versionDelta}.jar
+        - https://repo1.maven.org/maven2/io/delta/delta-storage/${versionDelta}/delta-storage-${versionDelta}.jar
+        #end
+        #if (${useS3Local})
+        - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${versionHadoop}/hadoop-aws-${versionHadoop}.jar
+        - https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${versionAwsSdkBundle}/aws-java-sdk-bundle-${versionAwsSdkBundle}.jar
+        #end
+        #if (${enableElasticsearchSupport})
+        - https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-spark-30_2.12/${versionElasticsearch}/elasticsearch-spark-30_2.12-${versionElasticsearch}.jar
+        #end
+        #if (${enableNeo4jSupport})
+        - https://repo1.maven.org/maven2/org/neo4j/neo4j-connector-apache-spark_2.12/${versionNeo4j}/neo4j-connector-apache-spark_2.12-${versionNeo4j}.jar
+        #end
+        #if (${enableSedonaSupport})
+        - https://repo1.maven.org/maven2/org/apache/sedona/sedona-sql-3.0_2.12/${versionSedona}/sedona-sql-3.0_2.12-${versionSedona}.jar
+        #if (${enablePySparkSupport})
+        - https://repo1.maven.org/maven2/org/apache/sedona/sedona-python-adapter-3.0_2.12/${versionSedona}/sedona-python-adapter-3.0_2.12-${versionSedona}.jar
+        - https://repo1.maven.org/maven2/org/datasyslab/geotools-wrapper/${versionGeotools}/geotools-wrapper-${versionGeotools}.jar
+        - https://repo1.maven.org/maven2/org/postgresql/postgresql/${versionPostgresql}/postgresql-${versionPostgresql}.jar
+        #end
+        #end
+      #else
+      packages:
+        - mysql:mysql-connector-java:${versionMysqlConnector}
+        #if (${useS3Local})
+        - org.apache.hadoop:hadoop-aws:${versionHadoop}
+        - com.amazonaws:aws-java-sdk-bundle:${versionAwsSdkBundle}
+        #end
+        #if (${enableNeo4jSupport})
+        - org.neo4j:neo4j-connector-apache-spark_2.12:${versionNeo4j}
+        #end
+        #if (${enableElasticsearchSupport})
+        - org.elasticsearch:elasticsearch-spark-30_2.12:${versionElasticsearch}
+        #end
+        #if (${enableDeltaSupport})
+        - io.delta:delta-core_2.12:${versionDelta}
+        - io.delta:delta-storage:${versionDelta}
+        #end
+        #if (${enableSedonaSupport})
+        - org.apache.sedona:sedona-sql-3.0_2.12:${versionSedona}
+        #if (${enablePySparkSupport})
+        - org.apache.sedona:sedona-python-adapter-3.0_2.12:${versionSedona}
+        - org.datasyslab:geotools-wrapper:${versionGeotools}
+        - org.postgresql:postgresql:${versionPostgresql}
+        #end
+        #end
+      #end
+      excludePackages: []
+    hadoopConf:
+      #if (${useS3Local})
+      fs.s3a.fast.upload: "true"
+      fs.s3a.path.style: "true"
+      #end
+    driver:
+      cores: 1
+      coreLimit: "1200m"
+      memory: "512m"
+      env:
+        - name: KRAUSENING_BASE
+          value: /opt/spark/krausening/base
+        #if (${enableDataLineageSupport})
+        - name: ENABLE_LINEAGE
+          value: "true"
+        #end
+        #if (${useS3Local})
+        - name: AWS_ACCESS_KEY_ID
+          value: "123"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "456"
+        - name: STORAGE_ENDPOINT
+          value: "http://s3-local:4566"
+        #end
+      #if (${isJavaPipeline})
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+      #end
+    executor:
+      cores: 1
+      memory: "512m"
+      env:
+        - name: KRAUSENING_BASE
+          value: /opt/spark/krausening/base
+        #if (${enableDataLineageSupport})
+        - name: ENABLE_LINEAGE
+          value: "true"
+        #end
+        #if (${useS3Local})
+        - name: AWS_ACCESS_KEY_ID
+          value: "123"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "456"
+        - name: STORAGE_ENDPOINT
+          value: "http://s3-local:4566"
+        #end
+      #if (${isJavaPipeline})
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+      #end

@@ -1,0 +1,12 @@
+# Versioning
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# override image here
+aissemble-fastapi:
+  app:
+    name: aissemble-versioning
+  image:
+    name: boozallen/aissemble-versioning
+    imagePullPolicy: Always
+    dockerRepo: ghcr.io/

@@ -1,0 +1,365 @@
+from ...generated.step.abstract_pipeline_step import AbstractPipelineStep
+from krausening.logging import LogManager
+from abc import abstractmethod
+from time import time_ns
+from ..pipeline.pipeline_base import PipelineBase
+#foreach ($import in $step.baseImports)
+${import}
+#end
+#if ($step.decoratedFileStores && !$step.decoratedFileStores.size() != 0)
+from aiops_core_filestore.file_store_factory import FileStoreFactory
+#end
+#if (!$step.provenance || $step.provenance.enabled)
+from aiops_core_metadata.hive_metadata_api_service import HiveMetadataAPIService
+#end
+#if ($step.isPersistTypePostgres() || $step.isPersistTypeRdbms())
+from aiops_core_config import SparkPostgresConfig
+from aiops_core_config import RDBMSConnectionPool
+import sqlalchemy
+#end
+#if ($step.isPersistTypeElasticsearch())
+from aiops_core_config import SparkElasticsearchConfig
+#end
+#if ($step.isPersistTypeNeo4j())
+from aiops_core_config import SparkNeo4jConfig
+#end
+#if ($step.hasMessagingInbound())
+from kafka import KafkaConsumer
+import asyncio
+import threading
+#end
+#if ($step.hasMessagingOutbound())
+from kafka import KafkaProducer
+#end
+#if ($step.hasMessagingInbound() || $step.hasMessagingOutbound())
+from aiops_core_config import MessagingConfig
+#end
+from pathlib import Path
+from policy_manager.configuration import PolicyConfiguration
+from aiops_encrypt_policy import DataEncryptionPolicy, DataEncryptionPolicyManager
+from typing import List
+import os
+#if ($step.inbound)
+from pyspark.sql.functions import udf, col, lit, when
+from pyspark.sql.types import StringType
+from aiops_encrypt.vault_key_util import VaultKeyUtil
+from aiops_encrypt.aes_cbc_encryption_strategy import AesCbcEncryptionStrategy
+from aiops_encrypt.aes_gcm_96_encryption_strategy import AesGcm96EncryptionStrategy
+from aiops_encrypt.vault_remote_encryption_strategy import VaultRemoteEncryptionStrategy
+from aiops_encrypt.vault_local_encryption_strategy import VaultLocalEncryptionStrategy
+#end
+#if ($pipeline.getDataLineage())
+from uuid import uuid4
+from datetime import datetime
+#end
+
+#if ($step.inbound && !${step.hasMessagingInbound()} && !$step.hasInboundRecordType())
+def aiops_encrypt_simple_aes(plain_text):
+    '''
+    Pyspark User Defined Function for running encryption on columns.
+    Note: must be registered with the spark session.
+    return The cipher text
+    '''
+    # TODO: Due to issues with defining the udf inside the class we are defining them outside.  It would be good to revisit this issue in future releases.
+    if (plain_text is not None):
+        if not os.environ.get('KRAUSENING_BASE'):
+            ${step.capitalizedName}Base.logger.warn('KRAUSENING_BASE environment variable was not set.  Using default path -> ./krausening/base')
+            os.environ['KRAUSENING_BASE'] = 'krausening/base/'
+
+        encryption_strategy = AesCbcEncryptionStrategy()
+
+        encrypted_column_value = encryption_strategy.encrypt(plain_text)
+
+        # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
+        try:
+            encrypted_column_value = encrypted_column_value.decode('utf-8')
+        except (UnicodeDecodeError, AttributeError):
+            pass
+
+        return encrypted_column_value
+    else:
+        return ''
+
+
+def aiops_encrypt_with_vault_key(key, plain_text):
+    '''
+    Pyspark User Defined Function for running encryption on columns.
+    Vault supplies an AES GCM 96 encryption key which will be used here.
+    Note: must be registered with the spark session.
+    return The cipher text
+    '''
+    if (plain_text is not None):
+        if not os.environ.get('KRAUSENING_BASE'):
+            ${step.capitalizedName}Base.logger.warn('KRAUSENING_BASE environment variable was not set.  Using default path -> ./config')
+            os.environ['KRAUSENING_BASE'] = 'krausening/base/'
+
+        encryption_strategy = AesGcm96EncryptionStrategy(key)
+
+        encrypted_column_value = encryption_strategy.encrypt(plain_text)
+
+        # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
+        try:
+            encrypted_column_value = encrypted_column_value.decode('utf-8')
+        except (UnicodeDecodeError, AttributeError):
+            pass
+
+        return encrypted_column_value
+    else:
+        return ''
+#end
+
+
+class ${step.capitalizedName}Base(AbstractPipelineStep):
+    """
+    Performs scaffolding asynchronous processing for ${step.capitalizedName}. Business logic is delegated to the subclass.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in ${step.capitalizedName}).
+
+    Generated from: ${templateName}
+    """
+
+    logger = LogManager.get_instance().get_logger('${step.capitalizedName}Base')
+    step_phase = '${step.capitalizedName}'
+#if ($step.billOfMaterial.identifier)
+    bomIdentifier = "bom-${step.billOfMaterial.identifier}"
+#else
+    bomIdentifier = "Unspecified ${step.capitalizedName} BOM identifier"
+#end
+
+#if ($step.hasMessagingInbound())
+    consumer: KafkaConsumer | None
+#end
+
+#if ($step.hasMessagingOutbound())
+    producer: KafkaProducer | None
+#end
+
+    def __init__(self, data_action_type, descriptive_label):
+        super().__init__(data_action_type, descriptive_label)
+
+      #if ($step.isPersistTypeDeltaLake())
+        self.delta_output_directory = '/tmp/output/deltalake/'
+      #end
+      #if (!$step.provenance || $step.provenance.enabled)
+        self.set_metadata_api_service(HiveMetadataAPIService())
+      #end
+      #if ($step.isPersistTypePostgres() || $step.isPersistTypeRdbms())
+        self.spark_postgres_config = SparkPostgresConfig()
+        self.rdbms_connection_pool = RDBMSConnectionPool()
+      #end
+      #if ($step.isPersistTypeElasticsearch())
+        self.spark_elasticsearch_config = SparkElasticsearchConfig()
+      #end
+      #if ($step.isPersistTypeNeo4j())
+        self.spark_neo4j_config = SparkNeo4jConfig()
+      #end
+      #if ($step.hasMessagingInbound() || $step.hasMessagingOutbound())
+        self.messaging_config = MessagingConfig()
+      #end
+      #if ($step.hasMessagingInbound())
+        self.consumer = None
+        #if ($step.hasMessagingOutbound())
+        self.producer = None
+        #end
+      #elseif ($step.hasMessagingOutbound())
+        self.producer = KafkaProducer(**self.get_producer_configs())
+      #end
+      #foreach ($store in $step.decoratedFileStores)
+        #foreach ($storeConfig in $pipeline.fileStores)
+        #if ($storeConfig.name == $store.name)
+        self.$store.lowerName = FileStoreFactory.create_file_store('${storeConfig.name}')
+        #end
+        #end
+      #end
+
+
+#if ($step.hasMessagingInbound())
+    def get_consumer_configs(self) -> dict:
+        """
+        Returns the configurations for the kafka consumer. Override this method to specify your own configurations.
+        """
+        return {
+            'api_version': (2, 0, 2),
+            'bootstrap_servers': [self.messaging_config.server()],
+            'group_id': '${step.capitalizedName}',
+            'auto_offset_reset': 'earliest'
+        }
+
+
+#end
+#if ($step.hasMessagingOutbound())
+    def get_producer_configs(self) -> dict:
+        """
+        Returns the configurations for the kafka producer. Override this method to specify your own configurations.
+        """
+        return {
+            'api_version': (2, 0, 2),
+            'bootstrap_servers': [self.messaging_config.server()],
+        }
+
+
+#end
+    ${step.baseSignature}:
+        """
+        Executes this step.
+        """
+      #if (${step.hasMessagingInbound()})## step execution for messaging inbound type
+##step execution performed for each message consumed from kafka -- see consume_from_kafka method
+        execute_step = threading.Thread(target=asyncio.run, args=(self.consume_from_kafka(),))
+        execute_step.start()
+      #else## step execution for native & void inbound types
+        start = time_ns()
+        ${step.capitalizedName}Base.logger.info('START: step execution...')
+
+        #if ($step.inbound)
+        inbound = self.check_and_apply_encryption_policy(inbound)
+        #end
+
+        #if ($pipeline.getDataLineage())
+        run_id = uuid4()
+        parent_run_facet = PipelineBase().get_pipeline_run_as_parent_run_facet()
+        job_name = self.get_job_name()
+        default_namespace = self.get_default_namespace()
+        event_data = self.create_base_lineage_event_data()
+        start_time = datetime.utcnow()
+        self.record_lineage(self.create_lineage_start_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet,event_data=event_data,start_time=start_time))
+        try:
+            #if ($step.inbound && $step.outbound)
+            outbound = await self.execute_step_impl(inbound)
+            #elseif (!$step.inbound && $step.outbound)
+            outbound = await self.execute_step_impl()
+            #elseif ($step.inbound && !$step.outbound)
+            await self.execute_step_impl(inbound)
+            #else
+            await self.execute_step_impl()
+            #end
+            end_time = datetime.utcnow()
+            self.record_lineage(self.create_lineage_complete_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet,event_data=event_data,start_time=start_time,end_time=end_time))
+        except Exception as error:
+            self.logger.exception(
+                "An exception occurred while executing "
+                + self.get_data_action_descriptive_label()
+            )
+            self.logger.exception(error)
+            self.record_lineage(self.create_lineage_fail_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet,event_data=event_data,start_time=start_time,end_time=datetime.utcnow(),error=error))
+            PipelineBase().record_pipeline_lineage_fail_event()
+            raise Exception(error)
+        #else
+        #if ($step.inbound && $step.outbound)
+        outbound = await self.execute_step_impl(inbound)
+        #elseif (!$step.inbound && $step.outbound)
+        outbound = await self.execute_step_impl()
+        #elseif ($step.inbound && !$step.outbound)
+        await self.execute_step_impl(inbound)
+        #else
+        await self.execute_step_impl()
+        #end
+        #end
+
+        #if (!$step.provenance || $step.provenance.enabled)
+        self.record_provenance()
+        #end
+
+        #if ($step.hasMessagingOutbound())
+        if outbound is not None:
+            self.producer.send('${step.outbound.channelName}', value=outbound.encode())
+        #end
+
+        stop = time_ns()
+        ${step.capitalizedName}Base.logger.info('COMPLETE: step execution completed in %sms' % ((stop - start) / 1000000))
+        
+        #if ($step.hasNativeOutbound())
+        return outbound
+        #end
+      #end
+
+#if (${step.hasMessagingInbound()})
+
+    async def consume_from_kafka(self) -> None:
+      #if ($step.hasMessagingInbound())
+        self.consumer = KafkaConsumer("${step.inbound.channelName}", **self.get_consumer_configs())
+      #end
+      #if ($step.hasMessagingOutbound())
+        self.producer = KafkaProducer(**self.get_producer_configs())
+      #end
+
+        for message in self.consumer:
+            start = time_ns()
+            ${step.capitalizedName}Base.logger.info('START: step execution...')
+
+            message_value = message.value.decode('utf-8')
+            inbound = self.check_and_apply_encryption_policy(message_value)
+
+            #if ($pipeline.getDataLineage())
+            run_id = uuid4()
+            job_name = self.get_job_name()
+            default_namespace = self.get_default_namespace()
+            parent_run_facet = PipelineBase().get_pipeline_run_as_parent_run_facet()
+            event_data = self.create_base_lineage_event_data()
+            start_time = datetime.utcnow()
+            self.record_lineage(self.create_lineage_start_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet,event_data=event_data,start_time=start_time))
+            try:
+                #if ($step.hasMessagingOutbound())
+                outbound = await self.execute_step_impl(inbound)
+                #else
+                await self.execute_step_impl(inbound)
+                #end
+                end_time = datetime.utcnow()
+                self.record_lineage(self.create_lineage_complete_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet,event_data=event_data,start_time=start_time,end_time=end_tine))
+            except Exception as error:
+                self.logger.exception(
+                    "An exception occurred while executing "
+                    + self.get_data_action_descriptive_label()
+                )
+                self.record_lineage(self.create_lineage_fail_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet,event_data=event_data,start_time=start_time,end_time=datetime.utcnow(),error=error))
+                PipelineBase().record_pipeline_lineage_fail_event()
+                raise Exception(error)
+            #else
+            #if ($step.hasMessagingOutbound())
+            outbound = await self.execute_step_impl(inbound)
+            #else
+            await self.execute_step_impl(inbound)
+            #end
+            #end
+
+            #if (!$step.provenance || $step.provenance.enabled)
+            self.record_provenance()
+            #end
+
+            #if ($step.hasMessagingOutbound())
+            if outbound is not None:
+                self.producer.send('${step.outbound.channelName}', value=outbound.encode())
+            #end
+
+            self.consumer.commit()
+
+            stop = time_ns()
+            ${step.capitalizedName}Base.logger.info('COMPLETE: step execution completed in %sms' % ((stop - start) / 1000000))
+
+        self.consumer.close()
+
+#end
+
+    @abstractmethod
+    ${step.concreteSignature}:
+        """
+        This method performs the business logic of this step,
+        and should be implemented in ${step.capitalizedName}.
+        """
+        pass
+
+  #if ($step.persist)
+#parse("templates/data-delivery-pyspark/persist.py.vm")
+  #end
+  #if (!$step.provenance || $step.provenance.enabled)
+
+    #if ($step.provenance.resource)
+    def get_provenance_resource_identifier(self) -> str:
+        return "${step.provenance.resource}"
+    #end
+
+  #end
+
+#if ($step.inbound)
+    #parse("templates/data-delivery-pyspark/encryption.py.vm")
+#end

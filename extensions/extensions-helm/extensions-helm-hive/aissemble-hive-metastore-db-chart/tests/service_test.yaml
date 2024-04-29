@@ -1,0 +1,35 @@
+suite: aissemble-hive-metastore-db
+templates:
+  - service.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: aissemble-hive-metastore-db-chart
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: aissemble-hive-metastore-db-chart
+      - contains:
+          path: spec.ports
+          content:
+              name: "3306"
+              port: 3306
+              targetPort: 3306
+  - it: Should set values appropriately
+    set:
+      service:
+        spec:
+          ports:
+            - name: "8080"
+              port: 8080
+              targetPort: 8080
+    asserts:
+      - contains:
+          path: spec.ports
+          content:
+              name: "8080"
+              port: 8080
+              targetPort: 8080

@@ -1,0 +1,10 @@
+
+You must add the ${dependencyArtifactId} dependencies to ${artifactId}/pom.xml to build your pipeline!
+Example:
+
+    <dependencies>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>${dependencyArtifactId}</artifactId>
+        </dependency>
+    </dependencies>

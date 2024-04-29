@@ -1,0 +1,37 @@
+# Default values for postgres.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: postgres
+image:
+  name: postgres
+  imagePullPolicy: Always
+  dockerRepo: ""
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "12.11-bullseye"
+
+service:
+  spec:
+    ports:
+      - name: "5432"
+        port: 5432
+        targetPort: 5432
+
+deployment:
+  ports:
+    - name: sql
+      containerPort: 5432
+      protocol: TCP
+  env:
+    - name: POSTGRES_USER
+      value: postgres
+    - name: POSTGRES_PASSWORD
+      value: password
+    - name: POSTGRES_DB
+      value: db
+  restartPolicy: Always
+
+ingress:
+  enabled: false

@@ -1,0 +1,35 @@
+#[[########################################
+## CONFIG | Hive Metastore Service Configs
+## See aiSSEMBLE aissemble-hive-metastore-service-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-hive-metastore-service-chart:
+  app:
+    name: ${appName}
+  image:
+    name: boozallen/aissemble-hive-service
+    tag: ${versionTag}
+
+  # Add additional properties to Config Map without overriding the default ones 
+  # Use the following format:
+  #  additionalProperties:
+  #    - name: propertyName1
+  #      value: value1
+  #      description: Optional description
+  #    - name: propertyName2
+  #      value: value2
+  configMap:
+    metastoreServiceConfig:
+      additionalProperties:
+#if (${useS3Local})
+        - name: fs.s3.impl
+          value: org.apache.hadoop.fs.s3a.S3AFileSystem
+        - name: fs.s3a.access.key
+          value: 123
+        - name: fs.s3a.secret.key
+          value: 456
+        - name: fs.s3a.endpoint
+          value: http://s3-local:4566
+        - name: fs.s3a.path.style.access
+          value: true
+#end

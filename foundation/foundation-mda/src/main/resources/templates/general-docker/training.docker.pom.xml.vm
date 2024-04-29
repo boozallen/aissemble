@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>${groupId}</groupId>
+		<artifactId>${parentArtifactId}</artifactId>
+		<version>${version}</version>
+	</parent>
+
+	<artifactId>${artifactId}</artifactId>
+
+	<packaging>orphedomos</packaging>
+
+	<name>${parentDescriptiveName}::Training</name>
+	<description>Build for a Training Docker container to run a model training job</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.technologybrewery.fermenter</groupId>
+				<artifactId>fermenter-mda</artifactId>
+				<configuration>
+					<basePackage>${basePackage}</basePackage>
+					<profile>aissemble-training-docker</profile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-docker-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/main/resources/docker</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-${trainingPipeline.stepArtifactId}</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${trainingPipeline.stepArtifactId}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/${trainingPipeline.pipelineArtifactId}/${trainingPipeline.stepArtifactId}</directory>
+									<filtering>false</filtering>
+									<includes>
+										<include>dist/requirements.txt</include>
+										<include>dist/*-${version.habushu.dist.artifact}-*.whl</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-config-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/krausening/base</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/${trainingPipeline.pipelineArtifactId}/${trainingPipeline.stepArtifactId}/src/${trainingModuleSnakeCase}/resources/krausening/base</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,10 @@
+
+You must add the ${moduleType} modules to ${displayPomFilePath} to activate them in your build!
+Example:
+    <modules>
+        #foreach ($item in $items)
+        ${item}
+        #end
+
+        <!-- If the <modules> tag already exists just add the above modules to it -->
+    </modules>

@@ -1,0 +1,29 @@
+# Default values for zookeeper alert.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: zookeeper-alert
+image:
+  name: zookeeper
+  dockerRepo: "docker.io/"
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "3.4.13"
+
+# zookeeper-alert Deployment
+deployment:
+  ports:
+    - containerPort: 2181
+  restartPolicy: Always
+  resources:
+      limits:
+        memory: 500M
+
+# zookeeper-alert Service
+service:
+  spec:
+    ports:
+      - name: "12181"
+        port: 12181
+        targetPort: 2181

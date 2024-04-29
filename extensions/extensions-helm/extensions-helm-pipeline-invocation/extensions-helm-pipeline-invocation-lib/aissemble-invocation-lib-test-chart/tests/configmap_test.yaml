@@ -1,0 +1,25 @@
+templates:
+  - testmap.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - equal:
+          path: apiVersion
+          value: v1
+      - equal:
+          path: metadata.name
+          value: pipeline-invocation-service
+      - isKind:
+          of: ConfigMap
+      - isNullOrEmpty:
+          path: data
+  - it: Should load files from directory if able
+    set:
+      valuesFileDirectory: "testValues/"
+    asserts:
+      - exists:
+          path: data["spark-java-data-delivery-patterns-base-values.yaml"]
+      - exists:
+          path: data["spark-java-data-delivery-patterns-ci-values.yaml"]
+      - exists:
+          path: data["spark-java-data-delivery-patterns-dev-values.yaml"]

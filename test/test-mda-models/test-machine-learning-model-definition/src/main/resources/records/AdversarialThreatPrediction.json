@@ -1,0 +1,23 @@
+{
+  "name": "AdversarialThreatPrediction",
+  "package": "com.boozallen.aiops.foundation.inference",
+  "description": "Models the results of running a regression on provided event logs to determine if they are associated with adversarial threats",
+  "fields": [
+    {
+      "name": "score",
+      "type": {
+        "name": "integer",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": true
+    },
+    {
+      "name": "threatDetected",
+      "type": {
+        "name": "boolean",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": true
+    }
+  ]
+}

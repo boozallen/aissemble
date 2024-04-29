@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  AIOps Foundation::Archetype::Project
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>build-parent</artifactId>
+        <version>${archetypeVersion}</version>
+    </parent>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+    <packaging>pom</packaging>
+
+    <name>${projectName}</name>
+    <description>${projectDescription}</description>
+
+    <properties>
+        <id.nexus.server>nexus</id.nexus.server>
+    </properties>
+
+    <modules>
+        <module>${artifactId}-pipeline-models</module>
+        <module>${artifactId}-pipelines</module>
+        <module>${artifactId}-shared</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>bom-component</artifactId>
+                <version>${version.aissemble}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>bom-instantiation</artifactId>
+                <version>${version.aissemble}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <scm>
+        <connection>scm:git:${projectGitUrl}.git</connection>
+        <developerConnection>scm:git:${projectGitUrl}.git</developerConnection>
+        <url>${projectGitUrl}</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>foundation-mda</artifactId>
+                <version>${version.aissemble}</version>
+            </extension>
+        </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.technologybrewery.fermenter</groupId>
+                    <artifactId>fermenter-mda</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.boozallen.aissemble</groupId>
+                            <artifactId>foundation-mda</artifactId>
+                            <version>${version.aissemble}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.baton</groupId>
+                <artifactId>baton-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.boozallen.aissemble</groupId>
+                        <artifactId>foundation-upgrade</artifactId>
+                        <version>${version.aissemble}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <basePackage>${groupId}</basePackage>
+                    <profile>aissemble-project-root</profile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${version.license.plugin}</version>
+                <configuration>
+                    <licenseName>${licenseName}</licenseName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>set-habushu-dist-artifact-version</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Captures the version of Habushu distribution artifacts to facilitate
+                             retrieval of artifacts between modules, specifically when the multiple
+                             sdist or wheels may be found in Habushu's dist folder as the result of
+                             publishing developmental/SNAPSHOT releases during the build.
+                             For example, if the current project version is 1.1.0-SNAPSHOT,
+                             ${version.habushu.dist.artifact} will be 1.1.0.dev0 -->
+                            <name>version.habushu.dist.artifact</name>
+                            <value>${project.version}</value>
+                            <regex>-SNAPSHOT</regex>
+                            <replacement>.dev0</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

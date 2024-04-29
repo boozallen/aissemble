@@ -1,0 +1,89 @@
+package ${basePackage};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+#set( $imports = $pipeline.getAllStepsImplImports())
+#set( $needsAnyCdi = false )
+#set( $inbound = "" )
+
+#foreach($import in $imports)
+import $import;
+#end
+
+#foreach($step in $steps)
+  #if ($step.hasNativeOutbound() && !$step.hasMessagingInbound())
+#set( $needsAnyCdi = true )
+  #elseif (!$step.outbound && !$step.hasMessagingInbound())
+#set( $needsAnyCdi = true)
+  #end
+#end
+#if ($pipeline.hasAsynchronousStep())
+import java.util.concurrent.CompletionStage;
+#end
+
+#if ($needsAnyCdi)
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.spi.CDI;
+#end
+
+import ${basePackage}.pipeline.PipelineBase;
+
+/**
+ * Configures the steps needed to run a Spark-based implementation for ${pipeline.name}.
+ *
+ * This pipeline serves the following purpose: ${pipeline.description}.
+ *
+ * Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class ${pipeline.capitalizedName}Driver extends ${pipeline.capitalizedName}BaseDriver {
+
+  private static final Logger logger = LoggerFactory.getLogger(${pipeline.capitalizedName}Driver.class);
+  
+  public static void main(String[] args) {
+    logger.info("STARTED: {} driver", "${pipeline.capitalizedName}");
+    ${pipeline.capitalizedName}BaseDriver.main(args);
+
+#if ($pipeline.getDataLineage())
+    PipelineBase.getInstance().recordPipelineLineageStartEvent();
+#end
+
+#foreach($step in $steps)
+  #set ( $inbound = "" )
+  #if ($step.hasMessagingInbound() || $step.hasMessagingOutbound())
+  #elseif ($step.hasNativeOutbound() && !$step.hasMessagingInbound())
+
+    final ${step.name} ${step.lowerCamelCaseName} = CDI.current().select(${step.name}.class, new Any.Literal()).get();
+    #if ($step.isAsynchronous())
+      #if ($step.getBaseInboundType())
+        #set ( $inbound = "null" )
+      #end
+    CompletionStage<$step.getImplOutboundType()> ${step.lowerCamelCaseName}Result = ${step.lowerCamelCaseName}.executeStep($inbound);
+    #else
+      #if ($step.getImplInboundType())
+        #set ( $inbound = "null" )
+      #end
+    $step.getImplOutboundType() ${step.lowerCamelCaseName}Result = ${step.lowerCamelCaseName}.executeStep($inbound);
+    #end
+  #elseif (!$step.outbound && !$step.hasMessagingInbound())
+
+    final ${step.name} ${step.lowerCamelCaseName} = CDI.current().select(${step.name}.class, new Any.Literal()).get();
+    #if ($step.isAsynchronous())
+      #if ($step.getBaseInboundType())
+        #set ( $inbound = "null" )
+      #end
+    CompletionStage<Void> ${step.lowerCamelCaseName}Result = ${step.lowerCamelCaseName}.executeStep($inbound);
+    #else
+      #if ($step.getImplInboundType())
+        #set ( $inbound = "null" )
+      #end
+    ${step.lowerCamelCaseName}.executeStep($inbound);
+    #end
+  #end
+#end
+#if ($pipeline.getDataLineage())
+    PipelineBase.getInstance().recordPipelineLineageCompleteEvent();
+#end
+  }
+}

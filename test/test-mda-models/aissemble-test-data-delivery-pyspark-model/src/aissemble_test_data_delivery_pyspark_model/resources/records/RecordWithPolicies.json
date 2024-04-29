@@ -1,0 +1,34 @@
+{
+	"name": "RecordWithPolicies",
+	"package": "com.boozallen.aiops.mda.pattern.record",
+	"description": "Example record with fields that have policies",
+	"fields": [
+		{
+			"name": "fieldWithPolicies",
+			"type": {
+				"name": "customType",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			},
+			"driftPolicy": "fieldDriftPolicy",
+		    "ethicsPolicy": "fieldEthicsPolicy",
+		    "protectionPolicy": "fieldProtectionPolicy"
+		},
+		{
+			"name": "fieldWithDictionaryTypePolicies",
+			"type": {
+				"name": "typeWithPolicies",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			}
+		},
+		{
+			"name": "fieldWithDictionaryTypePoliciesOverridden",
+			"type": {
+				"name": "typeWithPolicies",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			},
+		    "driftPolicy": "overriddenDriftPolicy",
+		    "ethicsPolicy": "overriddenEthicsPolicy",
+		    "protectionPolicy": "overriddenProtectionPolicy"
+		}
+	]
+}

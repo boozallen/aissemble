@@ -1,0 +1,9 @@
+[
+	{
+		"id": "urn:aiops:accessData",
+		"category": "subject",
+		"type": "boolean",
+		"required": "false",
+		"attributePointClass": "com.boozallen.LocalAttributePoint"
+	}
+]

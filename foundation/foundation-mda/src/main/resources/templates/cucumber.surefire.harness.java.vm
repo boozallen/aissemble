@@ -1,0 +1,21 @@
+package ${basePackage};
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+/**
+ * Configures JUnit to pick up and run Cucumber tests.
+ *
+ * GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+ *
+ * Originally generated from: ${templateName} 
+ */
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources/specifications",
+        plugin = {"json:target/cucumber-reports/cucumber.json", "${basePackage}.SparkTestHarness"},
+        tags = "not @manual")
+public class CucumberTest {
+
+}

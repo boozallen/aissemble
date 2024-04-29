@@ -1,0 +1,33 @@
+{
+  "name": "ElasticCommonSchemaDictionary",
+  "package": "com.boozallen.aiops.foundation.inference",
+  "dictionaryTypes": [
+    {
+      "name": "eventKind",
+      "simpleType": "string",
+      "validation": {
+        "formats": [
+          "^(alert|enrichment|event|metric|state|pipeline_error|signal)$"
+        ]
+      }
+    },
+    {
+      "name": "eventCategory",
+      "simpleType": "string",
+      "validation": {
+        "formats": [
+          "^(authentication|configuration|database|driver|email|file|host|iam|intrusion_detection|malware|network|package|process|registry|session|threat|web)$"
+        ]
+      }
+    },
+    {
+      "name": "eventOutcome",
+      "simpleType": "string",
+      "validation": {
+        "formats": [
+          "^(success|failure|unknown)$"
+        ]
+      }
+    }
+  ]
+}

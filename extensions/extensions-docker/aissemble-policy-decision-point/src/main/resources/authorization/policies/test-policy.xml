@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  #%L
+  AIOps Docker Baseline::Policy Decision Point::Policy Decision Point Docker
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	PolicyId="urn:oasis:names:tc:xacml:2.0:unit-test:policy"
+	RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides"
+	Version="1.0">
+	<Description>Policies for Aiops authorization testing</Description>
+	<Target />
+	<Rule Effect="Permit"
+		  RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:boolean-custom-attribute:permit">
+		<Description>Test a custom attribute - is set to data-access true</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+							MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+								DataType="http://www.w3.org/2001/XMLSchema#string">data-access</AttributeValue>
+						<AttributeDesignator
+								AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+								Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+								DataType="http://www.w3.org/2001/XMLSchema#string"
+								MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+				<Apply
+						FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+					<AttributeDesignator
+							AttributeId="urn:aiops:accessData"
+							Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+							DataType="http://www.w3.org/2001/XMLSchema#boolean"
+							MustBePresent="false" />
+				</Apply>
+				<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>
+	<Rule Effect="Deny"
+		  RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:action:boolean-custom-attribute:deny">
+		<Description>Test a custom attribute - is set to data-access true</Description>
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match
+							MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue
+								DataType="http://www.w3.org/2001/XMLSchema#string">data-access</AttributeValue>
+						<AttributeDesignator
+								AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+								Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+								DataType="http://www.w3.org/2001/XMLSchema#string"
+								MustBePresent="false" />
+					</Match>
+				</AllOf>
+			</AnyOf>
+		</Target>
+		<Condition>
+			<Apply
+					FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+				<Apply
+						FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+					<AttributeDesignator
+							AttributeId="urn:aiops:accessData"
+							Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+							DataType="http://www.w3.org/2001/XMLSchema#boolean"
+							MustBePresent="false" />
+				</Apply>
+				<AttributeValue
+						DataType="http://www.w3.org/2001/XMLSchema#boolean">false</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>
+</Policy>

@@ -1,0 +1,18 @@
+[
+   {
+      "identifier":"ExamplePolicy",
+      "encryptPhase": "ingest",
+      "encryptFields": [
+         "ssn"
+      ],
+      "encryptAlgorithm": "AES_ENCRYPT",
+      "rules":[
+         {
+            "className":"EncryptRule",
+            "configurations": {
+               "description": "Apply during data delivery"
+            }
+         }
+      ]
+   }
+]

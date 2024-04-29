@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  namespace: {{ default .Release.Namespace .Values.serviceaccount.namespace }}
+  name: airflow
+rules:
+  - apiGroups: ["", "metrics.k8s.io", "extensions", "apps"] # "" indicates the core API group
+    resources: ["pods", "pods/log", "configmaps", "persistentvolumeclaims", "services"]
+    verbs: ["*"]
+  - apiGroups: ["sparkoperator.k8s.io"]
+    resources: ["*"]
+    verbs: ["*"]

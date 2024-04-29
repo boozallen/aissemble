@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${rootArtifactId}-model</artifactId>
+    <version>${version}</version>
+
+    <name>Versioned Model</name>
+    <description>Model versioned through the aiSSEMBLE Versioning Service</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- The path to the mlrun directory for a particular training run.
+        This will be derived using the MLFLOW_TRACKING_URI environment variable and
+        the training run id passed to the versioning service. -->
+        <mlrun.directory />
+        <!-- The path to the model directory for a particular training run.
+        This will be derived using the MODEL_DIRECTORY environment variable and the
+        training run id passed to the versioning service. -->
+        <model.directory />
+        <!-- The training run id for the model to be versioned. This will
+        be set using the training run id that is passed to the versioning service. -->
+        <model.id />
+        <!-- The Nexus server for deploying the model artifact. This will
+        be set using the NEXUS_SERVER environment variable. -->
+        <nexus.server />
+        <!-- The Nexus repository URL to deploy the model artifact to. You may
+        need to modify this URL depending on the version of Nexus. -->
+        <nexus.repository.url>${nexus.server}/nexus/content/repositories/snapshots/</nexus.repository.url>
+        <!-- The name of the model artifact that will be deployed to Nexus. -->
+        <model.artifact.name>${project.artifactId}-${project.version}-${model.id}</model.artifact.name>
+    </properties>
+
+    <distributionManagement>
+        <!-- The Nexus repository that the model artifact will be deployed
+        to. The credentials for the repository must be provided in the Maven
+        settings.xml file. -->
+        <snapshotRepository>
+            <id>versioning-nexus</id>
+            <name>versioning-snapshots</name>
+            <url>${nexus.repository.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <!-- Zips up the contents of the mlrun and model directories
+            using the model-artifacts.xml assembly file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>model-artifacts.xml</descriptor>
+                    </descriptors>
+                    <finalName>${model.artifact.name}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
+            <!-- Deploys zip file to Nexus -->
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <repositoryId>versioning-nexus</repositoryId>
+                            <url>${nexus.repository.url}</url>
+                            <pomFile>model-pom.xml</pomFile>
+                            <classifier>${model.id}</classifier>
+                            <file>${project.build.directory}/${model.artifact.name}.zip</file>
+                            <packaging>zip</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

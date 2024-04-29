@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Extensions::Security::Authzforce
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+
+<pdp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://authzforce.github.io/core/xmlns/pdp/8"
+	xmlns:ext="http://github.com/boozallen/aissemble/authz/attribute/1"
+	xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	version="8.1">
+	<attributeProvider id="aiopsAttributeExtension" xsi:type="ext:AiopsAttributeExtension">
+		<xacml:Attributes Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"/>
+	</attributeProvider>
+	<policyProvider id="rootPolicyProvider" xsi:type="StaticPolicyProvider">
+		<policyLocation>classpath:authorization/policies/test-policy.xml</policyLocation>
+	</policyProvider>
+</pdp>

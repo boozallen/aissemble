@@ -1,0 +1,25 @@
+"""
+Configurations for inference, read from the inference properties file.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName} 
+"""
+
+from krausening.properties import PropertyManager
+
+
+class InferenceConfig():
+    """
+    Configurations for inference, read from the inference properties file.
+    """
+
+    def __init__(self):
+        self.properties = PropertyManager.get_instance().get_properties('inference.properties')
+
+
+    def model_directory(self):
+        """
+        Returns the location of the model to load
+        """
+        return self.properties['model_directory']

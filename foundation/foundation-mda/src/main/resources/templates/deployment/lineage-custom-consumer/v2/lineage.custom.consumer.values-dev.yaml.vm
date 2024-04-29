@@ -1,0 +1,9 @@
+#[[#################################################################################
+## CONFIG | Lineage Custom Consumer Configs                                       ##
+## See aiSSEMBLE aissemble-quarkus-chart: README for more details.                ##
+## https://github.com/boozallen/aissemble/                           ##
+################################################################################]]##
+aissemble-quarkus-chart:
+  deployment:
+    image:
+      repo: ""

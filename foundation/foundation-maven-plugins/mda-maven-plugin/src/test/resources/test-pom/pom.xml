@@ -1,0 +1,41 @@
+<!--
+  #%L
+  MDA Maven::Plugin
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>Test Pom for copying Pipeline artifacts</name>
+    <groupId>com.boozallen.aissemble</groupId>
+    <artifactId>mda-maven-test-pom</artifactId>
+    <version>TEST</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>mda-maven-plugin</artifactId>
+                <configuration>
+                    <groupId>com.boozallen.aissemble</groupId>
+                    <modelsArtifactId>test</modelsArtifactId>
+                    <habushuArtifactVersion>1.0.0.dev0</habushuArtifactVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>copy-pipeline-artifacts</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

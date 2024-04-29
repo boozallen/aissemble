@@ -1,0 +1,16 @@
+[
+  {
+    "name": "pipeline",
+    "profileReferences": [
+      {
+        "name": "data-delivery-spark"
+      },
+      {
+        "name": "machine-learning-pipeline"
+      },
+      {
+        "name": "data-delivery-pyspark"
+      }
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+# Generated stub properties file - please ***DO*** modify
+#
+# Originally generated from ${templateName} 
+
+cucumber.publish.enabled=false
+cucumber.publish.quiet=true

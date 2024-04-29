@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+    app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+  name: {{ .Values.app.name | default .Chart.Name }}
+spec:
+  {{- with .Values.service.spec.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{ if .Values.service.spec.type }}
+  type: {{ .Values.service.spec.type }}
+  {{ end }}
+  selector:
+    app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+    app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}

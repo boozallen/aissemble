@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}-tests</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <packaging>pom</packaging>
+
+    <artifactId>${parentArtifactId}-tests-helm</artifactId>
+    <name>${projectName}::Tests::Helm</name>
+    <description>Integration tests charts for ${projectName}</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <basePackage>${package}</basePackage>
+                    <profile>integration-test-chart</profile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <executions>
+                            <execution>
+                                <id>delete-test-chart</id>
+                                <phase>pre-integration-test</phase>
+                                <!-- Delete helm test chart if exist -->
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>helm</executable>
+                                    <commandlineArgs>del pipeline-test --wait=true</commandlineArgs>
+                                    <successCodes>
+                                        <!-- Returning both success and error codes here because we want build to continue even with failure on this step -->
+                                        <successCode>0</successCode>
+                                        <successCode>1</successCode>
+                                    </successCodes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>delete-kubectl-pod</id>
+                                <phase>pre-integration-test</phase>
+                                <!-- Delete kubernetes test pod if exist -->
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>kubectl</executable>
+                                    <commandlineArgs>delete pod test --grace-period=0 --force</commandlineArgs>
+                                    <successCodes>
+                                        <!-- Returning both success and error codes here because we want build to continue even with failure on this step -->
+                                        <successCode>0</successCode>
+                                        <successCode>1</successCode>
+                                    </successCodes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>tilt-up</id>
+                                <phase>pre-integration-test</phase>
+                                <!-- Initialize tilt -->
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>tilt</executable>
+                                    <commandlineArgs>up -f src/main/resources/Tiltfile -- --aissembleVersion=${version.aissemble}</commandlineArgs>
+                                    <async>true</async>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-test-chart</id>
+                                <phase>integration-test</phase>
+                                <!-- Install helm release -->
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>helm</executable>
+                                    <commandlineArgs>install pipeline-test src/main/resources/test-chart/ --values src/main/resources/test-chart/values.yaml --values src/main/resources/test-chart/values-pipeline.yaml --wait --timeout 30m</commandlineArgs>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>execute-helm-test</id>
+                                <phase>integration-test</phase>
+                                <!-- Initialize helm integration tests  -->
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>helm</executable>
+                                    <commandlineArgs>test pipeline-test --timeout 30m</commandlineArgs>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>tilt-down</id>
+                                <phase>post-integration-test</phase>
+                                <!-- Teardown tilt -->
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>tilt</executable>
+                                    <commandlineArgs>down -f src/main/resources/Tiltfile</commandlineArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

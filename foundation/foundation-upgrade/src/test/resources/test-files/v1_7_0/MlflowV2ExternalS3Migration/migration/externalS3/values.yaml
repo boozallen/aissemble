@@ -1,0 +1,8 @@
+#################################################################################
+## CONFIG | MLflow Configs                                                        ##
+## See aiSSEMBLE extensions-helm-mlflow: README for more details.                 ##
+## https://github.com/boozallen/aissemble/                           ##
+#################################################################################
+aissemble-mlflow:
+  mlflow:
+    test: value

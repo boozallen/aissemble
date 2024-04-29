@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>foundation</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.boozallen.aissemble</groupId>
+    <artifactId>foundation-drift-detection</artifactId>
+
+    <name>aiSSEMBLE::Foundation::Drift Detection</name>
+    <description>Root pom for Drift Detection. For more detailed information, please see the related URL that talks about drift within the AIOps Reference Architecture (RA) Reference Implementation (RI).</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>foundation-drift-detection-core-java</module>
+        <module>foundation-drift-detection-engine</module>
+        <module>foundation-drift-detection-service</module>
+        <module>foundation-drift-detection-client-java</module>
+        <module>aissemble-foundation-drift-detection-client-python</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Python Dependencies -->
+            <dependency>
+                <groupId>org.technologybrewery.krausening</groupId>
+                <artifactId>krausening-python</artifactId>
+                <version>${version.krausening}</version>
+                <type>zip</type>
+            </dependency>
+
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>3.6.1</version>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${version.cucumber}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${version.cucumber}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>integration-test</id>
+            <modules>
+                <module>foundation-drift-detection-client-java</module>
+                <module>aissemble-foundation-drift-detection-client-python</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

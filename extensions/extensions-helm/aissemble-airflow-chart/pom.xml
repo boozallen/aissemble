@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>extensions-helm</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>aissemble-airflow-chart</artifactId>
+    <packaging>helm</packaging>
+
+    <name>aiSSEMBLE::Extensions::Helm::Airflow</name>
+    <description>Contains Helm Airflow Chart</description>
+
+    <build>
+        <plugins>
+            <!-- The airflow subchart defaults to setting the image tag to the airflow version -->
+            <!-- We use a template here to ease release maintenance.  -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <basedir>${project.basedir}</basedir>
+                    <file>values.template.yaml</file>
+                    <outputFile>values.yaml</outputFile>
+                    <replacements>
+                        <replacement>
+                            <token>@version.aissemble@</token>
+                            <value>${project.version}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>${group.helm.plugin}</groupId>
+                <artifactId>helm-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

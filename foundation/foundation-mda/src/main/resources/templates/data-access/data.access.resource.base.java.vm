@@ -1,0 +1,71 @@
+package ${basePackage};
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.graphql.GraphQLApi;
+import org.eclipse.microprofile.graphql.Query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.boozallen.aiops.data.access.QueryService;
+
+#foreach ($record in $records)
+    #if ($basePackage != $record.package)
+import ${record.package}.${record.capitalizedName};
+    #end
+#end
+
+/**
+ * Base implementation of the Data Access GraphQL resource.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in DataAccessResource).
+ *
+ * Generated from: ${templateName} 
+ */
+@GraphQLApi
+@ApplicationScoped
+public abstract class DataAccessResourceBase {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataAccessResourceBase.class);
+
+    @Inject
+    QueryService queryService;
+
+
+#foreach ($record in $records)
+    /**
+     * Returns the ${record.capitalizedName} records from the given table.
+     *
+     * @param table
+     *            the table to query
+     * @return ${record.capitalizedName} records
+     */
+    @Query("${record.capitalizedName}")
+    @SuppressWarnings("unchecked")
+    public List<${record.capitalizedName}> get${record.capitalizedName}(String table) {
+        logger.info("Received Data Access request to retrieve ${record.capitalizedName} records");
+        return (List<${record.capitalizedName}>) queryService.executeQuery(table, ${record.capitalizedName}.class);
+    }
+
+   /**
+     * Returns a subset of the ${record.capitalizedName} records from the given table.
+     *
+     * @param table
+     *            the table to query
+     * @param limit
+     *            number of records to return
+     * @return ${record.capitalizedName} records
+     */
+    @Query("${record.capitalizedName}Limited")
+    @SuppressWarnings("unchecked")
+    public List<${record.capitalizedName}> get${record.capitalizedName}Limited(String table, Integer limit) {
+        logger.info("Received Data Access request to retrieve {} ${record.capitalizedName} records", limit);
+        return (List<${record.capitalizedName}>) queryService.executeQuery(table, limit, ${record.capitalizedName}.class);
+    }
+#end
+}

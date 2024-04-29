@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: airflow-rolebinding
+  namespace: {{ default .Release.Namespace .Values.serviceaccount.namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: airflow
+    namespace: {{ default .Release.Namespace .Values.serviceaccount.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: airflow
+  apiGroup: rbac.authorization.k8s.io

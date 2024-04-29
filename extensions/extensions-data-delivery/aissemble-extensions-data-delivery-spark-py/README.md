@@ -1,0 +1,1 @@
+Package containing support functionality for pyspark pipelines, to be invoked largely through generated template code.

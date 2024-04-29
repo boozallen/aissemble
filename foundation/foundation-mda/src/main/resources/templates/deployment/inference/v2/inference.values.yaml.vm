@@ -1,0 +1,21 @@
+#[[########################################
+## CONFIG | Inference Configs
+## See aiSSEMBLE aissemble-inference-chart README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-inference-chart:
+  app:
+    name: ${appName}
+  deployment:
+    image:
+      name:  boozallen/${projectName}-${appName}-docker
+      tag: ''
+  service:
+    spec:
+      ports:
+        - name: "api"
+          port: ${port1} 
+          targetPort: 8000
+        - name: "grpc-api"
+          port: ${port2}
+          targetPort: 8081

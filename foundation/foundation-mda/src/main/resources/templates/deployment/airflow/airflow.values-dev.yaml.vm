@@ -1,0 +1,16 @@
+# Dev values for airflow.
+image:
+  imagePullPolicy: IfNotPresent
+  dockerRepo: ""
+
+service:
+  spec:
+    type: LoadBalancer
+
+ingress:
+  enabled: false
+
+deployment:
+  env:
+    - name: EXECUTION_ENVIRONMENT
+      value: dev

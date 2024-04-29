@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>foundation-drift-detection</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>aiSSEMBLE::Foundation::Drift Detection::Python Rest Client</name>
+    <artifactId>aissemble-foundation-drift-detection-client-python</artifactId>
+    <description>The drift detection Python rest client has the ability to invoke drift services using Python
+    </description>
+    <packaging>habushu</packaging>
+
+<!--    UNCOMMENT ONCE TEST STEPS ARE ADDED-->
+<!--    ALSO ADD THE PLUGIN-->
+<!--    <dependencies>-->
+<!--        <dependency>-->
+<!--            <groupId>net.masterthought</groupId>-->
+<!--            <artifactId>cucumber-reporting</artifactId>-->
+<!--        </dependency>-->
+<!--    </dependencies>-->
+
+    <build>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
+                <configuration>
+                    <behaveOptions>--tags ~integration</behaveOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <licenseFile>LICENSE</licenseFile>
+                </configuration>
+            </plugin>
+<!--            UNCOMMENT ONCE TEST STEPS ARE ADDED-->
+<!--            ALSO ADD THE DEPENDENCY-->
+<!--            <plugin>-->
+<!--                <groupId>net.masterthought</groupId>-->
+<!--                <artifactId>maven-cucumber-reporting</artifactId>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.technologybrewery.habushu</groupId>
+                        <artifactId>habushu-maven-plugin</artifactId>
+                        <configuration>
+                            <behaveOptions>--tags ~manual</behaveOptions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

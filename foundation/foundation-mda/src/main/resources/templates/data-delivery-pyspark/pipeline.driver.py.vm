@@ -1,0 +1,84 @@
+#foreach($step in $steps)
+#if ($step.isGeneric())
+from ${packageFolderName}.impl.${step.getLowercaseSnakeCaseName()} import ${step.capitalizedName}
+#else
+from ${packageFolderName}.step.${step.lowercaseSnakeCaseName} import ${step.capitalizedName}
+#end
+#end
+#if ($pipeline.hasMessagingInboundStep())
+from threading import Thread
+#end
+#if ($pipeline.hasAsynchronousStep())
+import asyncio
+#end
+from krausening.logging import LogManager
+#if ($pipeline.getDataLineage())
+from ${packageFolderName}.generated.pipeline.pipeline_base import PipelineBase
+#end
+
+"""
+Driver to run the ${pipeline.capitalizedName}.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName} 
+"""
+
+logger = LogManager.get_instance().get_logger('${pipeline.capitalizedName}')
+
+#if ($pipeline.hasMessagingInboundStep())
+def start_messaging_inbound_step(step):
+  """
+    Used for starting messaging inbound steps on individual threads to prevent a blocking situation. Override this method to specify your own configurations.
+  """
+  step_execution = Thread(target=step.execute_step)
+  step_execution.start()
+  logger.info('Step {} started and waiting for messages'.format(type(step).__name__))
+#end
+
+if __name__ == "__main__":
+    logger.info('STARTED: ${pipeline.capitalizedName} driver')
+#if ($pipeline.getDataLineage())
+    PipelineBase().record_pipeline_lineage_start_event()
+#end
+
+    # TODO: Execute steps in desired order and handle any inbound and outbound types
+#foreach($step in $steps)
+  #if (${step.hasMessagingInbound()})
+    #if ($step.isAsynchronous())
+    asyncio.run(${step.capitalizedName}().execute_step())
+    #else
+    start_messaging_inbound_step(${step.capitalizedName}())
+    #end
+  #elseif ($step.hasNativeInbound() && $step.hasNativeOutbound())
+    #if ($step.isAsynchronous())
+    ${step.lowercaseSnakeCaseName} = asyncio.run(${step.capitalizedName}().execute_step(None))
+    #else
+    ${step.lowercaseSnakeCaseName} = ${step.capitalizedName}().execute_step(None)
+    #end
+  #elseif ($step.hasNativeInbound() && (!$step.outbound || $step.hasMessagingOutbound()))
+    #if ($step.isAsynchronous())
+    asyncio.run(${step.capitalizedName}().execute_step(None))
+    #else
+    ${step.capitalizedName}().execute_step(None)
+    #end
+  #elseif (!$step.inbound && $step.hasNativeOutbound())
+    #if ($step.isAsynchronous())
+    ${step.lowercaseSnakeCaseName} = asyncio.run(${step.capitalizedName}().execute_step())
+    #else
+    ${step.lowercaseSnakeCaseName} = ${step.capitalizedName}().execute_step()
+    #end
+  #else
+    #if ($step.isAsynchronous())
+    asyncio.run(${step.capitalizedName}().execute_step())
+    #elseif (${step.isGeneric()})
+    ${step.capitalizedName}().execute_step_impl()
+    #else
+    ${step.capitalizedName}().execute_step()
+    #end
+  #end
+#end
+#if ($pipeline.getDataLineage())
+    PipelineBase().record_pipeline_lineage_complete_event()
+#end
+

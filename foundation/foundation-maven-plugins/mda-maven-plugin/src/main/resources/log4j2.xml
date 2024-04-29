@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  MDA Maven::Plugin
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{[%level] %logger{1}.%M():%L - %msg%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=normal, DEBUG=cyan, TRACE=white dim}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+		<Logger name="com.boozallen.mda.maven" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+		</Logger>
+        <Logger name="org" level="error" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="warn" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

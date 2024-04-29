@@ -1,0 +1,32 @@
+"""
+Configurations for this pipeline, read from the pipeline properties file.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName} 
+"""
+
+from krausening.properties import PropertyManager
+
+
+class PipelineConfig():
+    """
+    Configurations for this pipeline, read from the pipeline properties file.
+    """
+
+    def __init__(self):
+        self.properties = PropertyManager.get_instance().get_properties('pipeline.properties')
+
+
+    def mlflow_tracking_uri(self):
+        """
+        Returns the directory for tracking MLflow training runs.
+        """
+        return self.properties['mlflow_tracking_uri']
+
+
+    def kafka_server(self):
+        """
+        Returns the Kafka server host:port value.
+        """
+        return self.properties['kafka_server']

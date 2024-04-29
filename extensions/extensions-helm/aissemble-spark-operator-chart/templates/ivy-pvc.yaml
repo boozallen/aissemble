@@ -1,0 +1,22 @@
+{{- if .Values.ivyCache.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Values.ivyCache.name }}
+    app.kubernetes.io/name: {{ .Values.ivyCache.name }}
+  name: {{ .Values.ivyCache.name }}
+spec:
+  {{- with .Values.ivyCache.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.ivyCache.size }}
+  {{- if .Values.ivyCache.storeCacheOnNode }}
+  storageClassName: spark-ivy-storage
+  {{- else if .Values.ivyCache.storageClass }}
+  storageClassName: {{ .Values.ivyCache.storageClass }}
+  {{- end }}
+{{- end }}

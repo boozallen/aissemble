@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+    <!-- Generated from: ${templateName} -->
+
+    <artifactId>${artifactId}</artifactId>
+    <packaging>habushu</packaging>
+
+    <name>${parentDescriptiveName}::Data Records PySpark</name>
+    <description>Spark support for data records</description>
+
+    <build>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>${moduleArtifactIdPythonCase}</basePackage>
+                    <profile>data-delivery-data-pyspark</profile>
+                    <propertyVariables>
+                        <behaveFeature>data_records</behaveFeature>
+                    </propertyVariables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-python-sources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>clean-unmodifiable-generated-python-sources</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <generatedBasedir>#[[${project.basedir}]]#/src/${moduleArtifactIdPythonCase}/generated</generatedBasedir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>#[[${project.groupId}]]#</groupId>
+            <artifactId>${pythonDataRecords}</artifactId>
+            <version>#[[${project.version}]]#</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+</project>

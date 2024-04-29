@@ -1,0 +1,27 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<!--
+  #%L
+  AIOps Docker Baseline::Jenkins::Controller
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<hudson.tasks.Maven_-DescriptorImpl>
+    <installations>
+        <hudson.tasks.Maven_-MavenInstallation>
+            <name>maven</name>
+            <properties>
+                <hudson.tools.InstallSourceProperty>
+                    <installers>
+                        <hudson.tasks.Maven_-MavenInstaller>
+                            <id>3.8.5</id>
+                        </hudson.tasks.Maven_-MavenInstaller>
+                    </installers>
+                </hudson.tools.InstallSourceProperty>
+            </properties>
+        </hudson.tasks.Maven_-MavenInstallation>
+    </installations>
+</hudson.tasks.Maven_-DescriptorImpl>

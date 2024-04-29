@@ -1,0 +1,103 @@
+package ${basePackage};
+
+#foreach ($import in $record.enumImports)
+import ${import};
+#end
+
+/**
+ * Enum to represent the fields of a ${record.capitalizedName} record.
+ * 
+ * GENERATED CODE - DO NOT MODIFY
+ *
+ * Originally generated from: ${templateName}
+ */
+public enum ${record.capitalizedName}Field {
+
+#foreach ($field in $record.fields)
+    ${field.upperSnakecaseName}(${field.driftPolicyEnumValue}, ${field.ethicsPolicyEnumValue}, ${field.protectionPolicyEnumValue}),
+#end
+    ;
+
+    private String driftPolicy;
+    private String ethicsPolicy;
+    private String protectionPolicy;
+
+    private ${record.capitalizedName}Field(String driftPolicy, String ethicsPolicy, String protectionPolicy) {
+        this.driftPolicy = driftPolicy;
+        this.ethicsPolicy = ethicsPolicy;
+        this.protectionPolicy = protectionPolicy;
+    }
+
+    public String getDriftPolicy() {
+        return driftPolicy;
+    }
+
+    public boolean hasDriftPolicy() {
+        return StringUtils.isNotBlank(driftPolicy);
+    }
+
+    public String getEthicsPolicy() {
+        return ethicsPolicy;
+    }
+
+    public boolean hasEthicsPolicy() {
+        return StringUtils.isNotBlank(ethicsPolicy);
+    }
+
+    public String getProtectionPolicy() {
+        return protectionPolicy;
+    }
+
+    public boolean hasProtectionPolicy() {
+        return StringUtils.isNotBlank(protectionPolicy);
+    }
+
+    /**
+     * Returns the list of fields that have a drift policy.
+     * 
+     * @return list of fields that have a drift policy
+     */
+    public static List<${record.capitalizedName}Field> getFieldsWithDriftPolicy() {
+        List<${record.capitalizedName}Field> fields = new ArrayList<>();
+        for (${record.capitalizedName}Field field : values()) {
+            if (field.hasDriftPolicy()) {
+                fields.add(field);
+            }
+        }
+
+        return fields;
+    }
+
+   /**
+     * Returns the list of fields that have a ethics policy.
+     * 
+     * @return list of fields that have a ethics policy
+     */
+    public static List<${record.capitalizedName}Field> getFieldsWithEthicsPolicy() {
+        List<${record.capitalizedName}Field> fields = new ArrayList<>();
+        for (${record.capitalizedName}Field field : values()) {
+            if (field.hasEthicsPolicy()) {
+                fields.add(field);
+            }
+        }
+
+        return fields;
+    }
+
+    /**
+     * Returns the list of fields that have a protection policy.
+     * 
+     * @return list of fields that have a protection policy
+     */
+    public static List<${record.capitalizedName}Field> getFieldsWithProtectionPolicy() {
+        List<${record.capitalizedName}Field> fields = new ArrayList<>();
+        for (${record.capitalizedName}Field field : values()) {
+            if (field.hasProtectionPolicy()) {
+                fields.add(field);
+            }
+        }
+
+        return fields;
+    }
+
+}

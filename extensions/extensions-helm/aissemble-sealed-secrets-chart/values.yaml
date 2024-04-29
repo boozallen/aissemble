@@ -1,0 +1,2 @@
+sealed-secrets:
+  fullnameOverride: aissemble-sealed-secrets-controller

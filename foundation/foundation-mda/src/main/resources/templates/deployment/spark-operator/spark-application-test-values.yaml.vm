@@ -1,0 +1,30 @@
+sparkApp:
+  spec:
+    deps:
+      #if (!${usePackageDeps})
+      jars:
+        - https://repo1.maven.org/maven2/mysql/mysql-connector-java/${versionMysqlConnector}/mysql-connector-java-${versionMysqlConnector}.jar
+        #if (${enableDeltaSupport})
+        - https://repo1.maven.org/maven2/io/delta/delta-core_2.12/${versionDelta}/delta-core_2.12-${versionDelta}.jar
+        - https://repo1.maven.org/maven2/io/delta/delta-storage/${versionDelta}/delta-storage-${versionDelta}.jar
+        #end
+      #else
+      packages:
+        - mysql:mysql-connector-java:${versionMysqlConnector}
+        #if (${enableDeltaSupport})
+        - io.delta:delta-core_2.12:${versionDelta}
+        - io.delta:delta-storage:${versionDelta}
+        #end
+      #end
+    sparkConf:
+      #if ("${sparkExtensions}" != "")
+      spark.sql.extensions: "${sparkExtensions}"
+      #end
+      #if (${enableDeltaSupport})
+      spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+      #end
+      #if (${enableHiveSupport})
+      spark.sql.catalogImplementation: "hive"
+      #end
+      spark.driver.host: "localhost"
+      spark.master: "local[*]"

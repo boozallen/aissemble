@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: training-api-config
+data:
+  {{- with .Values.configMap.trainingApiConfig }}
+  training-api-config.properties:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.configMap.trainingApiConfigDev }}
+  training-api-config-dev.properties:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}

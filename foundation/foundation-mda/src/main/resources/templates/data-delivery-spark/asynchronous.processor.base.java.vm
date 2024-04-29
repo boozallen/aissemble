@@ -1,0 +1,388 @@
+package ${basePackage};
+
+#foreach ($import in $step.baseImports)
+import ${import};
+#end
+
+import java.time.Duration;
+
+import ${basePackage}.pipeline.PipelineBase;
+import org.aeonbits.owner.KrauseningConfigFactory;
+import io.smallrye.mutiny.Multi;
+import java.util.concurrent.CompletionStage;
+#if (${step.inbound})
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+#end
+#if (${step.hasMessagingInbound()} || ${step.hasMessagingOutbound()})
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.reactive.messaging.Acknowledgment;
+import org.eclipse.microprofile.reactive.messaging.OnOverflow;
+#if (${step.hasMultiMessagingOutbound()})
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+#end
+#end
+#if (${step.outbound})
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+#end
+#if ((${step.hasMessagingOutbound()} && ${step.hasNativeInbound()}))
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+#end
+import com.boozallen.aiops.core.filestore.AbstractFileStore;
+#foreach ($store in $step.decoratedFileStores)
+import ${basePackage}.filestore.${store.fullName};
+#end
+#if ($step.isMetadataEnabled())
+import com.boozallen.aiops.core.metadata.MetadataAPI;
+import com.boozallen.aiops.core.metadata.MetadataModel;
+import com.boozallen.aiops.core.metadata.producer.MetadataProducer;
+#end
+
+#if ($step.isAlertingEnabled()) 
+import com.boozallen.aissemble.alerting.core.Alert;
+import com.boozallen.aissemble.alerting.core.AlertProducerApi;
+import javax.enterprise.inject.spi.CDI;
+#end
+
+
+#if ($step.isPersistTypePostgres() || $step.isPersistTypeRdbms())
+import com.boozallen.aiops.data.delivery.spark.postgres.SparkPostgresUtils;
+#end
+
+
+#if ($step.isPersistTypeElasticsearch())
+import org.elasticsearch.spark.sql.api.java.JavaEsSparkSQL;
+#end
+
+#if ($step.isPersistTypeNeo4j())
+import com.boozallen.aiops.data.delivery.spark.neo4j.SparkNeo4jUtils;
+import org.apache.commons.lang3.StringUtils;
+#end
+
+import com.boozallen.aiops.data.delivery.spark.SparkConfig;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.spark.sql.api.java.UDF1;
+import org.apache.spark.sql.api.java.UDF2;
+import com.boozallen.aissemble.data.encryption.policy.config.EncryptAlgorithm;
+import org.apache.spark.sql.types.DataTypes;
+
+import javax.inject.Inject;
+import java.time.Clock;
+#if ($pipeline.getDataLineage())
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.util.UUID;
+
+import com.boozallen.aiops.data.lineage.util.LineageUtil.LineageEventData;
+import static com.boozallen.aiops.data.lineage.util.LineageUtil.recordLineage;
+
+import io.openlineage.client.OpenLineage.ParentRunFacet;
+#end
+
+import com.boozallen.aissemble.data.encryption.AiopsEncrypt;
+import com.boozallen.aissemble.data.encryption.SimpleAesEncrypt;
+import com.boozallen.aissemble.data.encryption.VaultEncrypt;
+import com.boozallen.aissemble.data.encryption.policy.EncryptionPolicy;
+import com.boozallen.aissemble.data.encryption.policy.EncryptionPolicyManager;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.functions;
+import org.apache.spark.sql.types.StructType;
+import java.util.stream.Collectors;
+import static org.apache.spark.sql.functions.col;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import org.apache.spark.sql.Encoder;
+import org.apache.spark.sql.Encoders;
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.lit;
+import org.apache.commons.lang.NotImplementedException;
+import org.aeonbits.owner.KrauseningConfigFactory;
+
+/**
+ * The smallrye connector consumes one message at a time - this class writes
+ * multiple source data records within one message so that they can be ingested
+ * in batches.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${step.capitalizedName}).
+ *
+ * Generated from: ${templateName}
+ */
+public abstract class ${step.capitalizedName}Base extends AbstractPipelineStep {
+
+    private static final Logger logger = LoggerFactory.getLogger(${step.capitalizedName}Base.class);
+
+    protected static final SparkConfig config = KrauseningConfigFactory.create(SparkConfig.class);
+
+    protected static final String stepPhase = "${step.capitalizedName}";
+
+#if (${step.inbound})
+	#if (${step.hasMessagingInbound()})
+    public static final String INCOMING_CHANNEL = "${step.incomingChannel}";
+    #end
+#end
+#if (${step.outbound})
+	#if (${step.hasMessagingOutbound()})
+    public static final String OUTGOING_CHANNEL = "${step.outgoingChannel}";
+    #end
+#end
+
+#if ($step.hasMessagingOutbound() && $step.hasNativeInbound())
+	@OnOverflow(value = OnOverflow.Strategy.BUFFER, bufferSize = 20)
+	@Inject
+	@Channel(OUTGOING_CHANNEL)
+	private Emitter<${step.implOutboundType}> emitterWithBuffer;
+#end
+
+#if ($step.isPersistTypeDeltaLake())
+	private static final String DELTA_DATA_ROOT = config.outputDirectory();
+#end
+
+#if ($step.isMetadataEnabled())
+	protected MetadataProducer metadataProducer;
+
+#end
+#if ($step.isAlertingEnabled()) 
+	protected AlertProducerApi alertProducer;
+
+#end
+	#foreach ($store in $step.decoratedFileStores)
+	@Inject
+	protected $store.fullName $store.lowerName;
+
+	#end
+    protected ${step.capitalizedName}Base(String subject, String action) {
+		super(subject, action);
+	}
+
+
+	/**
+	 * Receives messages and processes them asynchronously.
+	 #if (${step.hasMessagingInbound()})
+	 * Leverages Reactive Messaging: see mp.messaging.incoming.${step.incomingChannel}.* in
+	 * microprofile-config.properties for incoming configurations.
+	 #end
+	 #if (${step.getBaseInboundType()})
+	 *
+	 * @param inbound inbound data
+	 #end
+	 */
+	#if (${step.hasMessagingInbound()})
+    @Incoming(INCOMING_CHANNEL)
+	@Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
+	@OnOverflow(value = OnOverflow.Strategy.BUFFER, bufferSize = 20)
+	#end
+	#if (${step.hasMessagingOutbound()} && !${step.hasNativeInbound()})
+	@Outgoing(OUTGOING_CHANNEL)
+	#end
+	${step.baseSignature} {
+        #if ($pipeline.getDataLineage())
+        UUID runId = UUID.randomUUID();
+        ParentRunFacet parentRunFacet = PipelineBase.getInstance().getPipelineRunAsParentRunFacet();
+        String jobName = getJobName();
+        String defaultNamespace = getDefaultNamespace();
+        LineageEventData eventData = createBaseEventData();
+        ZonedDateTime eventStartTime = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime eventEndTime = null;
+        Map<String, Object> eventParams = new HashMap<String, Object>();
+        eventParams.put("startTime", eventStartTime);
+        recordLineage(createLineageStartEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData, eventParams));
+        #end
+		try {
+		#if ($step.inbound)
+			inbound = checkAndApplyEncryptionPolicy(inbound);
+		#end
+			#if (!$step.provenance || $step.provenance.enabled)
+			recordProvenance();
+			#end
+
+			#if ($step.billOfMaterial && $step.billOfMaterial.enabled)
+			recordBOM();
+			#end
+			#if ($step.hasMessagingOutbound() && $step.hasNativeInbound())
+			${step.baseOutboundType} outboundPayload = executeStepImpl(#if (${step.baseInboundType}) inbound #end);
+            #if ($pipeline.getDataLineage())
+            eventEndTime = ZonedDateTime.now(ZoneOffset.UTC);
+            eventParams.put("endTime", eventEndTime);
+            recordLineage(createLineageCompleteEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData, eventParams));
+            #end
+			outboundPayload.thenApply(message -> {
+				emitterWithBuffer.send(message);
+				return message;
+			});
+			#else
+			${step.baseOutboundType} outboundPayload = executeStepImpl(#if (${step.getBaseInboundType()}) inbound #end);
+			#end
+            #if ($pipeline.getDataLineage())
+            if (eventEndTime == null) {
+                eventEndTime = ZonedDateTime.now(ZoneOffset.UTC);
+                eventParams.put("endTime", eventEndTime);
+                recordLineage(createLineageCompleteEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData, eventParams));
+            }
+            #end
+			#if ($step.isAlertingEnabled()) 
+			#if (!${step.isMultiMessaging($step.outbound)})
+			sendAlert(Alert.Status.SUCCESS, getSuccessMessage());
+			#else
+			logger.warn("Unable to generate success alerts for Multi (Streams). Implement in the child class of $step.name");
+			#end
+			#end
+			return outboundPayload;
+		} catch (Exception e) {
+			logger.error("Step failed to complete", e);
+			#if ($step.isAlertingEnabled()) 
+				sendAlert(Alert.Status.FAILURE, getErrorMessage(e));
+			#end
+            #if ($pipeline.getDataLineage())
+            eventEndTime = ZonedDateTime.now(ZoneOffset.UTC);
+            eventParams.put("error", e);
+            eventParams.put("endTime", eventEndTime);
+            recordLineage(createLineageFailEvent(runId, jobName, defaultNamespace, parentRunFacet, eventData, eventParams));
+            PipelineBase.getInstance().recordPipelineLineageFailEvent();
+            #end
+			throw e;
+		}
+    }
+
+	/**
+	 * Performs the processing of inbound data. This method is called
+	 * when a message is received.
+	 #if (${step.getBaseInboundType()})
+	 *
+	 * @param inbound the inbound data
+	 #end
+	 */
+	protected abstract ${step.getBaseOutboundType()} executeStepImpl(#if (${step.getBaseInboundType()}) ${step.getBaseInboundType()} inbound #end);
+
+	#if (${step.persist})
+    #parse("templates/data-delivery-spark/persist.java.vm")
+	#end
+
+	#if (!$step.provenance || $step.provenance.enabled)
+    /**
+     * Controls creating the metadata that will be recorded for provenance purposes.
+     *
+     * @param resource the identifier of the data
+     * @param subject the thing acting on the resource
+     * @param action the name of the activity being performed on the resource
+     * @return the provenance metadata to create
+     */
+    protected abstract MetadataModel createProvenanceMetadata(String resource, String subject, String action);
+
+	/**
+	 * Returns the resource identifier that will be used to track this record set via provenance.
+	 * @return resource identifier
+	 */
+	protected String getProvenanceResourceIdentifier() {
+		#if ($step.provenance.resource)
+			return "${step.provenance.resource}";
+		#else
+			return "Unspecified ${step.capitalizedName} resource";
+		#end
+	}
+
+	/**
+	 * Records provenance for this step.
+	 */
+	protected void recordProvenance() {
+		logger.info("Sending provenance...");
+
+		String resource = getProvenanceResourceIdentifier();
+		MetadataModel model = createProvenanceMetadata(resource, subject, action);
+		metadataProducer.send(model);
+
+		logger.info("Provenance sent");
+	}
+#end
+
+
+#if ($step.isMetadataEnabled())
+	@Inject
+	public void setMetadataProducer(MetadataProducer metadataProducer) {
+		this.metadataProducer = metadataProducer;
+	}
+#end
+
+#if ($step.isAlertingEnabled()) 
+	@Inject
+	public void setAlertProducer(AlertProducerApi alertProducer) {
+		this.alertProducer = alertProducer;
+	}
+
+	/**
+     * Send an alert with a given status and message.
+     * @param status the status of the alert
+     * @param message the message
+     */
+	protected void sendAlert(Alert.Status status, String message) {
+		if (alertProducer != null) {
+			alertProducer.sendAlert(status, message);
+		} else {
+			logger.error("Alert cannot be sent without a valid Alert Producer! Please add an Alert Producer to the PipelinesCdiContext!");
+		}
+	}
+
+	/**
+	 * Invoked in ${step.capitalizedName}Base. For static messages update this method; however, if more complex
+	 * messaging is desired turn off alerting and implement as desired in ${step.capitalizedName}.
+	 */
+	protected String getSuccessMessage() {
+		return action + " completed asynchronously at " + Clock.systemUTC().instant();
+	}
+
+	/**
+	 * Invoked in ${step.capitalizedName}Base. For static messages update this method; however, if more complex
+	 * messaging is desired turn off alerting and implement as desired in ${step.capitalizedName}.
+	 */
+	protected String getErrorMessage(Exception e) {
+		return action + " failed due to error: " + e.getMessage();
+	}
+#end
+
+    /**
+     * Spark User Defined Function for running encryption on columns.
+     * Note: must be registered with the spark session.
+     * @return The cipher text
+     */
+    protected UDF2<String, String, String> encryptUDF() {
+        return (plainText, encryptAlgorithm) -> {
+            if (plainText != null) {
+                // Default algorithm is AES
+                AiopsEncrypt aiopsEncrypt = new SimpleAesEncrypt();
+
+                if(encryptAlgorithm.equals("VAULT_ENCRYPT")) {
+                    aiopsEncrypt = new VaultEncrypt();
+                }
+
+                return aiopsEncrypt.encryptValue(plainText);
+            } else {
+                return "";
+            }
+        };
+    }
+
+#if ($step.inbound)
+	#parse("templates/data-delivery-spark/encryption.java.vm")
+#end
+
+#foreach ($store in $step.decoratedFileStores)
+	public AbstractFileStore get$store.fullName () {
+		return this.$store.lowerName;
+	}
+
+	public void set$store.fullName ($store.fullName fileStore) {
+		this.$store.lowerName = fileStore;
+	}
+#end
+
+}

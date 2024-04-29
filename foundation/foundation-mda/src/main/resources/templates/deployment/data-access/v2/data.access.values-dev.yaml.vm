@@ -1,0 +1,12 @@
+# Data Access
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Override these values for the docker image built from the aiSSEMBLE Quarkus baseline image
+aissemble-data-access-chart:
+  aissemble-quarkus-chart:
+      deployment:
+        image:
+          repo: ""
+      service:
+        type: LoadBalancer

@@ -1,0 +1,15 @@
+#################################################################################
+## CONFIG | MLflow Configs                                                        ##
+## See aiSSEMBLE extensions-helm-mlflow: README for more details.                 ##
+## https://github.com/boozallen/aissemble/                           ##
+#################################################################################
+aissemble-mlflow:
+  mlflow:
+    externalS3:
+      existingSecret: ""
+      host: "s3-local"
+      port: 4566
+      accessKeyID: "123"
+      accessKeySecret: "456"
+      protocol: http
+  test: value

@@ -1,0 +1,18 @@
+package ${basePackage};
+
+import org.apache.kafka.common.serialization.Serializer;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Base implementation of a serializer for ${record.capitalizedName}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}Serializer).
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class ${record.capitalizedName}SerializerBase implements Serializer<${record.capitalizedName}> {
+    @Override
+    public byte[] serialize(String topic, ${record.capitalizedName} record) {
+        return record == null ? null : record.toJson().getBytes(StandardCharsets.UTF_8);
+    }
+}

@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "aissemble"
+  title: "aiSSEMBLE Baseline"
+  description: "The aiSSEMBLE repository is Booz Allen's lean manufacturing approach for holistically designing, developing and fielding AI solutions across the engineering lifecycle from data processing to model building, tuning, and training to secure operational deployment. This repository consists of standardized components which make it easy for dev teams to quickly reuse and apply to their project to drive consistency, reliability and low delivery risk. aiSSEMBLE offers projects the rapid generation of necessary scaffolding, boilerplate libraries, and container images with the flexibility of custom configuration. It consists of pre-fabricated components that can be used as is within your projects and generated capabilities that can be extended."
+  links:
+    - url: https://www.boozallen.com/expertise/analytics/deploy-artificial-intelligence-faster-with-aissemble.html?origref=&vURL=/aissemble
+      title: aiSSEMBLE External Website
+    - url: https://boozallen.github.io/aissemble/current/index.html
+      title: Developer Documentation
+  tags:
+    - aissemble
+    - mlops
+    - ai
+    - data-ops
+  annotations:
+    github.com/project-slug: boozallen/aissemble
+spec:
+  type: library
+  lifecycle: experimental
+  owner: "aissemble/aissemble-baseline-team"
+  system: system:aissemble-system
+

@@ -1,0 +1,132 @@
+package ${basePackage};
+
+#foreach ($import in $step.implImports)
+import ${import};
+#end
+
+#if ($step.inbound)
+import java.util.ArrayList;
+import java.util.List;
+#end
+#if ($step.outbound)
+import java.util.stream.Collectors;
+#end
+
+import javax.enterprise.context.ApplicationScoped;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import io.smallrye.mutiny.Multi;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+
+#if (${step.hasMessagingInbound()} || ${step.hasMessagingOutbound()})
+import org.eclipse.microprofile.reactive.messaging.Message;
+#end
+
+#if ($step.isMultiMessaging($step.getOutbound()))
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.reactivestreams.Publisher;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+#end
+
+#if (!$step.provenance || $step.provenance.enabled)
+import java.time.Instant;
+
+import com.boozallen.aiops.core.metadata.MetadataModel;
+#end
+
+/**
+ * The Reactive Messaging connector consumes one message at a time - this class writes
+ * multiple source data records within one message so that they can be ingested
+ * in batches.
+ *
+ * Because this class is {@link ApplicationScoped}, exactly one managed singleton instance will exist
+ * in any deployment.
+ *
+ * GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+ *
+ * Originally generated from: ${templateName} 
+ */
+@ApplicationScoped
+public class ${step.capitalizedName} extends ${step.capitalizedName}Base {
+
+    private static final Logger logger = LoggerFactory.getLogger(${step.capitalizedName}.class);
+    #if ($step.isMultiMessaging($step.getOutbound()))
+    protected static final int BATCH_INTERVAL_MS = config.batchIntervalMs();
+    #end
+    #if ($step.inbound)
+	protected static final int BATCH_SIZE = config.batchSize();
+	#end
+
+    public ${step.capitalizedName}() {
+		#if ((!$step.provenance || $step.provenance.enabled) && $step.provenance.subject)
+		super("$step.provenance.subject", getDataActionDescriptiveLabel());
+		#else
+		super("${step.type}", getDataActionDescriptiveLabel());
+		#end
+	}
+
+	/**
+	 * Provides a descriptive label for the action that can be used for logging (e.g., provenance details).
+	 *
+	 * @return descriptive label
+	 */
+	private static String getDataActionDescriptiveLabel() {
+		#if ((!$step.provenance || $step.provenance.enabled) && $step.provenance.action)
+		return "${step.provenance.action}";
+		#else
+		// TODO: replace with descriptive label
+		return "${step.name}";
+		#end
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	${step.concreteImplSignature} {
+		/*  Asynchronous steps return CompletionStage types to support
+			asynchronous processing. Synchronous results can be returned as CompletableFuture.completedFuture({value})
+			while asynchronous processing can be achieved with CompletableFuture run/supply async methods or any other
+			compatible implementation. See https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2/model/model.html
+			for additional details
+		 */
+		// TODO add processing logic here
+		#if ($step.isMultiMessaging($step.getOutbound()))
+		return Multi.createFrom()
+        				.ticks().every(Duration.ofMillis(BATCH_INTERVAL_MS))
+        				.map(tick -> Message.of(getBatch()))
+        				.skip().where(message -> message.getPayload() == null);
+		#elseif ($step.isMessaging($step.getOutbound()))
+		CompletionStage<$step.getImplOutboundType()> cs = CompletableFuture.completedFuture(null);
+		#if ($step.isMessaging($step.getInbound()))
+		return cs.thenApply(inbound::withPayload);
+		#else
+		return cs.thenApply(Message.of(null)::withPayload);
+		#end
+		#else
+		return CompletableFuture.completedFuture(null);
+		#end
+	}
+
+#if ($step.isMultiMessaging($step.getOutbound()))
+	private String getBatch() {
+		// TODO add logic to read in an inbound batch
+		return null;
+	}
+#end
+
+#if (!$step.provenance || $step.provenance.enabled)
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected MetadataModel createProvenanceMetadata(String resource, String subject, String action) {
+		// TODO: Add any additional provenance-related metadata here
+		return new MetadataModel(resource, subject, action, Instant.now());
+	}
+#end
+}

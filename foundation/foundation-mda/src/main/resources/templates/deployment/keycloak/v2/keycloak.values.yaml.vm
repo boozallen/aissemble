@@ -1,0 +1,7 @@
+#[[########################################
+## CONFIG | Keycloak Configs
+########################################]]#
+aissemble-keycloak-chart:
+   keycloak:
+      app:
+        name: ${appName}

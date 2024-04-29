@@ -1,0 +1,16 @@
+package ${basePackage};
+
+/**
+ * Data Access record for ${record.capitalizedName}.
+ *
+ * GENERATED STUB CODE - Please **DO** modify with your customizations, as appropriate.
+ *
+ * Originally generated from: ${templateName}
+ */
+public class ${record.capitalizedName} extends ${record.capitalizedName}Base {
+
+    public ${record.capitalizedName}() {
+        super();
+    }
+
+}

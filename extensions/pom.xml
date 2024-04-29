@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>build-parent</artifactId>
+        <relativePath>../build-parent/pom.xml</relativePath>
+        <version>1.7.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>extensions</artifactId>
+
+    <name>aiSSEMBLE::Extensions</name>
+    <description>Root pom for extensions of foundation aspects of the aiSSEMBLE Solution Baseline</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <version.mysql-connector>8.0.30</version.mysql-connector>
+    </properties>
+
+    <modules>
+        <module>extensions-security</module>
+        <module>extensions-transform</module>
+        <module>extensions-encryption</module>
+        <module>extensions-data-delivery</module>
+        <module>extensions-data-lineage</module>
+        <module>extensions-docker</module>
+        <module>extensions-alerting</module>
+        <module>extensions-messaging</module>
+        <module>extensions-metadata-service</module>
+        <module>extensions-helm</module>
+        <module>aissemble-extensions-model-training-api-sagemaker</module>
+        <module>extensions-pipeline-invocation-service</module>
+    </modules>
+</project>

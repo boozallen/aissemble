@@ -1,0 +1,32 @@
+# Default values for inference.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: s3-local
+image:
+  name: localstack/localstack
+  dockerRepo: docker.io/
+  imagePullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+buckets: []
+
+deployment:
+  ports:
+    - name: "access"
+      containerPort: 4566
+      protocol: TCP
+  env:
+    - name: SERVICES
+      value: s3
+  restartPolicy: Always
+
+service:
+  spec:
+    ports:
+      - name: "access"
+        port: 4566
+        targetPort: 4566

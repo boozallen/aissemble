@@ -1,0 +1,21 @@
+                    <execution>
+                        <id>${appName}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>${basePackage}</basePackage>
+                            <profile>${profile}</profile>
+                            <!-- The property variables below are passed to the Generation Context and utilized
+                                 to customize the deployment artifacts. -->
+                            <propertyVariables>
+                                <appName>${appName}</appName>
+                                #if(${hasAppDependencies} == true)
+                                    #foreach ($item in $appDependencies)
+                                    <appDependencies>${item}</appDependencies>
+                                    #end
+                                #end
+                            </propertyVariables>
+                        </configuration>
+                    </execution>

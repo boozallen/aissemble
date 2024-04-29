@@ -1,0 +1,6 @@
+
+In ${rootPath}:
+Update the value of the KAFKA_CREATE_TOPICS environment variable with missing topic names
+
+    - name: KAFKA_CREATE_TOPICS
+      value: #foreach ($item in $items)${item}:1:1#if( $foreach.hasNext ),#end#end

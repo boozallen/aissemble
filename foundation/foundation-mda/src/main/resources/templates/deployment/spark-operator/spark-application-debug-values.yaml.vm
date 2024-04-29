@@ -1,0 +1,15 @@
+sparkApp:
+  spec:
+    driver:
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4747"
+    executor:
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4747"
+
+
+service:
+  enabled: true
+  spec:
+    ports:
+      - name: "debug"
+        port: 4747
+        targetPort: 4747

@@ -1,0 +1,23 @@
+<!--
+  #%L
+  AIOps Docker Baseline::Versioning::Docker
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+	<servers>
+		<server>
+			<id>versioning-nexus</id>
+			<username>Username for the repository</username>
+			<password>Password for the repository</password>
+		</server>
+	</servers>
+
+</settings>

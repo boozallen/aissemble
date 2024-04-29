@@ -1,0 +1,10 @@
+#[[########################################
+## CONFIG | Inference Configs Development Overrides
+## See aiSSEMBLE aissemble-inference-chart README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-inference-chart:
+  deployment:
+    image:
+      imagePullPolicy: IfNotPresent
+      repo: ''

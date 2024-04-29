@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <artifactId>${moduleArtifactId}</artifactId>
+    <packaging>habushu</packaging>
+
+    <name>${parentDescriptiveName}::${descriptiveName}</name>
+    <description>${pipeline.description}</description>
+
+    <build>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>${moduleArtifactIdPythonCase}</basePackage>
+                    <profile>data-delivery-pyspark</profile>
+                    <propertyVariables>
+                        <targetPipeline>${pipeline.name}</targetPipeline>
+                        <behaveFeature>data_delivery</behaveFeature>
+                        <aissembleVersion>${version.aissemble}</aissembleVersion>
+                    </propertyVariables>
+                    <!-- see ${parentArtifactId} for base configuration settings -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-python-sources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>clean-unmodifiable-generated-python-sources</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <generatedBasedir>${basedir}/src/${moduleArtifactIdPythonCase}/generated</generatedBasedir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            #set($mainValuesPath = "src/${moduleArtifactIdPythonCase}/resources/apps")
+            #set($testValuesPath = "tests/resources/apps")
+            #parse("templates/data-delivery-common/pipeline.chart.pom.configuration.vm")
+            <plugin>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        #if($enableSemanticDataSupport)
+        <dependency>
+            <groupId>#[[${project.groupId}]]#</groupId>
+            <artifactId>${pythonDataRecords}</artifactId>
+            <version>#[[${project.version}]]#</version>
+            <type>pom</type>
+        </dependency>
+        #end
+    </dependencies>
+
+</project>

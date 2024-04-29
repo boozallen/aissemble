@@ -1,0 +1,65 @@
+"""
+Stub implementation of a gRPC endpoint for an inference analytic. Due to
+challenges associated with easily extending generated .proto definitions, this class provides
+developers with extension points to integrated hand-developed .proto definitions if needed.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName}
+"""
+
+import logging
+from concurrent import futures
+import uvicorn
+import asyncio
+import grpc
+import sys
+
+#foreach($step in $steps)
+from .impl.${step.getLowercaseSnakeCaseName()} import ${step.capitalizedName}
+#end
+
+from .generated.inference.grpc.inference_api_grpc_base import InferenceGrpcBase
+from .generated.inference.grpc import inference_api_pb2_grpc
+
+class InferenceGrpc(InferenceGrpcBase):
+    pass
+
+async def launch_grpc_server():
+    """
+    Launches a gRPC and fastAPI server listening for requests on port 8081.  Future iterations may add security and/or
+    other Krausening-configurable elements (i.e. number of worker threads allocated to service gRPC requests)
+    :return:
+    """
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
+    inference_api_pb2_grpc.add_InferenceServiceServicer_to_server(
+        InferenceGrpc(), server
+    )
+
+    server.add_insecure_port("[::]:8081")
+    server.start()
+    logging.info("GRPC server started and listening on port 8081.")
+    server.wait_for_termination()
+
+
+async def launch_fast_api_server():
+    fast_api_interface = (
+        "${artifactIdPythonCase}.inference.rest.inference_api_rest:app"
+    )
+    logging.info("Uvicorn/fastAPI server starting and listening on port 8000...")
+
+
+    config = uvicorn.Config(fast_api_interface, host="0.0.0.0", port=8000, log_level="info")
+    server = uvicorn.Server(config)
+    await server.serve()
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    #foreach($step in $steps)
+    ${step.capitalizedName}().execute_step_impl()
+    #end
+    if sys.argv is not None and sys.argv[1] is not None and sys.argv[1] == "fastAPI":
+        asyncio.run(launch_fast_api_server())
+    else:
+        asyncio.run(launch_grpc_server())

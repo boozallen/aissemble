@@ -1,0 +1,15 @@
+[
+  {
+    "identifier":"ExamplePolicy",
+    "rules":[
+      {
+        "algorithm":"StandardDeviation",
+        "configuration":{
+          "mean":50,
+          "standardDeviation":5,
+          "zScore":2
+        }
+      }
+    ]
+  }
+]

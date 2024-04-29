@@ -1,0 +1,18 @@
+load('ext://helm_remote', 'helm_remote')
+
+allow_k8s_contexts('local')
+docker_prune_settings(num_builds=1, keep_recent=1)
+
+# Requires adding the argo-cd repo. helm repo add argo https://argoproj.github.io/argo-helm
+helm_remote('argo-cd',
+            version='3.1.2',
+            repo_name='argo',
+            set='namespace=argocd')
+
+k8s_resource(workload='argo-cd-argocd-server', port_forwards='4002:8080')
+
+local('helm dep update test-app/apps/hello-world')
+local('docker build -f docker/Dockerfile -t hello-world:latest docker')
+
+# Ignore unused warning as it will be added through argocd
+update_settings(suppress_unused_image_warnings=["hello-world"])

@@ -1,0 +1,73 @@
+#if ($postAction.isFreeformPostAction())
+from abc import ABC, abstractmethod
+#end
+#if ($postAction.isModelConversionPostAction())
+from ...generated.post_action.${postAction.modelConversionFileName} import ${postAction.modelConversionClassName}
+#end
+from krausening.logging import LogManager
+
+
+#if ($postAction.isFreeformPostAction())
+class ${postAction.capitalizedName}Base(ABC):
+#elseif ($postAction.isModelConversionPostAction())
+class ${postAction.capitalizedName}Base(${postAction.modelConversionClassName}):
+#end
+    """
+    Base ${postAction.capitalizedName} post-action class.
+
+    GENERATED CODE - DO NOT MODIFY (add your customizations in ${postAction.capitalizedName}).
+
+    Generated from: ${templateName}
+    """
+    logger = LogManager.get_instance().get_logger('${postAction.capitalizedName}Base')
+
+
+    def __init__(self, training_run_id: str, model: any) -> None:
+        """
+        Default constructor for this post-action.
+
+        :model: the model to apply this post-action on
+        :training_run_id: the training run identifier associated with this post-action
+        """
+        super().__init__()
+        self._training_run_id = training_run_id
+        self._model = model
+
+
+    @property
+    def training_run_id(self) -> str:
+        """
+        The training run identifier associated with this post-action.
+
+        :return: the training run identifier associated with this post-action.
+        """
+        return self._training_run_id
+
+
+    @property
+    def model(self) -> any:
+        """
+        The model to apply this post-action on.
+
+        :return: the model to apply this post-action on
+        """
+        return self._model
+
+
+#if ($postAction.isFreeformPostAction())
+    @abstractmethod
+#end
+    def apply(self) -> None:
+        """
+        Applies this ${postAction.type} post-action.
+        """
+    #if ($postAction.isFreeformPostAction())
+        pass
+    #elseif ($postAction.isModelConversionPostAction())
+        ${postAction.capitalizedName}Base.logger.info('Applying model conversion post action...')
+
+        converted_model = self._convert(self.model)
+        self._save(converted_model)
+
+        ${postAction.capitalizedName}Base.logger.info('Applied model conversion post action')
+    #end

@@ -1,0 +1,14 @@
+{
+	"name": "CustomRecord",
+	"package": "com.boozallen.aiops.mda.pattern.record",
+	"description": "Example custom record for Pyspark Data Delivery Patterns",
+	"fields": [
+		{
+			"name": "customField",
+			"type": {
+				"name": "customType",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			}
+		}
+	]
+}

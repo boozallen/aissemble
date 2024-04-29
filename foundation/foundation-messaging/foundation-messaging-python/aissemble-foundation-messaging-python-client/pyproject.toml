@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "aissemble-foundation-messaging-python"
+version = "1.7.0.dev"
+description = "Defines a root level messaging architecture in python"
+authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
+readme = "README.md"
+packages = [
+    {include = "aissemble_messaging", from = "src"},
+]
+include = [
+    { path = "src/aissemble_messaging/service_resources/classpath/*" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.11.4, <4"
+py4j = "0.10.9.7"
+krausening = ">=19"
+
+[tool.poetry.group.dev.dependencies]
+black = ">=22.1.0"
+behave = ">=1.2.6"
+nose = ">=1.3.7"
+kappa-maki = ">=1.0.1"
+
+
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"

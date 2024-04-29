@@ -1,0 +1,35 @@
+@${behaveFeature}
+Feature: Placeholder test
+    # Generated sample BDD specification/feature file - PLEASE ***DO*** MODIFY.
+    # Originally generated from ${templateName}.
+
+  Scenario: Load Training Data
+    Given training data exists
+    When the training data is loaded for model training
+    Then all training records are loaded successfully
+
+  Scenario: Load Validation Data
+    Given validation data exists
+    When the validation data is loaded for model training
+    Then all validation records are loaded successfully
+
+
+  Scenario: Load Testing Data
+    Given testing data exists
+    When the testing data is loaded for model training
+    Then all testing records are loaded successfully
+
+  Scenario: Train The Model
+    Given the training data, validation data, and hyperparameter data are loaded
+    When the model is trained
+    Then the model is returned
+
+  Scenario: Test The Model
+    Given the model is trained and validated
+    When the model is tested
+    Then test metrics (precision, recall, etc.) are returned
+
+  Scenario: Save The Model
+    Given a trained, validated, and tested model
+    When the user saves model artifacts
+    Then the model artifacts are successfully saved in the expected directory

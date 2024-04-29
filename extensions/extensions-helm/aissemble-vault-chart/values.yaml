@@ -1,0 +1,9 @@
+vault:
+  server:
+    dataStorage:
+      enabled: false
+    auditStorage:
+      enabled: false
+    image:
+      repository: "ghcr.io/boozallen/aissemble-vault"
+

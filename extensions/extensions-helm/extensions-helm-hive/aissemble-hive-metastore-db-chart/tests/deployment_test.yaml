@@ -1,0 +1,100 @@
+suite: aissemble-hive-metastore-db
+templates:
+  - deployment.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: aissemble-hive-metastore-db-chart
+      - equal:
+          path: spec.template.spec.automountServiceAccountToken
+          value: false
+      - equal:
+          path: spec.template.spec.restartPolicy
+          value: Always     
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ghcr.io/boozallen/aissemble-hive-mysql
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+              name: "http-1"
+              containerPort: 3306
+              protocol: TCP
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_DATABASE
+            value: metastore
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_PASSWORD
+            value: hive
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_ROOT_PASSWORD
+            value: hive
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_USER
+            value: hive  
+  - it: Should set values appropriately
+    set:
+      deployment:
+        ports:
+          - name: test
+            containerPort: 8080
+            protocol: test
+        env:
+          - name: MYSQL_DATABASE
+            value: testStore
+          - name: MYSQL_PASSWORD
+            value: testPassword
+          - name: MYSQL_ROOT_PASSWORD
+            value: testRootPassword
+          - name: MYSQL_USER
+            value: testUser
+        restartPolicy: Never
+        
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+            name: test
+            containerPort: 8080
+            protocol: test
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_DATABASE
+            value: testStore
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_PASSWORD
+            value: testPassword
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_ROOT_PASSWORD
+            value: testRootPassword
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MYSQL_USER
+            value: testUser
+      - equal:
+          path: spec.template.spec.restartPolicy
+          value: Never 
+
+
+

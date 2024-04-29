@@ -1,0 +1,31 @@
+# This template will build a configmap containing all **.yaml files within a given directory.
+# This is provided within a library chart in order to have the File glob scope set to that of the
+# downstream project's app directory, rather than searching at the scope of a superchart.  The configmap can then
+# be mounted to the filesystem to include all noted files.
+#
+# The generated content will be merged with the downstream project's invoking configmap.  In the event of conflicts,
+# the downstream content will be given priority.
+#
+# Builds the content of "data" to approximately the following structure:
+# data:
+#   file1Name: |
+#     file1Content
+#   file2Name: |
+#     file2Content
+{{- define "filegather.configmap.tpl" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.name }}-gathered-files
+data:
+  {{- $searchString := printf "%s%s" .Values.valuesFileDirectory "**.yaml" }}
+  {{ range $path, $_ :=  .Files.Glob $searchString }}
+  {{- $name := base $path }}
+  {{- $content := $.Files.Get $path }}
+  {{- printf "%s%s%s" $name ":" " |"}}
+  {{- $content | nindent 4}}
+  {{ end }}
+{{- end -}}
+{{- define "filegather.configmap" -}}
+  {{- include "filegather.util.merge" (append . "filegather.configmap.tpl") -}}
+{{- end -}}

@@ -1,0 +1,11 @@
+#[[########################################
+## CONFIG | Policy Decision Point Configs
+## See aiSSEMBLE aissemble-policy-decision-point-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-policy-decision-point-chart:
+  app:
+    name: "${appName}"
+  image:
+    name: boozallen/${projectName}-policy-decision-point-docker
+    tag: ${version}

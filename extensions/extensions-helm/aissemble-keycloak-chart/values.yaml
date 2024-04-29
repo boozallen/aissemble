@@ -1,0 +1,7 @@
+########################################
+## CONFIG | Keycloak Configs
+########################################
+aissemble-keycloak:
+   keycloak:
+      keycloakVersion: 21.1.1
+      defaultKeycloakTag: 21.1.1

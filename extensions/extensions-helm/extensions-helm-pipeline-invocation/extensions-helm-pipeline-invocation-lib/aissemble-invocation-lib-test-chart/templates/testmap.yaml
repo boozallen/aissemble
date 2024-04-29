@@ -1,0 +1,6 @@
+{{- include "filegather.configmap" (list . "tester.configmap") -}}
+{{- define "tester.configmap" -}}
+metadata:
+  name: pipeline-invocation-service
+data: {}
+{{- end -}}

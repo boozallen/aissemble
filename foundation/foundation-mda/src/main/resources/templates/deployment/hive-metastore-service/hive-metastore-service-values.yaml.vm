@@ -1,0 +1,111 @@
+# Default values for hive-metastore-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: hive-metastore-service
+image:
+  name: boozallen/aissemble-hive-service
+  imagePullPolicy: IfNotPresent
+  dockerRepo: ghcr.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "${versionTag}"
+
+# hive-metastore-service Deployment
+deployment:
+  ports:
+    - name: "thrift"
+      containerPort: 9083
+  env:
+    - name: HADOOP_HOME
+      value: /opt/hadoop-3.3.6
+    - name: HADOOP_CLASSPATH
+      value: $HADOOP_CLASSPATH:/opt/hadoop-3.3.6/share/hadoop/tools/lib/*.jar
+    - name: JAVA_HOME
+      value: /usr/local/openjdk-11
+    - name: HIVE_HOME
+      value: /opt/apache-hive-metastore-3.0.0-bin
+  restartPolicy: Always
+  volumeMounts:
+    - name: metastore-service-config
+      mountPath: /opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml
+      subPath: metastore-site.xml
+  volumes:
+    - name: metastore-service-config
+      configMap:
+        name: metastore-service-config
+        items:
+          - key: metastore-site.xml
+            path: metastore-site.xml
+
+# hive-metastore-service Service
+service:
+  spec:
+    ports:
+      - name: "thrift"
+        port: 9083
+        targetPort: 9083
+
+configMap:
+  metastoreServiceConfig: |
+    <configuration>
+      <property>
+        <name>metastore.thrift.uris</name>
+        <value>thrift://0.0.0.0:9083</value>
+        <description>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
+      </property>
+      <property>
+        <name>metastore.task.threads.always</name>
+        <value>org.apache.hadoop.hive.metastore.events.EventCleanerTask,org.apache.hadoop.hive.metastore.MaterializationsCacheCleanerTask</value>
+      </property>
+      <property>
+        <name>metastore.expression.proxy</name>
+        <value>org.apache.hadoop.hive.metastore.DefaultPartitionExpressionProxy</value>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>com.mysql.cj.jdbc.Driver</value>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
+        <description>JDBC connect string for a JDBC metastore</description>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>hive</value>
+        <description>Username to use against metastore database</description>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>hive</value>
+        <description>Password to use against metastore database</description>
+      </property>
+      <property>
+        <name>metastore.warehouse.dir</name>
+        <value>s3a://spark-infrastructure/warehouse</value>
+      </property>
+#if (${useS3Local})
+      <property>
+        <name>fs.s3.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+      </property>
+      <property>
+        <name>fs.s3a.access.key</name>
+        <value>123</value>
+      </property>
+      <property>
+        <name>fs.s3a.secret.key</name>
+        <value>456</value>
+      </property>
+      <property>
+        <name>fs.s3a.endpoint</name>
+        <value>http://s3-local:4566</value>
+      </property>
+      <property>
+        <name>fs.s3a.path.style.access</name>
+        <value>true</value>
+      </property>
+#end
+    </configuration>

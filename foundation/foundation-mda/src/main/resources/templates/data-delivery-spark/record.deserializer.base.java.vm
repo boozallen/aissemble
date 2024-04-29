@@ -1,0 +1,18 @@
+package ${basePackage};
+
+import org.apache.kafka.common.serialization.Deserializer;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Base implementation of a deserializer for ${record.capitalizedName}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}Deserializer).
+ *
+ * Originally generated from: ${templateName} 
+ */
+public class ${record.capitalizedName}DeserializerBase implements Deserializer<${record.capitalizedName}> {
+    @Override
+    public ${record.capitalizedName} deserialize(String topic, byte[] data) {
+        return data == null ? null : ${record.capitalizedName}.fromJson(new String(data, StandardCharsets.UTF_8));
+    }
+}

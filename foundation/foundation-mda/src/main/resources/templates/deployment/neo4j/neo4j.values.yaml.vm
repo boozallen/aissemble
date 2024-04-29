@@ -1,0 +1,40 @@
+# Default values for neo4j.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: neo4j
+image:
+  name: neo4j
+  dockerRepo: "docker.io/"
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "4.4.4"
+
+# neo4j Service
+service:
+  spec:
+    # NOTE: must use service type LoadBalancer for neo4j:
+    # https://neo4j.com/labs/neo4j-helm/1.0.0/externalexposure/ 
+    type: LoadBalancer
+    ports:
+      - name: "7474"
+        port: 7474
+        targetPort: 7474
+      - name: "7687"
+        port: 7687
+        targetPort: 7687
+
+# neo4j Deployment
+deployment:
+  env:
+    - name: NEO4J_AUTH
+      value: neo4j/p455w0rd
+  ports:
+    - name: "http-1"
+      containerPort: 7474
+      protocol: TCP
+    - name: "http-2"
+      containerPort: 7687
+      protocol: TCP
+  restartPolicy: Always

@@ -1,0 +1,46 @@
+{
+  "name": "BaseCyberTypesDictionary",
+  "package": "com.boozallen.aiops.foundation.inference",
+  "dictionaryTypes": [
+    {
+      "name": "ipAddress",
+      "simpleType": "string",
+      "validation": {
+        "formats": [
+          "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        ]
+      }
+    },
+    {
+      "name": "port",
+      "simpleType": "integer",
+      "validation": {
+        "maxValue": "65535",
+        "minValue": "0"
+      }
+    },
+    {
+      "name": "dateAsSecondsSinceEpoch",
+      "simpleType": "integer",
+      "validation": {
+        "minValue": "0"
+      }
+    },
+    {
+      "name": "integer",
+      "simpleType": "integer"
+    },
+    {
+      "name": "string",
+      "simpleType": "string"
+    },
+    {
+      "name": "boolean",
+      "simpleType": "boolean"
+    },
+    {
+      "name": "list",
+      "simpleType": "list"
+    }
+  ]
+}

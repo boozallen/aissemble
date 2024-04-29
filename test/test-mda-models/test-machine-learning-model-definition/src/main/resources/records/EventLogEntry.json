@@ -1,0 +1,47 @@
+{
+  "name": "EventLogEntry",
+  "package": "com.boozallen.aiops.foundation.inference",
+  "description": "Models an entry in a generic event log and uses Elastic Common Schema concepts",
+  "fields": [
+    {
+      "name": "sourceIpAddress",
+      "type": {
+        "name": "ipAddress",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": false
+    },
+    {
+      "name": "created",
+      "type": {
+        "name": "dateAsSecondsSinceEpoch",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": true
+    },
+    {
+      "name": "kind",
+      "type": {
+        "name": "eventKind",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": true
+    },
+    {
+      "name": "category",
+      "type": {
+        "name": "eventCategory",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": true
+    },
+    {
+      "name": "outcome",
+      "type": {
+        "name": "eventOutcome",
+        "package": "com.boozallen.aiops.foundation.inference"
+      },
+      "required": true
+    }
+  ]
+}

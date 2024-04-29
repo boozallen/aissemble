@@ -1,0 +1,60 @@
+aissemble-quarkus:
+  app:
+    name: 'aissemble-pipeline-invocation'
+  deployment:
+    image:
+      name: boozallen/aissemble-pipeline-invocation
+    ports:
+      - name: http-1
+        containerPort: 8080
+        protocol: TCP
+      - name: http-2
+        containerPort: 9000
+        protocol: TCP
+    restartPolicy: Always
+    serviceAccountName: sparkoperator
+    automountServiceAccountToken: true
+
+    supplementalVolumeMounts:
+      - name: spark-app-values-files
+        mountPath: /deployments/sparkApplicationValues/
+    supplementalVolumes:
+      - name: spark-app-values-files
+        configMap:
+          name: spark-application-values-files
+
+  configMap:
+    name: supplemental-quarkus-config
+    supplementalQuarkusConfig:
+      - kafka.bootstrap.servers=kafka-cluster:9093
+      - mp.messaging.incoming.pipeline-invocation.connector=smallrye-kafka
+      - mp.messaging.incoming.pipeline-invocation.topic=pipeline-invocation
+      - mp.messaging.incoming.pipeline-invocation.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+  service:
+    spec:
+      ports:
+        - name: "quarkus-management"
+          port: 9001
+          targetPort: 9000
+
+  ingress:
+    enabled: false
+    metadata:
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/server-snippet: |
+          gunzip on;
+          gzip on;
+          gzip_proxied any;
+          gzip_types *;
+    hosts:
+      - host: pipeline-invocation.aissemble.boozallensoftware.studio
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pipeline-invocation-service
+                port:
+                  number: 8080

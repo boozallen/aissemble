@@ -1,0 +1,8 @@
+# Pipeline properties file for defining configurations.
+
+# GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+# Originally generated from: ${templateName} 
+
+mlflow_tracking_uri = http://mlflow-ui-tracking:5005
+kafka_server = kafka-cluster:9093

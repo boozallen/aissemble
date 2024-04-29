@@ -1,0 +1,122 @@
+package ${basePackage};
+
+import com.boozallen.aiops.data.access.AbstractDataAccessRecord;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.eclipse.microprofile.graphql.Ignore;
+import org.eclipse.microprofile.graphql.Name;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+#foreach ($import in $record.dataAccessImports)
+import ${import};
+#end
+
+/**
+ * Base implementation of the Data Access record for ${record.capitalizedName}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in ${record.capitalizedName}).
+ *
+ * Generated from: ${templateName} 
+ */
+public abstract class ${record.capitalizedName}Base extends AbstractDataAccessRecord {
+
+    private static final Logger logger = LoggerFactory.getLogger(${record.capitalizedName}Base.class);
+
+#foreach ($field in $record.fields)
+    protected static final String ${field.upperSnakecaseName}_FIELD = "${field.fieldName}";
+#end
+#foreach ($field in $record.fields)
+
+    @Name(${field.upperSnakecaseName}_FIELD)
+    private ${field.type.dictionaryType.shortType} ${field.name};
+#end
+#foreach ($field in $record.fields)
+
+    public void set${field.capitalizedName}(${field.type.dictionaryType.shortType} ${field.name}) {
+        this.${field.name} = ${field.name};
+    }
+
+    public ${field.type.dictionaryType.shortType} get${field.capitalizedName}() {
+        return ${field.name};
+    }
+#end
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mapResultSet(ResultSet resultSet) throws SQLException {
+    #foreach ($field in $record.fields)
+        if (hasField(resultSet, ${field.upperSnakecaseName}_FIELD)) {
+        #if ($field.type.dictionaryType.shortType == 'Integer')
+            ${field.type.dictionaryType.shortType} ${field.name}Value = resultSet.getInt(${field.upperSnakecaseName}_FIELD);
+        #elseif ($field.type.dictionaryType.shortType == 'byte[]')
+            ${field.type.dictionaryType.shortType} ${field.name}Value = resultSet.getBytes(${field.upperSnakecaseName}_FIELD);
+        #else
+            ${field.type.dictionaryType.shortType} ${field.name}Value = resultSet.get${field.type.dictionaryType.shortType}(${field.upperSnakecaseName}_FIELD);
+        #end
+            set${field.capitalizedName}(${field.name}Value);
+        }
+    #end
+    }
+
+    /**
+     * Checks if a ResultSet contains a field.
+     * 
+     * @param resultSet
+     *            the result set to check
+     * @param field
+     *            the field to check
+     * @return true if the ResultSet contains the field
+     */
+    @Ignore
+    protected boolean hasField(ResultSet resultSet, String field) {
+        boolean hasField = false;
+        try {
+            resultSet.getObject(field);
+            hasField = true;
+        } catch (SQLException e) {
+            logger.debug("Result set does not have field {}", field);
+        }
+
+        return hasField;
+    }
+
+	/**
+	 * Represents the fields of a ${record.capitalizedName} record.
+	 */
+    public enum Field {
+    #foreach ($field in $record.fields)
+        ${field.upperSnakecaseName}(${field.upperSnakecaseName}_FIELD, ${field.type.dictionaryType.shortType}.class),
+    #end
+        ;
+
+        private String name;
+        private Class<?> type;
+
+        private Field(String name, Class<?> type) {
+            this.name = name;
+            this.type = type;
+        }
+
+        /**
+         * Returns the name of the field.
+         * 
+         * @return name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Returns the type of the field.
+         * 
+         * @return type
+         */
+        public Class<?> getType() {
+            return type;
+        }
+
+    }
+
+}

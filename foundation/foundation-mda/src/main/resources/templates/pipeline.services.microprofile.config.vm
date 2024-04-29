@@ -1,0 +1,3 @@
+#set ($comment = '#')
+com.boozallen.aiops.data.delivery.messaging.PipelineMessagingConfig
+${basePackage}.${pipeline.capitalizedName}DefaultConfig

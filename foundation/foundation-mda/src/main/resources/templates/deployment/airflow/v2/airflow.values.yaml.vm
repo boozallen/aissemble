@@ -1,0 +1,7 @@
+#[[########################################
+## CONFIG | Airflow Configs
+########################################]]#
+aissemble-airflow-chart:
+  airflow:
+    defaultAirflowRepository: ghcr.io/boozallen/${projectName}-airflow-docker
+    defaultAirflowTag: ${version}

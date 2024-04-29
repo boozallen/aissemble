@@ -1,0 +1,51 @@
+{
+	"name": "RecordWithValidation",
+	"package": "com.boozallen.aiops.mda.pattern.record",
+	"description": "Example record with fields that require validation",
+	"fields": [
+		{
+			"name": "stringValidation",
+			"type": {
+				"name": "stringWithValidation",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			}
+		},
+		{
+			"name": "integerValidation",
+			"type": {
+				"name": "integerWithValidation",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			}
+		},
+		{
+			"name": "decimalValidation",
+			"type": {
+				"name": "decimalWithValidation",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			}
+		},
+		{
+			"name": "floatValidation",
+			"type": {
+				"name": "floatWithValidation",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			}
+		},
+		{
+			"name": "requiredSimpleType",
+			"type": {
+				"name": "customType",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			},
+			"required": true
+		},
+		{
+			"name": "requiredComplexType",
+			"type": {
+				"name": "stringWithValidation",
+				"package": "com.boozallen.aiops.mda.pattern.dictionary"
+			},
+			"required": true
+		}
+	]
+}

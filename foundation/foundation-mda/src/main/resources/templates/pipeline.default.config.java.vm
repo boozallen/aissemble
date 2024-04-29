@@ -1,0 +1,83 @@
+#set ($comment = '//')
+#set ($header = '//-- ')
+package ${basePackage};
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import com.boozallen.aiops.data.delivery.messaging.PipelineMessagingConfig;
+
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Map;
+
+/**
+ * Default configuration of the messaging for the pipeline ${pipeline.name}.
+ *
+ * GENERATED CODE - DO NOT MODIFY (add your customizations in microprofile-config.properties).
+ *
+ * Generated from: ${templateName} 
+ */
+public class ${pipeline.capitalizedName}DefaultConfig implements ConfigSource {
+	private final Map<String,String> configProperties;
+	public ${pipeline.capitalizedName}DefaultConfig() {
+		configProperties = new HashMap<>();
+		configProperties.put("property", "value");
+#foreach($step in $pipeline.messagingSteps)
+
+		$header $step.name
+		PipelineMessagingConfig.registerStep("$step.name",
+			#if($step.hasMessagingInbound())"$step.incomingChannel"#{else}null#end,
+			#if($step.hasMessagingOutbound())"$step.outgoingChannel"#{else}null#end
+		);
+
+	#if ($step.hasMessagingInbound())
+		$comment Listen to $step.inbound.channelName
+		configProperties.put("mp.messaging.incoming.${step.incomingChannel}.connector", "smallrye-kafka");
+		configProperties.put("mp.messaging.incoming.${step.incomingChannel}.topic", "$step.inbound.channelName");
+		configProperties.put("mp.messaging.incoming.${step.incomingChannel}.auto.offset.reset", "earliest");
+		configProperties.put("mp.messaging.incoming.${step.incomingChannel}.key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		#if ($step.hasInboundRecordType())
+		configProperties.put("mp.messaging.incoming.${step.incomingChannel}.value.deserializer", "${step.inbound.recordType.fullyQualifiedType}Deserializer");
+		#else
+		configProperties.put("mp.messaging.incoming.${step.incomingChannel}.value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		#end
+	#end
+	#if ($step.hasMessagingOutbound())
+		$comment Publish to $step.outbound.channelName
+		configProperties.put("mp.messaging.outgoing.${step.outgoingChannel}.connector", "smallrye-kafka");
+		configProperties.put("mp.messaging.outgoing.${step.outgoingChannel}.topic", "$step.outbound.channelName");
+		configProperties.put("mp.messaging.outgoing.${step.outgoingChannel}.key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		#if ($step.hasOutboundRecordType())
+		configProperties.put("mp.messaging.outgoing.${step.outgoingChannel}.value.serializer", "${step.outbound.recordType.fullyQualifiedType}Serializer");
+		#else
+		configProperties.put("mp.messaging.outgoing.${step.outgoingChannel}.value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		#end
+	#end
+#end
+	}
+
+	@Override
+	public Map<String, String> getProperties() {
+		return configProperties;
+	}
+
+	@Override
+	public Set<String> getPropertyNames() {
+		return getProperties().keySet();
+	}
+
+	@Override
+	public String getValue(String key) {
+		return configProperties.get(key);
+	}
+
+	@Override
+	public String getName() {
+		return "${pipeline.name}-default-config";
+	}
+
+	@Override
+	public int getOrdinal() {
+		//microprofile-config.properties is 100, and we want that file to override these properties
+		return 0;
+	}
+}

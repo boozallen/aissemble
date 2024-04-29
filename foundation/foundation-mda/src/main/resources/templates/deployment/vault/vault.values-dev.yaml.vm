@@ -1,0 +1,8 @@
+# Dev values for data access.
+image:
+  dockerRepo: ""
+
+service:
+  spec:
+    type: LoadBalancer
+

@@ -1,0 +1,12 @@
+#[[########################################
+## CONFIG | Policy Decision Point Configs Development Overrides
+## See aiSSEMBLE aissemble-policy-decision-point-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-policy-decision-point-chart:
+  image:
+    imagePullPolicy: IfNotPresent
+    dockerRepo: ""
+  service:
+    spec:
+      type: LoadBalancer

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  #%L
+  Drift Detection::Service
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}.%M():%L - %msg%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=grey, DEBUG=green bold, TRACE=blue}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.boozallen.messaging.core" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.booz">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.boozallen.drift.detection" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="io.smallrye.reactive.messaging" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.testcontainers.utility.RyukResourceReaper" level="warn" additivity="false">
+            <AppenderRef ref="Console"/>
+            <!-- suppress common startup race condition errors; if tests never start, comment this out! -->
+            <RegexFilter regex=".*Can not connect to Ryuk .*" onMatch="DENY" onMismatch="NEUTRAL"/>
+        </Logger>
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

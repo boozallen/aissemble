@@ -1,0 +1,36 @@
+/* GENERATED CODE - DO NOT MODIFY (add your customizations in proto/inference_api.proto or in
+ * a separate .proto definition that uses this generated definition via composition).
+ *
+ * Generated from: ${templateName}
+ */
+
+syntax = "proto3";
+
+/* Defines the request and response payloads that model the necessary input/output parameters required by the
+ * specific inference analytic implementation.
+ *
+ * NOTE: If any message definitions are updated (i.e. fields are added/removed/updated), the equivalent
+ * changes MUST be made to the corresponding request/response payload definition in
+ * src/${artifactIdSnakeCase}/validation/inference_payload_definition.py */
+
+// Specifies the format of the input request data upon which the inference analytic will execute.
+message Record {
+#if ($step.hasInboundRecordType())
+  #foreach ($field in $step.inboundRecord.fields)
+    ${field.type.dictionaryType.shortType} ${field.snakeCaseName} = ${field.fieldNumber};
+  #end
+#else
+    // Input request data fields must be manually defined and referenced in inference_api.proto
+#end
+}
+
+// Specifies the format of the output response which encapsulates the results of the executed inference analytic.
+message Inference {
+#if ($step.hasOutboundRecordType())
+  #foreach ($field in $step.outboundRecord.fields)
+    ${field.type.dictionaryType.shortType} ${field.snakeCaseName} = ${field.fieldNumber};
+  #end
+#else
+    // Output inference result fields must be manually defined and referenced in inference_api.proto
+#end
+}

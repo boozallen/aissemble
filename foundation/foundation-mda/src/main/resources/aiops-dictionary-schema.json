@@ -1,0 +1,73 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"id": "#dictionary",
+	"title": "Dictionary",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"package": {
+			"type": "string"
+		},
+		"dictionaryTypes": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"simpleType": {
+						"type": "string"
+					},
+					"protectionPolicy": {
+						"type": "string"
+					},
+					"ethicsPolicy": {
+						"type": "string"
+					},
+					"driftPolicy": {
+						"type": "string"
+					},
+					"securityPolicy": {
+						"type": "string"
+					},
+					"validation": {
+						"type": "object",
+						"properties": {
+							"maxLength": {
+								"type": "integer"
+							},
+							"minLength": {
+								"type": "integer"
+							},
+							"maxValue": {
+								"type": "string"
+							},
+							"minValue": {
+								"type": "string"
+							},
+							"scale": {
+								"type": "integer"
+							},
+							"formats": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"required": [
+					"name", "simpleType"
+				]
+			}
+		}
+	},
+	"required": [
+		"name", "package"
+	]
+}

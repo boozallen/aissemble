@@ -1,0 +1,53 @@
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/ec2-user/workspace/aissemble-build@2/aissemble/.kube8179795287762562738config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/ec2-user/workspace/aissemble-build@2/aissemble/.kube8179795287762562738config
+---
+# Source: aissemble-spark-application/templates/deployment.yaml
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: example-data-delivery-pipeline-py-spark
+  namespace: default
+spec:
+  type: Python
+  mode: cluster
+  image: "boozallen/player-coach-demo-spark-worker-docker:latest"
+  imagePullPolicy: IfNotPresent
+  mainApplicationFile: "local:///opt/spark/jobs/pipelines/example-data-delivery-pipeline-py-spark/example_data_delivery_pipeline_py_spark_driver.py"
+  sparkVersion: "3.2.2"
+  sparkConfigMap: spark-config # common configuration for spark/hadoop config in spark deploy
+  deps:
+    jars:
+      - https://repo1.maven.org/maven2/io/delta/delta-core_2.12/2.0.0/delta-core_2.12-2.0.0.jar
+    packages:
+      - io.delta:delta-storage:2.0.0
+    excludePackages:
+      - org.geotools:gt-main
+    repositories:
+      - https://repo1.maven.org/maven2/
+  sparkConf:
+    spark.sql.catalogImplementation: "hive"
+    spark.sql.warehouse.dir: "target/warehouse"
+    spark.driver.host: "localhost"
+    spark.master: "local[*]"
+  hadoopConf:
+  restartPolicy:
+    type: Never
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.2.2
+    serviceAccount: spark
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: 3.2.2
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base

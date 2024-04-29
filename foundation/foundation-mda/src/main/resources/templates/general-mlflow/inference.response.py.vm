@@ -1,0 +1,25 @@
+"""
+Inference response implementation.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName} 
+"""
+
+from typing import List
+from pydantic import BaseModel
+
+
+class Inference(BaseModel):
+    """
+    Represents an inference result of the model prediction.
+    """
+    # TODO: define fields to return in the inference result
+    result_field_example: int
+
+
+class ResponseBody(BaseModel):
+    """
+    Represents a response containing the inference results of the model prediction.
+    """
+    inferences: List[Inference]

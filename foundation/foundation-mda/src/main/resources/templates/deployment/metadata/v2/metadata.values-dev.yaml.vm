@@ -1,0 +1,12 @@
+#[[########################################
+## CONFIG | Metadata Configs Development Overrides
+## See aiSSEMBLE aissemble-metadata-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+aissemble-metadata-chart:
+  service:
+    spec:
+      type: LoadBalancer
+
+  ingress:
+    enabled: false

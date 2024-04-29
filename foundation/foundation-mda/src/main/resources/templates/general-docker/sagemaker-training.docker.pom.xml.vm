@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
+
+    <artifactId>${artifactId}</artifactId>
+
+    <packaging>orphedomos</packaging>
+
+    <name>${parentDescriptiveName}::Training</name>
+    <description>Build for a SageMaker Training Docker container to run a SageMaker model training job</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>${basePackage}</basePackage>
+                    <profile>aissemble-sagemaker-training-docker</profile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>mda-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-pipeline-artifacts</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-pipeline-artifacts</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <groupId>${project.groupId}</groupId>
+                    <modelsArtifactId>${rootArtifactId}-pipeline-models</modelsArtifactId>
+                    <pipelinesDirectory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/</pipelinesDirectory>
+                    <outputDirectory>${project.build.directory}/dockerbuild/</outputDirectory>
+                    <habushuArtifactVersion>${version.habushu.dist.artifact}</habushuArtifactVersion>
+                    <targetPipelineTypes>
+                        <targetPipelineType>sagemaker-training</targetPipelineType>
+                    </targetPipelineTypes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>${rootArtifactId}-pipeline-models</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.orphedomos</groupId>
+                <artifactId>orphedomos-maven-plugin</artifactId>
+                <version>${version.orphedomos.plugin}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>multiplatform-build-deploy</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>multiplatform-build-deploy</goal>
+                        </goals>
+                        <configuration>
+                            <!--Replace with your ECR Repo URL here "aws_account_id.dkr.ecr.aws_region.amazonaws.com"-->
+                            <repoUrl>ECR_REPO_URL</repoUrl>
+                            <!--Replace with your Repo ID here here, this must map to the "id" tag within the associated 
+                             "server" in your Maven settings.xml file-->
+                            <repoId>REPO_ID</repoId>
+                            <imageVersion>latest</imageVersion>
+                            <!--Replace with your ECR Repo URL here "aws_account_id.dkr.ecr.aws_region.amazonaws.com"-->
+                            <imageName>ECR_REPO_URL/${dockerImageName}</imageName>
+                            <buildArgs>
+                                <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}</DOCKER_BASELINE_REPO_ID>
+                                <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
+                            </buildArgs>
+                            <!--Replace with "true" if you you want to skip building and pushing SageMaker model
+                            training image to ECR-->
+                            <skip>false</skip>
+                            <targetArchitectures>
+                                <targetArchitecture>linux/amd64</targetArchitecture>
+                            </targetArchitectures>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
