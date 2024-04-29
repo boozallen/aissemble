@@ -1,0 +1,143 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# IntelliJ files
+*.iml
+*.idea
+
+# Maven files
+**/*/target
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+.settings
+.project
+.classpath
+.DS_Store
+generated/
+generated-test/
+
+# Python
+*.pyc
+target
+dist
+poetry.toml
+poetry.lock
+
+# the wrapper should download the jar itself
+/.mvn/wrapper/maven-wrapper.jar
+.python-version
+
+# The proto files need to be in a "generated" folder so that when the protoc compiler generates 
+# the grpc files, they get placed into the machine_learning_inference/generated folder
+!resources/proto/machine_learning_inference/generated/inference/grpc/
+resources/proto/machine_learning_inference/generated/inference/grpc/generated
+
+# VSCode
+.vscode/
+
+# local documentation site
+docs/site/
+docs/antora-aissemble-ui/node_modules/
+docs/antora-aissemble-ui/public/
+/extensions/extensions-metadata-service/metastore_db/**
+
+
+# Helm charts
+**/charts/*
+Chart.lock
+extensions/extensions-helm/aissemble-airflow-chart/values.yaml
+extensions/extensions-helm/aissemble-spark-operator-chart/values.yaml
+extensions/extensions-helm/aissemble-jenkins-chart/values.yaml
+extensions/extensions-helm/aissemble-mlflow-chart/values.yaml
+
+# The test project should test that we generate files that compile and have the expected structure for model options
+# there should not be any no custom logic added and we should clean up the project properly before each build
+# so ignore the one time generated files
+## test_data_delivery_pyspark_model
+**/aissemble_test_data_delivery_pyspark_model/dictionary/
+**/aissemble_test_data_delivery_pyspark_model/record/
+**/aissemble_test_data_delivery_pyspark_model/impl/
+**/aissemble_test_data_delivery_pyspark_model/step/
+**/aissemble_test_data_delivery_pyspark_model/schema/
+**/aissemble_test_data_delivery_pyspark_model/resources/apps/*.yaml
+**/aissemble-test-data-delivery-pyspark-model/tests/resources/apps/*.yaml
+**/aissemble_test_data_delivery_pyspark_model/pyspark_data_delivery_patterns_driver.py
+
+## test_data_delivery_pyspark_model_basic
+**/aissemble_test_data_delivery_pyspark_model_basic/impl/
+**/aissemble_test_data_delivery_pyspark_model_basic/step/
+**/aissemble_test_data_delivery_pyspark_model_basic/resources/apps/*.yaml
+**/aissemble_test_data_delivery_pyspark_model_basic/pyspark_data_delivery_basic_driver.py
+**/aissemble-test-data-delivery-pyspark-model-basic/tests/
+
+## test-data-delivery-spark-model
+**/test-data-delivery-spark-model/src/main/java/
+**/test-data-delivery-spark-model/src/main/resources/META-INF/
+**/test-data-delivery-spark-model/src/main/resources/apps/
+**/test-data-delivery-spark-model/src/test/java/com/boozallen/aiops/mda/pattern/CucumberTest.java
+**/test-data-delivery-spark-model/src/test/java/com/boozallen/aiops/mda/pattern/PipelineSteps.java
+**/test-data-delivery-spark-model/src/test/java/com/boozallen/aiops/mda/pattern/SparkTestHarness.java
+**/test-data-delivery-spark-model/src/test/java/com/boozallen/aiops/mda/pattern/TestCdiContext.java
+**/test-data-delivery-spark-model/src/test/resources/krausening/test/
+**/test-data-delivery-spark-model/src/test/resources/cucumber.properties
+**/test-data-delivery-spark-model/src/test/resources/log4j2.xml
+**/test-data-delivery-spark-model/src/test/resources/specifications/pipeline.feature
+**/test-data-delivery-spark-model/src/test/resources/apps/spark-java-data-delivery-patterns-test-values.yaml
+
+## test-data-delivery-spark-model-basic
+**/test-data-delivery-spark-model-basic/src/main/java/
+**/test-data-delivery-spark-model-basic/src/main/resources/META-INF/
+**/test-data-delivery-spark-model-basic/src/main/resources/apps/
+**/test-data-delivery-spark-model-basic/src/test/
+
+## test-machine-learning-model
+### machine-learning-inference
+**/aissemble_machine_learning_inference/
+**/aissemble-machine-learning-inference/tests
+
+### machine-learning-training
+**/aissemble_machine_learning_training/
+**/aissemble-machine-learning-training/tests
+
+### machine-learning-sagemaker-training
+**/aissemble_machine_learning_sagemaker_training/
+**/aissemble-machine-learning-sagemaker-training/tests
+
+### test-machine-learning-training-base-model
+**/aissemble_machine_learning_training_base/
+**/aissemble-machine-learning-training-base/tests
+
+
+## Release job files
+release.properties
+*.releaseBackup
+
+## Python messaging resources
+foundation/foundation-messaging/foundation-messaging-python/aissemble-foundation-messaging-python-client/src/service_resources/*
+!foundation/foundation-messaging/foundation-messaging-python/aissemble-foundation-messaging-python-client/src/service_resources/__init__.py
+
+# Keep package files necessary for testing/building
+!foundation/foundation-maven-plugins/mda-maven-plugin/src/test/resources/**/*
+!deequ-*-spark-*.jar
+!mysql-connector-java-*.jar
+!test/src/test/resources/docker/**/*.jar
+!docs/antora-aissemble-ui/build/ui-bundle.zip
