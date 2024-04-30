@@ -1,5 +1,5 @@
 ## Testing consumer code using the library
-To leverage the messaging library in your integration tests, you will need to both bring in the python client as a dependency for your project, and you will need to bring in a copy of the library's service jar, and then start the jar during test execution. To get a copy of the service jar, you can bring in the foundation-messaging-python-service dependency, and then put the jar somewhere that your tests can access it. Take the following example, which puts a copy of the service jar, along with aiSSEMBLE's core messaging and java jars, under target/dependency/ during the build:
+To leverage the messaging library in your integration tests, you will need to both bring in the python client as a dependency for your project, and you will need to bring in a copy of the library's service jar, and then start the jar during test execution. To get a copy of the service jar, you can bring in the foundation-messaging-python-service dependency, and then put the jar somewhere that your tests can access it. Take the following example, which puts a copy of the service jar, along with aiSSEMBLE&trade;'s core messaging and java jars, under target/dependency/ during the build:
 
 pypoetry.toml
 ```toml

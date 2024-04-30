@@ -26,7 +26,7 @@ to allow ArgoCD to connect to the necessary repositories.
    2. After filling out the values, press `CONNECT`
    3. Select the Settings icon on the left and choose `Repositories` -> `+ CONNECT REPO USING HTTPS` and set the following values
       1. **Type**: helm
-      2. **Repository URL**: <NB: OSS: replace with aissemble helm URL> 
+      2. **Repository URL**: `oss://ghcr.io/boozallen` 
       3. After filling out the values, press `CONNECT` and return to the Applications page
 5. Select `+ NEW APP` at the top of the screen and choose `EDIT AS YAML`
 6. Enter the following yaml file into the definition and press `SAVE`

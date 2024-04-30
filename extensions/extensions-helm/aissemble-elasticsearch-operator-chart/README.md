@@ -1,4 +1,4 @@
-# aiSSEMBLE Elasticsearch Operator Helm Chart
+# aiSSEMBLE&trade; Elasticsearch Operator Helm Chart
 Baseline Helm chart for packaging and deploying Elasticsearch Operator. Built on the [EKC Operator Helm chart](https://github.com/elastic/cloud-on-k8s/tree/main/deploy/eck-operator) and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI

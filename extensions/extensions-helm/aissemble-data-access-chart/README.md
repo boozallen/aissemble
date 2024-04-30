@@ -1,4 +1,4 @@
-# aiSSEMBLE Data Access Helm Chart
+# aiSSEMBLE&trade; Data Access Helm Chart
 Baseline Helm chart for packaging and deploying aiSSEMBLE Data Access module. Built on the extension-helm-quarkus module and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI
