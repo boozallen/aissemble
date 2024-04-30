@@ -1,4 +1,4 @@
-This module builds an aiSSEMBLE extension of the [Nvidia CUDA docker image](https://hub.docker.com/r/nvidia/cuda). The
+This module builds an aiSSEMBLE&trade; extension of the [Nvidia CUDA docker image](https://hub.docker.com/r/nvidia/cuda). The
 base image has a strict EOL policy for tags, so this module will need to be updated as new versions are released. Read
 the [official policy](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/support-policy.md) for more
 details.

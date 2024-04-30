@@ -1,4 +1,4 @@
-# aiSSEMBLE
+# aiSSEMBLE&trade;
 
 ## aiSSEMBLE Overview
 

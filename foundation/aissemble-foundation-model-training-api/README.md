@@ -1,4 +1,4 @@
-## aiSSEMBLE Model Training API
+## aiSSEMBLE&trade; Model Training API
 
 This module contains the implementation and baseline Docker image for the aiSSEMBLE model training service. This service allows you to create model training jobs, list jobs, retrieve job logs, and kill jobs.
 

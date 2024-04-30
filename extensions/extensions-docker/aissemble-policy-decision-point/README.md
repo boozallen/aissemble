@@ -7,7 +7,7 @@ To start this container run
 
 `docker run -p 8780:8080 boozallen/aissemble-policy-decision-point:AISSEMBLE_VERSION`
 
-substituting the current aiSSEMBLE version for `AISSEMBLE_VERSION`, ie 1.2.0-SNAPSHOT
+substituting the current aiSSEMBLE&trade; version for `AISSEMBLE_VERSION`, ie 1.2.0-SNAPSHOT
 
 To make a call to the decision point use the following REST endpoint
 

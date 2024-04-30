@@ -1,4 +1,4 @@
-# aiSSEMBLE Ready Jenkins Deployment
+# aiSSEMBLE&trade; Ready Jenkins Deployment
 The containers in this project provide an instance of Jenkins that 
 requires minimal setup for aiSSEMBLE projects.  It comes preconfigured 
 the plugins and configuration files you need to quickly setup up Jenkins
