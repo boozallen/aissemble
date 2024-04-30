@@ -284,6 +284,7 @@
                           the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
                           committer after a release from needing to commit these files, we force the update here. -->
                         <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu</completionGoals>
+                        <releaseProfiles>release</releaseProfiles>
                     </configuration>
                 </plugin>
                 <plugin>

@@ -61,10 +61,32 @@
             </properties>
         </profile>
         <profile>
-            <id>ci</id>
+            <id>release</id>
             <properties>
                 <overwrite.dependencies>true</overwrite.dependencies>
             </properties>
+        </profile>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>${group.helm.plugin}</groupId>
+                            <artifactId>helm-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>simulates-an-install</id>
+                                    <phase>integration-test</phase>
+                                    <goals>
+                                        <goal>dry-run</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
     </profiles>
 
@@ -81,13 +103,6 @@
                             <phase>process-resources</phase>
                             <goals>
                                 <goal>dependency-update</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>simulates-an-install</id>
-                            <phase>integration-test</phase>
-                            <goals>
-                                <goal>dry-run</goal>
                             </goals>
                         </execution>
                     </executions>

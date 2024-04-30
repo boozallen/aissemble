@@ -28,10 +28,6 @@
     <name>${projectName}</name>
     <description>${projectDescription}</description>
 
-    <properties>
-        <id.nexus.server>nexus</id.nexus.server>
-    </properties>
-
     <modules>
         <module>${artifactId}-pipeline-models</module>
         <module>${artifactId}-pipelines</module>

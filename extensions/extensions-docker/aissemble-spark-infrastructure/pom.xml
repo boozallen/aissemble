@@ -51,11 +51,6 @@
             <artifactId>delta-storage</artifactId>
             <version>${version.delta}</version>
         </dependency>
-        <dependency>
-            <groupId>io.delta</groupId>
-            <artifactId>delta-hive-assembly_2.12</artifactId>
-            <version>${version.delta.hive.connector}</version>
-        </dependency>
     </dependencies>
 
     <build>

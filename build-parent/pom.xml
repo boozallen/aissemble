@@ -963,51 +963,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
             </build>
         </profile>
 
-        <!-- The profile aiops-release must be active when a project is released.
-            The configuration in this POM will automatically call this profile if using
-            the maven-release-plugin. If the maven-release-plugin is not used during
-            the release, this profile must be manually activated. -->
-        <profile>
-            <id>aiops-release</id>
-            <build>
-                <plugins>
-                    <!-- Create a source-release artifact that contains the fully buildable
-                        project directory source structure. This should be released to the Maven
-                        repository for each AIOps project release. -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>doclint-java8-disable</id>
             <activation>
