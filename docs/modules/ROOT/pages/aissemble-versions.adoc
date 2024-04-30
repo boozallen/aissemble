@@ -7,5 +7,5 @@ https://github.com/boozallen/aissemble/releases[Releases page,role=external,wind
 ## Preview of Next Release
 
 Given the fragile nature of GitHub Release Notes (no version control), we track our in-flight changes in a vesioned
-document within the codebase.  Check out https://github.com/boozallen/aissemble/releases[DRAFT Release Notes,role=external,window=_blank]
-to see what's coming in the next release.
+document within the codebase.  Check out https://github.com/boozallen/aissemble/blob/dev/DRAFT_RELEASE_NOTES.md[DRAFT
+Release Notes,role=external,window=_blank] to see what's coming in the next release.
