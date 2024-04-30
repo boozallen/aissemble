@@ -1,0 +1,38 @@
+= aiSSEMBLE(TM) Approach
+
+aiSSEMBLE is a lean manufacturing approach for holistically designing, developing, and fielding AI. The aiSSEMBLE Baseline
+is a framework which builds on the software and machine learning engineering best practices and lessons learned,
+providing and maintaining reusable components, rather than a one-size-fits-all platform. In return, various members of
+your team, including solution architects, DevOps engineers, data/software engineers, and AI/ML practitioners can easily
+leverage these components to suit your business needs and integrate with any other tools that meet the needs of your
+project.
+
+== Baseline Fabrications
+The Baseline represents the Factory component in the diagram below. aiSSEMBLE leverages
+xref:aissemble-approach.adoc#_configurable_tooling[configurable tooling] in the fabrication process to generate key
+scaffolding and other components that are tailored to your project. aiSSEMBLE also establishes a build process that
+produces deployment-ready artifacts.
+
+image::aissemble-solution-architecture.png[align="left",width=1366,height=768]
+
+
+[#_configurable_tooling]
+=== Configurable Tooling
+With the fast-moving landscape of tools and techniques within AI, a process that can quickly change at the speed of AI
+is needed. aiSSEMBLE understands it is crucial that the nuances of existing customer environments and preferences can be
+incorporated into AI projects as an integral concept. The Baseline’s Configurable Tooling is realized by using
+https://www.omg.org/mda/[Model Driven Architecture,role=external,window=_blank] to describe your AI system with simple
+JSON files. These files are then ingested to generate Python, Java, Scala, or any other type of file. Configurable
+tooling exists for a vast array of components leveraging popular implementation choices, which can be used as-is or
+tailored to specific needs.
+
+=== Reusable Components
+Reusable components represent the "ready-to-deploy" artifacts within aiSSEMBLE. These reusable components can be used in
+a project directly. These include, but are not limited to, data lineage, AI model versioning, and bias detection.
+
+== aiSSEMBLE Landscape
+aiSSEMBLE is not a platform, but rather a framework that integrates with various technologies. The graphic below
+demonstrates the representative set of technologies aiSSEMBLE integrates with. This set is always evolving to
+keep pace with the rapidly changing AI space.
+
+image::aissemble-landscape.png[align="left",width=1366,height=768]
