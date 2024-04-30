@@ -1,4 +1,4 @@
-# aiSSEMBLE SealedSecrets Helm Chart
+# aiSSEMBLE&trade; SealedSecrets Helm Chart
 
 Baseline Helm chart for packaging and deploying SealedSecrets. Built on the [official Helm chart](https://github.com/bitnami-labs/sealed-secrets/tree/main/helm/sealed-secrets) and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 

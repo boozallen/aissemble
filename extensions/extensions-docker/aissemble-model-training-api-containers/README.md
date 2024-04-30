@@ -1,4 +1,4 @@
-## aiSSEMBLE Model Training API
+## aiSSEMBLE&trade; Model Training API
 
 This module contains the implementation and baseline Docker image for the aiSSEMBLE model training and model training sagemaker service. This service allows you to submit sagemaker model training jobs and retrieves the status of a specific sagemaker traning job
 

@@ -1,5 +1,5 @@
 # Extensions Helm
-Parent module for aiSSEMBLE Helm charts. 
+Parent module for aiSSEMBLE&trade; Helm charts. 
 
 ## Requirements
 Each aiSSEMBLE Helm chart should contain the following

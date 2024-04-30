@@ -73,7 +73,7 @@ The following example illustrates how to perform encryption.
     # decrypt cipher text data using AES CBC
     decrypted_value = aes_gcm_96.decrypt(encrypted_value)
     ```
-## AISSEMBLE Data Encryption
+## AISSEMBLE&trade; Data Encryption
 
 This package includes one security client for calling the "Secrets as a Service" encryption service.
 

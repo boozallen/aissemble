@@ -1,4 +1,4 @@
-# aiSSEMBLE Jenkins Helm Chart
+# aiSSEMBLE&trade; Jenkins Helm Chart
 Baseline Helm chart for packaging and deploying Jenkins. Built on the [official Helm chart](https://github.com/jenkinsci/helm-charts)
 and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See the 
 [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.

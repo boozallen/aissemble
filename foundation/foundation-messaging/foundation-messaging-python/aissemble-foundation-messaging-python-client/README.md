@@ -1,7 +1,7 @@
 ## Messaging - Python (UNDER CONSTRUCTION)
 
 # Overview
-aiSSEMBLE's python messaging module provides an interface through which python pipelines can leverage messaging's
+aiSSEMBLE&trade;'s python messaging module provides an interface through which python pipelines can leverage messaging's
 features. This is done through the MessagingClient class, the details of which are discussed below, along with
 examples of its use.
 

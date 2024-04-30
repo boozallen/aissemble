@@ -1,4 +1,4 @@
-## aiSSEMBLE Versioning
+## aiSSEMBLE&trade; Versioning
 
 This module contains the baseline Docker image for the aiSSEMBLE versioning service. The service provides the ability to version artifacts produced by a Solution Baseline machine-learning pipeline, and uses Maven to package and deploy the artifacts to Nexus.
 

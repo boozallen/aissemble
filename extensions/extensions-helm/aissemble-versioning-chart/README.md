@@ -1,4 +1,4 @@
-# aiSSEMBLE Versioning Helm Chart
+# aiSSEMBLE&trade; Versioning Helm Chart
 Baseline Helm chart for packaging and deploying aiSSEMBLE Versioning module. Built on the extension-helm-fastapi module and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI

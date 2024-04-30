@@ -1,6 +1,6 @@
 # Overview
 This module serves as a mechanism for building the `spark-operator` docker image for
-aiSSEMBLE with tight coupling with the aiSSEMBLE supported Spark version(s).  The 
+aiSSEMBLE&trade; with tight coupling with the aiSSEMBLE supported Spark version(s).  The 
 `spark-operator` source code, written primarily in Go, is largely created and supported
 through the official repository at https://github.com/kubeflow/spark-operator/tree/master.
 This repository is cloned with each build to guarantee that aiSSEMBLE is always using the

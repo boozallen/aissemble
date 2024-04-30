@@ -1,5 +1,5 @@
 # Foundation
-Foundational components for aiSSEMBLE efforts
+Foundational components for aiSSEMBLE&trade; efforts
 
 
 ## Build
