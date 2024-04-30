@@ -1,0 +1,168 @@
+[#_dictionary_metamodel]
+= Dictionary Metamodel
+
+Dictionary metamodels specify semantically-rich types on which records can be based. Doing so creates a set of 
+consistent, reusable type definitions that help enforce commonality across the system. For more information about data
+records, see the xref:semantic-data.adoc#_semantic_data[Semantic Data] page.
+
+== Dictionary Metamodel Specifications
+
+Each metadata instance should be placed in a file with the same name as your dictionary that lives within the following
+directory structure (to initially create this structure, please see xref:archetype.adoc[]):
+
+`<project-name>/<project-name>-pipeline-models/src/main/resources/dictionaries`
+
+For example:
+
+`test-project/test-project-pipeline-models/src/main/resources/dictionaries/IrsDictionary.json`
+
+=== Dictionary Root Element Options
+The following options are available on the root dictionary element:
+
+.Dictionary Root Location
+[source,json]
+----
+{
+  ...
+}
+----
+
+.Dictionary Root Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `name`
+| Yes
+| None
+| Specifies the name of your dictionary. It should represent the functional concept of its contents and must use 
+UpperCamelCase/PascalCase notation (e.g., `IrsDictionary.json`).
+
+| `package`
+| Yes
+| None
+| Provides a namespace that will be leveraged to differentiate between instances and provide language-specific 
+namespacing (e.g. package in Java, namespace in XSD).
+
+
+| `dictionaryTypes` (xref:#_dictionary_type_options[details])
+| Yes
+| None
+| The various types in your dictionary. At least one type is required within `dictionaryTypes`.
+
+|===
+
+
+[#_dictionary_type_options]
+=== Dictionary Type Options
+The following options are available on the `dictionaryType` dictionary element:
+
+.Type Location
+[source,json]
+----
+{
+  "dictionaryTypes": [
+    {
+      ...
+    }
+  ] 
+}
+----
+.Type Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `dictionaryTypes/dictionaryType/name`
+| Yes
+| None
+| The name of the type that is being defined and must use UpperCamelCase/PascalCase notation (e.g., `SocialSecurityNumber`).
+
+| `dictionaryTypes/dictionaryType/simpleType`
+| Yes
+| None
+| The base type from the xref:type-metamodel.adoc[Type Manager] for this dictionary type (e.g., `string`, `integer`).
+
+| `dictionaryTypes/dictionaryType/validation` (xref:_validation_options[details])
+| No
+| None
+| Defines declarative xref:data-validation.adoc[data validation] rules for this type (e.g., `maxValue`, `minLength`, `regex`).
+
+| `dictionaryTypes/dictionaryType/driftPolicy`
+| No
+| None
+| The default xref:drift-detection.adoc[drift detection] policy applied when this type is used in a record metamodel.
+
+| `dictionaryTypes/dictionaryType/protectionPolicy`
+| No
+| None
+| The default xref:data-encryption.adoc[data encryption] policy applied when this type is used in a record metamodel.
+
+| `dictionaryTypes/dictionaryType/ethicsPolicy`
+| No
+| None
+| The default xref:bias-detection.adoc[bias detection] policy applied when this type is used in a record metamodel.
+
+|===
+
+
+
+[#_validation_options]
+=== Dictionary Type Validation Options
+The following options are available on the `validation` dictionary element:
+
+.Type Validation Location
+[source,json]
+----
+{
+  "dictionaryTypes": [
+    {
+      "validation": {
+      	...
+      }
+    }
+  ] 
+}
+----
+.Type Validation Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `dictionaryTypes/dictionaryType/validation/maxLength`
+| No
+| None
+| The maximum length of a value in represented by this type (inclusive).
+
+| `dictionaryTypes/dictionaryType/validation/minLength`
+| No
+| None
+| The minimum length of a value in represented by this type (inclusive).
+
+| `dictionaryTypes/dictionaryType/validation/maxValue`
+| No
+| None
+| The maximum value in represented by this type (inclusive). 
+
+This value is specified as a string in the model to allow for integers and decimals to be supported in one metamodel 
+field.
+
+| `dictionaryTypes/dictionaryType/validation/minValue`
+| No
+| None
+| The minimum value in represented by this type (inclusive).
+
+This value is specified as a string in the model to allow for integers and decimals to be supported in one metamodel
+field.
+
+| `dictionaryTypes/dictionaryType/validation/scale`
+| No
+| None
+| The number of decimals places to support for this type (decimals only).
+
+| `dictionaryTypes/dictionaryType/validation/formats`
+| No
+| None
+| A list of one or more regular expressions to be used as a pattern reference for field and attribute validation.
+
+|===

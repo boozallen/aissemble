@@ -1,9 +1,9 @@
+= aiSSEMBLE(TM) User Manual
+
 [NOTE]
 April 30, 2024: We are rolling out our documentation actively.   You may find these pages incomplete or missing links
 until this process is completed.  Please see https://github.com/boozallen/aissemble/issues/5[the associated
 GitHub issue,role=external,window=_blank] for more information.
-
-= aiSSEMBLE(TM) User Manual
 
 == Key Terms
 * **aiSSEMBLE** – (pronounced assemble) is Booz Allen’s lean, manufacturing-inspired approach for holistically designing,
