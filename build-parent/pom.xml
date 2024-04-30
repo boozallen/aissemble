@@ -25,7 +25,7 @@
         <version.buildhelper.plugin>3.2.0</version.buildhelper.plugin>
         <version.buildnumber.plugin>3.1.0</version.buildnumber.plugin>
         <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
-        <version.failsafe.plugin>${version.surefire.plugin}</version.failsafe.plugin>
+        <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
         <version.fermenter>2.10.2</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
         <version.habushu.plugin>2.13.1</version.habushu.plugin>
