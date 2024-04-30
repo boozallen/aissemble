@@ -1,6 +1,7 @@
 # Major Additions
 
-* Python modules were renamed to reflect aiSSEMBLE. These include the following. 
+* Python modules were renamed to reflect aiSSEMBLE. These include the following.
+
 | Old Python Module                          | New Python Module                                              |
 |--------------------------------------------|----------------------------------------------------------------|
 | foundation-core-python                     | aissemble-core-python                                          | 
