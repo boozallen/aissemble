@@ -43,7 +43,7 @@ processes adjusted and honed into the public GitHub
 
 ## Configurations
 
-For details on using the configuration tool, please consult our [Configuring Your Environment guidance (LINK COMING SOON)](https://boozallen.github.io/aissemble/current-dev/configurations.html).
+For details on using the configuration tool, please consult our [Configuring Your Environment guidance](https://boozallen.github.io/aissemble/aissemble/current/configurations.html).
 
 ## Build
 
@@ -76,7 +76,7 @@ following profiles are often useful when first starting with aiSSEMBLE:
   build does not build the Docker images directly. The images are built within the Kubernetes cluster to speed up
   development builds and save disk space.**
 
-## Use a Maven Archetype to Create a New aiSSEMBLE-Based  Project
+## Use a Maven Archetype to Create a New aiSSEMBLE-Based Project
 
 The first step in creating a new project is to leverage Maven’s archetype functionality to incept a new Maven project
 that will contain all of your aiSSEMBLE component implementations - Data Delivery and Machine Learning pipelines as
@@ -97,7 +97,7 @@ This command will trigger an interactive questionnaire giving you the opportunit
 5. projectGitUrl
 6. projectName
 
-* For details on these fields refer to (LINK COMING SOON) https://boozallen.github.io/aissemble/current-dev/archetype.html#_use_a_maven_archetype_to_create_a_new_project
+* For details on these fields refer to https://boozallen.github.io/aissemble/aissemble/current/archetype.html
 
 * For detailed instructions on adding a pipeline refer to (LINK COMING SOON) https://boozallen.github.io/aissemble/current-dev/add-pipelines-to-build.html
 
