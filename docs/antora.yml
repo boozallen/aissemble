@@ -1,0 +1,11 @@
+name: aissemble
+version: 1.7.0
+display_version: 1.7.0-SNAPSHOT
+prerelease: true
+title: aiSSEMBLE&trade;
+nav:
+  - modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    #Custom attribute used for adding -SNAPSHOT to the archetype.adoc command when true
+    is-pre-release: true
