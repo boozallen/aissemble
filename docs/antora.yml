@@ -1,8 +1,8 @@
 name: aissemble
+title: aiSSEMBLE
 version: 1.7.0
 display_version: 1.7.0-SNAPSHOT
 prerelease: true
-title: aiSSEMBLE&trade;
 nav:
   - modules/ROOT/nav.adoc
 asciidoc:
