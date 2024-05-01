@@ -1,4 +1,4 @@
-@load
+@config-loader
 Feature: Load configurations at specified URI based on environment context
 
   Scenario: The ConfigLoader loads base and environment configurations successfully

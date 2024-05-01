@@ -13,7 +13,6 @@
     <name>aiSSEMBLE::Foundation::Configuration::Store</name>
     <description>Provides centralized secure storage of configurations</description>
     <packaging>jar</packaging>
-
     <build>
         <plugins>
             <plugin>
@@ -42,6 +41,11 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.11.0</version>
         </dependency>
     </dependencies>
 </project>

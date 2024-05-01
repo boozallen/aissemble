@@ -10,12 +10,15 @@ package com.boozallen.aissemble.configuration.store;
  * #L%
  */
 
+import com.boozallen.aissemble.configuration.dao.PropertyDao;
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
+
+import static org.mockito.Mockito.mock;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -24,18 +27,19 @@ import static org.junit.Assert.*;
 
 public class LoadConfigurationsSteps {
 
-    ConfigLoader configLoader;
-    String baseURI;
-    String environmentURI;
-    Set<Property> result;
-    Exception foundError;
+    private ConfigLoader configLoader;
+    private String baseURI;
+    private String environmentURI;
+    private Set<Property> result;
+    private Exception foundError;
+    private final PropertyDao mockDao = mock(PropertyDao.class);
 
-    @Before("@load")
+    @Before("@config-loader")
     public void setup() {
-        configLoader = new ConfigLoader();
+        configLoader = new ConfigLoader(mockDao);
     }
 
-    @After("@send")
+    @After("@config-loader")
     public void cleanup() {
         foundError = null;
     }
@@ -126,5 +130,4 @@ public class LoadConfigurationsSteps {
             assertTrue("Could not find " + expectedProperty, matchFound);
         }
     }
-
 }
