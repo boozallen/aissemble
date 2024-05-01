@@ -1,6 +1,6 @@
 ---
 app:
-  # Sets labels for app.kubernetes.io/name Default is Chart.Name (Quarkus)
+  # Sets labels for app.kubernetes.io/name Default is Chart.Name (aissemble-quarkus-chart)
   name: ''
   # Sets the labels for app.kubernetes.io/version. Default is Chart.AppVersion
   version: ''

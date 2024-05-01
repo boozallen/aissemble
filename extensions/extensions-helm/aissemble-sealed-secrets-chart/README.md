@@ -13,6 +13,7 @@ helm install sealed-secrets ghcr.io/boozallen/aissemble-sealed-secrets-chart --v
 # Overridden Defaults
 
 The following properties are inherited from the [base SealedSecrets chart](https://github.com/bitnami-labs/sealed-secrets/tree/main/helm/sealed-secrets), but with updated default values.
+
 | Property             | Description                                      | Required Override | Default                             |
 |----------------------|--------------------------------------------------|-------------------|-------------------------------------|
 | fullnameOverride     | String to fully override sealed-secrets.fullname | No                | aissemble-sealed-secrets-controller |

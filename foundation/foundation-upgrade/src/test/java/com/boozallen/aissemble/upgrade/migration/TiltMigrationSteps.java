@@ -63,16 +63,16 @@ public class TiltMigrationSteps extends AbstractMigrationTest {
 
     @Then("the VERSION_AISSEMBLE is updated to the project version")
     public void theVERSION_AISSEMBLEIsUpdatedToTheProjectVersion() {
-        assertTrue("Tiltfile VERSION AISSEMBLE does not line up with required aiSSEMBLE verision", successful);
+        assertTrue("Tiltfile VERSION AISSEMBLE does not line up with required aiSSEMBLE version", successful);
     }
 
     @Then("the VERSION_AISSEMBLE should not be migrated")
     public void theVERSION_AISSEMBLEShouldNotBeMigrated() {
-        assertFalse("Tiltfile VERSION AISSEMBLE is inline with the required aiSSEMBLE verision", shouldExecute);
+        assertFalse("Tiltfile VERSION AISSEMBLE is inline with the required aiSSEMBLE version", shouldExecute);
     }
 
     @Then("the VERSION_AISSEMBLE is updated to the specified version value from the Baton specifications in the Tiltfile")
     public void theVERSION_AISSEMBLEIsUpdatedToTheSpecifiedVersionValueFromTheBatonSpecificationsInTheTiltfile() {
-        assertTrue("Tiltfile VERSION AISSEMBLE does not line up with required aiSSEMBLE verision", shouldExecute);
+        assertTrue("Tiltfile VERSION AISSEMBLE does not line up with required aiSSEMBLE version", shouldExecute);
     }
 }

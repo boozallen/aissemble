@@ -10,12 +10,12 @@ helm install lineage-http-consumer ghcr.io/boozallen/aissemble-lineage-http-cons
 **Note**: *the version should match the aiSSEMBLE project version.*
 
 # Properties
-The following properties are overridden from the base [aissemble-quarkus chart](../aissemble-quarkus-chart/README.md).
-Overriding inherited options requires prepending `aissemble-lineage-http-consumer.aissemble-quarkus`, following the standards for working with [Helm subcharts](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/).
+The following properties are overridden from the base [aissemble-quarkus-chart chart](../aissemble-quarkus-chart/README.md).
+Overriding inherited options requires prepending `aissemble-lineage-http-consumer-chart.aissemble-quarkus-chart`, following the standards for working with [Helm subcharts](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/).
 
 | Property              | Description                           | Required Override | Default                                        |
 |-----------------------|---------------------------------------|-------------------|------------------------------------------------|
-| app.name              | Sets label for app.kubernetes.io/name | No                | aissemble-lineage-http-consumer                |    
+| app.name              | Sets label for app.kubernetes.io/name | No                | aissemble-lineage-http-consumer-chart          |    
 | deployment.image.name | The image name                        | No                | boozallen/aissemble-data-lineage-http-consumer | 
 
 # Quarkus Configuration
