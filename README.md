@@ -1,5 +1,5 @@
 # aiSSEMBLE&trade;
-[![Documentation](https://img.shields.io/badge/documentation-GitHub_Pages-blue)](https://boozallen.github.io/aissemble/current-dev/index.html)
+[![Documentation](https://img.shields.io/badge/documentation-GitHub_Pages-blue)](https://boozallen.github.io/aissemble/aissemble/current/index.html)
 [![Publish to GitHub Pages](https://github.com/boozallen/aissemble/actions/workflows/publish.yml/badge.svg)](https://github.com/boozallen/aissemble/actions/workflows/publish.yml)
 ## aiSSEMBLE Overview
 
