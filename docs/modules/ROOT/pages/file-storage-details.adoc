@@ -1,0 +1,103 @@
+= File Stores
+
+== Overview
+File stores allow storing and retrieving unstructured data in files (e.g. raw input files, published graphs/pdfs, etc.)
+File store access is provided via `JClouds` (Java) and `libcloud` (Python). Available backing file store providers:
+
+* AWS S3
+* Google Cloud Storage
+* Backblaze B2
+* Azure Blob Storage
+* Rackspace
+* Atmos
+* Local Filesystem
+* OpenStack
+
+//=== What Gets Generated (Java)
+//
+//Generated
+//
+//* FileStore class for each named file store
+//* Adaptive configuration interface for each file store
+//* Configuration files
+
+//=== What Gets Generated (Python)
+//
+//Generated
+//
+//* FileStore instance for each configured filestore in the base python step class
+//* Adaptive configuration interface for each file store
+//* Configuration files
+
+== Configuration
+File stores are configured via environment variables file. In order to differentiate between file stores for
+configuration, *all property keys should be prefixed* with the same value as the configured file store's
+xref:pipeline-metamodel.adoc#_pipeline_file_stores_element_options[Metamodel] `name` value.
+
+[cols="2a,3a,1a,1a,1a"]
+|===
+|Environment Variable |  Description | Required | Default | Language Support
+| `_FS_PROVIDER`
+| The provider to configure. The value chosen here should match a configurable provider in libcloud or JCloud
+| Yes
+| None
+| Java, Python
+| `_FS_ACCESS_KEY_ID`
+| The access key ID for the provider
+| Yes
+| None
+| Java, Python
+| `_FS_SECRET_ACCESS_KEY`
+| The secret for the provider
+| Yes
+| None
+| Java, Python
+| `_FS_SECURE`
+| Boolean describing whether to use HTTPS
+| No
+| True
+| Python
+| `_FS_HOST`
+| The host for the file store
+| No
+| None
+| Python
+| `_FS_PORT`
+| The port for the file store
+| No
+| None
+| Python
+| `_FS_API_VERSION`
+| The API version for the file store
+| No
+| None
+| Python
+| `_FS_REGION`
+| The region for the file store
+| No
+| None
+| Python
+| `_FS_OVERRIDES`
+| Optional override values. Must be passed in JSON's key/value format.
+
+Example:
+----
+name: EnrichData_FS_OVERRIDES
+
+value: '{
+    "jclouds.filesystem.basedir": "/opt/spark/"
+}'
+
+----
+
+See the JClouds https://jclouds.apache.org/reference/configuration/[configuration docs,role=external,window=_blank] for examples of overridable values.
+| No
+| No
+| Java
+|===
+
+Further configuration options (as well as a list of valid provider keys) can be found on the documentation pages for
+the appropriate libraries.
+
+* Java: https://jclouds.apache.org/reference/providers/#blobstore[JClouds,role=external,window=_blank]
+* Python: https://libcloud.readthedocs.io/en/stable/storage/supported_providers.html[libcloud,role=external,window=_blank]
