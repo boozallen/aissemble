@@ -1,0 +1,9 @@
+[#_drift_detection]
+= Drift Detection
+
+The conceptual idea of drift is that as deployed artificial intelligence (AI) systems adapt to evolving data streams,
+the predictive power may potentially degrade. Their inferences may “drift” away from the intended targets. When using
+semantic data models, it is possible to ensure that data are consistently monitored for drift, thus maintaining the
+performance of AI systems.
+
+Please contact the team for more information.
