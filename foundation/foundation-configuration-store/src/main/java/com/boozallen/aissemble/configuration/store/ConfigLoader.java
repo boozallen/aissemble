@@ -150,7 +150,7 @@ public class ConfigLoader {
      */
     public void write(Set<Property> properties) {
         propertyDao.write(properties);
-        logger.info(String.format("Successfully write properties to the store: %s", properties));
+        logger.info("Successfully wrote all properties to the store.");
     }
 
     /**
