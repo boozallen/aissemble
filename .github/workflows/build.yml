@@ -93,8 +93,3 @@ jobs:
         with:
           path: ~/.m2/build-cache
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
-      
-
-#      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-#      - name: Update dependency graph
-#        uses: advanced-security/maven-dependency-submission-action@v3
