@@ -111,7 +111,7 @@ public class VaultPropertyDao implements PropertyDao {
 
             // write key as a secret to Vault
             vault.logical().write(String.format("%s/%s", path, property.getName()), data);
-            logger.info(String.format("Successfully write to vault: %s", path));
+            logger.info(String.format("Successfully wrote to vault: %s", path));
         }
     }
 
