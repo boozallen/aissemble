@@ -46,7 +46,8 @@ RUN python -m pip install --ignore-installed -r /installation/${inferenceModule}
 
 # Install ${inferenceModule}
 COPY target/${inferenceModule}/dist /modules/${inferenceModule}
-RUN cd /modules/${inferenceModule}; for x in *.whl; do python -m pip install $x --no-cache-dir --no-deps; done
+RUN set -e && \
+    cd /modules/${inferenceModule}; for x in *.whl; do python -m pip install $x --no-cache-dir --no-deps; done
 
 # Start the inference API drivers for FastAPI and gRPC
 CMD python -m ${inferenceModuleSnakeCase}.inference_api_driver "fastAPI" & python -m ${inferenceModuleSnakeCase}.inference_api_driver "grpc"

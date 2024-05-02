@@ -29,6 +29,6 @@ RUN python3.11 -m pip install -r /installation/${trainingModule}/requirements.tx
 
 # Install ${trainingModule}
 COPY ./target/dockerbuild/${trainingPipeline}/${trainingModule}/*.tar.gz /installation/${trainingModule}/
-RUN find /installation/${trainingModule}/ -name *.tar.gz -type f -exec python3.11 -m pip install --no-deps --no-cache-dir '{}' ';'
+RUN set -e && files=$(find /installation/${trainingModule}/ -name *.tar.gz -type f); for file in $files; do python3.11 -m pip install --no-deps --no-cache-dir $file || exit 1; done;
 
 ENTRYPOINT ["python3.11", "-m", "${trainingModuleSnakeCase}.${trainingPipelineSnakeCase}"]

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,7 +32,7 @@ public final class FileUtils {
      * @param file the File
      * @param regex a regex representing the text to replace, as a String
      * @param replacement the replacement text to substitute the regex
-     * @return An ArrayList of Strings representing each capture group in the regex that was matched
+     * @return a boolean set to true if at least one replacement was performed in the file
      */
     public static boolean replaceInFile(File file, String regex, String replacement) throws IOException {
         boolean replacedInFile = false;
@@ -46,6 +47,44 @@ public final class FileUtils {
             replacedInFile = true;
         }
         return replacedInFile;
+    }
+
+    /**
+     * Evaluates a file against a regex pattern and replaces a substring of each regex match
+     * with a specified replacement
+     * @param file the File
+     * @param regex a regex representing the text to replace a substring of
+     * @param substring the substring of the regex match that will be replaced
+     * @param replacement the replacement of the match substring
+     * @return a boolean set to true if at least one modification was performed in the file
+     */
+    public static boolean modifyRegexMatchInFile(File file, String regex, String substring, String replacement) {
+        if (file == null || !file.exists()) {
+            return false;
+        }
+
+        boolean modified = false;
+
+        try {
+            Path path = file.toPath();
+            Charset charset = StandardCharsets.UTF_8;
+            List<String> resultLines = new ArrayList<>();
+
+            Pattern pattern = Pattern.compile(regex);
+            for (String line : Files.readAllLines(path, charset)) {
+                if (pattern.matcher(line).find()) {
+                    line = line.replace(substring, replacement);
+                    modified = true;
+                }
+                resultLines.add(line);
+            }
+            if (modified) {
+                Files.write(path, resultLines, charset);
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return modified;
     }
 
     /**
@@ -102,6 +141,24 @@ public final class FileUtils {
         }
 
         return captured;
+    }
+
+    /**
+     * Evaluates a regex pattern against a file to determine if at least one regex match exists
+     *
+     * @param regex a regex pattern, as a String
+     * @param file the file to search for matching substrings
+     * @return true if there is at least one regex match, otherwise false
+     */
+    public static boolean hasRegExMatch(String regex, File file) throws IOException {
+        String fileContent;
+        if (file != null && file.exists()) {
+            Charset charset = StandardCharsets.UTF_8;
+            fileContent = Files.readString(file.toPath(), charset);
+            return Pattern.compile(regex, Pattern.MULTILINE).matcher(fileContent).find();
+        } else {
+            return false;
+        }
     }
 
     /**
