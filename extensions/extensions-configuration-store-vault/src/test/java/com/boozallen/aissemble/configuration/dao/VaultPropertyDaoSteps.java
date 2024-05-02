@@ -106,7 +106,7 @@ public class VaultPropertyDaoSteps {
 
     private void setupVaultContainer() {
         final Properties encryptProperties = Krausening.getInstance().getProperties("encrypt.properties");
-        String dockerImage = "aiops-docker-internal.nexus.boozallencsn.com/aiops/boozallen/aissemble-vault:" + System.getProperty("version.aissemble.vault") + this.getSystemArchitectureTag();
+        String dockerImage = "ghcr.io/boozallen/aissemble-vault:" + System.getProperty("version.aissemble.vault") + this.getSystemArchitectureTag();
         final DockerImageName vaultImage = DockerImageName.parse(dockerImage).asCompatibleSubstituteFor("vault");
         vaultContainer = new VaultContainer(vaultImage);
         vaultContainer.setWaitStrategy(Wait.forListeningPort());
