@@ -1,6 +1,5 @@
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>${version.clean.plugin}</version>
                 <configuration>
                     <filesets>
                         <fileset>

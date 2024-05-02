@@ -30,7 +30,9 @@
 Conventions for setting namespaces when leveraging `Data Lineage` has been updated to better follow [OpenLineage's guidelines](https://openlineage.io/docs/spec/naming/). Moving forward, namespaces should be defined in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. This is a departure from the old pattern of one single namespace property (`data.lineage.namespace`) being leveraged for an entire project. Refer to the [GitHub docs](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration) for updated guidance. Usage of the `data.lineage.namespace` property in a project's `data-lineage.properties` file will be supported as a fallback but should not be used in practice.
 
 # Breaking Changes
-There are no breaking changes in the 1.7.0 release.
+Note instructions for adapting to these changes are outlined in the upgrade instructions below.  
+* The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
+  to be invalid
 
 ## DataLineage and ModelLineage Event Changes
 To associate the pipeline step's lineage event with the pipeline's, we have created a pipeline level lineage event, and a way
@@ -108,6 +110,14 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.7.0 
        <version>1.7.0</version>
    </parent>
    ```
+
+### Delete the Old maven-clean-plugin Version - Required for All Projects
+In order to follow the standard naming conventions for maven properties, the original property used for the 
+maven-clean-plugin version no longer exists. To resolve the Maven failure this causes, delete the version from the 
+plugin in *-deploy/pom.xml. This can be achieved with:
+```
+sed -i'' -e '/version.clean.plugin/d' *-deploy/pom.xml
+```
 
 ## Conditional Steps
 
