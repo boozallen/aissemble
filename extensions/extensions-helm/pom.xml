@@ -93,6 +93,11 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!--
+                    Especially when configuring OCI, this plugin can be a bit confusing and messy.  We will endeavour
+                    to help fix that, but for now be aware that OCI/push makes this more difficult to follow.  Recommend
+                    looking at the source directly for push before making any changes:
+                 -->
                 <plugin>
                     <groupId>${group.helm.plugin}</groupId>
                     <artifactId>helm-maven-plugin</artifactId>
@@ -105,18 +110,38 @@
                                 <goal>dependency-update</goal>
                             </goals>
                         </execution>
+                        <!--
+                            dry run doesn't seem necessary for normal ops, but you can add it
+                            by uncommenting this out, if needed:
+                        <execution>
+                            <id>simulates-an-install</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>dry-run</goal>
+                            </goals>
+                        </execution>
+                        -->
+                        <execution>
+                            <id>deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
                     </executions>
                     <configuration>
-                        <skipInit>true</skipInit>
                         <appVersion>${project.version}</appVersion>
                         <chartDirectory>${project.basedir}</chartDirectory>
                         <namespace>default</namespace>
                         <templateGenerateName>true</templateGenerateName>
                         <skip>${skip.helm}</skip>
-                        <skipTemplate>false</skipTemplate>
                         <skipDependencyBuild>true</skipDependencyBuild>
+                        <skipInit>false</skipInit>
+                        <skipTemplate>false</skipTemplate>
+                        <!-- For OCI, we need push versus upload: -->
+                        <skipUpload>true</skipUpload>
                         <overwriteLocalDependencies>${overwrite.dependencies}</overwriteLocalDependencies>
-                        <overwriteDependencyRepository>${aissemble.helm.repo}</overwriteDependencyRepository>
+                        <overwriteDependencyRepository>oci://${aissemble.helm.repo}</overwriteDependencyRepository>
                         <overwriteDependencyVersion>${project.version}</overwriteDependencyVersion>
                         <uploadVerification>true</uploadVerification>
                         <uploadVerificationTimeout>120</uploadVerificationTimeout>
@@ -130,10 +155,7 @@
                         </uploadRepoSnapshot>
                         <lintStrict>true</lintStrict>
                         <helmExtraRepos>
-                            <helmRepo>
-                                <name>${aissemble.helm.repo.name}</name>
-                                <url>${aissemble.helm.repo}</url>
-                            </helmRepo>
+                            <!-- No ghcr.io repo here b/c it is oci:// -->
                             <helmRepo>
                                 <name>bitnami</name>
                                 <url>https://charts.bitnami.com/bitnami</url>
