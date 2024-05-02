@@ -1,29 +1,28 @@
 # Major Additions
 
-* Python modules were renamed to reflect aiSSEMBLE. These include the following.
-
-| Old Python Module                          | New Python Module                                              |
-|--------------------------------------------|----------------------------------------------------------------|
-| foundation-core-python                     | aissemble-core-python                                          | 
-| foundation-model-training-api              | aissemble-foundation-model-training-api                        | 
-| foundation-versioning-service              | aissemble-foundation-versioning-service                        |
-| foundation-drift-detection-client          | aissemble-foundation-drift-detection-client                    |
-| foundation-encryption-policy-python        | aissemble-foundation-encryption-policy-python                  |
-| foundation-model-lineage                   | aissemble-foundation-model-lineage                             |
-| foundation-data-lineage-python             | aissemble-foundation-data-lineage-python                       |
-| foundation-messaging-python-client         | aissemble-foundation-messaging-python-client                   |
-| foundation-pdp-client-python               | aissemble-foundation-pdp-client-python                         |
-| foundation-transform-core-python           | aissemble-Foundation-transform-core-python                     |
-| extensions-model-training-api-sagemaker    | aissemble-extensions-model-training-api-sagemaker              |
-| extensions-data-delivery-spark-py          | aissemble-extensions-data-delivery-spark-py                    |
-| extensions-encryption-valut-python         | aissemble-extensions-encryption-valut-python                   |
-| extensions-transform-spark-python          | aissemble-extensions-transform-spark-python                    |
-| test-data-delivery-pyspark-model           | aissemble-test-data-delivery-pyspark-model                     |
-| test-data-delivery-pyspark-model-basic     | aissemble-test-data-delivery-pyspark-model-basic               |
-| machine-learning-inference                 | aissemble-machine-learning-inference                           |
-| machine-learning-training                  | aissemble-machine-learning-training                            |
-| machine-learning-training-base             | aissemble-machine-learning-training-base                       |
-| machine-learning-sagemaker-training        | aissemble-machine-learning-sagemaker-training                  |
+* Python modules were renamed to reflect aiSSEMBLE. These include the following. 
+| Old Python Module                       | New Python Module                                 |
+| --------------------------------------- | ------------------------------------------------- |
+| foundation-core-python                  | aissemble-core-python                             |
+| foundation-model-training-api           | aissemble-foundation-model-training-api           |
+| foundation-versioning-service           | aissemble-foundation-versioning-service           |
+| foundation-drift-detection-client       | aissemble-foundation-drift-detection-client       |
+| foundation-encryption-policy-python     | aissemble-foundation-encryption-policy-python     |
+| foundation-model-lineage                | aissemble-foundation-model-lineage                |
+| foundation-data-lineage-python          | aissemble-foundation-data-lineage-python          |
+| foundation-messaging-python-client      | aissemble-foundation-messaging-python-client      |
+| foundation-pdp-client-python            | aissemble-foundation-pdp-client-python            |
+| foundation-transform-core-python        | aissemble-Foundation-transform-core-python        |
+| extensions-model-training-api-sagemaker | aissemble-extensions-model-training-api-sagemaker |
+| extensions-data-delivery-spark-py       | aissemble-extensions-data-delivery-spark-py       |
+| extensions-encryption-valut-python      | aissemble-extensions-encryption-valut-python      |
+| extensions-transform-spark-python       | aissemble-extensions-transform-spark-python       |
+| test-data-delivery-pyspark-model        | aissemble-test-data-delivery-pyspark-model        |
+| test-data-delivery-pyspark-model-basic  | aissemble-test-data-delivery-pyspark-model-basic  |
+| machine-learning-inference              | aissemble-machine-learning-inference              |
+| machine-learning-training               | aissemble-machine-learning-training               |
+| machine-learning-training-base          | aissemble-machine-learning-training-base          |
+| machine-learning-sagemaker-training     | aissemble-machine-learning-sagemaker-training     |
 
 
 ## OpenLineage Namespace Conventions
@@ -41,8 +40,8 @@ for each pipeline step's lineage event to be associated with the pipeline's line
 We have also made adjustments regarding customizing the lineage event so that we can customize the lineage event
 based on the event type. The below functions have been removed, and replaced by event type-specific functions:
 
-| Python Method Signature                                            | Java Method Signature                                    | 
-|--------------------------------------------------------------------|----------------------------------------------------------|
+| Python Method Signature                                            | Java Method Signature                                    |
+| ------------------------------------------------------------------ | -------------------------------------------------------- |
 | create_run(self) → Run                                             | Run createRun()                                          |
 | create_job(self) → Job                                             | Job createJob()                                          |
 | create_run_event(self, run: Run, job: Job, status: str) → RunEvent | RunEvent createRunEvent(Run run, Job job, String status) |
@@ -56,8 +55,8 @@ root pom.xml file.
 There are no known issues with the 1.7.0 release.
 
 # Known Vulnerabilities
-| Date<br/>identified | Vulnerability                           | Severity   | Package    | Affected <br/>versions | CVE | Fixed <br/>in |
-|---------------------|-----------------------------------------|------------|------------|------------------------|-----|---------------|
+| Date<br/>identified | Vulnerability | Severity | Package | Affected <br/>versions | CVE | Fixed <br/>in |
+| ------------------- | ------------- | -------- | ------- | ---------------------- | --- | ------------- |
 
 # How to Upgrade
 The following steps will upgrade your project to 1.7. These instructions consist of multiple phases:
@@ -69,13 +68,13 @@ The following steps will upgrade your project to 1.7. These instructions consist
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                       | Description                                                  | 
-|------------------------------------------------------|--------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration         | Updates the aiSSEMBLE version within your project's Tiltfile |
-| upgrade-v2-chart-files-aissemble-version-migration   | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
-| upgrade-v1-chart-files-aissemble-version-migration   | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
-| upgrade-mlflow-v2-external-s3-migration              | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments |
-| <pyproject-migration>                              | Will need to migrate pyproject.toml files to reflect newly named Python modules |
+| Migration Name                                     | Description                                                                                                                                                                |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| upgrade-tiltfile-aissemble-version-migration       | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                               |
+| upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
+| upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE       |
+| upgrade-mlflow-v2-external-s3-migration            | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                          |
+| <pyproject-migration>                              | Will need to migrate pyproject.toml files to reflect newly named Python modules                                                                                            |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
