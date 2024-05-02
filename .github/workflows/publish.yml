@@ -6,7 +6,7 @@ on:
 
   # Runs on pushes targeting the following branch(es)
   push:
-    branches: [dev,5-migrate-documentation]
+    branches: [dev]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:

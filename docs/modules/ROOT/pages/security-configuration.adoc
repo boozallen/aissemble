@@ -18,11 +18,11 @@ pipeline scripts.  The following is an example of a simple property file.
 # GENERATED PROPERTIES FILE - please ***DO*** modify.
 
 pdp_host_url=http://policy-decision-point:8080/api/pdp
-is_authorization_enabled = True
+is_authorization_enabled = true
 ----
 
 When a new project is created security will be enabled by default and a policy-decision-point-docker module will be
 generated which needs to be added to your build process.
 If you decide to disable security you will need to change the configuration.
-This can be accomplished by updating the `auth.properties` file and changing `is_authorization_enabled = True` to
-`is_authorization_enabled = False`.  This change is activated by rebuilding your Docker image.
+This can be accomplished by updating the `auth.properties` file to include `is_authorization_enabled = false`.  This
+change is activated by rebuilding your Docker image.
