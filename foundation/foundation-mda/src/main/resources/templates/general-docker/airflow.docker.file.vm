@@ -29,13 +29,13 @@ ENV VENV=$AIRFLOW_HOME/pipelines-env
 ENV KRAUSENING_BASE ${AIRFLOW_HOME}/config/
 
 WORKDIR /
-RUN find /installation/requirements -path '/installation/requirements/*/*/*' -name requirements.txt -type f -exec "$VENV/bin/python3" -m pip install --no-cache-dir -r '{}' ';'
+RUN set -e && files=$(find /installation/requirements -path '/installation/requirements/*/*/*' -name requirements.txt -type f); for file in $files; do "$VENV/bin/python3" -m pip install --no-cache-dir -r $file || exit 1; done;
 
 #PIPELINES
 COPY ./target/dockerbuild/. $AIRFLOW_HOME/pipelines/
 
 #Run pip install on *.tar.gz if any are found -could be none for a project without training steps
-RUN find $AIRFLOW_HOME/pipelines -path "$AIRFLOW_HOME/pipelines/*/*/*" -name *.tar.gz -type f -exec "$VENV/bin/python3" -m pip install --no-deps --no-cache-dir '{}' ';'
+RUN set -e && files=$(find $AIRFLOW_HOME/pipelines -path "$AIRFLOW_HOME/pipelines/*/*/*" -name *.tar.gz -type f); for file in $files; do "$VENV/bin/python3" -m pip install --no-deps --no-cache-dir $file || exit 1; done;
 
 ENV PIP_USER=true
 

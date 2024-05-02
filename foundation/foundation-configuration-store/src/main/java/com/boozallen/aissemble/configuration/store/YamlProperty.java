@@ -44,7 +44,7 @@ public class YamlProperty {
             return false;
         }
 
-        // does not include value to enable check of erroneously indistinguisabe properties,
+        // does not include value to enable check of erroneously indistinguishable properties,
         // where two or more properties have identical groupName and name (but different values)
         YamlProperty yamlProperty = (YamlProperty) o;
         return Objects.equals(name, yamlProperty.getName()) &&

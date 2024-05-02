@@ -45,5 +45,15 @@
         "excludes": ["**/target/**/Chart.yaml"]
       }
     ]
+  },
+  {
+    "name": "upgrade-docker-pip-install-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.DockerPipInstallMigration",
+    "fileSets": [
+      {
+        "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
+        "excludes": ["*-docker/*/target/Dockerfile"]
+      }
+    ]
   }
 ]

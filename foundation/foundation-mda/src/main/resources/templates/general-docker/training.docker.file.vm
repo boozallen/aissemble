@@ -38,6 +38,7 @@ RUN python3.11 -m pip install --ignore-installed -r /installation/${trainingModu
 
 # Install ${trainingModule}
 COPY target/${trainingModule}/dist /modules/${trainingModule}
-RUN cd /modules/${trainingModule}; for x in *.whl; do pip install $x --no-cache-dir --no-deps; done
+RUN set -e && \
+    cd /modules/${trainingModule}; for x in *.whl; do pip install $x --no-cache-dir --no-deps; done
 
 CMD python3.11 -m ${trainingModuleSnakeCase}.${trainingPipelineSnakeCase}_driver
