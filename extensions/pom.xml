@@ -32,5 +32,6 @@
         <module>extensions-helm</module>
         <module>aissemble-extensions-model-training-api-sagemaker</module>
         <module>extensions-pipeline-invocation-service</module>
+        <module>extensions-configuration-store-vault</module>
     </modules>
 </project>

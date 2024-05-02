@@ -1,0 +1,10 @@
+groupName: data-lineage-yaml-test
+properties:
+  - name: connector
+    value: smallrye-kafka
+  - name: serializer
+    value: apache.StringSerializer
+  - name: topic
+    value: lineage-topic
+  - name: cloud-events
+    value: false

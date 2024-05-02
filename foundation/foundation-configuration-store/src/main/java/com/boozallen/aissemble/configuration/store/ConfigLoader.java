@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.boozallen.aissemble.configuration.dao.PropertyDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,10 @@ import org.yaml.snakeyaml.constructor.Constructor;
 public class ConfigLoader {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class);
+    private final PropertyDao propertyDao;
+    public ConfigLoader(PropertyDao propertyDao) {
+        this.propertyDao = propertyDao;
+    }
 
     /**
      * Loads configurations from the base and environment URIs and reconciles them.
@@ -52,6 +57,15 @@ public class ConfigLoader {
         Set<Property> environmentConfigs = loadURI(environmentURI);
 
         return reconcileConfigs(baseConfigs, environmentConfigs);
+    }
+
+    /**
+     * Loads configuration from the provided uri
+     * @param baseURI URI housing the configuration files
+     * @return Set of properties.
+     */
+    public Set<Property> loadConfigs(String baseURI) {
+        return loadURI(baseURI);
     }
 
     /**
@@ -128,6 +142,26 @@ public class ConfigLoader {
     private Set<Property> reconcileConfigs(Set<Property> baseConfigs, Set<Property> environmentConfigs) {
         environmentConfigs.addAll(baseConfigs);
         return environmentConfigs;
+    }
+
+    /**
+     * Write give properties set to the store
+     * @param properties to be written to store
+     */
+    public void write(Set<Property> properties) {
+        propertyDao.write(properties);
+        logger.info(String.format("Successfully write properties to the store: %s", properties));
+    }
+
+    /**
+     * Read the Property from store with given group name and property name
+     * @param groupName group name
+     * @param propertyName property name
+     * @return property read from the store
+     */
+    public Property read(String groupName, String propertyName) {
+        logger.info(String.format("Read property with groupName: %s, propertyName: %s from the store.", groupName, propertyName));
+        return propertyDao.read(groupName, propertyName);
     }
 }
 
