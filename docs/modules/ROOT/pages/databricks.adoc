@@ -23,7 +23,7 @@ you can set the following parameters:
     spark.driver.extraJavaOptions
     -DKRAUSENING_BASE=/dbfs/FileStore/shared_uploads/project-name/krausening/base
     -DKRAUSENING_EXTENSIONS=/dbfs/FileStore/shared_uploads/project-name/krausening/databricks
-    -DKRAUSENING_PASSWORD=3uQ2j_=wmP5A2q8b
+    -DKRAUSENING_PASSWORD=<YOUR PASSWORD_HERE>
 
 7. When you are done configuring, select `Create Cluster`
 

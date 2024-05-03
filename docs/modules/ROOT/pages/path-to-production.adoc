@@ -1,21 +1,21 @@
 = Path to Production
 
-Aside from testing scaffolding and the Maven project structure, aiSSEMBLE(TM) generates several artifacts to help drive
-consistency, repeatability, and quality of delivery. These artifacts are designed as starting points for a mature
-DevOps-centric approach for delivering high-quality AI systems and are not intended as complete solutions in and of
-themselves.
+aiSSEMBLE(TM) generates several artifacts to help drive consistency, repeatability, and quality of delivery. These
+artifacts are designed as starting points for a mature DevOps-centric approach for delivering high-quality AI systems
+and are not intended as complete solutions in and of themselves.
 
 == Mapping to aiSSEMBLE Concepts
 [#img-you-are-here-path-to-production]
 .xref:solution-baseline-process.adoc[You Are Here]
 image::you-are-here-path-to-production.png[You Are Here,200,100,role="thumb right"]
 
-_Path to Production_: Many AI systems are developed across the industry much like a school project - a Data Engineer or
+_Path to Production_: Many AI systems are developed across the industry leverage ad-hoc, manual processes - a Data Engineer or
 Data Scientist exports local code via a container and pushes that into production. This practice was once rampant in
-software development as well. Over time, it has become an industry best practice to leverage a repeatable, consistent
-_path to production_ to ensure quality and enable higher-velocity delivery.  It's critical to recognize that while
-slower for an initial deployment, the speed and repeatability of this process are amongst the most important enablers in
-moving faster over time (an attribute most clients revere).
+software development as well. Over time, it has become an industry best practice to leverage automation to establish a
+repeatable, consistent _path to production_ to ensure quality and enable higher-velocity delivery.  It's critical to
+recognize that while slower for an initial deployment, the speed and repeatability of this process are amongst the
+most important enablers in enabling the an effort to movie fast over time (an attribute most clients revere as it
+allows ongoing responsiveness and impact for their customers).
 
 == Containers
 

@@ -33,17 +33,16 @@ In addition, the following build tools and container frameworks are an important
 
 ### Detailed Documentation
 
-aiSSEMBLE documentation will be posted on GitHub pages along with this repository.  We are [actively porting our existing
-documentation](https://github.com/boozallen/aissemble/issues/5) and will update this section with a link as soon as it is up and available.
+[aiSSEMBLE documentation is available GitHub pages](https://boozallen.github.io/aissemble).
 
 ### aiSSEMBLE Releases
 
 aiSSEMBLE is currently released about once a month, but we intend to increase to around twice a month as we get our
 processes adjusted and honed into the public GitHub
 
-## Configurations
+## Environment Configuration
 
-For details on using the configuration tool, please consult our [Configuring Your Environment guidance](https://boozallen.github.io/aissemble/aissemble/current/configurations.html).
+Please consult our [Configuring Your Environment guidance](https://boozallen.github.io/aissemble/aissemble/current/configurations.html).
 
 ## Build
 

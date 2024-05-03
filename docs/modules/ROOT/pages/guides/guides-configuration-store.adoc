@@ -1,0 +1,61 @@
+= Leveraging the Configuration Store
+
+== Overview
+The Configuration Store is a tool that enables the various configurations for a project to be centrally defined and
+managed, while also standardizing access to the configurations. The Configuration Store dynamically provides
+environment-specific configurations, based on the project's development lifecycle phase. Usage limitations and
+regeneration strategies can also be set, allowing configurations to automatically refreshed, thereby bolstering
+security of sensitive properties.
+
+=== Setup
+The Configuration Store tool is currently under development. Stay tuned for its release!
+
+=== Usage
+Via the configuration store's helm chart, project teams can specify environment variables the URIs that house the project's
+various configurations. It is required to specify a base URI that houses the base/default configurations. Optionally,
+one can specify a secondary URI that houses environment-specific configurations that will override and/or augment the
+base configurations. Multiple configuration files can be stored at the URI. Configuration files are expected to be
+in `YAML` format. Further guidance is covered below.
+
+Because it is common practice to define a separate Helm chart for each of a project's development lifecycle phase's
+environment, it is encouraged to define one shared base URI and respective environment-specific URIs, each housing
+the relevant overrides and augmentations.
+
+The following example Configuration Store Helm chart demonstrates a URI specifications for a CI deployment:
+[source,yaml]
+----
+  env:
+    baseURI: <URI housing base configurations>
+    envURI: <URI housing CI-specific overrides/augmentations>
+----
+
+Suppose we defined the following config at the `baseURI`:
+[source,yaml]
+----
+groupName: exampleGroup
+properties:
+  - name: connector
+    value: smallrye-kafka
+  - name: topic
+    value: baseTopic
+----
+
+Next, suppose we defined the following config at the `envURI`:
+[source,yaml]
+----
+groupName: messaging
+properties:
+  - name: topic
+    value: ciTopic
+  - name: newProperty
+    value: newValue
+----
+
+Then the following calls to the tool would provide the following configurations:
+[source,java]
+----
+ConfigServiceClient client = new ConfigServiceClient();
+client.getProperty("messaging", "connector")     //smallrye-kafka
+client.getProperty("messaging", "topic")         //ciTopic
+client.getProperty("messaging", "newProperty")   //newValue
+----
