@@ -15,9 +15,9 @@ on:
         description: "Branch you want to build"
         required: true
         type: string
-        default: '2-build-action'
+        default: 'dev'
   push:
-    branches: [ "2-build-action" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
