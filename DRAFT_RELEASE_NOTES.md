@@ -74,7 +74,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
 | upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE       |
 | upgrade-mlflow-v2-external-s3-migration            | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                          |
-| <pyproject-migration>                              | Will need to migrate pyproject.toml files to reflect newly named Python modules                                                                                            |
+| upgrade-foundation-extension-python-package-migration                              | Updates the pyproject.toml files within your projects pipelines folder (<YOUR_PROJECT>-pipelines) to use the updated aiSSEMBLE foundation and extension Python packages with the latest naming convention |                                                                                       |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

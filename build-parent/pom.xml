@@ -423,7 +423,7 @@
                                 <operatorAndVersion>${version.aissemble}</operatorAndVersion>
                             </packageDefinition>
                             <packageDefinition>
-                                <packageName>foundation-model-lineage</packageName>
+                                <packageName>aissemble-foundation-model-lineage</packageName>
                                 <operatorAndVersion>${version.aissemble}</operatorAndVersion>
                             </packageDefinition>
                             <packageDefinition>

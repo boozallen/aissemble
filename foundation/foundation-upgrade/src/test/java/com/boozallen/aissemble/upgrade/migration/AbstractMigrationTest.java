@@ -11,12 +11,24 @@ package com.boozallen.aissemble.upgrade.migration;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 
 public class AbstractMigrationTest {
     protected File testFile;
     protected boolean shouldExecute;
     protected boolean successful;
+
+    private static final String TEST_FILES_FOLDER = Paths.get("target", "test-classes", "test-files").toString();
+
+    protected static void addTestFile(String subPath) throws IOException {
+        File testFile = Paths.get(TEST_FILES_FOLDER, subPath).toFile();
+        if(testFile.exists()) {
+            throw new RuntimeException(String.format("Test file at %s already exists", subPath));
+        }
+        testFile.getParentFile().mkdirs();
+        testFile.createNewFile();
+    }
 
     protected static File getTestFile(String subPath) {
         File testFile = Paths.get("target", "test-classes", "test-files", subPath).toFile();

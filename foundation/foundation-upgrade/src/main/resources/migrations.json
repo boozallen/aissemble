@@ -18,6 +18,15 @@
     ]
   },
   {
+    "name": "upgrade-foundation-extension-python-package-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.FoundationExtensionPythonPackageMigration",
+    "fileSets": [
+      {
+        "includes": ["*-pipelines/**/pyproject.toml"]
+      }
+    ]
+  },
+  {
     "name": "upgrade-v1-chart-files-aissemble-version-migration",
     "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV1Migration",
     "fileSets": [
