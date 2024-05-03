@@ -1,0 +1,95 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build aissemble
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildBranch:
+        description: "Branch you want to build"
+        required: true
+        type: string
+        default: 'dev'
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.buildBranch }}
+      - name: Install Python # use direct install rather than pyenv for CI for large speed improvement
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.4'
+      - name: Load cached Poetry installation
+        id: cached-poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.local
+          key: poetry-0  # increment to reset cache
+      - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
+        id: cached-m2-repo
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+      - name: Load m2 build cache
+        id: cached-m2-build
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-build-cache-
+      - name: Install Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
+        uses: snok/install-poetry@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-get update
+          sudo apt-get install docker-ce docker-ce-cli containerd.io
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+      - name: Build aiSSEMBLE
+        run: ./mvnw -B clean install --file pom.xml -Dhabushu.usePyenv=false -Pci
+      #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure, until
+      # https://github.com/actions/cache/issues/1315 is resolved
+      - name: Save m2 repository cache
+        id: save-m2-repo
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+      - name: Save m2 build cache
+        id: save-m2-build
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ~/.m2/build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml') }}

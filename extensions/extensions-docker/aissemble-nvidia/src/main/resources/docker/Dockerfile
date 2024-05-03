@@ -9,9 +9,7 @@ RUN printf '#!/bin/bash\n\nif [[ "$1" == "-r" ]] ;then\n echo '4.9.250'\n exit\n
 RUN chmod 755 /bin/uname
 # Workaround for ubuntu fix end
 
-COPY ./target/cacerts/* /usr/local/share/ca-certificates/
-
-RUN update-ca-certificates && apt-get update \
+RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y openjdk-11-jdk \
     && update-ca-certificates \

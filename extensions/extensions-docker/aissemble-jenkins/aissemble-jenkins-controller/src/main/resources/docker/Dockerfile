@@ -3,12 +3,6 @@ FROM jenkins/jenkins:lts-jdk11
 LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
 
 USER root
-COPY ./target/cacerts/* /usr/local/share/ca-certificates/
-# Update CA certificates and import each certificate in the directory
-RUN update-ca-certificates && \
-    for cert in /usr/local/share/ca-certificates/*.crt; do \
-        keytool -import -trustcacerts -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit -noprompt -file "$cert"; \
-    done
 USER jenkins
 
 RUN jenkins-plugin-cli --plugins git:4.11.2
