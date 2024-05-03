@@ -24,7 +24,7 @@ RUN apt-get -y update \
     && add-apt-repository ppa:deadsnakes/ppa
 
 # git and build-essential are used during pip install of some dependencies (e.g. python-deequ)
-RUN update-ca-certificates && apt-get update -y && apt-get install --assume-yes \
+RUN apt-get update -y && apt-get install --assume-yes \
   build-essential \
   curl \
   python${PYTHON_VERSION} \
