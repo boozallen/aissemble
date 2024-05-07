@@ -41,7 +41,7 @@ Several properties that used to be free-form name/value pairs within the `env` b
 In the table below, the notation `env[KEY]` refers the `env` list item whose `name` value was `key`.
 
 
-**Note**: *all new property locations include the prefix `aissemble-kafka.kafka`*
+**Note**: *all new property locations include the prefix `aissemble-kafka-chart.kafka`*
 
 | Old Property Location                     | New Property Location       | Additional Notes                                                                                                           |
 |-------------------------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------|

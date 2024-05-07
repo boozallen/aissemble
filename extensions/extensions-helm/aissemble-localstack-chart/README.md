@@ -32,7 +32,7 @@ https://github.com/localstack/helm-charts/tree/main/charts/localstack
 
 # Custom Properties
 
-The following properties are provided by the aissemble-localstack chart
+The following properties are provided by the `aissemble-localstack-chart` chart
 
 | Property | Description                                    | Required Override | Default |
 |----------|------------------------------------------------|-------------------|---------|
@@ -44,23 +44,23 @@ The following properties are provided by the aissemble-localstack chart
 
 | Property                      | New Location                                       | Notes                                                                                                                                                         |
 |-------------------------------|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| buckets                       | aissemble-localstack.buckets                       |                                                                                                                                                               |
-| deployment.env                | aissemble-localstack.localstack.extraEnvVars       |                                                                                                                                                               |
+| buckets                       | aissemble-localstack-chart.buckets                       |                                                                                                                                                               |
+| deployment.env                | aissemble-localstack-chart.localstack.extraEnvVars       |                                                                                                                                                               |
 | deployment.ports              | See Note below                                     |                                                                                                                                                               |
-| deployment.securityContext    | aissemble-localstack.localstack.securityContext    |                                                                                                                                                               |
-| deployment.serviceAccountName | aissemble-localstack.localstack.serviceAccountName |                                                                                                                                                               |
-| hostname                      | aissemble-localstack.localstack.fullnameOverride   |                                                                                                                                                               |
-| image.dockerRepo              | aissemble-localstack.localstack.image.repository   | Merged with `image.name` into a shared property                                                                                                               |
-| image.imagePullPolicy         | aissemble-localstack.localstack.image.pullPolicy   |                                                                                                                                                               |
-| image.name                    | aissemble-localstack.localstack.image.repository   |                                                                                                                                                               |
-| image.tag                     | aissemble-localstack.localstack.image.tag          |                                                                                                                                                               |
-| replicaCount                  | aissemble-localstack.localstack.replicaCount       | This property was generated into v1 values, however it was not being used. It is now available in the v2 chart, and is used to set the replica count properly |
+| deployment.securityContext    | aissemble-localstack-chart.localstack.securityContext    |                                                                                                                                                               |
+| deployment.serviceAccountName | aissemble-localstack-chart.localstack.serviceAccountName |                                                                                                                                                               |
+| hostname                      | aissemble-localstack-chart.localstack.fullnameOverride   |                                                                                                                                                               |
+| image.dockerRepo              | aissemble-localstack-chart.localstack.image.repository   | Merged with `image.name` into a shared property                                                                                                               |
+| image.imagePullPolicy         | aissemble-localstack-chart.localstack.image.pullPolicy   |                                                                                                                                                               |
+| image.name                    | aissemble-localstack-chart.localstack.image.repository   |                                                                                                                                                               |
+| image.tag                     | aissemble-localstack-chart.localstack.image.tag          |                                                                                                                                                               |
+| replicaCount                  | aissemble-localstack-chart.localstack.replicaCount       | This property was generated into v1 values, however it was not being used. It is now available in the v2 chart, and is used to set the replica count properly |
 | service.spec.ports            | See Note below                                     |                                                                                                                                                               |
-| service.spec.type             | aissemble-localstack.localstack.service.type       |                                                                                                                                                               |
+| service.spec.type             | aissemble-localstack-chart.localstack.service.type       |                                                                                                                                                               |
 
 *Note*
 The localstack chart does not use a range of port definitions, it instead creates only one by default, the properties of
-which are defined by aissemble-localstack.localstack.service.edgeService.[name | targetPort].
+which are defined by aissemble-localstack-chart.localstack.service.edgeService.[name | targetPort].
 There is a new pair of properties named service.externalServicePorts.start and service.externalServicePorts.end that can
 allow you to define a range of ports instead.
 

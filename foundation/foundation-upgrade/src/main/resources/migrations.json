@@ -64,5 +64,17 @@
         "excludes": ["*-docker/*/target/Dockerfile"]
       }
     ]
+  },
+  {
+    "name": "upgrade-helm-chart-files-names-migration",
+    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsNameMigration",
+    "fileSets": [
+      {
+        "includes": [
+          "*-deploy/src/main/resources/apps/*/Chart.yaml",
+          "*-deploy/src/main/resources/apps/*/values*.yaml"
+        ]
+      }
+    ]
   }
 ]

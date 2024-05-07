@@ -9,7 +9,7 @@ helm install elasticsearch ghcr.io/boozallen/aissemble-elasticsearch-chart --ver
 **Note**: *the version should match the aiSSEMBLE project version.*
 
 # aiSSEMBLE Custom Properties
-The following properties are unique to the aissemble-elasticsearch chart and extend the functionality of the base ECK chart.
+The following properties are unique to the `aissemble-elasticsearch-chart` chart and extend the functionality of the base ECK chart.
 | Property                   | Description                          | Required Override | Default    |
 |----------------------------|--------------------------------------|-------------------|------------|
 | basicAuth.enabled          | Enable basic http auth               | No                | true       |

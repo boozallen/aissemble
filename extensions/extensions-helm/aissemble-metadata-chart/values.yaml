@@ -1,6 +1,6 @@
 # Default values for metadata
 app:
-  # Sets labels for app.kubernetes.io/name Default is Chart.name (aissemble-metadata)
+  # Sets labels for app.kubernetes.io/name Default is Chart.name (aissemble-metadata-chart)
   name: ''
   # Sets the labels for app.kubernetes.io/version. Default is Chart.appVersion
   version: ''

@@ -32,7 +32,7 @@ What follows reflects properties in the base spark-operator chart which have bee
 you must reference the root chart in your `values.yaml` file.  For example:
 
 ```yaml
-aissemble-spark-operator:
+aissemble-spark-operator-chart:
   spark-operator:
     webhook.enable: false
 ```
@@ -50,11 +50,11 @@ aissemble-spark-operator:
 
 
 ## Migrated Properties
-The following properties have been migrated from the `spark-operator` subchart to the `aissemble-spark-operator` chart.
+The following properties have been migrated from the `spark-operator` subchart to the `aissemble-spark-operator-chart` chart.
 Any required overrides should be cognisant of the alternate path.  For example:
 
 ```yaml
-aissemble-spark-operator:
+aissemble-spark-operator-chart:
   rbac:
     createClusterRole: false
 ```
@@ -78,7 +78,7 @@ To disable the shared Ivy cache, set the `ivyCache.enabled` property to `false` 
 Spark Operator to remove the Ivy cache PersistentVolumeClaim.  For example:
 
 ```yaml
-aissemble-spark-operator:
+aissemble-spark-operator-chart:
   ivyCache:
     enabled: false
   spark-operator:

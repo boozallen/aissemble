@@ -31,7 +31,7 @@ helm install fastapi ghcr.io/boozallen/aissemble-fastapi-chart --version <AISSEM
 | service.type                  | The service type                            | No                | ClusterIP                                                                   |
 
 # Developing with aissemble-fastapi
-When leveraging deployments that utilize the aissemble-fastapi Helm charts as a dependency, it may be necessary to manually modify the deployment's Dockerfile of the downstream project so that the python file defining the FastAPI business logic is copied into the Docker container. For example:
+When leveraging deployments that utilize the `aissemble-fastapi-chart` Helm charts as a dependency, it may be necessary to manually modify the deployment's Dockerfile of the downstream project so that the python file defining the FastAPI business logic is copied into the Docker container. For example:
 
 ```Docker
 COPY ./target/scripts/main.py /app/main.py

@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 app:
-  # Sets labels for app.kubernetes.io/name Default is Chart.name (aissemble-hive-metastore-db)
+  # Sets labels for app.kubernetes.io/name Default is Chart.name (aissemble-hive-metastore-db-chart)
   name: ''
   # Sets the labels for app.kubernetes.io/version. Default is Chart.appVersion
   version: ''

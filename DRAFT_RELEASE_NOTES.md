@@ -1,8 +1,9 @@
 # Major Additions
 
 * Python modules were renamed to reflect aiSSEMBLE. These include the following. 
+
 | Old Python Module                       | New Python Module                                 |
-| --------------------------------------- | ------------------------------------------------- |
+| --------------------------------------- |---------------------------------------------------|
 | foundation-core-python                  | aissemble-core-python                             |
 | foundation-model-training-api           | aissemble-foundation-model-training-api           |
 | foundation-versioning-service           | aissemble-foundation-versioning-service           |
@@ -15,7 +16,7 @@
 | foundation-transform-core-python        | aissemble-Foundation-transform-core-python        |
 | extensions-model-training-api-sagemaker | aissemble-extensions-model-training-api-sagemaker |
 | extensions-data-delivery-spark-py       | aissemble-extensions-data-delivery-spark-py       |
-| extensions-encryption-valut-python      | aissemble-extensions-encryption-valut-python      |
+| extensions-encryption-valut-python      | aissemble-extensions-encryption-vault-python      |
 | extensions-transform-spark-python       | aissemble-extensions-transform-spark-python       |
 | test-data-delivery-pyspark-model        | aissemble-test-data-delivery-pyspark-model        |
 | test-data-delivery-pyspark-model-basic  | aissemble-test-data-delivery-pyspark-model-basic  |
@@ -24,6 +25,34 @@
 | machine-learning-training-base          | aissemble-machine-learning-training-base          |
 | machine-learning-sagemaker-training     | aissemble-machine-learning-sagemaker-training     |
 
+* Helm Charts and their relevant modules have been renamed to the following:
+
+| Old Module Name                         | New Helm Chart and Module Name          |
+|-----------------------------------------|-----------------------------------------|
+| extensions-helm-airflow                 | aissemble-airflow-chart                 |
+| extensions-helm-data-access             | aissemble-data-access-chart             |
+| extensions-helm-elasticsearch           | aissemble-elasticsearch-chart           |
+| extensions-helm-elasticsearch-operator  | aissemble-elasticsearch-operator-chart  |
+| extensions-helm-fastapi                 | aissemble-fastapi-chart                 |
+| extensions-helm-hive-metastore-db       | aissemble-hive-metastore-db-chart       |
+| extensions-helm-hive-metastore-service  | aissemble-hive-metastore-service-chart  |
+| extensions-helm-inference               | aissemble-inference-chart               |
+| extensions-helm-jenkins                 | aissemble-jenkins-chart                 |
+| extensions-helm-kafka                   | aissemble-kafka-chart                   |
+| extensions-helm-keycloak                | aissemble-keycloak-chart                |
+| extensions-helm-lineage-http-consumer   | aissemble-lineage-http-consumer-chart   |
+| extensions-helm-localstack              | aissemble-localstack-chart              |
+| extensions-helm-metadata                | aissemble-metadata-chart                |
+| extensions-helm-mlflow                  | aissemble-mlflow-chart                  |
+| extensions-helm-pipeline-invocation     | aissemble-pipeline-invocation-chart     |
+| extensions-helm-pipeline-invocation-lib | aissemble-pipeline-invocation-lib-chart |
+| extensions-helm-policy-decision-point   | aissemble-policy-decision-point-chart   |
+| extensions-helm-quarkus                 | aissemble-quarkus-chart                 |
+| extensions-helm-sealed-secrets          | aissemble-sealed-secrets-chart          |
+| extensions-helm-spark-application       | aissemble-spark-application-chart       |
+| extensions-helm-spark-operator          | aissemble-spark-operator-chart          |
+| extensions-helm-vault                   | aissemble-vault-chart                   |
+| extensions-helm-versioning              | aissemble-versioning-chart              |
 
 ## OpenLineage Namespace Conventions
 Conventions for setting namespaces when leveraging `Data Lineage` has been updated to better follow [OpenLineage's guidelines](https://openlineage.io/docs/spec/naming/). Moving forward, namespaces should be defined in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. This is a departure from the old pattern of one single namespace property (`data.lineage.namespace`) being leveraged for an entire project. Refer to the [GitHub docs](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration) for updated guidance. Usage of the `data.lineage.namespace` property in a project's `data-lineage.properties` file will be supported as a fallback but should not be used in practice.
@@ -68,13 +97,14 @@ The following steps will upgrade your project to 1.7. These instructions consist
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                     | Description                                                                                                                                                                |
-| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| upgrade-tiltfile-aissemble-version-migration       | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                               |
-| upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
-| upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE       |
-| upgrade-mlflow-v2-external-s3-migration            | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                          |
-| upgrade-foundation-extension-python-package-migration                              | Updates the pyproject.toml files within your projects pipelines folder (<YOUR_PROJECT>-pipelines) to use the updated aiSSEMBLE foundation and extension Python packages with the latest naming convention |                                                                                       |
+| Migration Name                                     | Description                                                                                                                                                                                              |
+| -------------------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| upgrade-tiltfile-aissemble-version-migration       | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                                             |
+| upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                               |
+| upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                     |
+| upgrade-mlflow-v2-external-s3-migration            | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                                                        |
+| upgrade-foundation-extension-python-package-migration                              | Updates the pyproject.toml files within your projects pipelines folder (<YOUR_PROJECT>-pipelines) to use the updated aiSSEMBLE foundation and extension Python packages with the latest naming convention | 
+|upgrade-helm-chart-files-names-migration       | Updates the Chart.yaml and values*.yaml files within your project's deploy folder (<YOUR_PROJECT>-deploy) to use the new Helm chart naming convention (aissemble-<chart-name>-chart)                     |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

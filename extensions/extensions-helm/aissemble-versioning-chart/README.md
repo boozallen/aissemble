@@ -29,4 +29,4 @@ helm install versioning ghcr.io/boozallen/aissemble-versioning-chart --version <
 | service.spec.ports            | The service spec ports                      | No                | - name: http <br/>&emsp;&emsp;port: 8080 <br/>&emsp; targetPort: 80         |
 | service.type                  | The service type                            | No                | ClusterIP                                                                   |
 
-All properties must be prefixed with the key `aissemble-fastapi-chart` to override any values in the chart. See [helm documentation](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#overriding-values-from-a-parent-chart) for more info.
+All properties must be prefixed with the key `aissemble-versioning-chart` to override any values in the chart. See [helm documentation](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#overriding-values-from-a-parent-chart) for more info.
