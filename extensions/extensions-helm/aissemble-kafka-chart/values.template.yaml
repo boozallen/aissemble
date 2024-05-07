@@ -2,6 +2,10 @@
 ## CONFIG | Kafka Configs
 ########################################
 kafka:
+  image:
+    registry: ghcr.io
+    repository: boozallen/aissemble-kafka
+    tag: "@version.aissemble@"
   fullnameOverride: kafka-cluster
   # Container Ports Configuration
   containerPorts:
