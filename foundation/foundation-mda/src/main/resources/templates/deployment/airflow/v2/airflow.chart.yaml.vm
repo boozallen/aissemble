@@ -31,5 +31,5 @@ appVersion: "1.0.0"
 dependencies:
   - name: aissemble-airflow-chart
     version: ${versionTag}
-    repository: oci://ghcr.io/boozallen/
+    repository: oci://ghcr.io/boozallen
 
