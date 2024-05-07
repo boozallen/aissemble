@@ -16,7 +16,7 @@ pydantic = ">=1.8.0,<2.0.0"
 kubernetes = ">=26.1.0"
 urllib3 = "^1.26.18"
 krausening = ">=19"
-sagemaker = ">2.173.0, <=2.182.0"
+sagemaker = ">=2.218.0"
 mlflow = "^2.3.1"
 
 [tool.poetry.group.dev.dependencies]
