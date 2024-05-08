@@ -32,7 +32,6 @@
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.2.0</version.help.plugin>
         <version.krausening>19</version.krausening>
-        <version.license.plugin>2.4.0</version.license.plugin>
         <version.plexus.archiver>3.6.0</version.plexus.archiver>
         <version.plugin.plugin>3.9.0</version.plugin.plugin>
         <version.quarkus>2.8.3.Final</version.quarkus>
@@ -880,7 +879,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>${version.license.plugin}</version>
             </plugin>
 
             <!-- Set properties containing the scm revision -->

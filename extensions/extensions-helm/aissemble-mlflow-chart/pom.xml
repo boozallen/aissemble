@@ -15,31 +15,9 @@
 
     <build>
         <plugins>
-            <!-- The mlflow subchart defaults to setting the image tag to bitnami's image tag.  -->
-            <!-- We use a template here to ease release maintenance.  -->
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <basedir>${project.basedir}</basedir>
-                    <file>values.template.yaml</file>
-                    <outputFile>values.yaml</outputFile>
-                    <replacements>
-                        <replacement>
-                            <token>@version.aissemble@</token>
-                            <value>${project.version}</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>${group.helm.plugin}</groupId>
