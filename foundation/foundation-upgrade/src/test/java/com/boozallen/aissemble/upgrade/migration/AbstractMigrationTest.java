@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 
 public class AbstractMigrationTest {
     protected File testFile;
+
     protected boolean shouldExecute;
     protected boolean successful;
 

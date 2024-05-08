@@ -1,6 +1,6 @@
 [
   {
-    "group": "v1-7-0-migrations", 
+    "group": "v1-7-0-migrations",
     "type": "ordered",
     "migrations": [
       {
@@ -66,11 +66,20 @@
             ]
           }
         ]
+      },
+      {
+        "name": "data-lineage-package-import-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.DataLineageAiopsReferencesMigration",
+        "fileSets": [
+          {
+            "includes": ["src/**/*.java"]
+          }
+        ]
       }
     ]
   },
   {
-    "group": "general-migrations", 
+    "group": "general-migrations",
     "type": "ordered",
     "migrations": [
       {

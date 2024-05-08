@@ -113,7 +113,7 @@ my_run = Run(uuid4(), facets={})
 ```
 
 ```java
-import com.boozallen.aiops.data.lineage.Run;
+import com.boozallen.aissemble.data.lineage.Run;
 
 Run olRun = run.getOpenLineageRun();
 ```
@@ -130,7 +130,7 @@ my_job = Job("my_job", facets={})
 ```
 
 ```java
-import com.boozallen.aiops.data.lineage.Job;
+import com.boozallen.aissemble.data.lineage.Job;
 
 Run olJob = run.getOpenLineageJob();
 ```

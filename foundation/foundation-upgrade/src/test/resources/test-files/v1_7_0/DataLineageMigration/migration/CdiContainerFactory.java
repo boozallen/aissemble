@@ -1,4 +1,14 @@
-package ${basePackage}.cdi;
+package com.boozallen.cdi;
+
+/*-
+ * #%L
+ * datalineagev160::Pipelines::Example Data Lineage
+ * %%
+ * Copyright (C) 2021 Booz Allen
+ * %%
+ * This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+ * #L%
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,19 +18,15 @@ import org.jboss.weld.environment.se.WeldContainer;
 
 import com.boozallen.aiops.core.cdi.CdiContainer;
 import com.boozallen.aiops.core.cdi.CdiContext;
-#if ($pipeline.isAlertingSupportNeeded())
 import com.boozallen.aissemble.alerting.core.cdi.AlertingCdiContext;
-#end
-#if ($pipeline.getDataLineage())
-import com.boozallen.aissemble.data.lineage.cdi.DataLineageCdiSelector;
-#end
+import com.boozallen.aiops.data.lineage.cdi.DataLineageCdiSelector;
 
 /**
  * Factory that creates the proper CDI Context for this series of pipelines.
  *
  * Please **DO** modify with your customizations, as appropriate.
  *
- * Originally generated from: ${templateName}
+ * Originally generated from: templates/cdi.container.factory.java.vm
  */
 public final class CdiContainerFactory {
 
@@ -57,12 +63,8 @@ public final class CdiContainerFactory {
     protected static List<CdiContext> getContexts() {
         List<CdiContext> contexts = new ArrayList<>();
         contexts.add(new PipelinesCdiContext());
-        #if ($pipeline.isAlertingSupportNeeded())
-            contexts.add(new AlertingCdiContext());
-        #end
-        #if ($pipeline.getDataLineage())
-            contexts.add(DataLineageCdiSelector.getDataLineageCdiContext());
-        #end
+        contexts.add(new AlertingCdiContext());
+        contexts.add(DataLineageCdiSelector.getDataLineageCdiContext());
 
         return contexts;
     }

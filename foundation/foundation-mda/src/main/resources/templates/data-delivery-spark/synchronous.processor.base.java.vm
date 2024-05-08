@@ -58,8 +58,8 @@ import java.util.UUID;
 import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
 
-import com.boozallen.aiops.data.lineage.util.LineageUtil.LineageEventData;
-import static com.boozallen.aiops.data.lineage.util.LineageUtil.recordLineage;
+import com.boozallen.aissemble.data.lineage.util.LineageUtil.LineageEventData;
+import static com.boozallen.aissemble.data.lineage.util.LineageUtil.recordLineage;
 import io.openlineage.client.OpenLineage.ParentRunFacet;
 #end
 import com.boozallen.aiops.security.client.PolicyDecisionPointClient;

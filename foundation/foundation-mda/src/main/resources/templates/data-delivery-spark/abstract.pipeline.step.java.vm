@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 import java.util.Map;
 #if ($pipeline.getDataLineage())
-import com.boozallen.aiops.data.lineage.Job;
-import com.boozallen.aiops.data.lineage.Run;
-import com.boozallen.aiops.data.lineage.RunEvent;
-import com.boozallen.aiops.data.lineage.util.LineageUtil;
-import com.boozallen.aiops.data.lineage.util.LineageUtil.LineageEventData;
+import com.boozallen.aissemble.data.lineage.Job;
+import com.boozallen.aissemble.data.lineage.Run;
+import com.boozallen.aissemble.data.lineage.RunEvent;
+import com.boozallen.aissemble.data.lineage.util.LineageUtil;
+import com.boozallen.aissemble.data.lineage.util.LineageUtil.LineageEventData;
 import io.openlineage.client.OpenLineage.ParentRunFacet;
 #end
 

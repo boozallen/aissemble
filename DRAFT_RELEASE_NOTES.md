@@ -100,6 +100,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-helm-chart-files-names-migration              | Updates the Chart.yaml and values*.yaml files within your project's deploy folder (<YOUR_PROJECT>-deploy) to use the new Helm chart naming convention (aissemble-\<chart-name\>-chart)                    |
 | upgrade-dockerfile-pip-install-migration              | Updates dockerfiles such that python dependency installations fail during the build, rather than at runtime                                                                                               |
 | enable-habushu-build-cache-migration                  | Updates the `pom.xml` file for any Habushu-managed modules to ensure that the build directory is specified.                                                                                               |
+| data-lineage-package-import-migration                 | Updates the package imports for all java files that are referencing `com.boozallen.aissemble.data.lineage`.     
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

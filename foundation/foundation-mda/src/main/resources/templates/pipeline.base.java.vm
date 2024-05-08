@@ -3,17 +3,21 @@ package ${basePackage}.pipeline;
 #if ($pipeline.getDataLineage())
 import java.util.UUID;
 import java.net.URI;
-import com.boozallen.aiops.data.lineage.config.ConfigUtil;
-import com.boozallen.aiops.data.lineage.util.LineageUtil;
+import com.boozallen.aissemble.data.lineage.config.ConfigUtil;
+import com.boozallen.aissemble.data.lineage.util.LineageUtil;
 import io.openlineage.client.OpenLineage;
 #end
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
- * Perform pipeline level process for ${pipeline.capitalizedName}
+  * Perform pipeline level process for ${pipeline.capitalizedName}
+  *
+  * GENERATED CODE - DO NOT MODIFY (add your customizations in ${step.capitalizedName}).
+  *
+  * Generated from: ${templateName}
  */
+
 public class PipelineBase {
     private static final Logger logger = LoggerFactory.getLogger(PipelineBase.class);
     private static PipelineBase instance;
