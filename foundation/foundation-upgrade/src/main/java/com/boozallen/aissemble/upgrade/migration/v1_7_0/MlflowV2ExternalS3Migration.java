@@ -12,6 +12,7 @@ package com.boozallen.aissemble.upgrade.migration.v1_7_0;
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
 import com.boozallen.aissemble.upgrade.pojo.Chart;
 import com.boozallen.aissemble.upgrade.pojo.MlflowValues;
+import com.boozallen.aissemble.upgrade.pojo.MlflowValues.Mlflow;
 import com.boozallen.aissemble.upgrade.pojo.Chart.Dependency;
 import com.boozallen.aissemble.upgrade.util.FileUtils;
 import com.boozallen.aissemble.upgrade.util.YamlUtils;
@@ -122,12 +123,11 @@ public class MlflowV2ExternalS3Migration extends AbstractAissembleMigration {
 
         LinkedList<String> linesToAddValuesDev = new LinkedList<String>(Arrays.asList(
             "externalS3:",
-            "existingSecret: \"\"",
             "host: \"s3-local\"",
             "port: 4566",
-            "accessKeyID: \"123\"",
-            "accessKeySecret: \"456\"",
-            "protocol: http"
+            "protocol: http",
+            "existingSecretAccessKeyIDKey: \"AWS_ACCESS_KEY_ID\"",
+            "existingSecretKeySecretKey: \"AWS_SECRET_ACCESS_KEY\""
         ));
 
         return migrateValuesFile(this.valuesFile, this.valuesObject, linesToAddValues) 
@@ -146,8 +146,8 @@ public class MlflowV2ExternalS3Migration extends AbstractAissembleMigration {
         logger.info("Migrating file: {}", file.getAbsolutePath());
         List<String> newFileContents = new ArrayList<>();
         List<String> originalFile;
-		try {
-			originalFile = FileUtils.readAllFileLines(file);
+        try {
+            originalFile = FileUtils.readAllFileLines(file);
             logger.debug("Read in {} lines", originalFile.size());
 
             int tabSize;
@@ -159,7 +159,8 @@ public class MlflowV2ExternalS3Migration extends AbstractAissembleMigration {
                 newFileContents.add("aissemble-mlflow:");
                 newFileContents.add(SPACE.repeat(tabSize) + "mlflow:");
 
-                indentValues(linesToAdd, tabSize);
+                FileUtils.indentValues(linesToAdd.subList(0, 1), tabSize * 2);
+                FileUtils.indentValues(linesToAdd.subList(1, linesToAdd.size()), tabSize * 3);
                 newFileContents.addAll(linesToAdd);
             }
             else {
@@ -184,7 +185,8 @@ public class MlflowV2ExternalS3Migration extends AbstractAissembleMigration {
                         // (leading space on current line) - (leading space on previous line)
                         tabSize = (line.length() - line.stripLeading().length()) - 
                                     (lineBeingAppended.length() - lineBeingAppended.stripLeading().length());
-                        indentValues(linesToAdd, tabSize);
+                        FileUtils.indentValues(linesToAdd.subList(0, 1), tabSize * 2);
+                        FileUtils.indentValues(linesToAdd.subList(1, linesToAdd.size()), tabSize * 3);
 
                         if (addMlFlowHeader) {
                             linesToAdd.addFirst(SPACE.repeat(tabSize) + "mlflow:");
@@ -210,16 +212,5 @@ public class MlflowV2ExternalS3Migration extends AbstractAissembleMigration {
 			logger.error("Unable to overwrite file at " + file.getAbsolutePath(), e);
 		}
         return false;
-    }
-
-    private void indentValues(LinkedList<String> values, int tabSize) {
-        for (int i = 0; i < values.size(); i++) {
-            // indent the first header values 2 tabs and the nested elements 3 tabs
-            if (i < 1) {
-                values.set(i, SPACE.repeat(tabSize * 2) + values.get(i));
-            } else {
-                values.set(i, SPACE.repeat(tabSize * 3) + values.get(i));
-            }
-        }
     }
 }

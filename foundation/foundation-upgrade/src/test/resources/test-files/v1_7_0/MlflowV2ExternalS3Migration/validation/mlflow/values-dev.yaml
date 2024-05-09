@@ -6,10 +6,9 @@
 aissemble-mlflow:
   mlflow:
     externalS3:
-      existingSecret: ""
       host: "s3-local"
       port: 4566
-      accessKeyID: "123"
-      accessKeySecret: "456"
       protocol: http
+      existingSecretAccessKeyIDKey: "AWS_ACCESS_KEY_ID"
+      existingSecretKeySecretKey: "AWS_SECRET_ACCESS_KEY"
   test: value

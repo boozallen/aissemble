@@ -1,78 +1,102 @@
 [
   {
-    "name": "upgrade-tiltfile-aissemble-version-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.TiltfileMigration",
-    "fileSets": [
+    "group": "v1-7-0-migrations", 
+    "type": "ordered",
+    "migrations": [
       {
-        "includes": ["Tiltfile"]
-      }
-    ]
-  },
-  {
-    "name": "upgrade-v2-chart-files-aissemble-version-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV2Migration",
-    "fileSets": [
+        "name": "upgrade-foundation-extension-python-package-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.FoundationExtensionPythonPackageMigration",
+        "fileSets": [
+          {
+            "includes": ["*-pipelines/**/pyproject.toml"]
+          }
+        ]
+      },
       {
-        "includes": ["**/apps/**/Chart.yaml"]
-      }
-    ]
-  },
-  {
-    "name": "upgrade-foundation-extension-python-package-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.FoundationExtensionPythonPackageMigration",
-    "fileSets": [
+        "name": "upgrade-mlflow-v2-external-s3-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.MlflowV2ExternalS3Migration",
+        "fileSets": [
+          {
+            "includes": ["*-deploy/src/main/resources/apps/*/Chart.yaml"],
+            "excludes": ["**/target/**/Chart.yaml"]
+          }
+        ]
+      },
       {
-        "includes": ["*-pipelines/**/pyproject.toml"]
-      }
-    ]
-  },
-  {
-    "name": "upgrade-v1-chart-files-aissemble-version-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV1Migration",
-    "fileSets": [
+        "name": "upgrade-spark-application-base-values-s3-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.SparkApplicationBaseValuesS3Migration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-pipelines/*/src/*/resources/apps/*-base-values.yaml",
+              "*-pipelines/*/src/main/resources/apps/*-base-values.yaml"
+            ]
+          }
+        ]
+      },
       {
-        "includes": [
-          "**/spark-operator/values.yaml",
-          "**/spark-infrastructure/values.yaml",
-          "**/jenkins/values.yaml",
-          "**/kafka-cluster/values.yaml",
-          "**/hive-metastore-db/values.yaml",
-          "**/hive-metastore-service/values.yaml",
-          "**/metadata/values.yaml",
-          "**/model-training-api/values.yaml",
-          "**/pipeline-invocation-service/values.yaml"
+        "name": "upgrade-docker-pip-install-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.DockerPipInstallMigration",
+        "fileSets": [
+          {
+            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
+            "excludes": ["*-docker/*/target/Dockerfile"]
+          }
+        ]
+      },
+      {
+        "name": "upgrade-helm-chart-files-names-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsNameMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/src/main/resources/apps/*/Chart.yaml",
+              "*-deploy/src/main/resources/apps/*/values*.yaml"
+            ]
+          }
         ]
       }
     ]
   },
   {
-    "name": "upgrade-mlflow-v2-external-s3-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.MlflowV2ExternalS3Migration",
-    "fileSets": [
+    "group": "general-migrations", 
+    "type": "ordered",
+    "migrations": [
       {
-        "includes": ["*-deploy/src/main/resources/apps/*/Chart.yaml"],
-        "excludes": ["**/target/**/Chart.yaml"]
-      }
-    ]
-  },
-  {
-    "name": "upgrade-docker-pip-install-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.DockerPipInstallMigration",
-    "fileSets": [
+        "name": "upgrade-tiltfile-aissemble-version-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.TiltfileMigration",
+        "fileSets": [
+          {
+            "includes": ["Tiltfile"]
+          }
+        ]
+      },
       {
-        "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
-        "excludes": ["*-docker/*/target/Dockerfile"]
-      }
-    ]
-  },
-  {
-    "name": "upgrade-helm-chart-files-names-migration",
-    "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsNameMigration",
-    "fileSets": [
+        "name": "upgrade-v2-chart-files-aissemble-version-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV2Migration",
+        "fileSets": [
+          {
+            "includes": ["**/apps/**/Chart.yaml"]
+          }
+        ]
+      },
       {
-        "includes": [
-          "*-deploy/src/main/resources/apps/*/Chart.yaml",
-          "*-deploy/src/main/resources/apps/*/values*.yaml"
+        "name": "upgrade-v1-chart-files-aissemble-version-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.HelmChartsV1Migration",
+        "fileSets": [
+          {
+            "includes": [
+              "**/spark-operator/values.yaml",
+              "**/spark-infrastructure/values.yaml",
+              "**/jenkins/values.yaml",
+              "**/kafka-cluster/values.yaml",
+              "**/hive-metastore-db/values.yaml",
+              "**/hive-metastore-service/values.yaml",
+              "**/metadata/values.yaml",
+              "**/model-training-api/values.yaml",
+              "**/pipeline-invocation-service/values.yaml"
+            ]
+          }
         ]
       }
     ]

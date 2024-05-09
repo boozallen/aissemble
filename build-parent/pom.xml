@@ -69,7 +69,7 @@
         <version.hadoop>3.3.4</version.hadoop>
         <version.neo4j>4.1.5_for_spark_3</version.neo4j>
         <version.aws.sdk.bundle>1.12.262</version.aws.sdk.bundle>
-        <version.baton>0.2.0</version.baton>
+        <version.baton>1.0.0</version.baton>
 
         <!-- ***************** -->
         <!-- Repository Deployment URLs - mostly in aissemble-root -->

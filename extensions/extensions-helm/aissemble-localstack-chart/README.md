@@ -25,6 +25,7 @@ https://github.com/localstack/helm-charts/tree/main/charts/localstack
 |----------------------|-----------------------------------------------------------------------------------------------------|-------------------|--------------------------------------------------------------------------|
 | fullnameOverride     | String to fully override common.names.fullname                                                      | No                | s3-local                                                                 |
 | startServices        | Comma-separated list of AWS CLI service names which should be loaded right when starting LocalStack | No                | s3                                                                       |
+| service.type         | Kubernetes Service type                                                                             | No                | LoadBalancer                                                             |
 | enableStartupScripts | Enables execution of startup behaviors                                                              | No                | true                                                                     |
 | startupScriptContent | Base script for triggering creation of localstack resources                                         | No                | Triggers creation of s3 buckets/keys                                     |
 | volumes              | Creates required volumes                                                                            | No                | configMap `localstack-resources` -> `create-s3-resources.sh`             |
@@ -34,9 +35,11 @@ https://github.com/localstack/helm-charts/tree/main/charts/localstack
 
 The following properties are provided by the `aissemble-localstack-chart` chart
 
-| Property | Description                                    | Required Override | Default |
-|----------|------------------------------------------------|-------------------|---------|
-| buckets  | Collection of buckets and keys to create in s3 | No                | []      |
+| Property                 | Description                                         | Required Override | Default            |
+|--------------------------|-----------------------------------------------------|-------------------|--------------------|
+| buckets                  | Collection of buckets and keys to create in s3      | No                | []                 |
+| credentialSecret.enabled | Whether to use a secret to store the S3 credentials | No                | true               |
+| credentialSecret.name    | Name of the credential secret                       | No                | remote-auth-config |
 
 # Migration From v1 Structure
 
