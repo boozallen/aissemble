@@ -3,14 +3,16 @@
 = Configuring Maven
 
 == Install/Configure Maven
-To use the current version {page-version}, install Maven 3.9.x. For additional information on installing and/or updating Maven, please see the https://maven.apache.org/install.html[official Maven website,role=external,window=_blank].
+To use the current version {page-version}, install Maven 3.9.x. For additional information on installing and/or updating
+Maven, please see the https://maven.apache.org/install.html[official Maven website,role=external,window=_blank].
 
-Once the latest version of Maven is installed on your machine, follow the steps below to configure it for working with Solution Baseline artifacts.
+Once the latest version of Maven is installed on your machine, follow the steps below to configure it for
+working with Solution Baseline artifacts.
 
 === Private Maven Repository Configuration (OPTIONAL)
 The Maven `settings.xml` contains common configuration values you will use across all your Maven projects, often
 representing localized configurations.  This file is the best way to configure access to a remote Maven repository
-(https://maven.apache.org/settings.html)[see for more information the settings page of the official Maven
+https://maven.apache.org/settings.html[see for more information the settings page of the official Maven
 website,role=external,window=_blank].
 
 1.  Create a `settings.xml` file in the `.m2` directory within your user directory.

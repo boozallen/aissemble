@@ -181,7 +181,7 @@
             </snapshots>
             <id>ossrh</id>
             <name>oss.sonatype.org-snapshots</name>
-            <url>${ossrh.repo.url}</url>
+            <url>${ossrh.repo.url}/snapshots</url>
         </pluginRepository>
         <pluginRepository>
             <releases>
@@ -193,7 +193,7 @@
             </snapshots>
             <id>s01.ossrh</id>
             <name>s01.oss.sonatype.org-snapshots</name>
-            <url>${s01.ossrh.repo.url}</url>
+            <url>${s01.ossrh.repo.url}/snapshots</url>
         </pluginRepository>
     </pluginRepositories>
     <profiles>

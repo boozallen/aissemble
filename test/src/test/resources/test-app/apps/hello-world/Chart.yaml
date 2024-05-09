@@ -28,4 +28,4 @@ appVersion: "1.0.0"
 dependencies:
   - name: aissemble-quarkus-chart
     version: 1.7.0-SNAPSHOT
-    repository: oci://ghcr.io/boozallen/
+    repository: oci://ghcr.io/boozallen
