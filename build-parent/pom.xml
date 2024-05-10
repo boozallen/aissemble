@@ -121,6 +121,7 @@
         <dockerImageVersion>${project.version}</dockerImageVersion>
 
         <!-- Helm chart repository -->
+        <aissemble.helm.repo.protocol>oci</aissemble.helm.repo.protocol>
         <aissemble.helm.repo>ghcr.io/boozallen</aissemble.helm.repo>
         <aissemble.helm.repo.name>ghcr.io</aissemble.helm.repo.name>
 

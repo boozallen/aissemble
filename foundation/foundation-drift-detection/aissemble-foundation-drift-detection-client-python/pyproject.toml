@@ -21,6 +21,7 @@ urllib3 = "^1.26.18"
 black = ">=22.1.0"
 behave = ">=1.2.6"
 kappa-maki = ">=1.0.1"
+pylint = "^3.1.0"
 
 
 [build-system]

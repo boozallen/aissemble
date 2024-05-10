@@ -13,9 +13,7 @@
                 <executable>helm</executable>
                 <arguments>
                     <argument>template</argument>
-                    <argument>aissemble-spark-application-chart</argument>
-                    <argument>--repo</argument>
-                    <argument>${aissemble.helm.repo}</argument>
+                    <argument>${aissemble.helm.repo.protocol}://${aissemble.helm.repo}/aissemble-spark-application-chart</argument>
                     <argument>--version</argument>
                     <argument>${version.aissemble}</argument>
                     <argument>--values</argument>
@@ -36,9 +34,7 @@
                 <executable>helm</executable>
                 <arguments>
                     <argument>template</argument>
-                    <argument>aissemble-spark-application-chart</argument>
-                    <argument>--repo</argument>
-                    <argument>${aissemble.helm.repo}</argument>
+                    <argument>${aissemble.helm.repo.protocol}://${aissemble.helm.repo}/aissemble-spark-application-chart</argument>
                     <argument>--version</argument>
                     <argument>${version.aissemble}</argument>
                     <argument>--values</argument>
@@ -59,9 +55,7 @@
                 <executable>helm</executable>
                 <arguments>
                     <argument>template</argument>
-                    <argument>aissemble-spark-application-chart</argument>
-                    <argument>--repo</argument>
-                    <argument>${aissemble.helm.repo}</argument>
+                    <argument>${aissemble.helm.repo.protocol}://${aissemble.helm.repo}/aissemble-spark-application-chart</argument>
                     <argument>--version</argument>
                     <argument>${version.aissemble}</argument>
                     <argument>--values</argument>

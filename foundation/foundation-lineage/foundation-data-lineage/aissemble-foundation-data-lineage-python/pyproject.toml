@@ -28,6 +28,7 @@ testcontainers = ">=3.4.0"
 callee = "0.3.1"
 confluent-kafka = { version = "2.1.1", optional = true }
 kappa-maki = ">=1.0.1"
+pylint = "^3.1.0"
 
 
 [build-system]

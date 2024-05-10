@@ -141,7 +141,7 @@
                         <!-- For OCI, we need push versus upload: -->
                         <skipUpload>true</skipUpload>
                         <overwriteLocalDependencies>${overwrite.dependencies}</overwriteLocalDependencies>
-                        <overwriteDependencyRepository>oci://${aissemble.helm.repo}</overwriteDependencyRepository>
+                        <overwriteDependencyRepository>${aissemble.helm.repo.protocol}://${aissemble.helm.repo}</overwriteDependencyRepository>
                         <overwriteDependencyVersion>${project.version}</overwriteDependencyVersion>
                         <uploadVerification>true</uploadVerification>
                         <uploadVerificationTimeout>120</uploadVerificationTimeout>
