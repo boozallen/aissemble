@@ -103,8 +103,10 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                               |
 | upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                     |
 | upgrade-mlflow-v2-external-s3-migration            | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                                                        |
+| upgrade-spark-application-s3-migration             | Update the pipeline SparkApplication(s) (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments |
 | upgrade-foundation-extension-python-package-migration                              | Updates the pyproject.toml files within your projects pipelines folder (<YOUR_PROJECT>-pipelines) to use the updated aiSSEMBLE foundation and extension Python packages with the latest naming convention | 
-|upgrade-helm-chart-files-names-migration       | Updates the Chart.yaml and values*.yaml files within your project's deploy folder (<YOUR_PROJECT>-deploy) to use the new Helm chart naming convention (aissemble-<chart-name>-chart)                     |
+|upgrade-helm-chart-files-names-migration            | Updates the Chart.yaml and values*.yaml files within your project's deploy folder (<YOUR_PROJECT>-deploy) to use the new Helm chart naming convention (aissemble-\<chart-name\>-chart)                     |
+| upgrade-dockerfile-pip-install-migration           | Updates dockerfiles such that python dependency installations fail during the build, rather than at runtime |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

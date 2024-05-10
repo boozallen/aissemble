@@ -33,22 +33,19 @@ public class MlflowValues implements AbstractYamlObject {
         public Boolean hasExternalS3() {
             return this.mlflow != null ? this.mlflow.hasExternalS3() : false;
         }
+    }
 
 
-        @Data
-        public static class Mlflow {
-            private ExternalS3 externalS3;
+    @Data
+    public static class Mlflow {
+        private ExternalS3 externalS3;
 
-            public Boolean hasExternalS3() {
-                return this.externalS3 != null ? this.externalS3.hasExternalS3() : false;
-            }
-
-            @Data
-            public static class ExternalS3 {
-                public Boolean hasExternalS3() {
-                    return true;
-                }
-            }
+        public Boolean hasExternalS3() {
+            return this.externalS3 != null ? true : false;
         }
+    }
+
+    @Data
+    public static class ExternalS3 {
     }
 }

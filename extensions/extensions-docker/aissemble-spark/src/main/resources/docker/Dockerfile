@@ -37,6 +37,9 @@ RUN apt-get update -y && apt-get install --assume-yes \
   && apt-get clean \
   && ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python
 
+# Pyspark uses `python3` to execute pyspark pipelines. This links out latest python install to that command.
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python3
+
 ## Add spark configurations
 COPY ./src/main/resources/conf/ ${SPARK_HOME}/conf/
 

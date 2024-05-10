@@ -175,4 +175,18 @@ public final class FileUtils {
         }
         return line.substring(0, i/level);
     }
+
+    /**
+     * Indent the values the desired number of tabs with a variable tab size.
+     * @param values List of {@link String} values to indent
+     * @param numSpaces number of spaces to indent
+     */
+    public static void indentValues(List<String> values, int numSpaces) {
+        String SPACE = " ";
+        for (int i = 0; i < values.size(); i++) {
+            if (!values.get(i).isBlank()) {
+                values.set(i, SPACE.repeat(numSpaces) + values.get(i));
+            }   
+        }
+    }
 }

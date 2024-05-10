@@ -1,6 +1,8 @@
 localstack:
   fullnameOverride: s3-local
   startServices: s3
+  service:
+    type: LoadBalancer
   enableStartupScripts: true
   startupScriptContent: |
     #!/bin/sh
@@ -18,3 +20,6 @@ localstack:
             path: create-s3-resources.sh
 
 buckets: []
+credentialSecret:
+  enabled: true
+  name: remote-auth-config
