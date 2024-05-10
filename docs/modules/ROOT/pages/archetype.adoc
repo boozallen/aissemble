@@ -81,6 +81,37 @@ General pattern: ``<internet domain name in reverse>.<your area name>``
 
 | Yes
 
+| ``licenseName``
+| The name of the license to use in the project
+| Defaults to Booz Allen's "closed-source-license" but can be updated to a
+https://github.com/boozallen/booz-allen-maven-licenses[Booz Allen license,role=external,window=_blank] or any license
+under mvn license:license-list
+|
+* booz-allen-public-license
+* agpl_v3
+
+| No
+
+| ``mavenRepositoryUrl``
+|  The URL of the Maven repository where the release artifacts of the project will be deployed.
+| Defaults to "https://release-PLACEHOLDER/repository/maven-releases" and can be updated in the `<properties>` section
+of the root `pom.xml`
+|
+* https://nexus.mydomain.com/repository/maven-releases/
+* https://artifactory.mydomain.com/artifactory/libs-release-local
+
+| No
+
+| ``mavenSnapshotRepositoryUrl``
+|  The URL of the Maven repository where the snapshot artifacts of the project will be deployed.
+| Defaults to "https://snapshot-PLACEHOLDER/repository/maven-snapshots" and can be updated in the `<properties>` section
+of the root `pom.xml`
+|
+* https://nexus.mydomain.com/repository/maven-snapshots/
+* https://artifactory.mydomain.com/artifactory/libs-snapshot-local
+
+| No
+
 | ``package``
 | The package name in which JVM-based source code will be placed
 | Defaults to your ``groupId`` value, which is almost always the right decision, so just select enter to accept this
@@ -92,17 +123,6 @@ default
 | General description of your project
 | Default to "Project that contains aiSSEMBLE compliant pipeline(s)"
 |
-| No
-
-| ``licenseName``
-| The name of the license to use in the project
-| Defaults to Booz Allen's "closed-source-license" but can be updated to a
-https://github.com/boozallen/booz-allen-maven-licenses[Booz Allen license,role=external,window=_blank] or any license
-under mvn license:license-list
-|
-* booz-allen-public-license
-* agpl_v3
-
 | No
 
 | ``projectGitUrl``
