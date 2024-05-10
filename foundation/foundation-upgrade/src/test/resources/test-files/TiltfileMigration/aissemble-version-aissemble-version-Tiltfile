@@ -70,7 +70,7 @@ yaml = helm(
 )
 k8s_yaml(yaml)
 
-yaml = local('helm template aissemble-spark-application --version %s --values pysparkdd-pipelines/py-spark-data-delivery/src/py_spark_data_delivery/resources/apps/py-spark-data-delivery-base-values.yaml,pysparkdd-pipelines/py-spark-data-delivery/src/py_spark_data_delivery/resources/apps/py-spark-data-delivery-dev-values.yaml --repo oci://ghcr.io/boozallen' % aissemble_version)
+yaml = local('helm template oci://ghcr.io/boozallen/aissemble-spark-application --version %s --values pysparkdd-pipelines/py-spark-data-delivery/src/py_spark_data_delivery/resources/apps/py-spark-data-delivery-base-values.yaml,pysparkdd-pipelines/py-spark-data-delivery/src/py_spark_data_delivery/resources/apps/py-spark-data-delivery-dev-values.yaml' % aissemble_version)
 k8s_yaml(yaml)
 k8s_resource('py-spark-data-delivery', port_forwards=[port_forward(4747, 4747, 'debug')], auto_init=False, trigger_mode=TRIGGER_MODE_MANUAL)
 yaml = helm(
