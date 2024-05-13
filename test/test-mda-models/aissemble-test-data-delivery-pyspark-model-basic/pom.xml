@@ -164,52 +164,18 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.sedona</groupId>
-            <artifactId>sedona-python-adapter-3.0_2.12</artifactId>
-            <!-- NB: clean up how sedona versions are pushed around in python -->
-            <version>1.2.0-incubating</version>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
+            <version>2.12.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.12</artifactId>
-            <!-- NB: clean up how spark versions are pushed around in python -->
-            <version>3.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-foundation-core-python</artifactId>
-            <version>${project.version}</version>
-            <type>habushu</type>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.2</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-foundation-pdp-client-python</artifactId>
-            <version>${project.version}</version>
-            <type>habushu</type>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-foundation-encryption-policy-python</artifactId>
-            <version>${project.version}</version>
-            <type>habushu</type>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-foundation-data-lineage-python</artifactId>
-            <version>${project.version}</version>
-            <type>habushu</type>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-extensions-encryption-vault-python</artifactId>
-            <version>${project.version}</version>
-            <type>habushu</type>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-extensions-data-delivery-spark-py</artifactId>
-            <version>${project.version}</version>
-            <type>habushu</type>
+            <artifactId>extensions-data-delivery-spark</artifactId>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>

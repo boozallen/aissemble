@@ -1,5 +1,15 @@
 # Major Additions
 
+## OpenLineage Namespace Conventions
+Conventions for setting namespaces when leveraging `Data Lineage` has been updated to better follow [OpenLineage's guidelines](https://openlineage.io/docs/spec/naming/). Moving forward, namespaces should be defined in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. This is a departure from the old pattern of one single namespace property (`data.lineage.namespace`) being leveraged for an entire project. Refer to the [GitHub docs](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration) for updated guidance. Usage of the `data.lineage.namespace` property in a project's `data-lineage.properties` file will be supported as a fallback but should not be used in practice.
+
+## Maven Build Cache
+The [Maven Build Cache](https://maven.apache.org/extensions/maven-build-cache-extension/) is now enabled by default for new projects.  Existing projects can reference [the generation template](https://github.com/boozallen/aissemble/tree/dev/foundation/foundation-archetype/src/main/resources/archetype-resources/.mvn) to enable this functionality in their own projects.
+
+## Kafka Docker Image
+The baseline Kafka Docker image has moved from using the _wurstmeister/kafka_ image (which was outdated and is no longer available) to using [Bitnami's Kafka image](https://hub.docker.com/r/bitnami/kafka) as its base.  If you are using the v2 Kafka chart managed by aiSSEMBLE, it will now pull the baseline Kafka image instead of directly using the Bitnami image. If you are still on the older v1 chart, it is already using the baseline image and will be the Bitnami flavor in 1.7.0. Kafka Connect support is still included in the baseline image.
+
+## Package Renaming
 * Python modules were renamed to reflect aiSSEMBLE. These include the following. 
 
 | Old Python Module                       | New Python Module                                 |
@@ -54,36 +64,13 @@
 | extensions-helm-vault                   | aissemble-vault-chart                   |
 | extensions-helm-versioning              | aissemble-versioning-chart              |
 
-## OpenLineage Namespace Conventions
-Conventions for setting namespaces when leveraging `Data Lineage` has been updated to better follow [OpenLineage's guidelines](https://openlineage.io/docs/spec/naming/). Moving forward, namespaces should be defined in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. This is a departure from the old pattern of one single namespace property (`data.lineage.namespace`) being leveraged for an entire project. Refer to the [GitHub docs](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration) for updated guidance. Usage of the `data.lineage.namespace` property in a project's `data-lineage.properties` file will be supported as a fallback but should not be used in practice.
-
-## Maven Build Cache
-The [Maven Build Cache](https://maven.apache.org/extensions/maven-build-cache-extension/) is now enabled by default for new projects.  Existing projects can reference [the generation template](https://github.com/boozallen/aissemble/tree/dev/foundation/foundation-archetype/src/main/resources/archetype-resources/.mvn) to enable this functionality in their own projects.
-
 # Breaking Changes
+_<A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section>_
 Note instructions for adapting to these changes are outlined in the upgrade instructions below.  
 * The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
   to be invalid
-* If you were using a private PyPI repository in a prior release, the upgrade instructions below contain a small change
-  that must be made to continue using that repository.
-
-## DataLineage and ModelLineage Event Changes
-To associate the pipeline step's lineage event with the pipeline's, we have created a pipeline level lineage event, and a way
-for each pipeline step's lineage event to be associated with the pipeline's lineage run event. 
-
-We have also made adjustments regarding customizing the lineage event so that we can customize the lineage event
-based on the event type. The below functions have been removed, and replaced by event type-specific functions:
-
-| Python Method Signature                                            | Java Method Signature                                    |
-| ------------------------------------------------------------------ | -------------------------------------------------------- |
-| create_run(self) → Run                                             | Run createRun()                                          |
-| create_job(self) → Job                                             | Job createJob()                                          |
-| create_run_event(self, run: Run, job: Job, status: str) → RunEvent | RunEvent createRunEvent(Run run, Job job, String status) |
-
-If you have overridden these functions in your project, please refer to below [Customize Lineage Event] section to make changes accordingly.
-
-The default producer value that will be generated into the data-lineage.properties file is now pulled from the scm url tag in the project's
-root pom.xml file.
+* The specification of private PyPI repositories has been changed from prior releases.
+* The Kafka home directory in the **aissemble-kafka** image has changed from _/opt/kafka_ to _/opt/bitnami/kafka_
 
 # Known Issues
 There are no known issues with the 1.7.0 release.
@@ -201,43 +188,54 @@ in this example - adjust for your project, as appropriate):
 
 ## Conditional Steps
 
+## Upgrade Steps for Projects Leveraging the aiSSEMBLE Kafka Image
+[REQUIRED]
+If you are leveraging the **aissemble-kafka** image and are adding custom files to the Kafka home directory either through a Docker build or a Helm configuration, you will need to change the location of these files from _/opt/kafka/<location>_ to _/opt/bitnami/kafka/<location>_.
+
 ### Upgrade Steps for Projects Leveraging Data Lineage
 
+#### DataLineage and ModelLineage Event Customization
+[REQUIRED]
+We have made adjustments regarding customizing the lineage event so that we can customize the lineage event based on the event type. If you have overridden any of the functions in the table below, they will need to be updated to their type-specific variants that are outlined in the _What Gets Generated_ section of the [Lineage documentation](https://boozallen.github.io/aissemble/aissemble/current/lineage-medatada-capture-overview.html#_what_gets_generated).
+
+| Python Method Signature                                            | Java Method Signature                                    |
+| ------------------------------------------------------------------ | -------------------------------------------------------- |
+| create_run(self) → Run                                             | Run createRun()                                          |
+| create_job(self) → Job                                             | Job createJob()                                          |
+| create_run_event(self, run: Run, job: Job, status: str) → RunEvent | RunEvent createRunEvent(Run run, Job job, String status) |
+
 #### Updated Namespace Conventions with Data Lineage
-In order to follow standards for defining namespaces for OpenLineage Jobs and Datasets, the following steps can be taken to leverage proper namespace conventions:
-1. [Optional] If you are already setting the `data.lineage.namespace` value in your `<project-name>-docker/<project-name>-spark-worker-docker/src/main/resources/krausening/base/data-lineage.properties` file, it is recommended that you follow the [configuration documentation]((https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration)) and set `data.lineage.<pipeline>.namespace` and `data.lineage.<pipeline>.<step>.namespace` instead, and remove `data.lineage.namespace` property.
-2. If you project does not have a `data-lineage.properties` file, one will be generated during your next build.
-3. If your pipeline leverages any lineage Datasets, you must define a namespace for each dataset, per the [GitHub docs guidance](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration):
+In order to follow standards for defining namespaces for OpenLineage Jobs and Datasets, the default behavior around namespace values has been changed.  The namespace values should be configured in the `data-lineage.properties` file. If your project does not already have this file, it will be automatically generated the next time you build. The following namespace configuration changes should be made.
+
+[REQUIRED]
+If your pipeline leverages any lineage Datasets, you must define a namespace for each dataset, per the configuration guidance in the [Lineage documentation](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration):
 ```text
 data.lineage.<dataset-name>.namespace=<dataset's-source-name>
 ```
-Note: An exception will be thrown if both the dataset's namespace and `data.lineage.namespace` are not configured.
+
+[OPTIONAL]
+If you are already setting the `data.lineage.namespace` value in your `<project-name>-docker/<project-name>-spark-worker-docker/src/main/resources/krausening/base/data-lineage.properties` file, it is recommended that you follow the [configuration documentation](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration) and set `data.lineage.<pipeline>.namespace` and `data.lineage.<pipeline>.<step>.namespace` instead.
 
 #### Associate Step Lineage Events to Pipeline
-The data lineage now supports pipeline level lineage run event, which provides the parent run facet for all the step level lineage events, and helps to preserve pipeline-step job hierarchy and to tie all the step level lineage events' job together.
+[OPTIONAL]
+The data lineage now supports pipeline level lineage run event, which provides the parent run facet for all the step level lineage events, and helps to preserve pipeline-step job hierarchy and to tie all the step level lineage events' job together. To leverage this functionality, modify the driver class of your pipeline to import `PipelineBase` and using this, record the start and end lineage events of the pipeline execution.
 
 ##### pyspark pipeline driver class
-* add PipelineBase import
-* add the `PipelineBase().record_pipeline_lineage_start_event()` before all the steps' executions
-* add the `PipelineBase().record_pipeline_lineage_complete_event()` after all the steps' executions
-```text
+```diff
   from krausening.logging import LogManager
 + from first_process.generated.pipeline.pipeline_base import PipelineBase
 
   if __name__ == "__main__":
       logger.info("STARTED: FirstProcess driver")
 +     PipelineBase().record_pipeline_lineage_start_event()
-      Ingest1().execute_step()
+      FirstStep().execute_step()
       ...
-      Ingest4().execute_step()
+      LastStep().execute_step()
 +     PipelineBase().record_pipeline_lineage_complete_event()
 ```
 
 ##### spark pipeline driver class
-* add PipelineBase import
-* add the `PipelineBase.getInstance().recordPipelineLineageStartEvent();` before all the steps' executions
-* add the `PipelineBase.getInstance().recordPipelineLineageCompleteEvent();` after all the steps' executions
-```text
+```diff
 + import com.boozallen.pipeline.PipelineBase;
   import org.slf4j.Logger;
   ...
@@ -253,10 +251,6 @@ The data lineage now supports pipeline level lineage run event, which provides t
     ...
 +   PipelineBase.getInstance().recordPipelineLineageCompleteEvent();
 ```
-
-#### Customize Lineage Event
-Please follow the [generated code](https://boozallen.github.io/aissemble/current/lineage-medatada-capture-overview.html#_what_gets_generated) instructions to customize the lineage event accordingly.
-
 
 ## Final Steps
 
