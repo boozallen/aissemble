@@ -1,0 +1,46 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/HardwareDetailsRunFacet.json",
+    "$defs": {
+        "HardwareDetailsRunFacet": {
+            "allOf": [
+                {
+                    "$ref": "https://openlineage.io/spec/1-0-2/OpenLineage.json#/$defs/RunFacet"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "hardware": {
+                        "description": "hardware used in the pipeline",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "component": {
+                                    "description": "hardware component",
+                                    "type": "string",
+                                    "example": "RAM"
+                                },
+                                "spec": {
+                                    "description": "hardware component's specification or information",
+                                    "type": "string",
+                                    "example": "8GB DDR5 4800MHz"
+                                }
+                            },
+                        "required": ["component", "spec"]
+                        }
+                    }
+                },
+                "required": ["hardware"]
+                }
+            ],
+            "type": "object"
+        }
+    },
+    "type": "object",
+    "properties": {
+        "hardwareDetails": {
+            "$ref": "#/$defs/HardwareDetailsRunFacet"
+        }
+    }
+}

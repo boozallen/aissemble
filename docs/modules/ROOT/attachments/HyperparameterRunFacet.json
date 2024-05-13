@@ -1,0 +1,46 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/HyperparameterRunFacet.json",
+    "$defs": {
+        "HyperparameterRunFacet": {
+            "allOf": [
+                {
+                    "$ref": "https://openlineage.io/spec/1-0-2/OpenLineage.json#/$defs/RunFacet"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "hyperparameters": {
+                        "description": "hyperparameters used for model training",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "parameter": {
+                                    "description": "parameter's name",
+                                    "type": "string",
+                                    "example": "n_estimator"
+                                },
+                                "value": {
+                                    "description": "parameter's value",
+                                    "type": "any",
+                                    "example": 500
+                                }
+                            },
+                        "required": ["parameter", "value"]
+                        }
+                    }
+                },
+                "required": ["hyperparameters"]
+                }
+            ],
+            "type": "object"
+        }
+    },
+    "type": "object",
+    "properties": {
+        "hyperparameters": {
+            "$ref": "#/$defs/HyperparameterRunFacet"
+        }
+    }
+}

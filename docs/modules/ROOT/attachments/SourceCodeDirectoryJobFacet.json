@@ -1,0 +1,41 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/SourceCodeDirectoryJobFacet.json",
+    "$defs": {
+        "SourceCodeDirectoryJobFacet": {
+            "allOf": [
+                {
+                    "$ref": "https://openlineage.io/spec/1-0-2/OpenLineage.json#/$defs/JobFacet"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "sourceType": {
+                            "type": "string",
+                            "description": "the source control system",
+                            "example": "git|svn"
+                        },
+                        "url": {
+                            "type": "uri",
+                            "description": "the URL to the repository",
+                            "example": "https://github.com/{org}/{repo}.git|svn://<your_ip>/<repository_name>"
+                        },
+                        "path": {
+                            "type": "string",
+                            "description": "the path to the pipeline's step",
+                            "example": "path/to/pipeline/step"
+                        }
+                    },
+                    "required": ["sourceType", "url", "path"]
+                }
+            ],
+            "type": "object"
+        }
+    },
+    "type": "object",
+    "properties": {
+        "sourceCodeDirectory": {
+            "$ref": "#/$defs/SourceCodeDirectoryJobFacet"
+        }
+    }
+}
