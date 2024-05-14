@@ -55,6 +55,17 @@
             ]
           }
         ]
+      },
+      {
+        "name": "enable-habushu-build-cache-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.EnableDistOutputFolderForHabushuBuildCacheMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "**/pom.xml"
+            ]
+          }
+        ]
       }
     ]
   },

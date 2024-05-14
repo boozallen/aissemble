@@ -1,4 +1,4 @@
-package com.boozallen.aissemble.upgrade.util;
+package com.boozallen.aissemble.upgrade.util.pom;
 
 /*-
  * #%L

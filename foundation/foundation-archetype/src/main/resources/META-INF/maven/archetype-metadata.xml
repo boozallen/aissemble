@@ -46,6 +46,7 @@
 				<include>.tiltignore</include>
 				<include>devops/**</include>
 				<include>jenkinsPipelineSteps.groovy</include>
+				<include>.mvn/**</include>
 			</includes>
 		</fileSet>
 		<fileSet>

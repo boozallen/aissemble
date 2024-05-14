@@ -57,6 +57,9 @@
 ## OpenLineage Namespace Conventions
 Conventions for setting namespaces when leveraging `Data Lineage` has been updated to better follow [OpenLineage's guidelines](https://openlineage.io/docs/spec/naming/). Moving forward, namespaces should be defined in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. This is a departure from the old pattern of one single namespace property (`data.lineage.namespace`) being leveraged for an entire project. Refer to the [GitHub docs](https://boozallen.github.io/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration) for updated guidance. Usage of the `data.lineage.namespace` property in a project's `data-lineage.properties` file will be supported as a fallback but should not be used in practice.
 
+## Maven Build Cache
+The [Maven Build Cache](https://maven.apache.org/extensions/maven-build-cache-extension/) is now enabled by default for new projects.  Existing projects can reference [the generation template](https://github.com/boozallen/aissemble/tree/dev/foundation/foundation-archetype/src/main/resources/archetype-resources/.mvn) to enable this functionality in their own projects.
+
 # Breaking Changes
 Note instructions for adapting to these changes are outlined in the upgrade instructions below.  
 * The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
@@ -97,16 +100,17 @@ The following steps will upgrade your project to 1.7. These instructions consist
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                     | Description                                                                                                                                                                                              |
-| -------------------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration       | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                                             |
-| upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                               |
-| upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                     |
-| upgrade-mlflow-v2-external-s3-migration            | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                                                        |
-| upgrade-spark-application-s3-migration             | Update the pipeline SparkApplication(s) (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments |
-| upgrade-foundation-extension-python-package-migration                              | Updates the pyproject.toml files within your projects pipelines folder (<YOUR_PROJECT>-pipelines) to use the updated aiSSEMBLE foundation and extension Python packages with the latest naming convention | 
-|upgrade-helm-chart-files-names-migration            | Updates the Chart.yaml and values*.yaml files within your project's deploy folder (<YOUR_PROJECT>-deploy) to use the new Helm chart naming convention (aissemble-\<chart-name\>-chart)                     |
-| upgrade-dockerfile-pip-install-migration           | Updates dockerfiles such that python dependency installations fail during the build, rather than at runtime |
+| Migration Name                                        | Description                                                                                                                                                                                               |
+|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| upgrade-tiltfile-aissemble-version-migration          | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                                              |
+| upgrade-v2-chart-files-aissemble-version-migration    | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                |
+| upgrade-v1-chart-files-aissemble-version-migration    | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                      |
+| upgrade-mlflow-v2-external-s3-migration               | Update the mlflow V2 deployment (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                                                         |
+| upgrade-spark-application-s3-migration                | Update the pipeline SparkApplication(s) (if present) in your project to utilize Localstack for local development and SealedSecrets for remote deployments                                                 |
+| upgrade-foundation-extension-python-package-migration | Updates the pyproject.toml files within your projects pipelines folder (<YOUR_PROJECT>-pipelines) to use the updated aiSSEMBLE foundation and extension Python packages with the latest naming convention | 
+| upgrade-helm-chart-files-names-migration              | Updates the Chart.yaml and values*.yaml files within your project's deploy folder (<YOUR_PROJECT>-deploy) to use the new Helm chart naming convention (aissemble-\<chart-name\>-chart)                    |
+| upgrade-dockerfile-pip-install-migration              | Updates dockerfiles such that python dependency installations fail during the build, rather than at runtime                                                                                               |
+| enable-habushu-build-cache-migration                  | Updates the `pom.xml` file for any Habushu-managed modules to ensure that the build directory is specified.                                                                                               |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
