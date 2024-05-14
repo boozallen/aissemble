@@ -40,6 +40,7 @@
         <maven.repo.url>${mavenRepositoryUrl}</maven.repo.url>
         <maven.snapshot.repo.id>maven-snapshots</maven.snapshot.repo.id>
         <maven.snapshot.repo.url>${mavenSnapshotRepositoryUrl}</maven.snapshot.repo.url>
+        <pypi.project.repository.url>${pypiProjectRepositoryUrl}</pypi.project.repository.url>
     </properties>
 
     <dependencyManagement>

@@ -42,6 +42,9 @@
 		<requiredProperty key="mavenSnapshotRepositoryUrl">
 			<defaultValue>https://snapshot-PLACEHOLDER/repository/maven-snapshots</defaultValue>
 		</requiredProperty>
+		<requiredProperty key="pypiProjectRepositoryUrl">
+			<defaultValue>https://pypi-PLACEHOLDER/repository/</defaultValue>
+		</requiredProperty>
 	</requiredProperties>
 
 	<fileSets>

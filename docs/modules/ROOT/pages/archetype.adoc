@@ -36,7 +36,8 @@ mvn archetype:generate \
 --
 endif::[]
 
-This command will trigger an interactive questionnaire giving you the opportunity to enter the following information contained in the below table.
+This command will trigger an interactive questionnaire giving you the opportunity to enter the following information
+contained in the below table.
 
 *  This information can also be provided without interaction by including ``-D<propertyName>=<propertyValue>`` for each
 property you want to manually set when running the ``mvn archetype:generate`` command.
@@ -44,14 +45,16 @@ property you want to manually set when running the ``mvn archetype:generate`` co
 properties, you can use the above Maven command to include them.
 
 .Archetype Options
-[cols="1a,2a,3a,2a,5a"]
+[cols="2a,3a,3a,2a,1a"]
 |===
 | Value | Description | Guidance | Example(s) | Interactive
 
 | ``archetypeVersion``
 | Use an archetype from a specific aiSSEMBLE release
 |
-Typically, developers should target the most recently released archetype. In appropriate circumstances, it is possible to target a pre-release https://maven.apache.org/guides/getting-started/index.html#what-is-a-snapshot-version[snapshot version,role=external,window=_blank] by using the -SNAPSHOT suffix.
+Typically, developers should target the most recently released archetype. In appropriate circumstances, it is possible
+to target a pre-release https://maven.apache.org/guides/getting-started/index.html#what-is-a-snapshot-version[snapshot
+version,role=external,window=_blank] by using the -SNAPSHOT suffix.
 
 |
 * 0.11.0
@@ -154,6 +157,27 @@ easily and automatically follow this Snapshot pattern as well (where ``-SNAPSHOT
 |
 * ``1.0.0-SNAPSHOT``
 * ``1.1.0-SNAPSHOT``
+
+| No
+
+| `pypiProjectRepositoryUrl`
+| The name of the custom PyPI repository to use for this project.
+| Should be used if you have Python modules and intend to publish your project's PyPI artifacts to a private repository,
+such as Nexus or Artifactory.  If you plan to use the public https://pypi.org repository, you can explicitly set that
+here as well.
+
+Please see https://github.com/TechnologyBrewery/habushu?tab=readme-ov-file#pypirepoid[Habushu's documentation on
+repository URLs,role=external,window=_blank], including how to leverage `settings.xml` to pass in credentials
+for these repositories. These instructions also cover URL configuration for specific PyPI repository types (e.g.,
+upload and download url specialization) as well as how to also configure a separate release and development PyPI URL,
+if desired.
+
+If not specified, this will default to `https://pypi-PLACEHOLDER/repository/` and will need to be updated in your root
+`pom.xml` file prior to pushing your first PyPI artifacts to a repository.
+|
+* `https://nexus.mydomain.com/repository/x-pypi`
+* `https://artifactory.mydomain.com/repository/y-pypi`
+* `https://pypi.org`
 
 | No
 
