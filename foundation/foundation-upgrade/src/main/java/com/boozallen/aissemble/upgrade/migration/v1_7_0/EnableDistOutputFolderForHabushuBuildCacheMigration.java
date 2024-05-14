@@ -11,6 +11,7 @@ package com.boozallen.aissemble.upgrade.migration.v1_7_0;
  */
 
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
+import com.boozallen.aissemble.upgrade.util.pom.LocationAwareMavenReader;
 import com.boozallen.aissemble.upgrade.util.pom.PomModifications;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.InputLocation;
@@ -33,23 +34,30 @@ public class EnableDistOutputFolderForHabushuBuildCacheMigration extends Abstrac
     }
 
     private boolean doesBuildDirTagExist(Model model) {
-        return null != model.getBuild().getLocation("directory");
+        return null != model.getBuild() && null != model.getBuild().getLocation("directory");
     }
 
     @Override
     protected boolean shouldExecuteOnFile(File file) {
         Model model = getLocationAnnotatedModel(file);
-        return !doesBuildDirTagExist(model) && isHabushuPackaged(model);
+        return isHabushuPackaged(model) && !doesBuildDirTagExist(model);
     }
 
     @Override
     protected boolean performMigration(File file) {
         Model model = getLocationAnnotatedModel(file);
         Build build = model.getBuild();
-        InputLocation buildLocation = build.getLocation("");
-        InputLocation inputLocation = new InputLocation(buildLocation.getLineNumber() + 1, buildLocation.getColumnNumber());
-        String line = "\t\t<directory>dist</directory>\n";
         int indent = 2;
+        InputLocation inputLocation;
+        String line;
+        if (build != null) {
+            InputLocation referenceLocation = build.getLocation("");
+            inputLocation = new InputLocation(referenceLocation.getLineNumber() + 1, referenceLocation.getColumnNumber());
+            line = "\t\t<directory>dist</directory>\n";
+        } else {
+            inputLocation = model.getLocation(LocationAwareMavenReader.END);
+            line = "\t<build><directory>dist</directory></build>\n";
+        }
         PomModifications modifications = new PomModifications();
         modifications.add(new PomModifications.Insertion(inputLocation, indent, l -> line));
         return writeModifications(file, modifications.finalizeMods());

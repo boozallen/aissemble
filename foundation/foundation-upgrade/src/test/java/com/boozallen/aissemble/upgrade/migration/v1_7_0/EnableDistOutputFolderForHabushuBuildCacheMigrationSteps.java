@@ -24,7 +24,12 @@ import static org.junit.Assert.*;
 public class EnableDistOutputFolderForHabushuBuildCacheMigrationSteps extends AbstractMigrationTest {
     @Given("a habushu-packaged pom file where the build directory is unspecified")
     public void a_habushu_packaged_pom_file_where_the_build_directory_is_unspecified() {
-        testFile = getTestFile("v1_7_0/EnableHabushuBuildCacheMigration/migration/pom.xml");
+        testFile = getTestFile("v1_7_0/EnableHabushuBuildCacheMigration/migration/add-dir-when-build-tag-exists/pom.xml");
+    }
+
+    @Given("a habushu-packaged pom file where the build block is unspecified")
+    public void a_habushu_packaged_pom_file_where_the_build_block_is_unspecified() {
+        testFile = getTestFile("v1_7_0/EnableHabushuBuildCacheMigration/migration/add-dir-and-build-when-build-tag-does-not-exist/pom.xml");
     }
 
     private AbstractAissembleMigration migration;
