@@ -39,10 +39,13 @@
                 <dirName>../dist</dirName>
                 <dirName>quarkus-app</dirName>
                 <dirName>helm</dirName>
+                <dirName>docker</dirName>
+                <dirName>dockerbuild</dirName>
+                <dirName>krausening</dirName>
                 <!-- Reports needed on CI to ensure consistent reporting of QA metrics: -->
-                <dirName>../target/cucumber-reports</dirName>
-                <dirName>../target/surefire-reports</dirName>
-                <dirName>../target/failsafe-reports</dirName>
+                <dirName>cucumber-reports</dirName>
+                <dirName>surefire-reports</dirName>
+                <dirName>failsafe-reports</dirName>
             </dirNames>
         </attachedOutputs>
         <local>

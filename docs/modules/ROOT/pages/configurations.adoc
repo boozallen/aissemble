@@ -16,6 +16,11 @@ The tools and configurations below are required to run aiSSEMBLE.
 * Continuous Deployment: https://docs.tilt.dev/install.html[Tilt,role=external,window=_blank] for local development
 * Source Code Management: https://git-scm.com/[git,role=external,window=_blank]
 
+==== Maven Build Cache
+aiSSEMBLE supports use of the xref:https://maven.apache.org/extensions/maven-build-cache-extension/[Maven Build Cache,role=external,window=_blank]
+to accelerate your project's development.  Newly created aiSSEMBLE based projects are automatically configured to use
+the build cache.
+
 == Windows (WSL) Compatibility [[WSL]]
 Using aiSSEMBLE on Windows is only supported through Windows Subsystem for Linux (WSL). The following sections will
 guide you through configuring WSL.
