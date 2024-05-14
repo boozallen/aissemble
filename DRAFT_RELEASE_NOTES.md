@@ -154,6 +154,19 @@ plugin in *-deploy/pom.xml. This can be achieved with:
 sed -i'' -e '/version.clean.plugin/d' *-deploy/pom.xml
 ```
 
+### Update Maven Repository Configuration
+Update the following properties in your project's root `pom.xml` file with the appropriate Maven repository IDs and URLs 
+for publishing and retrieving releases and snapshots. Adjust for your project as appropriate:
+```xml
+<properties>
+    ...
+    <maven.repo.id>maven-releases</maven.repo.id>
+    <maven.repo.url>https://release-PLACEHOLDER/repository/maven-releases</maven.repo.url>
+    <maven.snapshot.repo.id>maven-snapshots</maven.snapshot.repo.id>
+    <maven.snapshot.repo.url>https://snapshot-PLACEHOLDER/repository/maven-snapshots</maven.snapshot.repo.url>
+</properties>
+```
+
 ## Conditional Steps
 
 ### Upgrade Steps for Projects Leveraging Data Lineage

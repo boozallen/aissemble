@@ -34,6 +34,14 @@
         <module>${artifactId}-shared</module>
     </modules>
 
+    <properties>
+        <!-- Maven Repos -->
+        <maven.repo.id>maven-releases</maven.repo.id>
+        <maven.repo.url>${mavenRepositoryUrl}</maven.repo.url>
+        <maven.snapshot.repo.id>maven-snapshots</maven.snapshot.repo.id>
+        <maven.snapshot.repo.url>${mavenSnapshotRepositoryUrl}</maven.snapshot.repo.url>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -59,6 +67,40 @@
         <url>${projectGitUrl}</url>
         <tag>HEAD</tag>
     </scm>
+
+    <distributionManagement>
+        <!-- The repositories that the maven artifacts will be deployed
+		to. The credentials for the repository must be provided in the Maven
+		settings.xml file. The repository/snapshotRepository id below should
+		match the serverId in the settings.xml -->
+        <repository>
+            <id>${maven.repo.id}</id>
+            <url>${maven.repo.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>${maven.snapshot.repo.id}</id>
+            <url>${maven.snapshot.repo.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>${maven.repo.id}</id>
+            <url>${maven.repo.url}</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>${maven.snapshot.repo.id}</id>
+            <url>${maven.snapshot.repo.url}</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <extensions>

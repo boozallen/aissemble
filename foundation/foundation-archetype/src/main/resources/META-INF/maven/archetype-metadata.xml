@@ -36,6 +36,12 @@
 		<requiredProperty key="licenseName">
 			<defaultValue>closed-source-license</defaultValue>
 		</requiredProperty>
+		<requiredProperty key="mavenRepositoryUrl">
+			<defaultValue>https://release-PLACEHOLDER/repository/maven-releases</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="mavenSnapshotRepositoryUrl">
+			<defaultValue>https://snapshot-PLACEHOLDER/repository/maven-snapshots</defaultValue>
+		</requiredProperty>
 	</requiredProperties>
 
 	<fileSets>
