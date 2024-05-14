@@ -64,6 +64,8 @@ The [Maven Build Cache](https://maven.apache.org/extensions/maven-build-cache-ex
 Note instructions for adapting to these changes are outlined in the upgrade instructions below.  
 * The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
   to be invalid
+* If you were using a private PyPI repository in a prior release, the upgrade instructions below contain a small change
+  that must be made to continue using that repository.
 
 ## DataLineage and ModelLineage Event Changes
 To associate the pipeline step's lineage event with the pipeline's, we have created a pipeline level lineage event, and a way
@@ -165,6 +167,36 @@ for publishing and retrieving releases and snapshots. Adjust for your project as
     <maven.snapshot.repo.id>maven-snapshots</maven.snapshot.repo.id>
     <maven.snapshot.repo.url>https://snapshot-PLACEHOLDER/repository/maven-snapshots</maven.snapshot.repo.url>
 </properties>
+```
+
+### Update Habushu to Point to Your Private PyPI Repository
+Add the following `property` and `plugin` into your project's root `pom.xml` file with the appropriate PyPI repository URL (Nexus is used
+in this example - adjust for your project, as appropriate):
+```xml
+  <properties>
+    ...
+    <pypi.project.repository.url>https://nexus.yourdomain/repository/your-pypi-repo-name/</pypi.project.repository.url>
+  </properties>
+  ...
+  <build>
+    <pluginManagement>
+      <plugins>
+        ...  
+        <plugin>
+          <groupId>org.technologybrewery.habushu</groupId>
+          <artifactId>habushu-maven-plugin</artifactId>
+          <configuration>
+            <!--
+              Ensure you have configured credentials for this repo, as explained in the following link:
+              https://github.com/TechnologyBrewery/habushu?tab=readme-ov-file#pypirepoid
+            -->
+            <pypiRepoUrl>${pypi.project.repository.url}</pypiRepoUrl>
+          </configuration>
+        </plugin>
+      </plugins>  
+    </pluginManagement>
+  </build>
+
 ```
 
 ## Conditional Steps
