@@ -1,0 +1,46 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/PerformanceMetricRunFacet.json",
+    "$defs": {
+        "PerformanceMetricRunFacet": {
+            "allOf": [
+                {
+                    "$ref": "https://openlineage.io/spec/1-0-2/OpenLineage.json#/$defs/RunFacet"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "performance": {
+                        "description": "performance metrics of trained model",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "metric": {
+                                    "description": "metric's name",
+                                    "type": "string",
+                                    "example": "accuracy"
+                                },
+                                "value": {
+                                    "description": "metric's value",
+                                    "type": "any",
+                                    "example": 0
+                                }
+                            },
+                        "required": ["metric", "value"]
+                        }
+                    }
+                },
+                "required": ["performance"]
+                }
+            ],
+            "type": "object"
+        }
+    },
+    "type": "object",
+    "properties": {
+        "performanceMetric": {
+            "$ref": "#/$defs/PerformanceMetricRunFacet"
+        }
+    }
+}

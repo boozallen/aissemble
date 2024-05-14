@@ -74,7 +74,7 @@
                     document.querySelector('h1.page').textContent = 'Schema Version Not Found'
 
                     document.querySelectorAll('div.paragraph')[0].innerHTML = `The requested version "${requestVersion}" was not found. ` +
-                    'Please use one of the versions listed in the navigation bar on the left. Version must be 1.6.0 or higher.';
+                    'Please use one of the versions listed in the navigation bar on the left. Version must be 1.7.0 or higher.';
                 }
             }
             // Update page text content with instructions for invalid schema request
@@ -94,8 +94,8 @@
                 }
 
                 schemaInstructions += 'Here are some example schema requests you can make:<br/>' +
-                'https://boozallen.github.io/aissemble/openlineage/schemas/1.6.0/HardwareDetailsRunFacet.json<br/>' +
-                'https://boozallen.github.io/aissemble/openlineage/schemas/1.6.0-SNAPSHOT/HardwareDetailsRunFacet.json';
+                'https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0/HardwareDetailsRunFacet.json<br/>' +
+                'https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/HardwareDetailsRunFacet.json';
 
                 document.querySelectorAll('div.paragraph')[0].innerHTML = schemaInstructions;
             }
@@ -113,7 +113,7 @@
             document.querySelector('h1.page').textContent = 'File Not Found'
 
             document.querySelectorAll('div.paragraph')[0].innerHTML = `The requested file was not found. ` +
-            'Please ensure you have the filename spelled correctly and the requested version is 1.6.0 or higher.';
+            'Please ensure you have the filename spelled correctly and the requested version is 1.7.0 or higher.';
         }
         // else show the standard 404 page
     }
