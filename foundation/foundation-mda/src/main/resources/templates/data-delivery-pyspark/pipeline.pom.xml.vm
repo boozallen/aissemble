@@ -52,6 +52,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+            </plugin>
             #set($mainValuesPath = "src/${moduleArtifactIdPythonCase}/resources/apps")
             #set($testValuesPath = "tests/resources/apps")
             #parse("templates/data-delivery-common/pipeline.chart.pom.configuration.vm")
@@ -76,6 +80,10 @@
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
         </dependency>
         #if($enableSemanticDataSupport)
         <dependency>
