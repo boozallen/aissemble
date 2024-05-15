@@ -13,7 +13,8 @@ aissemble-data-access-chart:
         name: ${projectName}-data-access
       deployment:
         image:
-          name: boozallen/${projectName}-data-access-docker
+          name: ${projectName}-data-access-docker
+          repo: ${dockerProjectRepositoryUrl}
           tag: ${version}
           imagePullPolicy: Always
       ingress:

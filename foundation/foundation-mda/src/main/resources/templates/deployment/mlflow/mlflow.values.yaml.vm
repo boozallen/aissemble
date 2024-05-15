@@ -3,9 +3,9 @@
 # Declare variables to be passed into your templates.
 
 image:
-  name: boozallen/${projectName}-mlflow-docker
+  name: ${projectName}-mlflow-docker
   imagePullPolicy: Always
-  #dockerRepo: ghcr.io/
+  dockerRepo: ${dockerProjectRepositoryUrl}
   # Overrides the image tag whose default is the chart appVersion.
   #tag: "0.8.0-arm64"
 

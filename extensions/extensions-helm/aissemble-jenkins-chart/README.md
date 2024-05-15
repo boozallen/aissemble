@@ -14,13 +14,13 @@ _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 See the official Helm chart [documentation](https://github.com/jenkinsci/helm-charts/tree/main/charts/jenkins). The following
 default values have been modified from the original helm chart.
 
-| Property                 | Default                                                                              |
-|--------------------------|--------------------------------------------------------------------------------------|
-| `controller.image`       | NB: OSS: <default aissemble docker repo>/boozallen/aissemble-jenkins-controller      |
-| `controller.tag`         | _Chart.Version_                                                                      |
-| `controller.testEnabled` | false                                                                                |
-| `agent.image`            | NB: OSS: <default aissemble docker repo>//boozallen/aissemble-jenkins-agent |
-| `agent.tag`              | _Chart.Version_                                                                      |
+| Property                 | Default                                        |
+|--------------------------|------------------------------------------------|
+| `controller.image`       | ghcr.io/boozallen/aissemble-jenkins-controller |
+| `controller.tag`         | _Chart.Version_                                |
+| `controller.testEnabled` | false                                          |
+| `agent.image`            | ghcr.io/boozallen/aissemble-jenkins-agent      |
+| `agent.tag`              | _Chart.Version_                                |
 
 All properties must be prefixed with the key `aissemble-jenkins-chart.jenkins` to override any values in the chart. See the 
 [helm documentation](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#overriding-values-from-a-parent-chart) for more info.

@@ -16,7 +16,7 @@ helm install policy-decision-point ghcr.io/boozallen/aissemble-policy-decision-p
 | hostname                      | The hostname for the application            | No                | policy-decision-point                                                              |
 | image.name                    | The image name                              | Yes               | boozallen/aissemble-policy-decision-point                                          |
 | image.imagePullPolicy         | The image pull policy                       | No                | Always (ensures local docker image is pulled, rather than from Nexus repo)         |
-| image.dockerRepo              | The image docker repository                 | No                | NB: OSS: update with aissemble docker repository                                   |
+| image.dockerRepo              | The image docker repository                 | No                | ghcr.io/                                                                           |
 | image.tag                     | The image tag                               | No                | Chart.AppVersion                                                                   |
 | service.spec.ports            | The service spec ports                      | No                | - name: rest-api <br/>&emsp;&emsp;port: 8080 <br/>&emsp;&emsp;targetPort: 8080     |
 | deployment.ports              | The deployment ports                        | No                | - name: http-1 <br/>&emsp;&emsp;containerPort: 8080 <br/>&emsp;&emsp;protocol: TCP |

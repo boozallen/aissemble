@@ -6,9 +6,9 @@ replicaCount: 1
 
 hostname: data-access
 image:
-  name: boozallen/${projectName}-data-access-docker:latest
+  name: ${projectName}-data-access-docker:latest
   imagePullPolicy: Always
-  dockerRepo: ghcr.io/
+  dockerRepo: ${dockerProjectRepositoryUrl}
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

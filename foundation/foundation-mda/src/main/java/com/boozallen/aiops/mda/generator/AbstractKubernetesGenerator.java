@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +36,7 @@ public abstract class AbstractKubernetesGenerator extends AbstractResourcesGener
     protected static final String APP_DEPENDENCIES = "appDependencies";
     protected static final String AISSEMBLE_VERSION = "aissembleVersion";
     protected static final String VERSION = "version";
+    protected static final String DOCKER_PROJECT_REPOSITORY_URL = "dockerProjectRepositoryUrl";
 
 
     protected VelocityContext configureWithoutGeneration(GenerationContext generationContext) {
@@ -44,6 +44,8 @@ public abstract class AbstractKubernetesGenerator extends AbstractResourcesGener
 
         String appName = generationContext.getPropertyVariables().get(APP_NAME);
         String aissembleVersion = generationContext.getPropertyVariables().get(AISSEMBLE_VERSION);
+        String dockerProjectRepositoryUrl = generationContext.getPropertyVariables().get(DOCKER_PROJECT_REPOSITORY_URL);
+
         if (StringUtils.isEmpty(appName)) {
             appName = generationContext.getArtifactId();
         }
@@ -54,6 +56,7 @@ public abstract class AbstractKubernetesGenerator extends AbstractResourcesGener
         vc.put(VelocityProperty.PROJECT_NAME, projectName);
         vc.put(VelocityProperty.VERSION_TAG, aissembleVersion);
         vc.put(VelocityProperty.VERSION, version);
+        vc.put(VelocityProperty.DOCKER_PROJECT_REPOSITORY_URL, dockerProjectRepositoryUrl);
 
         // Set the application name for each individual module
         final String updatedOutputFile = replace(APP_NAME, generationContext.getOutputFile(), appName);

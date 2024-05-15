@@ -6,5 +6,5 @@
 #aissemble-jenkins-chart:
 #  jenkins:
 #      controller:
-#        image: boozallen/${projectName}-jenkins-controller-docker
+#        image: ${dockerProjectRepositoryUrl}${projectName}-jenkins-controller-docker
 #        tag: latest

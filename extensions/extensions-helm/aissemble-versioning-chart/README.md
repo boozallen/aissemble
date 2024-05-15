@@ -23,8 +23,8 @@ helm install versioning ghcr.io/boozallen/aissemble-versioning-chart --version <
 | deployment.args               | The args for the pod                        | No                | None                                                                        |
 | image.name                    | The image name                              | Yes               | boozallen/aissemble-versioning                                              |
 | image.imagePullPolicy         | The image pull policy                       | No                | Always (ensures local docker image is pulled, rather than from Nexus repo)  |
-| image.dockerRepo              | The image docker repository                 | No                | NB: OSS: update with aissemble docker repository                        |
-| image.tag                     | The image tag                               | No                | Chart.AppVersion                        |
+| image.dockerRepo              | The image docker repository                 | No                | ghcr.io/                                                                    |
+| image.tag                     | The image tag                               | No                | Chart.AppVersion                                                            |
 | replicaCount                  | Sets desired number of replicas (instances) | No                | 1                                                                           |
 | service.spec.ports            | The service spec ports                      | No                | - name: http <br/>&emsp;&emsp;port: 8080 <br/>&emsp; targetPort: 80         |
 | service.type                  | The service type                            | No                | ClusterIP                                                                   |

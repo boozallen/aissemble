@@ -6,9 +6,9 @@ replicaCount: 1
 
 hostname: ${appName}
 image:
-  name: boozallen/${projectName}-${appName}-docker
+  name: ${projectName}-${appName}-docker
   imagePullPolicy: Always
-  dockerRepo: ghcr.io/
+  dockerRepo: ${dockerProjectRepositoryUrl}
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

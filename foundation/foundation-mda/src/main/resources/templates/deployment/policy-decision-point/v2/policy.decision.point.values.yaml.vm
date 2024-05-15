@@ -7,5 +7,6 @@ aissemble-policy-decision-point-chart:
   app:
     name: "${appName}"
   image:
-    name: boozallen/${projectName}-policy-decision-point-docker
+    name: ${projectName}-policy-decision-point-docker
     tag: ${version}
+    dockerRepo: ${dockerProjectRepositoryUrl}

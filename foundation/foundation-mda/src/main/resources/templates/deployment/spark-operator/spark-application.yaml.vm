@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ${sparkApplicationType}
   mode: cluster
-  image: "boozallen/${projectName}-spark-worker-docker:latest"
+  image: "${dockerProjectRepositoryUrl}${projectName}-spark-worker-docker:latest"
   imagePullPolicy: IfNotPresent
 #if (${isJavaPipeline})
   mainClass: ${mainClass}
