@@ -30,6 +30,25 @@ public final class FileUtils {
     /**
      *
      * @param file the File
+     * @param toReplace a string representing the text to replace
+     * @param replacement the replacement text to substitute the toReplace string
+     * @return a boolean set to true if at least one replacement was performed in the file
+     */
+    public static boolean replaceLiteralInFile(File file, String toReplace, String replacement) throws IOException {
+        boolean replacedInFile = false;
+
+        if (file != null && file.exists()) {
+            String content = new String(Files.readAllBytes((file.toPath())));
+            content = content.replace(toReplace, replacement);
+            Files.write(file.toPath(), content.getBytes());
+            replacedInFile = true;
+        }
+        return  replacedInFile;
+    }
+
+    /**
+     *
+     * @param file the File
      * @param regex a regex representing the text to replace, as a String
      * @param replacement the replacement text to substitute the regex
      * @return a boolean set to true if at least one replacement was performed in the file
