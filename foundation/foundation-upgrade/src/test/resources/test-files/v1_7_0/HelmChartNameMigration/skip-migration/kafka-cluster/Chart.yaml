@@ -31,4 +31,4 @@ appVersion: "1.0.0"
 dependencies:
   - name: aissemble-kafka-chart
     version: 1.7.0-SNAPSHOT
-    repository: oci://ghcr.io/boozallen
+    repository: https://old-helm-repository-url.com/

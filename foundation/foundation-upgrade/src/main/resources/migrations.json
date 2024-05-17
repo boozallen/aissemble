@@ -45,13 +45,36 @@
         ]
       },
       {
-        "name": "upgrade-helm-chart-files-names-migration",
+        "name": "upgrade-helm-chart-names-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsNameMigration",
         "fileSets": [
           {
             "includes": [
               "*-deploy/src/main/resources/apps/*/Chart.yaml",
               "*-deploy/src/main/resources/apps/*/values*.yaml"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "upgrade-helm-module-names-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsModuleMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/src/main/resources/apps/*/Chart.yaml",
+              "*-deploy/src/main/resources/apps/*/values*.yaml"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "upgrade-helm-chart-repository-url-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsRepositoryUrlMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/src/main/resources/apps/*/Chart.yaml"
             ]
           }
         ]

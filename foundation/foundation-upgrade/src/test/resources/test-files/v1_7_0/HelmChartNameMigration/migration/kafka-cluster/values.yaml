@@ -1,5 +1,6 @@
 ########################################
 ## CONFIG | Kafka Configs
+## See aiSSEMBLE extensions-helm-kafka: README for more details.
 ########################################
 aissemble-kafka:
   kafka:
