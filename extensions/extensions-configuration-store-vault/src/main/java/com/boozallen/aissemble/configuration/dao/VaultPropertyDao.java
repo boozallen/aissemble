@@ -25,6 +25,7 @@ import org.aeonbits.owner.KrauseningConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import java.util.Set;
 /**
  * VaultPropertyDao reads and writes configuration property to Vault server
  */
+@ApplicationScoped
 public class VaultPropertyDao implements PropertyDao {
     private static final Logger logger = LoggerFactory.getLogger(VaultPropertyDao.class);
 

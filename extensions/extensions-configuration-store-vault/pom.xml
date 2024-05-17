@@ -87,5 +87,10 @@
             <artifactId>foundation-configuration-store</artifactId>
             <version>${version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-reactive</artifactId>
+            <version>${version.quarkus}</version>
+        </dependency>
     </dependencies>
 </project>

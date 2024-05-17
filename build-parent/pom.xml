@@ -129,6 +129,7 @@
         <group.helm.plugin>org.technologybrewery</group.helm.plugin>
         <version.helm.plugin>6.14.3</version.helm.plugin>
         <version.helm.min>3.12.0</version.helm.min>
+        <version.snakeyaml>2.0</version.snakeyaml>
     </properties>
 
     <dependencyManagement>
