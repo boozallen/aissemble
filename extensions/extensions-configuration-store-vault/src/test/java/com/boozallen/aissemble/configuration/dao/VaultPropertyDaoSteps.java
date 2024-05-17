@@ -12,6 +12,7 @@ package com.boozallen.aissemble.configuration.dao;
 
 
 import com.boozallen.aissemble.configuration.store.ConfigLoader;
+import com.boozallen.aissemble.configuration.store.Property;
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
@@ -27,10 +28,8 @@ import org.testcontainers.vault.VaultContainer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Set;
 import java.util.HashSet;
-
-import com.boozallen.aissemble.configuration.store.Property;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,7 +37,7 @@ public class VaultPropertyDaoSteps {
 
     private static final Logger logger = LoggerFactory.getLogger(VaultPropertyDaoSteps.class);
     private final VaultPropertyDao propertyDao = new VaultPropertyDao();
-    private ConfigLoader configLoader = new ConfigLoader(propertyDao);
+    private ConfigLoader configLoader = new ConfigLoader();
     private VaultContainer<?> vaultContainer;
     private Set<Property> properties;
     private String baseURI;
@@ -54,10 +53,11 @@ public class VaultPropertyDaoSteps {
         vaultContainer = null;
         properties = null;
     }
-    
+
     @Before("@config-loader")
     public void configLoaderSetup() {
-        configLoader = new ConfigLoader(propertyDao);
+        configLoader = new ConfigLoader();
+        configLoader.setPropertyDao(propertyDao);
         properties = null;
     }
     

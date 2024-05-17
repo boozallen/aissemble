@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.boozallen.aissemble.configuration.dao.PropertyDao;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,14 +36,31 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 /**
  * Handles parsing/reconciling configurations and associated metadata.
  */
+@ApplicationScoped
 public class ConfigLoader {
-
     private static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class);
-    private final PropertyDao propertyDao;
-    public ConfigLoader(PropertyDao propertyDao) {
+    private PropertyDao propertyDao;
+
+    @ConfigProperty(name = "config.store.property.dao.class")
+    public String propertyDaoClass;
+
+    @Inject
+    public void setPropertyDao(Instance<PropertyDao> instances) {
+        instances.forEach(propertyDao -> {
+            if (propertyDao.getClass().getName().contains(propertyDaoClass)) {
+                this.propertyDao = propertyDao;
+            }
+        });
+    }
+
+    public void setPropertyDao(PropertyDao propertyDao) {
         this.propertyDao = propertyDao;
     }
 

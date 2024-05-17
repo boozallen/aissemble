@@ -34,7 +34,7 @@ public class Property {
     }
 
     public void setName(String name) {
-        this.name = Objects.requireNonNull(name, "Property name cannot be null");;
+        this.name = Objects.requireNonNull(name, "Property name cannot be null");
     }
 
     public String getValue() {
@@ -47,11 +47,11 @@ public class Property {
 
     @Override
     public String toString() {
+        // We won't print out the value in case of sensitive info
         return "Property{" +
                 "name='" + name +
-                ", value='" + value +
-                ", groupName='" + groupName +
-                '}';
+                "', groupName='" + groupName +
+                "'}";
     }
 
     @Override
@@ -73,5 +73,9 @@ public class Property {
     @Override
     public int hashCode() {
         return Objects.hash(groupName, name);
+    }
+
+    public String toJsonString() {
+        return String.format("{\"groupName\":\"%s\",\"name\":\"%s\",\"value\":\"%s\"}", groupName, name, value);
     }
 }

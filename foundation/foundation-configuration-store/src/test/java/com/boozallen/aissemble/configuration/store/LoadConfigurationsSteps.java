@@ -10,7 +10,6 @@ package com.boozallen.aissemble.configuration.store;
  * #L%
  */
 
-import com.boozallen.aissemble.configuration.dao.PropertyDao;
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
@@ -18,8 +17,11 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
 
-import static org.mockito.Mockito.mock;
+import io.restassured.response.ValidatableResponse;
+import com.boozallen.aissemble.util.TestPropertyDao;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -27,21 +29,23 @@ import static org.junit.Assert.*;
 
 public class LoadConfigurationsSteps {
 
+    private final Property expectedProperty = new Property("messaging", "topic", "messaging-topic");
     private ConfigLoader configLoader;
     private String baseURI;
     private String environmentURI;
-    private Set<Property> result;
     private Exception foundError;
-    private final PropertyDao mockDao = mock(PropertyDao.class);
+    private ValidatableResponse response;
+
 
     @Before("@config-loader")
     public void setup() {
-        configLoader = new ConfigLoader(mockDao);
+        configLoader = new ConfigLoader();
     }
 
     @After("@config-loader")
     public void cleanup() {
         foundError = null;
+        response = null;
     }
 
     @Given("URIs pointing to valid base and environment configurations")
@@ -53,7 +57,7 @@ public class LoadConfigurationsSteps {
     @When("the configurations are loaded")
     public void theConfigurationsAreLoaded() {
         try {
-            result = configLoader.loadConfigs(baseURI, environmentURI);
+            Set<Property> result = configLoader.loadConfigs(baseURI, environmentURI);
         } catch (Exception error) {
             foundError = error;
         }
@@ -71,8 +75,8 @@ public class LoadConfigurationsSteps {
 
     @And("augments the base with the environment configurations")
     public void augmentsTheBaseWithTheEnvironmentConfigurations() {
-        assertEquals(10, result.size());
-        assertPropertySetsEqual(createExpectedProperties(), result);
+        assertEquals(10, TestPropertyDao.loadedProperties.size());
+        assertPropertySetsEqual(createExpectedProperties(), new HashSet<>(TestPropertyDao.loadedProperties.values()));
     }
 
     @Given("URIs pointing to misformatted configurations")
@@ -101,6 +105,33 @@ public class LoadConfigurationsSteps {
         assertEquals(expectedMessage, foundError.getMessage());
     }
 
+    @When("the configuration service starts")
+    public void theConfigurationServiceStarts() {
+        // service started
+    }
+
+    @Given("the configuration service has started")
+    public void theConfigurationServiceHasStarted() {
+        // service started
+    }
+
+    @When("requests a configuration property")
+    public void requestAConfigurationProperty() {
+        String requestGroupName = expectedProperty.getGroupName();
+        String requestPropName = expectedProperty.getName();
+        response = given()
+                .pathParam("groupName", requestGroupName)
+                .pathParam("propertyName", requestPropName)
+                .when().get("/aissemble-properties/{groupName}/{propertyName}")
+                .then();
+    }
+
+    @Then("the property value is returned")
+    public void thePropertyValueIsReturned() {
+        response.statusCode(200)
+                .body(is(expectedProperty.toJsonString()));
+    }
+
     public Set<Property> createExpectedProperties() {
         Set<Property> expectedProperties = new HashSet<>();
 
@@ -113,7 +144,7 @@ public class LoadConfigurationsSteps {
         expectedProperties.add(new Property("data-lineage", "added-property", "example-value"));
         expectedProperties.add(new Property("messaging", "connector", "smallrye-kafka"));
         expectedProperties.add(new Property("messaging", "serializer", "apache.StringSerializer"));
-        expectedProperties.add(new Property("messaging", "topic", "messaging-topic"));
+        expectedProperties.add(expectedProperty);
 
         return expectedProperties;
     }

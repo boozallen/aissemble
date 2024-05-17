@@ -10,15 +10,16 @@ package com.boozallen.aissemble.configuration.dao;
  * #L%
  */
 
-import com.boozallen.aissemble.configuration.exception.PropertyDaoException;
 import com.boozallen.aissemble.configuration.store.Property;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
 
 /**
  * PropertyDao reads/writes the configuration property to the store
  */
-public interface PropertyDao extends Dao<Property>{
+
+public interface PropertyDao extends Dao<Property> {
     /**
      * Read property from store with given group name and property name
      * @param groupName group name

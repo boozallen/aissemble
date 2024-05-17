@@ -7,13 +7,11 @@
  * This software package is licensed under the Booz Allen Public License. All Rights Reserved.
  * #L%
  */
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
+import io.quarkiverse.cucumber.CucumberQuarkusTest;
 
-@RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/specifications", tags = "not @manual")
-public class CucumberTest {
-
+public class CucumberTest extends CucumberQuarkusTest {
+    public static void main(String[] args) {
+        runMain(CucumberTest.class, args);
+    }
 }
 

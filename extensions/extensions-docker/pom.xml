@@ -102,6 +102,7 @@
         <module>aissemble-model-training-api-containers</module>
         <module>aissemble-data-lineage-http-consumer</module>
         <module>aissemble-pipeline-invocation</module>
+        <module>aissemble-configuration-store</module>
     </modules>
 
     <dependencyManagement>
