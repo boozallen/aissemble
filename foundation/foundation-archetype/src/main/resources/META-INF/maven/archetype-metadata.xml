@@ -45,6 +45,12 @@
 		<requiredProperty key="pypiProjectRepositoryUrl">
 			<defaultValue>https://pypi-PLACEHOLDER/repository/</defaultValue>
 		</requiredProperty>
+		<requiredProperty key="helmPublishingRepositoryUrl">
+			<defaultValue>https://helm-PLACEHOLDER/repository</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="helmPublishingRepositoryName">
+			<defaultValue>PLACEHOLDER-helm</defaultValue>
+		</requiredProperty>
 	</requiredProperties>
 
 	<fileSets>

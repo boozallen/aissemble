@@ -180,6 +180,34 @@ If not specified, this will default to `https://pypi-PLACEHOLDER/repository/` an
 * `https://pypi.org`
 
 | No
+| `helmPublishingRepositoryUrl`
+| The URL of the Helm repository you plan to publish your Helm charts to for this project.
+| Should be used if you intend to publish your project's Helm charts to a private repository,
+such as Nexus or ghcr.io.
+
+Please see https://github.com/kokuwaio/helm-maven-plugin?tab=readme-ov-file#helm-maven-plugin[helm-maven-plugin documentation,role=external,window=_blank], to view further configurations that can be set for your Helm repository specifications.
+
+If not specified, this will default to `https://helm-PLACEHOLDER/repository` and will need to be updated in your root
+`pom.xml` file prior to pushing your Helm charts to a repository.
+|
+* `https://nexus.mydomain.com/repository`
+* `https://ghcr.io/mydomain/repository`
+
+| No
+| `helmPublishingRepositoryName`
+| The name of the Helm repository you plan to publish your Helm charts to for this project.
+| Should be used if you intend to publish your project's Helm charts to a private repository,
+such as Nexus or ghcr.io.
+
+Please see https://github.com/kokuwaio/helm-maven-plugin?tab=readme-ov-file#helm-maven-plugin[helm-maven-plugin documentation,role=external,window=_blank], to view further configurations that can be set for your Helm repository specifications..
+
+If not specified, this will default to `PLACEHOLDER-helm` and will need to be updated in your root
+`pom.xml` file prior to pushing your Helm charts to a repository.
+|
+*`my-helm-charts`*
+
+| No
+
 
 |===
 

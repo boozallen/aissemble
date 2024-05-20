@@ -70,6 +70,7 @@ Note instructions for adapting to these changes are outlined in the upgrade inst
 * The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
   to be invalid
 * The specification of private PyPI repositories has been changed from prior releases.
+* The specification of Helm publishing repositories has been changed from prior releases.
 * The Kafka home directory in the **aissemble-kafka** image has changed from _/opt/kafka_ to _/opt/bitnami/kafka_
 
 # Known Issues
@@ -188,6 +189,49 @@ in this example - adjust for your project, as appropriate):
   </build>
 
 ```
+### Add the Helm Publishing Repository Configuration
+Add the following `property` into your project's root `pom.xml` file with the appropriate Helm repository URL and name you wish to publish your charts to (Nexus is used in this example - adjust for your project, as appropriate):
+
+```xml
+  <properties>
+    ...
+    <helm.publishing.repository.url>https://nexus.mydomain.com/repository</helm.publishing.repository.url>
+    <helm.publishing.repository.name>my-helm-charts</helm.publishing.repository.name>
+</properties>
+
+```
+Update the following `plugin` within your project's `-deploy/pom.xml` file. Adjust for your project as appropriate:
+```xml
+<plugin>
+    <groupId>${group.helm.plugin}</groupId>
+    <artifactId>helm-maven-plugin</artifactId>
+    <executions>
+        ...
+        <execution>
+            <id>deploy</id>
+            <phase>deploy</phase>
+            <goals>
+                <goal>push</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        ...
+        <uploadRepoStable>
+            <name>${helm.publishing.repository.name}</name>
+            <url>${helm.publishing.repository.url}</url>
+        </uploadRepoStable>
+        <uploadRepoSnapshot>
+            <name>${helm.publishing.repository.name}</name>
+            <url>${helm.publishing.repository.url}</url>
+        </uploadRepoSnapshot>
+        ...
+    </configuration>
+</plugin>
+
+```
+For further configurations that can be set for your specific Helm repository needs, please see the [helm-maven-plugin documentation](https://github.com/kokuwaio/helm-maven-plugin?tab=readme-ov-file)
+
 
 ## Conditional Steps
 
