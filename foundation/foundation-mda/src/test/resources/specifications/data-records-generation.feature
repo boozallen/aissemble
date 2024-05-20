@@ -193,7 +193,6 @@ Feature: Generating pipeline resources
       | type                      | implementation          | profile                 |
       | data-flow                 | data-delivery-pyspark   | aissemble-maven-modules |
       | data-flow                 | data-delivery-spark     | aissemble-maven-modules |
-      | machine-learning          | machine-learning-mlflow | aissemble-maven-modules |
 
   @pipeline-generation @module-generation
   Scenario: Pipelines depend on data module by default - two language support
