@@ -14,6 +14,7 @@ import com.boozallen.aiops.mda.metamodel.element.RecordElement;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonRecord;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -41,7 +42,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import static org.junit.Assert.assertTrue;
 
 public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
@@ -146,6 +146,11 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         the_pipeline_pom_has_a_dependency_on(pipeline.getName(), dataModule);
     }
 
+    @Then("the pipeline POM has the plugin {string}")
+    public void the_pipeline_pom_has_the_plugin(String plugin) throws Exception {
+        the_pipeline_pom_has_the_plugin(pipeline.getName(), plugin);
+    }
+
     @Then("{string} has a dependency on {string}")
     public void has_a_dependency_on(String module, String dependency) throws Exception {
         Path pom = projectDir.resolve(module).resolve("pom.xml");
@@ -154,11 +159,27 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         assertTrue("Dependency " + dependency + " not found in " + pom, hasDependency);
     }
 
+    @Then("{string} has the plugin {string}")
+    public void has_the_plugin(String module, String plugin) throws Exception {
+        Path pom = projectDir.resolve(module).resolve("pom.xml");
+        assertTrue("File not created: " + pom, Files.exists(pom) && Files.isRegularFile(pom));
+        boolean hasPlugin = queryPom(pom, "/project/build/plugins/plugin/artifactId", plugin);
+        assertTrue("Plugin " + plugin + " not found in " + pom, hasPlugin);
+
+    }
+
     @Then("the {string} pipeline POM has a dependency on {string}")
     public void the_pipeline_pom_has_a_dependency_on(String pipelineName, String dataModule) throws Exception {
         Pipeline pipeline = pipelines.get(pipelineName);
         BasePipelineDecorator decoratedPipeline = new BasePipelineDecorator(pipeline);
         has_a_dependency_on(decoratedPipeline.deriveArtifactIdFromCamelCase(), dataModule);
+    }
+
+    @Then("the {string} pipeline POM has the plugin {string}")
+    public void the_pipeline_pom_has_the_plugin(String pipelineName, String dataModule) throws Exception {
+        Pipeline pipeline = pipelines.get(pipelineName);
+        BasePipelineDecorator decoratedPipeline = new BasePipelineDecorator(pipeline);
+        has_the_plugin(decoratedPipeline.deriveArtifactIdFromCamelCase(), dataModule);
     }
 
     @Then("the pyproject.toml file has a dependency on {string}")
