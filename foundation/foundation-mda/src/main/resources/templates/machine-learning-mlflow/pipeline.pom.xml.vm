@@ -34,25 +34,7 @@
                     <!-- see ${parentArtifactId} for base configuration settings -->
                 </configuration>
             </plugin>
-<!-- There are a few issues with cucumber reports and ML based pipeline steps. -->
-<!-- Once these issues are resolved, this plugin can be enabled -->
-<!--
-            <plugin>
-                <groupId>net.masterthought</groupId>
-                <artifactId>maven-cucumber-reporting</artifactId>
-            </plugin>
--->
         </plugins>
     </build>
 
-<!-- There are a few issues with cucumber reports and ML based pipeline steps. -->
-<!-- Once these issues are resolved, this plugin can be enabled -->
-<!--
-    <dependencies>
-        <dependency>
-            <groupId>net.masterthought</groupId>
-            <artifactId>cucumber-reporting</artifactId>
-        </dependency>
-    </dependencies>
--->
 </project>
