@@ -1,0 +1,145 @@
+suite: Event storage PVC
+
+templates:
+  - deployment.yaml
+  - events-pvc.yaml
+  - local-pv.yaml
+
+tests:
+  - it: When the eventVolume is disabled, the events PVC is not created.
+    template: events-pvc.yaml
+    set:
+      eventVolume:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Creates the eventVolumeClaim with appropriate values when enabled
+    template: events-pvc.yaml
+    set:
+      eventVolume:
+        enabled: true
+        name: some-name
+        size: "2Gi"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: PersistentVolumeClaim
+      - notFailedTemplate: {}
+      - equal:
+          path: metadata.labels["app.kubernetes.io/instance"]
+          value: some-name
+      - equal:
+          path: metadata.labels["app.kubernetes.io/name"]
+          value: some-name
+      - equal:
+          path: metadata.name
+          value: some-name-claim
+      - equal:
+          path: spec.volumeName
+          value: some-name-pv
+      - equal:
+          path: spec.resources.requests.storage
+          value: "2Gi"
+
+  - it: Should appropriately load the local event storage PV when the storage type is "local"
+    template: events-pvc.yaml
+    set:
+      eventVolume:
+        enabled: true
+        storageType: "local"
+    asserts:
+      - equal:
+          path: spec.storageClassName
+          value: "spark-event-storage"
+
+  - it: Should appropriately set the storage class name when loading a custom PV
+    template: events-pvc.yaml
+    set:
+      eventVolume:
+        enabled: true
+        storageType: "custom"
+        storageClass: "myStorageClass"
+    asserts:
+      - equal:
+          path: spec.storageClassName
+          value: "myStorageClass"
+
+  - it: Should generate a default PV when storage type is set to local
+    template: local-pv.yaml
+    set:
+      eventVolume:
+        enabled: true
+        storageType: "local"
+        size: "2Gi"
+        volumePathOnNode: "/random"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: PersistentVolume
+      - notFailedTemplate: {}
+      - equal:
+          path: spec.capacity.storage
+          value: "2Gi"
+      - equal:
+          path: spec.hostPath.path
+          value: "/random"
+
+  - it: Should not generate the local PV when storage type is set to something other than local.
+    template: local-pv.yaml
+    set:
+      eventVolume:
+        enabled: true
+        storageType: "custom"
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Should not generate the local PV when the event volume is disabled.
+    template: local-pv.yaml
+    set:
+      eventVolume:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+# Need a better way to test this. `contains` fails as the default value is null, rather than [],
+# and comparing to null assumes all other volume mounts to be disabled.
+#  - it: Should not attempt to create the event volume when it is disabled
+#    template: deployment.yaml
+#    set:
+#      eventVolume:
+#        enabled: false
+#    asserts:
+#      - equal:
+#          path: spec.template.spec.volumes
+#          value: null
+#      - equal:
+#          path: spec.template.containers[0].volumeMounts
+#          value: null
+
+  - it: Should appropriately mount the event volume when enabled
+    template: deployment.yaml
+    set:
+      eventVolume:
+        enabled: true
+        mountPath: /test/
+        name: my-volume
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          any: true
+          content:
+            mountPath: /test/
+            name: my-volume
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content:
+            name: my-volume
+            persistentVolumeClaim:
+              claimName: my-volume-claim
