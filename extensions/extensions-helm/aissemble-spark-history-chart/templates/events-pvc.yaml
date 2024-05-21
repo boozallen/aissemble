@@ -1,0 +1,25 @@
+{{- if .Values.eventVolume.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Values.eventVolume.name }}
+    app.kubernetes.io/name: {{ .Values.eventVolume.name }}
+  name: {{ .Values.eventVolume.name }}-claim
+spec:
+  {{- with .Values.eventVolume.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.eventVolume.size | default "1Gi" }}
+  {{- if eq .Values.eventVolume.storageType "local" }}
+  storageClassName: "spark-event-storage"
+  {{- else if eq .Values.eventVolume.storageType "custom" }}
+  storageClassName: {{ .Values.eventVolume.storageClass }}
+  {{- else }}
+  storageClassName: ""
+  {{- end }}
+  volumeName: {{ .Values.eventVolume.name }}-pv
+{{- end }}

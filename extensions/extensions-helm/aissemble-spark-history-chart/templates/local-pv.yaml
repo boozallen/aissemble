@@ -1,0 +1,20 @@
+{{- if and (eq .Values.eventVolume.storageType "local") (.Values.eventVolume.enabled) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    type: local
+  name: {{ .Values.eventVolume.name }}-pv
+spec:
+  {{- with .Values.eventVolume.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  capacity:
+    storage: {{ .Values.eventVolume.size }}
+  hostPath:
+    path: {{ .Values.eventVolume.volumePathOnNode }}
+    type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: spark-event-storage
+{{- end }}
