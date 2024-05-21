@@ -39,6 +39,10 @@
                 <dirName>../dist</dirName>
                 <dirName>quarkus-app</dirName>
                 <dirName>helm</dirName>
+                <dirName>../src/generated</dirName>
+                <dirName>../src/generated-test</dirName>
+                <!-- Needed for test-mda-models: -->
+                <dirName>../src/main/java</dirName>
                 <!-- Reports needed on CI to ensure consistent reporting of QA metrics: -->
                 <dirName>../target/cucumber-reports</dirName>
                 <dirName>../target/surefire-reports</dirName>

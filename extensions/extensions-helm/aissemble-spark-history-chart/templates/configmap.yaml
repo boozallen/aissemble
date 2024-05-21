@@ -1,0 +1,9 @@
+{{- if not (eq .Values.sparkConf "") }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-spark-conf
+data:
+  sparkConf:
+    {{- toYaml .Values.sparkConf | nindent 8 }}
+{{- end }}
