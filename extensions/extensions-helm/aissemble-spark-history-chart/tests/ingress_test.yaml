@@ -1,0 +1,109 @@
+Suite: Ingress testing
+
+templates:
+  - ingress.yaml
+
+tests:
+  - it: No ingress should be created when the chart is disabled
+    set:
+      enable: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: No ingress should be created when ingress is disabled
+    set:
+      enable: true
+      ingress:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Ingress should be created when the chart is enabled and ingress is enabled
+    set:
+      enable: true
+      ingress:
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: Ingress
+      - notFailedTemplate: {}
+
+  - it: Ingress should have the correct default metadata
+    set:
+      ingress:
+        enabled: true
+    asserts:
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-ingress
+      - notExists:
+          path: metadata.annotations
+
+  - it: Ingress annotations can be specified
+    set:
+      ingress:
+        enabled: true
+        metadata:
+          annotations:
+            someAnnotation: someValue
+    asserts:
+      - equal:
+          path: metadata.annotations.someAnnotation
+          value: someValue
+
+  - it: Ingress class name can be specified
+    set:
+      ingress:
+        enabled: true
+        ingressClassName: some-ingress-class
+    asserts:
+      - equal:
+            path: spec.ingressClassName
+            value: some-ingress-class
+
+  - it: Ingress should have the correct default rules
+    set:
+      ingress:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.rules[0].http.paths[0].path
+          value: /
+      - equal:
+          path: spec.rules[0].http.paths[0].pathType
+          value: Prefix
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.service.name
+          value: RELEASE-NAME-service
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.service.port.number
+          value: 18080
+
+  - it: Ingress hosts can be specified
+    set:
+      ingress:
+        enabled: true
+        hosts:
+          - paths:
+              - path: /some-path
+                pathType: Prefix
+                backend:
+                  service:
+                    name: some-service
+                    port:
+                      number: 8080
+    asserts:
+      - contains:
+          path: spec.rules[0].http.paths
+          content:
+            path: /some-path
+            pathType: Prefix
+            backend:
+              service:
+                name: some-service
+                port:
+                    number: 8080

@@ -1,0 +1,19 @@
+eventVolume:
+  enabled: false
+
+dependencies:
+  packages:
+    - org.apache.hadoop:hadoop-aws:3.3.4
+
+deployment:
+  envFromSecret:
+    AWS_ACCESS_KEY_ID:
+      secretName: aws-s3-credentials
+      key: aws_access_key_id
+    AWS_SECRET_ACCESS_KEY:
+      secretName: aws-s3-credentials
+      key: aws_secret_access_key
+
+sparkConf: |-
+  spark.history.fs.logDirectory=s3a://YOUR_BUCKET/spark-events
+  spark.hadoop.fs.s3a.path.style.access=true
