@@ -398,6 +398,11 @@
                                 <packageName>krausening</packageName>
                                 <operatorAndVersion>${version.python.krausening}</operatorAndVersion>
                             </packageDefinition>
+                            <!-- NB: #85 temp work around to requests breakage - can be removed once that is fixed: -->
+                            <packageDefinition>
+                                <packageName>requests</packageName>
+                                <operatorAndVersion>2.31.0</operatorAndVersion>
+                            </packageDefinition>
 
                             <!-- this is an easy way to extend anything that is in build parent and overwrite it in the defined child folders. This will allow for ease of upgrades -->
                             <packageDefinition>

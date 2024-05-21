@@ -12,7 +12,7 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.11.4, <4"
 pydantic = ">=1.8.0,<2.0.0"
-requests = ">=2.26.0"
+requests = "2.31.0"
 krausening = ">=19"
 cryptography = ">=42.0.4"
 urllib3 = "^1.26.18"
