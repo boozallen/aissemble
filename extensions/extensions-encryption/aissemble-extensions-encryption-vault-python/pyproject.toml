@@ -24,6 +24,8 @@ setuptools = "^69.0.3"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
 
+# NB: #85 temp work around to requests breakage - can be removed once that is fixed:
+requests = "2.31.0"
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]
