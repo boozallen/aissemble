@@ -10,7 +10,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.11.4, <4"
-requests = "2.31.0"
+requests = ">=2.32.2"
 urllib3 = "^1.26.18"
 
 [tool.poetry.group.dev.dependencies]
