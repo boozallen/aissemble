@@ -51,7 +51,7 @@ from uuid import uuid4
 from datetime import datetime
 #end
 
-#if ($step.inbound && !${step.hasMessagingInbound()} && !$step.hasInboundRecordType())
+#if ($step.inbound)
 def aiops_encrypt_simple_aes(plain_text):
     '''
     Pyspark User Defined Function for running encryption on columns.
@@ -197,6 +197,7 @@ class ${step.capitalizedName}Base(AbstractPipelineStep):
         parent_run_facet = PipelineBase().get_pipeline_run_as_parent_run_facet()
         job_name = self.get_job_name()
         default_namespace = self.get_default_namespace()
+        # pylint: disable-next=assignment-from-none
         event_data = self.create_base_lineage_event_data()
         start_time = datetime.utcnow()
         self.record_lineage(self.create_lineage_start_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet, event_data=event_data, start_time=start_time))
@@ -215,7 +216,7 @@ class ${step.capitalizedName}Base(AbstractPipelineStep):
         except Exception as error:
             self.logger.exception(
                 "An exception occurred while executing "
-                + self.get_data_action_descriptive_label()
+                + self.descriptive_label
             )
             self.record_lineage(self.create_lineage_fail_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet, event_data=event_data, start_time=start_time, end_time=datetime.utcnow(), error=error))
             PipelineBase().record_pipeline_lineage_fail_event()
@@ -265,6 +266,7 @@ class ${step.capitalizedName}Base(AbstractPipelineStep):
             job_name = self.get_job_name()
             default_namespace = self.get_default_namespace()
             parent_run_facet = PipelineBase().get_pipeline_run_as_parent_run_facet()
+            # pylint: disable-next=assignment-from-none
             event_data = self.create_base_lineage_event_data()
             start_time = datetime.utcnow()
             self.record_lineage(self.create_lineage_start_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet, event_data=event_data, start_time=start_time))
@@ -275,11 +277,11 @@ class ${step.capitalizedName}Base(AbstractPipelineStep):
                 self.execute_step_impl(inbound)
                 #end
                 end_time = datetime.utcnow()
-                self.record_lineage(self.create_lineage_complete_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet, event_data=event_data, start_time=start_time, end_time=end_tine))
+                self.record_lineage(self.create_lineage_complete_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet, event_data=event_data, start_time=start_time, end_time=end_time))
             except Exception as error:
                 self.logger.exception(
                     "An exception occurred while executing "
-                    + self.get_data_action_descriptive_label()
+                    + self.descriptive_label
                 )
                 self.record_lineage(self.create_lineage_fail_event(run_id=run_id,job_name=job_name,default_namespace=default_namespace,parent_run_facet=parent_run_facet, event_data=event_data, start_time=start_time, end_time=datetime.utcnow(), error=error))
                 PipelineBase().record_pipeline_lineage_fail_event()
@@ -334,3 +336,9 @@ class ${step.capitalizedName}Base(AbstractPipelineStep):
 #if ($step.inbound)
     #parse("templates/data-delivery-pyspark/encryption.py.vm")
 #end
+
+    def get_logger(self):
+        return self.logger
+    
+    def get_step_phase(self):
+        return self.step_phase

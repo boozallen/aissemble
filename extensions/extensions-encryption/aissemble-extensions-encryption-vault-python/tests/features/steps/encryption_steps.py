@@ -9,7 +9,13 @@
 ###
 import os
 
-from behave import *
+# pylint: disable-next=no-name-in-module
+from behave import (
+    given,
+    when,
+    then,
+    use_step_matcher,
+)
 import nose.tools as nt
 from aiops_encrypt.aes_cbc_encryption_strategy import AesCbcEncryptionStrategy
 from aiops_encrypt.aes_gcm_96_encryption_strategy import AesGcm96EncryptionStrategy

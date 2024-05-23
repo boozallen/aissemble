@@ -10,7 +10,7 @@ from openlineage.client.run import (
     OutputDataset as OLOutputDataset,
 )
 from openlineage.client.facet import BaseFacet as OLFacet, ParentRunFacet
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 import time
 

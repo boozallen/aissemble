@@ -1,0 +1,14 @@
+"""
+Base implementation of this pipeline.
+
+GENERATED CODE - DO NOT MODIFY (add your customizations in ${step.capitalizedName}).
+
+Generated from: ${templateName}
+"""
+
+from abc import ABC
+
+class ${step.capitalizedName}Base(ABC):
+    def __init__(self):
+        pass
+    

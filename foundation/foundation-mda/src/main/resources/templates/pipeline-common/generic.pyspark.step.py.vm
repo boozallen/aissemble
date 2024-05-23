@@ -1,0 +1,20 @@
+"""
+Implementation of this pipeline.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName} 
+"""
+
+from krausening.logging import LogManager
+from ..generated.step.${step.lowercaseSnakeCaseName}_base import ${step.capitalizedName}Base
+
+class ${step.capitalizedName}(${step.capitalizedName}Base):
+
+    logger = LogManager.get_instance().get_logger('${step.capitalizedName}')
+
+    def __init__(self):
+        super().__init__()
+
+    ${step.concreteSignature}:
+        pass

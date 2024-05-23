@@ -164,6 +164,7 @@ class ${pipeline.capitalizedName}Base(ABC):
             with mlflow.start_run() as run:
                 self.training_run_id = run.info.run_uuid
     #if ($pipeline.trainingStep.isModelLineageEnabled())
+                # pylint: disable-next=assignment-from-none
                 event_data = self.create_base_lineage_event_data()
         #end
                 start = datetime.utcnow()

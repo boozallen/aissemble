@@ -15,7 +15,7 @@ GENERATED STUB CODE - PLEASE ***DO*** MODIFY
 Originally generated from: templates/behave.steps.py.vm
 """
 
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 from os import path, walk
 import nose.tools as nt
 import ast

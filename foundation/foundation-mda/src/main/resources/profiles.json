@@ -424,6 +424,9 @@
 				"name": "pythonGenericStepImpl"
 			},
 			{
+				"name": "pythonGenericStepBase"
+			},
+			{
 				"name": "trainingPipelineDriver"
 			},
 			{
@@ -715,6 +718,9 @@
 			},
 			{
 				"name": "pySparkGenericStepImpl"
+			},
+			{
+				"name": "pySparkGenericStepBase"
 			},
 			{
 				"name": "pySparkPipelineBase"
@@ -2459,6 +2465,9 @@
 			},
 			{
 				"name": "pythonGenericStepImpl"
+			},
+			{
+				"name": "pythonGenericStepBase"
 			},
 			{
 				"name": "inferenceImpl"

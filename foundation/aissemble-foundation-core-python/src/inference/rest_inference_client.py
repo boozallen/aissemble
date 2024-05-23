@@ -49,7 +49,7 @@ class RestInferenceClient(InferenceClient):
             return dict(
                 (key, self.__to_json_friendly_dict(val)) for key, val in target.items()
             )
-        elif isinstance(target, collections.Iterable):
+        elif isinstance(target, collections.abc.Iterable):
             return [self.__to_json_friendly_dict(val) for val in target]
         elif hasattr(target, "__dict__"):
             return dict(
