@@ -1,4 +1,4 @@
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 from pyspark.sql import SparkSession
 from data_delivery_spark_py.test_utils.spark_session_manager import *

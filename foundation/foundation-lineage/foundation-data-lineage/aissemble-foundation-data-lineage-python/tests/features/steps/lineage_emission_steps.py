@@ -3,8 +3,9 @@ from uuid import uuid4
 from time import sleep
 
 from aissemble_data_lineage import *
+from aissemble_data_lineage import transport
 from kafka import KafkaConsumer
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 from krausening.logging import LogManager
 

@@ -22,10 +22,12 @@ import static com.boozallen.aiops.mda.generator.util.PipelineUtils.isGenericStep
 public class GenericStepPythonGenerator extends TargetedPipelineStepPythonGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                  | Template                            | Generated File   |
-     * |-------------------------|-------------------------------------|------------------|
-     * | pythonGenericStepImpl   | pipeline-common/generic.step.py.vm  | impl/${name}.py  |
-     * | pySparkGenericStepImpl  | pipeline-common/generic.step.py.vm  | impl/${name}.py  |
+     * | Target                  | Template                                    | Generated File        |
+     * |-------------------------|---------------------------------------------|-----------------------|
+     * | pythonGenericStepBase   | pipeline-common/generic.base.py.vm          | ${name}_base.py       |
+     * | pySparkGenericStepBase  | pipeline-common/generic.base.py.vm          | step/${name}_base.py  |
+     * | pySparkGenericStepImpl  | pipeline-common/generic.pyspark.step.py.vm  | step/${name}.py       |
+     * | pythonGenericStepImpl   | pipeline-common/generic.python.step.py.vm   | impl/${name}.py       |
      */
 
     @Override

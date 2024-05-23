@@ -66,7 +66,7 @@ Feature: Read a CSV file into a filestore
 [source,python]
 ----
 import os
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 from src.pyspark_file_data_ingest.step.ingest import Ingest
 @given("Ingest csv file exist")

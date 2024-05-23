@@ -3,7 +3,7 @@ from ...config.pipeline_config import PipelineConfig
 from krausening.logging import LogManager
 #if ($postAction.isOnnxModelConversion())
 from onnxmltools.convert import ${postAction.onnxConversionMethod}
-from onnxmltools.utils import save_model
+import mlflow
 from os import path
 #end
 
@@ -33,7 +33,7 @@ class ${postAction.modelConversionClassName}(ABC):
 
         :return: the directory so save the converted model to
         """
-        return self._pipeline_config.model_directory()
+        return self._pipeline_config.onnx_model_directory()
 
 
     @property
@@ -87,10 +87,9 @@ class ${postAction.modelConversionClassName}(ABC):
         #elseif ($postAction.isOnnxModelConversion())
         ${postAction.modelConversionClassName}.logger.info('Saving converted ${postAction.modelTarget} model...')
 
-        model_file_path = path.join(self.converted_model_file_directory, self.converted_model_file_name)
-        save_model(converted_model, model_file_path)
+        mlflow.onnx.log_model(converted_model, self.converted_model_file_directory)
 
-        ${postAction.modelConversionClassName}.logger.info('Saved converted ${postAction.modelTarget} model to {}'.format(model_file_path))
+        ${postAction.modelConversionClassName}.logger.info('Saved converted ${postAction.modelTarget} model to {}'.format(self.converted_model_file_directory))
         #end
 
 
