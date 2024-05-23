@@ -6,9 +6,9 @@ replicaCount: 1
 
 hostname: versioning
 image:
-  name: boozallen/${projectName}-versioning-docker
+  name: ${projectName}-versioning-docker
   imagePullPolicy: Always
-  dockerRepo: ghcr.io/
+  dockerRepo: ${dockerProjectRepositoryUrl}
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

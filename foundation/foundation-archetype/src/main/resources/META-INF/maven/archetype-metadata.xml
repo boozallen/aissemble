@@ -51,6 +51,9 @@
 		<requiredProperty key="helmPublishingRepositoryName">
 			<defaultValue>PLACEHOLDER-helm</defaultValue>
 		</requiredProperty>
+		<requiredProperty key="dockerProjectRepositoryUrl">
+			<defaultValue>docker-registry-PLACEHOLDER/repository/</defaultValue>
+		</requiredProperty>
 	</requiredProperties>
 
 	<fileSets>

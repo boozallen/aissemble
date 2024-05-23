@@ -66,7 +66,7 @@
                 <configuration>
                     <skip>true</skip>
                     <imageVersion>${project.version}</imageVersion>
-                    <imageName>boozallen/${project.artifactId}</imageName>
+                    <imageName>${project.artifactId}</imageName>
                 </configuration>
             </plugin>
         </plugins>
@@ -83,6 +83,10 @@
                         <configuration>
                             <skip>false</skip>
                             <imageVersion>${project.version}</imageVersion>
+                            <!-- Add in repoId that corresponds to the serverId in your settings.xml
+                                 that contains the docker login credentials -->
+                            <repoId />
+                            <repoUrl>${docker.project.repository.url}</repoUrl>
                         </configuration>
                     </plugin>
                 </plugins>

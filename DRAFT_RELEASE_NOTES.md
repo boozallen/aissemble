@@ -69,8 +69,10 @@ _<A short bulleted list of changes that will cause downstream projects to be par
 Note instructions for adapting to these changes are outlined in the upgrade instructions below.  
 * The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
   to be invalid
+* The specification of the private maven repositories has been changed from prior releases.
 * The specification of private PyPI repositories has been changed from prior releases.
 * The specification of Helm publishing repositories has been changed from prior releases.
+* The specification of private docker repository has been changed from prior releases.
 * The Kafka home directory in the **aissemble-kafka** image has changed from _/opt/kafka_ to _/opt/bitnami/kafka_
 
 # Known Issues
@@ -187,8 +189,8 @@ in this example - adjust for your project, as appropriate):
       </plugins>  
     </pluginManagement>
   </build>
-
 ```
+
 ### Add the Helm Publishing Repository Configuration
 Add the following `property` into your project's root `pom.xml` file with the appropriate Helm repository URL and name you wish to publish your charts to (Nexus is used in this example - adjust for your project, as appropriate):
 
@@ -232,6 +234,16 @@ Update the following `plugin` within your project's `-deploy/pom.xml` file. Adju
 ```
 For further configurations that can be set for your specific Helm repository needs, please see the [helm-maven-plugin documentation](https://github.com/kokuwaio/helm-maven-plugin?tab=readme-ov-file)
 
+### Update Docker Repository Configuration
+Update the docker repository in your project's root `pom.xml` file with the appropriate docker repository URL
+for publishing and retrieving docker images. Adjust for your project as appropriate:
+```xml
+<properties>
+    ...
+    <docker.project.repository.url>docker-registry-PLACEHOLDER/repository/</docker.project.repository.url>
+</properties>
+```
+Additionally, add the docker repoId in the `orphedomos-maven-plugin` configuration in the project's `-docker/pom.xml` file.
 
 ## Conditional Steps
 

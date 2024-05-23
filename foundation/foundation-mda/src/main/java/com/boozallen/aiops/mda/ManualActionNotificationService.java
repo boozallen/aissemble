@@ -169,11 +169,9 @@ public class ManualActionNotificationService {
             logger.warn("Unable to find Tiltfile. Will not be able to direct manual Dockerbuild updates to Tiltfile");
         } else {
             final String tiltFilePath = rootDir.getAbsolutePath() + File.separator + "Tiltfile";
-            final String referenceName = "boozallen/" + dockerApplicationArtifactId;
             final String pipelineArtifactId = dockerArtifactId.replace("-docker", "-pipelines");
-            final String compileText = "compile-" + dockerApplicationArtifactId;
             final String stepNameSnakeCase = PipelineUtils.deriveLowerSnakeCaseNameFromHyphenatedString(stepName);
-            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, referenceName);
+            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, dockerApplicationArtifactId);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
                 final String key = getMessageKey(tiltFilePath, "Tiltfile");
 
@@ -185,7 +183,7 @@ public class ManualActionNotificationService {
                 notification.addToVelocityContext("pipelineArtifactId", pipelineArtifactId);
                 notification.addToVelocityContext("pipelineName", pipelineName);
                 notification.addToVelocityContext("dockerArtifactId", dockerArtifactId);
-                notification.addToVelocityContext("referenceName", referenceName);
+                notification.addToVelocityContext("referenceName", dockerApplicationArtifactId);
                 notification.addToVelocityContext("stepNameSnakeCase", stepNameSnakeCase);
                 notification.addToVelocityContext("includeHelmBuild", includeHelmBuild);
                 addManualAction(tiltFilePath, notification);
@@ -214,9 +212,8 @@ public class ManualActionNotificationService {
             logger.warn("Unable to find Tiltfile. Will not be able to direct manual Dockerbuild updates to Tiltfile");
         } else {
             final String tiltFilePath = rootDir.getAbsolutePath() + File.separator + "Tiltfile";
-            final String text = "boozallen/" + params.getDockerApplicationArtifactId();
             final String deployArtifactId = params.getDockerArtifactId().replace("-docker", "-deploy");
-            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
+            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, params.getDockerApplicationArtifactId());
 
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
                 VelocityNotification notification = new VelocityNotification("docker-build-" + params.getDeployedAppName(),

@@ -6,9 +6,9 @@ replicaCount: 1
 
 hostname: airflow
 image:
-  name: boozallen/${projectName}-airflow-docker
+  name: ${projectName}-airflow-docker
   imagePullPolicy: Always
-  dockerRepo: ghcr.io/
+  dockerRepo: ${dockerProjectRepositoryUrl}
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

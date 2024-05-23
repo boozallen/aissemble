@@ -35,7 +35,6 @@
     </modules>
 
     <properties>
-        <!-- Maven Repos -->
         <maven.repo.id>maven-releases</maven.repo.id>
         <maven.repo.url>${mavenRepositoryUrl}</maven.repo.url>
         <maven.snapshot.repo.id>maven-snapshots</maven.snapshot.repo.id>
@@ -43,6 +42,7 @@
         <pypi.project.repository.url>${pypiProjectRepositoryUrl}</pypi.project.repository.url>
         <helm.publishing.repository.url>${helmPublishingRepositoryUrl}</helm.publishing.repository.url>
         <helm.publishing.repository.name>${helmPublishingRepositoryName}</helm.publishing.repository.name>
+        <docker.project.repository.url>${dockerProjectRepositoryUrl}</docker.project.repository.url>
     </properties>
 
     <dependencyManagement>

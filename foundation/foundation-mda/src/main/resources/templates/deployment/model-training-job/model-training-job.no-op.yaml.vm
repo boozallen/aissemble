@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: no-op
-        image: boozallen/${projectName}-${appName.replace("-image", "")}-docker
+        image: ${projectName}-${appName.replace("-image", "")}-docker
         env:
         - name: MODE
           value: "no-op"

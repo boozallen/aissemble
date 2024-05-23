@@ -1,5 +1,6 @@
 sparkApp:
     spec:
+      image: "${projectName}-spark-worker-docker:latest"
       sparkConf:
         spark.eventLog.enabled: "true"
         #if ("${sparkExtensions}" != "")

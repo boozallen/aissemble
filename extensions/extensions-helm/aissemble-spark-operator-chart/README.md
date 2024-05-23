@@ -37,16 +37,16 @@ aissemble-spark-operator-chart:
     webhook.enable: false
 ```
 
-| Property                   | Description                        | Required Override | Default                                                                               |
-|----------------------------|------------------------------------|-------------------|---------------------------------------------------------------------------------------|
-| image.repository           | The image repository               | No                | NB: OSS: update with aissemble docker repository/boozallen/aissemble-spark-operator |
-| image.tag                  | The image tag                      | No                | Chart.Version                                                                         |
-| webhook.enable             | Enable webhook server              | No                | true                                                                                  |
-| volumes                    | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`                                                    |
-| volumeMounts               | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`                                                    |
-| fullnameOverride           | String to override release name    | No                | spark-operator                                                                        |
-| rbac.createClusterRole     | See `Migrated Properties`          | No                | false                                                                                 |
-| serviceAccounts.spark.name | Name for the spark service account | No                | spark                                                                                 |
+| Property                   | Description                        | Required Override | Default                                     |
+|----------------------------|------------------------------------|-------------------|---------------------------------------------|
+| image.repository           | The image repository               | No                | ghcr.io/boozallen/aissemble-spark-operator  |
+| image.tag                  | The image tag                      | No                | Chart.Version                               |
+| webhook.enable             | Enable webhook server              | No                | true                                        |
+| volumes                    | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`          |
+| volumeMounts               | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`          |
+| fullnameOverride           | String to override release name    | No                | spark-operator                              |
+| rbac.createClusterRole     | See `Migrated Properties`          | No                | false                                       |
+| serviceAccounts.spark.name | Name for the spark service account | No                | spark                                       |
 
 
 ## Migrated Properties

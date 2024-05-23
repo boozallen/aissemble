@@ -97,6 +97,7 @@ public final class VelocityProperty {
     public static final String JAVA_DATA_RECORDS = "javaDataRecords";
     public static final String PYTHON_DATA_RECORDS = "pythonDataRecords";
     public static final String SCM_URL = "scmUrl";
+    public static final String DOCKER_PROJECT_REPOSITORY_URL = "dockerProjectRepositoryUrl";
 
     private VelocityProperty() { }
 }

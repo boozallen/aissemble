@@ -72,6 +72,23 @@ suggest the use of a dash to separate terms.
 * ``rdec`` (example of a project acronym)
 | Yes
 
+| ``dockerProjectRepositoryUrl``
+| The name of the custom docker repository to use for this project.
+| Should be specified and utilized with the https://github.com/TechnologyBrewery/orphedomos[orphedomos-maven-plugin] to
+build and push docker images.
+
+Please see https://github.com/TechnologyBrewery/orphedomos?tab=readme-ov-file#repository-url[Orphedomos's documentation on
+repository URLs,role=external,window=_blank]. The https://github.com/TechnologyBrewery/orphedomos?tab=readme-ov-file#repository-id[Repository ID]
+should also be set and match a serverId entry in your settings.xml that holds credentials for the docker login.
+
+If not specified, this will default to `docker-registry-PLACEHOLDER/repository` and will need to be updated in your root
+`pom.xml` file prior to pushing your first docker image.
+|
+* `docker.io/mydomain/repository`
+* `ghcr.io/mydomain/repository`
+
+| No
+
 | ``groupId``
 | The namespace in which your Maven modules will live
 | In general, you want it to think about ``groupId`` like the notional reverse ordered internet address of your effort.
@@ -97,21 +114,21 @@ under mvn license:license-list
 
 | ``mavenRepositoryUrl``
 |  The URL of the Maven repository where the release artifacts of the project will be deployed.
-| Defaults to "https://release-PLACEHOLDER/repository/maven-releases" and can be updated in the `<properties>` section
+| Defaults to `https://release-PLACEHOLDER/repository/maven-releases` and can be updated in the `<properties>` section
 of the root `pom.xml`
 |
-* https://nexus.mydomain.com/repository/maven-releases/
-* https://artifactory.mydomain.com/artifactory/libs-release-local
+* `https://nexus.mydomain.com/repository/maven-releases/`
+* `https://artifactory.mydomain.com/artifactory/libs-release-local`
 
 | No
 
 | ``mavenSnapshotRepositoryUrl``
 |  The URL of the Maven repository where the snapshot artifacts of the project will be deployed.
-| Defaults to "https://snapshot-PLACEHOLDER/repository/maven-snapshots" and can be updated in the `<properties>` section
+| Defaults to `https://snapshot-PLACEHOLDER/repository/maven-snapshots` and can be updated in the `<properties>` section
 of the root `pom.xml`
 |
-* https://nexus.mydomain.com/repository/maven-snapshots/
-* https://artifactory.mydomain.com/artifactory/libs-snapshot-local
+* `https://nexus.mydomain.com/repository/maven-snapshots/`
+* `https://artifactory.mydomain.com/artifactory/libs-snapshot-local`
 
 | No
 
