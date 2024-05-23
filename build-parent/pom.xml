@@ -26,9 +26,9 @@
         <version.buildnumber.plugin>3.1.0</version.buildnumber.plugin>
         <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
         <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
-        <version.fermenter>2.10.3-SNAPSHOT</version.fermenter>
+        <version.fermenter>2.10.3</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
-        <version.habushu.plugin>2.14.0</version.habushu.plugin>
+        <version.habushu.plugin>2.15.0</version.habushu.plugin>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.2.0</version.help.plugin>
         <version.krausening>19</version.krausening>
@@ -397,11 +397,6 @@
                             <packageDefinition>
                                 <packageName>krausening</packageName>
                                 <operatorAndVersion>${version.python.krausening}</operatorAndVersion>
-                            </packageDefinition>
-                            <!-- NB: #85 temp work around to requests breakage - can be removed once that is fixed: -->
-                            <packageDefinition>
-                                <packageName>requests</packageName>
-                                <operatorAndVersion>2.31.0</operatorAndVersion>
                             </packageDefinition>
 
                             <!-- this is an easy way to extend anything that is in build parent and overwrite it in the defined child folders. This will allow for ease of upgrades -->
