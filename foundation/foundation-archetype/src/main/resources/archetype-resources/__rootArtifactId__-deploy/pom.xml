@@ -97,9 +97,24 @@
                             <goal>dependency-update</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
                 </executions>
                 <configuration>
                     <chartDirectory>${project.basedir}/src/main/resources/apps</chartDirectory>
+                    <uploadRepoStable>
+                        <name>${helm.publishing.repository.name}</name>
+                        <url>${helm.publishing.repository.url}</url>
+                    </uploadRepoStable>
+                    <uploadRepoSnapshot>
+                        <name>${helm.publishing.repository.name}</name>
+                        <url>${helm.publishing.repository.url}</url>
+                    </uploadRepoSnapshot>
                     <helmExtraRepos>
                         <helmRepo>
                             <name>ghcr.io</name>
