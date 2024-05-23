@@ -489,8 +489,6 @@
                                 <operatorAndVersion>~${version.sedona}</operatorAndVersion>
                             </packageDefinition>
                         </managedDependencies>
-                        <sourceFailOnLintErrors>false</sourceFailOnLintErrors>
-                        <testFailOnLintErrors>false</testFailOnLintErrors>
                     </configuration>
                 </plugin>
                 <plugin>
