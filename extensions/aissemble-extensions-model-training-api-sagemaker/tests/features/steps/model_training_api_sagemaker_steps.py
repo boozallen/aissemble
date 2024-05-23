@@ -7,7 +7,7 @@
 # This software package is licensed under the Booz Allen Public License. All Rights Reserved.
 # # #L%
 # ###
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 from unittest import mock
 import os
 

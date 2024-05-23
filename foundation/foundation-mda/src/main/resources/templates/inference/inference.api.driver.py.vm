@@ -16,11 +16,11 @@ import grpc
 import sys
 
 #foreach($step in $steps)
-from .impl.${step.getLowercaseSnakeCaseName()} import ${step.capitalizedName}
+from ${artifactIdPythonCase}.impl.${step.getLowercaseSnakeCaseName()} import ${step.capitalizedName}
 #end
 
-from .generated.inference.grpc.inference_api_grpc_base import InferenceGrpcBase
-from .generated.inference.grpc import inference_api_pb2_grpc
+from ${artifactIdPythonCase}.generated.inference.grpc.inference_api_grpc_base import InferenceGrpcBase
+from ${artifactIdPythonCase}.generated.inference.grpc import inference_api_pb2_grpc
 
 class InferenceGrpc(InferenceGrpcBase):
     pass

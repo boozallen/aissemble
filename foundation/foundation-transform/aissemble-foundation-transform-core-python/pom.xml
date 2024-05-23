@@ -20,6 +20,9 @@
             <plugin>
                 <groupId>org.technologybrewery.habushu</groupId>
                 <artifactId>habushu-maven-plugin</artifactId>
+                <configuration>
+                    <rewriteLocalPathDepsInArchives>true</rewriteLocalPathDepsInArchives>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

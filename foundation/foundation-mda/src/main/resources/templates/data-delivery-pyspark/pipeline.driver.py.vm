@@ -1,9 +1,5 @@
 #foreach($step in $steps)
-#if ($step.isGeneric())
-from ${packageFolderName}.impl.${step.getLowercaseSnakeCaseName()} import ${step.capitalizedName}
-#else
 from ${packageFolderName}.step.${step.lowercaseSnakeCaseName} import ${step.capitalizedName}
-#end
 #end
 #if ($pipeline.hasMessagingInboundStep())
 from threading import Thread

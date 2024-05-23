@@ -20,9 +20,6 @@ RUN apt-get -y update \
 
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 
-# Install mlflow
-RUN python3.11 -m pip install "mlflow>=2.3.1,<3.0.0" --ignore-installed
-
 # Install ${trainingModule} dependencies
 COPY ./target/dockerbuild/requirements/${trainingPipeline}/${trainingModule}/requirements.txt /installation/${trainingModule}/
 RUN python3.11 -m pip install -r /installation/${trainingModule}/requirements.txt

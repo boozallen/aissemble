@@ -19,48 +19,62 @@ FAILURE_FILE_PATH = "/opt/ml/output/failure"
 MODEL_ARTIFACTS_PATH = "/opt/ml/model/"
 
 def load_train_data(train_data_dir):
-    """Load training data from file(s) here
+    """
+    Load training data from file(s) here
+
     Args:
         train_data_dir: training data file(s) will be available in this directory
     Returns:
         loaded training data
     """
+    train_data = None
 
     return train_data
 
 def load_validation_data(validation_data_dir):
-    """Load validation data from file(s) here
+    """
+    Load validation data from file(s) here
+
     Args:
         validation_data_dir: validation data file(s) will be available in this directory
     Returns:
         loaded validation data
     """
+    validation_data = None
 
     return validation_data
 
 def load_test_data(test_data_dir):
-    """Load test data from file(s) here
+    """
+    Load test data from file(s) here
+
     Args:
         test_data_dir: test data file(s) will be available in this directory
     Returns:
         loaded test data
     """
+    test_data = None
 
     return test_data
 
 def validate_model(model, validation_data):
-    """Should be called to evaluate model against validation data from train_model function after each training epoch
+    """
+    Should be called to evaluate model against validation data from train_model function after each training epoch
+    
     Args:
         model: model to be evaluated
         validation_data: loaded validation dataset
     Returns:
         resulting validation metrics
     """
+    validation_metrics = None
 
     return validation_metrics
 
 def train_model(train_data, validation_data, hyperparameters):
-    """Train model based on user-provided hyperparameters, evaluate against validation dataset after each epoch
+    """
+    Train model based on user-provided hyperparameters, evaluate against validation dataset after each epoch
+
     Args:
         train_data: loaded training dataset
         validation_data: loaded validation dataset
@@ -70,6 +84,7 @@ def train_model(train_data, validation_data, hyperparameters):
     """
 
     # TODO: initialize model to be trained using the framework of your choice
+    model = None
 
     # TODO: train model using model.fit(...) on the train_data
 
@@ -78,7 +93,9 @@ def train_model(train_data, validation_data, hyperparameters):
     return model
 
 def test_model(model, test_data):
-    """Evaluate model against test data
+    """
+    Evaluate model against test data
+
     Args:
         model: trained model
         test_data: loaded test dataset
@@ -87,11 +104,14 @@ def test_model(model, test_data):
     """
 
     # TODO: use model.predict(...) to evaluate model against the test_data
+    metrics = None
 
     return metrics
 
 def save_model(model, output_dir):
-    """Save model artifacts to disk
+    """
+    Save model artifacts to disk
+
     Args:
         model: trained model
         output_dir: directory in which to save model artifacts
