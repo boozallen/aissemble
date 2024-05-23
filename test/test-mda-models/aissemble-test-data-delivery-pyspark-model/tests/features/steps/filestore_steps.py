@@ -9,7 +9,7 @@
 ###
 import os
 import nose.tools as nt
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 from aiops_core_filestore.file_store_factory import FileStoreFactory
 from libcloud.utils.py3 import httplib
 from krausening.logging import LogManager

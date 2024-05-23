@@ -1,4 +1,4 @@
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import aissemble_messaging
 from aissemble_messaging import *
 from unittest.mock import patch

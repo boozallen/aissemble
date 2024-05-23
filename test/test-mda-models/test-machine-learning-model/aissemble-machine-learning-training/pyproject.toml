@@ -14,12 +14,16 @@ include = ["src/aissemble_machine_learning_training/generated/**/*"]
 aissemble-foundation-pdp-client-python = {path = "../../../../foundation/foundation-security/aissemble-foundation-pdp-client-python", develop = true}
 onnxmltools = "^1.11.1"
 aissemble-foundation-core-python = {path = "../../../../foundation/aissemble-foundation-core-python", develop = true}
-tf2onnx = "^1.12.1"
+aissemble-foundation-model-lineage = {path = "../../../../foundation/foundation-lineage/aissemble-foundation-model-lineage", develop = true}
 python = "^3.11.4"
 krausening = ">=19"
 mlflow = "^2.3.1"
 kafka-python = "^2.0.2"
 pandas = "^1.5.0"
+
+# Necessary for working with v39.0.0 of crytopgraphy
+# https://stackoverflow.com/questions/74981558/error-updating-python3-pip-attributeerror-module-lib-has-no-attribute-openss
+pyopenssl = ">22.1.0"
 
 # The latest versions of scipy cap numpy to < 1.26.0, but older versions don't. The recent release of numpy caused
 # scipy to downgrade to a version that is incompatible with the latest version of numpy. Presumably, scipy will release
@@ -31,7 +35,9 @@ scipy = "^1.9.3"
 # with any modules that were generated using protobuf 3.x
 protobuf = "^3.20.3"
 
+confluent-kafka = { version = "2.1.1", optional = true }
 
+tf2onnx = "^1.12.1"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"
@@ -39,7 +45,6 @@ behave = ">=1.2.6"
 nose = ">=1.3.7"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
-
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]

@@ -1031,7 +1031,7 @@
   },
   {
     "name": "pythonGenericStepImpl",
-    "templateName": "templates/pipeline-common/generic.step.py.vm",
+    "templateName": "templates/pipeline-common/generic.python.step.py.vm",
     "outputFile": "impl/${name}.py",
     "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
     "metadataContext": "targeted",
@@ -1039,11 +1039,27 @@
   },
   {
     "name": "pySparkGenericStepImpl",
-    "templateName": "templates/pipeline-common/generic.step.py.vm",
-    "outputFile": "impl/${name}.py",
+    "templateName": "templates/pipeline-common/generic.pyspark.step.py.vm",
+    "outputFile": "step/${name}.py",
     "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
     "metadataContext": "targeted",
     "overwritable": false
+  },
+  {
+    "name": "pythonGenericStepBase",
+    "templateName": "templates/pipeline-common/generic.base.py.vm",
+    "outputFile": "${name}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkGenericStepBase",
+    "templateName": "templates/pipeline-common/generic.base.py.vm",
+    "outputFile": "step/${name}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
   },
   {
     "name": "pySparkSchemaBaseInit",

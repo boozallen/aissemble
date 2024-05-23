@@ -6,3 +6,6 @@
 
 mlflow_tracking_uri = http://mlflow-ui-tracking:5005
 kafka_server = kafka-cluster:9093
+#if (${containsOnnx})
+onnx_model_directory = onnx_model
+#end

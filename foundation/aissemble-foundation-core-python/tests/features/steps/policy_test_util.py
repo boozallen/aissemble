@@ -111,6 +111,7 @@ class PolicyTestUtil:
         type = PolicyTestUtil.getRandomString(5)
         return Target(retrieve_url=retrieveUrl, type=type)
 
+    @staticmethod
     def getRandomConfigs() -> Dict[str, Any]:
         configs = dict()
         configs[PolicyTestUtil.getRandomString(5)] = PolicyTestUtil.getRandomString(3)
@@ -120,8 +121,10 @@ class PolicyTestUtil:
 
         return configs
 
+    @staticmethod
     def getRandomString(length: int) -> str:
         return "".join(random.choice(string.ascii_letters) for i in range(length))
 
+    @staticmethod
     def getRandomNumber(min: int, max: int) -> int:
         return random.randint(min, max)

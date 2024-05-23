@@ -2,7 +2,7 @@ import datetime
 from uuid import uuid4
 
 from aissemble_data_lineage import *
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 
 

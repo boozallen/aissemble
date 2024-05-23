@@ -102,14 +102,14 @@
             aiops_encrypt = VaultRemoteEncryptionStrategy()
 
         for column in fields_to_update:
-            encrypted_column_value = aiops_encrypt.encrypt(getattr(record, column))
+            encrypted_column_value = aiops_encrypt.encrypt(getattr(inbound, column))
             # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
             try:
                 encrypted_column_value = encrypted_column_value.decode('utf-8')
             except (UnicodeDecodeError, AttributeError):
                 pass
 
-            setattr(record, column, encrypted_column_value)
+            setattr(inbound, column, encrypted_column_value)
 
         return_payload = inbound
        #elseif (!$step.hasInboundRecordType())

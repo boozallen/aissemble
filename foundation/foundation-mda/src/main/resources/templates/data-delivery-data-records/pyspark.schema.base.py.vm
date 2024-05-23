@@ -10,6 +10,17 @@ import types
 ${import}
 #end
 
+#set($fieldHasGetScale = 0)
+#foreach ($field in $record.fields)
+#if (${field.getValidation().getScale()})
+#set($fieldHasGetScale = 1)
+#end
+#end
+
+#if (!$record.baseImports.contains("from pyspark.sql.types import StringType") && $fieldHasGetScale)
+from pyspark.sql.types import StringType
+#end
+
 
 class ${record.capitalizedName}SchemaBase(ABC):
     """
@@ -98,7 +109,7 @@ class ${record.capitalizedName}SchemaBase(ABC):
 
             self._schema = update
 
-    def validate_dataset(ingest_dataset: DataFrame) -> DataFrame:
+    def validate_dataset(self, ingest_dataset: DataFrame) -> DataFrame:
         """
         Validates the given dataset and returns the lists of validated records.
         """

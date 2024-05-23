@@ -6,8 +6,10 @@ import logging
 from ....inference_impl import *
 from .inference_api_pb2_grpc import InferenceServiceServicer
 
+# pylint: disable-next=no-name-in-module
 from .inference_api_pb2 import InferenceResponse as GrpcInferenceResponse, \
     BatchInferenceResponse as GrpcBatchInferenceResponse
+# pylint: disable-next=no-name-in-module
 from .generated.inference_payload_definition_pb2 import Inference as GrpcInference
 from ....validation.inference_payload_definition import Record
 from ....validation.inference_message_definition import RequestBody
