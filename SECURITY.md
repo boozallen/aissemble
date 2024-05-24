@@ -10,4 +10,4 @@ The following versions are being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Please submit an [issue on this github project for any vulnerability](https://github.com/boozallen/aissemble/issues.
+Please [Report a vulnerability](https://github.com/boozallen/aissemble/issues/new/choose) to submit a Draft Security Advisory to the administrators of the aissemble project.
