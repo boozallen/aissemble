@@ -1,0 +1,8 @@
+# This file contains the default values for the aiSSEMBLE Spark History Helm chart.
+
+aissemble-spark-history-chart:
+    service:
+      type: LoadBalancer
+
+    ingress:
+      enabled: false

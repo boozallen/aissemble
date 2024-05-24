@@ -1,0 +1,35 @@
+apiVersion: v2
+name: ${appName}
+description: A Helm chart for ${appName}
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: ${version}
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "1.0.0"
+
+# To include an aiSSEMBLE chart with ArgoCD we must add it as a dependency until including from multiple sources
+# is moved out of beta and into the latest version of Argo.
+# https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/
+# Note that this requires prefixing values with the name of the dependency (see test/src/test/resources in the aiSSEMBLE repo
+# for example usage) in order to override values.
+dependencies:
+  - name: aissemble-spark-history-chart
+    version: ${versionTag}
+    repository: oci://ghcr.io/boozallen
+

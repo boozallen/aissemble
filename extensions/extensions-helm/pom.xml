@@ -21,7 +21,6 @@
         <module>aissemble-inference-chart</module>
         <module>aissemble-versioning-chart</module>
         <module>aissemble-kafka-chart</module>
-        <module>aissemble-spark-history-chart</module>
         <module>extensions-helm-hive</module>
         <module>aissemble-keycloak-chart</module>
         <module>aissemble-elasticsearch-operator-chart</module>
@@ -31,6 +30,7 @@
         <module>aissemble-lineage-http-consumer-chart</module>
         <module>aissemble-jenkins-chart</module>
         <module>extensions-helm-pipeline-invocation</module>
+        <module>extensions-helm-spark-infrastructure</module>
         <module>aissemble-policy-decision-point-chart</module>
         <module>aissemble-mlflow-chart</module>
         <module>aissemble-localstack-chart</module>
