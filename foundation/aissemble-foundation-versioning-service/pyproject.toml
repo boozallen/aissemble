@@ -21,6 +21,9 @@ pydantic = ">=1.8.0,<2.0.0"
 starlette = ">=0.25.0"
 urllib3 = "^1.26.18"
 
+aissemble-foundation-core-python = {path = "../aissemble-foundation-core-python/", develop = true}
+aissemble-foundation-pdp-client-python = {path = "../foundation-security/aissemble-foundation-pdp-client-python/", develop = true}
+
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"
 behave = ">=1.2.6"
