@@ -181,7 +181,7 @@ Feature: Generating pipeline resources
       | data-flow | data-delivery-pyspark |
 
   @pipeline-generation @module-generation
-  Scenario Outline: Habushu pipelines integrate test report generation by default
+  Scenario Outline: Spark and Pyspark pipelines integrate test report generation by default
     Given a project named "example"
     And a "<type>" pipeline using "<implementation>"
     And a dictionary and 0 or more record models
@@ -193,6 +193,15 @@ Feature: Generating pipeline resources
       | type                      | implementation          | profile                 |
       | data-flow                 | data-delivery-pyspark   | aissemble-maven-modules |
       | data-flow                 | data-delivery-spark     | aissemble-maven-modules |
+
+  @pipeline-generation @module-generation
+  Scenario: Machine learning pipelines integrate test report generation in child modules by default
+    Given a project named "example"
+    And a "machine-learning" pipeline using "machine-learning-mlflow"
+    And a dictionary and 0 or more record models
+    When the profile "aissemble-maven-modules" is generated
+    Then the pipeline's child POMs have a dependency on "cucumber-reporting"
+    And the pipeline's child POMs has the plugin "maven-cucumber-reporting"
 
   @pipeline-generation @module-generation
   Scenario: Pipelines depend on data module by default - two language support
