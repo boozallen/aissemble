@@ -1,0 +1,57 @@
+########################################
+## CONFIG | Spark Configs
+########################################
+metadata:
+  namespace: default
+sparkApp:
+  spec:
+    sparkConf:
+      spark.eventLog.enabled: "true"
+      spark.eventLog.dir: "/opt/spark/spark-events"
+    type: "placeholder" #required for a dry run test to pass, this should always be overridden
+    mode: cluster
+    imagePullPolicy: IfNotPresent
+    restartPolicy:
+      type: Never
+    sparkVersion: "3.4.0"
+    sparkConfigMap: spark-config
+    dynamicAllocation:
+      enabled: true
+      initialExecutors: 0
+      minExecutors: 0
+      maxExecutors: 4
+    volumes:
+      - name: ivy-cache
+        persistentVolumeClaim:
+          claimName: ivy-cache
+      - name: spark-events
+        persistentVolumeClaim:
+          claimName: spark-events-claim
+    driver:
+      cores: 1
+      coreLimit: "1200m"
+      memory: "512m"
+      serviceAccount: spark
+      volumeMounts:
+        - name: ivy-cache
+          mountPath: "/opt/spark/.ivy2"
+        - name: spark-events
+          mountPath: "/opt/spark/spark-events"
+    executor:
+      cores: 1
+      coreLimit: "1200m"
+      memory: "512m"
+      labels:
+        version: 3.4.0
+      volumeMounts:
+        - name: ivy-cache
+          mountPath: "/opt/spark/.ivy2"
+        - name: spark-events
+          mountPath: "/opt/spark/spark-events"
+service:
+  enabled: false
+  spec:
+    ports:
+      - name: "debug"
+        port: 4747
+        targetPort: 4747
