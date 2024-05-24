@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
-        <artifactId>extensions-helm</artifactId>
+        <artifactId>extensions-helm-spark-infrastructure</artifactId>
         <version>1.7.0-SNAPSHOT</version>
     </parent>
 

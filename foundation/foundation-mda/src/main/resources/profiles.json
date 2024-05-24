@@ -293,6 +293,28 @@
 		]
 	},
 	{
+		"name": "aissemble-spark-infrastructure-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "spark-infrastructure-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "spark-infrastructure-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "sparkInfrastructureHelmChartFileV2"
+			},
+			{
+				"name": "sparkInfrastructureHelmValuesFileV2"
+			},
+			{
+				"name": "sparkInfrastructureHelmValuesDevFileV2"
+			}
+		]
+	},
+	{
 		"name": "aissemble-spark-operator-deploy",
 		"profileReferences": [
 			{
