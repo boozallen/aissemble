@@ -1,7 +1,7 @@
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError, UnrecognizedBrokerVersion, NoBrokersAvailable
 
-from .safe_docker_container import SafeDockerContainer
+from container.safe_docker_container import SafeDockerContainer
 from testcontainers.core.waiting_utils import wait_container_is_ready
 
 

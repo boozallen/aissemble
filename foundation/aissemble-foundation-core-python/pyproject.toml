@@ -27,6 +27,7 @@ apache-libcloud = ">=3.6.0"
 urllib3 = "^1.26.18"
 psycopg2-binary = "^2.9.6"
 sqlalchemy = "^2.0.16"
+kafka-python = "^2.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"
