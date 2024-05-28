@@ -15,7 +15,7 @@
 
     <properties>
         <quarkus.package.type>uber-jar</quarkus.package.type>
-        <version.cucumber>7.4.1</version.cucumber>
+        <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
     </properties>
 
     <dependencyManagement>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>io.quarkiverse.cucumber</groupId>
             <artifactId>quarkus-cucumber</artifactId>
-            <version>0.6.0</version>
+            <version>${version.quarkus.cucumber}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

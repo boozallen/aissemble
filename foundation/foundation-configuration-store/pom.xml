@@ -65,6 +65,10 @@
                     </environmentVariables>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+            </plugin>
         </plugins>
     </build>
     <dependencyManagement>
@@ -79,13 +83,7 @@
             <dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-java</artifactId>
-                <version>7.15.0</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.cucumber</groupId>
-                <artifactId>messages</artifactId>
-                <version>22.0.0</version>
+                <version>${version.quarkus.cucumber.java}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -153,7 +151,13 @@
         <dependency>
             <groupId>io.quarkiverse.cucumber</groupId>
             <artifactId>quarkus-cucumber</artifactId>
-            <version>0.6.0</version>
+            <version>${version.quarkus.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>${version.cucumber.reporting.plugin}</version>
         </dependency>
     </dependencies>
 </project>
