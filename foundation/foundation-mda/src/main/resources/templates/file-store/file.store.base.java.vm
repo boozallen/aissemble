@@ -1,6 +1,6 @@
 package ${basePackage}.filestore;
 
-import com.boozallen.aiops.core.filestore.AbstractFileStore;
+import com.boozallen.aissemble.core.filestore.AbstractFileStore;
 
 /**
  * Base implementation of this file store.

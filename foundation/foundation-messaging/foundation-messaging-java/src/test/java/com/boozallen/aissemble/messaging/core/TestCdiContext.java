@@ -13,7 +13,7 @@ package com.boozallen.aissemble.messaging.core;
 import javax.enterprise.inject.spi.Extension;
 import java.util.ArrayList;
 import java.util.List;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 public class TestCdiContext implements CdiContext {
 

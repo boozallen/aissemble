@@ -4,9 +4,9 @@ package ${basePackage};
 import ${import};
 #end
 #if ($step.isMetadataEnabled())
-import com.boozallen.aiops.core.metadata.MetadataAPI;
-import com.boozallen.aiops.core.metadata.MetadataModel;
-import com.boozallen.aiops.core.metadata.producer.MetadataProducer;
+import com.boozallen.aissemble.core.metadata.MetadataAPI;
+import com.boozallen.aissemble.core.metadata.MetadataModel;
+import com.boozallen.aissemble.core.metadata.producer.MetadataProducer;
 
 #end
 
@@ -36,7 +36,7 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 
 #end
-import com.boozallen.aiops.core.filestore.AbstractFileStore;
+import com.boozallen.aissemble.core.filestore.AbstractFileStore;
 #foreach ($store in $step.decoratedFileStores)
 import ${basePackage}.filestore.${store.fullName};
 

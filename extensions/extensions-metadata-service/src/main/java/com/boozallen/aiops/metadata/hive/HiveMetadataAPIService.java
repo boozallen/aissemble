@@ -10,8 +10,8 @@ package com.boozallen.aiops.metadata.hive;
  * #L%
  */
 
-import com.boozallen.aiops.core.metadata.MetadataAPI;
-import com.boozallen.aiops.core.metadata.MetadataModel;
+import com.boozallen.aissemble.core.metadata.MetadataAPI;
+import com.boozallen.aissemble.core.metadata.MetadataModel;
 import com.boozallen.aiops.metadata.MetadataAPIType;
 import com.boozallen.aiops.metadata.hive.config.HiveMetadataConfig;
 import org.aeonbits.owner.KrauseningConfigFactory;

@@ -10,7 +10,6 @@ package com.boozallen.aissemble.messaging.python.cdi;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContext;
 import com.boozallen.aissemble.messaging.core.cdi.MessagingCdiContext;
 import io.smallrye.reactive.messaging.amqp.AmqpConnector;
 import io.smallrye.reactive.messaging.kafka.KafkaCDIEvents;

@@ -18,7 +18,6 @@ import com.boozallen.aissemble.core.policy.configuration.policy.result.PolicyInv
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.cucumber.java.BeforeStep;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;

@@ -2,7 +2,7 @@ package com.boozallen;
 
 /*-
  * #%L
- * AIOps Foundation::AIOps MDA Patterns::Spark
+ * aiSSEMBLE Foundation::AIOps MDA Patterns::Spark
  * %%
  * Copyright (C) 2021 Booz Allen
  * %%

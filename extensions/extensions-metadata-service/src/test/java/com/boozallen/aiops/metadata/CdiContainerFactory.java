@@ -10,8 +10,8 @@ package com.boozallen.aiops.metadata;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContainer;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jboss.weld.environment.se.WeldContainer;
 

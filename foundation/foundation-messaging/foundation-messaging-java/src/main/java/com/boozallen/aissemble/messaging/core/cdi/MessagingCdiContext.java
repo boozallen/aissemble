@@ -10,7 +10,7 @@ package com.boozallen.aissemble.messaging.core.cdi;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,7 +17,7 @@ import javax.enterprise.inject.spi.Extension;
 
 import com.boozallen.aissemble.alerting.teams.TeamsClient;
 import com.boozallen.aissemble.alerting.teams.TeamsMessageService;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 public class TeamsCdiContext implements CdiContext {
 

@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ${basePackage}.cdi.CdiContainerFactory;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import com.boozallen.aiops.data.delivery.spark.SparkConfig;
 import com.boozallen.aiops.data.delivery.spark.testutils.SparkApplicationConfig;
 

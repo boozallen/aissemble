@@ -20,7 +20,7 @@ import io.cucumber.java.en.When;
 
 import com.boozallen.aiops.mda.pattern.record.RecordWithValidation;
 import com.boozallen.aiops.mda.pattern.dictionary.StringWithValidation;
-import com.boozallen.aiops.core.exception.ValidationException;
+import com.boozallen.aissemble.core.exception.ValidationException;
 
 /**
  * Implementation steps for recordWithValidation.feature
