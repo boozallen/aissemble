@@ -22,16 +22,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: aissemble
 
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.buildBranch }}
-      - name: Install Python # use direct install rather than pyenv for CI for large speed improvement
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11.4'
       - name: Load cached Poetry installation
         id: cached-poetry
         uses: actions/cache@v4
@@ -62,23 +58,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-          sudo apt-get update
-          sudo apt-get install docker-ce docker-ce-cli containerd.io
-      - name: Install Helm
-        run: |
-          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-          chmod 700 get_helm.sh
-          ./get_helm.sh
       - name: Build aiSSEMBLE
         run: ./mvnw -B clean install --file pom.xml -Dhabushu.usePyenv=false -Pci
-      #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure, until
-      # https://github.com/actions/cache/issues/1315 is resolved
+      #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
+      # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
         id: save-m2-repo
         uses: actions/cache/save@v4
