@@ -31,7 +31,7 @@
 
   <properties>
 <!--    Overriding cucumber version to align with quarkus-cucumber -->
-    <version.cucumber>7.4.1</version.cucumber>
+    <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
   </properties>
 
   <dependencies>
@@ -103,7 +103,7 @@
     <dependency>
       <groupId>io.quarkiverse.cucumber</groupId>
       <artifactId>quarkus-cucumber</artifactId>
-      <version>0.6.0</version>
+      <version>${version.quarkus.cucumber}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

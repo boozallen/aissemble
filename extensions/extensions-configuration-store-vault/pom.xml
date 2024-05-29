@@ -32,6 +32,37 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/resources/quarkus-app.xml</descriptor>
+                    </descriptors>
+                    <finalName>quarkus</finalName>
+                    <appendAssemblyId>true</appendAssemblyId>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -46,11 +77,32 @@
                             <skipTests>false</skipTests>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>net.masterthought</groupId>
+                        <artifactId>maven-cucumber-reporting</artifactId>
+                    </plugin>
                 </plugins>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>cucumber-reporting</artifactId>
+                    <version>${version.cucumber.reporting.plugin}</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>bom-component</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -86,10 +138,25 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>foundation-configuration-store</artifactId>
             <version>${version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.quarkiverse.cucumber</groupId>
+                    <artifactId>quarkus-cucumber</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-junit5</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-reactive</artifactId>
+            <version>${version.quarkus}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-core</artifactId>
             <version>${version.quarkus}</version>
         </dependency>
     </dependencies>
