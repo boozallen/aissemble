@@ -18,24 +18,25 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
 
 import io.restassured.response.ValidatableResponse;
-import com.boozallen.aissemble.util.TestPropertyDao;
+import com.boozallen.aissemble.util.ConfigStoreInitTestHelper;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
 import java.util.Set;
 import java.util.HashSet;
 
-import static org.junit.Assert.*;
 
 public class LoadConfigurationsSteps {
 
     private final Property expectedProperty = new Property("messaging", "topic", "messaging-topic");
+    private final Property fullyLoadProperty = new Property("load-status", "fully-loaded", "true");
     private ConfigLoader configLoader;
     private String baseURI;
     private String environmentURI;
     private Exception foundError;
     private ValidatableResponse response;
-
 
     @Before("@config-loader")
     public void setup() {
@@ -48,12 +49,58 @@ public class LoadConfigurationsSteps {
         response = null;
     }
 
-    @Given("URIs pointing to valid base and environment configurations")
-    public void URIsPointingToValidBaseAndEnvironmentConfigurations() {
+    @Given("a base URI indicating a directory housing valid base configurations")
+    public void URIsPointingToValidBaseConfigurations() {
         baseURI = "src/test/resources/configurations/base";
-        environmentURI = "src/test/resources/configurations/example-env";
     }
 
+    @And("an environment-specific URI indicating a directory housing valid environment-specific configurations")
+    public void URIsPointingToValidEnvironmentConfigurations() {
+        environmentURI = "src/test/resources/configurations/example-env";
+    }
+    
+    @When("the configuration service starts")
+    public void theConfigurationServiceStarts() {
+        // the service is triggered automatically
+    }
+
+    @Then("the configurations are loaded into the configuration store")
+    public void theConfigurationsAreLoadedIntoConfigStore() {
+        String responseBody = getResponseBodyForProperty(expectedProperty.getGroupName(), expectedProperty.getName());
+        assertEquals(expectedProperty.toJsonString(), responseBody);
+    }
+
+    @And("the user is notified that the configurations were loaded successfully")
+    public void notifyOnSuccessConfigurationLoad() {
+        assertTrue("load successful", ConfigStoreInitTestHelper.verification.get("load successful").equals("true"));
+    }
+
+    @And("the configuration service records the that the given configurations were loaded successfully")
+    public void successStatusIsRecorded() {
+        String responseBody = getResponseBodyForProperty(fullyLoadProperty.getGroupName(), fullyLoadProperty.getName());
+        assertEquals(fullyLoadProperty.toJsonString(), responseBody);
+    }
+
+    @Given("the configuration store has been fully populated with the specified configurations")
+    public void theConfigurationsFullyLoaded(){
+        ConfigStoreInitTestHelper.loadProperties();
+    }
+
+    @Then("the configuration service skips the loading process")
+    public void theConfigurationServiceSkipLoading() {
+        assertTrue("skip reloading", ConfigStoreInitTestHelper.verification.get("skip reloading").equals("true"));
+    }
+
+    @And("notifies the user that the configurations were previously loaded")
+    public void notifyOnPreviousConfigurationFullLoad() {
+        assertTrue("skipping reloading notification sent", ConfigStoreInitTestHelper.skiploadingNotificationSent);
+    }
+
+    @Given("URIs pointing to misformatted configurations")
+    public void URIsPointingToMisformattedConfigurations() {
+        baseURI = "src/test/resources/configurations-misformatted/base";
+        environmentURI = "src/test/resources/configurations-misformatted/example-env";
+    }
     @When("the configurations are loaded")
     public void theConfigurationsAreLoaded() {
         try {
@@ -62,29 +109,6 @@ public class LoadConfigurationsSteps {
             foundError = error;
         }
     }
-
-    @Then("the ConfigLoader validates the URI and its contents")
-    public void theConfigLoaderValidatesTheURIAndItsContents() {
-        assertNull(foundError);
-    }
-
-    @And("consumes the base configurations")
-    public void consumesTheBaseConfigurations() {
-        // verification of consumption occurs after configurations are reconciled
-    }
-
-    @And("augments the base with the environment configurations")
-    public void augmentsTheBaseWithTheEnvironmentConfigurations() {
-        assertEquals(10, TestPropertyDao.loadedProperties.size());
-        assertPropertySetsEqual(createExpectedProperties(), new HashSet<>(TestPropertyDao.loadedProperties.values()));
-    }
-
-    @Given("URIs pointing to misformatted configurations")
-    public void URIsPointingToMisformattedConfigurations() {
-        baseURI = "src/test/resources/configurations-misformatted/base";
-        environmentURI = "src/test/resources/configurations-misformatted/example-env";
-    }
-
     @Then("an exception is thrown stating configurations are misformatted")
     public void anExceptionIsThrownStatingConfigurationsAreMisformatted() {
         String expectedMessage = "Could not parse yaml";
@@ -105,10 +129,6 @@ public class LoadConfigurationsSteps {
         assertEquals(expectedMessage, foundError.getMessage());
     }
 
-    @When("the configuration service starts")
-    public void theConfigurationServiceStarts() {
-        // service started
-    }
 
     @Given("the configuration service has started")
     public void theConfigurationServiceHasStarted() {
@@ -161,4 +181,14 @@ public class LoadConfigurationsSteps {
             assertTrue("Could not find " + expectedProperty, matchFound);
         }
     }
+
+    private String getResponseBodyForProperty(String requestGroupName, String requestPropName) {        
+        ValidatableResponse response = given()
+                .pathParam("groupName", requestGroupName)
+                .pathParam("propertyName", requestPropName)
+                .when().get("/aissemble-properties/{groupName}/{propertyName}")
+                .then();
+        return response.extract().body().asString();
+    }
+
 }

@@ -29,6 +29,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.boozallen.aissemble.configuration.store.ConfigLoader;
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.inject.Any;
+
 
 /**
  * ConfigStoreInit loads configuration properties as application starts up
@@ -37,11 +43,42 @@ import java.util.Set;
 @ApplicationScoped
 public class ConfigStoreInitTestHelper extends ConfigStoreInit {
     private static final Logger logger = LoggerFactory.getLogger(ConfigStoreInitTestHelper.class);
+    public static Map<String, String> verification = new HashMap<>();
+    public static boolean skiploadingNotificationSent;
+    private static ConfigLoader configLoader;
 
     @PostConstruct
     protected void init() {
         prepareTestEnv();
-        super.init();
+        try {
+            configLoader = CDI.current().select(ConfigLoader.class,new Any.Literal()).get();
+            loadProperties();
+            verification.put("load successful", "true");
+
+        } catch (Exception e) {
+            // Log or handle the error if needed
+        }
+    }
+
+    public static void loadProperties() {
+        logger.info("Initialize store configuration properties...");
+        String baseURI = System.getenv("BASE_URI");
+        String environmentURI = System.getenv("ENVIRONMENT_URI");
+        if (configLoader.isFullyLoaded()) {
+            verification.put("skip reloading", "true");
+            logger.info("Properties are already loaded, Skipping reloading");
+            skiploadingNotificationSent = true;
+            return;
+        }
+        Set<Property> properties;
+        if (environmentURI != null && !environmentURI.isEmpty()) {
+            properties = configLoader.loadConfigs(baseURI, environmentURI);
+        } else if (baseURI != null && !baseURI.isEmpty()) {
+            properties = configLoader.loadConfigs(baseURI);
+        } else {
+            throw new RuntimeException("Undefined environment variables: BASE_URI and ENVIRONMENT_URI");
+        }
+        configLoader.write(properties);
     }
 
     private void prepareTestEnv() {
