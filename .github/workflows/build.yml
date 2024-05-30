@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "$HOME/.pyenv/bin;/home/ubuntu/.local/bin" >> $GITHUB_PATH
           eval "$(pyenv init -)"
-          ./mvnw -B clean install --file pom.xml -Pci
+          ./mvnw -B clean install --file pom.xml -Pci,integration-test
       #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
       # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
