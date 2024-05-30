@@ -17,7 +17,7 @@ on:
         type: string
         default: 'dev'
   push:
-    branches: [ "dev" ]
+    branches: [ "dev", "2-build-workflow" ]
 
 jobs:
   build:
@@ -51,7 +51,6 @@ jobs:
           restore-keys: |
             maven-build-cache-
       - name: Install Poetry
-        if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@v1
       - name: Set up JDK 11
         uses: actions/setup-java@v4
@@ -59,7 +58,10 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Build aiSSEMBLE
-        run: ./mvnw -B clean install --file pom.xml -Pci
+        run: |
+          echo "$HOME/.pyenv/bin;/home/ubuntu/.local/bin" >> $GITHUB_PATH
+          eval "$(pyenv init -)"
+          ./mvnw -B clean install --file pom.xml -Pci
       #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
       # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
