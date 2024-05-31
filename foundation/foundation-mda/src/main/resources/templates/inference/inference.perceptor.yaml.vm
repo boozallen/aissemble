@@ -4,5 +4,5 @@ wrapper: prime
 language: python
  
 name: "${artifactId}" 
-repository: "ghcr.io/boozallen/${artifactId}"
+repository: "${dockerProjectRepositoryUrl}${artifactId}"
 tag: "${version}"

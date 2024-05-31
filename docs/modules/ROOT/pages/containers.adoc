@@ -100,7 +100,7 @@ Example:
     Example:
     # airflow
     docker_build(
-        ref='boozallen/example-airflow-docker',
+        ref='example-airflow-docker',
         context='example-docker/example-airflow-docker',
         build_args=build_args,
         dockerfile='example-docker/example-airflow-docker/src/main/resources/docker/Dockerfile'

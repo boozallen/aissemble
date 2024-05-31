@@ -109,6 +109,21 @@
             "includes": ["src/**/*.java", "src/**/*.properties"]
           }
         ]
+      },
+      {
+        "name": "upgrade-project-specific-image-naming-convention-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.ProjectSpecificImageNameMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/src/main/resources/apps/*/values*.yaml",
+              "*-deploy/src/main/resources/apps/spark-worker-image/spark-worker-image.yaml",
+              "*-deploy/src/main/resources/apps/aissemble-machine-learning-training-image/aissemble-machine-learning-training-image.yaml",
+              "*-pipelines/*/src/**/resources/apps/*values.yaml",
+              "Tiltfile"
+            ]
+          }
+        ]
       }
     ]
   },
