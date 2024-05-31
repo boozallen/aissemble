@@ -10,7 +10,7 @@ package com.boozallen.aiops.data.delivery;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import com.boozallen.aiops.data.delivery.messaging.PipelineMessagingConfig;
 import com.boozallen.aiops.data.delivery.messaging.pipeline.steps.InOnlyTestStep;
 import com.boozallen.aiops.data.delivery.messaging.pipeline.steps.InOutTestStep;
@@ -18,10 +18,7 @@ import com.boozallen.aiops.data.delivery.messaging.pipeline.steps.NoChannelTestS
 import com.boozallen.aiops.data.delivery.messaging.pipeline.steps.OutOnlyTestStep;
 import com.boozallen.aiops.data.delivery.messaging.pipeline.steps.OverrideTestStep;
 import com.boozallen.aiops.data.delivery.spark.objectstore.ObjectStoreValidator;
-import com.boozallen.aissemble.alerting.core.AlertProducer;
-import com.boozallen.aissemble.alerting.core.AlertProducerApi;
 import com.boozallen.aissemble.alerting.core.cdi.AlertingCdiContext;
-import com.boozallen.aissemble.alerting.core.consumer.AlertLogger;
 
 import io.smallrye.config.inject.ConfigExtension;
 import io.smallrye.reactive.messaging.providers.MediatorFactory;

@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.Map;
 
 #if (!$step.provenance || $step.provenance.enabled || ($step.billOfMaterial && $step.billOfMaterial.enabled))
-import com.boozallen.aiops.core.metadata.MetadataModel;
+import com.boozallen.aissemble.core.metadata.MetadataModel;
 #end
 
 /**

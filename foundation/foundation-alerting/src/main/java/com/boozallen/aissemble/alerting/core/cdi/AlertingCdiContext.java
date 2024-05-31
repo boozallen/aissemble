@@ -28,7 +28,7 @@ import io.smallrye.reactive.messaging.providers.MediatorFactory;
 import io.smallrye.reactive.messaging.providers.extension.MediatorManager;
 import io.smallrye.reactive.messaging.providers.wiring.Wiring;
 import io.smallrye.reactive.messaging.providers.connectors.WorkerPoolRegistry;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 public class AlertingCdiContext implements CdiContext {
 

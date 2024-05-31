@@ -10,7 +10,7 @@ package com.boozallen.aissemble.messaging.core.cdi;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContainer;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
 
 /**
  * The {@link MessagingCdiContainer} holds all the contexts necessary to use

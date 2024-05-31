@@ -10,7 +10,7 @@ package com.boozallen.aissemble.messaging.python;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContainer;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
 import com.boozallen.aissemble.messaging.python.cdi.MessagingServiceCdiContext;
 import com.boozallen.aissemble.messaging.python.channel.TopicEmitter;
 import com.boozallen.aissemble.messaging.python.channel.TopicListener;

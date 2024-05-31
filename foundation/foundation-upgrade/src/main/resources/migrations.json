@@ -91,11 +91,11 @@
         ]
       },
       {
-        "name": "data-lineage-package-import-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.DataLineageAiopsReferencesMigration",
+        "name": "aiops-reference-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.AiopsReferencesMigration",
         "fileSets": [
           {
-            "includes": ["src/**/*.java"]
+            "includes": ["src/**/*.java", "src/**/*.properties"]
           }
         ]
       }

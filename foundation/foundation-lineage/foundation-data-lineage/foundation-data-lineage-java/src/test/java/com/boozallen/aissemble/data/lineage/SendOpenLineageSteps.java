@@ -10,7 +10,7 @@ package com.boozallen.aissemble.data.lineage;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContainer;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
 import com.boozallen.aissemble.data.lineage.cdi.DataLineageCdiContext;
 import com.boozallen.aissemble.data.lineage.cdi.DataLineageCdiSelector;
 import com.boozallen.aissemble.data.lineage.cdi.TestCdiContext;

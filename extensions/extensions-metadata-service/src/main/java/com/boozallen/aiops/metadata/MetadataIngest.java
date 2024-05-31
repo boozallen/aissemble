@@ -10,8 +10,8 @@ package com.boozallen.aiops.metadata;
  * #L%
  */
 
-import com.boozallen.aiops.core.metadata.MetadataAPI;
-import com.boozallen.aiops.core.metadata.MetadataModel;
+import com.boozallen.aissemble.core.metadata.MetadataAPI;
+import com.boozallen.aissemble.core.metadata.MetadataModel;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import javax.enterprise.context.ApplicationScoped;

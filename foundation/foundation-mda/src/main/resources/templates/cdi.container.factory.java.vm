@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jboss.weld.environment.se.WeldContainer;
 
-import com.boozallen.aiops.core.cdi.CdiContainer;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 #if ($pipeline.isAlertingSupportNeeded())
 import com.boozallen.aissemble.alerting.core.cdi.AlertingCdiContext;
 #end

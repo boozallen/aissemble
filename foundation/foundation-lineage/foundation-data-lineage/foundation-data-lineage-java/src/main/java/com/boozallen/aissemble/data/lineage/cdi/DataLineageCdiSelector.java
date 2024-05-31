@@ -10,7 +10,7 @@ package com.boozallen.aissemble.data.lineage.cdi;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import com.boozallen.aissemble.data.lineage.config.ConfigUtil;
 
 public final class DataLineageCdiSelector {

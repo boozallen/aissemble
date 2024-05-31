@@ -17,7 +17,7 @@ import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.resteasy.microprofile.client.RestClientExtension;
 
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 import io.smallrye.faulttolerance.FaultToleranceExtension;
 import io.smallrye.metrics.setup.MetricCdiInjectionExtension;

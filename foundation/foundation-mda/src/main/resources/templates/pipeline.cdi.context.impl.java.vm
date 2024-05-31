@@ -3,9 +3,9 @@ package ${basePackage}.cdi;
 import java.util.List;
 
 import javax.enterprise.inject.spi.Extension;
-import com.boozallen.aiops.core.filestore.EnvironmentVariableFileStoreConfig;
+import com.boozallen.aissemble.core.filestore.EnvironmentVariableFileStoreConfig;
 
-import com.boozallen.aiops.core.metadata.producer.MetadataProducer;
+import com.boozallen.aissemble.core.metadata.producer.MetadataProducer;
 import io.smallrye.reactive.messaging.kafka.KafkaCDIEvents;
 import io.smallrye.reactive.messaging.kafka.KafkaConnector;
 

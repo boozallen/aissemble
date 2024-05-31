@@ -16,7 +16,7 @@ import java.util.List;
 import javax.enterprise.inject.spi.Extension;
 
 import com.boozallen.aissemble.alerting.slack.consumer.SlackConsumer;
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 public class SlackCdiContext implements CdiContext {
 
