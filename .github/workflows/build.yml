@@ -57,6 +57,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      - name: Docker info
+        run: docker info
       - name: Build aiSSEMBLE
         run: |
           echo "$HOME/.pyenv/bin;/home/ubuntu/.local/bin" >> $GITHUB_PATH
