@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-shs-service
+  name: {{ .Release.Name }}-sts-service
   {{- if .Values.service.annotations }}
   annotations: {{ .Values.service.annotations }}
   {{- end }}
@@ -11,8 +11,5 @@ spec:
   selector:
     app: {{ .Release.Name }}
   ports:
-    - name: {{ .Release.Name }}-service-port
-      protocol: TCP
-      port: {{ .Values.service.port.port }}
-      targetPort: shs-http
+    {{ .Values.service.ports | toYaml | nindent 4}}
 {{- end }}

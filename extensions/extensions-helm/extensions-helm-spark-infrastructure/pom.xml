@@ -15,6 +15,7 @@
 
 	<modules>
         <module>aissemble-spark-history-chart</module>
+        <module>aissemble-thrift-server-chart</module>
 	</modules>
     <build>
         <plugins>

@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-shs-ingress
+  name: {{ .Release.Name }}-sts-ingress
   {{- with .Values.ingress.metadata.annotations }}
   annotations:
   {{- toYaml . | nindent 8 }}

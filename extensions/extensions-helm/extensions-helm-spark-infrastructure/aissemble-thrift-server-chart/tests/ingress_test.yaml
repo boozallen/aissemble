@@ -39,7 +39,7 @@ tests:
     asserts:
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-shs-ingress
+          value: RELEASE-NAME-sts-ingress
       - notExists:
           path: metadata.annotations
 
@@ -64,24 +64,6 @@ tests:
       - equal:
             path: spec.ingressClassName
             value: some-ingress-class
-
-  - it: Ingress should have the correct default rules
-    set:
-      ingress:
-        enabled: true
-    asserts:
-      - equal:
-          path: spec.rules[0].http.paths[0].path
-          value: /
-      - equal:
-          path: spec.rules[0].http.paths[0].pathType
-          value: Prefix
-      - equal:
-          path: spec.rules[0].http.paths[0].backend.service.name
-          value: RELEASE-NAME-service
-      - equal:
-          path: spec.rules[0].http.paths[0].backend.service.port.number
-          value: 18080
 
   - it: Ingress hosts can be specified
     set:

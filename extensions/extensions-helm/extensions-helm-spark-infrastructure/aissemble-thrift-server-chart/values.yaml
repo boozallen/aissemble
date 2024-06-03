@@ -1,0 +1,43 @@
+# This file contains the default values for the aiSSEMBLE Spark History Helm chart.
+
+enable: true
+
+deployment:
+  annotations: {}
+  labels: {}
+  replicas: 1
+  image:
+    repository: "apache/spark"
+    imagePullPolicy: IfNotPresent
+    tag: "3.5.1"
+  command: ["/opt/spark/sbin/start-thriftserver.sh"]
+  env:
+    SPARK_NO_DAEMONIZE: "true"
+  envFromSecret: {}
+  volumes: []
+  volumeMounts: []
+
+dependencies:
+  packages: []
+  jars: []
+
+service:
+  annotations: {}
+  type: ClusterIP
+  ports:
+    - name: "thrift"
+      port: 10000
+    - name: "thrift-http"
+      port: 10001
+
+ingress:
+  enabled: false
+  metadata:
+    annotations: {}
+  ingressClassName: nginx
+  hosts:
+    - paths: []
+
+sparkConf: |-
+
+hiveSite: |-

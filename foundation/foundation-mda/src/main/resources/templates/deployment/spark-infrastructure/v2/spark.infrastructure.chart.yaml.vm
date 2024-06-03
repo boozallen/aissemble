@@ -32,4 +32,7 @@ dependencies:
   - name: aissemble-spark-history-chart
     version: ${versionTag}
     repository: oci://ghcr.io/boozallen
+  - name: aissemble-thrift-server-chart
+    version: ${versionTag}
+    repository: oci://ghcr.io/boozallen
 

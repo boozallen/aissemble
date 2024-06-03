@@ -7,11 +7,11 @@
         <version>1.7.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>aissemble-spark-history-chart</artifactId>
+    <artifactId>aissemble-thrift-server-chart</artifactId>
     <packaging>helm</packaging>
 
-    <name>aiSSEMBLE::Extensions::Helm::Spark History</name>
-    <description>Contains Helm Spark History Chart</description>
+    <name>aiSSEMBLE::Extensions::Helm::Spark Thrift Server</name>
+    <description>Contains Helm Spark Thrift Server Chart</description>
 
     <build>
         <plugins>
