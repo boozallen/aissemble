@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-shs
+  name: {{ .Release.Name }}-sts
   {{- if .Values.deployment.annotations }}
   annotations:
     {{ toYaml .Values.deployment.annotations | default "" }}
@@ -34,15 +34,15 @@ spec:
     spec:
       {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
       initContainers:
-        - name: "populate-jar-volume"
+        - name: "populate-sts-jar-volume"
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           command: ["sh", "-c", "cp /opt/spark/jars/* /tmp/jars/"]
           volumeMounts:
             - mountPath: /tmp/jars
-              name: shs-jars
+              name: sts-jars
         {{- if not (empty .Values.dependencies.packages) }}
-        - name: "install-spark-history-packages"
+        - name: "install-thrift-packages"
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           # Uses the Ivy jar packaged with spark to download dependency packages (and their transitive dependencies) to /tmp/jars/...
@@ -50,16 +50,16 @@ spec:
           command: ["java", "-Divy.cache.dir=/tmp/", "-Divy.home=/tmp/", "-jar", "/opt/spark/jars/ivy-2.5.1.jar", "-confs", "default", "-retrieve", "/tmp/jars/[artifact].[ext]", {{ include "deps.packages.ivy" . }}]
           volumeMounts:
             - mountPath: /tmp/jars
-              name: shs-jars
+              name: sts-jars
         {{- end }}
         {{- if not (empty .Values.dependencies.jars) }}
-        - name: "install-spark-history-jars"
+        - name: "install-thrift-jars"
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           command: ["wget", "-P", "/tmp/jars/", {{ include "deps.jars" . }}]
           volumeMounts:
             - mountPath: /tmp/jars
-              name: shs-jars
+              name: sts-jars
         {{- end }}
       {{- end }}
       containers:
@@ -67,6 +67,10 @@ spec:
           image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy }}
           command: {{ .Values.deployment.command }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "/opt/spark/sbin/stop-thriftserver.sh"]
           env:
             {{- range $k,$v:= .Values.deployment.env }}
             - name: {{ $k }}
@@ -80,42 +84,43 @@ spec:
                   key: {{ $v.key }}
             {{- end }}
           ports:
-            - containerPort: 18080
-              name: {{ .Values.service.port.name }}
+            {{- range .Values.service.ports }}
+            - containerPort: {{ .targetPort | default .port }}
+              {{- if .name }}
+              name: {{ .name }}
+              {{- end }}
+            {{- end }}
           volumeMounts:
             {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
             - mountPath: /opt/spark/jars/
-              name: shs-jars
+              name: sts-jars
             {{- end }}
-            {{- if not (eq .Values.sparkConf "") }}
+            {{- if or (not (eq .Values.sparkConf "")) (not ( eq .Values.hiveSite "")) }}
             - name: spark-config
               mountPath: /opt/spark/conf/
               readOnly: true
-            {{- end }}
-            {{- if .Values.eventVolume.enabled }}
-            - mountPath: {{ .Values.eventVolume.mountPath }}
-              name: {{ .Values.eventVolume.name }}
             {{- end }}
             {{- if .Values.deployment.volumeMounts }}
             {{- toYaml .Values.deployment.volumeMounts }}
             {{- end }}
       volumes:
-        {{- if .Values.eventVolume.enabled }}
-        - name: {{ .Values.eventVolume.name }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.eventVolume.name }}-claim
-        {{- end }}
         {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
-        - name: shs-jars
+        - name: sts-jars
           emptyDir: {}
         {{- end }}
-        {{- if not (eq .Values.sparkConf "") }}
+        {{- if or (not (eq .Values.sparkConf "")) (not ( eq .Values.hiveSite "")) }}
         - name: spark-config
           configMap:
-            name: {{ .Release.Name }}-shs-spark-conf
+            name: {{ .Release.Name }}-spark-conf
             items:
+              {{- if not (eq .Values.sparkConf "") }}
               - key: sparkConf
                 path: spark-defaults.conf
+              {{- end }}
+              {{- if not (eq .Values.hiveSite "") }}
+              - key: hiveSite
+                path: hive-site.xml
+              {{- end }}
         {{- end }}
         {{- if .Values.deployment.volumes }}
         {{- toYaml .Values.deployment.volumes }}

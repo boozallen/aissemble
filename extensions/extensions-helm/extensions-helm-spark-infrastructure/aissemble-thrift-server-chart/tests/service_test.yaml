@@ -19,39 +19,44 @@ tests:
           count: 1
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-shs-service
+          value: RELEASE-NAME-sts-service
       - notExists:
           path: metadata.annotations
       - equal:
           path: spec.type
-          value: LoadBalancer
+          value: ClusterIP
       - equal:
           path: spec.selector.app
           value: RELEASE-NAME
       - contains:
           path: spec.ports
+          any: true
           content:
-            name: RELEASE-NAME-service-port
-            protocol: TCP
-            port: 18080
-            targetPort: shs-http
+            name: thrift
+            port: 10000
+      - contains:
+          path: spec.ports
+          any: true
+          content:
+            name: thrift-http
+            port: 10001
 
   - it: Should be able to specify service type
     set:
       enable: true
       service:
-        type: ClusterIP
+        type: LoadBalancer
     asserts:
       - equal:
           path: spec.type
-          value: ClusterIP
+          value: LoadBalancer
 
   - it: Should be able to specify service port
     set:
         enable: true
         service:
-          port:
-            port: 8080
+          ports:
+            - port: 8080
     asserts:
       - equal:
           path: spec.ports[0].port

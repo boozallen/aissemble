@@ -1,0 +1,15 @@
+{{- if not (and (eq .Values.sparkConf "") (eq .Values.hiveSite "")) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-spark-conf
+data:
+{{- if not (eq .Values.sparkConf "") }}
+  sparkConf:
+    {{- toYaml .Values.sparkConf | nindent 8 }}
+{{- end }}
+{{- if not (eq .Values.hiveSite "") }}
+  hiveSite:
+    {{- toYaml .Values.hiveSite | nindent 8 }}
+{{- end }}
+{{- end }}

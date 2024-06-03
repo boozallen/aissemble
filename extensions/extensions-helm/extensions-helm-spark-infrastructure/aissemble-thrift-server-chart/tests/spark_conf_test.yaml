@@ -25,7 +25,7 @@ tests:
       - notFailedTemplate: {}
       - equal:
           path: metadata.name
-          value: "RELEASE-NAME-shs-spark-conf"
+          value: "RELEASE-NAME-spark-conf"
       - equal:
           path: data.sparkConf
           value: "spark.executor.instances: 2"
@@ -41,7 +41,7 @@ tests:
           content:
             name: spark-config
             configMap:
-              name: RELEASE-NAME-shs-spark-conf
+              name: RELEASE-NAME-spark-conf
               items:
                 - key: sparkConf
                   path: spark-defaults.conf
@@ -60,3 +60,49 @@ tests:
             readOnly: true
 
 
+  - it: If hive site is specified, the ConfigMap should be created with the provided values
+    set:
+      hiveSite: "spark.executor.instances: 2"
+    templates:
+      - configmap.yaml
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ConfigMap
+      - notFailedTemplate: {}
+      - equal:
+          path: metadata.name
+          value: "RELEASE-NAME-spark-conf"
+      - equal:
+          path: data.hiveSite
+          value: "spark.executor.instances: 2"
+
+  - it: If hive site is specified, a volume should be created from the created configmap
+    set:
+      hiveSite: "spark.executor.instances: 2"
+    templates:
+      - deployment.yaml
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: spark-config
+            configMap:
+              name: RELEASE-NAME-spark-conf
+              items:
+                - key: hiveSite
+                  path: hive-site.xml
+
+  - it: If hive site is specified, the volume should be mounted in the correct path
+    set:
+      hiveSite: "spark.executor.instances: 2"
+    templates:
+      - deployment.yaml
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: spark-config
+            mountPath: /opt/spark/conf/
+            readOnly: true
