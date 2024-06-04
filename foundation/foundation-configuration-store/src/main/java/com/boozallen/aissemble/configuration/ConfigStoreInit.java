@@ -38,6 +38,10 @@ public class ConfigStoreInit {
         String environmentUri = System.getenv("ENVIRONMENT_URI");
         try {
             ConfigLoader configLoader = CDI.current().select(ConfigLoader.class,new Any.Literal()).get();
+            if (configLoader.isFullyLoaded()) {
+                logger.info("Properties are already fully loaded. Skipping reload.");
+                return;
+            }
             Set<Property> properties;
             if (environmentUri != null && !environmentUri.isEmpty()) {
                 properties = configLoader.loadConfigs(baseUri,environmentUri);
@@ -48,7 +52,7 @@ public class ConfigStoreInit {
             }
             configLoader.write(properties);
         } catch (Exception e) {
-            logger.error("Error loading properties:", e);
+            throw new RuntimeException("Error loading properties", e);
         }
     }
 }

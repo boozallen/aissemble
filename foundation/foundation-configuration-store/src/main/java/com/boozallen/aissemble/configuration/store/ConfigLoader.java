@@ -73,7 +73,6 @@ public class ConfigLoader {
     public Set<Property> loadConfigs(String baseURI, String environmentURI) {
         Set<Property> baseConfigs = loadURI(baseURI);
         Set<Property> environmentConfigs = loadURI(environmentURI);
-
         return reconcileConfigs(baseConfigs, environmentConfigs);
     }
 
@@ -167,8 +166,14 @@ public class ConfigLoader {
      * @param properties to be written to store
      */
     public void write(Set<Property> properties) {
-        propertyDao.write(properties);
-        logger.info("Successfully wrote all properties to the store.");
+        try {
+            propertyDao.write(properties);
+            logger.info("Successfully wrote all properties to the store.");
+            updateLoadStatus(true);
+        } catch (Exception e) {
+            logger.error("Error updating properties.", e);
+            updateLoadStatus(false);
+        }
     }
 
     /**
@@ -181,6 +186,24 @@ public class ConfigLoader {
         logger.info(String.format("Read property with groupName: %s, propertyName: %s from the store.", groupName, propertyName));
         return propertyDao.read(groupName, propertyName);
     }
+    
+    public boolean isFullyLoaded() {
+        try {
+            Property statusProperty = propertyDao.read("load-status", "fully-loaded");
+            return statusProperty != null && "true".equals(statusProperty.getValue());
+        } catch (Exception e) {
+            logger.warn("Properties are not loaded previously, continue", e);
+            return false;
+        }
+    }
+
+    private void updateLoadStatus(boolean status) {
+        Property statusProperty = new Property("load-status", "fully-loaded", String.valueOf(status));
+        try {
+            propertyDao.write(statusProperty);
+            logger.info("Successfully updated load status to: " + status);
+        } catch (Exception e) {
+            logger.error("Error updating load status.", e);
+        }
+    }
 }
-
-
