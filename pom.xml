@@ -43,7 +43,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/boozallen/aissemble.git</connection>
-        <developerConnection>scm:git:https://github.com/boozallen/aissemble.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@ssh.github.com:443/boozallen/aissemble.git</developerConnection>
         <url>https://github.com/boozallen/aissemble</url>
         <tag>HEAD</tag>
     </scm>
@@ -254,10 +254,27 @@
                 </pluginManagement>
             </build>
         </profile>
+        <profile>
+            <!-- inheriting general ossrh-release setup from aissemble-parent -->
+            <id>ossrh-release</id>
+            <properties>
+                <maven.build.cache.enabled>false</maven.build.cache.enabled>
+            </properties>
+        </profile>
     </profiles>
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <configuration>
+                        <!-- how long to wait for the staging repository to be closed and released -->
+                        <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
+                        <!-- how long to wait between checks for the staging repository to be closed and released -->
+                        <stagingProgressPauseDurationSeconds>15</stagingProgressPauseDurationSeconds>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <!-- This plugin should never run as part of a normal build, and is only ever triggered by
                       devops/JenkinsRelease.groovy. We configure it here because it's a bit easier to read/edit/verify
@@ -284,7 +301,7 @@
                           the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
                           committer after a release from needing to commit these files, we force the update here. -->
                         <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu</completionGoals>
-                        <releaseProfiles>release</releaseProfiles>
+                        <releaseProfiles>ossrh-release</releaseProfiles>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -296,7 +313,7 @@
                     <inherited>false</inherited>
                     <configuration>
                         <includes>**/pyproject.toml</includes>
-                        <excludes>**/target/**</excludes>
+                        <excludes>**/target/**,**/.venv/**</excludes>
                         <pushChanges>false</pushChanges>
                     </configuration>
                 </plugin>

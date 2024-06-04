@@ -42,32 +42,6 @@
             <properties>
                 <dockerImageVersion>${project.version}-${target.architecture}</dockerImageVersion>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>clear-buildkit-cache</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>docker</executable>
-                                    <arguments>
-                                        <argument>buildx</argument>
-                                        <argument>prune</argument>
-                                        <argument>--all</argument>
-                                        <argument>--force</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>ensure-docker-dependencies</id>
