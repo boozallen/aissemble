@@ -91,7 +91,7 @@ public class ConfigStoreInit {
             status = Status.LOAD_COMPLETE;
 
         } catch (Exception e) {
-            throw new RuntimeException("Error loading properties", e);
+            logger.warn("Error loading properties:", e);
         }
     }
 
