@@ -10,6 +10,7 @@ package com.boozallen.aissemble.upgrade.util.pom;
  * #L%
  */
 
+import org.apache.maven.model.InputLocation;
 import org.apache.maven.model.InputSource;
 import org.apache.maven.model.Model;
 import org.apache.maven.project.MavenProject;
@@ -71,5 +72,9 @@ public class PomHelper {
             throw new BatonException("Failed to update file:" + file.getPath(), e);
         }
         return true;
+    }
+
+    public static InputLocation incrementColumn(InputLocation location, int i) {
+        return new InputLocation(location.getLineNumber(), location.getColumnNumber() + i, location.getSource());
     }
 }

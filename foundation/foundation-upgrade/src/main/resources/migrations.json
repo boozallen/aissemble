@@ -80,6 +80,17 @@
         ]
       },
       {
+        "name": "upgrade-spark-application-exec-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.SparkAppExecMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "pom.xml"
+            ]
+          }
+        ]
+      },
+      {
         "name": "enable-habushu-build-cache-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.EnableDistOutputFolderForHabushuBuildCacheMigration",
         "fileSets": [

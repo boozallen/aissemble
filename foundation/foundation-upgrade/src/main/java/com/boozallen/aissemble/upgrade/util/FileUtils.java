@@ -188,6 +188,9 @@ public final class FileUtils {
      * @return a single indent in the inferred style
      */
     public static String getIndent(String line, int level) {
+        if( level < 1 ) {
+            return "";
+        }
         int i = 0;
         while (i < line.length() && Character.isWhitespace(line.charAt(i))) {
             i++;
