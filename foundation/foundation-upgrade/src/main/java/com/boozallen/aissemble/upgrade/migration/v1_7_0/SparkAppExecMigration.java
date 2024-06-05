@@ -13,13 +13,17 @@ package com.boozallen.aissemble.upgrade.migration.v1_7_0;
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
 import com.boozallen.aissemble.upgrade.util.pom.PomHelper;
 import com.boozallen.aissemble.upgrade.util.pom.PomModifications;
+import org.apache.maven.model.Build;
 import org.apache.maven.model.InputLocation;
 import org.apache.maven.model.Model;
+import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -77,8 +81,18 @@ public class SparkAppExecMigration extends AbstractAissembleMigration {
      * @return the executions that need to be modified
      */
     private List<PluginExecution> getSparkAppExecutions(Model pom) {
-        return pom.getBuild().getPlugins().stream().filter(plugin -> plugin.getArtifactId().equals("exec-maven-plugin"))
-                .flatMap(plugin -> plugin.getExecutions().stream())
+        Build build = pom.getBuild();
+        if (build == null) {
+            return List.of();
+        }
+        List<Plugin> plugins = build.getPlugins();
+        if (plugins == null) {
+            return List.of();
+        }
+        return plugins.stream().filter(plugin -> "exec-maven-plugin".equals(plugin.getArtifactId()))
+                .map(Plugin::getExecutions)
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
                 .filter(execution -> execution.getGoals().contains("exec"))
                 .filter(this::isHelmExec)
                 .filter(this::containsOldSparkAppArg)
@@ -86,7 +100,11 @@ public class SparkAppExecMigration extends AbstractAissembleMigration {
     }
 
     private boolean isHelmExec(PluginExecution execution) {
-        return getConfig(execution, "executable").getValue().equals("helm");
+        Xpp3Dom executable = getConfig(execution, "executable");
+        if (executable == null) {
+            return false;
+        }
+        return "helm".equals(executable.getValue());
     }
 
     /**
@@ -96,7 +114,10 @@ public class SparkAppExecMigration extends AbstractAissembleMigration {
      * @return true if the execution contains the old argument
      */
     private boolean containsOldSparkAppArg(PluginExecution execution) {
-        Xpp3Dom args = ((Xpp3Dom) execution.getConfiguration()).getChild("arguments");
+        Xpp3Dom args = getConfig(execution, "arguments");
+        if (args == null) {
+            return false;
+        }
         return Stream.of(args.getChildren("argument"))
                 .anyMatch(arg -> "aissemble-spark-application".equals(arg.getValue()));
     }
@@ -108,6 +129,10 @@ public class SparkAppExecMigration extends AbstractAissembleMigration {
      * @return the configuration item DOM
      */
     private Xpp3Dom getConfig(PluginExecution execution, String name) {
-        return ((Xpp3Dom) execution.getConfiguration()).getChild(name);
+        Xpp3Dom configuration = (Xpp3Dom) execution.getConfiguration();
+        if (configuration == null) {
+            return null;
+        }
+        return configuration.getChild(name);
     }
 }
