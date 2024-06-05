@@ -7,10 +7,10 @@ Conventions for setting namespaces when leveraging `Data Lineage` has been updat
 The [Maven Build Cache](https://maven.apache.org/extensions/maven-build-cache-extension/) is now enabled by default for new projects.  Existing projects can reference [the generation template](https://github.com/boozallen/aissemble/tree/dev/foundation/foundation-archetype/src/main/resources/archetype-resources/.mvn) to enable this functionality in their own projects.
 
 ## Kafka Docker Image
-The baseline Kafka Docker image has moved from using the _wurstmeister/kafka_ image (which was outdated and is no longer available) to using [Bitnami's Kafka image](https://hub.docker.com/r/bitnami/kafka) as its base.  If you are using the v2 Kafka chart managed by aiSSEMBLE, it will now pull the baseline Kafka image instead of directly using the Bitnami image. If you are still on the older v1 chart, it is already using the baseline image and will be the Bitnami flavor in 1.7.0. Kafka Connect support is still included in the baseline image.
+The baseline Kafka Docker image has moved away from using the _wurstmeister/kafka_ image (which was outdated and is no longer available) to using [Bitnami's Kafka image](https://hub.docker.com/r/bitnami/kafka) as its base.  If you are using the v2 Kafka chart managed by aiSSEMBLE, it will now pull the baseline Kafka image instead of directly using the Bitnami image. If you are still on the older v1 chart, it is already using the baseline image and will be the Bitnami flavor in 1.7.0. Kafka Connect support is still included in the baseline image.
 
 ## Package Renaming
-* Python modules were renamed to reflect aiSSEMBLE. These include the following. 
+* Python modules were renamed to reflect aiSSEMBLE. These include the following.
 
 | Old Python Module                       | New Python Module                                 |
 |-----------------------------------------|---------------------------------------------------|
@@ -65,14 +65,12 @@ The baseline Kafka Docker image has moved from using the _wurstmeister/kafka_ im
 | extensions-helm-versioning              | aissemble-versioning-chart              |
 
 # Breaking Changes
-_<A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section>_
-Note instructions for adapting to these changes are outlined in the upgrade instructions below.  
-* The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` 
-  to be invalid
-* The specification of the private maven repositories has been changed from prior releases.
+Note instructions for adapting to these changes are outlined in the upgrade instructions below.
+* The maven property `version.clean.plugin` was changed to `version.maven.clean.plugin` causing the `*-deploy/pom.xml` to be invalid.
+* The specification of private maven repositories has been changed from prior releases.
 * The specification of private PyPI repositories has been changed from prior releases.
-* The specification of Helm publishing repositories has been changed from prior releases.
 * The specification of private docker repository has been changed from prior releases.
+* The specification of Helm publishing repositories has been changed from prior releases.
 * The Kafka home directory in the **aissemble-kafka** image has changed from _/opt/kafka_ to _/opt/bitnami/kafka_
 
 # Known Issues
@@ -106,6 +104,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-dockerfile-pip-install-migration              | Updates dockerfiles such that python dependency installations fail during the build, rather than at runtime                                                                                                                                            |
 | enable-habushu-build-cache-migration                  | Updates the `pom.xml` file for any Habushu-managed modules to ensure that the build directory is specified.                                                                                                                                            |
 | data-lineage-package-import-migration                 | Updates the package imports for all java files that are referencing `com.boozallen.aissemble.data.lineage`.                                                                                                                                            |
+| upgrade-spark-application-exec-migration.          | Fixes the exec-maven-plugin executions in pipeline POMs to use the new ghcr.io aissemble-spark-application-chart package                                                                                                                                      |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
@@ -129,9 +128,9 @@ To deactivate any of these migrations, add the following configuration to the `b
     </plugin>
 ```
 
-## Precondition Steps
+## Precondition Steps - Required for All Projects
 
-### Beginning the Upgrade - Required for All Projects
+### Beginning the Upgrade
 To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.7.0 version of the build-parent:
    ```xml
    <parent>
@@ -141,16 +140,16 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.7.0 
    </parent>
    ```
 
-### Delete the Old maven-clean-plugin Version - Required for All Projects
-In order to follow the standard naming conventions for maven properties, the original property used for the 
-maven-clean-plugin version no longer exists. To resolve the Maven failure this causes, delete the version from the 
+### Delete the Old maven-clean-plugin Version
+In order to follow the standard naming conventions for maven properties, the original property used for the
+maven-clean-plugin version no longer exists. To resolve the Maven failure this causes, delete the version from the
 plugin in *-deploy/pom.xml. This can be achieved with:
 ```
 sed -i'' -e '/version.clean.plugin/d' *-deploy/pom.xml
 ```
 
 ### Update Maven Repository Configuration
-Update the following properties in your project's root `pom.xml` file with the appropriate Maven repository IDs and URLs 
+Update the following properties in your project's root `pom.xml` file with the appropriate Maven repository IDs and URLs
 for publishing and retrieving releases and snapshots. Adjust for your project as appropriate:
 ```xml
 <properties>
@@ -245,6 +244,50 @@ for publishing and retrieving docker images. Adjust for your project as appropri
 ```
 Additionally, add the docker repoId in the `orphedomos-maven-plugin` configuration in the project's `-docker/pom.xml` file.
 
+### Update Tiltfile with New Docker Repository
+Update the `build_args` defined in your `Tiltfile` to point `DOCKER_BASELINE_REPO_ID` to the `ghcr.io/` docker repository
+```diff
++ build_args = { 'DOCKER_BASELINE_REPO_ID': 'ghcr.io/',
+               'VERSION_AISSEMBLE': aissemble_version}
+```
+
+### Update v1 Helm Charts with New Docker Repository
+Update the values.yaml file for any v1 helm charts in your `-deploy/apps` directory to point to the correct repository.
+
+#### Github Container Registry Images
+If you have a v1 chart that is included in this list
+- `hive-metastore-db`
+- `hive-metastore-service`
+- `jenkins`
+- `kafka`
+- `metadata`
+- `spark-infrastructure`
+
+Then you will need to update the `dockerRepo` value in the corresponding `values.yaml` file to point to `"ghcr.io/"`:
+```diff
+image:
++   dockerRepo: "ghcr.io/"
+```
+#### Model Training
+If you leverage `model-training-api` and/or `model-training-api-sagemaker`, update the image name to point to `ghcr.io/` like so:
+```diff
+image:
++  name: ghcr.io/boozallen/aissemble-model-training-api
+```
+for sagemaker:
+```diff
+image:
++  name: ghcr.io/boozallen/aissemble-model-training-api-sagemaker
+```
+
+#### Spark Operator
+If you leverage `spark-operator`, you will need to update the `spark-operator`'s `values.yaml` file so the image repository points to `ghcr.io/` like so:
+spark-operator:
+```diff
+image:
++  repository: "ghcr.io/boozallen/aissemble-spark-operator"
+```
+
 ## Conditional Steps
 
 ## Upgrade Steps for Projects Leveraging the aiSSEMBLE Kafka Image
@@ -311,9 +354,10 @@ The data lineage now supports pipeline level lineage run event, which provides t
 +   PipelineBase.getInstance().recordPipelineLineageCompleteEvent();
 ```
 
-## Final Steps
+## Final Steps - Required for All Projects
 
-### Finalizing the Upgrade - Required for All Projects
+### Finalizing the Upgrade
+1. Run `mvn org.technologybrewery.baton:baton-maven-plugin:baton-migrate -DoldHelmRepositoryUrl=<old-helm-repo>` to apply the automatic migrations
 1. Run `mvn clean install` and resolve any manual actions that are suggested
     - **NOTE:** This will update any aiSSEMBLE dependencies in 'pyproject.toml' files automatically
 2. Repeat the previous step until all manual actions are resolved

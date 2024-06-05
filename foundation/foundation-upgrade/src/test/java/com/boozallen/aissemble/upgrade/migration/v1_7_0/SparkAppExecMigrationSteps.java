@@ -19,12 +19,18 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SparkAppExecMigrationSteps extends AbstractMigrationTest  {
     @Given("a pipeline pom file with one or more helm template commands using the aissemble-spark-application chart")
     public void aPipelinePomFileWithOneOrMoreHelmTemplateCommandsUsingTheAissembleSparkApplicationChart() {
         testFile = getTestFile("v1_7_0/SparkAppExecMigration/migration/pom.xml");
+    }
+
+    @Given("a tests module POM with no build section")
+    public void aTestsModulePOMWithNoBuildSection() {
+        testFile = getTestFile("v1_7_0/SparkAppExecMigration/migration/tests-pom.xml");
     }
 
     @When("the 1.7.0 spark app exec migration executes")
@@ -41,5 +47,10 @@ public class SparkAppExecMigrationSteps extends AbstractMigrationTest  {
 
         assertTrue("Migrated file does not match expected output",
                 FileUtils.contentEqualsIgnoreEOL(migratedFile, validationFile, null));
+    }
+
+    @Then("the tests module POM is not updated")
+    public void theTestsModulePOMIsNotUpdated() {
+        assertFalse("File migration was incorrectly executed", shouldExecute);
     }
 }
