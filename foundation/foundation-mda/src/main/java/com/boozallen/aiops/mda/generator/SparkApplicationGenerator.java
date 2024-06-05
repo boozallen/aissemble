@@ -46,6 +46,7 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
     protected ManualActionNotificationService manualActionNotificationService = new ManualActionNotificationService();
 
     private final SparkDependencyConfiguration config = SparkDependencyConfiguration.getInstance();
+    protected static final String DOCKER_PROJECT_REPOSITORY_URL = "dockerProjectRepositoryUrl";
 
     private void handlePySpark(VelocityContext vc, GenerationContext context) {
         Pipeline pipeline = PipelineUtils.getTargetedPipeline(context, metadataContext);
@@ -134,10 +135,12 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
         }
 
         final String projectName = context.getRootArtifactId();
+        String dockerProjectRepositoryUrl = context.getPropertyVariables().get(DOCKER_PROJECT_REPOSITORY_URL);
 
         vc.put(VelocityProperty.SPARK_APPLICATION_NAME, context.getArtifactId());
         vc.put(VelocityProperty.PROJECT_NAME, projectName);
         vc.put(VelocityProperty.PIPELINE, pipeline.getName());
+        vc.put(VelocityProperty.DOCKER_PROJECT_REPOSITORY_URL, dockerProjectRepositoryUrl);
 
         if (!"test".equalsIgnoreCase(context.getArtifactType()) && SparkStorageEnum.S3LOCAL == metamodelRepository.getDeploymentConfigurationManager().getSparkDeploymentConfiguration().getStorageType()) {
             vc.put(VelocityProperty.USE_S3_LOCAL, true);

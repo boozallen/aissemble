@@ -29,6 +29,7 @@
                         <targetPipeline>${pipeline.name}</targetPipeline>
                         <behaveFeature>data_delivery</behaveFeature>
                         <aissembleVersion>${version.aissemble}</aissembleVersion>
+                        <dockerProjectRepositoryUrl>${docker.project.repository.url}</dockerProjectRepositoryUrl>
                     </propertyVariables>
                     <!-- see ${parentArtifactId} for base configuration settings -->
                 </configuration>

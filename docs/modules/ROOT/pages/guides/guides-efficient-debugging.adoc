@@ -193,7 +193,7 @@ sync_properties = sync(
 
 # project-name-quick-inference-docker
 docker_build_with_restart(
-   ref='boozallen/project-name-quick-inference-docker',
+   ref='project-name-quick-inference-docker',
    context='project-name-docker/project-name-quick-inference-docker',
    live_update=[sync_properties,
       run('cd /modules/quick-inference; for x in *.whl; do pip install $x --no-cache-dir --no-deps --force-reinstall; done')
@@ -223,7 +223,7 @@ tests a module called `quick inference` and copies the resulting `dist` director
    remote_path='/modules/quick-inference')`: This specifies the locations that need to be synchronized. It ensures that
 the `dist` directory from the previous step is kept in sync with a specific directory on the remote target.
 * `docker_build_with_restart(
-   ref='boozallen/project-name-quick-inference-docker',
+   ref='project-name-quick-inference-docker',
    context='project-name-docker/project-name-quick-inference-docker',...)`: This section is referenced earlier in the
 code in `load('ext://restart_process', 'docker_build_with_restart')`. The configuration includes the image reference,
 file location, and additional options and defines the setup of a Docker container with live update functionality.

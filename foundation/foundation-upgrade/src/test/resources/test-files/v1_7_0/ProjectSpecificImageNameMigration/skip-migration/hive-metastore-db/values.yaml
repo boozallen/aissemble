@@ -1,0 +1,38 @@
+# Default values for hive-metastore-db.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+hostname: hive-metastore-db
+image:
+  name: boozallen/aissemble-hive-mysql
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.7.0-SNAPSHOT"
+
+# hive-metastore-db Deployment
+deployment:
+  env:
+    - name: MYSQL_DATABASE
+      value: metastore
+    - name: MYSQL_PASSWORD
+      value: hive
+    - name: MYSQL_ROOT_PASSWORD
+      value: hive
+    - name: MYSQL_USER
+      value: hive
+  ports:
+    - name: "http-1"
+      containerPort: 3306
+      protocol: TCP
+  restartPolicy: Always
+
+# hive-metastore-db Service
+service:
+  spec:
+    ports:
+      - name: "3306"
+        port: 3306
+        targetPort: 3306

@@ -34,10 +34,12 @@ public class InferenceDockerResourcesGenerator extends AbstractResourcesGenerato
 
 
     private static final Logger logger = LoggerFactory.getLogger(InferenceDockerResourcesGenerator.class);
+    protected static final String DOCKER_PROJECT_REPOSITORY_URL = "dockerProjectRepositoryUrl";
 
     @Override
     public void generate(GenerationContext context) {
         String rootModuleName = context.getRootArtifactId();
+        String dockerProjectRepositoryUrl = context.getPropertyVariables().get(DOCKER_PROJECT_REPOSITORY_URL);
 
         if (rootModuleName == null || rootModuleName.isEmpty()) {
             logger.error("Root module could not be determined!");
@@ -49,6 +51,7 @@ public class InferenceDockerResourcesGenerator extends AbstractResourcesGenerato
             VelocityContext vc = getNewVelocityContext(context);
             vc.put(VelocityProperty.INFERENCE_MODULE, inferenceModule);
             vc.put(VelocityProperty.INFERENCE_MODULE_SNAKE_CASE, PythonGeneratorUtils.normalizeToPythonCase(inferenceModule));
+            vc.put(VelocityProperty.DOCKER_PROJECT_REPOSITORY_URL, dockerProjectRepositoryUrl);
 
             generateFile(context, vc);
         }

@@ -33,7 +33,7 @@ to leverage the new Helm pattern for the aiSSEMBLE module at hand:
     * `local('helm dependency build <project-name>-deploy/src/main/resources/apps/<module-name>') `
   * Below the module's corresponding `k8s_resource()` call, add the following line to manually build the docker image 
     for the migrated module:
-    * `local('docker build -f <project-name>-docker/<project-name>-<module-name>-docker/target/Dockerfile -t boozallen/<project-name>-<module-name>:latest <project-name>-docker/<project-name>-<module-name>-docker/ --build-arg VERSION_AISSEMBLE=<current aiSSEMBLE version>') `
+    * `local('docker build -f <project-name>-docker/<project-name>-<module-name>-docker/target/Dockerfile -t <project-name>-<module-name>:latest <project-name>-docker/<project-name>-<module-name>-docker/ --build-arg VERSION_AISSEMBLE=<current aiSSEMBLE version>') `
       * Note: this step is not always necessary, and only needed when the chart is dependent on an image being built in 
         a downstream project
 
