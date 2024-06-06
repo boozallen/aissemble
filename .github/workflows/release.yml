@@ -1,0 +1,122 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Release aissemble
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Release version number in SemVer format"
+        required: true
+        type: string
+        default: "1.7.0rc1"
+      next_version:
+        description: "Next development snapshot version"
+        required: true
+        type: string
+        default: "1.8.0-SNAPSHOT"
+      existing_version:
+        description: "The current version on the release branch. Defaults to {release_version}-SNAPSHOT if unset."
+        type: string
+      release_branch:
+        description: "Branch to release from"
+        type: string
+  push:
+    branches: [ "aissemble-release-1.7" ]
+
+jobs:
+  env-setup:
+# We perform the full environment setup on each runner that we'll be using for the eventual builds/publishes
+    strategy:
+      matrix:
+        arch:
+          - ARM64
+          - X64
+
+    runs-on:
+      - self-hosted
+      - aissemble
+      - ${{ matrix.arch }}
+
+    steps:
+      - name: Set Defaults
+        run: |
+          VAL=${{ inputs.existing_version }}
+          EXISTING_VERSION=${VAL:-${{ inputs.release_version }}-SNAPSHOT}
+          echo "existing_version=$EXISTING_VERSION" >> "$GITHUB_OUTPUT"
+          VAL=${{ inputs.release_version }}
+          VMINOR=${VAL%.*} #remove everything from the last period onward
+          VAL=${{ inputs.release_branch }}
+          RELEASE_BRANCH=${VAL:-aissemble-release-$VMINOR}
+          echo "release_branch=$RELEASE_BRANCH" >> "$GITHUB_OUTPUT"
+      - name: Checkout aissemble
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.buildBranch }}
+      - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
+        id: cached-m2-repo
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+      - name: Install Poetry
+        run: |
+          pipx install poetry
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Build aiSSEMBLE
+        run: |
+          echo "$HOME/.pyenv/bin;/home/ubuntu/.local/bin" >> $GITHUB_PATH
+          eval "$(pyenv init -)"
+          echo "release_version:  ${{ inputs.release_version }}"
+          echo "next_version:     ${{ inputs.next_version }}"
+          echo "existing_version: ${{ needs.env-setup.outputs.existing_version }}"
+          echo "release_branch:   ${{ needs.env-setup.outputs.release_branch }}"
+          #./mvnw -B clean install --file pom.xml -Pci,${{ matrix.arch }}
+      #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
+      # until https://github.com/actions/cache/issues/1315 is resolved
+      - name: Save m2 repository cache
+        id: save-m2-repo
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+
+  release-images:
+    strategy:
+      matrix:
+        arch:
+          - ARM64
+          - X64
+    needs:
+      - env-setup
+    runs-on:
+      - self-hosted
+      - aissemble
+      - ${{ matrix.arch }}
+    steps:
+      - name: Build images
+        run: |
+          #./mvnw -B clean install --file extensions/extensions-docker/pom.xml -Pci,${{ matrix.arch }}
+
+  release:
+    needs:
+      - release-images
+    runs-on:
+      - aissemble
+    steps:
+      - name: Log success
+        run: |
+          echo "Successfully released!"
