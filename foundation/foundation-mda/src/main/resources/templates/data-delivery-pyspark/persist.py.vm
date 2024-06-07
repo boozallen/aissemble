@@ -95,6 +95,6 @@
 
         ${step.capitalizedName}Base.logger.info('Saved %s to Neo4j' % self.descriptive_label)
       #elseif (!$step.isPersistTypeRdbms())
-        ${step.capitalizedName}Base.logger.warn('Persist type for test "${step.persist.type}" is not yet supported by the AIOps Solution Baseline!')
+        ${step.capitalizedName}Base.logger.warn('Persist type for test "${step.persist.type}" is not yet supported by the aiSSEMBLE Solution Baseline!')
         ${step.capitalizedName}Base.logger.warn('Please encode persistence logic manually by overriding save_dataset(..)')
       #end

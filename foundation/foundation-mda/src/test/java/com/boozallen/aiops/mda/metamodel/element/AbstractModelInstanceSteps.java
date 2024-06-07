@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
@@ -41,7 +42,6 @@ import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryMana
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceUrl;
 import org.technologybrewery.fermenter.mda.metamodel.ModelRepositoryConfiguration;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.technologybrewery.fermenter.mda.reporting.StatisticsService;
 

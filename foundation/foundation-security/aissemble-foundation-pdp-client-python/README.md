@@ -19,5 +19,5 @@ The following tasks will help you add authentication to your module.
         if 'PERMIT' == decision:
             print('User is authorized to access XYZ')
         else:
-            raise AiopsSecurityException('User is not authorized')
+            raise AissembleSecurityException('User is not authorized')
     ```

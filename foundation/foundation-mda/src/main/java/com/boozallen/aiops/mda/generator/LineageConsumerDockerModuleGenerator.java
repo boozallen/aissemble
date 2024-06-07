@@ -12,11 +12,8 @@ package com.boozallen.aiops.mda.generator;
 
 import com.boozallen.aiops.mda.DockerBuildParams;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
-import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.Map;
 

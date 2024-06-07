@@ -10,7 +10,7 @@
 from krausening.logging import LogManager
 from container.safe_docker_container import SafeDockerContainer
 from testcontainers.core.waiting_utils import wait_for
-from aiops_encrypt.vault_config import VaultConfig
+from aissemble_encrypt.vault_config import VaultConfig
 from importlib import metadata
 import packaging.version
 import platform

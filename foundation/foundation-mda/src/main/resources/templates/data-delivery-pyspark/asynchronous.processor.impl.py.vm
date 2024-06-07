@@ -1,13 +1,13 @@
 from ..generated.step.${step.lowercaseSnakeCaseName}_base import ${step.capitalizedName}Base
 from krausening.logging import LogManager
 #if (!$step.provenance || $step.provenance.enabled)
-from aiops_core_metadata.metadata_model import MetadataModel
+from aissemble_core_metadata.metadata_model import MetadataModel
 #end
 #foreach ($import in $step.implImports)
 ${import}
 #end
 #if (!$step.getFileStores().isEmpty())
-from aiops_core_filestore.file_store_factory import FileStoreFactory
+from aissemble_core_filestore.file_store_factory import FileStoreFactory
 #end
 
 

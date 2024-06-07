@@ -1,23 +1,23 @@
 from abc import ABC, abstractmethod
 from pyspark.sql import SparkSession
 from krausening.properties import PropertyManager
-from aiops_core_metadata.metadata_model import MetadataModel
-from aiops_core_metadata.metadata_api import MetadataAPI
-from aiops_security.pdp_client import PDPClient
-from aiopsauth.json_web_token_util import AiopsSecurityException
-from aiopsauth.auth_config import AuthConfig
+from aissemble_core_metadata.metadata_model import MetadataModel
+from aissemble_core_metadata.metadata_api import MetadataAPI
+from aissemble_security.pdp_client import PDPClient
+from aissembleauth.json_web_token_util import AissembleSecurityException
+from aissembleauth.auth_config import AuthConfig
 #if ($pipeline.getDataLineage())
 from uuid import uuid4, UUID
 from aissemble_data_lineage import Run, Job, Emitter, RunEvent, from_open_lineage_facet, LineageUtil, LineageEventData
 from openlineage.client.facet import ParentRunFacet
-from aiops_core_config import MessagingConfig
+from aissemble_core_config import MessagingConfig
 import os
 #end
 
 
 class AbstractDataAction(ABC):
     """
-    Contains the general concepts needed to perform a base AIOps Reference Architecture Data Action.
+    Contains the general concepts needed to perform a base aiSSEMBLE Reference Architecture Data Action.
     A Data Action is a step within a Data Flow.
 
     GENERATED CODE - DO NOT MODIFY (add your customizations in the step implementations).
@@ -81,7 +81,7 @@ class AbstractDataAction(ABC):
             if 'PERMIT' == decision:
                 self.get_logger().info('User is authorized to run ' + self.get_step_phase())
             else:
-                raise AiopsSecurityException('User is not authorized')
+                raise AissembleSecurityException('User is not authorized')
 
 
     def set_metadata_api_service(self, service: MetadataAPI):

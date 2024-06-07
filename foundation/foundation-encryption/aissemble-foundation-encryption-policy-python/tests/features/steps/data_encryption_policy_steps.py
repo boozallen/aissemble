@@ -12,10 +12,10 @@ import nose.tools as nt
 from policy_manager.policy.json import PolicyInput, PolicyRuleInput
 from policy_manager.configuration import PolicyConfiguration
 from krausening.logging import LogManager
-from aiops_encrypt_policy.encrypt_input import DataEncryptionPolicyInput
+from aissemble_encrypt_policy.encrypt_input import DataEncryptionPolicyInput
 from typing import List
 import json, os, random, string
-from aiops_encrypt_policy import DataEncryptionPolicy, DataEncryptionPolicyManager
+from aissemble_encrypt_policy import DataEncryptionPolicy, DataEncryptionPolicyManager
 
 os.environ["KRAUSENING_BASE"] = "tests/resources/krausening/base"
 
