@@ -19,7 +19,7 @@ from ...generated.inference.rest.inference_payload_definition import (
     RecordRowIdAndInferenceResultPair as RestRecordIdAndInferencePair,
 )
 from ...inference_impl import *
-from aiopsauth.json_web_token_util import JsonWebTokenUtil
+from aissembleauth.json_web_token_util import JsonWebTokenUtil
 from fastapi.security import OAuth2PasswordBearer
 
 
@@ -38,8 +38,8 @@ jwt_util = JsonWebTokenUtil()
 #         pdp_client = PDPClient(auth_config.pdp_host_url())
 #         decision = pdp_client.authorize(token, None, 'data-access')
 #         if "PERMIT" != decision:
-#             raise AiopsSecurityException('User is not authorized')
-#     except AiopsSecurityException as e:
+#             raise AissembleSecurityException('User is not authorized')
+#     except AissembleSecurityException as e:
 #         raise HTTPException(
 #             status_code=status.HTTP_401_UNAUTHORIZED,
 #             detail=str(e),

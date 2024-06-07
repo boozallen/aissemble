@@ -7,19 +7,19 @@ from ..pipeline.pipeline_base import PipelineBase
 ${import}
 #end
 #if ($step.decoratedFileStores && !$step.decoratedFileStores.size() != 0)
-from aiops_core_filestore.file_store_factory import FileStoreFactory
+from aissemble_core_filestore.file_store_factory import FileStoreFactory
 #end
 #if (!$step.provenance || $step.provenance.enabled)
-from aiops_core_metadata.hive_metadata_api_service import HiveMetadataAPIService
+from aissemble_core_metadata.hive_metadata_api_service import HiveMetadataAPIService
 #end
 #if ($step.isPersistTypeRdbms())
-from aiops_core_config import SparkRDBMSConfig
+from aissemble_core_config import SparkRDBMSConfig
 #end
 #if ($step.isPersistTypeElasticsearch())
-from aiops_core_config import SparkElasticsearchConfig
+from aissemble_core_config import SparkElasticsearchConfig
 #end
 #if ($step.isPersistTypeNeo4j())
-from aiops_core_config import SparkNeo4jConfig
+from aissemble_core_config import SparkNeo4jConfig
 #end
 #if ($step.hasMessagingInbound())
 from kafka import KafkaConsumer
@@ -28,21 +28,21 @@ from kafka import KafkaConsumer
 from kafka import KafkaProducer
 #end
 #if ($step.hasMessagingInbound() || $step.hasMessagingOutbound())
-from aiops_core_config import MessagingConfig
+from aissemble_core_config import MessagingConfig
 #end
 from pathlib import Path
 from policy_manager.configuration import PolicyConfiguration
-from aiops_encrypt_policy import DataEncryptionPolicy, DataEncryptionPolicyManager
+from aissemble_encrypt_policy import DataEncryptionPolicy, DataEncryptionPolicyManager
 import os
 from typing import List
 #if ($step.inbound)
 from pyspark.sql.functions import udf, col, lit, when, collect_list
 from pyspark.sql.types import StringType
-from aiops_encrypt.vault_key_util import VaultKeyUtil
-from aiops_encrypt.aes_cbc_encryption_strategy import AesCbcEncryptionStrategy
-from aiops_encrypt.aes_gcm_96_encryption_strategy import AesGcm96EncryptionStrategy
-from aiops_encrypt.vault_remote_encryption_strategy import VaultRemoteEncryptionStrategy
-from aiops_encrypt.vault_local_encryption_strategy import VaultLocalEncryptionStrategy
+from aissemble_encrypt.vault_key_util import VaultKeyUtil
+from aissemble_encrypt.aes_cbc_encryption_strategy import AesCbcEncryptionStrategy
+from aissemble_encrypt.aes_gcm_96_encryption_strategy import AesGcm96EncryptionStrategy
+from aissemble_encrypt.vault_remote_encryption_strategy import VaultRemoteEncryptionStrategy
+from aissemble_encrypt.vault_local_encryption_strategy import VaultLocalEncryptionStrategy
 #end
 #if ($pipeline.getDataLineage())
 from uuid import uuid4
@@ -50,7 +50,7 @@ from datetime import datetime
 #end
 
 #if ($step.inbound)
-def aiops_encrypt_simple_aes(plain_text):
+def aissemble_encrypt_simple_aes(plain_text):
     '''
     Pyspark User Defined Function for running encryption on columns.
     Note: must be registered with the spark session.
@@ -72,7 +72,7 @@ def aiops_encrypt_simple_aes(plain_text):
         return ''
 
 
-def aiops_encrypt_with_vault_key(key, plain_text):
+def aissemble_encrypt_with_vault_key(key, plain_text):
     '''
     Pyspark User Defined Function for running encryption on columns.
     Vault supplies an AES GCM 96 encryption key which will be used here.

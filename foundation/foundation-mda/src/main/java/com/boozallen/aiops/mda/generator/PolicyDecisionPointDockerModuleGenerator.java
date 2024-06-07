@@ -11,7 +11,6 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.DockerBuildParams;
-import com.boozallen.aiops.mda.ManualActionNotificationService;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;

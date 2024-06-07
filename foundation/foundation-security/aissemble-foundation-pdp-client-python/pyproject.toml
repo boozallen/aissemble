@@ -5,7 +5,7 @@ description = "REST Policy Decision Point (PDP) client for Python-based componen
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
 packages = [
-    {include = "aiops_security", from = "src"}
+    {include = "aissemble_security", from = "src"}
 ]
 
 [tool.poetry.dependencies]

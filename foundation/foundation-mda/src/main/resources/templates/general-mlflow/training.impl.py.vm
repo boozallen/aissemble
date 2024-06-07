@@ -7,7 +7,7 @@ Originally generated from: ${templateName}
 """
 
 import json
-from aiops_security.pdp_client import AiopsSecurityException
+from aissemble_security.pdp_client import AissembleSecurityException
 from typing import List
 
 from ..generated.${pipeline.getSnakeCaseName()}_base import ${pipeline.capitalizedName}Base, DataFrame, DatasetSplits
@@ -39,7 +39,7 @@ class ${pipeline.capitalizedName}(${pipeline.capitalizedName}Base):
         if 'PERMIT' == decision:
             print('User is authorized to run training')
         else:
-            raise AiopsSecurityException('User is not authorized')
+            raise AissembleSecurityException('User is not authorized')
 
 
     #end

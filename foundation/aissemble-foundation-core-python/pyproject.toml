@@ -5,11 +5,11 @@ description = "Core classes for supporting concepts (alerting, metadata, etc) th
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
 packages = [
-    {include = "aiops_core_bom", from = "src"},
-    {include = "aiops_core_config", from = "src"},
-    {include = "aiops_core_filestore", from = "src"},
-    {include = "aiops_core_metadata", from = "src"},
-    {include = "aiopsauth", from = "src"},
+    {include = "aissemble_core_bom", from = "src"},
+    {include = "aissemble_core_config", from = "src"},
+    {include = "aissemble_core_filestore", from = "src"},
+    {include = "aissemble_core_metadata", from = "src"},
+    {include = "aissembleauth", from = "src"},
     {include = "inference", from = "src"},
     {include = "policy_manager", from = "src"}
 ]
