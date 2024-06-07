@@ -10,11 +10,11 @@ package com.boozallen.aiops.mda.metamodel.element;
  * #L%
  */
 
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 import org.technologybrewery.fermenter.mda.metamodel.element.NamespacedMetamodelElement;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

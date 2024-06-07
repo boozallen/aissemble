@@ -44,7 +44,7 @@ public class MachineLearningDagGenerator extends AbstractPythonGenerator {
 	@Override
 	public void generate(GenerationContext generationContext) {
 		 AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-	                .getMetamodelRepository(AIOpsModelInstanceRepostory.class); 
+	                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
 
 		Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
 

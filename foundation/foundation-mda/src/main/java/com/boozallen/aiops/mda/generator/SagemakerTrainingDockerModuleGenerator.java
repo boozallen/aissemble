@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.ManualActionNotificationService;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineStepPair;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -19,7 +18,6 @@ import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
-import com.boozallen.aiops.mda.generator.MlflowDockerModuleGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

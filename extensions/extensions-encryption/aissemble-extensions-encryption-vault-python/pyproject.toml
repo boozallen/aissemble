@@ -5,7 +5,7 @@ description = "Vault data encryption classes (python)"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
 packages = [
-    {include = "aiops_encrypt", from="src"}
+    {include = "aissemble_encrypt", from="src"}
 ]
 
 [tool.poetry.dependencies]

@@ -11,8 +11,8 @@ USER 1001
 RUN mkdir -p /deployments/krausening/
 COPY target/dockerbuild/*.jar /deployments/
 
-COPY ./src/main/resources/truststore/aiops-secure.jks /deployments/
-COPY ./src/main/resources/krausening/base/aiops-security.properties /deployments/krausening/
+COPY ./src/main/resources/truststore/aissemble-secure.jks /deployments/
+COPY ./src/main/resources/krausening/base/aissemble-security.properties /deployments/krausening/
 COPY ./src/main/resources/authorization/policies/test-policy.xml /deployments/
 COPY ./src/main/resources/authorization/attributes/test-attributes.json /deployments/
 COPY ./src/main/resources/authorization/pdp.xml /deployments/

@@ -1,0 +1,11 @@
+# Properties file for policy decision point.
+#
+# GENERATED PROPERTIES FILE - please ***DO*** modify.
+#
+# Generated from: ${templateName}
+
+token.issuer=aissemble.authority
+private.key.alias=aissemblekey
+keystore.file.location=/deployments/aissemble-secure.jks
+attribute.definition.location=/deployments/
+pdp.configuration.location=/deployments/pdp.xml
