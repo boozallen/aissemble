@@ -46,7 +46,7 @@ xref:pipeline-metamodel.adoc[metamodel documentation].
 After creating your model pipeline, execute the build to trigger the creation of the Maven modules that accompany it.
 
 . Run the maven build to execute the MDA generation engine.
-.. `mvn clean install`
+.. `./mvnw clean install`
 
 . The MDA generator will take several build iterations to fully generate your project, and requires that you modify
 certain files to enable this generation. These *Manual Actions* are meant to guide you through that process, and will

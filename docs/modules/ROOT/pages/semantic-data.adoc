@@ -158,9 +158,9 @@ This will produce a new file structure:
 
 To generate the new module structure:
 
- 1. Generate the new modules with `mvn clean install`
+ 1. Generate the new modules with `./mvnw clean install`
  2. Follow the prompt to add the new modules to the _<project>-shared/pom.xml`
- 3. Generate the code in the new modules with `mvn clean install`
+ 3. Generate the code in the new modules with `./mvnw clean install`
  4. Move any customizations you made to the records classes under `<project>-shared/<project>-data-records` to the
 appropriate new location
  ** Note: The class file names are the same and can act as a guide as to where the customizations should live_

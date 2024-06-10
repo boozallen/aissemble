@@ -15,17 +15,17 @@ Below shows the different types of artifacts that can be deployed.
 * war
 
 # Installation
-To install the plugin, execute `mvn clean install`. The plugin will be installed on a successful build.
+To install the plugin, execute `./mvnw clean install`. The plugin will be installed on a successful build.
 
 ## Propagate
 Below describes how to use the `propagate` goal. 
 
-* Execute `mvn com.boozallen.aissemble:artifacts-maven-plugin:propagate -DgroupId=[group ID] -DartifactId=[artifact ID] -Dversion=[version] -Durl=[url] -DrepositoryId=[repository ID]`. If successfull, the artifacts at the given coordinates will be deployed to the alternate repository given by the URL (Note: The property `repositoryId` is an optional parameter and it is only needed if the alternate repository requires credentials)
+* Execute `./mvnw com.boozallen.aissemble:artifacts-maven-plugin:propagate -DgroupId=[group ID] -DartifactId=[artifact ID] -Dversion=[version] -Durl=[url] -DrepositoryId=[repository ID]`. If successfull, the artifacts at the given coordinates will be deployed to the alternate repository given by the URL (Note: The property `repositoryId` is an optional parameter and it is only needed if the alternate repository requires credentials)
 
 ## Propagate All
 Below describes how to use the `propagate-all` goal. 
 
-* Inside a Maven project, execute `mvn com.boozallen.aissemble:propagate-all -Durl=[url] -DrepositoryId=[repository ID]`. If successfull, all of the project's direct and transitive dependencies will be deployed to an alternate repository given by the URL. (Note: The property `repositoryId` is an optional parameter and it is only needed if the alternate repository requires credentials)
+* Inside a Maven project, execute `./mvnw com.boozallen.aissemble:propagate-all -Durl=[url] -DrepositoryId=[repository ID]`. If successfull, all of the project's direct and transitive dependencies will be deployed to an alternate repository given by the URL. (Note: The property `repositoryId` is an optional parameter and it is only needed if the alternate repository requires credentials)
 
 ## Remote Repository
 

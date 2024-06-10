@@ -6,6 +6,9 @@
 To use the current version {page-version}, install Maven 3.9.x. For additional information on installing and/or updating
 Maven, please see the https://maven.apache.org/install.html[official Maven website,role=external,window=_blank].
 
+Alternatively, you can use maven wrapper to build aiSSEMBLE which does not require you to have maven installed. For more
+information on maven wrapper, please see the https://maven.apache.org/wrapper/[official Maven wrapper website,role=external,window=_blank].
+
 Once the latest version of Maven is installed on your machine, follow the steps below to configure it for
 working with Solution Baseline artifacts.
 
@@ -73,7 +76,7 @@ NOTE: The below Maven security settings are recommended if you are working on a 
 repository.
 
 1. Open a terminal or command line and create a master password to seed password encryption capabilities.
-2. Type: `mvn -emp`
+2. Type: `./mvnw -emp`
 * You should see a message similar to the following: `You will be prompted for the password.`
 * Enter your chosen password
 * You will receive an encrypted master password. Copy the encrypted master password.
@@ -86,7 +89,7 @@ this file. **You must include the curly braces.** An example of the content is s
       </settingsSecurity>
     ----
 4. Encrypt the password that you will use to authenticate against the private Maven repository:
-* In your terminal or command line, execute the `mvn -ep` command
+* In your terminal or command line, execute the `./mvnw -ep` command
 * You should see a message stating `You will be prompted for the password.`
 * Enter your BAH SSO password. **NOTE: If your password contains a special character you will need to enclose it in single quotes.**
 * You will receive an encrypted password. Copy the encrypted password.
@@ -118,7 +121,7 @@ this file. **You must include the curly braces.** An example of the content is s
 NOTE: This configuration may not be necessary and is dependent on the specific JDK distribution used along with the SSL
 certificates that are automatically installed into your local environment's trust chain.
 
-If you see similar SSL errors when executing `mvn clean install` commands, you may need to follow the steps outlined on
+If you see similar SSL errors when executing `./mvnw clean install` commands, you may need to follow the steps outlined on
 the https://maven.apache.org/guides/mini/guide-repository-ssl.html[maven website,role=external,window=_blank].
 ```
 Caused by: org.eclipse.aether.transfer.ArtifactTransferException: Could not transfer artifact org.apache.maven.plugins:maven-clean-plugin:pom:2.5 from/to xxxxx: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target

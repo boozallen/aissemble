@@ -57,7 +57,7 @@ Feature: CSV data pipeline
 === Step 3: Execute the test once all your business logic has been implemented and validate if the tests ran successfully.
 [,sh]
 ----
-mvn clean install -pl :simple-data-delivery-example
+./mvnw clean install -pl :simple-data-delivery-example
 ----
 
 Expected output:
