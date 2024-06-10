@@ -48,7 +48,7 @@ json file, please check out xref:pipeline-metamodel.adoc[Detailed Pipeline Optio
 
 //todo section seems redundant with previous documentation on the mda generation build-action-build-action loop
 === POM
-After specifying the contents of the JSON file, you would then run a `mvn clean install` to generate the associated POM
+After specifying the contents of the JSON file, you would then run a `./mvnw clean install` to generate the associated POM
 file. An example POM file associated with the example JSON from above is shown below. Some content in the pom file
 will be specific to the machine learning pipeline defined for the project.
 
@@ -120,7 +120,7 @@ Example:
 ***********************************************************************
 ----
 
-You will then run another `mvn clean install` to activate the pipeline and generate out the training and inference
+You will then run another `./mvnw clean install` to activate the pipeline and generate out the training and inference
 module pom files. As an output of the build, you will be prompted to add the training and inference modules to the
 machine learning pipeline identified in your project. This excerpt is shown below.
 
@@ -158,7 +158,7 @@ Example:
 
 The next step you will need to do is add in each of the steps listed in the example output into the machine learning
 pipeline pom. (e.g. `<module>aissemble-machine-learning-training</module>`,
-`<module>aissemble-machine-learning-inference</module>`). Once completed, a final `mvn clean install` is run to
+`<module>aissemble-machine-learning-inference</module>`). Once completed, a final `./mvnw clean install` is run to
 generate the scaffolding code for inference and training.
 
 === Inference
@@ -362,7 +362,7 @@ In the above snippet:
 * To obtain `password`:
 ** First https://maven.apache.org/guides/mini/guide-encryption.html#how-to-create-a-master-password[create a master
 Maven password,role=external,window=_blank]
-** Then run `mvn --encrypt-password $(aws ecr get-login-password)`
+** Then run `./mvnw --encrypt-password $(aws ecr get-login-password)`
 *** Please note that you may need to specify region and/or profile as arguments to the nested `aws` command
 * The `username` should be `AWS`
 

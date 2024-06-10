@@ -16,7 +16,7 @@
 
     <modules>
         <!-- Note: these should match the names that you have in your Pipeline.json that you specify below.
-        These should also not be added until after your first run of mvn clean install so that the modules are generated first. -->
+        These should also not be added until after your first run of ./mvnw clean install so that the modules are generated first. -->
         <module>aissemble-machine-learning-training-base</module>
     </modules>
 

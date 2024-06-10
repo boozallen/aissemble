@@ -48,7 +48,7 @@ package='com.bah.aiops'
 echo "Using Project Version: $1"
 echo -e "\nINFO: Generating a new project from the archetype\n"
 rm -rf test-generator
-mvn archetype:generate -B \
+./mvnw archetype:generate -B \
 	-DarchetypeGroupId=com.boozallen.aissemble \
 	-DarchetypeArtifactId=foundation-archetype \
   -DarchetypeVersion="$1" \
@@ -175,7 +175,7 @@ cp ../../../src/test/resources/test-project-archetype-script/maven-build-cache-c
 echo -e "\n# maven-suppress-warnings" >> Tiltfile
 
 echo -e "\nINFO: Running full build to generate project structure\n"
-mvn clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; }
+./mvnw clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; }
 
 
 cd test-generator-shared/
@@ -190,7 +190,7 @@ updatePomBasedOnChildDirs "<!-- TODO: replace with your pipeline-specific module
 cd ..
 
 echo -e "\nINFO: Generating project structure for pipelines and data records\n"
-mvn clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; }
+./mvnw clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; }
 
 cd test-generator-pipelines/example-machine-learning-pipeline/
 updatePomBasedOnChildDirs "<!-- TODO: replace with your step-specific modules here -->"
@@ -198,7 +198,7 @@ updatePomBasedOnChildDirs "<!-- TODO: replace with your step-specific modules he
 cd ../..
 
 echo -e "\nINFO: Generating project structure for ml pipelines\n"
-mvn clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; }
+./mvnw clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; }
 
 
 echo -e "\nINFO: updating the test-generator-deploy/pom.xml based on static code as it's hard to predict without folder structure\n"
@@ -212,7 +212,7 @@ echo -e $fileContents > test-generator-deploy/pom.xml
 
 
 echo -e "\nINFO: Running full build to check that the build passes w/o any manual actions needed\n"
-mvn clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; } > maven-build.log
+./mvnw clean install || { echo -e '\n\n\t**** MAVEN BUILD FAILED ****\n\n' ; exit 1; } > maven-build.log
 buildLog=`cat maven-build.log`
 if [[ $buildLog == *"MANUAL ACTION NEEDED"* ]]; then
   echo -e "\n\n **** ERROR: Manual action still found in build **** \n    Look at **archetype/target/temp/test-generator/maven-build.log** to see what the problem was. \n\n"

@@ -358,8 +358,8 @@ The data lineage now supports pipeline level lineage run event, which provides t
 ## Final Steps - Required for All Projects
 
 ### Finalizing the Upgrade
-1. Run `mvn org.technologybrewery.baton:baton-maven-plugin:baton-migrate -DoldHelmRepositoryUrl=<old-helm-repo>` to apply the automatic migrations
-1. Run `mvn clean install` and resolve any manual actions that are suggested
+1. Run `./mvnw org.technologybrewery.baton:baton-maven-plugin:baton-migrate -DoldHelmRepositoryUrl=<old-helm-repo>` to apply the automatic migrations
+1. Run `./mvnw clean install` and resolve any manual actions that are suggested
     - **NOTE:** This will update any aiSSEMBLE dependencies in 'pyproject.toml' files automatically
 2. Repeat the previous step until all manual actions are resolved
 

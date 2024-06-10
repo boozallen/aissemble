@@ -61,7 +61,7 @@ The **ServiceDiscoveryResource** class exposes the following REST endpoints:
 
 ### Run the build
 
-`mvn clean install`
+`./mvnw clean install`
 
 ### Verify unit tests
 
@@ -95,7 +95,7 @@ Unit tests to verify registering, unregistering, and retrieving services are exe
 ## Running manually
 
 1. Run the following to start the Quarkus application in development-mode:
-	- `mvn quarkus:dev -pl :service-discovery-core`
+	- `./mvnw quarkus:dev -pl :service-discovery-core`
 	- The following output will indicate when the application is up and running:
 	```
 	__  ____  __  _____   ___  __ ____  ______ 

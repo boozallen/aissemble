@@ -49,7 +49,7 @@ Please consult our [Configuring Your Environment guidance](https://boozallen.git
 The following steps will build aiSSEMBLE. *You must follow the configuration guidance above first*.
 1. To get started, pull the latest code for the aiSSEMBLE repo from git.
 2. Ensure Rancher Desktop is running.
-3. Build the project locally using the `mvn clean install` command.
+3. Build the project locally using the `./mvnw clean install` command.
     * A successful build will have an output similar to the below.
     ```
             [INFO] ------------------------------------------------------------------------
@@ -62,8 +62,8 @@ The following steps will build aiSSEMBLE. *You must follow the configuration gui
 
 ### Helpful Profiles
 The aiSSEMBLE baseline project provides several build profiles that may be helpful for different development environments.
-To activate each one, use the standard Maven syntax: `mvn clean install -P[profile_name]`, for
-instance, `mvn clean install -PnoRdAdmin`.  There are many profiles you can find in the root `pom.xml` file. The
+To activate each one, use the standard Maven syntax: `./mvnw clean install -P[profile_name]`, for
+instance, `./mvnw clean install -PnoRdAdmin`.  There are many profiles you can find in the root `pom.xml` file. The
 following profiles are often useful when first starting with aiSSEMBLE:
 
 * *noRdAdmin*: For configurations that disallow granting administrator privileges to Rancher Desktop. Testing frameworks
@@ -83,7 +83,7 @@ well as Path to Production modules.
 
 Open a terminal to the location in which you want your project to live and execute the following command:
 ```
-mvn archetype:generate \
+./mvnw archetype:generate \
     -DarchetypeGroupId=com.boozallen.aissemble \
     -DarchetypeArtifactId=foundation-archetype \
     -DarchetypeVersion=<version number>
@@ -123,4 +123,4 @@ the `test-data-delivery-pyspark-patterns` module:
 If this occurs, remove your local Ivy cache (`rm -rf ~/.ivy2`) and then manually download the dependency that failed to
 download. Taking the above error message as an example, the following Maven command would download the needed commons-math3 jar:
 
-`mvn org.apache.maven.plugins:maven-dependency-plugin:get -Dartifact=org.apache.commons:commons-math3:3.2`
+`./mvnw org.apache.maven.plugins:maven-dependency-plugin:get -Dartifact=org.apache.commons:commons-math3:3.2`

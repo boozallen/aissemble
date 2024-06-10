@@ -275,7 +275,7 @@ Before you can access the API Service, there are 2 areas where AWS Credentials w
 * `<project-name>/<project-name>-deploy/src/main/resources/apps/mlflow-ui/values.yaml`.
 
 After the credentials are added, you are ready to deploy your project. 
-You will need to run the command `mvn clean install` for your image to be pushed to ECR. To deploy the local components
+You will need to run the command `./mvnw clean install` for your image to be pushed to ECR. To deploy the local components
 of your project, run the command `tilt up`.
 
 ==== Submitting a SageMaker Training Job

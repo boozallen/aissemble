@@ -10,10 +10,10 @@ https://pages.github.com/boozallen/solution-baseline-docs/aissemble/current/arch
 Below are example steps for deploying the environment and running tests. The steps are specific to the data pipeline test but the process is easy to modify for any other test framework or language.
 
 1. Build the baseline
-   1. `mvn clean install`
+   1. `./mvnw clean install`
 2. Initiate integration tests
    1. Ensure Rancher Desktop is running
-   2. In the terminal window run `mvn clean install -P integration-test`
+   2. In the terminal window run `./mvnw clean install -P integration-test`
    3. Wait for the maven command to finish
 3. You should be able to find the test results in the logs
 

@@ -174,7 +174,7 @@ agent. For example, in `devops/JenkinsfileBuild.groovy`:
 withKubeConfig([credentialsId: 'kubeconfig']) {
     withMaven(maven: 'maven') {
         configFileProvider([configFile(fileId: 'maven-global-settings', variable: 'MAVEN_GLOBAL_SETTINGS')]) {
-            sh "mvn -s $MAVEN_GLOBAL_SETTINGS clean deploy -Pci,arm64 -pl :aissemble-quarkus,:aissemble-fastapi,:aissemble-spark"
+            sh "./mvnw -s $MAVEN_GLOBAL_SETTINGS clean deploy -Pci,arm64 -pl :aissemble-quarkus,:aissemble-fastapi,:aissemble-spark"
         }
     }
 }

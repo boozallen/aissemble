@@ -4,7 +4,7 @@ Foundational components for aiSSEMBLE&trade; efforts
 
 ## Build
 
-To build the project, use maven to do a clean install `mvn clean install`
+To build the project, use maven to do a clean install `./mvnw clean install`
 
 To build the project with integration tests use the `-Pintegration-test` profile
 - Some integration tests require `Docker` and automatically start/stop `Docker Compose` services while executing tests (i.e. see

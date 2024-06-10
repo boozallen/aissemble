@@ -54,7 +54,7 @@ Set the base package to your package structure and the profile to the appropriat
 Once the appropriate configuration has been added, run
 [source,bash]
 ----
-mvn clean install
+./mvnw clean install
 ----
 Once the build completes, check the logs for the following information:
 
@@ -119,7 +119,7 @@ Example:
 Be sure to add each artifact to the Tiltfile and Deploy module as appropriate. Once completed, rerun the build with
 [source,bash]
 ----
-mvn clean install
+./mvnw clean install
 ----
 The relevant Kubernetes artifacts should now be generated in the deploy module under  src/main/resources/apps
 
@@ -178,7 +178,7 @@ following these steps:
   * Deleting the existing chart directory
 2. Modify the existing deployment profile within your deploy _pom.xml_ to the make use of the `-v2` version (ie.
 `aissemble-airflow-deploy` -> `airflow-deploy-v2`)
-3. Rebuild with Maven to populate the new `v2` helm chart with `mvn clean install`
+3. Rebuild with Maven to populate the new `v2` helm chart with `./mvnw clean install`
 4. Follow the migration section from the respective `v2` charts  README (see table below)
 5. Deploy and test to ensure the new `v2` chart is fully functional within your project
 6. Delete the old chart directory (if you haven't already done so in step 1)
