@@ -48,7 +48,7 @@ package='com.bah.aiops'
 echo "Using Project Version: $1"
 echo -e "\nINFO: Generating a new project from the archetype\n"
 rm -rf test-generator
-./mvnw archetype:generate -B \
+mvn archetype:generate -B \
 	-DarchetypeGroupId=com.boozallen.aissemble \
 	-DarchetypeArtifactId=foundation-archetype \
   -DarchetypeVersion="$1" \

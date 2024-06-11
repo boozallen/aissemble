@@ -66,10 +66,28 @@
 				<include>jenkinsPipelineSteps.groovy</include>
 				<include>.mvn/**</include>
 			</includes>
+			<excludes>
+				<exclude>mvnw</exclude>
+				<exclude>mvnw.cmd</exclude>
+			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>.mvn</directory>
 			<includes/>
+		</fileSet>
+		<fileSet filtered="false" encoding="UTF-8">
+			<directory/>
+			<includes>
+				<include>mvnw</include>
+				<include>mvnw.cmd</include>
+			</includes>
+			<excludes>
+				<exclude>Tiltfile</exclude>
+				<exclude>.tiltignore</exclude>
+				<exclude>devops/**</exclude>
+				<exclude>jenkinsPipelineSteps.groovy</exclude>
+				<exclude>.mvn/**</exclude>
+			</excludes>
 		</fileSet>
 	</fileSets>
 
