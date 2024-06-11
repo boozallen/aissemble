@@ -20,7 +20,7 @@ Open a terminal to the location in which you want your project to live and execu
 
 ifeval::[{is-pre-release} == true]
 -- 
-./mvnw archetype:generate \
+mvn archetype:generate \
 	-DarchetypeGroupId=com.boozallen.aissemble \
 	-DarchetypeArtifactId=foundation-archetype \
 	-DarchetypeVersion={page-version}-SNAPSHOT
@@ -29,7 +29,7 @@ endif::[]
 
 ifeval::[{is-pre-release} != true]
 -- 
-./mvnw archetype:generate \
+mvn archetype:generate \
 	-DarchetypeGroupId=com.boozallen.aissemble \
 	-DarchetypeArtifactId=foundation-archetype \
 	-DarchetypeVersion={page-version}
@@ -40,7 +40,7 @@ This command will trigger an interactive questionnaire giving you the opportunit
 contained in the below table.
 
 *  This information can also be provided without interaction by including ``-D<propertyName>=<propertyValue>`` for each
-property you want to manually set when running the ``./mvnw archetype:generate`` command.
+property you want to manually set when running the ``mvn archetype:generate`` command.
 * Some of the information required (such as ``archetypeVersion``) is unavailable in interactive mode. For these
 properties, you can use the above Maven command to include them.
 
@@ -105,7 +105,7 @@ General pattern: ``<internet domain name in reverse>.<your area name>``
 | The name of the license to use in the project
 | Defaults to Booz Allen's "closed-source-license" but can be updated to a
 https://github.com/boozallen/booz-allen-maven-licenses[Booz Allen license,role=external,window=_blank] or any license
-under ./mvnw license:license-list
+under mvn license:license-list
 |
 * booz-allen-public-license
 * agpl_v3

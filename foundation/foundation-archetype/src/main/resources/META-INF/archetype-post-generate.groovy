@@ -81,3 +81,9 @@ if (criticalMessages.size() > 0) {
 
     throw new Exception(concatenatedCriticalMessages)
 }
+
+// Set maven wrapper files to be executable
+def mvnwFile = new File( request.getOutputDirectory(), request.getArtifactId() + "/mvnw" )
+mvnwFile.setExecutable(true, false)
+def mvnwFileCmd = new File( request.getOutputDirectory(), request.getArtifactId() + "/mvnw.cmd" )
+mvnwFileCmd.setExecutable(true, false)
