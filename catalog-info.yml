@@ -7,18 +7,19 @@ metadata:
   links:
     - url: https://www.boozallen.com/expertise/analytics/deploy-artificial-intelligence-faster-with-aissemble.html?origref=&vURL=/aissemble
       title: aiSSEMBLE External Website
-    - url: https://boozallen.github.io/aissemble/current/index.html
+    - url: https://boozallen.github.io/aissemble/aissemble/current/index.html
       title: Developer Documentation
   tags:
     - aissemble
     - mlops
     - ai
     - data-ops
+    - reusable
   annotations:
     github.com/project-slug: boozallen/aissemble
 spec:
   type: library
-  lifecycle: experimental
+  lifecycle: production
   owner: "aissemble/aissemble-baseline-team"
   system: system:aissemble-system
 
