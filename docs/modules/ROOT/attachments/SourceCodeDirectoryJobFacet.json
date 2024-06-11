@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/SourceCodeDirectoryJobFacet.json",
+    "$id": "https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0/SourceCodeDirectoryJobFacet.json",
     "$defs": {
         "SourceCodeDirectoryJobFacet": {
             "allOf": [
