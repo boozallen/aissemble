@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,7 +9,7 @@
     </parent>
 
     <artifactId>aissemble-root</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>1.8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>aiSSEMBLE(TM)</name>
@@ -254,10 +253,27 @@
                 </pluginManagement>
             </build>
         </profile>
+        <profile>
+            <!-- inheriting general ossrh-release setup from aissemble-parent -->
+            <id>ossrh-release</id>
+            <properties>
+                <maven.build.cache.enabled>false</maven.build.cache.enabled>
+            </properties>
+        </profile>
     </profiles>
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <configuration>
+                        <!-- how long to wait for the staging repository to be closed and released -->
+                        <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
+                        <!-- how long to wait between checks for the staging repository to be closed and released -->
+                        <stagingProgressPauseDurationSeconds>15</stagingProgressPauseDurationSeconds>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <!-- This plugin should never run as part of a normal build, and is only ever triggered by
                       devops/JenkinsRelease.groovy. We configure it here because it's a bit easier to read/edit/verify
@@ -283,8 +299,11 @@
                         <!-- Because the release plugin doesn't build after updating to the next development snapshot,
                           the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
                           committer after a release from needing to commit these files, we force the update here. -->
-                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu</completionGoals>
-                        <releaseProfiles>release</releaseProfiles>
+                        <!-- NB: the scm:add was added after the 1.7.0 release as the updated pyproject.toml files weren't being
+                            added to the dev snapshot update commit. This wasn't noticed until now, because prior to this release
+                            we were manually bumping the dev version before we even cut the actual release. -->
+                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu scm:add</completionGoals>
+                        <releaseProfiles>ossrh-release</releaseProfiles>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -296,7 +315,7 @@
                     <inherited>false</inherited>
                     <configuration>
                         <includes>**/pyproject.toml</includes>
-                        <excludes>**/target/**</excludes>
+                        <excludes>**/target/**,**/.venv/**</excludes>
                         <pushChanges>false</pushChanges>
                     </configuration>
                 </plugin>

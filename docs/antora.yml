@@ -1,7 +1,7 @@
 name: aissemble
 title: aiSSEMBLE
-version: 1.7.0
-display_version: 1.7.0-SNAPSHOT
+version: 1.8.0
+display_version: 1.8.0-SNAPSHOT
 prerelease: true
 nav:
   - modules/ROOT/nav.adoc

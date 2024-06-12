@@ -1,7 +1,0 @@
-# pip installs of a singular requirements.txt file should not be migrated
-RUN python3.11 -m pip install -r /installation/${trainingModule}/requirements.txt
-RUN python3.11 -m pip install --ignore-installed -r /installation/${trainingModule}/requirements.txt
-RUN python -m pip install --ignore-installed -r /installation/${inferenceModule}/requirements.txt
-
-# if "set -e &&" has already been included, then migration should be skipped
-RUN set -e && cd /modules/${trainingModule}; for x in *.whl; do pip install $x --no-cache-dir --no-deps; done
