@@ -30,6 +30,7 @@ public abstract class AbstractPyProjectGenerator extends RootFileGenerator {
 
         String aissembleVersion = PipelineUtils.getAiSSEMBLEVersion(generationContext);
         SparkDependencyConfiguration config = SparkDependencyConfiguration.getInstance();
+        vc.put(VelocityProperty.AISSEMBLE_VERSION, aissembleVersion);
         vc.put(VelocityProperty.AISSEMBLE_PYTHON_VERSION, PythonGeneratorUtils.getPythonDependencyVersion(aissembleVersion));
         vc.put(VelocityProperty.ARTIFACT_ID_PYTHON_CASE, PythonGeneratorUtils.normalizeToPythonCase(generationContext.getArtifactId()));
         vc.put(VelocityProperty.PROJECT_VERSION_PYTHON, PythonGeneratorUtils.getPythonDependencyVersion(generationContext.getVersion()));
