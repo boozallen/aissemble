@@ -42,7 +42,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/boozallen/aissemble.git</connection>
-        <developerConnection>scm:git:ssh://git@ssh.github.com:443/boozallen/aissemble.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/boozallen/aissemble.git</developerConnection>
         <url>https://github.com/boozallen/aissemble</url>
         <tag>HEAD</tag>
     </scm>
@@ -210,7 +210,7 @@
                         <artifactId>gitflow-incremental-builder</artifactId>
                         <version>${version.gitflow-incremental-builder}</version>
                         <extensions>true</extensions>
-                        <configuration />
+                        <configuration/>
                     </plugin>
                 </plugins>
             </build>
@@ -299,7 +299,10 @@
                         <!-- Because the release plugin doesn't build after updating to the next development snapshot,
                           the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
                           committer after a release from needing to commit these files, we force the update here. -->
-                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu</completionGoals>
+                        <!-- NB: the scm:add was added after the 1.7.0 release as the updated pyproject.toml files weren't being
+                            added to the dev snapshot update commit. This wasn't noticed until now, because prior to this release
+                            we were manually bumping the dev version before we even cut the actual release. -->
+                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu scm:add</completionGoals>
                         <releaseProfiles>ossrh-release</releaseProfiles>
                     </configuration>
                 </plugin>
