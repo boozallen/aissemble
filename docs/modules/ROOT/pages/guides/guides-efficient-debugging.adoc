@@ -1,13 +1,12 @@
 = Leveraging Unit Testing and Live Updates: Recommendations for Efficient Development
 
-== Introduction
 During the development process, it's essential to employ effective strategies for testing and debugging to ensure the
 quality and reliability of software. This page will outline how and when to leverage unit testing and local live
 code deployment for efficient development and debugging while ensuring code longevity.
 
-=== Unit Test
+== Unit Test
 
-*What is a Unit Test*
+=== *What is a Unit Test*
 
 Unit testing involves writing and running tests to verify the correctness of individual components or units of code.
 It focuses on isolating and testing specific functions, methods, or classes independently of the larger system. Unit
@@ -20,7 +19,7 @@ xref:testing.adoc#_unit_testing_the_pipeline[Testing the
 Project page of the Getting Started guide]
 
 
-*Benefits of Unit Testing*
+=== *Benefits of Unit Testing*
 
 Unit testing offers several benefits that enhance the development process and code quality. Here, we introduce some
 commonly seen examples of using unit testing to improve debugging efficiency.
@@ -37,9 +36,10 @@ whenever possible, it can be enhanced by complementary techniques like live upda
 feedback during development, facilitating faster iterations and enabling immediate visual verification of code changes.
 Developers should use unit tests and live update when possible to enhance code quality and efficiency
 
-*Unit Testing Examples*
+=== *Unit Testing Examples*
 
-1. Data access and processing: Unit testing is particularly useful in scenarios such as data access and processing
+==== Data access and processing
+Unit testing is particularly useful in scenarios such as data access and processing
 within Python pipelines. For example, consider a data processing module that handles scaling and normalization of
 input features. Unit testing for this module would involve writing tests specifically targeting the scaling and
 normalization functions or classes.
@@ -94,8 +94,8 @@ def step_impl(context):
     nt.ok_(dataframe)
 ----
 ****
-2. API alls and connection
 
+==== API calls and connection
 If your Python pipeline interacts with external APIs to fetch data or make predictions, unit tests can be employed to
 validate the API integration. This includes testing the request and response handling, verifying the correctness of
 data mapping, or parsing, and ensuring the pipeline behaves as expected when interacting with different API endpoints
@@ -151,21 +151,21 @@ def step_impl(context, mock_create_engine):
 ----
 ****
 
-=== Live Updates
+== Live Updates
 
-*What are Live Updates*
+=== *What are Live Updates*
 
 Live updates, facilitated by tools like Tilt, allow developers to make changes to the code and see the results
 immediately without the need for a full rebuild or redeployment.
 
-*Benefits of Live Updates*
+=== *Benefits of Live Updates*
 
 1. Rapid prototyping: When rapidly iterating on a feature or exploring different approaches, live updates enable quick
 feedback by instantly reflecting code changes in a running application.
 2. Debugging and small code changes: Live updates are effective for debugging scenarios where developers need to
 quickly iterate on small code changes and observe the impact in real-time.
 
-*Example of How to Implement Live Updates and How They are Used*
+=== *Example of How to Implement Live Updates and How They are Used*
 
 An example of live update is the automatic updating of the inference code in the local deployment, making testing
 easier during the development process. The code in this example is generated as a manual action blob during the
@@ -204,7 +204,7 @@ docker_build_with_restart(
 )
 ----
 
-*Code Explanation*
+=== *Code Explanation*
 
 The code loads a module called `restart_process` and a function called `docker_build_with_restart`. It then defines
 a local resource named `compile-quick-inference` with specific commands and dependencies. A synchronization property
@@ -228,7 +228,7 @@ the `dist` directory from the previous step is kept in sync with a specific dire
 code in `load('ext://restart_process', 'docker_build_with_restart')`. The configuration includes the image reference,
 file location, and additional options and defines the setup of a Docker container with live update functionality.
 
-*How Live Updates Enable Debugging*
+=== *How Live Updates Enable Debugging*
 
 Live update functionality can be used to facilitate debugging inference steps within aiSSEMBLE projects. Here's a
 step-by-step guide on how the live update can help you quickly visualize changes when modifying an endpoint response
