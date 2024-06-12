@@ -31,4 +31,4 @@ appVersion: "1.0.0"
 dependencies:
   - name: aissemble-mlflow
     version: 1.6.0
-    repository: oci://ghcr.io/boozallen/
+    repository: oci://ghcr.io/boozallen

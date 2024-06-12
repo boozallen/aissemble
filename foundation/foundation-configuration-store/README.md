@@ -3,7 +3,7 @@ This module serves as a tool that enables the various configurations for a proje
 
 This README is intended to provide technical insight into the
 implementation of this package.  For consumption guidance,
-please refer to the [aiSSEMBLE Github Pages](https://boozallen.github.io/aissemble/current/guides/guides-configuration-store.html).
+please refer to the [aiSSEMBLE&trade; Github Pages](https://boozallen.github.io/aissemble/current/guides/guides-configuration-store.html).
 
 ## Developer Guidance
 
@@ -22,3 +22,6 @@ properties:
 Because the `YamlProperty` and `YamlConfig` classes are required to have attributes that mirror the format of the configuration `YAML` files, there is a separate `Property` class that simply adds the `groupName` metadata to the existing information housed in `YamlProperty`. Furthermore, because an object that will house the deserialized `YAML` contents must have an empty constructor, it was not possible to have any extending relationship between a supposed `AbstractProperty` and `YamlProperty` / `Property`.
 
 See the [snakeyaml documentation](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Documentation) for further details on deserializing yaml files.
+
+### Handling Load Status
+The `ConfigLoader` leverages `load-status` to detect whether properties were already fully loaded or only partially loaded due to an interrupted process. The code logic ensures that a `fully-loaded` status is set when properties are loaded successfully. This status is then used to skip loading if the properties were successfully loaded previously, thus avoiding unnecessary reloading during deployment refreshes. For details on this behavior, refer to the implementation code and comments in the `ConfigLoader` class.

@@ -10,7 +10,7 @@ package com.boozallen.aiops.metadata;
  * #L%
  */
 
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import com.boozallen.aiops.data.delivery.spark.SparkConfig;
 
 import io.cucumber.plugin.EventListener;

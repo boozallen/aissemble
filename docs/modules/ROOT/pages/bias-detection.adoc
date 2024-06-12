@@ -1,0 +1,9 @@
+[#_bias_detection]
+= Bias Detection
+
+Bias detection, also known as Ethical Artificial Intelligence (AI), is concerned with determining if an AI model
+systematically produces inaccurate results due to flawed assumptions. One contributing factor to model bias is the data
+it learns from. By driving bias detection from a semantic data model, consistent bias detection policies are applied
+throughout the data on the related field(s).
+
+Bias detection can be easily plugged into aiSSEMBLE.  Please contact the team for more information.

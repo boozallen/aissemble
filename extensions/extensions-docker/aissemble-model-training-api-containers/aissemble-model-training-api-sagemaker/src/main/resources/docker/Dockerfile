@@ -10,6 +10,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY ./target/wheels/* /tmp/wheels/
 # Re-install any dependencies defined in the base image into the virtual environment, then install new requirements
 RUN pip install -r /tmp/requirements.txt && \
+    set -e && \
     cd /tmp/wheels/; for x in *.whl; do pip install $x --no-cache-dir; done
 
 

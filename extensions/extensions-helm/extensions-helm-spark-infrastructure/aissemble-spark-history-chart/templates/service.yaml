@@ -1,0 +1,18 @@
+{{- if .Values.enable }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-shs-service
+  {{- if .Values.service.annotations }}
+  annotations: {{ .Values.service.annotations }}
+  {{- end }}
+spec:
+  type: {{.Values.service.type }}
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    - name: {{ .Release.Name }}-service-port
+      protocol: TCP
+      port: {{ .Values.service.port.port }}
+      targetPort: shs-http
+{{- end }}

@@ -1,10 +1,10 @@
 # ${appNameTitle}
 docker_build(  
-    ref='boozallen/${dockerApplicationArtifactId}',
+    ref='${dockerApplicationArtifactId}',
     context='${dockerArtifactId}/${dockerApplicationArtifactId}',
     build_args=build_args,
     #if(${includeLatestTag})
-    extra_tag='boozallen/${dockerApplicationArtifactId}:latest',
+    extra_tag='${dockerApplicationArtifactId}:latest',
     #end
     dockerfile='${dockerArtifactId}/${dockerApplicationArtifactId}/src/main/resources/docker/Dockerfile'
 )

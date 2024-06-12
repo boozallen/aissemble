@@ -1,0 +1,364 @@
+[#_containers]
+= Container Support
+:source-highlighter: rouge
+:git-tree:
+
+ifeval::[{is-pre-release} == true]
+:git-tree: dev
+endif::[]
+ifeval::[{is-pre-release} != true]
+:git-tree: aissemble-root-{page-version}
+endif::[]
+
+Once a project is xref:archetype.adoc[instantiated] and xref:add-pipelines-to-build.adoc[pipelines] have been added
+the next step is to package the configured application.
+
+== Mapping to aiSSEMBLE(TM) Concepts
+[#img-you-are-here-containers]
+.xref:solution-baseline-process.adoc[You Are Here]
+image::you-are-here-containers.png[You Are Here,200,100,role="thumb right"]
+
+_Step 5: Containers:_ Allow entire snapshots of servers, including their operating system configurations, to be
+created and versioned. These containers can then be run across a variety of different hosts, ranging from local machines
+to cloud service provides to bare metal servers. Containers also allow critical information assurance (IA) hardened 
+configurations to be easily layered into systems.
+
+== Generate a Container Build
+Foundation can generate Docker artifacts for several common components including Spark, Airflow, versioning, and
+inference. To add one of the components to your project create a Maven module and add a configured `fermenter-mda` plugin.
+Set the base package to your package structure and the profile to the appropriate component ID. Example below for Airflow.
+[source,xml]
+----
+<plugin>
+    <groupId>org.technologybrewery.fermenter</groupId>
+    <artifactId>fermenter-mda</artifactId>
+    <configuration>
+        <basePackage>com.boozallen.aissemble.cookbook</basePackage>
+        <profile>aissemble-airflow-docker</profile>
+    </configuration>
+</plugin>
+----
+
+=== Available Profiles (Docker)
+[width="100%",options="header"]
+|======
+|Component  | Profile                         | Description
+|Spark      | `aissemble-spark-worker-docker` | Configured Spark Worker container.
+|Airflow    | `aissemble-airflow-docker`      | Configured Airflow container. Includes MLFlow (for running training pipelines), Postgres database, and an SSH client to enable running commands on remote containers.
+|Versioning | `aissemble-versioning-docker`   | Versions models from MLFlow and stores them in a configured Nexus repository.
+|Inference  | `aissemble-inference-docker`    | A FastAPI container configured with appropriate Python modules to run and expose inference pipelines. Additionally, files required for compatibility with the Perceptor platform will be automatically generated.
+|======
+
+//todo drop example action output (would have covered it previously?) perhaps combine with Generate a Container section above
+=== Generated Artifacts
+Once the appropriate configuration has been added, run
+[source,bash]
+----
+./mvnw clean install
+----
+Once the build completes, check the logs for the following information:
+
+* Additions to the deploy module
+** Example:
+----
+***********************************************************************
+*** MANUAL ACTION NEEDED!                                           ***
+***********************************************************************
+You must add the execution to example-deploy/pom.xml to activate it in your build!
+
+Example:
+    <execution>
+        <id>airflow</id>
+        <phase>generate-sources</phase>
+        <goals>
+           <goal>generate-sources</goal>
+        </goals>
+        <configuration>
+           <basePackage>com.boozallen</basePackage>
+           <profile>aissemble-airflow-deploy</profile>
+           <!-- The property variables below are passed to the Generation Context and utilized
+                            to customize the deployment artifacts. -->
+           <propertyVariables>
+               <appName>airflow</appName>
+           </propertyVariables>
+        </configuration>
+    </execution>
+
+***********************************************************************
+***********************************************************************
+
+----
+* Additions to the Tiltfile
+** Example:
+[source,bash]
+----
+    ***********************************************************************
+    *** MANUAL ACTION NEEDED!                                           ***
+    ***********************************************************************
+    You must add the following to Tiltfile to configure it for local deployment!
+
+    Example:
+    # airflow
+    docker_build(
+        ref='example-airflow-docker',
+        context='example-docker/example-airflow-docker',
+        build_args=build_args,
+        dockerfile='example-docker/example-airflow-docker/src/main/resources/docker/Dockerfile'
+    )
+
+    yaml = helm(
+       'example-deploy/src/main/resources/apps/airflow',
+       values=['example-deploy/src/main/resources/apps/airflow/values.yaml',
+           'example-deploy/src/main/resources/apps/airflow/values-dev.yaml']
+    )
+    k8s_yaml(yaml)
+
+    ***********************************************************************
+    ***********************************************************************
+----
+Be sure to add each artifact to the Tiltfile and Deploy module as appropriate. Once completed, rerun the build with
+[source,bash]
+----
+./mvnw clean install
+----
+The relevant Kubernetes artifacts should now be generated in the deploy module under  src/main/resources/apps
+
+== Generating Kubernetes Artifacts
+Foundation also supports generating Kubernetes artifacts independently. Simply add the execution with the appropriate
+profile and appName set. This is helpful when deploying applications that do not support direct Docker generation
+(e.g. Keycloak) or when leveraging pre-built containers that do not require a Docker build (e.g. Kafka). Below is a
+list of available profiles that Foundation supports for Kubernetes generation.
+
+=== Available Profiles (Kubernetes)
+[width="100%",options="header"]
+|======
+|Component                              | Profile
+|Bill of Materials                      | `aissemble-bom-deploy`
+|Bias Detection                         | `bias-detection-deploy`
+|Bias Detection Metrics Python Services | `bias-detection-metrics-python-services`
+|Hive Metastore DB                      | `hive-metastore-db-deploy`
+|Hive Metastore Service                 | `hive-metastore-service-deploy`
+|Inference                              | `inference-deploy`
+|Kafka Connect                          | `kafka-connect-deploy`
+|Keycloak                               | `keycloak-deploy`
+|Lineage HTTP Consumer                  | `lineage-http-consumer-deploy-v2`
+|Nexus                                  | `nexus-deploy`
+|Pipeline Invocation Service            | `pipeline-invocation-service-v2`
+|Spark Infrastructure                   | `aissemble-spark-infrastructure-deploy`
+|Spark Operator                         | `aissemble-spark-operator-deploy`
+|Model Training API                     | `training-deploy`
+|Vault                                  | `vault-deploy`
+|Versioning                             | `versioning-deploy`
+|Zookeeper Alert                        | `zookeeper-alert-deploy`
+|======
+
+=== Other Available Kubernetes Artifacts
+These artifacts do not have a profile associated with them as they are not intended to be generated into downstream
+projects, however, their helm charts are available to use for deployments:
+
+[width="100%",options="header"]
+|======
+|Application    | ReadMe
+|SealedSecrets  | https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-sealed-secrets-chart/README.md[SealedSecrets,role=external,window=_blank]
+|======
+
+=== Kubernetes Artifacts Upgrade
+The following profiles improve on our previous implementation of these Kubernetes artifacts by incorporating community
+and official helm charts into ours. These new helm charts are now managed in the `extensions-helm` module of the
+aiSSEMBLE baseline, where configurations such as templates, dependencies, and overrides are defined. Each app
+deployment has a corresponding helm module with a README explaining how to leverage the managed charts and what
+configuration properties are available.
+
+==== How to Upgrade
+If you're currently using an older version of the Kubernetes artifacts, you can upgrade to the new `v2` charts by
+following these steps:
+
+1. Clear your existing chart directory to allow the v2 chart to be generated by either:
+  * Renaming the existing chart directory to a different name (ie. `airflow/` -> `airflow-v1/`), or
+  * Deleting the existing chart directory
+2. Modify the existing deployment profile within your deploy _pom.xml_ to the make use of the `-v2` version (ie.
+`aissemble-airflow-deploy` -> `airflow-deploy-v2`)
+3. Rebuild with Maven to populate the new `v2` helm chart with `./mvnw clean install`
+4. Follow the migration section from the respective `v2` charts  README (see table below)
+5. Deploy and test to ensure the new `v2` chart is fully functional within your project
+6. Delete the old chart directory (if you haven't already done so in step 1)
+
+TIP: If your project is under version control, we recommend using a diff tool to migrate the values.yaml files.
+
+==== Available V2 Profiles (Kubernetes)
+[width="100%",options="header"]
+|======
+|Application                            | Fermenter Profile                  | ReadMe
+|Airflow                                | `airflow-deploy-v2`                |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-airflow-chart/README.md[Airflow,role=external,window=_blank]
+|Data Access                            | `data-access-deploy-v2`            |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-data-access-chart/README.md[Data Access,role=external,window=_blank]
+|Kafka                                  | `kafka-deploy-v2`                  |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-kafka-chart/README.md[Kafka,role=external,window=_blank]
+|Metadata                               | `metadata-deploy-v2`               |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-metadata-chart/README.md[Metadata,role=external,window=_blank]
+|MLflow                                 | `mlflow-deploy-v2`                 |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-mlflow-chart/README.md[MLFlow,role=external,window=_blank]
+|Policy Decision Point                  | `policy-decision-point-deploy-v2`  |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-policy-decision-point-chart/README.md[Policy Decision Point,role=external,window=_blank]
+|S3 Local                               | `s3local-deploy-v2`                |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-localstack-chart/README.md[S3 Local,role=external,window=_blank]
+|======
+
+//todo drop example file replace with link to dockerfile build docs
+=== Example Dockerfile
+.Sample Generated Dockerfile
+[source,dockerfile]
+----
+# Script for creating base Airflow Docker image
+#
+# GENERATED DockerFile - please ***DO*** modify.
+#
+# Generated from: templates/general-docker/airflow.docker.file.vm
+
+ARG DOCKER_BASELINE_REPO_ID
+ARG VERSION_AISSEMBLE
+
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-airflow:${VERSION_AISSEMBLE}
+
+# Airflow variables
+ARG AIRFLOW_USER_HOME=/home/airflow
+ARG AIRFLOW_HOME=/opt/airflow
+
+USER root
+
+RUN apt-get update && apt-get install make
+COPY ./src/main/resources/start.sh $AIRFLOW_HOME/
+RUN chmod +x $AIRFLOW_HOME/start.sh
+
+USER airflow
+
+#PIPELINES
+
+RUN if [ -d ./src/main/dags]; then COPY ./src/main/dags/* $AIRFLOW_HOME/dags/ ; fi
+
+COPY ./src/main/resources/krausening/base/ ${AIRFLOW_HOME}/config/
+
+CMD ["/opt/airflow/start.sh"]
+----
+
+//todo drop example files
+=== Kubernetes with Helm
+:hide-uri-scheme:
+The default Kubernetes deployment is configured to operate using https://helm.sh[Helm,role=external,window=_blank].
+This allows for more robust Kubernetes deployments across environments without duplicating resources.
+
+==== Example Deployment
+.Sample Kubernetes Deployment Configuration
+[source,yaml]
+----
+# Base Kubernetes deployment artifact.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: airflow
+    app.kubernetes.io/name: airflow
+  name: airflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: airflow
+      app.kubernetes.io/name: airflow
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: airflow
+        app.kubernetes.io/name: airflow
+    spec:
+      {{- with .Values.deployment.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      serviceAccountName: {{ .Values.deployment.serviceAccountName }}
+      automountServiceAccountToken: {{ .Values.deployment.automountServiceAccountToken | default false }}
+      {{- with .Values.deployment.volumes }}
+      volumes:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      {{- with .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      {{- with .Values.deployment.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      containers:
+        - name: airflow
+          {{ if .Values.image.tag }}
+          image: "{{ .Values.image.dockerRepo }}{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          {{ else }}
+          image: "{{ .Values.image.dockerRepo }}{{ .Values.image.name }}"
+          {{ end }}
+          imagePullPolicy: "{{ .Values.image.imagePullPolicy }}"
+          {{- with .Values.deployment.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12}}
+          {{- end }}
+          {{- with .Values.deployment.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{ if .Values.deployment.command }}
+          command: {{ .Values.deployment.command }}
+          {{ end }}
+      hostname: {{ .Values.hostname }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- with .Values.deployment.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+----
+
+==== Example Service
+.Sample Kubernetes Service Configuration
+[source,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: airflow
+    app.kubernetes.io/name: airflow
+  name: airflow
+spec:
+  {{- with .Values.service.spec.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{ if .Values.service.spec.type }}
+  type: {{ .Values.service.spec.type }}
+  {{ end }}
+  selector:
+    app.kubernetes.io/instance: airflow
+    app.kubernetes.io/name: airflow
+----
+
+You can deploy with Kubernetes using the following command from the root directory of the project in a new terminal
+[source,bash]
+----
+tilt up
+----
+This will start the Tilt server that will build, monitor, and deploy the Kubernetes resources. Changes to the root
+Tiltfile are recommended to take advantage of live reloading, snapshots, etc. that Tilt has to offer.
+See the https://docs.tilt.dev[Tilt documentation,role=external,window=_blank] for details.
+
+TIP: Note that the default ports within a given module do not conflict; however, it is possible that mixing the
+outputs of various components may result in port conflicts. In that case edits to the relevant port mappings in the
+Kubernetes service manifests may be necessary.
+
+NOTE: These artifacts are intended as starting points for projects and may not be sufficient to meet project needs on
+their own. Modifications to generated resources are expected and encouraged.

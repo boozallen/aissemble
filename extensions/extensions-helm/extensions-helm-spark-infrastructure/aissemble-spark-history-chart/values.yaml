@@ -1,0 +1,57 @@
+# This file contains the default values for the aiSSEMBLE Spark History Helm chart.
+
+enable: true
+
+deployment:
+  annotations: {}
+  labels: {}
+  replicas: 1
+  image:
+    repository: "apache/spark"
+    imagePullPolicy: IfNotPresent
+    tag: "3.5.1"
+  command: ["/opt/spark/sbin/start-history-server.sh"]
+  env:
+    SPARK_NO_DAEMONIZE: "true"
+  envFromSecret: {}
+  volumes: []
+  volumeMounts: []
+
+dependencies:
+  packages: []
+  jars: []
+
+service:
+  annotations: {}
+  type: LoadBalancer
+  port:
+    name: "shs-http"
+    port: 18080
+
+ingress:
+  enabled: true
+  metadata:
+    annotations: {}
+  ingressClassName: nginx
+  hosts:
+    - paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              port:
+                number: 18080
+
+eventVolume:
+  enabled: false
+  name: "spark-events"
+  mountPath: "/tmp/spark-events"
+  storageType: "local"
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - allow-delete
+  size: 1Gi
+  volumePathOnNode: /tmp
+
+sparkConf: |-

@@ -1,0 +1,84 @@
+= DataBricks Support
+:source-highlighter: rouge
+
+//todo can we outsource most of these steps and just call out the aiSSEMBLE-specific stuff?
+There are multiple ways you can deploy a data delivery pipeline.  One way is to leverage the
+https://databricks.com/product/data-lakehouse[Databricks,role=external,window=_blank] managed environment.
+
+== Creating a cluster
+To deploy a Spark job on Azure Databricks we first need to define a cluster.  The steps for creating a cluster that
+is capable of running your pipeline are listed below.  Start by selecting `Compute` on the far left and then select
+`Create Cluster`.
+
+image::azure-new-cluster.png[]
+1.  Name your cluster
+2.  The runtime needs to support Spark 3.0.1 and Scala 2.12 so choose `Runtime: 7.3 LTS`
+3.  Select a Worker Type with enough resources to run your data delivery pipeline.  You can always go back and change
+this setting so there's no harm in starting small and increasing at a later time.
+4.  The Driver Type can be any type of server or the same as the Worker Type.
+5.  Expand the Advanced Options
+6.  In the Spark Config box you can add java options.  If your project uses Krausening to configure your properties
+you can set the following parameters:
+
+    spark.driver.extraJavaOptions
+    -DKRAUSENING_BASE=/dbfs/FileStore/shared_uploads/project-name/krausening/base
+    -DKRAUSENING_EXTENSIONS=/dbfs/FileStore/shared_uploads/project-name/krausening/databricks
+    -DKRAUSENING_PASSWORD=<YOUR PASSWORD_HERE>
+
+7. When you are done configuring, select `Create Cluster`
+
+== Creating a job
+
+Your data delivery project is executed in Databricks through a `Job`.  In the following steps we will define this job.
+
+image::azure-create-job.png[]
+Click on the `Jobs` menu item on the far left then click `Create Job`
+
+image::azure-job-details.png[Job Detail, 500]
+1.  Give your task a name
+2.  Select `Jar` Type
+3.  Enter your Spark job's fully qualified main class name
+4.  Click `Add` to add your jar file
+5.  Select the cluster we created in the previous section
+6.  Click `Create`
+
+== Initialize and configure environment
+
+Now with the cluster created and the Spark job defined we need to import the project's property files and initialize
+any tables in the database.  First lets create a shared folder.
+
+image::azure-create-folder.png[Create Folder, 500]
+
+Click on the `Workspace` menu item on the far left then right click in the folder area.  Then select `Create` >
+`Folder`.  Give the folder a name like data_delivery_shared.
+
+image::azure-create-notebook.png[Create Notebook, 500]
+To run SQL commands we need a notebook.  Creating a new notebook in our shared folder is easy, just cick on options
+triangle next to the shared folder we just created.  Then select `Create` > `Notebook`
+
+image::azure-notebook-details.png[Notebook Details, 500]
+
+1.  Give your notebook a name
+2.  Change the default language to `SQL`
+3.  Make sure your cluster is selected
+4.  Click `Create`
+
+In this notebook you can write any SQL (DDL) to create necessary tables to support your pipeline.
+
+Next we need to import the project's property files.  To do this open the SQL notebook you just created (double click
+on notebook name) and find the file menu item.  Click on it and select `Upload Data`. Then on the upload dialog box
+select your shared folder and drag and drop your property files and upload them.
+
+image::azure-upload-data.png[Upload Property Files, 500]
+
+By default Databricks will rename uploaded files to fit it's syntax requirements.  Often this means you will have to
+rename your uploaded files back to `*.properties`. To do this you can create a python notebook and run the following command
+
+----
+dbutils.fs.mv("/FileStore/shared_folder/path/to/your/files/my_file_properties", "/FileStore/shared_folder/path/to/your/krausening/files/hive-metadata.properties")
+----
+
+Now that your tables are generated and your property files are loaded you can launch the job by clicking on the
+`Run Now` action (the play icon) on the `Jobs` tab.
+
+image::azure-run-job.png[]

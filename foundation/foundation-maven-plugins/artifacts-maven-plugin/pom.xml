@@ -1,40 +1,40 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>foundation-maven-plugins</artifactId>
+        <version>1.7.0</version>
+    </parent>
     <groupId>com.boozallen.aissemble</groupId>
-    <artifactId>foundation-maven-plugins</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
-  </parent>
-  <groupId>com.boozallen.aissemble</groupId>
-  <artifactId>artifacts-maven-plugin</artifactId>
+    <artifactId>artifacts-maven-plugin</artifactId>
 
-  <packaging>maven-plugin</packaging>
-  <name>aiSSEMBLE::Foundation::Maven Plugins::Artifact Plugin</name>
+    <packaging>maven-plugin</packaging>
+    <name>aiSSEMBLE::Foundation::Maven Plugins::Artifact Plugin</name>
 
-  <properties>
+    <properties>
         <!-- versions for plugin specific dependencies-->
         <version.mojo.executor>2.4.0</version.mojo.executor>
         <version.testing.harness>3.3.0</version.testing.harness>
         <version.exec.plugin>3.1.0</version.exec.plugin>
-        <version.cucumber>7.15.0</version.cucumber>
+        <version.cucumber>7.17.0</version.cucumber>
     </properties>
 
-  <build>
-    <finalName>maven-unit-test</finalName>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-        </plugin>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-source-plugin</artifactId>
-          </plugin>
-      </plugins>
-  </build>
+    <build>
+        <finalName>maven-unit-test</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
-  <dependencies>
+    <dependencies>
         <!-- Explicitly declared due to breaking change for Maven 3.9.0 https://maven.apache.org/docs/3.9.0/release-notes.html -->
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
@@ -97,7 +97,6 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <version>${version.maven.dependency.plugin}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -112,16 +111,36 @@
 
         <!-- Test dependencies: -->
         <dependency>
-          <groupId>io.cucumber</groupId>
-          <artifactId>cucumber-java</artifactId>
-          <version>${version.cucumber}</version>
-          <scope>test</scope>
+            <groupId>io.cucumber</groupId>
+            <artifactId>messages</artifactId>
+            <version>24.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- oddly points to a -SNAPSHOT dependency that is not resolvable, so manually overriding above: -->
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>messages</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${version.cucumber}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- oddly points to a -SNAPSHOT dependency that is not resolvable, so manually overriding above: -->
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>messages</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -129,10 +148,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.mockito</groupId>
-          <artifactId>mockito-core</artifactId>
-          <version>5.8.0</version>
-          <scope>test</scope>
-      </dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>

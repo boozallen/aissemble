@@ -1,4 +1,4 @@
-# aiSSEMBLE Apache Keycloak Helm Chart
+# aiSSEMBLE&trade; Apache Keycloak Helm Chart
 Baseline Helm chart for packaging and deploying Keycloak. Built on the [Bitnami Helm chart](https://bitnami.com/stack/keycloak/helm) and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI

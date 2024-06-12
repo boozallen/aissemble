@@ -3166,5 +3166,29 @@
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureHelmChartFileV2",
+    "templateName": "templates/deployment/spark-infrastructure/v2/spark.infrastructure.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureHelmValuesFileV2",
+    "templateName": "templates/deployment/spark-infrastructure/v2/spark.infrastructure.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureHelmValuesDevFileV2",
+    "templateName": "templates/deployment/spark-infrastructure/v2/spark.infrastructure.values.dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
   }
 ]

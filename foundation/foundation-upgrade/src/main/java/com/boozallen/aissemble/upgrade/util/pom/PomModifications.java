@@ -108,7 +108,8 @@ public class PomModifications extends TreeSet<PomModifications.Modification> {
         public int apply(BufferedReader in, Writer out, String line) throws IOException {
             int current = getStart().getLineNumber();
             // NB: clashes with other modifications on same line
-            String substring = line.substring(0, getStart().getColumnNumber() - 1);
+            int startColumn = getStart().getColumnNumber();
+            String substring = startColumn == 0 ? "" : line.substring(0, startColumn - 1);
             if (StringUtils.isNotBlank(substring)) {
                 out.write(substring);
                 out.write("\n");
@@ -152,5 +153,74 @@ public class PomModifications extends TreeSet<PomModifications.Modification> {
             out.write("\n");
             return getStart().getLineNumber();
         }
+    }
+
+    /**
+     * Replaces the content between the start and end locations with the produced content.
+     */
+    public static class Replacement extends Modification {
+        private final InputLocation end;
+        private final Function<String,String> contentProducer;
+        private final int indentLvl;
+
+        /**
+         * Constructor for replacing content within a single line.
+         *
+         * @param start the location to insert the new content
+         * @param end the location to skip to, existing content between start and end will be deleted
+         * @param content the new content
+         */
+        public Replacement(InputLocation start, InputLocation end, String content) {
+            this(start, end, 0, l -> content);
+        }
+
+        /**
+         * Constructor for multi-line replacements.
+         *
+         * @param start the location to insert the new content
+         * @param end the location to skip to, existing content between start and end will be deleted
+         * @param indentLvl the indent level of the current content on the line
+         * @param contentProducer a function that produces the content to insert, given a one-level indent string
+         */
+        public Replacement(InputLocation start, InputLocation end, int indentLvl, Function<String,String> contentProducer) {
+            super(start);
+            this.end = end;
+            this.contentProducer = contentProducer;
+            this.indentLvl = indentLvl;
+        }
+
+        public InputLocation getEnd() {
+            return end;
+        }
+
+        public Function<String, String> getContentProducer() {
+            return contentProducer;
+        }
+
+        public int getIndentLvl() {
+            return indentLvl;
+        }
+
+        @Override
+        public int apply(BufferedReader in, Writer out, String line) throws IOException {
+            int current = getStart().getLineNumber();
+            // NB: clashes with other modifications on same line
+            String substring = line.substring(0, getStart().getColumnNumber() - 1);
+            if (StringUtils.isNotBlank(substring)) {
+                out.write(substring);
+            }
+            String indent = FileUtils.getIndent(line, getIndentLvl());
+            out.write(getContentProducer().apply(indent));
+            while (current < getEnd().getLineNumber()) {
+                line = in.readLine();
+                current++;
+            }
+            if( getEnd().getColumnNumber() <= line.length() ) {
+                out.write(line.substring(getEnd().getColumnNumber()-1));
+                out.write("\n");
+            }
+            return current;
+        }
+
     }
 }

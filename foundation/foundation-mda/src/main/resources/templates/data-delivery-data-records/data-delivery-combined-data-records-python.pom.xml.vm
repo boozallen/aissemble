@@ -53,6 +53,17 @@
                 <groupId>org.technologybrewery.habushu</groupId>
                 <artifactId>habushu-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+            </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+        </dependency>
+    </dependencies>
 </project>

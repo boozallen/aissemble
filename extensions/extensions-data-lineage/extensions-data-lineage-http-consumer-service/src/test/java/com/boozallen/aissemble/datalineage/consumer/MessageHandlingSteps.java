@@ -10,9 +10,9 @@ package com.boozallen.aissemble.datalineage.consumer;
  * #L%
  */
 
-import com.boozallen.aiops.data.lineage.Job;
-import com.boozallen.aiops.data.lineage.Run;
-import com.boozallen.aiops.data.lineage.RunEvent;
+import com.boozallen.aissemble.data.lineage.Job;
+import com.boozallen.aissemble.data.lineage.Run;
+import com.boozallen.aissemble.data.lineage.RunEvent;
 import com.boozallen.aissemble.data.lineage.consumer.AcknowledgementType;
 import com.boozallen.aissemble.data.lineage.consumer.FailureStrategy;
 import com.github.tomakehurst.wiremock.WireMockServer;

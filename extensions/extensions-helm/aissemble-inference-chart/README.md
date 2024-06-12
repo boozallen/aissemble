@@ -1,4 +1,4 @@
-# aiSSEMBLE Inference Helm Chart
+# aiSSEMBLE&trade; Inference Helm Chart
 Baseline Helm chart for packaging and deploying inference applications. Chart is built and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See https://github.com/kokuwaio/helm-maven-plugin for more details. 
 
 # Basic usage with Helm CLI
@@ -11,9 +11,9 @@ helm install inference ghcr.io/boozallen/aissemble-inference-chart --version <AI
 # Properties
 | Property                                | Description                                                                                                                      | Required Override | Default                                                                                                |
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------|
- | app.name                                | Sets label for app.kubernetes.io/name                                                                                            | No                | Chart.Name (aissemble-inference)                                                                       |
+| app.name                                | Sets label for app.kubernetes.io/name                                                                                            | No                | Chart.Name (aissemble-inference-chart)                                                                 |
 | app.version                             | Sets label for app.kubernetes.io/version                                                                                         | No                | Chart.AppVersion (aiSSEMBLE project version)                                                           |
-| deployment.image.repo                   | The image repository                                                                                                             | No                | NB: OSS: update with default aissemble docker repository                                               | 
+| deployment.image.repo                   | The image repository                                                                                                             | No                | ghcr.io/                                                                                               | 
 | deployment.image.name                   | The image name                                                                                                                   | Yes               | boozallen/aissemble-fastapi                                                                            | 
 | deployment.image.tag                    | The image tag. Will override the default chart AppVersion value                                                                  | No                | Chart.AppVersion                                                                                       |
 | deployment.image.imagePullPolicy        | The image pull policy                                                                                                            | No                | IfNotPresent                                                                                           |

@@ -1,0 +1,62 @@
+suite: Spark Conf
+
+templates:
+  - configmap.yaml
+  - deployment.yaml
+
+tests:
+  - it: If no spark conf is specified, the ConfigMap should not be created
+    templates:
+      - configmap.yaml
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: If spark conf is specified, the ConfigMap should be created with the provided values
+    set:
+      sparkConf: "spark.executor.instances: 2"
+    templates:
+      - configmap.yaml
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ConfigMap
+      - notFailedTemplate: {}
+      - equal:
+          path: metadata.name
+          value: "RELEASE-NAME-shs-spark-conf"
+      - equal:
+          path: data.sparkConf
+          value: "spark.executor.instances: 2"
+
+  - it: If spark conf is specified, a volume should be created from the created configmap
+    set:
+      sparkConf: "spark.executor.instances: 2"
+    templates:
+      - deployment.yaml
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: spark-config
+            configMap:
+              name: RELEASE-NAME-shs-spark-conf
+              items:
+                - key: sparkConf
+                  path: spark-defaults.conf
+
+  - it: If spark conf is specified, the volume should be mounted in the correct path
+    set:
+      sparkConf: "spark.executor.instances: 2"
+    templates:
+      - deployment.yaml
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: spark-config
+            mountPath: /opt/spark/conf/
+            readOnly: true
+
+

@@ -1,0 +1,10 @@
+########################################
+## CONFIG | Kafka Configs
+## See aiSSEMBLE extensions-helm-kafka: README for more details.
+########################################
+aissemble-kafka:
+  kafka:
+    resources:
+      limits:
+        memory: 2G
+    autoCreateTopicsEnable: true # Enable auto creation of topics

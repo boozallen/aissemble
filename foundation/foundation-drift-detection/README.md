@@ -7,7 +7,7 @@ Examples of the policy files used for configuration can be found by looking in t
 ## Running the tests
 The tests currently run as part of the build, and can be run by building the project with Maven.
 
-mvn clean install
+./mvnw clean install
 
 ## Deploying the drift detection rest service
 The quarkus microservice for drift detection has an example drift policy included. It can be started up by running:

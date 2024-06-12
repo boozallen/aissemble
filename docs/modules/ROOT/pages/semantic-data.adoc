@@ -1,0 +1,287 @@
+[#_semantic_data]
+= Semantic Data
+
+Semantic data refers to information that is structured such that it conveys meaning beyond just raw data. It aims to
+capture the context, relationships, and semantics of the data, making it more understandable and usable by both humans
+and machines. Ultimately, with the use of semantic data you will enable your application to consist of meaningful data
+representation, linked data, and interoperability. In aiSSEMBLE(TM), leveraging semantic data enables the generation of
+powerful features such as data validation, drift detection, and bias detection.
+
+== Mapping to aiSSEMBLE Concepts
+
+=== Data Validation
+The Data Validation component exists to ensure data quality, feasibility, and accuracy before data is ingested into
+Machine Learning. Validation increases Machine Learning confidence; making certain that the data being consumed is clean
+and ready for use. By driving data validation from a semantic data model, consistent data validation rules are applied
+throughout the entire project.
+
+=== Drift Detection
+The concept of drift in Artificial Intelligence (AI) refers to how AI systems may lose accuracy as data changes over
+time. Using semantic data models can help monitor and manage this drift to keep AI systems performing appropriately.
+
+=== Bias Detection
+Bias detection in Ethical Artificial Intelligence (AI) identifies if a model’s results are skewed by flawed assumptions.
+Using a semantic data model helps apply consistent bias detection across related data fields.
+
+== Impact of Semantic Data
+Semantic data enhances data interoperability and enables systems to understand and process information more
+intelligently. By defining data semantically, you will inherently keep the various representations of your dataset in
+sync. The first step in the use of semantic data is specifying a record. Each record contains a set of fields with
+attributes like type and name. The type matches a xref:dictionary-metamodel.adoc#_dictionary_metamodel[reusable data type]
+defined in your semantic data dictionary. Should the record definition change, the update will automatically ripple
+through the project and ensure that data is consistently represented. This consistency eases the creation and
+maintenance of data processing pipelines. Record metamodels also enable more nuanced concepts such as data validation,
+drift detection, bias detection, and data security. These concepts can be layered seamlessly into pipelines in a
+declarative and inherently reusable fashion. The combination of semantic data metamodels with
+xref:add-pipelines-to-build.adoc#_adding_a_pipeline[aiSSEMBLE’s MDA generation engine] greatly simplifies these common
+data processing tasks.
+
+== What Gets Generated
+The semantic data content for a project can be generated into a couple different places. The default behavior is for
+dictionaries and records to be placed into a combined module in the project's shared folder. They can also be generated
+as two separate folders with the records and their spark schema classes split into separate modules, or they can be
+generated directly into the folder for a data delivery pipeline.
+
+The default location for the semantic data classes is `<project>/<project>-shared/<project>-data-records`.
+
+==== Java Implementation
+[cols="2a,1a"]
+|===
+|Generated file | Description
+
+|`<project>/<project>-shared/<project>-data-records/src/main/java/<user-defined-package>/dictionary/<dictionary-type-name>.java`
+|Encapsulation for all fields for a specific type.
+
+|`<project>/<project>-shared/<project>-data-records/src/main/java/<user-defined-package>/dictionary/<dictionary-type-name>Base.java`
+|Injection point for generated logic pertaining to dictionary types.
+
+|`<project>/<project>-shared/<project>-data-records/src/main/java/<user-defined-package>/record/<record-name>.java`
+|A class that defines the programmatic representation of the data in Spark data delivery pipelines.
+
+|`<project>/<project>-shared/<project>-data-records/src/generated/java/<user-defined-package>/record/<record-name>Base.java`
+|An aiSSEMBLE-managed base class for the record that serves as an injection point for generated functionality.
+
+|`<project>/<project>-shared/<project>-data-records/src/main/java/<user-defined-package>/record/<record-name>Schema.java`
+|Defines the data schema and validation for recording records in a data store.
+
+|`<project>/<project>-shared/<project>-data-records/src/generated/java/<user-defined-package>/record/<record-name>SchemaBase.java`
+|Injection point for generated logic pertaining to the schema of the record.
+
+|`<project>/<project>-shared/<project>-data-records/src/main/java/<user-defined-package>/record/<record-name>Serializer.java`
+|Serializes a record so it can be sent via messaging.
+
+|`<project>/<project>-shared/<project>-data-records/src/generated/java/<user-defined-package>/record/<record-name>SerializerBase.java`
+|Deserializes a record so it can be received via messaging.
+|===
+
+==== Python Implementation
+[cols="2a,1a"]
+|===
+|Generated file | Description
+
+|`<project>/<project>-shared/<project>-data-records/src/<pipeline-name>/dictionary/<dictionary-type-name>.py`
+|Encapsulation for all fields for a specific type.
+
+|`<project>/<project>-shared/<project>-data-records/src/<pipeline-name>/generated/dictionary/<dictionary-type-name>_base.py`
+|Injection point for generated logic pertaining to dictionary types.
+
+|`<project>/<project-pipelines>/<pipeline-name>/src/<pipeline-name>/record/<record-name>.py`
+|A class that defines the programmatic representation of the data in PySpark data delivery pipelines.
+
+|`<project>/<project-pipelines>/<pipeline-name>/src/<pipeline-name>/generated/record/<record-name>_base.py`
+|An aiSSEMBLE-managed base class for the record that serves as an injection point for generated functionality.
+
+|`<project>/<project-pipelines>/<pipeline-name>/src/<pipeline-name>/schema/<record-name>_schema.py`
+|Defines the data schema and validation for recording records in a data store.
+
+|`<project>/<project-pipelines>/<pipeline-name>/src/<pipeline-name>/generated/schema/<record-name>schema_base.py`
+|Injection point for generated logic pertaining to the schema of the record.
+|===
+
+== Semantic Data Metamodels
+The xref:type-metamodel.adoc#_type_metamodel[Type Manager] allows different model base types to be abstractly associated
+against implementations. This is also useful to extend or override default implementations. Semantic data provides the
+Type Manager with a mechanism for registering different simple types (e.g., `string` → `java.util.String`) for use in
+Record and Dictionary metamodels.
+
+=== Dictionary Metamodel
+xref:dictionary-metamodel.adoc#_dictionary_metamodel[Dictionary metamodels] specify semantically rich types based on the
+simple types from the Type Manager metamodel. The dictionary creates a set of consistent, reusable type definitions that
+help enforce commonality across the system.
+
+=== Record Metamodel
+xref:record-metamodel.adoc#_record_metamodel[Record metamodels] specify a semantically rich collection of related
+properties based on the semantically rich types from the Dictionary metamodels. Records enable the generation of many
+labor-intensive and tedious coding activities based on a declarative model.
+
+== Controlling Record Generation
+[NOTE]
+If your project uses both Python and Java, the data record modules might be appended by **`java`** or **`python`**.
+E.g., `<project>-data-records-core` might be `<project>-data-records-core-java`.
+
+=== Generating Spark Record Logic Separately
+
+In cases where you want to re-use the semantic data model classes outside of the context of Spark, it's useful to
+create two modules to support the data model: one with the core data classes and minimal dependencies, and one with
+Spark-specific logic and dependencies.  In order to do this, update the following section of the shared module POM file
+and replace `<profile>aissemble-data-records-combined-module</profile>` with
+`<profile>aissemble-data-records-separate-module</profile>`:
+
+.pom.xml
+[source,diff]
+----
+<execution>
+    <id>generate-data-record</id>
+    <phase>generate-sources</phase>
+    <goals>
+        <goal>generate-sources</goal>
+    </goals>
+    <configuration>
+        <basePackage>com.boozallen</basePackage>
+-        <profile>aissemble-data-records-combined-module</profile>
++        <profile>aissemble-data-records-separate-module</profile>
+        <propertyVariables>
+            <aissembleVersion>${version.aissemble}</aissembleVersion>
+        </propertyVariables>
+    </configuration>
+</execution>
+----
+
+This will produce a new file structure:
+
+* example-project/
+** example-project-shared/
+*** example-project-data-records-core/
+**** _records classes here_
+*** example-project-data-records-spark/
+**** _spark classes here_
+
+To generate the new module structure:
+
+ 1. Generate the new modules with `./mvnw clean install`
+ 2. Follow the prompt to add the new modules to the _<project>-shared/pom.xml`
+ 3. Generate the code in the new modules with `./mvnw clean install`
+ 4. Move any customizations you made to the records classes under `<project>-shared/<project>-data-records` to the
+appropriate new location
+ ** Note: The class file names are the same and can act as a guide as to where the customizations should live_
+ 5. Remove the old `<module>[PROJECT]-data-records</module>` module(s) from the `<project>-shared/pom.xml`
+ 6. Remove the old `<project>-shared/<project>-data-records` directory/directories
+ 7. Follow the guidance in the xref:#_manual_updates[Manual Updates] section below
+ 8. Build the project to ensure that the changes were successful
+
+[#_manual_updates]
+==== Manual Updates
+The new data modules will need to be inserted by making the changes outlined below.
+
+===== Pipeline POM
+For each data-flow pipeline, update `<project>-pipelines/<pipeline-name>/pom.xml` with the following changes to the
+`<dependencies>` section:
+
+NOTE: For Java-based Spark pipelines, the `<type>` argument will be absent
+
+.pom.xml
+[source,diff]
+----
+<dependency>
+    <groupId>${project.groupId}</groupId>
+-    <artifactId>[PROJECT]-data-records</artifactId>
++    <artifactId>[PROJECT]-data-records-spark</artifactId>
+    <version>${project.version}</version>
+    <type>pom</type>
+</dependency>
+----
+
+===== Pipeline PyProject
+For each PySpark pipeline, update `<project>-pipelines/<pipeline-name>/pyproject.toml` with the following changes:
+
+.pyproject.toml
+[source,diff]
+----
+-[PROJECT]-data-records = {path = "../../[PROJECT]-shared/[PROJECT]-data-records", develop = true}
++[PROJECT]-data-records-spark = {path = "../../[PROJECT]-shared/[PROJECT]-data-records-spark", develop = true}
+----
+
+Additionally, update any `import` statements in your pipeline code to reflect the new module structure. For example:
+
+.record import statement
+[source,diff]
+----
+-from [PROJECT]_data_records.record.[record_name] import [RecordClass]
++from [PROJECT]_data_records_core.record.[record_name] import [RecordClass]
+----
+.schema import statement
+[source,diff]
+----
+-from [PROJECT]_data_records.schema.[schema_name] import [SchemaClass]
++from [PROJECT]_data_records_spark.schema.[schema_name] import [SchemaClass]
+----
+
+=== Generating Records Directly into a Pipeline
+
+In some very targeted cases where the data model will never need to be re-used and there is only one pipeline that
+processes the data, the semantic data classes can be directly generated into the pipeline module. In general, this is
+the legacy behavior of aiSSEMBLE and should only be undertaken with due consideration. In order to do this, update the
+POM file of the pipeline to replace the `<profile>data-delivery-spark-pipeline</profile>` with
+`<profile>data-delivery-spark</profile>` in the following location:
+
+.pom.xml
+[source,diff]
+----
+<plugin>
+    <groupId>org.technologybrewery.fermenter</groupId>
+    <artifactId>fermenter-mda</artifactId>
+    <configuration>
+        <basePackage>com.example</basePackage>
+-        <profile>data-delivery-spark-pipeline</profile>
++        <profile>data-delivery-spark</profile>
+        <propertyVariables>
+            <targetPipeline>[PIPELINE]</targetPipeline>
+            <aissembleVersion>${version.aissemble}</aissembleVersion>
+        </propertyVariables>
+    </configuration>
+</plugin>
+----
+
+You will also want to remove the pipeline's dependency on your shared records module, which is generated into the
+pipeline by default. To do this, remove the following dependency from the pipeline's `pom.xml` file
+
+.pom.xml
+[source,xml]
+----
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>[PROJECT]-data-records</artifactId>
+</dependency>
+----
+
+If you're using Python, you'll also need to remove the dependencies in your `pyproject.toml` file of the pipeline.
+
+.pyproject.toml
+[source,toml]
+----
+[tool.poetry.group.monorepo.dependencies]
+[PROJECT]-data-records = {path = "../../[PROJECT]-shared/[PROJECT]-data-records", develop = true}
+----
+
+The shared module will generate a records module by default, if you would like to prevent this, you will need to remove
+the execution of the fermenter plugin with a profile of either `aissemble-data-records-combined-module` or
+`aissemble-data-records-separate-module`. It will look something like this:
+
+.pom.xml
+[source,xml]
+----
+<execution>
+    <id>generate-data-record</id>
+    <phase>generate-sources</phase>
+    <goals>
+        <goal>generate-sources</goal>
+    </goals>
+    <configuration>
+        <basePackage>com.boozallen</basePackage>
+        <profile>aissemble-data-records-combined-module</profile>
+        <propertyVariables>
+            <aissembleVersion>${version.aissemble}</aissembleVersion>
+        </propertyVariables>
+    </configuration>
+</execution>
+----

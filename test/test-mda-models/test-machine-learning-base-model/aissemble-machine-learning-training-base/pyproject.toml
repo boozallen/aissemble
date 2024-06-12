@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "aissemble-machine-learning-training-base"
-version = "1.7.0.dev"
+version = "1.7.0"
 description = "Description of package"
 authors = ["Your Name <you@example.com>"]
 
@@ -40,6 +40,7 @@ black = ">=22.1.0"
 behave = ">=1.2.6"
 nose = ">=1.3.7"
 kappa-maki = ">=1.0.1"
+pylint = "^3.1.0"
 
 
 [build-system]

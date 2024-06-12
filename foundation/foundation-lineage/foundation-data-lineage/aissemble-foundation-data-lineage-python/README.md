@@ -1,7 +1,7 @@
 # aissemble-foundation-data-lineage-python
 This module serves as a generic wrapper for data lineage 
 types, objects, and functions.  While it is designed to be 
-leveraged through the aiSSEMBLE ecosystem, it is not dependent
+leveraged through the aiSSEMBLE&trade; ecosystem, it is not dependent
 on aiSSEMBLE for execution.  It is intentionally designed for 
 portability.
 

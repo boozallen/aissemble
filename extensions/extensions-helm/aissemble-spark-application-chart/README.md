@@ -1,4 +1,4 @@
-# aiSSEMBLE Spark Application Helm Chart
+# aiSSEMBLE&trade; Spark Application Helm Chart
 Baseline Helm chart for packaging and deploying spark applications. The chart is built and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory.
 
 # Basic usage with Helm CLI
@@ -114,16 +114,16 @@ If you are migrating from the v1 version of the spark-application chart, use the
 ## Property Location
 All properties listed in the **Properties** section have been moved to the parent chart. If any properties are set to the default value, we recommend removing them from your values file entirely.
 
-All new property locations configured for SparkApplication should include the prefix `aissemble-spark-application.sparkApp` except below properties:
+All new property locations configured for SparkApplication should include the prefix `aissemble-spark-application-chart.sparkApp` except below properties:
 
-| Old Property Location | New Property Location                       | 
-|-----------------------|---------------------------------------------|
-| metadata.name         | aissemble-spark-application.metadata.name   | 
-| metadata.namespace    | aissemble-spark-application.namespace       | 
-| spec.serviceEnabled   | aissemble-spark-application.service.enabled |
+| Old Property Location | New Property Location                             | 
+|-----------------------|---------------------------------------------------|
+| metadata.name         | aissemble-spark-application-chart.metadata.name   | 
+| metadata.namespace    | aissemble-spark-application-chart.namespace       | 
+| spec.serviceEnabled   | aissemble-spark-application-chart.service.enabled |
 
-And all new property locations for service configuration should include the prefix `aissemble-spark-application` only. 
+And all new property locations for service configuration should include the prefix `aissemble-spark-application-chart` only. 
 
-*Note: To enable the service configuration, you need to set* `aissemble-spark-application.sparkApp.spec.serviceEnabled=true`
+*Note: To enable the service configuration, you need to set* `aissemble-spark-application-chart.sparkApp.spec.serviceEnabled=true`
 
 

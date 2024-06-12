@@ -1,0 +1,10 @@
+# This file contains the default values for the aiSSEMBLE Spark Operator Helm chart.
+
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: false
+
+eventVolume:
+  enabled: true

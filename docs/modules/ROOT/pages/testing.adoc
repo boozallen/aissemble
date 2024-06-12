@@ -1,0 +1,72 @@
+[#_testing_the_project]
+= Testing the Project
+:source-highlighter: rouge
+
+== Behavior-Driven Development
+The two essential testing methodologies that aiSSEMBLE(TM) utilizes are unit tests and integration tests. On the one hand,
+unit tests suffice to ensure that a particular piece of code is functioning the way it is expected. However, they lack
+the ability to verify functionality that exists between components. On the other hand, integration testing validates
+behavior between logical groups of code. For instance, in aiSSEMBLE if you have two steps in a pipeline communicating
+over a messaging system, such as Kafka, it’s useful to unit test each individual component’s logic. However, it is just
+as useful to run an integration test to validate that the messaging between the two steps is functioning as expected.
+
+== Unit Testing the Pipeline
+aiSSEMBLE generates a basic unit test into data-delivery pipelines to demonstrate how to write BDD tests with Cucumber
+(or https://behave.readthedocs.io/en/latest/[Behave,role=external,window=_blank] in Python). With the facilitation of
+`feature files`, Cucumber makes it easier for the reader to understand what feature is being tested using a simple,
+`Scenario`, `Given`, `When` and `Then` approach to define the test at hand. The following demonstrates the aiSSEMBLE
+recommended approach for writing Cucumber tests using the Ingest Pipeline as the scenario.
+
+=== Step 1: Update the `pipeline.feature` file with the following:
+[,java]
+----
+@pipeline
+Feature: CSV data pipeline
+
+//  Write some scenario here where you can test a business requirement. Below is an example of that.
+    Scenario: Ingest CSV transaction data
+        Given the file that needs to be ingested exists in the records directory
+        When the file is ingested
+        Then the sum of the prices is calculated
+----
+
+=== Step 2: Replace the generated Given, When, and Then methods with the implementation for your scenarios.
+[,java]
+----
+//  Place all the preconditions that need to be accounted in accordance of your business requirements.
+    @Given("the file that needs to be ingested exists in the records directory")
+    public void ingestFileExists () {
+        //  code up the items you need before performing your action.
+    }
+
+
+//  Write some logic here for what happens when the business requirement is actioned.
+    @When("the file is ingested")
+    public void theFileIsIngested() {
+        //  execute your action.
+    }
+
+//  Add assertions to validate the business requirement being tested.
+    @Then("the sum of the prices is calculated")
+    public void theSumOfThePricesIsCalculated() {
+        //  check for expected post-conditions - continue to use normal assert pattern
+        //  within tests.
+    }
+----
+
+=== Step 3: Execute the test once all your business logic has been implemented and validate if the tests ran successfully.
+[,sh]
+----
+./mvnw clean install -pl :simple-data-delivery-example
+----
+
+Expected output:
+[,log output]
+----
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.775 s - in com.boozallen.aissemble.documentation.CucumberTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+----
+Detailed Cucumber HTML reports can be accessed from their respective `target/cucumber-reports/cucumber-html-reports` directories.

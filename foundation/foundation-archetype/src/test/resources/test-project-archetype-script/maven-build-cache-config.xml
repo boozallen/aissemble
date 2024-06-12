@@ -49,9 +49,9 @@
                 <dirName>quarkus-app</dirName>
                 <dirName>helm</dirName>
                 <!-- Reports needed on CI to ensure consistent reporting of QA metrics: -->
-                <dirName>cucumber-reports</dirName>
-                <dirName>surefire-reports</dirName>
-                <dirName>failsafe-reports</dirName>
+                <dirName>../target/cucumber-reports</dirName>
+                <dirName>../target/surefire-reports</dirName>
+                <dirName>../target/failsafe-reports</dirName>
             </dirNames>
         </attachedOutputs>
         <local>

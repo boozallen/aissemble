@@ -12,5 +12,6 @@ aissemble-versioning-chart:
       app:
         name: ${projectName}-versioning
       image:
-        name: boozallen/${projectName}-versioning
+        name: ${projectName}-versioning
+        dockerRepo: ${dockerProjectRepositoryUrl}
         tag: latest

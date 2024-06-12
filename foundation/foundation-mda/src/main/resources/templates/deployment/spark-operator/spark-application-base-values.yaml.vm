@@ -3,7 +3,7 @@ metadata:
 sparkApp:
   spec:
     type: ${sparkApplicationType}
-    image: "boozallen/${projectName}-spark-worker-docker:latest"
+    image: "${dockerProjectRepositoryUrl}${projectName}-spark-worker-docker:latest"
     #if (${isJavaPipeline})
     mainClass: ${mainClass}
     #end
@@ -69,42 +69,39 @@ sparkApp:
     driver:
       cores: 1
       coreLimit: "1200m"
-      memory: "512m"
+      memory: "2048m"
+      #if (${useS3Local})
+      # Setup these secret key references within your SealedSecret 
+##      # See our guide for using SealedSecret's in your project to learn more
+##      # TODO: LINK-TO-GUIDE-HERE
+      envFrom:
+        - secretRef:
+            name: remote-auth-config
+      #end
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
         #if (${enableDataLineageSupport})
         - name: ENABLE_LINEAGE
           value: "true"
-        #end
-        #if (${useS3Local})
-        - name: AWS_ACCESS_KEY_ID
-          value: "123"
-        - name: AWS_SECRET_ACCESS_KEY
-          value: "456"
-        - name: STORAGE_ENDPOINT
-          value: "http://s3-local:4566"
         #end
       #if (${isJavaPipeline})
       javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
       #end
     executor:
       cores: 1
-      memory: "512m"
+      memory: "4096m"
+      #if (${useS3Local})
+      envFrom:
+        - secretRef:
+            name: remote-auth-config
+      #end
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
         #if (${enableDataLineageSupport})
         - name: ENABLE_LINEAGE
           value: "true"
-        #end
-        #if (${useS3Local})
-        - name: AWS_ACCESS_KEY_ID
-          value: "123"
-        - name: AWS_SECRET_ACCESS_KEY
-          value: "456"
-        - name: STORAGE_ENDPOINT
-          value: "http://s3-local:4566"
         #end
       #if (${isJavaPipeline})
       javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"

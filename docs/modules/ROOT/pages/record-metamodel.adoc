@@ -1,0 +1,241 @@
+= Record Metamodel
+
+Record metamodels specify semantically-rich line items on which pipelines can be based. This approach
+allows many labor-intensive and tedious coding activities to be generated based on declarative model definitions. It 
+also allows the consistent generation of the same concept across multiple languages (e.g. Python, Java, Scala). For
+more information about data  records, see the xref:semantic-data.adoc#_semantic_data[Semantic Data] page.
+
+== Record Metamodel Specifications
+
+Each metadata instance should be placed in a file with the same name as your record that lives within the following
+directory structure (to initially create this structure, please see xref:archetype.adoc[]):
+
+`<project-name>/<project-name>-pipeline-models/src/main/resources/records`
+
+For example:
+
+`test-project/test-project-pipeline-models/src/main/resources/records/TaxPayer.json`
+
+=== Record Root Element Options
+The following options are available on the root record element:
+
+.Record Root Location
+[source,json]
+----
+{
+  ...
+}
+----
+
+.Record Root Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `name`
+| Yes
+| None
+| Specifies the name of your record. It should represent the functional concept of your record and must use 
+UpperCamelCase/PascalCase notation (e.g., `TaxPayer.json`).
+
+| `title`
+| No
+| Value of name option
+| Specifies the display name of your record. It can be used when `name` does not present well in external systems (e.g.,
+‘A Record Name’ reads better than ‘ARecordName’). If no value is specified, it will default to `name`.
+
+| `package`
+| Yes
+| None
+| Provides a namespace that will be leveraged to differentiate between instances and provide language-specific 
+namespacing (e.g., package in Java, namespace in XSD).
+
+| `description`
+| No
+| None
+| A description of the record being specified.
+
+| `dataAccess` (xref:#_data_access_options[details])
+| No
+| Yes
+| By default, xref:data-access-details.adoc[data access] is enabled for the record. Specifying this element allows for
+data access to be disabled or enabled, if desired.
+
+| `frameworks`
+| No
+| None
+| A list of frameworks to extend base record capabilities. For example, modifying Python records to include
+PySpark support methods.
+
+| `fields` (xref:#_record_field_options[details])
+| Yes
+| None
+| A list of fields in your record. At least one field is required within `fields`.
+
+|===
+
+[#_data_access_options]
+=== Record Data Access Options
+The following options are available on the `dataAccess` record element:
+
+.Data Access Location
+[source,json]
+----
+{
+    "dataAccess": {
+        ...
+    }
+}
+----
+.Data Access Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `dataAccess/enabled`
+| Yes
+| None
+| Setting `enabled` to false will disable xref:data-access-details.adoc[data access] for the record.
+
+|===
+
+[#_record_field_options]
+=== Record Field Options
+The following options are available on the `field` record element:
+
+.Field Location
+[source,json]
+----
+{
+  "fields": [
+    {
+      ...
+    }
+  ] 
+}
+----
+.Field Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `fields/field/name`
+| Yes
+| None
+| The name of the field that is being modeled and must use UpperCamelCase/PascalCase notation. (e.g.,
+`SocialSecurityNumber`).
+
+| `fields/field/type` (xref:#_field_type_options[details])
+| Yes
+| None
+| The xref:dictionary-metamodel.adoc#_dictionary_type_options[dictionary type] of this field that provides simple type
+as well as validation and advanced concepts.
+
+| `fields/field/description`
+| No
+| None
+| A description of the field.
+
+| `fields/field/column`
+| No
+| None
+| The name of the storage field for data persistence.
+
+| `fields/field/required`
+| No
+| None
+| Setting `required` to `true` will mandate that the field must be populated for a record to pass validation.
+
+| `fields/field/driftPolicy`
+| No
+| Situational
+| The default xref:drift-detection.adoc[drift detection] policy applied when this field is used. If a policy
+is defined on the xref:dictionary-metamodel.adoc#_dictionary_type_options[type] for this field, specifying a policy on
+the field will override the `driftPolicy` specified by the type.
+
+| `fields/field/protectionPolicy`
+| No
+| Situational
+| The default xref:data-encryption.adoc[data encryption] policy applied when this field is used. If a policy
+is defined on the xref:dictionary-metamodel.adoc#_dictionary_type_options[type] for this field, specifying a policy on
+the field will override the `protectionPolicy` specified by the type.
+
+| `fields/field/ethicsPolicy`
+| No
+| Situational
+| The default xref:bias-detection.adoc[bias detection] policy applied when this field is used. If a policy
+is defined on the xref:dictionary-metamodel.adoc#_dictionary_type_options[type] for this field, specifying a policy on
+the field will override the `ethicsPolicy` specified by the type.
+
+| `fields/field/dataProfiling` (xref:_field_data_profiling_options[details])
+| No
+| Yes
+| By default, xref:data-profiling-details.adoc[data profiling] is enabled for every field. Specifying this element allows
+for data profiling to be disabled or enabled, if desired.
+
+|===
+
+[#_field_type_options]
+=== Record Field Type Options
+The following options are available on the `type` record element:
+
+.Field Type Location
+[source,json]
+----
+{
+    "fields": [
+        {
+            "type": {
+                "..."
+            }
+        }
+    ]
+}
+----
+
+.Field Type Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `fields/field/type/name`
+| Yes
+| None
+| Specifies that name of a type from an associated xref:dictionary-metamodel.adoc[dictionary].
+
+| `fields/field/type/package`
+| Yes
+| None
+| Specifies the package from an associated xref:dictionary-metamodel.adoc[dictionary].
+
+|===
+
+[#_field_data_profiling_options]
+=== Record Field Data Profiling Options
+The following options are available on the `dataProfiling` record element:
+
+.Field Data Profiling Location
+[source,json]
+----
+{
+    "fields": [
+        {
+            "dataProfiling": {
+                "..."
+            }
+        }
+    ]
+}
+----
+.Field Data Profiling Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `fields/field/dataProfiling/enabled`
+| Yes
+| None
+| Setting `enabled` to false will disable xref:data-profiling-details.adoc[data profiling] for the field.
+
+|===
+\

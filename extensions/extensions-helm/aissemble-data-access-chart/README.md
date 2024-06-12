@@ -1,4 +1,4 @@
-# aiSSEMBLE Data Access Helm Chart
+# aiSSEMBLE&trade; Data Access Helm Chart
 Baseline Helm chart for packaging and deploying aiSSEMBLE Data Access module. Built on the extension-helm-quarkus module and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI
@@ -25,7 +25,7 @@ All properties must be prefixed with the key `aissemble-quarkus-chart` to overri
 If you are migrating from the v1 version of the data access chart, use the tables below to apply any existing customizations from the old chart to the new v2 chart.
 
 ## Property Location
-Old properties would have to be prepended with aissemble-data-access.aissemble-quarkus, e.g.: app.name => aissemble-data-access.aissemble-quarkus.app.name
+Old properties would have to be prepended with aissemble-data-access-chart.aissemble-quarkus-chart, e.g.: app.name => aissemble-data-access-chart.aissemble-quarkus-chart.app.name
 
 If any properties are set to the default value, we recommend removing them from your values file entirely.
 

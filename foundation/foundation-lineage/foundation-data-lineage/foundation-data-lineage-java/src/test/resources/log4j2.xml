@@ -20,7 +20,7 @@
 		<Root level="debug">
 			<AppenderRef ref="Console" />
 		</Root>
-		<Logger name="com.boozallen.aiops.data.lineage" level="debug" additivity="false ">
+		<Logger name="com.boozallen.aissemble.data.lineage" level="debug" additivity="false ">
 			<AppenderRef ref="Console" />
 		</Logger>
 	</Loggers>

@@ -1,0 +1,42 @@
+# This file contains the default values for the aiSSEMBLE Spark Infrastructure Helm chart.
+
+aissemble-spark-history-chart:
+  eventVolume:
+    enabled: true
+
+aissemble-thrift-server-chart:
+  dependencies:
+    packages:
+      - org.apache.hadoop:hadoop-aws:3.3.4
+
+  deployment:
+    envFromSecret:
+      AWS_ACCESS_KEY_ID:
+        secretName: aws-s3-credentials
+        key: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        secretName: aws-s3-credentials
+        key: aws_secret_access_key
+
+  sparkConf: |
+    spark.hadoop.fs.s3a.endpoint=http://s3-local:4566
+    spark.hadoop.fs.s3a.access.key=#[[${env:AWS_ACCESS_KEY_ID}]]#
+    spark.hadoop.fs.s3a.secret.key=#[[${env:AWS_SECRET_ACCESS_KEY}]]#
+    spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+    spark.hive.server2.thrift.port=10000
+    spark.hive.server2.thrift.http.port=10001
+    spark.hive.server2.transport.mode=http
+    spark.hive.metastore.warehouse.dir=s3a://spark-infrastructure/warehouse
+    spark.hadoop.fs.s3a.path.style.access=true
+    spark.hive.server2.thrift.http.path=cliservice
+    spark.hive.metastore.schema.verification=false
+    spark.hive.metastore.uris=thrift://hive-metastore-service:9083/default
+
+  hiveSite: |
+    <configuration>
+         <property>
+             <name>datanucleus.schema.autoCreateAll</name>
+             <value>true</value>
+             <description>Creates necessary schema on a startup if one does not exist</description>
+         </property>
+     </configuration>

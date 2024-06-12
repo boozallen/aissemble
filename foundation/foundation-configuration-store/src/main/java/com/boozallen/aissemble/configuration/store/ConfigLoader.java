@@ -26,6 +26,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.boozallen.aissemble.configuration.dao.PropertyDao;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,12 +36,33 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 /**
  * Handles parsing/reconciling configurations and associated metadata.
  */
+@ApplicationScoped
 public class ConfigLoader {
-
     private static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class);
+    private PropertyDao propertyDao;
+
+    @ConfigProperty(name = "config.store.property.dao.class")
+    public String propertyDaoClass;
+
+    @Inject
+    public void setPropertyDao(Instance<PropertyDao> instances) {
+        instances.forEach(propertyDao -> {
+            if (propertyDao.getClass().getName().contains(propertyDaoClass)) {
+                this.propertyDao = propertyDao;
+            }
+        });
+    }
+
+    public void setPropertyDao(PropertyDao propertyDao) {
+        this.propertyDao = propertyDao;
+    }
 
     /**
      * Loads configurations from the base and environment URIs and reconciles them.
@@ -50,8 +73,16 @@ public class ConfigLoader {
     public Set<Property> loadConfigs(String baseURI, String environmentURI) {
         Set<Property> baseConfigs = loadURI(baseURI);
         Set<Property> environmentConfigs = loadURI(environmentURI);
-
         return reconcileConfigs(baseConfigs, environmentConfigs);
+    }
+
+    /**
+     * Loads configuration from the provided uri
+     * @param baseURI URI housing the configuration files
+     * @return Set of properties.
+     */
+    public Set<Property> loadConfigs(String baseURI) {
+        return loadURI(baseURI);
     }
 
     /**
@@ -129,6 +160,50 @@ public class ConfigLoader {
         environmentConfigs.addAll(baseConfigs);
         return environmentConfigs;
     }
+
+    /**
+     * Write give properties set to the store
+     * @param properties to be written to store
+     */
+    public void write(Set<Property> properties) {
+        try {
+            propertyDao.write(properties);
+            logger.info("Successfully wrote all properties to the store.");
+            updateLoadStatus(true);
+        } catch (Exception e) {
+            logger.error("Error updating properties.", e);
+            updateLoadStatus(false);
+        }
+    }
+
+    /**
+     * Read the Property from store with given group name and property name
+     * @param groupName group name
+     * @param propertyName property name
+     * @return property read from the store
+     */
+    public Property read(String groupName, String propertyName) {
+        logger.info(String.format("Read property with groupName: %s, propertyName: %s from the store.", groupName, propertyName));
+        return propertyDao.read(groupName, propertyName);
+    }
+    
+    public boolean isFullyLoaded() {
+        try {
+            Property statusProperty = propertyDao.read("load-status", "fully-loaded");
+            return statusProperty != null && "true".equals(statusProperty.getValue());
+        } catch (Exception e) {
+            logger.warn("Properties are not loaded previously, continue", e);
+            return false;
+        }
+    }
+
+    private void updateLoadStatus(boolean status) {
+        Property statusProperty = new Property("load-status", "fully-loaded", String.valueOf(status));
+        try {
+            propertyDao.write(statusProperty);
+            logger.info("Successfully updated load status to: " + status);
+        } catch (Exception e) {
+            logger.error("Error updating load status.", e);
+        }
+    }
 }
-
-

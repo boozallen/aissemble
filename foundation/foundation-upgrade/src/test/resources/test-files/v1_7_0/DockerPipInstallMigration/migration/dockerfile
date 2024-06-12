@@ -1,0 +1,15 @@
+# findExecPattern 1: find requirements.txts, python pip install
+RUN find /tmp/requirements -path '/tmp/requirements/*/*' -name requirements.txt -type f -exec python3 -m pip install --no-cache-dir -r '{}' ';'
+RUN find /installation/requirements -path '/installation/requirements/*/*/*' -name requirements.txt -type f -exec "$VENV/bin/python3" -m pip install --no-cache-dir -r '{}' ';'
+
+# findExecPattern 2: find tarballs, python pip install
+RUN find /installation/${trainingModule}/ -name *.tar.gz -type f -exec python3.11 -m pip install --no-deps --no-cache-dir '{}' ';'
+RUN find /opt/spark/jobs -path '/opt/spark/jobs/pipelines/*/*' -name '*.tar.gz' -type f -exec python3 -m pip install --no-deps --no-cache-dir '{}' ';'
+RUN find $AIRFLOW_HOME/pipelines -path "$AIRFLOW_HOME/pipelines/*/*/*" -name *.tar.gz -type f -exec "$VENV/bin/python3" -m pip install --no-deps --no-cache-dir '{}' ';'
+
+# findExecPattern 3: find wheels, python pip install
+RUN find /tmp/wheels -path '/tmp/wheels/*' -name '*.whl' -type f -exec python3 -m pip install --no-cache-dir '{}' ';'
+
+# forDoPattern 1: cd into modules, for x in wheel, pip install
+RUN cd /modules/${trainingModule}; for x in *.whl; do pip install $x --no-cache-dir --no-deps; done
+RUN cd /modules/${inferenceModule}; for x in *.whl; do python -m pip install $x --no-cache-dir --no-deps; done

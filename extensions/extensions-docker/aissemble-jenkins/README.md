@@ -1,4 +1,4 @@
-# aiSSEMBLE Ready Jenkins Deployment
+# aiSSEMBLE&trade; Ready Jenkins Deployment
 The containers in this project provide an instance of Jenkins that 
 requires minimal setup for aiSSEMBLE projects.  It comes preconfigured 
 the plugins and configuration files you need to quickly setup up Jenkins
@@ -174,7 +174,7 @@ agent. For example, in `devops/JenkinsfileBuild.groovy`:
 withKubeConfig([credentialsId: 'kubeconfig']) {
     withMaven(maven: 'maven') {
         configFileProvider([configFile(fileId: 'maven-global-settings', variable: 'MAVEN_GLOBAL_SETTINGS')]) {
-            sh "mvn -s $MAVEN_GLOBAL_SETTINGS clean deploy -Pci,arm64 -pl :aissemble-quarkus,:aissemble-fastapi,:aissemble-spark"
+            sh "./mvnw -s $MAVEN_GLOBAL_SETTINGS clean deploy -Pci,arm64 -pl :aissemble-quarkus,:aissemble-fastapi,:aissemble-spark"
         }
     }
 }

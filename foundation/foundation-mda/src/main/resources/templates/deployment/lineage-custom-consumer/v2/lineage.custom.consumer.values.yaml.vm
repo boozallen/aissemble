@@ -9,7 +9,8 @@ aissemble-quarkus-chart:
     name: "lineage-custom-consumer"
   deployment:
     image:
-      name: boozallen/${projectName}-custom-lineage-consumer-docker
+      name: ${projectName}-custom-lineage-consumer-docker
+      repo: ${dockerProjectRepositoryUrl}
   configMap:
     name: ${appName}-quarkus-config
     supplementalQuarkusConfig:

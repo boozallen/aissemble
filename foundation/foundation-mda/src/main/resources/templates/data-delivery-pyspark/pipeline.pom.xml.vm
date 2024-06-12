@@ -29,6 +29,7 @@
                         <targetPipeline>${pipeline.name}</targetPipeline>
                         <behaveFeature>data_delivery</behaveFeature>
                         <aissembleVersion>${version.aissemble}</aissembleVersion>
+                        <dockerProjectRepositoryUrl>${docker.project.repository.url}</dockerProjectRepositoryUrl>
                     </propertyVariables>
                     <!-- see ${parentArtifactId} for base configuration settings -->
                 </configuration>
@@ -51,6 +52,10 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
             </plugin>
             #set($mainValuesPath = "src/${moduleArtifactIdPythonCase}/resources/apps")
             #set($testValuesPath = "tests/resources/apps")
@@ -76,6 +81,10 @@
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
         </dependency>
         #if($enableSemanticDataSupport)
         <dependency>

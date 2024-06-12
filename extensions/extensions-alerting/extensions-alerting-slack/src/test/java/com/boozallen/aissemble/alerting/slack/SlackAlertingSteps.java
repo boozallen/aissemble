@@ -25,8 +25,6 @@ import org.jboss.weld.environment.se.WeldContainer;
 import com.boozallen.aissemble.alerting.core.Alert;
 import com.boozallen.aissemble.alerting.core.Alert.Status;
 import com.boozallen.aissemble.alerting.core.cdi.AlertingCdiContainer;
-import com.boozallen.aiops.core.cdi.CdiContainer;
-import com.boozallen.aiops.core.cdi.CdiContext;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 
 import io.cucumber.java.After;

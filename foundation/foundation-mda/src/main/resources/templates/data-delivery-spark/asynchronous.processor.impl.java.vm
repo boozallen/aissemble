@@ -35,7 +35,7 @@ import java.util.List;
 #if (!$step.provenance || $step.provenance.enabled)
 import java.time.Instant;
 
-import com.boozallen.aiops.core.metadata.MetadataModel;
+import com.boozallen.aissemble.core.metadata.MetadataModel;
 #end
 
 /**

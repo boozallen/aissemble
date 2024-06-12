@@ -16,6 +16,7 @@ RUN wget https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries
 COPY ./target/wheels/* /tmp/wheels/
 # Re-install any dependencies defined in the base image into the virtual environment, then install new requirements
 RUN pip install -r /tmp/requirements.txt && \
+    set -e && \
     cd /tmp/wheels/; for x in *.whl; do pip install $x --no-cache-dir; done
 
 COPY ./target/versioning_api.py /app/versioning_api.py

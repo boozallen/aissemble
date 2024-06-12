@@ -9,6 +9,6 @@ spec:
     spec:
       containers:
         - name: spark-worker-image
-          image: boozallen/${projectName}-spark-worker-docker
+          image: ${projectName}-spark-worker-docker
           command: ["echo"]
       restartPolicy: Never

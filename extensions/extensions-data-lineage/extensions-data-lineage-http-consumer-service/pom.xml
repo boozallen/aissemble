@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.boozallen.aissemble</groupId>
     <artifactId>extensions-data-lineage</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>1.7.0</version>
   </parent>
   <artifactId>extensions-data-lineage-http-consumer-service</artifactId>
   <name>aiSSEMBLE::Extensions::Data Lineage::Http Consumer Service</name>
@@ -31,7 +31,7 @@
 
   <properties>
 <!--    Overriding cucumber version to align with quarkus-cucumber -->
-    <version.cucumber>7.4.1</version.cucumber>
+    <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
   </properties>
 
   <dependencies>
@@ -103,7 +103,7 @@
     <dependency>
       <groupId>io.quarkiverse.cucumber</groupId>
       <artifactId>quarkus-cucumber</artifactId>
-      <version>0.6.0</version>
+      <version>${version.quarkus.cucumber}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

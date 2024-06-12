@@ -1,0 +1,63 @@
+Suite: Service
+
+templates:
+  - service.yaml
+
+tests:
+  - it: Should not produce service if enable is false
+    set:
+      enable: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Should produce service with default values
+    set:
+      enable: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-sts-service
+      - notExists:
+          path: metadata.annotations
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.selector.app
+          value: RELEASE-NAME
+      - contains:
+          path: spec.ports
+          any: true
+          content:
+            name: thrift
+            port: 10000
+      - contains:
+          path: spec.ports
+          any: true
+          content:
+            name: thrift-http
+            port: 10001
+
+  - it: Should be able to specify service type
+    set:
+      enable: true
+      service:
+        type: LoadBalancer
+    asserts:
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+
+  - it: Should be able to specify service port
+    set:
+        enable: true
+        service:
+          ports:
+            - port: 8080
+    asserts:
+      - equal:
+          path: spec.ports[0].port
+          value: 8080

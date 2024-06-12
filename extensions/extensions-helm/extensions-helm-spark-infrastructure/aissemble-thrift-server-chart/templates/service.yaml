@@ -1,0 +1,15 @@
+{{- if .Values.enable }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-sts-service
+  {{- if .Values.service.annotations }}
+  annotations: {{ .Values.service.annotations }}
+  {{- end }}
+spec:
+  type: {{.Values.service.type }}
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    {{ .Values.service.ports | toYaml | nindent 4}}
+{{- end }}

@@ -10,7 +10,7 @@ kafka.bootstrap.servers=kafka-cluster:9093
 $header Metadata Ingest Producer configs $header
 mp.messaging.outgoing.metadata-ingest.connector=smallrye-kafka
 mp.messaging.outgoing.metadata-ingest.topic=metadata-ingest
-mp.messaging.outgoing.metadata-ingest.value.serializer=com.boozallen.aiops.core.metadata.producer.MetadataSerializer
+mp.messaging.outgoing.metadata-ingest.value.serializer=com.boozallen.aissemble.core.metadata.producer.MetadataSerializer
 
 #if (${pipeline.getDataLineage()})
 $header Data Lineage Emitter configs $header

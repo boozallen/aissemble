@@ -1,0 +1,9 @@
+************************
+******* Services *******
+************************
+
+{{- range .Values.service.ports }}
+{{ .name }}:
+- To access the {{ $.Release.Name }}-{{ .name }} service within the cluster, use the following URL:
+    {{ $.Release.Name }}-service.{{ $.Release.Namespace }}.svc.cluster.local:{{ .port }}
+{{- end }}

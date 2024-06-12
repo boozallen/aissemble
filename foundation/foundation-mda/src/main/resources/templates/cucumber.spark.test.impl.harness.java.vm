@@ -7,7 +7,7 @@ import org.aeonbits.owner.KrauseningConfigFactory;
 import org.apache.log4j.Level;
 import org.apache.spark.sql.SparkSession;
 
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import com.boozallen.aiops.data.delivery.spark.SparkConfig;
 #if (${pipeline.isAlertingSupportNeeded()})
 import com.boozallen.aissemble.alerting.core.AlertProducer;

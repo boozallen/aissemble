@@ -11,7 +11,7 @@ import ${basePackage}.${step.capitalizedName};
 #foreach ($store in $pipeline.fileStores)
 import ${basePackage}.filestore.${store.fullName};
 #end
-import com.boozallen.aiops.core.cdi.CdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 
 #if ($pipeline.isAlertingSupportNeeded())
 import com.boozallen.aissemble.alerting.core.consumer.AlertLogger;

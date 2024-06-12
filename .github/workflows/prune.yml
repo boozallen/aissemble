@@ -1,0 +1,28 @@
+# Prunes old aissemble-* untagged containers
+
+name: Prune ghcr.io
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 0 * * *"  # every day at midnight
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prune
+        uses: snok/container-retention-policy@v2
+        with:
+          image-names: aissemble-*
+          cut-off: Two days ago UTC
+          account-type: org
+          org-name: boozallen
+          keep-at-least: 2
+          untagged-only: true
+          dry-run: false
+          token: ${{ secrets.GHCR_IO_TOKEN }}

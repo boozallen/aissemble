@@ -10,9 +10,9 @@ package com.boozallen.aissemble.data.lineage.consumer;
  * #L%
  */
 
-import com.boozallen.aiops.data.lineage.Job;
-import com.boozallen.aiops.data.lineage.Run;
-import com.boozallen.aiops.data.lineage.RunEvent;
+import com.boozallen.aissemble.data.lineage.Job;
+import com.boozallen.aissemble.data.lineage.Run;
+import com.boozallen.aissemble.data.lineage.RunEvent;
 import com.boozallen.aissemble.data.lineage.consumer.subclass.ExceptionalMessageReceiver;
 import com.boozallen.aissemble.data.lineage.consumer.subclass.SuccessfulMessageReceiver;
 import io.cucumber.java.Before;

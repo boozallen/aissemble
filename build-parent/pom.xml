@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-root</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>build-parent</artifactId>
@@ -15,7 +15,7 @@
     <description>Build parent to bring in required build-time dependencies (e.g., Maven configuration)</description>
 
     <properties>
-        <version.aissemble>1.7.0-SNAPSHOT</version.aissemble>
+        <version.aissemble>1.7.0</version.aissemble>
 
         <!-- **************** -->
         <!-- Plugins versions -->
@@ -25,14 +25,13 @@
         <version.buildhelper.plugin>3.2.0</version.buildhelper.plugin>
         <version.buildnumber.plugin>3.1.0</version.buildnumber.plugin>
         <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
-        <version.failsafe.plugin>${version.surefire.plugin}</version.failsafe.plugin>
-        <version.fermenter>2.10.2</version.fermenter>
+        <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
+        <version.fermenter>2.10.3</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
-        <version.habushu.plugin>2.13.1</version.habushu.plugin>
+        <version.habushu.plugin>2.15.0</version.habushu.plugin>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.2.0</version.help.plugin>
         <version.krausening>19</version.krausening>
-        <version.license.plugin>2.4.0</version.license.plugin>
         <version.plexus.archiver>3.6.0</version.plexus.archiver>
         <version.plugin.plugin>3.9.0</version.plugin.plugin>
         <version.quarkus>2.8.3.Final</version.quarkus>
@@ -58,6 +57,7 @@
         <version.cryptography>&gt;=42.0.4</version.cryptography>
         <version.python.krausening>&gt;=${version.krausening}</version.python.krausening>
         <version.slf4j>2.0.7</version.slf4j>
+        <version.delta.hive.connector>0.6.0</version.delta.hive.connector>
 
 <!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
         <version.spark>3.4.0</version.spark>
@@ -69,7 +69,9 @@
         <version.hadoop>3.3.4</version.hadoop>
         <version.neo4j>4.1.5_for_spark_3</version.neo4j>
         <version.aws.sdk.bundle>1.12.262</version.aws.sdk.bundle>
-        <version.baton>0.2.0</version.baton>
+        <version.baton>1.0.0</version.baton>
+        <version.quarkus.cucumber>0.6.0</version.quarkus.cucumber>
+        <version.quarkus.cucumber.java>7.4.1</version.quarkus.cucumber.java>
 
         <!-- ***************** -->
         <!-- Repository Deployment URLs - mostly in aissemble-root -->
@@ -121,6 +123,7 @@
         <dockerImageVersion>${project.version}</dockerImageVersion>
 
         <!-- Helm chart repository -->
+        <aissemble.helm.repo.protocol>oci</aissemble.helm.repo.protocol>
         <aissemble.helm.repo>ghcr.io/boozallen</aissemble.helm.repo>
         <aissemble.helm.repo.name>ghcr.io</aissemble.helm.repo.name>
 
@@ -128,6 +131,7 @@
         <group.helm.plugin>org.technologybrewery</group.helm.plugin>
         <version.helm.plugin>6.14.3</version.helm.plugin>
         <version.helm.min>3.12.0</version.helm.min>
+        <version.snakeyaml>2.0</version.snakeyaml>
     </properties>
 
     <dependencyManagement>
@@ -423,7 +427,7 @@
                                 <operatorAndVersion>${version.aissemble}</operatorAndVersion>
                             </packageDefinition>
                             <packageDefinition>
-                                <packageName>foundation-model-lineage</packageName>
+                                <packageName>aissemble-foundation-model-lineage</packageName>
                                 <operatorAndVersion>${version.aissemble}</operatorAndVersion>
                             </packageDefinition>
                             <packageDefinition>
@@ -487,6 +491,8 @@
                                 <operatorAndVersion>~${version.sedona}</operatorAndVersion>
                             </packageDefinition>
                         </managedDependencies>
+                        <sourceFailOnLintErrors>false</sourceFailOnLintErrors>
+                        <testFailOnLintErrors>false</testFailOnLintErrors>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -879,7 +885,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>${version.license.plugin}</version>
             </plugin>
 
             <!-- Set properties containing the scm revision -->
@@ -929,6 +934,7 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                                 <decryptPassword>false</decryptPassword>
                                 <rewriteLocalPathDepsInArchives>true</rewriteLocalPathDepsInArchives>
                                 <addPypiRepoAsPackageSources>false</addPypiRepoAsPackageSources>
+                                <useDevRepository>true</useDevRepository>
                             </configuration>
                         </plugin>
                         <plugin>
@@ -963,51 +969,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
             </build>
         </profile>
 
-        <!-- The profile aiops-release must be active when a project is released.
-            The configuration in this POM will automatically call this profile if using
-            the maven-release-plugin. If the maven-release-plugin is not used during
-            the release, this profile must be manually activated. -->
-        <profile>
-            <id>aiops-release</id>
-            <build>
-                <plugins>
-                    <!-- Create a source-release artifact that contains the fully buildable
-                        project directory source structure. This should be released to the Maven
-                        repository for each AIOps project release. -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>doclint-java8-disable</id>
             <activation>
@@ -1077,6 +1038,24 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
             <properties>
                 <hide.manual.actions>true</hide.manual.actions>
             </properties>
+        </profile>
+        <profile>
+            <id>arm64</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.technologybrewery.habushu</groupId>
+                            <artifactId>habushu-maven-plugin</artifactId>
+                            <version>${version.habushu.plugin}</version>
+                            <configuration>
+                                <!-- we don't need to deploy "any" wheel artifacts twice: -->
+                                <skipDeploy>true</skipDeploy>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
     </profiles>
 

@@ -1,4 +1,4 @@
-# aiSSEMBLE Apache Kafka Helm Chart
+# aiSSEMBLE&trade; Apache Kafka Helm Chart
 Baseline Helm chart for packaging and deploying Kafka. Built on the [Bitnami Helm chart](https://bitnami.com/stack/kafka/helm) and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI
@@ -41,7 +41,7 @@ Several properties that used to be free-form name/value pairs within the `env` b
 In the table below, the notation `env[KEY]` refers the `env` list item whose `name` value was `key`.
 
 
-**Note**: *all new property locations include the prefix `aissemble-kafka.kafka`*
+**Note**: *all new property locations include the prefix `aissemble-kafka-chart.kafka`*
 
 | Old Property Location                     | New Property Location       | Additional Notes                                                                                                           |
 |-------------------------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------|

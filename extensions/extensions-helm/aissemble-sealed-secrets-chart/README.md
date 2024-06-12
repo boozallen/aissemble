@@ -1,4 +1,4 @@
-# aiSSEMBLE SealedSecrets Helm Chart
+# aiSSEMBLE&trade; SealedSecrets Helm Chart
 
 Baseline Helm chart for packaging and deploying SealedSecrets. Built on the [official Helm chart](https://github.com/bitnami-labs/sealed-secrets/tree/main/helm/sealed-secrets) and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
@@ -13,6 +13,7 @@ helm install sealed-secrets ghcr.io/boozallen/aissemble-sealed-secrets-chart --v
 # Overridden Defaults
 
 The following properties are inherited from the [base SealedSecrets chart](https://github.com/bitnami-labs/sealed-secrets/tree/main/helm/sealed-secrets), but with updated default values.
+
 | Property             | Description                                      | Required Override | Default                             |
 |----------------------|--------------------------------------------------|-------------------|-------------------------------------|
 | fullnameOverride     | String to fully override sealed-secrets.fullname | No                | aissemble-sealed-secrets-controller |

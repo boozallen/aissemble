@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>extensions-helm</artifactId>
@@ -30,6 +30,7 @@
         <module>aissemble-lineage-http-consumer-chart</module>
         <module>aissemble-jenkins-chart</module>
         <module>extensions-helm-pipeline-invocation</module>
+        <module>extensions-helm-spark-infrastructure</module>
         <module>aissemble-policy-decision-point-chart</module>
         <module>aissemble-mlflow-chart</module>
         <module>aissemble-localstack-chart</module>
@@ -61,16 +62,43 @@
             </properties>
         </profile>
         <profile>
-            <id>ci</id>
+            <id>release</id>
             <properties>
                 <overwrite.dependencies>true</overwrite.dependencies>
             </properties>
+        </profile>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>${group.helm.plugin}</groupId>
+                            <artifactId>helm-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>simulates-an-install</id>
+                                    <phase>integration-test</phase>
+                                    <goals>
+                                        <goal>dry-run</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
     </profiles>
 
     <build>
         <pluginManagement>
             <plugins>
+                <!--
+                    Especially when configuring OCI, this plugin can be a bit confusing and messy.  We will endeavour
+                    to help fix that, but for now be aware that OCI/push makes this more difficult to follow.  Recommend
+                    looking at the source directly for push before making any changes:
+                 -->
                 <plugin>
                     <groupId>${group.helm.plugin}</groupId>
                     <artifactId>helm-maven-plugin</artifactId>
@@ -83,6 +111,9 @@
                                 <goal>dependency-update</goal>
                             </goals>
                         </execution>
+                        <!--
+                            dry run doesn't seem necessary for normal ops, but you can add it
+                            by uncommenting this out, if needed:
                         <execution>
                             <id>simulates-an-install</id>
                             <phase>integration-test</phase>
@@ -90,18 +121,28 @@
                                 <goal>dry-run</goal>
                             </goals>
                         </execution>
+                        -->
+                        <execution>
+                            <id>deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
                     </executions>
                     <configuration>
-                        <skipInit>true</skipInit>
                         <appVersion>${project.version}</appVersion>
                         <chartDirectory>${project.basedir}</chartDirectory>
                         <namespace>default</namespace>
                         <templateGenerateName>true</templateGenerateName>
                         <skip>${skip.helm}</skip>
-                        <skipTemplate>false</skipTemplate>
                         <skipDependencyBuild>true</skipDependencyBuild>
+                        <skipInit>false</skipInit>
+                        <skipTemplate>false</skipTemplate>
+                        <!-- For OCI, we need push versus upload: -->
+                        <skipUpload>true</skipUpload>
                         <overwriteLocalDependencies>${overwrite.dependencies}</overwriteLocalDependencies>
-                        <overwriteDependencyRepository>${aissemble.helm.repo}</overwriteDependencyRepository>
+                        <overwriteDependencyRepository>${aissemble.helm.repo.protocol}://${aissemble.helm.repo}</overwriteDependencyRepository>
                         <overwriteDependencyVersion>${project.version}</overwriteDependencyVersion>
                         <uploadVerification>true</uploadVerification>
                         <uploadVerificationTimeout>120</uploadVerificationTimeout>
@@ -115,10 +156,7 @@
                         </uploadRepoSnapshot>
                         <lintStrict>true</lintStrict>
                         <helmExtraRepos>
-                            <helmRepo>
-                                <name>${aissemble.helm.repo.name}</name>
-                                <url>${aissemble.helm.repo}</url>
-                            </helmRepo>
+                            <!-- No ghcr.io repo here b/c it is oci:// -->
                             <helmRepo>
                                 <name>bitnami</name>
                                 <url>https://charts.bitnami.com/bitnami</url>
@@ -172,6 +210,31 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <!-- Allows us to replace image tags with the aissemble version without manual updates to values.yaml -->
+                <plugin>
+                    <groupId>com.google.code.maven-replacer-plugin</groupId>
+                    <artifactId>replacer</artifactId>
+                    <version>1.5.3</version>
+                    <executions>
+                        <execution>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>replace</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <basedir>${project.basedir}</basedir>
+                        <file>values.template.yaml</file>
+                        <outputFile>values.yaml</outputFile>
+                        <replacements>
+                            <replacement>
+                                <token>@version.aissemble@</token>
+                                <value>${project.version}</value>
+                            </replacement>
+                        </replacements>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

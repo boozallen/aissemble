@@ -1,4 +1,4 @@
-# aiSSEMBLE Spark Operator Helm Chart
+# aiSSEMBLE&trade; Spark Operator Helm Chart
 Baseline Helm chart for deploying the Spark Kubernetes Operator. Chart is built and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See https://github.com/kokuwaio/helm-maven-plugin for more details.
 
 This chart is based heavily upon the original spark-On-k8s-operator upstream chart, available at https://github.com/kubeflow/spark-operator/blob/master/charts/spark-operator-chart/README.md.
@@ -32,29 +32,29 @@ What follows reflects properties in the base spark-operator chart which have bee
 you must reference the root chart in your `values.yaml` file.  For example:
 
 ```yaml
-aissemble-spark-operator:
+aissemble-spark-operator-chart:
   spark-operator:
     webhook.enable: false
 ```
 
-| Property                   | Description                        | Required Override | Default                                                                               |
-|----------------------------|------------------------------------|-------------------|---------------------------------------------------------------------------------------|
-| image.repository           | The image repository               | No                | NB: OSS: update with aissemble docker repository/boozallen/aissemble-spark-operator |
-| image.tag                  | The image tag                      | No                | Chart.Version                                                                         |
-| webhook.enable             | Enable webhook server              | No                | true                                                                                  |
-| volumes                    | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`                                                    |
-| volumeMounts               | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`                                                    |
-| fullnameOverride           | String to override release name    | No                | spark-operator                                                                        |
-| rbac.createClusterRole     | See `Migrated Properties`          | No                | false                                                                                 |
-| serviceAccounts.spark.name | Name for the spark service account | No                | spark                                                                                 |
+| Property                   | Description                        | Required Override | Default                                     |
+|----------------------------|------------------------------------|-------------------|---------------------------------------------|
+| image.repository           | The image repository               | No                | ghcr.io/boozallen/aissemble-spark-operator  |
+| image.tag                  | The image tag                      | No                | Chart.Version                               |
+| webhook.enable             | Enable webhook server              | No                | true                                        |
+| volumes                    | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`          |
+| volumeMounts               | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`          |
+| fullnameOverride           | String to override release name    | No                | spark-operator                              |
+| rbac.createClusterRole     | See `Migrated Properties`          | No                | false                                       |
+| serviceAccounts.spark.name | Name for the spark service account | No                | spark                                       |
 
 
 ## Migrated Properties
-The following properties have been migrated from the `spark-operator` subchart to the `aissemble-spark-operator` chart.
+The following properties have been migrated from the `spark-operator` subchart to the `aissemble-spark-operator-chart` chart.
 Any required overrides should be cognisant of the alternate path.  For example:
 
 ```yaml
-aissemble-spark-operator:
+aissemble-spark-operator-chart:
   rbac:
     createClusterRole: false
 ```
@@ -78,7 +78,7 @@ To disable the shared Ivy cache, set the `ivyCache.enabled` property to `false` 
 Spark Operator to remove the Ivy cache PersistentVolumeClaim.  For example:
 
 ```yaml
-aissemble-spark-operator:
+aissemble-spark-operator-chart:
   ivyCache:
     enabled: false
   spark-operator:

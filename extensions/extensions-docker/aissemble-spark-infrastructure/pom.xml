@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>aissemble-spark-infrastructure</artifactId>
@@ -50,11 +50,6 @@
             <groupId>io.delta</groupId>
             <artifactId>delta-storage</artifactId>
             <version>${version.delta}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.delta</groupId>
-            <artifactId>delta-hive-assembly_2.12</artifactId>
-            <version>${version.delta.hive.connector}</version>
         </dependency>
     </dependencies>
 

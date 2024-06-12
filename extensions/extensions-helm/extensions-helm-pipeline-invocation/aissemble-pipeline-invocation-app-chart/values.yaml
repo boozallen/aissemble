@@ -1,4 +1,4 @@
-aissemble-quarkus:
+aissemble-quarkus-chart:
   app:
     name: 'aissemble-pipeline-invocation'
   deployment:

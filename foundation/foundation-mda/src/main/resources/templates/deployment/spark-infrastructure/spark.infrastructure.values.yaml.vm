@@ -94,7 +94,7 @@ ingress:
             pathType: Prefix
             backend:
               service:
-                name: spark-history
+                name: spark-infrastructure
                 port:
                   number: 18080
 configMap:

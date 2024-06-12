@@ -1,4 +1,4 @@
-# aiSSEMBLE Elasticsearch Helm Chart
+# aiSSEMBLE&trade; Elasticsearch Helm Chart
 Baseline Helm chart for packaging and deploying Elasticsearch. Built on the [ECK Stack Helm chart](https://github.com/elastic/cloud-on-k8s/tree/main/deploy/eck-stack) and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI
@@ -9,7 +9,7 @@ helm install elasticsearch ghcr.io/boozallen/aissemble-elasticsearch-chart --ver
 **Note**: *the version should match the aiSSEMBLE project version.*
 
 # aiSSEMBLE Custom Properties
-The following properties are unique to the aissemble-elasticsearch chart and extend the functionality of the base ECK chart.
+The following properties are unique to the `aissemble-elasticsearch-chart` chart and extend the functionality of the base ECK chart.
 | Property                   | Description                          | Required Override | Default    |
 |----------------------------|--------------------------------------|-------------------|------------|
 | basicAuth.enabled          | Enable basic http auth               | No                | true       |

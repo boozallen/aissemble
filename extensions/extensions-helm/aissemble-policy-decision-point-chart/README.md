@@ -1,4 +1,4 @@
-# aiSSEMBLE Policy Decision Point Helm Chart
+# aiSSEMBLE&trade; Policy Decision Point Helm Chart
 Baseline Helm chart for packaging and deploying policy decision point service. Chart is built and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See https://github.com/kokuwaio/helm-maven-plugin for more details. 
 
 # Basic usage with Helm CLI
@@ -11,12 +11,12 @@ helm install policy-decision-point ghcr.io/boozallen/aissemble-policy-decision-p
 # Properties
 | Property                      | Description                                 | Required Override | Default                                                                            |
 |-------------------------------|---------------------------------------------|-------------------|------------------------------------------------------------------------------------|
-| app.name                      | Sets label for app.kubernetes.io/name       | No                | Chart.Name (aissemble-policy-decision-point)                                       |
+| app.name                      | Sets label for app.kubernetes.io/name       | No                | Chart.Name (aissemble-policy-decision-point-chart)                                 |
 | app.version                   | Sets label for app.kubernetes.io/version    | No                | Chart.AppVersion (aiSSEMBLE project version)                                       |
 | hostname                      | The hostname for the application            | No                | policy-decision-point                                                              |
 | image.name                    | The image name                              | Yes               | boozallen/aissemble-policy-decision-point                                          |
 | image.imagePullPolicy         | The image pull policy                       | No                | Always (ensures local docker image is pulled, rather than from Nexus repo)         |
-| image.dockerRepo              | The image docker repository                 | No                | NB: OSS: update with aissemble docker repository                                   |
+| image.dockerRepo              | The image docker repository                 | No                | ghcr.io/                                                                           |
 | image.tag                     | The image tag                               | No                | Chart.AppVersion                                                                   |
 | service.spec.ports            | The service spec ports                      | No                | - name: rest-api <br/>&emsp;&emsp;port: 8080 <br/>&emsp;&emsp;targetPort: 8080     |
 | deployment.ports              | The deployment ports                        | No                | - name: http-1 <br/>&emsp;&emsp;containerPort: 8080 <br/>&emsp;&emsp;protocol: TCP |
@@ -30,16 +30,16 @@ All properties listed below have been moved to the parent chart. If any properti
 
 | Old Property Location                      | New Property Location                                                   |                                                                                                                                                                       
 |--------------------------------------------|-------------------------------------------------------------------------|
-| app.name                                   | aissemble-policy-decision-point.app.name                                |                                                                                                                                 
-| app.version                                | aissemble-policy-decision-point.app.version                             |                                                                                                                                    
-| hostname                                   | aissemble-policy-decision-point.hostname                                |                                                                                                                                                           
-| image.name                                 | aissemble-policy-decision-point.image.name                              |                                                                                                                                       
-| image.imagePullPolicy                      | aissemble-policy-decision-point.image.imagePullPolicy                   |                                                                                                      
-| image.dockerRepo                           | aissemble-policy-decision-point.image.dockerRepo                        |                                                                                                                             
-| image.tag                                  | aissemble-policy-decision-point.image.tag                               |                                                                                                                                                             
-| service.spec.ports                         | aissemble-policy-decision-point.service.spec.ports                      | 
-| deployment.ports                           | aissemble-policy-decision-point.deployment.ports                        | 
-| deployment.restartPolicy                   | aissemble-policy-decision-point.deployment.restartPolicy                | 
+| app.name                                   | aissemble-policy-decision-point-chart.app.name                                |                                                                                                                                 
+| app.version                                | aissemble-policy-decision-point-chart.app.version                             |                                                                                                                                    
+| hostname                                   | aissemble-policy-decision-point-chart.hostname                                |                                                                                                                                                           
+| image.name                                 | aissemble-policy-decision-point-chart.image.name                              |                                                                                                                                       
+| image.imagePullPolicy                      | aissemble-policy-decision-point-chart.image.imagePullPolicy                   |                                                                                                      
+| image.dockerRepo                           | aissemble-policy-decision-point-chart.image.dockerRepo                        |                                                                                                                             
+| image.tag                                  | aissemble-policy-decision-point-chart.image.tag                               |                                                                                                                                                             
+| service.spec.ports                         | aissemble-policy-decision-point-chart.service.spec.ports                      | 
+| deployment.ports                           | aissemble-policy-decision-point-chart.deployment.ports                        | 
+| deployment.restartPolicy                   | aissemble-policy-decision-point-chart.deployment.restartPolicy                | 
 
 ## Property Removed
 The following properties no longer exist.

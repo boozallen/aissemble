@@ -23,7 +23,7 @@ aissemble-airflow-chart:
         # (such as the current project version) this attribute can be removed:
         worker_container_tag: latest
 
-    defaultAirflowRepository: boozallen/${projectName}-airflow-docker
+    defaultAirflowRepository: ${projectName}-airflow-docker
 
     images:
         airflow:

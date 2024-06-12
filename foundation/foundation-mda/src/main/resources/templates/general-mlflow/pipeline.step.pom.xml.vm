@@ -95,14 +95,22 @@
             </plugin>
 
             <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<configuration>
-					<licenseFile>LICENSE</licenseFile>
-				</configuration>
-			</plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <licenseFile>LICENSE</licenseFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+            </plugin>
         </plugins>
     </build>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+        </dependency>
+    </dependencies>
 </project>

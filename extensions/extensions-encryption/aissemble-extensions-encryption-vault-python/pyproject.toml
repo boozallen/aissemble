@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-extensions-encryption-vault-python"
-version = "1.7.0.dev"
+version = "1.7.0"
 description = "Vault data encryption classes (python)"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
@@ -22,7 +22,7 @@ nose = ">=1.3.7"
 testcontainers = ">=3.7.1"
 setuptools = "^69.0.3"
 kappa-maki = ">=1.0.1"
-
+pylint = "^3.1.0"
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]

@@ -1,0 +1,14 @@
+= Using Standalone Poetry for Python Pipeline Development
+
+Python developers have the option to leverage standalone poetry to conveniently build and test modifications
+without needing to run full Maven builds. With poetry, developers can build and test Python-based pipeline code within
+the `<project_name>-pipelines` top-level directory.
+
+When developers wish to execute tests they've written for a particular Python pipeline, they should run the command
+`poetry run pytest` from within the `tests` directory of their pipeline. This command will execute the test suite and
+provide feedback on the test results.
+
+It's important to note that at present developers cannot directly execute Python code using the `poetry run` command
+due to relative import issues. For example, running `poetry run python file_name.py` would result in failure.
+
+Detailed Poetry command documentation can be found https://python-poetry.org/docs/cli/[here,role=external,window=_blank].

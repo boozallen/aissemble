@@ -3,7 +3,7 @@ NB: OSS: we might want to cull this entire page
 # foundation-mda
 Controls the Model Driven Architecture (MDA) process for the Solution Baseline.  MDA is a technique where high level models can be used to generalize common components of an architecture.  These models are then fed through a code generation process at build-time that will produce much of the labor intensive technical underpinnings needed to stand up a solution.
 
-For the aiSSEMBLE Solution Baseline, pipelines models allow this MDA process to create labor-intensive artifacts around the following concepts:
+For the aiSSEMBLE&trade; Solution Baseline, pipelines models allow this MDA process to create labor-intensive artifacts around the following concepts:
 * Spark / PySpark job creation and configuration
 * Docker / Kubernetes container creation and configuration
 * Machine Learning training and inference

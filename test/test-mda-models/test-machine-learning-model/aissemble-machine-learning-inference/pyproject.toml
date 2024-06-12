@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "aissemble-machine-learning-inference"
-version = "1.7.0.dev"
+version = "1.7.0"
 description = "Machine Learning Inference Test Module"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 
@@ -37,6 +37,7 @@ nose = ">=1.3.7"
 grpcio-tools = "^1.50.0"
 grpcio-testing = "^1.50.0"
 kappa-maki = ">=1.0.1"
+pylint = "^3.1.0"
 
 
 [build-system]

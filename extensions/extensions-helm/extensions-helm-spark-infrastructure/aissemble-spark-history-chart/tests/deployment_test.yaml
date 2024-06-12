@@ -1,0 +1,378 @@
+Suite: Deployment
+
+templates:
+  - deployment.yaml
+
+tests:
+  - it: Should not produce deployment document if disabled
+    set:
+      enable: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: By default, produces a deployment document
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: Deployment
+      - notFailedTemplate: {}
+
+  - it: Should apply requested labels
+    set:
+      deployment.labels.label1: label2
+    asserts:
+      - equal:
+          path: metadata.labels.label1
+          value: label2
+      - equal:
+          path: spec.template.metadata.labels.label1
+          value: label2
+      - equal:
+          path: spec.selector.matchLabels.label1
+          value: label2
+
+  - it: Should retain default label even when requesting supplemental labels
+    set:
+      deployment.labels.label1: label2
+    asserts:
+      - equal:
+          path: metadata.labels.app
+          value: RELEASE-NAME
+      - equal:
+          path: spec.template.metadata.labels.app
+          value: RELEASE-NAME
+      - equal:
+          path: spec.selector.matchLabels.app
+          value: RELEASE-NAME
+
+  - it: Should apply requested annotations
+    set:
+      deployment.annotations.annotation1: annotation2
+    asserts:
+      - equal:
+          path: metadata.annotations.annotation1
+          value: annotation2
+      - equal:
+          path: spec.template.metadata.annotations.annotation1
+          value: annotation2
+
+  - it: Should set the requested number of replicas
+    set:
+      deployment.replicas: 5
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 5
+
+  - it: Should have the expected default number of replicas
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+
+  - it: If packages are specified, the appropriate initcontainers should be requested
+    set:
+      dependencies.packages:
+        - somePackage
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "populate-jar-volume"
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "install-spark-history-packages"
+      - notContains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "install-spark-history-jars"
+
+  - it: If jars are specified, the appropriate initcontainers should be requested
+    set:
+      dependencies.jars:
+        - someJar
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "populate-jar-volume"
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "install-spark-history-jars"
+      - notContains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "install-spark-history-packages"
+
+  - it: If both jars and packages are specified, the appropriate initcontainers should be requested
+    set:
+      dependencies.packages:
+        - somePackage
+      dependencies.jars:
+        - someJar
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "populate-jar-volume"
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "install-spark-history-jars"
+      - contains:
+          path: spec.template.spec.initContainers
+          any: true
+          content:
+            name: "install-spark-history-packages"
+
+  - it: If neither jars nor packages are specified, then no initContainers should be requested
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers
+
+  - it: The same spark image is used in all locations
+    set:
+      dependencies.packages:
+        - somePackage
+      dependencies.jars:
+        - someJar
+      deployment.image.repository: "some_image"
+      deployment.image.tag: "some_tag"
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[0].image
+          value: "some_image:some_tag"
+      - equal:
+          path: spec.template.spec.initContainers[1].image
+          value: "some_image:some_tag"
+      - equal:
+          path: spec.template.spec.initContainers[2].image
+          value: "some_image:some_tag"
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "some_image:some_tag"
+
+  - it: The same imagePullPolicy is used in all locations
+    set:
+      dependencies.packages:
+        - somePackage
+      dependencies.jars:
+        - someJar
+      deployment.image.imagePullPolicy: Always
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[0].imagePullPolicy
+          value: Always
+      - equal:
+          path: spec.template.spec.initContainers[1].imagePullPolicy
+          value: Always
+      - equal:
+          path: spec.template.spec.initContainers[2].imagePullPolicy
+          value: Always
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always
+
+  - it: The jar volume population initContainer command appropriately references the mount point.
+    set:
+      dependencies.packages:
+        - somePackage
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[0].volumeMounts[0].mountPath
+          value: "/tmp/jars"
+      - matchRegex:
+          path: spec.template.spec.initContainers[0].command[-1]
+          pattern: .*/tmp/jars/$
+
+  - it: The package installation initContainer command appropriately references the mount point.
+    set:
+      dependencies.packages:
+        - somePackage
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[1].volumeMounts[0].mountPath
+          value: "/tmp/jars"
+      - matchRegex:
+          path: spec.template.spec.initContainers[1].command[8]
+          pattern: /tmp/jars/.*
+
+  - it: The jar installation initContainer command appropriately references the mount point.
+    set:
+      dependencies.jars:
+        - someJar
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[1].volumeMounts[0].mountPath
+          value: "/tmp/jars"
+      - matchRegex:
+          path: spec.template.spec.initContainers[1].command[2]
+          pattern: /tmp/jars/
+
+  - it: When specifying jar dependencies, the appropriate volumes are created and mounted
+    set:
+      dependencies.jars:
+        - someJar
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].volumeMounts
+          any: true
+          content:
+            name: "shs-jars"
+      - contains:
+          path: spec.template.spec.initContainers[1].volumeMounts
+          any: true
+          content:
+            name: "shs-jars"
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          any: true
+          content:
+            name: "shs-jars"
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content:
+            name: "shs-jars"
+
+  - it: When specifying package dependencies, the appropriate volumes are created and mounted
+    set:
+      dependencies.packages:
+        - somePackage
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].volumeMounts
+          any: true
+          content:
+            name: "shs-jars"
+      - contains:
+          path: spec.template.spec.initContainers[1].volumeMounts
+          any: true
+          content:
+            name: "shs-jars"
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          any: true
+          content:
+            name: "shs-jars"
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content:
+            name: "shs-jars"
+
+  - it: When specifying jar dependencies, each dependency is appropriately listed for download
+    set:
+      dependencies.jars:
+        - some_jar.jar
+        - another_jar.jar
+    asserts:
+# See https://github.com/helm-unittest/helm-unittest/issues/342
+#      - contains:
+#          path: spec.template.spec.initContainers[1].command
+#          any: true
+#          content: some_jar.jar
+#      - contains:
+#          path: spec.template.spec.initContainers[1].command
+#          any: true
+#          content: another_jar.jar
+#
+# Stopgap test until the above is rectified...
+      - equal:
+          path: spec.template.spec.initContainers[1].command[-2]
+          value: some_jar.jar
+      - equal:
+          path: spec.template.spec.initContainers[1].command[-1]
+          value: another_jar.jar
+
+  - it: When specifying package dependencies, each dependency is properly listed for download
+    set:
+      dependencies.packages:
+        - group:artifact:version
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[1].command[-3]
+          value: group
+      - equal:
+          path: spec.template.spec.initContainers[1].command[-2]
+          value: artifact
+      - equal:
+          path: spec.template.spec.initContainers[1].command[-1]
+          value: version
+
+  - it: When a command is unspecified, the default is applied
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].command
+          value: ["/opt/spark/sbin/start-history-server.sh"]
+
+  - it: When a command specified, it is applied to the main container
+    set:
+      deployment.command: ["test"]
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].command
+          value: ["test"]
+
+  - it: Environment variables are appropriately converted from a mapping to an array in the necessary format
+    set:
+      deployment.env:
+        myKey: myValue
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          any: true
+          content:
+            name: myKey
+            value: myValue
+
+  - it: Environment variables can be specified from secrets
+    set:
+      deployment.envFromSecret:
+        myVar:
+          secretName: secret_name
+          key: secret_key
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          any: true
+          content:
+            name: myVar
+            valueFrom:
+              secretKeyRef:
+                name: secret_name
+                key: secret_key
+
+  - it: The appropriate containerPort is exposed to reach Spark History (18080)
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          any: true
+          content:
+            containerPort: 18080
+
+  - it: The appropriate default port name is applied for the SHS port
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].ports[0].name
+          value: "shs-http"
+
+  - it: The port name for the SHS port can be customized
+    set:
+      service.port.name: port-name
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].ports[0].name
+          value: "port-name"

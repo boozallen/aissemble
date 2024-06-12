@@ -7,10 +7,14 @@ package com.boozallen.aiops.mda.generator;/*-
  * This software package is licensed under the Booz Allen Public License. All Rights Reserved.
  * #L%
  */
+
+import com.boozallen.aiops.mda.generator.util.PipelineUtils;
+
 import com.boozallen.aiops.mda.metamodel.element.AbstractModelInstanceSteps;
+import com.boozallen.aiops.mda.metamodel.element.BaseStepDecorator;
+import com.boozallen.aiops.mda.metamodel.element.RecordElement;
 import com.boozallen.aiops.mda.metamodel.element.BasePipelineDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
-import com.boozallen.aiops.mda.metamodel.element.RecordElement;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonRecord;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -97,13 +101,9 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
     public void the_profile_is_generated(String profileName) throws Exception {
         readMetadata(projectName);
         Map<String, ExpandedProfile> profiles = loadProfiles();
-        GenerateSourcesHelper.performSourceGeneration(profileName, profiles,
-                this::createGenerationContext,
-                (missingProfile, foundProfiles) -> {
-                    throw new RuntimeException("Missing profile: " + missingProfile);
-                },
-                new Slf4jDelegate(logger),
-                projectDir.toFile());
+        GenerateSourcesHelper.performSourceGeneration(profileName, profiles, this::createGenerationContext, (missingProfile, foundProfiles) -> {
+            throw new RuntimeException("Missing profile: " + missingProfile);
+        }, new Slf4jDelegate(logger), projectDir.toFile());
     }
 
     @Then("a semantic-data module is generated with {string} under {string}")
@@ -137,13 +137,27 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
     @Then("no module is generated under {string}")
     public void no_module_is_generated_under(String moduleName) {
         Path module = projectDir.resolve(moduleName);
-        assertTrue("Language-specific module created when existing module should have been reused: " + moduleName,
-                Files.notExists(module));
+        assertTrue("Language-specific module created when existing module should have been reused: " + moduleName, Files.notExists(module));
     }
 
     @Then("the pipeline POM has a dependency on {string}")
     public void the_pipeline_pom_has_a_dependency_on(String dataModule) throws Exception {
         the_pipeline_pom_has_a_dependency_on(pipeline.getName(), dataModule);
+    }
+
+    @Then("the pipeline POM has the plugin {string}")
+    public void the_pipeline_pom_has_the_plugin(String plugin) throws Exception {
+        the_pipeline_pom_has_the_plugin(pipeline.getName(), plugin);
+    }
+
+    @Then("the pipeline's child POMs have a dependency on {string}")
+    public void the_pipelines_child_poms_have_a_dependency_on(String dataModule) throws Exception {
+        the_pipeline_child_poms_have_a_dependency_on(pipeline.getName(), dataModule);
+    }
+
+    @Then("the pipeline's child POMs has the plugin {string}")
+    public void the_pipelines_child_poms_have_the_plugin(String plugin) throws Exception {
+        the_pipeline_child_poms_have_the_plugin(pipeline.getName(), plugin);
     }
 
     @Then("{string} has a dependency on {string}")
@@ -154,6 +168,15 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         assertTrue("Dependency " + dependency + " not found in " + pom, hasDependency);
     }
 
+    @Then("{string} has the plugin {string}")
+    public void has_the_plugin(String module, String plugin) throws Exception {
+        Path pom = projectDir.resolve(module).resolve("pom.xml");
+        assertTrue("File not created: " + pom, Files.exists(pom) && Files.isRegularFile(pom));
+        boolean hasPlugin = queryPom(pom, "/project/build/plugins/plugin/artifactId", plugin);
+        assertTrue("Plugin " + plugin + " not found in " + pom, hasPlugin);
+
+    }
+
     @Then("the {string} pipeline POM has a dependency on {string}")
     public void the_pipeline_pom_has_a_dependency_on(String pipelineName, String dataModule) throws Exception {
         Pipeline pipeline = pipelines.get(pipelineName);
@@ -161,12 +184,36 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         has_a_dependency_on(decoratedPipeline.deriveArtifactIdFromCamelCase(), dataModule);
     }
 
+    @Then("the {string} pipeline child POMs have a dependency on {string}")
+    public void the_pipeline_child_poms_have_a_dependency_on(String pipelineName, String dataModule) throws Exception {
+        Pipeline pipeline = pipelines.get(pipelineName);
+        BasePipelineDecorator decoratedPipeline = new BasePipelineDecorator(pipeline);
+        for (BaseStepDecorator step : decoratedPipeline.getSteps()) {
+            has_a_dependency_on(PipelineUtils.deriveArtifactIdFromCamelCase(step.getName()), dataModule);
+        }
+    }
+
+    @Then("the {string} pipeline POM has the plugin {string}")
+    public void the_pipeline_pom_has_the_plugin(String pipelineName, String dataModule) throws Exception {
+        Pipeline pipeline = pipelines.get(pipelineName);
+        BasePipelineDecorator decoratedPipeline = new BasePipelineDecorator(pipeline);
+        has_the_plugin(decoratedPipeline.deriveArtifactIdFromCamelCase(), dataModule);
+    }
+
+    @Then("the {string} pipeline child POMs have the plugin {string}")
+    public void the_pipeline_child_poms_have_the_plugin(String pipelineName, String dataModule) throws Exception {
+        Pipeline pipeline = pipelines.get(pipelineName);
+        BasePipelineDecorator decoratedPipeline = new BasePipelineDecorator(pipeline);
+        for (BaseStepDecorator step : decoratedPipeline.getSteps()) {
+            has_the_plugin(PipelineUtils.deriveArtifactIdFromCamelCase(step.getName()), dataModule);
+        }
+    }
+
     @Then("the pyproject.toml file has a dependency on {string}")
     public void the_pyproject_toml_file_has_a_dependency_on(String dataModule) throws IOException {
         Path pyproject = projectDir.resolve("pyproject.toml");
         Pattern monoRepoPattern = Pattern.compile(dataModule + " *= *\\{path *= \".*?" + dataModule + "\".*?}");
-        boolean hasDependency = Files.lines(pyproject)
-                .anyMatch(monoRepoPattern.asMatchPredicate());
+        boolean hasDependency = Files.lines(pyproject).anyMatch(monoRepoPattern.asMatchPredicate());
         assertTrue("Dependency " + dataModule + " not found in " + pyproject, hasDependency);
     }
 
@@ -230,8 +277,7 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         Map<String, Map<String, Notification>> notifications = NotificationCollector.getNotifications();
         assertTrue("No notifications for file " + file, notifications.containsKey(file));
         Map<String, Notification> fileNotifications = notifications.get(file);
-        assertTrue("No notifications of type " + notificationType + " for " + file,
-                fileNotifications.containsKey(file + "_" + notificationType));
+        assertTrue("No notifications of type " + notificationType + " for " + file, fileNotifications.containsKey(file + "_" + notificationType));
         return fileNotifications.get(file + "_" + notificationType);
     }
 
@@ -240,7 +286,7 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
      * expected content.
      *
      * @param pom     the POM file
-     * @param query    the XPath query
+     * @param query   the XPath query
      * @param content the expected content
      * @return true if the content is found
      * @throws Exception if the POM cannot be read

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>aissemble-spark</artifactId>
@@ -57,31 +57,6 @@
                         <configuration>
                             <stripVersion>false</stripVersion>
                             <excludeArtifactIds>jboss-annotations-api_1.3_spec,jakarta.activation-api,javax.annotation-api,jboss-jaxb-api_2.3_spec,foundation-messaging-python-service,foundation-messaging-java,foundation-core-java</excludeArtifactIds>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>extensions-docker-cacerts</artifactId>
-                                    <version>${project.version}</version>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/cacerts</outputDirectory>
-                                    <type>zip</type>                               
-                                </artifactItem>
-                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>

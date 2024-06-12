@@ -29,7 +29,6 @@ import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
 import io.smallrye.reactive.messaging.providers.connectors.InMemorySink;
 import com.boozallen.aiops.mda.pattern.pipeline.PipelineBase;
 import com.boozallen.aiops.mda.pattern.Ingest;
-import com.boozallen.aiops.data.lineage.RunEvent;
 import com.boozallen.aissemble.common.Constants;
 
 import org.apache.hadoop.shaded.com.google.gson.JsonObject;

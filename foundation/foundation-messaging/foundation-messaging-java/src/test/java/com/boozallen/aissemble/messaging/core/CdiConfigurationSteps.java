@@ -22,7 +22,7 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.boozallen.aiops.core.cdi.CdiContainer;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
 
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;

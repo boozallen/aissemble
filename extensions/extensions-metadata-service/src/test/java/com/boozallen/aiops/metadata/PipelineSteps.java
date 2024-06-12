@@ -10,8 +10,8 @@ package com.boozallen.aiops.metadata;
  * #L%
  */
 
-import com.boozallen.aiops.core.metadata.MetadataAPI;
-import com.boozallen.aiops.core.metadata.MetadataModel;
+import com.boozallen.aissemble.core.metadata.MetadataAPI;
+import com.boozallen.aissemble.core.metadata.MetadataModel;
 import com.boozallen.aiops.metadata.hive.HiveMetadataAPIService;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

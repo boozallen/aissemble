@@ -1,0 +1,28 @@
+{{ if and .Values.enable .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-sts-ingress
+  {{- with .Values.ingress.metadata.annotations }}
+  annotations:
+  {{- toYaml . | nindent 8 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  rules:
+    {{- $releasename := printf "%s-service" .Release.Name }}
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ .backend.service.name | default $releasename }}
+                port:
+                  number: {{ .backend.service.port.number }}
+          {{- end }}
+    {{- end }}
+{{ end }}
