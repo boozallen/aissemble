@@ -1,5 +1,8 @@
 # aiSSEMBLE&trade;
 [![Documentation](https://img.shields.io/badge/documentation-GitHub_Pages-blue)](https://boozallen.github.io/aissemble/aissemble/current/index.html)
+[![Maven Central](https://img.shields.io/maven-central/v/com.boozallen.aissemble/aissemble-root.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.boozallen.aissemble%22%20AND%20a%3A%22aissemble-root%22)
+![PyPI](https://img.shields.io/pypi/v/aissemble-foundation-core-python?logo=python&logoColor=gold)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aissemble-foundation-core-python?logo=python&logoColor=gold)
 [![Publish to GitHub Pages](https://github.com/boozallen/aissemble/actions/workflows/publish.yml/badge.svg)](https://github.com/boozallen/aissemble/actions/workflows/publish.yml)
 ## aiSSEMBLE Overview
 
