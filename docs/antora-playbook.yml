@@ -8,6 +8,7 @@ content:
     - url: https://github.com/boozallen/aissemble.git
       branches:
         - dev
+        - docs-*
       start_path: docs
 ui:
   bundle:

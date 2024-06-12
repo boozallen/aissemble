@@ -121,7 +121,7 @@ To invoke the GraphQL query, you will need to do so via a REST API call.
 *Return*
 [cols="1,1"]
 |===
-|`{record-name}` records.
+|`\{record-name}` records.
 |List of records. The record will be based on your record metamodel.
 |===
 

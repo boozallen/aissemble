@@ -114,6 +114,7 @@ A health check endpoint that returns http `200` if the invocation service is up 
 |*Name* | *Description*
 | None
 | Not Applicable
+|===
 ====
 
 Alternatively, you may emit a message through your message broker to the topic pipeline-invocation using the same body
