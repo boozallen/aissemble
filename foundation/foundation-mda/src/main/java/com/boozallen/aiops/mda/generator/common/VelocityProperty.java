@@ -35,6 +35,7 @@ public final class VelocityProperty {
      * Captures the utilized version of aiSSEMBLE as a Python dependency version that
      * may be used in a Poetry pyproject.toml or pip requirements.txt specification
      */
+    public static final String AISSEMBLE_VERSION = "aissembleVersion";
     public static final String AISSEMBLE_PYTHON_VERSION = "aissemblePythonVersion";
     public static final String PIPELINE = "pipeline";
     public static final String PIPELINES = "pipelines";
