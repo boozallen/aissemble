@@ -393,7 +393,7 @@ In order to include this API in your project, include an execution in your deplo
 
 Here are the available routes:
 
-POST /training-jobs?pipeline_step={pipelineStep}
+POST /training-jobs?pipeline_step=\{pipelineStep}
 
 * `pipelineStep` is the name of the "training" ML pipeline step you would like to execute
 ** Must be CamelCased
@@ -405,7 +405,7 @@ POST /training-jobs?pipeline_step={pipelineStep}
 ** Returns model training job name
 *** Sample response: "model-training-logistic-training-a8bfa39b-aa2b-403c-8311-f40dda"
 
-GET /training-jobs/{trainingJobName}
+GET /training-jobs/\{trainingJobName}
 
 * Returns logs from pod running model training job
 * Returns 400 error if job doesn't exist
@@ -440,7 +440,7 @@ GET /training-jobs
 ----
 
 
-GET /training-jobs?pipeline_step={pipelineStep}
+GET /training-jobs?pipeline_step=\{pipelineStep}
 
 * `pipelineStep` is the name of the "training" ML pipeline step you would like to execute
 ** Must be CamelCased
@@ -471,7 +471,7 @@ GET /training-jobs?pipeline_step={pipelineStep}
             'None}}'}]
 ----
 
-DELETE /training-jobs/{trainingJobName}
+DELETE /training-jobs/\{trainingJobName}
 
 * Deletes specified Kubernetes job
 * Returns 500 error if job does not exist
@@ -508,7 +508,7 @@ S3 with the provided bucket and prefix.
 ** If the job fails, a failure message will be logged to MLflow as an "error.txt" file.
 ** If the job succeeds, resulting model artifacts will be downloaded and logged to MLflow.
 
-GET /{sagemaker_job_name}
+GET /\{sagemaker_job_name}
 
 * Retrieves the status of a specific SageMaker training job.
 * Parameters:
