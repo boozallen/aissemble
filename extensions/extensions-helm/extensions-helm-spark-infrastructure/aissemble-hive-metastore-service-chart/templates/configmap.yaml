@@ -4,10 +4,10 @@ metadata:
   name: metastore-service-config
 data:
   # Add all the default properties from the local values.yaml to the ConfigMap
-  # Then check if theres any downstream properties and add them as well
+  # Then check if there are any downstream properties and add them as well
   metastore-site.xml: |
     <configuration>
-    {{- range $property := .Values.configMap.metastoreServiceConfig.properties }}
+    {{- range $property := .Values.configMap.metastoreServiceConfig.baseProperties }}
       <property>
         <name>{{ $property.name }}</name>
         <value>{{ $property.value }}</value>
@@ -18,8 +18,8 @@ data:
       </property>
     {{- end }}
 
-    {{- if .Values.configMap.metastoreServiceConfig.additionalProperties }}
-      {{- range $property := .Values.configMap.metastoreServiceConfig.additionalProperties }}
+    {{- if .Values.configMap.metastoreServiceConfig.properties }}
+      {{- range $property := .Values.configMap.metastoreServiceConfig.properties }}
       <property>
         <name>{{ $property.name }}</name>
         <value>{{ $property.value }}</value>

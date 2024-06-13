@@ -35,4 +35,7 @@ dependencies:
   - name: aissemble-thrift-server-chart
     version: ${versionTag}
     repository: oci://ghcr.io/boozallen
+  - name: aissemble-hive-metastore-service-chart
+    version: ${versionTag}
+    repository: oci://ghcr.io/boozallen
 
