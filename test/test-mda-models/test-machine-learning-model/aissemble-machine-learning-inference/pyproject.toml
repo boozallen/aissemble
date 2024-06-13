@@ -1,6 +1,3 @@
-# GENERATED STUB - PLEASE ***DO*** MODIFY
-# Originally generated from templates/inference/pyproject.toml.vm.
-
 [tool.poetry]
 name = "aissemble-machine-learning-inference"
 version = "1.8.0.dev"

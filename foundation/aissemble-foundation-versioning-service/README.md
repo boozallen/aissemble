@@ -1,4 +1,8 @@
-## aiSSEMBLE&trade; Versioning
+## aiSSEMBLE&trade; Foundation Versioning
+
+[![PyPI](https://img.shields.io/pypi/v/aissemble-foundation-versioning-service?logo=python&logoColor=gold)](https://pypi.org/project/aissemble-foundation-versioning-service/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aissemble-foundation-versioning-service?logo=python&logoColor=gold)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/aissemble-foundation-versioning-service?logo=python&logoColor=gold)
 
 This module contains the implementation for the aiSSEMBLE versioning service. The service provides the ability to version artifacts produced by a Solution Baseline machine-learning pipeline, and uses Maven to package and deploy the artifacts to Nexus.
 
