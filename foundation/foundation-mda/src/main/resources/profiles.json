@@ -290,7 +290,9 @@
 			{
 				"name": "spark-infrastructure-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "Due to ongoing effort to create a Spark Infrastructure v2 chart and subsequent incompatibilities, v1 cannot be upgraded beyond version 1.7.x."
 	},
 	{
 		"name": "aissemble-spark-infrastructure-deploy-v2",
@@ -1077,7 +1079,9 @@
 			{
 				"name": "hive-metastore-service-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "Due to ongoing effort to create a Hive v2 chart and subsequent incompatibilities, v1 cannot be upgraded beyond version 1.7.x"
 	},
 	{
 		"name": "hive-metastore-service-deploy-v2",

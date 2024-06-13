@@ -16,7 +16,9 @@
 	<modules>
         <module>aissemble-spark-history-chart</module>
         <module>aissemble-thrift-server-chart</module>
+        <module>aissemble-hive-metastore-service-chart</module>
 	</modules>
+
     <build>
         <plugins>
 <!--            Disable unit testing on aggregator modules -->

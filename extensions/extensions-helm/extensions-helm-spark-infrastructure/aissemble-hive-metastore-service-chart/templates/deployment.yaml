@@ -33,17 +33,28 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 12}}
       {{- end }}
-      {{- with .Values.deployment.initContainers }}
       initContainers:
-        {{- toYaml . | nindent 12 }}
-      {{- end }}
+        - name: "init-or-upgrade-schema"
+          image: {{ .Values.image.dockerRepo }}{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/opt/hive/bin/schematool"
+            - "-dbType"
+            - {{ .Values.hive.dbType }}
+            - "-initOrUpgradeSchema"
+            - "--verbose"
+          volumeMounts:
+          - name: metastore-service-config
+            mountPath: /opt/hive/conf/metastore-site.xml
+            subPath: metastore-site.xml
       containers:
         - name: {{ .Values.app.name | default .Chart.Name }}
           image: {{ .Values.image.dockerRepo }}{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-          {{- with .Values.deployment.env }}
           env:
-            {{- toYaml . | nindent 12 }}
+            {{- toYaml .Values.deployment.baseEnv | nindent 12}}
+          {{- if .Values.deployment.env}}
+            {{- toYaml .Values.deployment.env | nindent 12 }}
           {{- end }}
           {{- with .Values.deployment.args }}
           args:

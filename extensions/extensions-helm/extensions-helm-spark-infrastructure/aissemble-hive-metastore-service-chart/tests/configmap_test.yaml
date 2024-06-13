@@ -33,26 +33,12 @@ tests:
                   <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
                   <description>JDBC connect string for a JDBC metastore</description>
                 </property>
-                <property>
-                  <name>javax.jdo.option.ConnectionUserName</name>
-                  <value>hive</value>
-                  <description>Username to use against metastore database</description>
-                </property>
-                <property>
-                  <name>javax.jdo.option.ConnectionPassword</name>
-                  <value>hive</value>
-                  <description>Password to use against metastore database</description>
-                </property>
-                <property>
-                  <name>metastore.warehouse.dir</name>
-                  <value>s3a://spark-infrastructure/warehouse</value>
-                </property>
               </configuration>
   - it: Should override default properties appropriately
     set:
       configMap:
         metastoreServiceConfig:
-          properties:
+          baseProperties:
             - name: propertyName1
               value: value1
     asserts:
@@ -70,7 +56,7 @@ tests:
     set:
       configMap:
         metastoreServiceConfig:
-          additionalProperties:
+          properties:
             - name: propertyName1
               value: value1
               description: Optional description
@@ -103,20 +89,6 @@ tests:
                   <name>javax.jdo.option.ConnectionURL</name>
                   <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
                   <description>JDBC connect string for a JDBC metastore</description>
-                </property>
-                <property>
-                  <name>javax.jdo.option.ConnectionUserName</name>
-                  <value>hive</value>
-                  <description>Username to use against metastore database</description>
-                </property>
-                <property>
-                  <name>javax.jdo.option.ConnectionPassword</name>
-                  <value>hive</value>
-                  <description>Password to use against metastore database</description>
-                </property>
-                <property>
-                  <name>metastore.warehouse.dir</name>
-                  <value>s3a://spark-infrastructure/warehouse</value>
                 </property>
                 <property>
                   <name>propertyName1</name>

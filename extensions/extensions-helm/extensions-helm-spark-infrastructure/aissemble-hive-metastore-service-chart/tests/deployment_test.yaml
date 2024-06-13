@@ -8,7 +8,7 @@ tests:
           of: Deployment
       - equal:
           path: metadata.name
-          value: aissemble-hive-metastore-service-chart
+          value: hive-metastore-service
       - equal:
           path: spec.template.spec.automountServiceAccountToken
           value: false
@@ -24,28 +24,18 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: HADOOP_HOME
-            value: /opt/hadoop-3.3.6
-      - contains:
-          path: spec.template.spec.containers[0].env
-          content:
             name: HADOOP_CLASSPATH
-            value: $HADOOP_CLASSPATH:/opt/hadoop-3.3.6/share/hadoop/tools/lib/*.jar
+            value: $HADOOP_CLASSPATH:/opt/hadoop/share/hadoop/tools/lib/*.jar
       - contains:
           path: spec.template.spec.containers[0].env
           content:
             name: JAVA_HOME
-            value: /usr/local/openjdk-11
-      - contains:
-          path: spec.template.spec.containers[0].env
-          content:
-            name: HIVE_HOME
-            value: /opt/apache-hive-metastore-3.0.0-bin
+            value: /opt/jre
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
           content:
             name: metastore-service-config
-            mountPath: /opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml
+            mountPath: /opt/hive/conf/metastore-site.xml
             subPath: metastore-site.xml
       - contains:
           path: spec.template.spec.volumes

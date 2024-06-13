@@ -12,11 +12,11 @@ aissemble-thrift-server-chart:
   deployment:
     envFromSecret:
       AWS_ACCESS_KEY_ID:
-        secretName: aws-s3-credentials
-        key: aws_access_key_id
+        secretName: remote-auth-config
+        key: AWS_ACCESS_KEY_ID
       AWS_SECRET_ACCESS_KEY:
-        secretName: aws-s3-credentials
-        key: aws_secret_access_key
+        secretName: remote-auth-config
+        key: AWS_SECRET_ACCESS_KEY
 
   sparkConf: |
     spark.hadoop.fs.s3a.endpoint=http://s3-local:4566
@@ -40,3 +40,33 @@ aissemble-thrift-server-chart:
              <description>Creates necessary schema on a startup if one does not exist</description>
          </property>
      </configuration>
+
+aissemble-hive-metastore-service-chart:
+  deployment:
+    env:
+      - name: AWS_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: remote-auth-config
+            key: AWS_SECRET_ACCESS_KEY
+      - name: AWS_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: remote-auth-config
+            key: AWS_ACCESS_KEY_ID
+
+  configMap:
+    metastoreServiceConfig:
+      properties:
+        - name: javax.jdo.option.ConnectionUserName
+          value: hive
+          description: Username to use against metastore database
+        - name: javax.jdo.option.ConnectionPassword
+          value: hive
+          description: Password to use against metastore database
+        - name: metastore.warehouse.dir
+          value: s3a://spark-infrastructure/warehouse
+        - name: fs.s3a.endpoint
+          value: http://s3-local:4566
+        - name: fs.s3a.path.style.access
+          value: true

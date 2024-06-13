@@ -15,7 +15,6 @@
 
 	<modules>
         <module>aissemble-hive-metastore-db-chart</module>
-        <module>aissemble-hive-metastore-service-chart</module>
 	</modules>
     <build>
         <plugins>

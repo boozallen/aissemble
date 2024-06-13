@@ -1,32 +1,27 @@
-FROM openjdk:11-jre-slim
+ARG METASTORE_VERSION
+FROM apache/hive:${METASTORE_VERSION} as appsource
+
+FROM eclipse-temurin:17-jre as final
 
 LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
 
 WORKDIR /opt
 
-ENV HADOOP_VERSION=3.3.6
-ENV METASTORE_VERSION=3.0.0
+ARG JARS_DIR
 
-ENV HADOOP_HOME=/opt/hadoop-${HADOOP_VERSION}
-ENV HIVE_HOME=/opt/apache-hive-metastore-${METASTORE_VERSION}-bin
+ENV HADOOP_HOME=/opt/hadoop
+ENV HIVE_HOME=/opt/hive
 
-RUN apt-get update && apt-get install curl -y
-
-RUN curl -L https://dlcdn.apache.org/hive/hive-standalone-metastore-${METASTORE_VERSION}/hive-standalone-metastore-${METASTORE_VERSION}-bin.tar.gz | tar zxf - && \
-    curl -L https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz | tar zxf -
-
-RUN curl -L https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar \
-      -o ${HIVE_HOME}/lib/mysql-connector-java-8.0.30.jar && \
-    curl -L https://repo1.maven.org/maven2/com/sun/activation/javax.activation/1.2.0/javax.activation-1.2.0.jar \
-      -o ${HIVE_HOME}/lib/javax.activation-1.2.0.jar && \
-    curl https://github.com/delta-io/connectors/releases/download/v0.6.0/delta-hive-assembly_2.12-0.6.0.jar  \
-      -o ${HIVE_HOME}/lib/delta-hive-assembly_2.12-0.6.0.jar
+COPY --from=appsource /opt/hadoop ${HADOOP_HOME}
+COPY --from=appsource /opt/hive ${HIVE_HOME}
 
 RUN groupadd -r hive --gid=1000 && \
     useradd --home ${HIVE_HOME} -g hive --shell /usr/sbin/nologin --uid 1000 hive && \
-    chown hive:hive -R ${HIVE_HOME}
+    chown hive:hive -R ${HIVE_HOME} && \
+    ln -s ${JAVA_HOME} /opt/jre
+
+ADD ${JARS_DIR}/* ${HIVE_HOME}/lib/
 
 USER hive
-EXPOSE 9083
 
-ENTRYPOINT ["/opt/apache-hive-metastore-3.0.0-bin/bin/start-metastore"]
+ENTRYPOINT ["/opt/hive/bin/hive", "--skiphadoopversion", "--skiphbasecp", "--verbose", "--service", "metastore"]
