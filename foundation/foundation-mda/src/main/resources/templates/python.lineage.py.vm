@@ -115,7 +115,7 @@
         """
         The default Job name is the Step name. Override this function to change the default job name.
         """
-        return "${pipeline.capitalizedName}.{}".format(self.step_phase)
+        return "${pipeline.capitalizedName}.{}".format(self.get_step_phase())
 
     def get_default_namespace(self) -> str:
         """

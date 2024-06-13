@@ -11,6 +11,7 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
+import com.boozallen.aiops.mda.generator.config.deployment.spark.SparkDependencyConfiguration;
 import com.boozallen.aiops.mda.generator.util.MavenUtil;
 import com.boozallen.aiops.mda.generator.util.MavenUtil.Language;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil.DataRecordModule;
@@ -35,6 +36,8 @@ public class PythonPipelinePyProjectGenerator extends TargetedPipelinePyProjectG
     @Override
     protected void doGenerateFile(GenerationContext generationContext, VelocityContext velocityContext, Pipeline pipeline) {
         velocityContext.put(VelocityProperty.PYTHON_DATA_RECORDS, getPythonDataRecordModule(generationContext));
+        SparkDependencyConfiguration config = SparkDependencyConfiguration.getInstance();
+        velocityContext.put("versionSedona", config.getSedonaVersion());
         generateFile(generationContext, velocityContext);
     }
 

@@ -36,6 +36,13 @@ grpcio-testing = "^1.50.0"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
 
+[tool.pylint.'MESSAGES CONTROL']
+# Adding the pydantic package to pylint's whitelist as it raises linting errors. 
+# See issue: https://github.com/pydantic/pydantic/issues/1961
+extension-pkg-whitelist = "pydantic"
+
+[tool.pylint.MASTER]
+ignore-patterns = '.*pb2[\S]*.py'
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]

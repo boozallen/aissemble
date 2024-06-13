@@ -39,6 +39,11 @@
             <plugin>
                 <groupId>org.technologybrewery.habushu</groupId>
                 <artifactId>habushu-maven-plugin</artifactId>
+                <!-- The existing solution is temporary and defaults to using rewritten paths.
+                We are actively developing multi-architecture solutions for users. -->
+                <configuration>
+                    <rewriteLocalPathDepsInArchives>true</rewriteLocalPathDepsInArchives>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

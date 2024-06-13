@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from pyspark.sql import SparkSession
 from krausening.properties import PropertyManager
 from aiops_core_metadata.metadata_model import MetadataModel
@@ -79,7 +79,7 @@ class AbstractDataAction(ABC):
             decision = pdp_client.authorize(token, "", action)
 
             if 'PERMIT' == decision:
-                self.logger.info('User is authorized to run ' + self.step_phase)
+                self.get_logger().info('User is authorized to run ' + self.get_step_phase())
             else:
                 raise AiopsSecurityException('User is not authorized')
 
@@ -91,7 +91,15 @@ class AbstractDataAction(ABC):
         return self.metadata_api_service
 
     def get_provenance_resource_identifier(self) -> str:
-        return "Unspecified " + self.step_phase + " resource"
+        return "Unspecified " + self.get_step_phase() + " resource"
+
+    @abstractmethod
+    def get_logger(self):
+        return
+    
+    @abstractmethod
+    def get_step_phase(self):
+        return
 
     def create_provenance_metadata(self) -> MetadataModel:
         """
@@ -105,18 +113,12 @@ class AbstractDataAction(ABC):
         Records provenance for this step.
         """
         if self.get_metadata_api_service():
-            self.logger.info('Recording provenance...')
+            self.get_logger().info('Recording provenance...')
 
             metadata = self.create_provenance_metadata()
             self.metadata_api_service.create_metadata(metadata)
 
-            self.logger.info('Provenance recorded')
+            self.get_logger().info('Provenance recorded')
         else:
-            self.logger.error('Provenance cannot be recorded without a valid Metadata API Service! '
+            self.get_logger().error('Provenance cannot be recorded without a valid Metadata API Service! '
                 + 'Please make sure the service is set!')
-
-
-
-
-
-

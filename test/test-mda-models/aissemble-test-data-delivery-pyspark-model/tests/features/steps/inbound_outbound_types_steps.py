@@ -7,7 +7,7 @@
 # This software package is licensed under the Booz Allen Public License. All Rights Reserved.
 # #L%
 ###
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 from krausening.logging import LogManager
 from aissemble_test_data_delivery_pyspark_model.step.void_inbound_and_outbound import (

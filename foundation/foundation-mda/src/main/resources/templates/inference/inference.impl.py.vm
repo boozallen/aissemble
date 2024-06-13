@@ -7,9 +7,9 @@ Originally generated from: ${templateName}
 """
 import logging
 
-from .config.inference_config import InferenceConfig
-from .validation.inference_message_definition import RequestBody, ResponseBody
-from .validation.inference_payload_definition import Inference
+from ${artifactIdPythonCase}.config.inference_config import InferenceConfig
+from ${artifactIdPythonCase}.validation.inference_message_definition import RequestBody, ResponseBody
+from ${artifactIdPythonCase}.validation.inference_payload_definition import Inference
 
 model = None
 def load_model():
@@ -18,10 +18,13 @@ def load_model():
     utilization for inferencing.
     :return:
     """
+    config = InferenceConfig()
+
     try:
-        config = InferenceConfig()
         # Load the model from the model directory
         # model = mlflow.sklearn.load_model(config.model_directory())
+        
+        pass 
     except Exception:
         logging.exception(f'Failed to load model at {config.model_directory()}')
 

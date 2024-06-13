@@ -10,7 +10,7 @@ from aissemble_model_lineage.facets import (
     PerformanceMetric,
 )
 from aissemble_model_lineage.builder import LineageBuilder
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 from uuid import uuid4
 

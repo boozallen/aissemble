@@ -30,3 +30,12 @@ class PipelineConfig():
         Returns the Kafka server host:port value.
         """
         return self.properties['kafka_server']
+
+
+    #if (${containsOnnx})
+    def onnx_model_directory(self):
+        """
+        Returns the directory's name to save onnx model on S3.
+        """
+        return self.properties['onnx_model_directory']
+    #end
