@@ -15,26 +15,32 @@ import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.And;
 
 import io.restassured.response.ValidatableResponse;
-import com.boozallen.aissemble.util.ConfigStoreInitTestHelper;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+
+import com.boozallen.aissemble.configuration.ConfigStoreInit;
+import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicy;
+import com.boozallen.aissemble.configuration.policy.exception.PropertyRegenerationPolicyException;
+import com.boozallen.aissemble.util.TestPropertyDao;
 
 
 public class LoadConfigurationsSteps {
 
     private final Property expectedProperty = new Property("messaging", "topic", "messaging-topic");
     private final Property fullyLoadProperty = new Property("load-status", "fully-loaded", "true");
+    private Set<PropertyRegenerationPolicy> policies;
     private ConfigLoader configLoader;
-    private String baseURI;
-    private String environmentURI;
+    private String basePropertyUri;
+    private String environmentPropertyURI;
+    private String basePolicyUri;
+    private String environmentPolicyURI;
     private Exception foundError;
     private ValidatableResponse response;
 
@@ -47,16 +53,19 @@ public class LoadConfigurationsSteps {
     public void cleanup() {
         foundError = null;
         response = null;
+        policies = null;
     }
 
-    @Given("a base URI indicating a directory housing valid base configurations")
-    public void URIsPointingToValidBaseConfigurations() {
-        baseURI = "src/test/resources/configurations/base";
+    @Given("URIs pointing to valid base and environment properties")
+    public void URIsPointingToValidBaseAndEnvironmentProperties() {
+        basePropertyUri = "src/test/resources/configurations/base";
+        environmentPropertyURI = "src/test/resources/configurations/example-env";
     }
 
-    @And("an environment-specific URI indicating a directory housing valid environment-specific configurations")
-    public void URIsPointingToValidEnvironmentConfigurations() {
-        environmentURI = "src/test/resources/configurations/example-env";
+    @Given("URIs pointing to valid base and environment policies")
+    public void URIsPointingToValidBaseAndEnvironmentPolicies() {
+        basePolicyUri = "src/test/resources/policies/base";
+        environmentPolicyURI = "src/test/resources/policies/example-env";
     }
     
     @When("the configuration service starts")
@@ -66,64 +75,88 @@ public class LoadConfigurationsSteps {
 
     @Then("the configurations are loaded into the configuration store")
     public void theConfigurationsAreLoadedIntoConfigStore() {
-        String responseBody = getResponseBodyForProperty(expectedProperty.getGroupName(), expectedProperty.getName());
+        String responseBody = getResponseBodyForProperty(expectedProperty.getGroupName(), expectedProperty.getPropertyName());
         assertEquals(expectedProperty.toJsonString(), responseBody);
     }
 
-    @And("the user is notified that the configurations were loaded successfully")
+    @Then("the user is notified that the configurations were loaded successfully")
     public void notifyOnSuccessConfigurationLoad() {
-        assertTrue("load successful", ConfigStoreInitTestHelper.verification.get("load successful").equals("true"));
+        assertEquals("Expected status to be equal to 'Load Complete'", "Load Complete", ConfigStoreInit.getStatus());
     }
 
-    @And("the configuration service records the that the given configurations were loaded successfully")
+    @Then("the configuration service records the that the given configurations were loaded successfully")
     public void successStatusIsRecorded() {
-        String responseBody = getResponseBodyForProperty(fullyLoadProperty.getGroupName(), fullyLoadProperty.getName());
+        String responseBody = getResponseBodyForProperty(fullyLoadProperty.getGroupName(), fullyLoadProperty.getPropertyName());
         assertEquals(fullyLoadProperty.toJsonString(), responseBody);
     }
 
     @Given("the configuration store has been fully populated with the specified configurations")
-    public void theConfigurationsFullyLoaded(){
-        ConfigStoreInitTestHelper.loadProperties();
+    public void theConfigurationsFullyLoaded() {
+        String responseBody = getResponseBodyForProperty(fullyLoadProperty.getGroupName(), fullyLoadProperty.getPropertyName());
+        assertEquals(fullyLoadProperty.toJsonString(), responseBody);
+    }
+
+    @When("the configuration service starts again")
+    public void theConfigurationServiceStartsAgain() {
+        new ConfigStoreInit().init();;
     }
 
     @Then("the configuration service skips the loading process")
     public void theConfigurationServiceSkipLoading() {
-        assertTrue("skip reloading", ConfigStoreInitTestHelper.verification.get("skip reloading").equals("true"));
+        // nothing to verify here, handled by assertion below
     }
 
-    @And("notifies the user that the configurations were previously loaded")
+    @Then("notifies the user that the configurations were previously loaded")
     public void notifyOnPreviousConfigurationFullLoad() {
-        assertTrue("skipping reloading notification sent", ConfigStoreInitTestHelper.skiploadingNotificationSent);
+        assertEquals("Expected status to be equal to 'Skip Load'", "Load Skipped", ConfigStoreInit.getStatus());
     }
 
-    @Given("URIs pointing to misformatted configurations")
-    public void URIsPointingToMisformattedConfigurations() {
-        baseURI = "src/test/resources/configurations-misformatted/base";
-        environmentURI = "src/test/resources/configurations-misformatted/example-env";
-    }
-    @When("the configurations are loaded")
-    public void theConfigurationsAreLoaded() {
+    @When("the properties are loaded")
+    public void thePropertiesAreLoaded() {
         try {
-            Set<Property> result = configLoader.loadConfigs(baseURI, environmentURI);
+            configLoader.loadConfigs(basePropertyUri, environmentPropertyURI);
         } catch (Exception error) {
             foundError = error;
         }
     }
-    @Then("an exception is thrown stating configurations are misformatted")
-    public void anExceptionIsThrownStatingConfigurationsAreMisformatted() {
+
+    @Then("the ConfigLoader validates the URI and its contents")
+    public void theConfigLoaderValidatesTheURIAndItsContents() {
+        assertNull(foundError);
+    }
+
+    @Then("consumes the base properties")
+    public void consumesTheBaseProperties() {
+        // verification of consumption occurs after properties are reconciled
+    }
+ 
+    @Then("augments the base with the environment properties")
+    public void augmentsTheBaseWithTheEnvironmentConfigurations() {
+        assertEquals(10, TestPropertyDao.loadedProperties.size());
+        assertPropertySetsEqual(createExpectedProperties(), new HashSet<>(TestPropertyDao.loadedProperties.values()));
+    }
+
+    @Given("URIs pointing to misformatted properties")
+    public void URIsPointingToMisformattedProperties() {
+        basePropertyUri = "src/test/resources/configurations-misformatted/base";
+        environmentPropertyURI = "src/test/resources/configurations-misformatted/example-env";
+    }
+
+    @Then("an exception is thrown stating properties are misformatted")
+    public void anExceptionIsThrownStatingPropertiesAreMisformatted() {
         String expectedMessage = "Could not parse yaml";
         assertEquals(IllegalArgumentException.class, foundError.getClass());
         assertEquals(expectedMessage, foundError.getMessage());
     }
 
-    @Given("URIs pointing to nondistinct configurations")
-    public void URIsPointingToNondistinctConfigurations() {
-        baseURI = "src/test/resources/configurations-nondistinct/base";
-        environmentURI = "src/test/resources/configurations-nondistinct/example-env";
+    @Given("URIs pointing to nondistinct properties")
+    public void URIsPointingToNondistinctProperties() {
+        basePropertyUri = "src/test/resources/configurations-nondistinct/base";
+        environmentPropertyURI = "src/test/resources/configurations-nondistinct/example-env";
     }
 
-    @Then("an exception is thrown stating configurations are not distinguishable")
-    public void anExceptionIsThrownStatingConfigurationsAreNotDistinguishable() {
+    @Then("an exception is thrown stating properties are not distinguishable")
+    public void anExceptionIsThrownStatingPropertiesAreNotDistinguishable() {
         String expectedMessage = "Duplicates found";
         assertEquals(IllegalArgumentException.class, foundError.getClass());
         assertEquals(expectedMessage, foundError.getMessage());
@@ -138,7 +171,7 @@ public class LoadConfigurationsSteps {
     @When("requests a configuration property")
     public void requestAConfigurationProperty() {
         String requestGroupName = expectedProperty.getGroupName();
-        String requestPropName = expectedProperty.getName();
+        String requestPropName = expectedProperty.getPropertyName();
         response = given()
                 .pathParam("groupName", requestGroupName)
                 .pathParam("propertyName", requestPropName)
@@ -150,6 +183,62 @@ public class LoadConfigurationsSteps {
     public void thePropertyValueIsReturned() {
         response.statusCode(200)
                 .body(is(expectedProperty.toJsonString()));
+    }
+
+    @Given("a URI pointing to a policy with a undefined {string}")
+    public void URIPointingToPolicyUndefinedAttribute(String attribute) {
+        basePolicyUri = "src/test/resources/policies-undefined/" + attribute;
+        environmentPolicyURI = null;
+    }
+
+    @Given("URIs pointing to policies targeting the same property")
+    public void URIsPointingToPoliciesTargetingSameProperty() {
+        basePolicyUri = "src/test/resources/policies-same-target";
+        environmentPolicyURI = null;
+    }
+
+    @When("the policies are loaded")
+    public void thePoliciesAreLoaded() {
+        try {
+            if (environmentPolicyURI != null) {
+                this.policies = configLoader.loadPolicies(basePolicyUri, environmentPolicyURI);
+            } else {
+                this.policies = configLoader.loadPolicies(basePolicyUri);
+            }
+            
+        } catch (Exception error) {
+            foundError = error;
+        }
+    }
+
+    @Then("the ConfigLoader consumes the base and environment policies")
+    public void theConfigLoaderConsumesTheBaseAndEnvironmentPolicies() {
+        assertNull(foundError);
+    }
+
+    @Then("the environment policy overrides the base policy")
+    public void theEnvironmentPolicyOverridesTheBasePolicy() {
+        assertEquals(3, this.policies.size());
+
+        //verify policy 1 and policy 2 are the environment version
+        long envPolicies = policies.stream()
+                .filter(policy -> policy.getIdentifier().contains("1") || policy.getIdentifier().contains("2"))
+                .filter(policy -> policy.getDescription().contains("environment"))
+                .count();
+
+        assertEquals("There should only be 2 environment policies", 2, envPolicies);
+    }
+
+    @Then("an exception is thrown stating a policy attribute is undefined")
+    public void anExceptionIsThrownStatingPolicyAttributeUndefined() {
+        assertEquals("Expected error to be of type 'PropertyRegenerationPolicyException'",  PropertyRegenerationPolicyException.class, foundError.getClass());
+        assertTrue(foundError.getMessage().contains("is a required field for a Property Regeneration Policy"));
+    }
+
+    @Then("an exception is thrown stating a property cannot be targeted by multiple policies")
+    public void anExceptionIsThrownStatingPropertyCannotBeTargetedMultiplePolicies() {
+        assertEquals("Expected error to be of type 'PropertyRegenerationPolicyException'",  PropertyRegenerationPolicyException.class, foundError.getClass());
+        assertTrue(foundError.getMessage().contains("There should be at most one policy per target property"));
     }
 
     public Set<Property> createExpectedProperties() {
@@ -190,5 +279,4 @@ public class LoadConfigurationsSteps {
                 .then();
         return response.extract().body().asString();
     }
-
 }

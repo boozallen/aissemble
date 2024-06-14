@@ -11,28 +11,37 @@ security of sensitive properties.
 The Configuration Store tool is currently under development. Stay tuned for its release!
 
 === Usage
-Via the configuration store's helm chart, project teams can specify environment variables the URIs that house the project's
-various configurations. It is required to specify a base URI that houses the base/default configurations. Optionally,
-one can specify a secondary URI that houses environment-specific configurations that will override and/or augment the
-base configurations. Multiple configuration files can be stored at the URI. Configuration files are expected to be
-in `YAML` format. Further guidance is covered below.
+Via the configuration store's helm chart, project teams can specify environment variables with the URIs that house
+the project's various configurations. It is required to specify a base property URI that houses the base/default
+property configurations. Optionally, one can specify a base policy URI that houses the base/default policy configurations.
 
-Because it is common practice to define a separate Helm chart for each of a project's development lifecycle phase's
-environment, it is encouraged to define one shared base URI and respective environment-specific URIs, each housing
+In addition to the base URIs, one can optionally specify a secondary URI for both properties and/or policies that
+houses environment-specific configurations that will override and/or augment the respective base configurations.
+Multiple configuration files can be stored at any given URI. Further guidance is covered below.
+
+Since it is common practice to define separate Helm chart values for each environment of a project's development 
+lifecycle, it is encouraged to define one shared base URI and respective environment-specific URIs, each housing
 the relevant overrides and augmentations.
 
 The following example Configuration Store Helm chart demonstrates a URI specifications for a CI deployment:
 [source,yaml]
 ----
   env:
-    baseURI: <URI housing base configurations>
-    envURI: <URI housing CI-specific overrides/augmentations>
+    BASE_PROPERTY_URI: <URI housing base property configurations>
+    ENVIRONMENT_PROPERTY_URI: <URI housing CI-specific property overrides/augmentations>
+    BASE_POLICY_URI: <URI housing base property regeneration policies>
+    ENVIRONMENT_POLICY_URI: <URI housing CI-specific property regeneration policies>
 ----
 
-Suppose we defined the following config at the `baseURI`:
+==== Properties
+Properties represent key values pairs for storing your project configurations. The key values pairs are stored as 
+string types using the respective `name` and `value` attributes. These pairs are represented in configuration files
+as properties in `YAML` format like the example below.
+
+Suppose we defined the following property configurations at the `BASE_PROPERTY_URI`:
 [source,yaml]
 ----
-groupName: exampleGroup
+groupName: messaging
 properties:
   - name: connector
     value: smallrye-kafka
@@ -40,22 +49,177 @@ properties:
     value: baseTopic
 ----
 
-Next, suppose we defined the following config at the `envURI`:
+Next, suppose we defined the following property configurations at the `ENVIRONMENT_PROPERTY_URI`:
 [source,yaml]
 ----
 groupName: messaging
 properties:
   - name: topic
     value: ciTopic
-  - name: newProperty
-    value: newValue
+  - name: auth-token
+    value: auth-secret
 ----
 
-Then the following calls to the tool would provide the following configurations:
+When these two configuration file are reconciled within the Configuration Store, it results in a configuration 
+equivalent to the following:
+[source,yaml]
+----
+groupName: messaging
+properties:
+  - name: connector
+    value: smallrye-kafka
+  - name: topic
+    value: ciTopic
+  - name: auth-token
+    value: auth-secret
+----
+
+Such that the following calls to the tool would provide the following configurations:
 [source,java]
 ----
 ConfigServiceClient client = new ConfigServiceClient();
-client.getProperty("messaging", "connector")     //smallrye-kafka
-client.getProperty("messaging", "topic")         //ciTopic
-client.getProperty("messaging", "newProperty")   //newValue
+client.getProperty("messaging", "connector")   ---> smallrye-kafka
+client.getProperty("messaging", "topic")       ---> ciTopic
+client.getProperty("messaging", "auth-token")  ---> auth-secret
 ----
+
+==== Property Regeneration Policies
+Policies are used to define limitations and rules for when a given property should be regenerated. This allows the user
+to outline which properties they would like to be regenerated, when they would like them to be regenerated, and how to 
+regenerate them. The policies are defined in `JSON` format using the options below.
+
+
+.Property Regeneration Policy Options
+[cols="2,1,5"]
+|===
+| Element Name | Required | Use
+
+| `identifier`
+| Yes
+| Unique name for the policy. A policy with the same identifier in the environment specific policies will override the its respective
+ base policy.
+
+| `description`
+| No
+| A statement of what the policy is for.
+
+| `targets`
+| Yes
+| List of properties that the policy applies to. Can be one to many targets for a given policy. Multiple policies cannot share the same
+ target property (exception for targets being shared between an environment policy and its respective base policy).
+
+| `targets/retrieve_url`
+| Yes
+| Describes where the property lives in the format `/GROUP_NAME/PROPERTY_NAME`.
+
+| `rules`
+| Yes
+| Logic to be executed when any of the properties within `targets` are accessed. The rule will determine whether the target property(ies)
+ need to be regenerated or can continued being used. Can be one to many rules for a given policy.
+
+| `rules/className`
+| Yes
+| Java class that contains the necessary implementation for executing the rule.
+
+| `rules/configurations`
+| No
+| Additional configuration details to pass to rule implementation. Can be zero to many key value pairs for a given rule.
+
+| `regeneration_method`
+| Yes
+| Logic to be executed when any of the `rules` determine that the target property(ies) need to be regenerated. The regeneration method can provide
+ updated values for zero to all of the properties specified in `targets`, however it cannot update properties not explicitly specified in `targets`.
+ There is only one regeneration method for a given policy.
+
+| `regeneration_method/className`
+| Yes
+| Java class that contains the necessary implementation for executing the regeneration method.
+
+| `regeneration_method/configurations`
+| No
+| Additional configuration details to pass to regeneration method implementation. Can be zero to many key value pairs for a given
+ regeneration method.
+
+|===
+
+Basic example of a policy configuration:
+[source,json]
+----
+[
+  {
+    "identifier": "messaging-auth-token-policy",
+    "description": "Policy for updating the messaging auth token when its 5 days old",
+    "targets": [
+      {
+        "retrieve_url": "/messaging/auth-token"
+      }
+    ],
+    "rules": [
+      {
+        "className": "your.custom.Limitation",
+        "configurations":{
+            "expirationDate": "5 Days"
+        }
+      }
+    ],
+    "regeneration_method": {
+      "className": "your.custom.AuthTokenRefresh",
+      "configurations":{
+          "endpoint": "https://your-new-token-service.org/getNewToken?exp=5days"
+      }
+    }
+  }
+]
+----
+This policy is defining a rule and regeneration method for a targeted property with the group name `messaging` and property
+name `auth-token`. When the property is accessed, the `Limitation` rule will be run to see if the property needs to be 
+regenerated. In the event that it does, then the `AuthTokenRefresh` regeneration method will be run and the respective value
+will be updated in the Configuration Store.
+
+More complex example of a policy configuration:
+[source,json]
+----
+[
+  {
+    "identifier":"aws-credentials-policy",
+    "description": "Policy for updating AWS creds when there old or accessed too many times",
+    "targets": [
+      {
+        "retrieve_url":"/aws-access/AWS_ACCESS_KEY_ID"
+      },
+      {
+        "retrieve_url":"/aws-access/AWS_SECRET_ACCESS_KEY"
+      }
+    ],
+    "rules": [
+      {
+        "className":"com.boozallen.aissemble.configuration.UseLimitation",
+        "configurations":{
+            "maxUses": "5"
+        }
+      },
+      {
+        "className":"com.boozallen.aissemble.configuration.TimeLimitation",
+        "configurations":{
+            "expirationDate": "5 Days"
+        }
+      }
+    ],
+    "regeneration_method": [
+      {
+        "className":"com.example.AWSCredsRefresh",
+        "configurations":{
+            "endpoint": "https://my-new-token-service.org/getNewToken?exp=5days"
+        }
+      }
+    ]
+  }
+]
+----
+In this example, both rules will be run when either property in `targets` is accessed. In the event that either rule determines the
+property should be refreshed, then the regeneration method `AWSCredsRefresh` will be called. This method is responsible for returning 
+the updated values for whichever properties it deems necessary.
+
+////
+TODO: Add details on creating rules and regeneration_method classes
+////

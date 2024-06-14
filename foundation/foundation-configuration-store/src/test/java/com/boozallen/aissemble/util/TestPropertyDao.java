@@ -11,7 +11,6 @@ package com.boozallen.aissemble.util;
  */
 
 import com.boozallen.aissemble.configuration.dao.InMemoryPropertyDao;
-import com.boozallen.aissemble.configuration.dao.PropertyDao;
 import com.boozallen.aissemble.configuration.store.Property;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,7 +28,7 @@ public class TestPropertyDao extends InMemoryPropertyDao {
         super.write(properties);
         // also save locally for testing purpose
         for (Property property : new ArrayList<>(properties)) {
-            loadedProperties.put(property.getGroupName() + "-" + property.getName(), property);
+            loadedProperties.put(property.getGroupName() + "-" + property.getPropertyName(), property);
         }
     }
 }

@@ -13,6 +13,7 @@ package com.boozallen.aissemble.core.policy.configuration.policymanager;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,16 @@ public abstract class AbstractPolicyManager {
             policiesLocation = systemProperty;
         }
         return policiesLocation;
+    }
+
+    /**
+     * Helper method that returns the key of the system property used for overriding
+     * the policy configurations location provided from krausening.
+     *
+     * @return policy location system property key
+     */
+    public static String getPolicyLocationPropertyKey() {
+        return POLICY_LOCATION;
     }
 
     /**
@@ -166,9 +177,9 @@ public abstract class AbstractPolicyManager {
             // Set the alert options
             configuredPolicy.setAlertOptions(policy.getShouldSendAlert());
 
-            // Set the target
-            Target target = policy.getTarget();
-            configuredPolicy.setTarget(target);
+            // Set the targets
+            List<Target> targets = policy.getAnyTargets();
+            configuredPolicy.setTargets(targets);
 
             // Set any additional configurations
             setAdditionalConfigurations(configuredPolicy, policy);
@@ -180,7 +191,7 @@ public abstract class AbstractPolicyManager {
                 for (PolicyRuleInput ruleInput : ruleInputs) {
 
                     // Add the policy rule if everything loads successfully
-                    ConfiguredRule configuredRule = validateAndConfigureRule(ruleInput, target);
+                    ConfiguredRule configuredRule = validateAndConfigureRule(ruleInput, targets);
                     if (configuredRule != null) {
                         configuredPolicy.addRule(configuredRule);
                     }
@@ -202,7 +213,7 @@ public abstract class AbstractPolicyManager {
         }
     }
 
-    protected ConfiguredRule validateAndConfigureRule(PolicyRuleInput ruleInput, Target target) {
+    protected ConfiguredRule validateAndConfigureRule(PolicyRuleInput ruleInput, List<Target> targets) {
         String className = ruleInput.getClassName();
         Map<String, Object> configurations = ruleInput.getConfigurations();
         Map<String, Object> targetConfigurations = ruleInput.getTargetConfigurations();
@@ -210,8 +221,15 @@ public abstract class AbstractPolicyManager {
         ConfiguredRule configuredRule = null;
 
         if (StringUtils.isNotBlank(className)) {
-            configuredRule = new ConfiguredRule(className, configurations,
-                    new ConfiguredTarget(target, targetConfigurations));
+            List<ConfiguredTarget> configuredTargets = new ArrayList<>();
+
+            if (targets != null && !targets.isEmpty()) {
+                for (Target target: targets) {
+                    configuredTargets.add(new ConfiguredTarget(target, targetConfigurations));
+                }
+            }
+            
+            configuredRule = new ConfiguredRule(className, configurations, configuredTargets);
         } else {
             logger.warn("Policy rules MUST have a class name. Skipping policy rule with no class name defined...");
         }

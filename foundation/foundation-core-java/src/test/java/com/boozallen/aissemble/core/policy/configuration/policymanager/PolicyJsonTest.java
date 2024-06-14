@@ -30,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * {@link PolicyJsonTest} class is just used for when you're tweaking json and
  * want to see the output quickly.
@@ -75,7 +78,7 @@ public class PolicyJsonTest {
     public void testPolicyAllFieldsJsonOutput() throws JsonProcessingException {
 
         PolicyInput policy = new PolicyInput("myPolicyIdentifier");
-        policy.setTarget(new Target("http://retrieve.com", "rest"));
+        policy.setTargets(Arrays.asList(new Target("http://retrieve.com", "rest")));
         policy.setShouldSendAlert(AlertOptions.NEVER);
 
         PolicyRuleInput rule = new PolicyRuleInput("com.boozallen.DoSomething");
@@ -148,6 +151,34 @@ public class PolicyJsonTest {
         PolicyRuleInput thirdRule = new PolicyRuleInput("SimpleAlgorithm");
         rules.add(thirdRule);
         createAndLogPolicy("Policy with several rules", rules);
+    }
+
+    @Test
+    public void testPolicyMultipleTargetsJsonOutput() throws JsonProcessingException {
+        PolicyInput policy = new PolicyInput("myPolicyIdentifier");
+        
+        List<Target> targets = new ArrayList<>();
+        targets.add(new Target("http://retrieve1.com", "rest"));
+        targets.add(new Target("http://retrieve2.com", "rest"));
+        targets.add(new Target("http://retrieve3.com", "rest"));
+        policy.setTargets(targets);
+
+        String jsonString = mapper.writeValueAsString(policy);
+        logger.debug("policy with multiple targets: {}", jsonString);
+        assertTrue(jsonString.contains("\"targets\":"));
+        assertFalse(jsonString.contains("\"target\":"));
+    }
+
+    @Test
+    public void testPolicyDeprecatedTargetJsonOutput() throws JsonProcessingException {
+        PolicyInput policy = new PolicyInput("myPolicyIdentifier");
+    
+        policy.setTarget(new Target("http://retrieve1.com", "rest"));
+
+        String jsonString = mapper.writeValueAsString(policy);
+        logger.debug("policy with deprecated target: {}", jsonString);
+        assertTrue(jsonString.contains("\"target\":"));
+        assertFalse(jsonString.contains("\"targets\":"));
     }
 
     @Test

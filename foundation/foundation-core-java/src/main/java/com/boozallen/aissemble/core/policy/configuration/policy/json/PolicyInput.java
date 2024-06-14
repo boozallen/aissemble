@@ -11,11 +11,16 @@ package com.boozallen.aissemble.core.policy.configuration.policy.json;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.boozallen.aissemble.core.policy.configuration.policy.AlertOptions;
 import com.boozallen.aissemble.core.policy.configuration.policy.Target;
 import com.boozallen.aissemble.core.policy.configuration.policy.json.rule.PolicyRuleInput;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +36,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.NON_NULL)
 public class PolicyInput {
 
+    private static final Logger logger = LoggerFactory.getLogger(PolicyInput.class);
+
     /**
      * The identifier used by the service to look up the policy.
      */
@@ -44,11 +51,19 @@ public class PolicyInput {
     protected String description;
 
     /**
-     * The target this policy will be invoked on.
+     * This attribute is deprecated and should not be used. Targets are now represented as
+     * a {@link List} of {@link Target}'s instead of a single {@link Target} attribute.
+     * @Deprecated this attribute is replaced by {@link #targets}
      */
+    @Deprecated
     @JsonProperty
     protected Target target;
 
+    /**
+     * The targets this policy will be invoked on.
+     */
+    @JsonProperty
+    protected List<Target> targets;
     /**
      * The optional configuration for whether alerts should be sent or not
      */
@@ -117,12 +132,49 @@ public class PolicyInput {
         rules.add(rule);
     }
 
+    /**
+     * This method is deprecated and should not be used. Targets are now represented as
+     * a {@link List} of {@link Target}'s instead of a single {@link Target} attribute.
+     * @Deprecated this method is replaced by {@link #getTargets()}
+     */
+    @Deprecated
     public Target getTarget() {
-        return target;
+        // must use old target attribute to keep deserialization consistent
+        // otherwise target will move to the targets attribute
+        logger.warn("Detected use of deprecated Json Property 'target'. " + 
+                    "Existing values should be moved to the new Json Property 'targets'.");
+        return this.target;
     }
 
+    /**
+     * This method is deprecated and should not be used. Targets are now represented as
+     * a {@link List} of {@link Target}'s instead of a single {@link Target} attribute.
+     * @Deprecated this method is replaced by {@link #setTargets()}
+     */
+    @Deprecated
     public void setTarget(Target target) {
+        // must use old target attribute to keep serialization consistent
+        // otherwise target will move to the targets attribute
+        logger.warn("Detected use of deprecated Json Property 'target'. " + 
+                    "Existing values should be moved to the new Json Property 'targets'.");
         this.target = target;
+    }
+
+    public List<Target> getTargets() {
+        return this.targets;
+    }
+
+    public void setTargets(List<Target> targets) {
+        this.targets = targets;
+    }
+
+    /**
+     * Used to check both target attributes to contain backwards compatibility with policies still using deprecated 'target'
+     * @return targets
+     */
+    @JsonIgnore
+    public List<Target> getAnyTargets() {
+        return this.target != null ? Arrays.asList(this.target) : this.targets;
     }
 
     public AlertOptions getShouldSendAlert() {

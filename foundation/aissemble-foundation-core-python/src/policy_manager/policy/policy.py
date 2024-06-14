@@ -10,6 +10,7 @@
 from pydantic import BaseModel
 from enum import Enum
 from typing import Any, List, Dict, Optional
+from krausening.logging import LogManager
 
 
 class AlertOptions(Enum):
@@ -49,9 +50,49 @@ class ConfiguredRule(BaseModel):
     invoke the rule will be responsible for looking up the related class.
     """
 
+    __logger = LogManager.get_instance().get_logger("ConfiguredRule")
     className: str
     configurations: Optional[Dict[str, Any]]
-    targetConfigurations: Optional[ConfiguredTarget]
+    configuredTargets: Optional[List[ConfiguredTarget]] = []
+
+    @property
+    def targetConfigurations(self) -> ConfiguredTarget:
+        """
+        This attribute is deprecated and should not be used. ConfiguredTarget are now represented as
+        a List of ConfiguredTarget objects instead of a single ConfiguredTarget attribute `targetConfigurations`.
+        This attribute is replaced by `configuredTargets`.
+        """
+        ConfiguredRule.__logger.warn(
+            "Detected use of deprecated attribute 'targetConfigurations'. Existing "
+            + "usage should be moved to the new attribute 'configuredTargets'."
+        )
+        return self.configuredTargets[0] if len(self.configuredTargets) > 0 else None
+
+    def set_deprecated_targetConfigurations(self, new_value: ConfiguredTarget):
+        """
+        This attribute is deprecated and should not be used. ConfiguredTarget are now represented as
+        a List of ConfiguredTarget objects instead of a single ConfiguredTarget attribute `targetConfigurations`.
+        This attribute is replaced by `configuredTargets`.
+        """
+        ConfiguredRule.__logger.warn(
+            "Detected use of deprecated attribute 'targetConfigurations'. Existing "
+            + "usage should be moved to the new attribute 'configuredTargets'."
+        )
+        self.configuredTargets = [new_value]
+
+    # Links ConfiguredRule 'targetConfigurations' attribute to 'set_deprecated_targetConfigurations()' method to support
+    # people still assigning values to the old attribute.
+    def __setattr__(self, key, val):
+        method = self.__config__.property_set_methods.get(key)
+        if method is None:
+            super().__setattr__(key, val)
+        else:
+            getattr(self, method)(val)
+
+    class Config:
+        property_set_methods = {
+            "targetConfigurations": "set_deprecated_targetConfigurations"
+        }
 
 
 class Policy(BaseModel):
@@ -62,12 +103,48 @@ class Policy(BaseModel):
     execution.
     """
 
+    __logger = LogManager.get_instance().get_logger("Policy")
     alertOptions: AlertOptions = AlertOptions.ON_DETECTION
     identifier: str
     description: Optional[str]
-    target: Optional[Target]
+    targets: Optional[List[Target]] = []
     rules: List[ConfiguredRule] = []
+
+    @property
+    def target(self) -> Target:
+        """
+        This attribute is deprecated and should not be used. Target are now represented as
+        a List of Target objects instead of a single Target attribute 'target'.
+        This attribute is replaced by `targets`.
+        """
+        Policy.__logger.warn(
+            "Detected use of deprecated attribute 'target'. Existing "
+            + "usage should be moved to the new attribute 'targets'."
+        )
+        return self.targets[0] if len(self.targets) > 0 else None
+
+    def set_deprecated_target(self, new_value: Target):
+        """
+        This attribute is deprecated and should not be used. Target are now represented as
+        a List of Target objects instead of a single Target attribute 'target'.
+        This attribute is replaced by `targets`.
+        """
+        Policy.__logger.warn(
+            "Detected use of deprecated attribute 'target'. Existing "
+            + "usage should be moved to the new attribute 'targets'."
+        )
+        self.targets = [new_value]
 
     # Pydantic model config to allow policy subclasses to contain additional fields of any type
     class Config:
         arbitrary_types_allowed = True
+        property_set_methods = {"target": "set_deprecated_target"}
+
+    # Links Policy 'target' attribute to 'set_deprecated_target()' method to support
+    # people still assigning values to the old attribute.
+    def __setattr__(self, key, val):
+        method = self.__config__.property_set_methods.get(key)
+        if method is None:
+            super().__setattr__(key, val)
+        else:
+            getattr(self, method)(val)

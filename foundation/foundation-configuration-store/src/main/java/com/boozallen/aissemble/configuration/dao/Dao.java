@@ -16,17 +16,16 @@ import java.util.Set;
  * Dao is an interface to read/write T to the store
  */
 
-public interface Dao<T> {
+public interface Dao<T,K> {
 
     boolean checkEmpty();
 
     /**
-     * Read T from Store with given group name and property name
-     * @param groupName group name
-     * @param propertyName property name
+     * Read T from Store with given K key
+     * @param K key
      * @return T
      */
-    T read(String groupName, String propertyName);
+    T read(K key);
 
     /**
      * Write given data T to the Store

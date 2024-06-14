@@ -12,33 +12,40 @@ package com.boozallen.aissemble.configuration.store;
 
 import java.util.Objects;
 
+/**
+ * Represents a property in the configuration store consisting of a {@link PropertyKey} key and {@link String} value.
+ */
 public class Property {
-    private String groupName;
-    private String name;
+    private PropertyKey propertyKey;
     private String value;
-    public Property(String groupName, String name, String value) {
-        setGroupName(groupName);
-        setName(name);
+
+    public Property(PropertyKey propertyKey, String value) {
+        setPropertyKey(propertyKey);
         setValue(value);
     }
 
+    public Property(String groupName, String propertyName, String value) {
+        this(new PropertyKey(groupName, propertyName), value);
+    }
+
+    public PropertyKey getPropertyKey() {
+        return this.propertyKey;
+    }
+
+    public void setPropertyKey(PropertyKey propertyKey) {
+        this.propertyKey = propertyKey;
+    }
+
     public String getGroupName() {
-        return groupName;
-    }
-    private void setGroupName(String groupName) {
-        this.groupName = Objects.requireNonNull(groupName, "Property groupName cannot be null");
+        return this.propertyKey.getGroupName();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = Objects.requireNonNull(name, "Property name cannot be null");
+    public String getPropertyName() {
+        return this.propertyKey.getPropertyName();
     }
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     public void setValue(String value) {
@@ -48,10 +55,7 @@ public class Property {
     @Override
     public String toString() {
         // We won't print out the value in case of sensitive info
-        return "Property{" +
-                "name='" + name +
-                "', groupName='" + groupName +
-                "'}";
+        return String.format("Property{%s}", this.propertyKey.toString());
     }
 
     @Override
@@ -66,16 +70,15 @@ public class Property {
         // does not include value to enable check of erroneously indistinguisabe properties,
         // where two or more properties have identical groupName and name (but different values)
         Property property = (Property) o;
-        return Objects.equals(groupName, property.getGroupName()) &&
-                Objects.equals(name, property.getName());
+        return Objects.equals(this.propertyKey, property.getPropertyKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupName, name);
+        return this.propertyKey.hashCode();
     }
 
     public String toJsonString() {
-        return String.format("{\"groupName\":\"%s\",\"name\":\"%s\",\"value\":\"%s\"}", groupName, name, value);
+        return String.format("{\"groupName\":\"%s\",\"name\":\"%s\",\"value\":\"%s\"}", getGroupName(), getPropertyName(), this.value);
     }
 }
