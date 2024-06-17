@@ -3,7 +3,7 @@ This module serves as a tool that enables the various configurations for a proje
 
 This README is intended to provide technical insight into the
 implementation of this package.  For consumption guidance,
-please refer to the [aiSSEMBLE&trade; Github Pages](https://boozallen.github.io/aissemble/current/guides/guides-configuration-store.html).
+please refer to the [aiSSEMBLE&trade; Github Pages](https://boozallen.github.io/aissemble/aissemble/current/guides/guides-configuration-store.html).
 
 ## Developer Guidance
 

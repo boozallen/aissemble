@@ -1,0 +1,22 @@
+[
+    {
+      "identifier": "policy-3",
+      "description": "policy-3-base",
+      "targets": [
+        {
+          "retrieve_url": "/messaging/topic"
+        }
+      ],
+      "rules": [
+        {
+          "className": "com.test.RuleClassOne"
+        },
+        {
+          "className": "com.test.RegenerationTwo"
+        }
+      ],
+      "regeneration_method": {
+        "className": "com.test.RegenerationClass"
+      }
+    }
+  ]

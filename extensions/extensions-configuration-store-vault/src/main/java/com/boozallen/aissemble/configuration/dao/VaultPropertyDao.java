@@ -19,6 +19,7 @@ import com.bettercloud.vault.response.LogicalResponse;
 import com.bettercloud.vault.response.MountResponse;
 import com.boozallen.aissemble.configuration.exception.PropertyDaoException;
 import com.boozallen.aissemble.configuration.store.Property;
+import com.boozallen.aissemble.configuration.store.PropertyKey;
 import com.boozallen.aissemble.data.encryption.VaultUtil;
 import com.boozallen.aissemble.data.encryption.config.DataEncryptionConfiguration;
 import org.aeonbits.owner.KrauseningConfigFactory;
@@ -46,21 +47,21 @@ public class VaultPropertyDao implements PropertyDao {
     }
 
     /**
-     * Read the property from Vault server with given group name and property name
-     * @param groupName to read from the vault
-     * @param propertyName to read from the vault
+     * Read the property from Vault server with the given {@link PropertyKey} containing the group name and property name
+     * @param PropertyKey property key
+     * @return Property
      */
     @Override
-    public Property read(String groupName, String propertyName) {
+    public Property read(PropertyKey propertyKey) {
         try {
             final Vault vault = getVault();
             // read from Vault
             final LogicalResponse readResponse = vault.logical()
-                    .read(String.format("aissemble-properties/%s/%s", groupName, propertyName));
+                    .read(String.format("aissemble-properties/%s/%s", propertyKey.getGroupName(), propertyKey.getPropertyName()));
 
-            return new Property(groupName, propertyName, readResponse.getData().get(propertyName));
+            return new Property(propertyKey, readResponse.getData().get(propertyKey.getPropertyName()));
         } catch (VaultException e) {
-            throw new PropertyDaoException(String.format("Unable to read from vault with groupName: %s and property name: %s.", groupName, propertyName), e);
+            throw new PropertyDaoException(String.format("Unable to read from vault with groupName: %s and property name: %s.", propertyKey.getGroupName(), propertyKey.getPropertyName()), e);
         }
     }
 
@@ -75,7 +76,7 @@ public class VaultPropertyDao implements PropertyDao {
                 final Vault vault = getVault();
                 this.write(vault, Collections.singletonList(property));
             } catch (VaultException e) {
-                throw new PropertyDaoException(String.format("Unable to write to vault. Group name: %s, property name: %s", property.getGroupName(), property.getName()), e);
+                throw new PropertyDaoException(String.format("Unable to write to vault. Group name: %s, property name: %s", property.getGroupName(), property.getPropertyName()), e);
             }
         } else {
             throw new PropertyDaoException("Unable to write to vault with property: null");
@@ -109,10 +110,10 @@ public class VaultPropertyDao implements PropertyDao {
             createPropertiesSecretEngine(vault, path);
 
             Map<String, Object> data = new HashMap<>();
-            data.put(property.getName(), property.getValue());
+            data.put(property.getPropertyName(), property.getValue());
 
             // write key as a secret to Vault
-            vault.logical().write(String.format("%s/%s", path, property.getName()), data);
+            vault.logical().write(String.format("%s/%s", path, property.getPropertyName()), data);
             logger.info(String.format("Successfully wrote to vault: %s", path));
         }
     }

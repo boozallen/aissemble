@@ -21,12 +21,18 @@ import java.nio.file.Path;
 import java.nio.file.InvalidPathException;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.boozallen.aissemble.configuration.dao.PropertyDao;
+import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicy;
+import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicyManager;
+import com.boozallen.aissemble.configuration.policy.exception.PropertyRegenerationPolicyException;
+import com.boozallen.aissemble.core.policy.configuration.policymanager.AbstractPolicyManager;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,8 +77,8 @@ public class ConfigLoader {
      * @return Set of properties.
      */
     public Set<Property> loadConfigs(String baseURI, String environmentURI) {
-        Set<Property> baseConfigs = loadURI(baseURI);
-        Set<Property> environmentConfigs = loadURI(environmentURI);
+        Set<Property> baseConfigs = loadPropertiesURI(baseURI);
+        Set<Property> environmentConfigs = loadPropertiesURI(environmentURI);
         return reconcileConfigs(baseConfigs, environmentConfigs);
     }
 
@@ -82,7 +88,7 @@ public class ConfigLoader {
      * @return Set of properties.
      */
     public Set<Property> loadConfigs(String baseURI) {
-        return loadURI(baseURI);
+        return loadPropertiesURI(baseURI);
     }
 
     /**
@@ -90,7 +96,7 @@ public class ConfigLoader {
      * @param URI Location housing configuration yamls.
      * @return Set of Property objects.
      */
-    private Set<Property> loadURI(String URI) {
+    private Set<Property> loadPropertiesURI(String URI) {
         if (URI == null) {
             throw new IllegalArgumentException("Path cannot be null");
         }
@@ -108,6 +114,92 @@ public class ConfigLoader {
         }
 
         return aggregateProperties;
+    }
+
+    /**
+     * Loads policies from the base and environment URIs and reconciles them.
+     * @param baseURI URI housing the base/default policies
+     * @param environmentURI URI housing environment specific policies.
+     * @return Set of policies.
+     */
+    public Set<PropertyRegenerationPolicy> loadPolicies(String baseURI, String environmentURI) {
+        Set<PropertyRegenerationPolicy> basePolicies = loadPolicyURI(baseURI);
+        Set<PropertyRegenerationPolicy> environmentPolicies = loadPolicyURI(environmentURI);
+        logger.info("Loaded {} base policies and {} environment policies", 
+            basePolicies.size(), environmentPolicies.size());
+
+        Set<PropertyRegenerationPolicy> reconciledPolicies = reconcilePolicies(basePolicies, environmentPolicies);
+        logger.info("Using {} policies after reconciling environment against base", reconciledPolicies.size());
+
+        return validatePolicies(reconciledPolicies);
+    }
+
+    /**
+     * Loads policies from the provided uri
+     * @param baseURI URI housing the base/default policies
+     * @return Set of policies.
+     */
+    public Set<PropertyRegenerationPolicy> loadPolicies(String baseURI) {
+        Set<PropertyRegenerationPolicy> policies = loadPolicyURI(baseURI);
+        logger.info("Loaded {} policies", policies.size());
+
+        return validatePolicies(policies);
+    }
+
+    /**
+     * Gathers all the {@link PropertyRegenerationPolicy}'s at the given URI
+     * @param URI Location housing policies.
+     * @return Set of policies.
+     */
+    private Set<PropertyRegenerationPolicy> loadPolicyURI(String URI) {
+        if (URI == null) {
+            throw new IllegalArgumentException("Path cannot be null");
+        }
+        
+        // set the system property so the policy manager reads in from the desired URI
+        System.setProperty(AbstractPolicyManager.getPolicyLocationPropertyKey(), URI);
+        PropertyRegenerationPolicyManager policyManager = new PropertyRegenerationPolicyManager();
+        
+        return policyManager.getPropertyRegenerationPolicies(); 
+    }
+
+    /**
+     * Override the base policies with their environment policy. 
+     * @param basePolicies Map of policies defined at the base URI.
+     * @param environmentPolicies Map of policies defined at the environment URI.
+     * @return List of policies.
+     */
+    private Set<PropertyRegenerationPolicy> reconcilePolicies(Set<PropertyRegenerationPolicy> basePolicies, 
+                                                                        Set<PropertyRegenerationPolicy> environmentPolicies) {
+        environmentPolicies.addAll(basePolicies);
+        return environmentPolicies;
+    }
+
+    /**
+     * Validates there is at most one policy per target.
+     * @param policies List of policies.
+     * @return List of policies.
+     */
+    private Set<PropertyRegenerationPolicy> validatePolicies(Set<PropertyRegenerationPolicy> policies) {
+        // if every targeted property key is only defined in one policy, then a list and set of all targeted property keys should be the same size
+        List<PropertyKey> targetsList = new ArrayList<>();
+        Set<PropertyKey> targetsSet = new HashSet<>();
+
+        // iterate through each policy and its targeted property keys
+        for (PropertyRegenerationPolicy policy: policies) {
+            for (PropertyKey targetPropertyKey: policy.getTargetPropertyKeys()) {
+                targetsList.add(targetPropertyKey);
+                targetsSet.add(targetPropertyKey);
+            }
+        }
+
+        if (targetsList.size() == targetsSet.size()) {
+            logger.info("Policy validation complete");
+            return policies;
+        } else {
+            throw new PropertyRegenerationPolicyException("Invalid Property Regeneration Policy configuration, found multiple policies with the same " + 
+                                                            "property in the 'targets' field. There should be at most one policy per target property.");
+        }
     }
 
     /**
@@ -177,19 +269,18 @@ public class ConfigLoader {
     }
 
     /**
-     * Read the Property from store with given group name and property name
-     * @param groupName group name
-     * @param propertyName property name
+     * Read property from store with given {@link PropertyKey} containing the group name and property name
+     * @param PropertyKey property key
      * @return property read from the store
      */
-    public Property read(String groupName, String propertyName) {
-        logger.info(String.format("Read property with groupName: %s, propertyName: %s from the store.", groupName, propertyName));
-        return propertyDao.read(groupName, propertyName);
+    public Property read(PropertyKey propertyKey) {
+        logger.info(String.format("Read property with groupName: %s, propertyName: %s from the store.", propertyKey.getGroupName(), propertyKey.getPropertyName()));
+        return propertyDao.read(propertyKey);
     }
     
     public boolean isFullyLoaded() {
         try {
-            Property statusProperty = propertyDao.read("load-status", "fully-loaded");
+            Property statusProperty = propertyDao.read(new PropertyKey("load-status", "fully-loaded"));
             return statusProperty != null && "true".equals(statusProperty.getValue());
         } catch (Exception e) {
             logger.warn("Properties are not loaded previously, continue", e);

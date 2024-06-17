@@ -8,6 +8,12 @@ Feature: Policy Based Configuration -> Read policies from a json file
     When the policy is loaded from the file
     Then the policy is available for service invocation
 
+  Scenario: Read in a policy from a json file with a deprecated target attribute
+    Given a json file with a policy using the deprecated target attribute
+    When the policy is loaded from the file
+    Then the policy is available for service invocation
+    And the policy has the deprecated target in the new targets attribute
+
   Scenario: Read in policies from multiple json files
     Given multiple json files exist, each with a configured policy
     When the policies are loaded from the files

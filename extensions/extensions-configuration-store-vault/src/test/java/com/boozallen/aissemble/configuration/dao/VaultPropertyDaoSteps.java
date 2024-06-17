@@ -28,7 +28,6 @@ import org.testcontainers.vault.VaultContainer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -83,25 +82,8 @@ public class VaultPropertyDaoSteps {
     @And("the properties can be read from the vault server")
     public void theConfigLoaderUsesVaultPropertyDaoToWriteToVault() {
         for (Property property : properties) {
-            assertEquals(propertyDao.read(property.getGroupName(), property.getName()), property);
+            assertEquals(propertyDao.read(property.getPropertyKey()), property);
         }
-    }
-
-    public Set<Property> getProperties() {
-        Set<Property> properties = new HashSet<>();
-
-        properties.add(new Property("model-training-api", "AWS_ACCESS_KEY_ID", "env-access-key-id"));
-        properties.add(new Property("model-training-api", "AWS_SECRET_ACCESS_KEY", "env-secret-access-key"));
-        properties.add(new Property("data-lineage", "connector", "smallrye-kafka"));
-        properties.add(new Property("data-lineage", "serializer", "apache.StringSerializer"));
-        properties.add(new Property("data-lineage", "topic", "lineage-topic"));
-        properties.add(new Property("data-lineage", "cloud-events", "true"));
-        properties.add(new Property("data-lineage", "added-property", "example-value"));
-        properties.add(new Property("messaging", "connector", "smallrye-kafka"));
-        properties.add(new Property("messaging", "serializer", "apache.StringSerializer"));
-        properties.add(new Property("messaging", "topic", "messaging-topic"));
-
-        return properties;
     }
 
     private void setupVaultContainer() {

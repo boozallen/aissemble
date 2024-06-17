@@ -60,8 +60,8 @@
                     </systemPropertyVariables>
                     <!-- set environment variables for unit test -->
                     <environmentVariables>
-                        <BASE_URI>/tmp/configurations/base</BASE_URI>
-                        <ENVIRONMENT_URI>/tmp/configurations/example-env</ENVIRONMENT_URI>
+                        <BASE_PROPERTY_URI>${project.basedir}/src/test/resources/configurations/base</BASE_PROPERTY_URI>
+                        <ENVIRONMENT_PROPERTY_URI>${project.basedir}/src/test/resources/configurations/example-env</ENVIRONMENT_PROPERTY_URI>
                     </environmentVariables>
                 </configuration>
             </plugin>
@@ -89,6 +89,11 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-core-java</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>

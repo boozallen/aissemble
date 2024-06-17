@@ -37,6 +37,18 @@ def step_impl(context, number):
     createValidPolicy(context, number)
 
 
+@given("a policy has been configured with {number:d} targets")
+def step_impl(context, number):
+    createValidPolicy(context, 1)
+    context.policyInput.targets = PolicyTestUtil.getRandomTargets(number)
+
+
+@given("a policy has been configured with the deprecated target attribute")
+def step_impl(context):
+    createValidPolicy(context, 1)
+    context.policyInput.target = PolicyTestUtil.getRandomTargets(1)[0]
+
+
 @given("a rule within a policy has been configured without a class name")
 def step_impl(context):
     context.identifier = PolicyTestUtil.getRandomString(10)
@@ -63,16 +75,19 @@ def step_impl(context):
 def step_impl(context):
     row = context.table[0]
     expectedTarget = Target(retrieve_url=row["retrieveUrl"], type=row["type"])
-    context.policyInput.target = expectedTarget
+    context.policyInput.targets = [expectedTarget]
 
 
-@given("a policy exists with the following target")
+@given("a policy exists with the following targets")
 def step_impl(context):
-    row = context.table[0]
-    expectedTarget = Target(retrieve_url=row["retrieveUrl"], type=row["type"])
+    row1 = context.table[0]
+    row2 = context.table[1]
+    expectedTargets = []
+    expectedTargets.append(Target(retrieve_url=row1["retrieveUrl"], type=row1["type"]))
+    expectedTargets.append(Target(retrieve_url=row2["retrieveUrl"], type=row2["type"]))
     context.identifier = PolicyTestUtil.getRandomString(10)
     context.policyInput = PolicyInput(identifier=context.identifier)
-    context.policyInput.target = expectedTarget
+    context.policyInput.targets = expectedTargets
 
 
 @given("a policy rule specifies the target configurations")
@@ -121,6 +136,15 @@ def step_impl(context, number):
     )
 
 
+@then("the policy has {number:d} corresponding targets")
+def step_impl(context, number):
+    actualTargets = getActualTargets(context)
+    nt.ok_(
+        number == len(actualTargets),
+        "Number of configured targets did not match expected",
+    )
+
+
 @then("the rule is ignored")
 def step_impl(context):
     actualRules = getActualRules(context)
@@ -142,7 +166,7 @@ def step_impl(context):
 
 @then('the target type is set as "{expectedType}"')
 def step_impl(context, expectedType):
-    actualTarget = getActualTarget(context)
+    actualTarget = getActualTargets(context)[0]
     nt.ok_(
         expectedType == actualTarget.type, "The target type did not match the expected"
     )
@@ -150,28 +174,29 @@ def step_impl(context, expectedType):
 
 @then('the target\'s retrieve url is set as "{expectedRetrieveUrl}"')
 def step_impl(context, expectedRetrieveUrl):
-    actualTarget = getActualTarget(context)
+    actualTarget = getActualTargets(context)[0]
     nt.ok_(
         expectedRetrieveUrl == actualTarget.retrieve_url,
         "The target retrieve url did not match the expected",
     )
 
 
-@then("the target configurations are available to the rule")
+@then("the configured targets are available to the rule")
 def step_impl(context):
     actualRules = getActualRules(context)
     nt.ok_(len(actualRules) == 1, "The number of rules was unexpected not 1")
 
     actualRule = actualRules[0]
-    actualTargetConfigurations = actualRule.targetConfigurations
+    actualConfiguredTargets = actualRule.configuredTargets
     nt.ok_(
-        actualTargetConfigurations is not None,
+        actualConfiguredTargets is not None,
         "Target configurations for algorithm were unexpectedly null",
     )
 
-    verifyConfigurations(
-        context.expectedConfigurations, actualTargetConfigurations.target_configurations
-    )
+    for configuredTarget in actualConfiguredTargets:
+        verifyConfigurations(
+            context.expectedConfigurations, configuredTarget.target_configurations
+        )
 
 
 @then("the configurations are available to the rule")
@@ -212,12 +237,12 @@ def getActualPolicy(context) -> Policy:
     return policies[context.identifier]
 
 
-def getActualTarget(context) -> Target:
+def getActualTargets(context) -> List[Target]:
     actualPolicy = getActualPolicy(context)
-    actualTarget = actualPolicy.target
-    nt.ok_(actualTarget is not None, "Target was unexpectedly null")
+    actualTargets = actualPolicy.targets
+    nt.ok_(actualTargets is not None, "Target was unexpectedly null")
 
-    return actualTarget
+    return actualTargets
 
 
 def verifyConfigurations(

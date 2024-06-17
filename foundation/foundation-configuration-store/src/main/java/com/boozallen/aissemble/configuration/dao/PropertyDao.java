@@ -11,22 +11,21 @@ package com.boozallen.aissemble.configuration.dao;
  */
 
 import com.boozallen.aissemble.configuration.store.Property;
+import com.boozallen.aissemble.configuration.store.PropertyKey;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
 
 /**
  * PropertyDao reads/writes the configuration property to the store
  */
 
-public interface PropertyDao extends Dao<Property> {
+public interface PropertyDao extends Dao<Property,PropertyKey> {
     /**
-     * Read property from store with given group name and property name
-     * @param groupName group name
-     * @param propertyName property name
+     * Read property from store with given {@link PropertyKey} containing the group name and property name
+     * @param PropertyKey property key
      * @return Property
      */
-    Property read(String groupName, String propertyName);
+    Property read(PropertyKey propertyKey);
 
     /**
      * Write given property to the store

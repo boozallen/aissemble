@@ -31,7 +31,15 @@ public interface Policy {
 
     public String getDescription();
     
+    /**
+     * This method is deprecated and should not be used. Targets are now represented as
+     * a {@link List} of {@link Target}'s instead of a single {@link Target} attribute.
+     * @Deprecated this method is replaced by {@link #getTargets()}
+     */
+    @Deprecated
     public Target getTarget();
+
+    public List<Target> getTargets();
 
     public List<ConfiguredRule> getRules();
 
