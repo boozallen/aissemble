@@ -51,6 +51,7 @@ class ConfiguredRule(BaseModel):
     """
 
     __logger = LogManager.get_instance().get_logger("ConfiguredRule")
+    __deprecated_set_methods = {"target": "set_deprecated_targetConfigurations"}
     className: str
     configurations: Optional[Dict[str, Any]]
     configuredTargets: Optional[List[ConfiguredTarget]] = []
@@ -83,16 +84,11 @@ class ConfiguredRule(BaseModel):
     # Links ConfiguredRule 'targetConfigurations' attribute to 'set_deprecated_targetConfigurations()' method to support
     # people still assigning values to the old attribute.
     def __setattr__(self, key, val):
-        method = self.__config__.property_set_methods.get(key)
+        method = self.__deprecated_set_methods.get(key)
         if method is None:
             super().__setattr__(key, val)
         else:
             getattr(self, method)(val)
-
-    class Config:
-        property_set_methods = {
-            "targetConfigurations": "set_deprecated_targetConfigurations"
-        }
 
 
 class Policy(BaseModel):
@@ -104,6 +100,7 @@ class Policy(BaseModel):
     """
 
     __logger = LogManager.get_instance().get_logger("Policy")
+    __deprecated_set_methods = {"target": "set_deprecated_target"}
     alertOptions: AlertOptions = AlertOptions.ON_DETECTION
     identifier: str
     description: Optional[str]
@@ -138,12 +135,11 @@ class Policy(BaseModel):
     # Pydantic model config to allow policy subclasses to contain additional fields of any type
     class Config:
         arbitrary_types_allowed = True
-        property_set_methods = {"target": "set_deprecated_target"}
 
     # Links Policy 'target' attribute to 'set_deprecated_target()' method to support
     # people still assigning values to the old attribute.
     def __setattr__(self, key, val):
-        method = self.__config__.property_set_methods.get(key)
+        method = self.__deprecated_set_methods.get(key)
         if method is None:
             super().__setattr__(key, val)
         else:
