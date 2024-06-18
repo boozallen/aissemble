@@ -21,7 +21,6 @@
         <module>aissemble-inference-chart</module>
         <module>aissemble-versioning-chart</module>
         <module>aissemble-kafka-chart</module>
-        <module>extensions-helm-hive</module>
         <module>aissemble-keycloak-chart</module>
         <module>aissemble-elasticsearch-operator-chart</module>
         <module>aissemble-elasticsearch-chart</module>

@@ -42,6 +42,16 @@ aissemble-thrift-server-chart:
      </configuration>
 
 aissemble-hive-metastore-service-chart:
+  mysql:
+    auth:
+      # Note: Changing these values requires removal of the `hive-metastore-db-0` PVC, or manual modification of the
+      # persisted database.
+      username: hive
+      # NB: UCS
+      rootPassword: hive
+      replicationPassword: hive
+      password: hive
+
   deployment:
     env:
       - name: AWS_SECRET_ACCESS_KEY
@@ -61,6 +71,7 @@ aissemble-hive-metastore-service-chart:
         - name: javax.jdo.option.ConnectionUserName
           value: hive
           description: Username to use against metastore database
+          # NB: UCS
         - name: javax.jdo.option.ConnectionPassword
           value: hive
           description: Password to use against metastore database
