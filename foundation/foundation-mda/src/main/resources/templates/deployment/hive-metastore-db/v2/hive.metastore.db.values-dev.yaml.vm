@@ -1,9 +1,0 @@
-#[[########################################
-## CONFIG | Hive Metastore DB Configs Development Overrides
-## See aiSSEMBLE aissemble-hive-metastore-db-chart: README for more details.
-## https://github.com/boozallen/aissemble/
-########################################]]#
-aissemble-hive-metastore-db-chart:
-  image:
-    imagePullPolicy: IfNotPresent
-    repo: ''

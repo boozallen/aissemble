@@ -20,14 +20,12 @@ import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryMana
 public class SparkInfrastructureGenerator extends KubernetesGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                               | Template                                                                        | Generated File                   |
-     * |--------------------------------------|---------------------------------------------------------------------------------|----------------------------------|
-     * | hiveMetastoreServiceValuesDevFile    | deployment/hive-metastore-service/hive-metastore-service-values-dev.yaml.vm     | apps/${appName}/values-dev.yaml  |
-     * | hiveMetastoreServiceValuesFile       | deployment/hive-metastore-service/hive-metastore-service-values.yaml.vm         | apps/${appName}/values.yaml      |
-     * | hiveMetastoreServiceValuesDevFileV2  | deployment/hive-metastore-service/v2/hive-metastore-service-values-dev.yaml.vm  | apps/${appName}/values-dev.yaml  |
-     * | hiveMetastoreServiceValuesFileV2     | deployment/hive-metastore-service/v2/hive-metastore-service-values.yaml.vm      | apps/${appName}/values.yaml      |
-     * | sparkInfrastructureValuesDevFile     | deployment/spark-infrastructure/spark.infrastructure.values-dev.yaml.vm         | apps/${appName}/values-dev.yaml  |
-     * | sparkInfrastructureValuesFile        | deployment/spark-infrastructure/spark.infrastructure.values.yaml.vm             | apps/${appName}/values.yaml      |
+     * | Target                             | Template                                                                     | Generated File                   |
+     * |------------------------------------|------------------------------------------------------------------------------|----------------------------------|
+     * | hiveMetastoreServiceValuesDevFile  | deployment/hive-metastore-service/hive-metastore-service-values-dev.yaml.vm  | apps/${appName}/values-dev.yaml  |
+     * | hiveMetastoreServiceValuesFile     | deployment/hive-metastore-service/hive-metastore-service-values.yaml.vm      | apps/${appName}/values.yaml      |
+     * | sparkInfrastructureValuesDevFile   | deployment/spark-infrastructure/spark.infrastructure.values-dev.yaml.vm      | apps/${appName}/values-dev.yaml  |
+     * | sparkInfrastructureValuesFile      | deployment/spark-infrastructure/spark.infrastructure.values.yaml.vm          | apps/${appName}/values.yaml      |
      */
 
     public void generate(GenerationContext context) {

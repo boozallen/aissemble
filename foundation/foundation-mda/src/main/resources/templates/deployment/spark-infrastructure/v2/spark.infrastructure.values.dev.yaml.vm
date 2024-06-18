@@ -6,3 +6,12 @@ aissemble-spark-history-chart:
 
     ingress:
       enabled: false
+
+aissemble-hive-metastore-service-chart:
+  mysql:
+    primary:
+      persistence:
+        enabled: false
+    secondary:
+      persistence:
+        enabled: false

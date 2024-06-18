@@ -311,6 +311,9 @@
 			},
 			{
 				"name": "sparkInfrastructureHelmValuesDevFileV2"
+			},
+			{
+				"name": "sparkInfrastructureArgoCDFileV2"
 			}
 		]
 	},
@@ -990,29 +993,6 @@
 		]
 	},
 	{
-		"name": "aissemble-hive-metastore-db-kubernetes",
-		"targetReferences": [
-			{
-				"name": "hiveMetastoreDbHelmChartFileV2"
-			},
-			{
-				"name": "helmIgnoreFile"
-			},
-			{
-				"name": "hiveMetastoreDbValuesFileV2"
-			},
-			{
-				"name": "hiveMetastoreDbValuesDevFileV2"
-			},
-			{
-				"name": "valuesCIFile"
-			},
-			{
-				"name": "hiveMetastoreDbArgoCDV2"
-			}
-		]
-	},
-	{
 		"name": "hive-metastore-service-kubernetes",
 		"targetReferences": [
 			{
@@ -1042,26 +1022,6 @@
 		]
 	},
 	{
-		"name": "aissemble-hive-metastore-service-kubernetes",
-		"targetReferences": [
-			{
-				"name": "hiveMetastoreServiceHelmChartFileV2"
-			},
-			{
-				"name": "helmIgnoreFile"
-			},
-			{
-				"name": "hiveMetastoreServiceValuesFileV2"
-			},
-			{
-				"name": "hiveMetastoreServiceValuesDevFileV2"
-			},
-			{
-				"name": "hiveMetastoreServiceArgoCDV2"
-			}
-		]
-	},
-	{
 		"name": "hive-metastore-db-deploy",
 		"profileReferences": [
 			{
@@ -1070,26 +1030,10 @@
 		]
 	},
 	{
-		"name": "hive-metastore-db-deploy-v2",
-		"profileReferences": [
-			{
-				"name": "aissemble-hive-metastore-db-kubernetes"
-			}
-		]
-	},
-	{
 		"name": "hive-metastore-service-deploy",
 		"profileReferences": [
 			{
 				"name": "hive-metastore-service-kubernetes"
-			}
-		]
-	},
-	{
-		"name": "hive-metastore-service-deploy-v2",
-		"profileReferences": [
-			{
-				"name": "aissemble-hive-metastore-service-kubernetes"
 			}
 		]
 	},

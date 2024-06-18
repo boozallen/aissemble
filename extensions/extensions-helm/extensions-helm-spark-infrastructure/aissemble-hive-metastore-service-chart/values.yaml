@@ -14,6 +14,13 @@ image:
   imagePullPolicy: IfNotPresent
   dockerRepo: "ghcr.io/"
 
+mysql:
+  enabled: true
+  fullnameOverride: "hive-metastore-db"
+  auth:
+    # The schematool for the metastore service will create the database for us.
+    database: "metastore"
+
 hive:
   dbType: "mysql"
 
