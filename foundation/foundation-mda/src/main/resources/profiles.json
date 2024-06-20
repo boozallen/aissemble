@@ -2693,6 +2693,37 @@
 		]
 	},
 	{
+		"name": "configuration-store-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "aissemble-configuration-store-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "aissemble-configuration-store-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "aissembleConfigurationStoreHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "aissembleConfigurationStoreValuesFileV2"
+			},
+			{
+				"name": "aissembleConfigurationStoreValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "aissembleConfigurationStoreArgoCDV2"
+			}
+		]
+	},
+	{
 		"name": "mlflow-deploy-v2",
 		"profileReferences": [
 			{

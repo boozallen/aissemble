@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-helm</artifactId>
         <version>1.8.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>aissemble-metadata-chart</artifactId>
+    <artifactId>aissemble-configuration-store-chart</artifactId>
     <packaging>helm</packaging>
 
-    <name>aiSSEMBLE::Extensions::Helm::Metadata</name>
-    <description>Contains Helm Metadata Chart</description>
+    <name>aiSSEMBLE::Extensions::Helm::Configuration Store</name>
+    <description>Contains Helm Configuration Store Chart</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>aissemble-quarkus-chart</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

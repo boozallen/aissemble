@@ -1,0 +1,14 @@
+project_path = os.path.abspath('.')
+# Update configuration_files_path to match the path of the config files to be loaded into the configuration store. Example 'my-project-deploy/src/main/resources/config'
+configuration_files_path = ''
+# For WSL users, the configuration files need to be in an accessible path. Use this prefix to add the path to the root shared file store. Example: '/mnt/c' or '/mnt/wsl/rancher-desktop'
+wsl_path_prefix = ''
+
+yaml = helm(
+   '${deployArtifactId}/src/main/resources/apps/${appName}',
+   name='${appName}',
+   values=['${deployArtifactId}/src/main/resources/apps/${appName}/values.yaml',
+   '${deployArtifactId}/src/main/resources/apps/${appName}/values-dev.yaml'],
+   set=['aissemble-configuration-store-chart.deployment.volumes[0].hostPath.path=' + configuration_files_path_prefix + project_path + '/' + configuration_files_path]
+)
+k8s_yaml(yaml)
