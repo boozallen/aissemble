@@ -11,6 +11,15 @@
             "includes": ["pom.xml"]
           }
         ]
+      },
+      {
+        "name": "orphedomos-to-fabric8-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.OrphedomosToFabric8Migration",
+        "fileSets": [
+          {
+            "includes": ["pom.xml"]
+          }
+        ]
       }
     ]
   },
