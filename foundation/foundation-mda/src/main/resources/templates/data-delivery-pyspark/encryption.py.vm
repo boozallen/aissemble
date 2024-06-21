@@ -42,12 +42,12 @@
 
 
     #if (!$step.hasInboundRecordType())
-    def aiops_encrypt_aes_udf(self):
-        return udf(lambda text: aiops_encrypt_simple_aes(text))
+    def aissemble_encrypt_aes_udf(self):
+        return udf(lambda text: aissemble_encrypt_simple_aes(text))
 
 
-    def aiops_encrypt_vault_udf(self, key):
-        return udf(lambda text: aiops_encrypt_with_vault_key(key, text))
+    def aissemble_encrypt_vault_udf(self, key):
+        return udf(lambda text: aissemble_encrypt_with_vault_key(key, text))
     #end
 
 
@@ -78,13 +78,13 @@
 ## process a set[CustomRecord]
         # return type is a set
         return_payload = set([])
-        aiops_encrypt = AesCbcEncryptionStrategy()
+        aissemble_encrypt = AesCbcEncryptionStrategy()
         if(algorithm == 'VAULT_ENCRYPT'):
-            aiops_encrypt = VaultRemoteEncryptionStrategy()
+            aissemble_encrypt = VaultRemoteEncryptionStrategy()
 
         for record in inbound:
             for column in fields_to_update:
-                encrypted_column_value = aiops_encrypt.encrypt(getattr(record, column))
+                encrypted_column_value = aissemble_encrypt.encrypt(getattr(record, column))
                 # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
                 try:
                     encrypted_column_value = encrypted_column_value.decode('utf-8')
@@ -97,12 +97,12 @@
        #elseif (!$step.hasInboundNativeCollectionType() && $step.hasInboundRecordType())
 ## process a CustomRecord
         # return type is a single custom data type
-        aiops_encrypt = AesCbcEncryptionStrategy()
+        aissemble_encrypt = AesCbcEncryptionStrategy()
         if(algorithm == 'VAULT_ENCRYPT'):
-            aiops_encrypt = VaultRemoteEncryptionStrategy()
+            aissemble_encrypt = VaultRemoteEncryptionStrategy()
 
         for column in fields_to_update:
-            encrypted_column_value = aiops_encrypt.encrypt(getattr(inbound, column))
+            encrypted_column_value = aissemble_encrypt.encrypt(getattr(inbound, column))
             # Depending on the encryption algorithm the return value may be bytes or bytesarray which requires decoding
             try:
                 encrypted_column_value = encrypted_column_value.decode('utf-8')
@@ -122,9 +122,9 @@
                 # the udf call to avoid threading errors
                 vault_key_util = VaultKeyUtil.get_instance()
                 vault_key = vault_key_util.get_vault_key_encoded()
-                return_payload = inbound.withColumn(encrypt_field, self.aiops_encrypt_vault_udf(vault_key)(col(encrypt_field)))
+                return_payload = inbound.withColumn(encrypt_field, self.aissemble_encrypt_vault_udf(vault_key)(col(encrypt_field)))
             else:
-                return_payload = inbound.withColumn(encrypt_field, self.aiops_encrypt_aes_udf()(col(encrypt_field)))
+                return_payload = inbound.withColumn(encrypt_field, self.aissemble_encrypt_aes_udf()(col(encrypt_field)))
 
             return_payload.show()
        #end
