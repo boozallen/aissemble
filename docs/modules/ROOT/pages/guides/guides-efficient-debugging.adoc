@@ -104,15 +104,15 @@ tests, mocks should be used. Mocking allows you to simulate the behavior of exte
 network requests.
 
 * Example: In an aiSSEMBLE project, if you are interested in testing the connection of a Python pipeline to a
-data store using the `create_engine` function, you can employ unit tests that use mocks to verify the successful
+data store using the JDBC protocol, you can employ unit tests that use mocks to verify the successful
 establishment of this connection.
-** Create a scenario file named `create_engine_test.feature` in the
+** Create a scenario file named `create_jdbc_connection_test.feature` in the
 `pipeline_name/pipeline_name-pipelines/example-data-delivery-py-spark-pipeline/tests/features` directory. The path
 should be tailored to the pipeline you've created.
-** Create a python file named `create_engine_test_steps.py` in the
+** Create a python file named `create_jdbc_connection_test_steps.py` in the
 `pipeline_name/pipeline_name-pipelines/example-data-delivery-py-spark-pipeline/tests/features/steps` directory. The
 path should be tailored to the pipeline you've created. The unit test uses mock to simulate the return value when
-the user calls `create_engine` function.
+the user calls the `DataFrame.write.jdbc` function.
 
 ****
 `create_engine_test.feature` 
@@ -129,25 +129,27 @@ Feature: Placeholder test
 [source,python]
 ----
 from unittest.mock import patch
-import sqlalchemy
-from sqlalchemy.pool import QueuePool
+from pyspark.sql import readwriter
 import nose.tools as nt
 @given("Pyspark pipeline exists")
 def step_impl(context):
     return
-@then("User can connect to data store via create_engine function")
-@patch("sqlalchemy.create_engine")
-def step_impl(context, mock_create_engine):
-    mock_create_engine.return_value = {
-        "url": "postgresql://username:***@host:1001/database"
+@then("User can connect to data store via a jdbc connection through Spark")
+@patch("pyspark.sql.readwriter.DataFrame")
+def step_impl(context, mock_jdbc_reader):
+    mock_jdbc_reader.jdbc = {
+        "testValue": "test"
     }
-    sqlalchemy.create_engine(
-        "postgresql://username:password@host:1001/database",
-        poolclass=QueuePool,
-        pool_size=5,
+    return_value = readwriter.DataFrameReader.read.jdbc(
+        url="jdbc:database://database:port/databaseName",
+        properties = {
+            "user": "user",
+            "password":"password",
+            "driver": "driver"
+        }
     )
-    expected_url = "postgresql://username:***@host:1001/database"
-    nt.eq_(mock_create_engine.return_value["url"], expected_url)
+    expected_return = "test"
+    nt.eq_(return_value, expected_return)
 ----
 ****
 

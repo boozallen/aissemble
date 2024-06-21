@@ -17,9 +17,11 @@ import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +61,6 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
     public static final String ABSTRACT_DATA_ACTION_IMPL_INHERIT_REGEX = "AbstractDataActionImpl\\(AbstractDataAction\\):";
     public static final String ABSTRACT_PIPELINE_STEP_INHERIT_REGEX = "AbstractPipelineStep\\(AbstractDataActionImpl\\)";
 
-    protected File pipelineFile;
     protected Pipeline pipeline;
     protected Pipeline dataFLowPipeline;
     protected Pipeline machineLearningPipeline;
@@ -341,6 +342,14 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
         List<Step> machineLearningSteps = createStepsForMachineLearningPipeline(3);
         machineLearningSteps.forEach((step) -> newMachineLearningPipeline.addStep(step));
         savePipelineToFile(newMachineLearningPipeline);
+    }
+
+    @Given("A valid data-flow PySpark pipeline with a RDBMS ingest step")
+    public void a_valid_data_flow_pyspark_pipeline_with_a_RDBMS_ingest_step() throws Exception {
+        PipelineElement newDataFlowPipeline = TestMetamodelUtil.createPipelineWithType(DATA_FLOW_PIPELINE, BOOZ_ALLEN_PACKAGE, "data-flow", "data-delivery-pyspark");
+        List<Step> dataFlowSteps = createStepForPySparkRDMSDataFlowPipeline();
+        dataFlowSteps.forEach(newDataFlowPipeline::addStep);
+        this.pipelineFile = savePipelineToFile(newDataFlowPipeline);
     }
 
     @Given("a valid machine learning pipeline with a training step")
@@ -765,6 +774,19 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
         assertEquals("Unexpected persist mode found", "test-mode", persist.getMode());
     }
 
+    @Then("the pipeline is created with the specified persist type {string}")
+    public void the_pipeline_is_created_with_the_specified_persist_save_type(String expectedType) {
+        assertNotNull("No pipeline found", pipeline);
+
+        List<StepElement> steps = (List<StepElement>)(List<?>) pipeline.getSteps();
+        assertTrue("No steps were found in the pipeline", CollectionUtils.isNotEmpty(steps));
+        Persist persist = steps.get(0).getPersist();
+        assertNotNull("Persist object not found", persist);
+        String realType = persist.getType();
+        assertFalse("Persist type not found", StringUtils.isEmpty(realType));
+        assertEquals("Unexpected persist type found", expectedType, realType);
+    }
+
     @Then("the pipeline is created with lineage disabled")
     public void the_pipeline_is_created_with_lineage_disabled() {
         assertPipelineFoundByNameAndPackage("lineage-undefined", BOOZ_ALLEN_PACKAGE);
@@ -928,4 +950,25 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
 
         return steps;
     }
+
+    private List<Step> createStepForPySparkRDMSDataFlowPipeline() {
+        List<Step> steps = new ArrayList<>();
+        StepElement step = new StepElement();
+        step.setName("IngestData" );
+        step.setType("synchronous");
+
+        PersistElement persist = new PersistElement();
+        persist.setType("rdbms");
+        step.setPersist(persist);
+
+        ConfigurationItemElement configurationItem = new ConfigurationItemElement();
+        configurationItem.setKey("targetedPipeline");
+        configurationItem.setValue("DataFlowPipeline");
+        step.addConfigurationItem(configurationItem);
+
+        steps.add(step);
+
+        return steps;
+    }
+
 }

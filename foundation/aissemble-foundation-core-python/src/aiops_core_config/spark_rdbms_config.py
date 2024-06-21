@@ -10,19 +10,19 @@
 from krausening.properties import PropertyManager
 
 
-class SparkPostgresConfig:
+class SparkRDBMSConfig:
     """
-    Configurations for PySpark Postgres support.
+    Configurations for PySpark Relational Database Management System support.
     """
 
     DEFAULT_JDBC_URL = "jdbc:postgresql://postgres:5432/db"
     DEFAULT_JDBC_DRIVER = "org.postgresql.Driver"
-    DEFAULT_POSTGRES_USER = "postgres"
-    DEFAULT_POSTGRES_PASSWORD = "password"
+    DEFAULT_USER = "postgres"
+    DEFAULT_PASSWORD = "password"
 
     def __init__(self):
         self.properties = PropertyManager.get_instance().get_properties(
-            "spark-postgres.properties"
+            "spark-rdbms.properties"
         )
 
     def jdbc_url(self):
@@ -30,7 +30,7 @@ class SparkPostgresConfig:
         The JDBC URL for the database connection.
         """
         return self.properties.getProperty(
-            "jdbc.url", SparkPostgresConfig.DEFAULT_JDBC_URL
+            "jdbc.url", SparkRDBMSConfig.DEFAULT_JDBC_URL
         )
 
     def jdbc_driver(self):
@@ -38,21 +38,19 @@ class SparkPostgresConfig:
         The JDBC driver class name.
         """
         return self.properties.getProperty(
-            "jdbc.driver", SparkPostgresConfig.DEFAULT_JDBC_DRIVER
+            "jdbc.driver", SparkRDBMSConfig.DEFAULT_JDBC_DRIVER
         )
 
-    def postgres_user(self):
+    def user(self):
         """
-        The Postgres user.
+        The RDBMS user.
         """
-        return self.properties.getProperty(
-            "postgres.user", SparkPostgresConfig.DEFAULT_POSTGRES_USER
-        )
+        return self.properties.getProperty("jdbc.user", SparkRDBMSConfig.DEFAULT_USER)
 
-    def postgres_password(self):
+    def password(self):
         """
-        The password for the Postgres user.
+        The password for the RDBMS user.
         """
         return self.properties.getProperty(
-            "postgres.password", SparkPostgresConfig.DEFAULT_POSTGRES_PASSWORD
+            "jdbc.password", SparkRDBMSConfig.DEFAULT_PASSWORD
         )

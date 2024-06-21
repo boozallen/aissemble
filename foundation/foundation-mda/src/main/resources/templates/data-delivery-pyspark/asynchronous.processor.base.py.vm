@@ -12,10 +12,8 @@ from aiops_core_filestore.file_store_factory import FileStoreFactory
 #if (!$step.provenance || $step.provenance.enabled)
 from aiops_core_metadata.hive_metadata_api_service import HiveMetadataAPIService
 #end
-#if ($step.isPersistTypePostgres() || $step.isPersistTypeRdbms())
-from aiops_core_config import SparkPostgresConfig
-from aiops_core_config import RDBMSConnectionPool
-import sqlalchemy
+#if ($step.isPersistTypeRdbms())
+from aiops_core_config import SparkRDBMSConfig
 #end
 #if ($step.isPersistTypeElasticsearch())
 from aiops_core_config import SparkElasticsearchConfig
@@ -143,9 +141,8 @@ class ${step.capitalizedName}Base(AbstractPipelineStep):
       #if (!$step.provenance || $step.provenance.enabled)
         self.set_metadata_api_service(HiveMetadataAPIService())
       #end
-      #if ($step.isPersistTypePostgres() || $step.isPersistTypeRdbms())
-        self.spark_postgres_config = SparkPostgresConfig()
-        self.rdbms_connection_pool = RDBMSConnectionPool()
+      #if ($step.isPersistTypeRdbms())
+        self.spark_rdbms_config = SparkRDBMSConfig()
       #end
       #if ($step.isPersistTypeElasticsearch())
         self.spark_elasticsearch_config = SparkElasticsearchConfig()

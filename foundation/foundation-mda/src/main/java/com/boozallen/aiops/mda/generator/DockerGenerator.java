@@ -74,9 +74,10 @@ public class DockerGenerator extends AbstractResourcesGenerator {
         vc.put(VelocityProperty.ENABLE_DELTA_SUPPORT, dataFlowStrategy.isDeltaSupportNeeded());
         vc.put(VelocityProperty.ENABLE_HIVE_SUPPORT, dataFlowStrategy.isHiveSupportNeeded());
         // Postgres support is determined by checking both data-flow and machine-learning pipelines
-        boolean postgresSupportIsNeeded = dataFlowStrategy.isPostgresSupportNeeded() ||
-                machineLearningStrategy.isPostgresSupportNeeded() || dataFlowStrategy.isRdbmsSupportNeeded() || machineLearningStrategy.isRdbmsSupportNeeded();
+        boolean postgresSupportIsNeeded = dataFlowStrategy.isPostgresSupportNeeded() || machineLearningStrategy.isPostgresSupportNeeded();
+        boolean rdbmsSupportIsNeeded = dataFlowStrategy.isRdbmsSupportNeeded() || machineLearningStrategy.isRdbmsSupportNeeded();
         vc.put(VelocityProperty.ENABLE_POSTGRES_SUPPORT, postgresSupportIsNeeded);
+        vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, rdbmsSupportIsNeeded);
         vc.put(VelocityProperty.ENABLE_ELASTICSEARCH_SUPPORT, dataFlowStrategy.isElasticsearchSupportNeeded());
         vc.put(VelocityProperty.ENABLE_NEO4J_SUPPORT, dataFlowStrategy.isNeo4jSupportNeeded());
         vc.put(VelocityProperty.ENABLE_SEDONA_SUPPORT, dataFlowStrategy.isSedonaSupportNeeded());

@@ -1,0 +1,8 @@
+    def get_data_source_configs(self) -> dict:
+        """
+        Retrieves the base configurations for the JDBC Connection
+        :return: JDBC Configs as a dictionary
+        """
+        configs = super().get_data_source_configs()
+        # TODO: Apply additional config options as needed by your specific database!
+        return configs

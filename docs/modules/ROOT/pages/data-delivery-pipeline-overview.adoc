@@ -164,6 +164,10 @@ added to your pipeline step’s base class (e.g., ingest_base.py) to retrieve th
 The primary use case is calling the function generated on the step base class to make a connection to the database to
 insert/update/select.
 
+Basic JDBC configurations for the connections and type of database can be made in `src/resources/configs/spark-rdbms.properties`. Default properties are configured for a local postgres instance.
+
+The configuration object can further be extended for databases that require additional properties in the `get_data_source_configs()` method that is generated in the in the main `ingest.py` file.
+
 **Note**: It is recommended to implement a secure configuration to enhance the security of your code and prevent committing
 sensitive connection values directly into the code. You may want to use https://pypi.org/project/krausening/[Krausening,role=external,window=_blank]
 to prevent committing sensitive connection values.

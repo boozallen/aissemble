@@ -274,3 +274,11 @@ Feature: Generating pipeline resources
       | type      | implementation        | fermenterProfile      |
       | data-flow | data-delivery-spark   | data-delivery-spark   |
       | data-flow | data-delivery-pyspark | data-delivery-pyspark |
+
+  @pipeline-generation
+  Scenario: PySpark Data Ingest steps in data-flow pipelines can write to a RDMS database
+    Given a project named "example"
+    And A valid data-flow PySpark pipeline with a RDBMS ingest step
+    When the pipelines are validated
+    And the profile "data-delivery-pyspark-pipeline" is generated
+    Then the pipeline is created with the RDBMS persist type

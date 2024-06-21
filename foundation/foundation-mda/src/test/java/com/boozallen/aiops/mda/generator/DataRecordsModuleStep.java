@@ -12,10 +12,13 @@ import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 
 import com.boozallen.aiops.mda.metamodel.element.AbstractModelInstanceSteps;
 import com.boozallen.aiops.mda.metamodel.element.BaseStepDecorator;
+import com.boozallen.aiops.mda.metamodel.element.PipelineElement;
 import com.boozallen.aiops.mda.metamodel.element.RecordElement;
 import com.boozallen.aiops.mda.metamodel.element.BasePipelineDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonRecord;
+import com.boozallen.aiops.mda.metamodel.element.python.PythonStep;
+import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
@@ -30,6 +33,7 @@ import org.technologybrewery.fermenter.mda.GenerateSourcesHelper;
 import org.technologybrewery.fermenter.mda.element.ExpandedProfile;
 import org.technologybrewery.fermenter.mda.notification.Notification;
 import org.technologybrewery.fermenter.mda.notification.NotificationCollector;
+import org.technologybrewery.fermenter.mda.util.JsonUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -46,10 +50,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
     private static final Logger logger = LoggerFactory.getLogger(DataRecordsModuleStep.class);
+    public static final String RDBMS_TYPE = "rdbms";
     private RecordElement record;
 
     @Before("@data-records-generation")
@@ -313,5 +319,16 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
             nodeList = (NodeList) xPath.compile(query).evaluate(xmlDocument, XPathConstants.NODESET);
         }
         return nodeList;
+    }
+    @When("the pipelines are validated")
+    public void the_pipelines_are_validated() throws Exception {
+        pipelineFile = getPipelineFileByName(DATA_FLOW_PIPELINE);
+        pipeline = JsonUtils.readAndValidateJson(pipelineFile, PipelineElement.class);
+        pipeline.validate();
+    }
+    @Then("the pipeline is created with the RDBMS persist type")
+    public void the_pipeline_is_created_with_the_RDBMS_persist_type() {
+        String realType = pipeline.getSteps().get(0).getPersist().getType();
+        assertEquals("Unexpected persist type found", RDBMS_TYPE, realType);
     }
 }

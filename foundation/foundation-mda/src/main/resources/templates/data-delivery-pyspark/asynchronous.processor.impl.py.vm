@@ -42,6 +42,9 @@ class ${step.capitalizedName}(${step.capitalizedName}Base):
         #end
         #end
 
+    #if ($step.isPersistTypeRdbms())
+    #parse("templates/data-delivery-pyspark/rdbms.config.extension.py.vm")
+    #end
 
     def get_data_action_descriptive_label(self) -> str:
         """
