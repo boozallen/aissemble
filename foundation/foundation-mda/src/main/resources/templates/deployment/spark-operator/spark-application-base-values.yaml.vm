@@ -31,8 +31,10 @@ sparkApp:
         #if (${enablePySparkSupport})
         - https://repo1.maven.org/maven2/org/apache/sedona/sedona-python-adapter-3.0_2.12/${versionSedona}/sedona-python-adapter-3.0_2.12-${versionSedona}.jar
         - https://repo1.maven.org/maven2/org/datasyslab/geotools-wrapper/${versionGeotools}/geotools-wrapper-${versionGeotools}.jar
-        - https://repo1.maven.org/maven2/org/postgresql/postgresql/${versionPostgresql}/postgresql-${versionPostgresql}.jar
         #end
+        #end
+        #if (${enableRDBMSSupport})
+        - https://repo1.maven.org/maven2/org/postgresql/postgresql/${versionPostgresql}/postgresql-${versionPostgresql}.jar
         #end
       #else
       packages:
@@ -56,8 +58,10 @@ sparkApp:
         #if (${enablePySparkSupport})
         - org.apache.sedona:sedona-python-adapter-3.0_2.12:${versionSedona}
         - org.datasyslab:geotools-wrapper:${versionGeotools}
-        - org.postgresql:postgresql:${versionPostgresql}
         #end
+        #end
+        #if (${enableRDBMSSupport})
+        - org.postgresql:postgresql:${versionPostgresql}
         #end
       #end
       excludePackages: []

@@ -75,12 +75,12 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
             BasePipelineDecorator pipelineDecorator = new BasePipelineDecorator(pipeline);
             boolean enableHiveSupport = pipelineDecorator.isHiveSupportNeeded();
             boolean enableSedonaSupport = pipelineDecorator.isSedonaSupportNeeded();
-            boolean enablePostgresSupport = pipelineDecorator.isPostgresSupportNeeded() || pipelineDecorator.isRdbmsSupportNeeded();
             boolean enableElasticsearchSupport = pipelineDecorator.isElasticsearchSupportNeeded();
             boolean enableNeo4jSupport = pipelineDecorator.isNeo4jSupportNeeded();
             vc.put(VelocityProperty.ENABLE_HIVE_SUPPORT, enableHiveSupport);
             vc.put(VelocityProperty.ENABLE_SEDONA_SUPPORT, enableSedonaSupport);
-            vc.put(VelocityProperty.ENABLE_POSTGRES_SUPPORT, enablePostgresSupport);
+            vc.put(VelocityProperty.ENABLE_POSTGRES_SUPPORT, pipelineDecorator.isPostgresSupportNeeded());
+            vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, pipelineDecorator.isRdbmsSupportNeeded());
             vc.put(VelocityProperty.ENABLE_ELASTICSEARCH_SUPPORT, enableElasticsearchSupport);
             vc.put(VelocityProperty.ENABLE_NEO4J_SUPPORT, enableNeo4jSupport);
             vc.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(metadataContext));
@@ -104,8 +104,11 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
             // add notice that you need to add new deps for java projects that
             // use postgres or neo4j
             if ("data-delivery-spark".equals(pipeline.getType().getImplementation())) {
-                if (enablePostgresSupport) {
+                if (pipelineDecorator.isPostgresSupportNeeded()) {
                     manualActionNotificationService.addNoticeToAddDependency(context, artifactId, PersistType.POSTGRES.getValue());
+                }
+                if (pipelineDecorator.isRdbmsSupportNeeded()) {
+                    manualActionNotificationService.addNoticeToAddDependency(context, artifactId, PersistType.RDBMS.getValue());
                 }
                 if (enableNeo4jSupport) {
                     manualActionNotificationService.addNoticeToAddDependency(context, artifactId, PersistType.NEO4J.getValue());

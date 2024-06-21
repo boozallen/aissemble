@@ -53,6 +53,7 @@ public abstract class AbstractModelInstanceSteps {
 
     private static final String AIOPS_MDA = "aiops-mda";
     protected static final String DICTIONARY_TYPE_TEST_STRING = "testString";
+    protected static final String DATA_FLOW_PIPELINE = "DataFlowPipeline";
 
     protected File dictionariesDirectory = new File(GENERATED_METADATA_DIRECTORY, "dictionaries");
     protected File compositesDirectory = new File(GENERATED_METADATA_DIRECTORY, "composites");
@@ -64,6 +65,7 @@ public abstract class AbstractModelInstanceSteps {
     protected Path projectDir;
     protected String projectName;
     protected PipelineElement pipeline;
+    protected File pipelineFile;
     protected String scenario;
     protected Map<String, Pipeline> pipelines = new HashMap<>();
     protected String scmUrl;

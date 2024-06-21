@@ -93,6 +93,7 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
         }
 
         vc.put(VelocityProperty.ENABLE_PYSPARK_SUPPORT, dfs.isPySparkSupportNeeded());
+        vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, dfs.isRdbmsSupportNeeded());
         vc.put(VelocityProperty.ENABLE_NEO4J_SUPPORT, dfs.isNeo4jSupportNeeded());
         vc.put(VelocityProperty.ENABLE_DELTA_SUPPORT, dfs.isDeltaSupportNeeded());
         vc.put(VelocityProperty.ENABLE_ELASTICSEARCH_SUPPORT, dfs.isElasticsearchSupportNeeded());
