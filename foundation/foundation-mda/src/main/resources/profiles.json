@@ -290,7 +290,9 @@
 			{
 				"name": "spark-infrastructure-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-spark-infrastructure-deploy` is deprecated, please follow the migration instructions for upgrading to the V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "aissemble-spark-infrastructure-deploy-v2",
@@ -314,6 +316,9 @@
 			},
 			{
 				"name": "sparkInfrastructureArgoCDFileV2"
+			},
+			{
+				"name": "sealedSecretArgoCDFile"
 			}
 		]
 	},
@@ -1027,7 +1032,9 @@
 			{
 				"name": "hive-metastore-db-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `hive-metastore-db-deploy` is deprecated, please follow the migration instructions for upgrading to the spark-infrastructure V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "hive-metastore-service-deploy",
@@ -1035,7 +1042,9 @@
 			{
 				"name": "hive-metastore-service-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `hive-metastore-service-deploy` is deprecated, please follow the migration instructions for upgrading to the spark-infrastructure V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "s3local-deploy-v2",

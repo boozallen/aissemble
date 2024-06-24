@@ -15,6 +15,21 @@
     ]
   },
   {
+    "group": "v1-9-0-migrations",
+    "type": "ordered",
+    "migrations": [
+      {
+        "name": "update-data-access-thrift-endpoint-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.UpdateDataAccessThriftServerEndpointMigration",
+        "fileSets": [
+          {
+            "includes": ["*-pipelines/*-data-access/src/main/resources/application.properties"]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "group": "general-migrations",
     "type": "ordered",
     "migrations": [
