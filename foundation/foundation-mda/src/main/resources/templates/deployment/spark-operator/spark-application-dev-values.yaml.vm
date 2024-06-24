@@ -13,7 +13,9 @@ sparkApp:
         spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
         #end
         #if (${useS3Local})
-        spark.eventLog.dir: "s3a://spark-infrastructure/spark-events"
+        spark.hadoop.fs.s3a.endpoint: "http://s3-local:4566"
+        spark.eventLog.dir: "/opt/spark/spark-events"
+        spark.hive.metastore.warehouse.dir: "s3a://spark-infrastructure/warehouse"
         #end
         #if (${enableElasticsearchSupport})
         spark.es.nodes: "elasticsearch-es-http"

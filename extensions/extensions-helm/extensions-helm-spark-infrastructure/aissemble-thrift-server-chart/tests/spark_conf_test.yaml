@@ -25,7 +25,7 @@ tests:
       - notFailedTemplate: {}
       - equal:
           path: metadata.name
-          value: "RELEASE-NAME-spark-conf"
+          value: "spark-config"
       - equal:
           path: data.sparkConf
           value: "spark.executor.instances: 2"
@@ -41,7 +41,7 @@ tests:
           content:
             name: spark-config
             configMap:
-              name: RELEASE-NAME-spark-conf
+              name: spark-config
               items:
                 - key: sparkConf
                   path: spark-defaults.conf
@@ -73,7 +73,7 @@ tests:
       - notFailedTemplate: {}
       - equal:
           path: metadata.name
-          value: "RELEASE-NAME-spark-conf"
+          value: "spark-config"
       - equal:
           path: data.hiveSite
           value: "spark.executor.instances: 2"
@@ -89,7 +89,7 @@ tests:
           content:
             name: spark-config
             configMap:
-              name: RELEASE-NAME-spark-conf
+              name: spark-config
               items:
                 - key: hiveSite
                   path: hive-site.xml

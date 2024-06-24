@@ -11,7 +11,16 @@ sparkApp:
     restartPolicy:
       type: Never
     sparkVersion: "3.4.0"
-    sparkConfigMap: spark-config
+    sparkConf:
+      spark.hive.server2.thrift.port: "10000"
+      spark.hive.server2.thrift.http.port: "10001"
+      spark.hive.server2.transport.mode: "http"
+      spark.hadoop.fs.s3a.path.style.access: "true"
+      spark.hive.server2.thrift.http.path: "cliservice"
+      spark.hive.metastore.schema.verification: "false"
+      spark.hive.metastore.uris: "thrift://hive-metastore-service:9083/default"
+      spark.eventLog.dir: "/opt/spark/spark-events"
+      spark.hive.metastore.warehouse.dir: "s3a://spark-infrastructure/warehouse"
     dynamicAllocation:
       enabled: true
       initialExecutors: 0
@@ -21,6 +30,9 @@ sparkApp:
       - name: ivy-cache
         persistentVolumeClaim:
           claimName: ivy-cache
+      - name: spark-events
+        persistentVolumeClaim:
+          claimName: spark-events-claim
     driver:
       cores: 1
       coreLimit: "1200m"
@@ -29,6 +41,8 @@ sparkApp:
       volumeMounts:
         - name: ivy-cache
           mountPath: "/opt/spark/.ivy2"
+        - name: spark-events
+          mountPath: "/opt/spark/spark-events"
     executor:
       cores: 1
       coreLimit: "1200m"
@@ -38,6 +52,8 @@ sparkApp:
       volumeMounts:
         - name: ivy-cache
           mountPath: "/opt/spark/.ivy2"
+        - name: spark-events
+          mountPath: "/opt/spark/spark-events"
 service:
   enabled: false
   spec:

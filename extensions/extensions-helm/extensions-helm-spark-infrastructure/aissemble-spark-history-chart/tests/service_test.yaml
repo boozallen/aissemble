@@ -31,10 +31,10 @@ tests:
       - contains:
           path: spec.ports
           content:
-            name: RELEASE-NAME-service-port
+            name: shs-http
             protocol: TCP
             port: 18080
-            targetPort: shs-http
+            targetPort: 18080
 
   - it: Should be able to specify service type
     set:

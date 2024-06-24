@@ -356,6 +356,8 @@ tests:
                 key: secret_key
 
   - it: The appropriate containerPort is exposed to reach Spark History (18080)
+    set:
+      service.port.port: 18080
     asserts:
       - contains:
           path: spec.template.spec.containers[0].ports
