@@ -52,6 +52,6 @@ eventVolume:
   mountOptions:
     - allow-delete
   size: 1Gi
-  volumePathOnNode: /tmp
+  volumePathOnNode: /tmp/spark-events/
 
 sparkConf: |-

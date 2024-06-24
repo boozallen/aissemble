@@ -42,6 +42,22 @@ For more information on what properties can be configured for SparkApplication, 
 | service.spec.ports.port                         | The port to be exposed                                                             | No                | 4747                                            |
 | service.spec.ports.targetPort                   | The port that the exposed port should map to                                       | No                | 4747                                            |
 
+## Default Spark Properties
+The following Spark settings are set by default to ensure compatibility with aiSSEMBLE-provided resources.  They may be 
+overridden as needed, and each is nested beneath `sparkApp.spec.sparkConf`:
+
+| Property                                 | Value                                          |
+|------------------------------------------|------------------------------------------------|
+| spark.hive.server2.thrift.port           | "10000"                                        |
+| spark.hive.server2.thrift.http.port      | "10001"                                        |
+| spark.hive.server2.transport.mode        | "http"                                         |
+| spark.hadoop.fs.s3a.path.style.access    | "true"                                         |
+| spark.hive.server2.thrift.http.path      | "cliservice                                    |
+| spark.hive.metastore.schema.verification | "false"                                        |
+| spark.hive.metastore.warehouse.dir       | "s3a://spark-infrastructure/warehouse"         |
+| spark.hive.metastore.uris                | "thrift://hive-metastore-service:9083/default" |
+| spark.eventLog.dir                       | "/opt/spark/spark-events"                      |
+
 # Interoperability with the aiSSEMBLE Spark Operator Helm Chart
 The aiSSEMBLE Spark Application Helm Chart is largely intended to be used in conjunction with the [aiSSEMBLE Spark
 Operator Helm Chart](../aissemble-spark-operator-chart/README.md).  As such, some features of this chart are designed to
