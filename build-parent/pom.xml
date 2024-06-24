@@ -166,6 +166,29 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins:  -->
+        <dependency>
+            <groupId>org.technologybrewery.fermenter</groupId>
+            <artifactId>fermenter-mda</artifactId>
+            <version>${version.fermenter}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.technologybrewery.habushu</groupId>
+            <artifactId>habushu-maven-plugin</artifactId>
+            <version>${version.habushu.plugin}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.technologybrewery.baton</groupId>
+            <artifactId>baton-maven-plugin</artifactId>
+            <version>${version.baton}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins -->
+    </dependencies>
+
     <build>
 
         <pluginManagement>
