@@ -20,7 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.boozallen.aissemble.upgrade.util.FileUtils.replaceLiteralInFile;
+import static org.technologybrewery.baton.util.FileUtils.replaceLiteralInFile;
 
 /**
  Baton migration class to verify whether a migration to the Policy Decision Point (Python) module files is required from

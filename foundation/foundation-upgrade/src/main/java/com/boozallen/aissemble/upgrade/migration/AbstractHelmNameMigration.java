@@ -10,7 +10,7 @@ package com.boozallen.aissemble.upgrade.migration;
  * #L%
  */
 
-import com.boozallen.aissemble.upgrade.util.FileUtils;
+import org.technologybrewery.baton.util.FileUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static com.boozallen.aissemble.upgrade.util.FileUtils.getRegExCaptureGroups;
+import static org.technologybrewery.baton.util.FileUtils.getRegExCaptureGroups;
 
 /**
  * Baton migration used to migrate the Helm Chart names and/or Helm module names in the Chart.yaml and values.yaml files within a project's deploy folder

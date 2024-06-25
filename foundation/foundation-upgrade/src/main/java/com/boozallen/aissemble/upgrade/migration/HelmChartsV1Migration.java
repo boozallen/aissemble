@@ -10,16 +10,16 @@ package com.boozallen.aissemble.upgrade.migration;
  * #L%
  */
 
-import com.boozallen.aissemble.upgrade.util.FileUtils;
-import com.boozallen.aissemble.upgrade.util.MigrationUtils;
+import org.technologybrewery.baton.util.FileUtils;
+import org.technologybrewery.baton.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-import static com.boozallen.aissemble.upgrade.util.FileUtils.getRegExCaptureGroups;
+import static org.technologybrewery.baton.util.FileUtils.getRegExCaptureGroups;
 
 public class HelmChartsV1Migration extends AbstractAissembleMigration {
     public static final Logger logger = LoggerFactory.getLogger(HelmChartsV1Migration.class);
@@ -38,10 +38,10 @@ public class HelmChartsV1Migration extends AbstractAissembleMigration {
                 mavenAissembleVersion = getAissembleVersion();
 
                 if (mavenAissembleVersion != null) {
-                    ArrayList<String> chartAissembleVersions = getRegExCaptureGroups(extractVersionRegex, file);
+                    List<String> chartAissembleVersions = getRegExCaptureGroups(extractVersionRegex, file);
                     if (!chartAissembleVersions.isEmpty())
                         shouldExecute = chartAissembleVersions.stream().anyMatch(chartVersion ->
-                                MigrationUtils.isLessThanVersion(chartVersion, mavenAissembleVersion)
+                                CommonUtils.isLessThanVersion(chartVersion, mavenAissembleVersion)
                         );
                 } else {
                     logger.error("Unable to parse version from current project");
