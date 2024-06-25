@@ -10,7 +10,7 @@ package com.boozallen.aissemble.upgrade.util.pom;
  * #L%
  */
 
-import com.boozallen.aissemble.upgrade.util.FileUtils;
+import org.technologybrewery.baton.util.FileUtils;
 import org.apache.maven.model.InputLocation;
 import org.codehaus.plexus.util.StringUtils;
 

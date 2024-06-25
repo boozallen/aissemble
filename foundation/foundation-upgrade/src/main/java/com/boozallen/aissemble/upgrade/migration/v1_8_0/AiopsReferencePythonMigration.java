@@ -20,7 +20,7 @@ import java.io.FileReader;
 
 import java.util.Map;
 
-import static com.boozallen.aissemble.upgrade.util.FileUtils.replaceLiteralInFile;
+import static org.technologybrewery.baton.util.FileUtils.replaceLiteralInFile;
 
 /**
  Baton migration class to verify whether a migration to the python file packages are required from the aiops reference removal from the
