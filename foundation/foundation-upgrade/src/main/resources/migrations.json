@@ -71,7 +71,8 @@
         "fileSets": [
           {
             "includes": [
-              "*-docker/*/src/main/resources/krausening/base/*.properties",
+              "*-docker/*/src/main/resources/krausening/base/aiops-security.properties",
+              "*-docker/*/src/main/resources/krausening/base/aissemble-security.properties",
               "*-docker/*/src/main/resources/docker/Dockerfile"
             ]
           }
