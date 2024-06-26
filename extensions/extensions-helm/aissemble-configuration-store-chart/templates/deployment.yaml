@@ -1,0 +1,72 @@
+# Base Kubernetes deployment artifact.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+    app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+  name: {{ .Values.app.name | default .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+      app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+        app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+    spec:
+      {{- with .Values.deployment.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      serviceAccountName: {{ .Values.deployment.serviceAccountName }}
+      automountServiceAccountToken: {{ .Values.deployment.automountServiceAccountToken | default false }}
+      {{- with .Values.deployment.volumes }}
+      volumes:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      {{- with .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 12}}
+      {{- end }}
+      {{- with .Values.deployment.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.app.name | default .Chart.Name }}
+          image: {{ .Values.image.dockerRepo }}{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.deployment.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12}}
+          {{- end }}
+          {{- with .Values.deployment.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deployment.command }}
+          command: {{ .Values.deployment.command }}
+          {{- end }}
+      hostname: {{ .Values.hostname }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- with .Values.deployment.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

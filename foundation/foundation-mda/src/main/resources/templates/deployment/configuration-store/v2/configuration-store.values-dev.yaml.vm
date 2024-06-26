@@ -1,0 +1,23 @@
+#[[########################################
+## CONFIG | Configuration Store Configs
+## See aiSSEMBLE aissemble-configuration-store-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+
+aissemble-configuration-store-chart:
+  image:
+    pullPolicy: IfNotPresent
+
+  service:
+    type: LoadBalancer
+
+  deployment:
+    volumes:
+      - name: configurations
+        hostPath:
+          path: /local/path/set/in/tilt
+          type: Directory
+    volumeMounts:
+      - mountPath: /configurations
+        name: configurations
+        readOnly: true

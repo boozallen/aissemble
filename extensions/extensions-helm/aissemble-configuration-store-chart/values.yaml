@@ -1,0 +1,25 @@
+# Default values for config-store-service
+app:
+  # Sets labels for app.kubernetes.io/name Default is Chart.name (aissemble-store-chart)
+  name: ''
+  # Sets the labels for app.kubernetes.io/version. Default is Chart.appVersion
+  version: ''
+
+hostname: configuration-store
+image:
+  name: boozallen/aissemble-configuration-store
+  pullPolicy: Always
+  dockerRepo: ghcr.io/
+
+service:
+  ports:
+    - name: http
+      port: 8083
+      targetPort: 8080
+
+deployment:
+  ports:
+    - name: http-1
+      containerPort: 8083
+      protocol: TCP
+  restartPolicy: Always

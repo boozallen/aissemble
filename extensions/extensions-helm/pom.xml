@@ -36,6 +36,7 @@
         <module>aissemble-metadata-chart</module>
         <module>aissemble-vault-chart</module>
         <module>aissemble-sealed-secrets-chart</module>
+        <module>aissemble-configuration-store-chart</module>
     </modules>
 
     <properties>

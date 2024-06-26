@@ -1,0 +1,16 @@
+#[[########################################
+## CONFIG | Configuration Store Configs
+## See aiSSEMBLE aissemble-configuration-store-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+
+aissemble-configuration-store-chart:
+  image:
+    tag: ""
+
+  deployment:
+    env:
+      - name: BASE_PROPERTY_URI
+        value: /configurations/base
+      - name: ENVIRONMENT_PROPERTY_URI
+        value: /configurations/env
