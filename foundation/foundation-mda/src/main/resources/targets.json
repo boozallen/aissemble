@@ -2328,7 +2328,7 @@
     "overwritable": false
   },
   {
-    "name": "policyDecisionPointAiopsSecurityProperties",
+    "name": "policyDecisionPointAissembleSecurityProperties",
     "templateName": "templates/general-docker/policy-decision-point.aissemble-security.properties.vm",
     "outputFile": "krausening/base/aissemble-security.properties",
     "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",

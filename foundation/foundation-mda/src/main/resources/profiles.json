@@ -2137,7 +2137,7 @@
 				"name": "policyDecisionPointDockerFile"
 			},
 			{
-				"name": "policyDecisionPointAiopsSecurityProperties"
+				"name": "policyDecisionPointAissembleSecurityProperties"
 			}
 		]
 	},

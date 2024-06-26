@@ -19,8 +19,6 @@ import java.io.File;
 import java.io.FileReader;
 
 import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static com.boozallen.aissemble.upgrade.util.FileUtils.replaceLiteralInFile;
 
