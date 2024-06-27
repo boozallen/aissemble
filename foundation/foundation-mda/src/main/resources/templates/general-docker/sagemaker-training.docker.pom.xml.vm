@@ -78,7 +78,7 @@
                                         example: "aws_account_id.dkr.ecr.aws_region.amazonaws.com".
                                         The repo ID in this registry URL must map to the "id" tag
                                         within the associated "server" in your Maven settings.xml file-->
-                                    <registry>ECR_URL</registry>
+                                    <registry>ECR_REPO_URL</registry>
                                     <build>
                                         <buildx>
                                             <platforms>
@@ -98,9 +98,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--Replace with "false" if you want to build and push
+                    <!--Replace with "true" if you do not want to build and push
                         the SageMaker model training image to ECR.-->
-                    <skip>true</skip>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
         </plugins>
