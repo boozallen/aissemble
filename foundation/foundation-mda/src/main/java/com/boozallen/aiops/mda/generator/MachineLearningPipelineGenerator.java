@@ -96,6 +96,9 @@ public class MachineLearningPipelineGenerator extends AbstractPythonGenerator {
     private boolean pipelineContainsOnnxPostAction(MachineLearningPipeline pipeline) {
         boolean containsOnnx = false;
 
+        if (pipeline.getTrainingStep() == null) {
+            return false;
+        }
         for (PostAction postAction : pipeline.getTrainingStep().getPostActions()) {
             if (PipelineUtils.forOnnxModelConversion(postAction)) {
                 containsOnnx = true;

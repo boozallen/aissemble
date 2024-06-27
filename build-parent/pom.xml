@@ -133,6 +133,9 @@
         <version.helm.plugin>6.14.3</version.helm.plugin>
         <version.helm.min>3.12.0</version.helm.min>
         <version.snakeyaml>2.0</version.snakeyaml>
+
+        <docker.platforms>linux/amd64</docker.platforms>
+        <docker.platforms>linux/arm64</docker.platforms>
     </properties>
 
     <dependencyManagement>
@@ -964,6 +967,46 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                             <artifactId>orphedomos-maven-plugin</artifactId>
                             <configuration>
                                 <usePlainTextPassword>true</usePlainTextPassword>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${version.fabric8.docker.maven.plugin}</version>
+                            <extensions>true</extensions>
+                            <executions>
+                                <execution>
+                                    <id>default-build</id>
+                                    <configuration>
+                                        <images>
+                                            <image>
+                                                <name>${dockerImageName}</name>
+                                                <build>
+                                                    <tags>
+                                                        <tag>${dockerImageVersion}</tag>
+                                                    </tags>
+                                                    <buildx>
+                                                        <platforms>
+                                                            <platform>${docker.platforms}</platform>
+                                                        </platforms>
+                                                    </buildx>
+                                                    <args>
+                                                        <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
+                                                        <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
+                                                        <SPARK_VERSION>${version.spark}</SPARK_VERSION>
+                                                        <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
+                                                    </args>
+                                                    <contextDir>${project.basedir}</contextDir>
+                                                    <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
+                                                </build>
+                                            </image>
+                                        </images>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <verbose>true</verbose>
+                                <registry>${docker.repo.id}</registry>
                             </configuration>
                         </plugin>
                     </plugins>
