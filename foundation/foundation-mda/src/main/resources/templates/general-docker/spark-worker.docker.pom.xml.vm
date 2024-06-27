@@ -11,7 +11,7 @@
 
     <artifactId>${artifactId}</artifactId>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>${parentDescriptiveName}::Spark</name>
     <description>Build for a Spark Docker container which contains all pipelines</description>

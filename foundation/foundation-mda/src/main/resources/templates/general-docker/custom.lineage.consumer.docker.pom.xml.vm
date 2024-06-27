@@ -8,7 +8,7 @@
         <version>${version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>${parentDescriptiveName}::Custom Data Lineage Consumer Docker</name>
     <artifactId>${artifactId}</artifactId>

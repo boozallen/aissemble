@@ -14,7 +14,7 @@
 
     <name>${parentDescriptiveName}::Versioning</name>
     <description>Build for a Versioning Docker container to run the aiSSEMBLE Versioning service</description>
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <plugins>

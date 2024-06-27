@@ -12,7 +12,7 @@
 
 	<artifactId>${artifactId}</artifactId>
 
-	<packaging>orphedomos</packaging>
+	<packaging>docker-build</packaging>
 
 	<name>${parentDescriptiveName}::Training</name>
 	<description>Build for a Training Docker container to run a model training job</description>

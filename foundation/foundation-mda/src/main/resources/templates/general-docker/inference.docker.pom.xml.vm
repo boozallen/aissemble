@@ -12,7 +12,7 @@
 
 	<artifactId>${artifactId}</artifactId>
 
-	<packaging>orphedomos</packaging>
+	<packaging>docker-build</packaging>
 
 	<name>${parentDescriptiveName}::Inference</name>
 	<description>Build for an Inference Docker container to run a compliant inference service</description>
