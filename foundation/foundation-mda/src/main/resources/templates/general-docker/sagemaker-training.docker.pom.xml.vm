@@ -98,9 +98,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--Replace with "true" if you do not want to build and push
+                    <!--Replace with "false" if you want to build and push
                         the SageMaker model training image to ECR.-->
-                    <skip>false</skip>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
