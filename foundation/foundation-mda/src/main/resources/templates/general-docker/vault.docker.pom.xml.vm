@@ -12,7 +12,7 @@
 
     <artifactId>${artifactId}</artifactId>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>${parentDescriptiveName}::Vault</name>
     <description>Build for a Vault encryption service</description>

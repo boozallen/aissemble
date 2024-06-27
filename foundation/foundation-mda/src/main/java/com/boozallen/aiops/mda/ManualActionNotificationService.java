@@ -655,15 +655,13 @@ public class ManualActionNotificationService {
             logger.warn("Unable to find Docker module. Will not be able to direct manual updates for the deploy module's POM.xml");
         } else {
             String pomFilePath = pomPath + File.separator + trainingDockerArtifactId;
-            boolean repoUrlExists = existsInFile(pomFilePath,"<repoUrl>" + "ECR_REPO_URL" + "</repoUrl>");
-            boolean imageNameExists = existsInFile(pomFilePath, "<imageName>" + "ECR_REPO_URL" + "/${dockerImageName}</imageName>");
-            if (repoUrlExists || imageNameExists) {
+            boolean registryUrlExists = existsInFile(pomFilePath,"<registry>ECR_REGISTRY_URL</registry>");
+            if (registryUrlExists) {
                 final String key = getMessageKey(pomFilePath, "pom");
                 VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.sagemaker.docker.pom.vm");
                 notification.addToVelocityContext("artifactId", artifactId);
                 notification.addToVelocityContext("dockerArtifactId", trainingDockerArtifactId);
-                notification.addToVelocityContext("repoUrlExists", repoUrlExists);
-                notification.addToVelocityContext("imageNameExists", imageNameExists);
+                notification.addToVelocityContext("registryUrlExists", registryUrlExists);
                 addManualAction(pomFilePath, notification);
             }
         }

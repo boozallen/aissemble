@@ -12,10 +12,16 @@
 
     <artifactId>${artifactId}</artifactId>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>${parentDescriptiveName}::Training</name>
     <description>Build for a SageMaker Training Docker container to run a SageMaker model training job</description>
+
+    <properties>
+        <!--various target archiectures can be specified
+        via this property as a comma-separated list-->
+        <sagemaker.docker.platforms>linux/amd64</sagemaker.docker.platforms>
+    </properties>
 
     <build>
         <plugins>
@@ -58,36 +64,39 @@
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <version>${version.orphedomos.plugin}</version>
-                <extensions>true</extensions>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>multiplatform-build-deploy</id>
                         <phase>prepare-package</phase>
-                        <goals>
-                            <goal>multiplatform-build-deploy</goal>
-                        </goals>
                         <configuration>
-                            <!--Replace with your ECR Repo URL here "aws_account_id.dkr.ecr.aws_region.amazonaws.com"-->
-                            <repoUrl>ECR_REPO_URL</repoUrl>
-                            <!--Replace with your Repo ID here here, this must map to the "id" tag within the associated 
-                             "server" in your Maven settings.xml file-->
-                            <repoId>REPO_ID</repoId>
-                            <imageVersion>latest</imageVersion>
-                            <!--Replace with your ECR Repo URL here "aws_account_id.dkr.ecr.aws_region.amazonaws.com"-->
-                            <imageName>ECR_REPO_URL/${dockerImageName}</imageName>
-                            <buildArgs>
-                                <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}</DOCKER_BASELINE_REPO_ID>
-                                <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
-                            </buildArgs>
-                            <!--Replace with "true" if you you want to skip building and pushing SageMaker model
-                            training image to ECR-->
+                            <images>
+                                <image>
+                                    <name>${project.artifactId}:latest</name>
+                                    <!--Replace with your ECR Registry URL here,
+                                        example: "aws_account_id.dkr.ecr.aws_region.amazonaws.com".
+                                        The registry value must map to the "id" value
+                                        within the associated "server" in your Maven settings.xml file-->
+                                    <registry>ECR_REGISTRY_URL</registry>
+                                    <build>
+                                        <buildx>
+                                            <platforms>
+                                                <platform>${sagemaker.docker.platforms}</platform>
+                                            </platforms>
+                                        </buildx>
+                                        <args>
+                                            <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
+                                            <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
+                                        </args>
+                                        <contextDir>${project.basedir}</contextDir>
+                                        <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
+                                    </build>
+                                </image>
+                            </images>
+                            <!--Replace with "true" if you want to skip building and pushing
+                                the SageMaker model training image to ECR.-->
                             <skip>false</skip>
-                            <targetArchitectures>
-                                <targetArchitecture>linux/amd64</targetArchitecture>
-                            </targetArchitectures>
                         </configuration>
                     </execution>
                 </executions>

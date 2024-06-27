@@ -96,12 +96,17 @@ public class MachineLearningPipelineGenerator extends AbstractPythonGenerator {
     private boolean pipelineContainsOnnxPostAction(MachineLearningPipeline pipeline) {
         boolean containsOnnx = false;
 
-        for (PostAction postAction : pipeline.getTrainingStep().getPostActions()) {
-            if (PipelineUtils.forOnnxModelConversion(postAction)) {
-                containsOnnx = true;
-                break;
+        // this surrounding if-check was added to prevent piplines that use sagemaker training from
+        // throwing a null pointer exception when detecting if Onnx conversion code is needed to be generated
+        if (pipeline.getTrainingStep() != null) {
+            for (PostAction postAction : pipeline.getTrainingStep().getPostActions()) {
+                if (PipelineUtils.forOnnxModelConversion(postAction)) {
+                    containsOnnx = true;
+                    break;
+                }
             }
         }
+
         return containsOnnx;
     }
 

@@ -12,7 +12,7 @@
 
     <artifactId>${artifactId}</artifactId>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>${parentDescriptiveName}::Policy Decision Point</name>
     <description>${parentDescriptiveName}::Build for a Policy Decision Point service container</description>

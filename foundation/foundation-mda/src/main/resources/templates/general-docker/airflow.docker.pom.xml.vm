@@ -9,7 +9,7 @@
         <version>${version}</version>
     </parent>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <artifactId>${artifactId}</artifactId>
 
