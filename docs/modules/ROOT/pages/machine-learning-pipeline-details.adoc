@@ -369,7 +369,7 @@ Maven password,role=external,window=_blank]
 ==== Pushing Model Training Image to ECR
 
 Finally, in your `<project-name>/<project-name>-docker/<project-name>-<sagemaker-training-step-name>-docker/pom.xml`
-file, you must provide your ECR Repo URL (the Repo ID segment of the ECR Repo URL must match the `REPO_ID` provided in
+file, you must provide your ECR Repo URL (must match the server id value provided in
 your `settings.xml` file). You must also set `skip` to `false` to enable building and pushing the
 image to ECR. There are comments within that file which will point you towards those required changes.
 

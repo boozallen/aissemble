@@ -76,7 +76,7 @@
                                     <name>${project.artifactId}:latest</name>
                                     <!--Replace with your ECR Repo URL here,
                                         example: "aws_account_id.dkr.ecr.aws_region.amazonaws.com".
-                                        The repo ID in this registry URL must map to the "id" tag
+                                        The registry value must map to the "id" value
                                         within the associated "server" in your Maven settings.xml file-->
                                     <registry>ECR_REPO_URL</registry>
                                     <build>
