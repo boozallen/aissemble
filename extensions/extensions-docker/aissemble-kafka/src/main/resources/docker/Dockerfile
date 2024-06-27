@@ -15,11 +15,6 @@ RUN mkdir /opt/connectors && \
     chown -R kafka:kafka /opt/bitnami/kafka
 
 USER kafka
-# Install kafka-connect-spooldir plugin that can be used with Kafka Connect to read CSV data into topics
-RUN curl -slLO https://d1i4a15mxbxib1.cloudfront.net/api/plugins/jcustenborder/kafka-connect-spooldir/versions/2.0.62/jcustenborder-kafka-connect-spooldir-2.0.62.zip \
-    --output-dir /opt/connectors && \
-    unzip /opt/connectors/jcustenborder-kafka-connect-spooldir-2.0.62.zip -d /opt/connectors && \
-    rm /opt/connectors/jcustenborder-kafka-connect-spooldir-2.0.62.zip
 
 # Copy over configs
 COPY ./src/main/resources/config/ /opt/bitnami/kafka/config/
