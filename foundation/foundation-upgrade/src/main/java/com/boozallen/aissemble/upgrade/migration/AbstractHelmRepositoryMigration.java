@@ -10,7 +10,7 @@ package com.boozallen.aissemble.upgrade.migration;
  * #L%
  */
 
-import com.boozallen.aissemble.upgrade.util.FileUtils;
+import org.technologybrewery.baton.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;

@@ -18,8 +18,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.technologybrewery.baton.BatonException;
+import org.technologybrewery.baton.util.FileUtils;
 
-import com.boozallen.aissemble.upgrade.util.FileUtils;
 import com.boozallen.aissemble.upgrade.util.PythonPackageMigration;
 import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.core.file.FileConfig;
