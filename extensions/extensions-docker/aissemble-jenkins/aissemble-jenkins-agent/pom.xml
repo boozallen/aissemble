@@ -12,6 +12,6 @@
 	<name>aiSSEMBLE::Extensions::Docker::Jenkins::Agent</name>
 	<description>A base image for a Jenkins Agent</description>
 
-	<packaging>orphedomos</packaging>
+	<packaging>docker-build</packaging>
 
 </project>

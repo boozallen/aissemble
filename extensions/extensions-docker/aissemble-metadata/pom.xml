@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Metadata</name>
     <description>A base image for a Metadata service which utilizes Quarkus</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <plugins>

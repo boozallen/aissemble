@@ -12,6 +12,6 @@
     <name>aiSSEMBLE::Extensions::Docker::Airflow</name>
     <description>A base image of an Airflow service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
 </project>

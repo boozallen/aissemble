@@ -15,7 +15,6 @@
 #
 ARG DOCKER_BASELINE_REPO_ID
 ARG VERSION_AISSEMBLE
-ARG SPARK_IMAGE=${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-spark:${VERSION_AISSEMBLE}
 
 FROM golang:1.22.2-alpine as builder
 
@@ -37,7 +36,7 @@ RUN go mod tidy
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o /usr/bin/spark-operator main.go
 
-FROM ${SPARK_IMAGE}
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-spark:${VERSION_AISSEMBLE}
 
 LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
 

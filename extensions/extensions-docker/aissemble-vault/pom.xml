@@ -12,6 +12,6 @@
     <name>aiSSEMBLE::Extensions::Docker::Vault</name>
     <description>A base image for the Hashicorp Vault service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
 </project>

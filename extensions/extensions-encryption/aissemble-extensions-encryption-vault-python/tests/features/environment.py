@@ -54,7 +54,7 @@ def start_container(context, docker_image, feature):
 def before_feature(context, feature):
     logger.info("Starting Test container services")
 
-    docker_image = "boozallen/aissemble-vault:"
+    docker_image = "ghcr.io/boozallen/aissemble-vault:"
 
     # append current version to docker image
     # pyproject.toml has a "version" property, e.g. version = "0.12.0.dev"

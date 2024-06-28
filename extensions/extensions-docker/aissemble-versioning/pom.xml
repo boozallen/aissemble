@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Versioning</name>
     <description>A base image for the aiSSEMBLE Versioning service which runs on FastAPI</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <properties>
         <wheelOutputDirectory>${project.build.directory}/wheels/</wheelOutputDirectory>
@@ -81,21 +81,9 @@
     <dependencies>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
-            <artifactId>aissemble-foundation-core-python</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
-            <artifactId>aissemble-foundation-pdp-client-python</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-foundation-versioning-service</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>habushu</type>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>

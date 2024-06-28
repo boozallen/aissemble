@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Spark Infrastructure</name>
     <description>A base Spark History and Thrift service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <properties>
         <dockerbuild.jars.directory>target/dockerbuild/jars/</dockerbuild.jars.directory>
@@ -56,14 +56,24 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <version>${version.orphedomos.plugin}</version>
-                <configuration>
-                    <buildArgs>
-                        <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
-                    </buildArgs>
-                </configuration>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-build</id>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <build>
+                                        <args>
+                                            <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
+                                        </args>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

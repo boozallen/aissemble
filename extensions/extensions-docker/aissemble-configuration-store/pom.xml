@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Configuration Store</name>
     <description>A base image for the configuration store</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
     <build>
         <plugins>
             <plugin>
