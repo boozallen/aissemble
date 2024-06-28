@@ -12,13 +12,13 @@ package com.boozallen.aiops.mda.generator.dictionary;
 
 import java.util.Map;
 
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import com.boozallen.aiops.mda.generator.AbstractJavaGenerator;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.metamodel.element.Dictionary;
 import com.boozallen.aiops.mda.metamodel.element.DictionaryType;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaDictionaryType;

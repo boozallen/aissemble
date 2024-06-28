@@ -11,4 +11,4 @@ FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-policy-decision-point:${VERSI
 
 USER 1001
 
-COPY ./target/aiops-security.properties /deployments/krausening/
+COPY ./target/aissemble-security.properties /deployments/krausening/

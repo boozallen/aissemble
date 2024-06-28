@@ -11,6 +11,7 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.slf4j.Logger;
@@ -19,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import com.boozallen.aiops.mda.generator.util.PythonGeneratorUtils;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineStepPair;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;

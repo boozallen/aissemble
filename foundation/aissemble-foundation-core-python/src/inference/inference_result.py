@@ -1,6 +1,6 @@
 ###
 # #%L
-# AIOps Foundation::AIOps Core (Python)
+# aiSSEMBLE Foundation::aiSSEMBLE Core (Python)
 # %%
 # Copyright (C) 2021 Booz Allen
 # %%
