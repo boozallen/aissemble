@@ -28,9 +28,9 @@ import com.boozallen.aiops.security.exception.AiopsSecurityException;
 /**
  * Class to load and hold keystore information for AIOps security.
  */
-public class AiopsKeyStore {
+public class AissembleKeyStore {
 
-    private static final Logger logger = LoggerFactory.getLogger(AiopsKeyStore.class);
+    private static final Logger logger = LoggerFactory.getLogger(AissembleKeyStore.class);
     private static final SecurityConfiguration config = KrauseningConfigFactory.create(SecurityConfiguration.class);
 
     private static final String KEY_ALIAS = config.getKeyAlias();
@@ -41,7 +41,7 @@ public class AiopsKeyStore {
     private final X509Certificate certificate;
     private final Key signingKey;
 
-    public AiopsKeyStore() {
+    public AissembleKeyStore() {
         KeyStore keyStore = loadKeyStore();
         certificate = getCertificateFromKeyStore(keyStore);
         signingKey = getKeyFromKeyStore(keyStore);

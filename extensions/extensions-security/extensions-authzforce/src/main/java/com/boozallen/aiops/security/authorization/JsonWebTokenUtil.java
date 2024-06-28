@@ -41,7 +41,7 @@ public final class JsonWebTokenUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonWebTokenUtil.class);
     private static final SecurityConfiguration config = KrauseningConfigFactory.create(SecurityConfiguration.class);
-    private static final AiopsKeyStore keyStore = new AiopsKeyStore();
+    private static final AissembleKeyStore keyStore = new AissembleKeyStore();
     private static PolicyDecisionPoint pdp = PolicyDecisionPoint.getInstance();
     private static AiopsAttributeProvider attributeProvider = new AiopsAttributeProvider();
 

@@ -34,7 +34,7 @@ public class AiopsReferencePDPPythonMigration extends AbstractAissembleMigration
             "aiops-security.properties", "aissemble-security.properties",
             "aiops.authority","aissemble.authority",
             "aiopskey","aissemblekey",
-            "/deployments/aiops-secure.jks","/deployments/aissemble-secure.jks"
+            "/deployments/aissemble-secure.jks","/deployments/aissemble-secure.jks"
             );
 
     /**
