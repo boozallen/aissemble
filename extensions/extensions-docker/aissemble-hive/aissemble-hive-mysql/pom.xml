@@ -12,6 +12,6 @@
     <name>aiSSEMBLE::Extensions::Docker::Hive MySql</name>
     <description>A base image for a Hive MySql Database</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
 </project>

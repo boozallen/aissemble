@@ -14,14 +14,21 @@
 
     <properties>
         <dockerImageName>boozallen/${project.artifactId}</dockerImageName>
-        <target.architecture>amd64</target.architecture>
     </properties>
 
     <profiles>
         <profile>
+            <id>x86</id>
+            <properties>
+                <target.architecture>amd64</target.architecture>
+                <docker.platforms>linux/amd64</docker.platforms>
+            </properties>
+        </profile>
+        <profile>
             <id>arm64</id>
             <properties>
                 <target.architecture>arm64</target.architecture>
+                <docker.platforms>linux/arm64</docker.platforms>
             </properties>
             <build>
                 <pluginManagement>
@@ -99,20 +106,24 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <configuration>
-                    <buildArgs>
-                        <!-- allows arch-specific builds to reference the exact base image, might not be needed once we do multi-arch builds + manifest in Orphedomos -->
-                        <VERSION_AISSEMBLE>${dockerImageVersion}</VERSION_AISSEMBLE>
-                        <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
-                    </buildArgs>
-                    <aliases>
-                        <!-- Allows downstream projects/modules to use the locally built image -->
-                        <!-- It may make sense to have Orphedomos build the image with the repo included, which would remove the need for this -->
-                        <alias>${docker.baseline.repo.id}/${dockerImageName}:${dockerImageVersion}</alias>
-                    </aliases>
-                </configuration>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-build</id>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <build>
+                                        <args>
+                                            <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
+                                        </args>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

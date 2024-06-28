@@ -12,5 +12,5 @@
     <name>aiSSEMBLE::Extensions::Docker::Nvidia</name>
     <description>A base image for a Nvidia Cuda implementation</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 </project>

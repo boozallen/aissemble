@@ -12,6 +12,6 @@
     <name>aiSSEMBLE::Extensions::Docker::Quarkus</name>
     <description>A base Quarkus image</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
 </project>

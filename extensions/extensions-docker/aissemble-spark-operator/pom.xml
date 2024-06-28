@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Spark Operator</name>
     <description>A base Spark Operator service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <pluginManagement>

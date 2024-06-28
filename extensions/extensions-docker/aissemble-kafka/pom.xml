@@ -12,6 +12,6 @@
     <name>aiSSEMBLE::Extensions::Docker::Kafka</name>
     <description>A base image for a Kafka service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
 </project>

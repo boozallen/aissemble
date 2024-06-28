@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Policy Decision Point</name>
     <description>A base image for a Policy Decision Point service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <plugins>

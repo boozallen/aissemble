@@ -12,7 +12,7 @@
     <name>aiSSEMBLE::Extensions::Docker::Spark</name>
     <description>A base PySpark image with a Hive connector</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <dependencies>
         <dependency>

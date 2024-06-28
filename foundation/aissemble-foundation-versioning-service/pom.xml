@@ -19,13 +19,13 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-foundation-pdp-client-python</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>habushu</type>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-foundation-core-python</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>habushu</type>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>

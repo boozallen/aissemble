@@ -12,5 +12,5 @@
     <name>aiSSEMBLE::Extensions::Docker::Jenkins::Controller</name>
     <description>A base image for a Jenkins Controller</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 </project>

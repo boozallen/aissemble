@@ -243,8 +243,8 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>org.technologybrewery.orphedomos</groupId>
-                            <artifactId>orphedomos-maven-plugin</artifactId>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
                             <configuration>
                                 <skip>true</skip>
                             </configuration>
