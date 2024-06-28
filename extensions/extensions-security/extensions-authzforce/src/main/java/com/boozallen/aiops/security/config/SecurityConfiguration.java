@@ -157,7 +157,7 @@ public interface SecurityConfiguration extends KrauseningConfig {
      * @return keystore location
      */
     @Key("keystore.location")
-    @DefaultValue("/deployments/aiops-secure.jks")
+    @DefaultValue("/deployments/aissemble-secure.jks")
     public String getKeyStoreLocation();
 
     /**

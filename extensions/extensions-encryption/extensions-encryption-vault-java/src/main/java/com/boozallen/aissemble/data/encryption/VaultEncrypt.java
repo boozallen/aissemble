@@ -50,7 +50,7 @@ public class VaultEncrypt implements AiopsEncrypt {
 
             // Base64 encoding is required by Vault
             String base64EncodedDataToEncrypt = base64Encode(valueToEncrypt);
-            LogicalResponse response = vault.logical().write("transit/encrypt/aiopskey",
+            LogicalResponse response = vault.logical().write("transit/encrypt/aissemblekey",
                     Collections.singletonMap("plaintext", base64EncodedDataToEncrypt));
 
             Map<String, String> responses = response.getData();
@@ -81,7 +81,7 @@ public class VaultEncrypt implements AiopsEncrypt {
 
             VaultUtil.checkSealStatusAndUnsealIfNecessary(vault);
 
-            LogicalResponse response = vault.logical().write("transit/decrypt/aiopskey",
+            LogicalResponse response = vault.logical().write("transit/decrypt/aissemblekey",
                     Collections.singletonMap("ciphertext", valueTodecrypt));
 
             Map<String, String> responses = response.getData();
