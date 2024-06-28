@@ -42,11 +42,11 @@ if(not client.sys.is_initialized()):
     # Enable the transit encryption service
     headers = {'X-Vault-Token': client.token}
     r = requests.post(VAULT_ADDR+ '/v1/sys/mounts/transit', data={'type':'transit'}, headers=headers)
-    client.secrets.transit.create_key('aiopskey', exportable=True, mount_point='transit')
+    client.secrets.transit.create_key('aissemblekey', exportable=True, mount_point='transit')
 
     # Create a policy for the transit service
     encrypt_policy = {
-      'policy': 'path "transit/encrypt/aiopskey" {   capabilities = [ "update" ]} path "transit/decrypt/aiopskey" {   capabilities = [ "update" ]}'
+      'policy': 'path "transit/encrypt/aissemblekey" {   capabilities = [ "update" ]} path "transit/decrypt/aissemblekey" {   capabilities = [ "update" ]}'
     }
     r = requests.post(VAULT_ADDR+ '/v1/sys/policies/acl/app-aiops', data=encrypt_policy, headers=headers)
 

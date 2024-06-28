@@ -33,7 +33,7 @@ public class AiopsReferencePythonMigration extends AbstractAissembleMigration {
     public static final Map<String, String> AIOPS_REFERENCE_PYTHON_PACKAGE_MAP = Map.of(
             "aiops.authority", "aissemble.authority",
             "aiopskey" , "aissemblekey",
-            "/deployments/aiops-secure.jks" , "/deployments/aissemble-secure.jks",
+            "/deployments/aissemble-secure.jks" , "/deployments/aissemble-secure.jks",
             "policy-decision-point.aiops-security.properties.vm", "policy-decision-point.aissemble-security.properties.vm",
             "aiops_core_filestore.file_store_factory","aissemble_core_filestore.file_store_factory",
             "aiops_core_metadata.metadata_model", "aissemble_core_metadata.metadata_model",
