@@ -43,12 +43,6 @@ jobs:
         uses: gabrielfalcao/pyenv-action@v18
         with:
           default: 3.11.4
-      - name: Load cached Poetry installation
-        id: cached-poetry
-        uses: actions/cache@v4
-        with:
-          path: ~/.local
-          key: poetry-0  # increment to reset cache
       - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
         id: cached-m2-repo
         uses: actions/cache@v4
@@ -79,7 +73,7 @@ jobs:
           distribution: 'temurin'
       - name: Build aiSSEMBLE
         run: |
-          ./mvnw -B clean install --file pom.xml -Pci -Dmaven.build.cache.enabled=false
+          ./mvnw -B clean install --file pom.xml -Pci,x86
       #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
       # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
