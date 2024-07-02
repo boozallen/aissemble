@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Upgrade
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.test</groupId>
+        <artifactId>test-project-docker</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>test-project-spark-worker-docker</artifactId>
+
+    <packaging>orphedomos</packaging>
+
+    <name>test-project::Docker::Spark</name>
+    <description>Build for a Spark Docker container which contains all pipelines</description>
+    <modelVersion>4.0.0</modelVersion>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>com.boozallen.aiops.cookbook</basePackage>
+                    <profile>aissemble-spark-worker-docker</profile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-docker-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/resources/docker</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>mda-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-pipeline-artifacts</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-pipeline-artifacts</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <groupId>${project.groupId}</groupId>
+                    <modelsArtifactId>test-project-pipeline-models</modelsArtifactId>
+                    <pipelinesDirectory>${project.parent.parent.basedir}/test-project-pipelines/</pipelinesDirectory>
+                    <outputDirectory>${project.build.directory}/dockerbuild/</outputDirectory>
+                    <habushuArtifactVersion>${version.habushu.dist.artifact}</habushuArtifactVersion>
+                    <targetPipelineTypes>
+                        <targetPipelineType>data-flow</targetPipelineType>
+                    </targetPipelineTypes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>test-project-pipeline-models</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>spark-pipeline</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+</project>
+

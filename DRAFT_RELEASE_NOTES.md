@@ -51,6 +51,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-v2-chart-files-aissemble-version-migration         | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                                                             |
 | upgrade-v1-chart-files-aissemble-version-migration         | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                                                                   |
 | python-linting-migration                              | Updates Habushu configuration in root pom.xml to disable build failures when linting issues are detected |
+| orphedomos-to-fabric8-migration | Updates `orphedomos-maven-plugin` usages to leverage fabric8's `docker-maven-plugin`|
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
