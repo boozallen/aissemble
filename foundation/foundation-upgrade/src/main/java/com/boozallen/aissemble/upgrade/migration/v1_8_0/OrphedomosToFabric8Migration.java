@@ -11,14 +11,14 @@ package com.boozallen.aissemble.upgrade.migration.v1_8_0;
  */
 
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
-import com.boozallen.aissemble.upgrade.util.pom.LocationAwareMavenReader;
+import org.technologybrewery.baton.util.pom.LocationAwareMavenReader;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.InputLocation;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.Profile;
 import org.technologybrewery.baton.util.FileUtils;
-import com.boozallen.aissemble.upgrade.util.pom.PomHelper;
+import org.technologybrewery.baton.util.pom.PomHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,14 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.boozallen.aissemble.upgrade.util.pom.PomModifications;
+import org.technologybrewery.baton.util.pom.PomModifications;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.technologybrewery.baton.BatonException;
 
-import static com.boozallen.aissemble.upgrade.util.pom.PomHelper.getLocationAnnotatedModel;
-import static com.boozallen.aissemble.upgrade.util.pom.PomHelper.writeModifications;
+import static org.technologybrewery.baton.util.pom.PomHelper.getLocationAnnotatedModel;
+import static org.technologybrewery.baton.util.pom.PomHelper.writeModifications;
 
 import static org.technologybrewery.baton.util.FileUtils.getRegExCaptureGroups;
 

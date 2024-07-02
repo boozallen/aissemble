@@ -12,7 +12,7 @@ package com.boozallen.aissemble.upgrade.migration.v1_8_0;
 
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
 import com.boozallen.aissemble.upgrade.migration.AbstractMigrationTest;
-import com.boozallen.aissemble.upgrade.util.pom.PomHelper;
+import org.technologybrewery.baton.util.pom.PomHelper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
