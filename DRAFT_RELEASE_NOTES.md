@@ -49,13 +49,16 @@ The following steps will upgrade your project to 1.8. These instructions consist
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                             | Description                                                                                                                                                                                                                                            |
-|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration               | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                                                                                           |
-| upgrade-v2-chart-files-aissemble-version-migration         | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                                                             |
-| upgrade-v1-chart-files-aissemble-version-migration         | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE                                                                                   |
-| python-linting-migration                              | Updates Habushu configuration in root pom.xml to disable build failures when linting issues are detected |
-| orphedomos-to-fabric8-migration | Updates `orphedomos-maven-plugin` usages to leverage fabric8's `docker-maven-plugin`|
+| Migration Name                                             | Description                                                                                                                                                                |
+|------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| upgrade-tiltfile-aissemble-version-migration               | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                               |
+| upgrade-v2-chart-files-aissemble-version-migration         | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
+| upgrade-v1-chart-files-aissemble-version-migration         | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE       |
+| python-linting-migration                              | Updates Habushu configuration in root pom.xml to disable build failures when linting issues are detected                                                                   |
+| orphedomos-to-fabric8-migration | Updates `orphedomos-maven-plugin` usages to leverage fabric8's `docker-maven-plugin`                                                                                       |
+| aiops-reference-python-migration | Updates the python packages which were renamed from `aiops` to `aissemble`.                                                                                                |
+| aiops-reference-pdp-python-migration | Updates the policy decision point python packages which were renamed from `aiops` to `aissemble`.                                                                          |
+| aiops-reference-java-migration | Updates the java packages which were renamed from `aiops` to `aissemble`.                                                                                                                       |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

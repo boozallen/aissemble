@@ -1,8 +1,8 @@
-package com.boozallen.aiops.data.access;
+package com.boozallen.aissemble.data.access;
 
 /*-
  * #%L
- * AIOps Foundation::AIOps Data Access
+ * aiSSEMBLE Foundation::aiSSEMBLE Data Access
  * %%
  * Copyright (C) 2021 Booz Allen
  * %%
@@ -24,7 +24,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.boozallen.aiops.data.access.config.DataAccessConfig;
+import com.boozallen.aissemble.data.access.config.DataAccessConfig;
 
 import io.agroal.api.AgroalDataSource;
 

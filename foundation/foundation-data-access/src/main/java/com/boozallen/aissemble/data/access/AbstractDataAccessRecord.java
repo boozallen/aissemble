@@ -1,8 +1,8 @@
-package com.boozallen.aiops.data.access;
+package com.boozallen.aissemble.data.access;
 
 /*-
  * #%L
- * AIOps Foundation::AIOps Data Access
+ * aiSSEMBLE Foundation::aiSSEMBLE Data Access
  * %%
  * Copyright (C) 2021 Booz Allen
  * %%
