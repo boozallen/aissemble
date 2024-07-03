@@ -61,6 +61,14 @@ jobs:
             maven-build-cache-
       - name: Install Poetry
         uses: snok/install-poetry@v1
+      - name: Poetry cache
+        id: cached-poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            poetry-
       - name: Install Helm
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
