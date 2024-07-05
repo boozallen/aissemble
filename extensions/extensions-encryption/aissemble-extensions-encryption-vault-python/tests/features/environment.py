@@ -61,23 +61,9 @@ def before_feature(context, feature):
     # using major, minor, patch and -SNAPSHOT if dev
     version = metadata.version("aissemble-extensions-encryption-vault-python")
     docker_image += version_to_tag(version)
-    base_docker_image = docker_image
 
-    try:
-        if platform.machine().lower() in ["arm64", "aarch64"]:
-            docker_image += "-arm64"
-        else:
-            docker_image += "-amd64"
-
-        context.test_container = SafeDockerContainer(docker_image)
-        start_container(context, docker_image, feature)
-
-    except:
-        logger.info(
-            f"Could not find container {docker_image} (with specific platform).  Trying without platform..."
-        )
-        context.test_container = SafeDockerContainer(base_docker_image)
-        start_container(context, base_docker_image, feature)
+    context.test_container = SafeDockerContainer(docker_image)
+    start_container(context, docker_image, feature)
 
     root_key_tuple = context.test_container.exec("cat /root_key.txt")
     secrets_root_key = root_key_tuple.output.decode()

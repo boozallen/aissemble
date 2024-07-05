@@ -18,36 +18,42 @@
 
     <profiles>
         <profile>
-            <id>x86</id>
-            <properties>
-                <target.architecture>amd64</target.architecture>
-                <docker.platforms>linux/amd64</docker.platforms>
-            </properties>
-        </profile>
-        <profile>
-            <id>arm64</id>
-            <properties>
-                <target.architecture>arm64</target.architecture>
-                <docker.platforms>linux/arm64</docker.platforms>
-            </properties>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <artifactId>maven-deploy-plugin</artifactId>
-                            <configuration>
-                                <skip>true</skip>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
             <id>ci</id>
-            <properties>
-                <dockerImageVersion>${project.version}-${target.architecture}</dockerImageVersion>
-            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-push</id>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <name>${docker.baseline.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
+                                            <build>
+                                                <buildx>
+                                                    <platforms>
+                                                        <platform>${docker.platforms}</platform>
+                                                    </platforms>
+                                                </buildx>
+                                                <args>
+                                                    <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
+                                                    <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
+                                                    <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
+                                                    <SPARK_VERSION>${version.spark}</SPARK_VERSION>
+                                                </args>
+                                                <contextDir>${project.basedir}</contextDir>
+                                                <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
+                                            </build>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>ensure-docker-dependencies</id>
