@@ -86,6 +86,15 @@
             ]
           }
         ]
+      },
+      {
+        "name": "aiops-reference-java-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferenceJavaMigration",
+        "fileSets": [
+          {
+            "includes": ["src/**/*.java"]
+          }
+        ]
       }
     ]
   }

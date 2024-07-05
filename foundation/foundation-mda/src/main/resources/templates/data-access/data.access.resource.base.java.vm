@@ -12,7 +12,7 @@ import org.eclipse.microprofile.graphql.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.boozallen.aiops.data.access.QueryService;
+import com.boozallen.aissemble.data.access.QueryService;
 
 #foreach ($record in $records)
     #if ($basePackage != $record.package)
