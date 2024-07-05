@@ -549,7 +549,7 @@
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${version.fabric8.docker.maven.plugin}</version>
-                    <extensions>true</extensions> 
+                    <extensions>true</extensions>
                     <executions>
                         <execution>
                             <id>default-build</id>

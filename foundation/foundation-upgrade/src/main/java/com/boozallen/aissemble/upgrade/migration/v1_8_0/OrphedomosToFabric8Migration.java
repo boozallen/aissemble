@@ -242,6 +242,7 @@ public class OrphedomosToFabric8Migration extends AbstractAissembleMigration{
                 StringUtils.repeat(indent, 5) + "<execution>\n" +
                 StringUtils.repeat(indent, 6) + "<id>default-build</id>\n" +
                 StringUtils.repeat(indent, 6) + "<configuration>\n" +
+                StringUtils.repeat(indent, 7) + "<skip>true</skip>\n" +
                 StringUtils.repeat(indent, 7) + "<images>\n" +
                 StringUtils.repeat(indent, 8) + "<image>\n" +
                 StringUtils.repeat(indent, 9) + "<name>" + imageName + ":" + imageVersion + "</name>\n" +

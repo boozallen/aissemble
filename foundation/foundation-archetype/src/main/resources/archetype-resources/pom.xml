@@ -65,7 +65,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins:  -->
+        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins -->
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>artifacts-maven-plugin</artifactId>
@@ -84,7 +84,21 @@
             <version>${archetypeVersion}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins  -->
+        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins -->
+        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of plugin dependencies -->
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-mda</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-upgrade</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of plugin dependencies -->
     </dependencies>
 
     <scm>
