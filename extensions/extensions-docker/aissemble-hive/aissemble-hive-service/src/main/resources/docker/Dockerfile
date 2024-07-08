@@ -3,7 +3,7 @@ FROM apache/hive:${METASTORE_VERSION} as appsource
 
 FROM eclipse-temurin:17-jre as final
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 WORKDIR /opt
 

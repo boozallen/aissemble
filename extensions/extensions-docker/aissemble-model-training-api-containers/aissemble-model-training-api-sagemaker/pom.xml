@@ -14,60 +14,11 @@
 
     <packaging>docker-build</packaging>
 
-    <properties>
-        <wheelOutputDirectory>${project.build.directory}/wheels/</wheelOutputDirectory>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>retrieve-wheels</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>retrieve-wheels</goal>
-                        </goals>
-                        <configuration>
-                            <wheelDependencies>
-                                <wheelDependency>
-                                    <artifactId>aissemble-extensions-model-training-api-sagemaker</artifactId>
-                                    <targetDirectory>${wheelOutputDirectory}</targetDirectory>
-                                </wheelDependency>																
-                            </wheelDependencies>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>            
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-docker-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/src/main/resources/docker</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>../../../../extensions/aissemble-extensions-model-training-api-sagemaker/src/model_training_api_sagemaker</directory>
-                                    <includes>
-                                        <include>model_training_api_sagemaker.py</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

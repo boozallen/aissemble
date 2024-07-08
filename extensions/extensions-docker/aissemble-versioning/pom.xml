@@ -14,66 +14,11 @@
 
     <packaging>docker-build</packaging>
 
-    <properties>
-        <wheelOutputDirectory>${project.build.directory}/wheels/</wheelOutputDirectory>
-    </properties>
-
     <build>
         <plugins>
-			<plugin>
-				<groupId>org.technologybrewery.orphedomos</groupId>
-				<artifactId>orphedomos-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>retrieve-wheels</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>retrieve-wheels</goal>
-						</goals>
-						<configuration>
-							<wheelDependencies>
-								<wheelDependency>
-									<artifactId>aissemble-foundation-core-python</artifactId>
-									<targetDirectory>${wheelOutputDirectory}</targetDirectory>
-								</wheelDependency>
-								<wheelDependency>
-									<artifactId>aissemble-foundation-pdp-client-python</artifactId>
-									<targetDirectory>${wheelOutputDirectory}</targetDirectory>
-								</wheelDependency>
-								<wheelDependency>
-									<artifactId>aissemble-foundation-versioning-service</artifactId>
-									<targetDirectory>${wheelOutputDirectory}</targetDirectory>
-								</wheelDependency>																
-							</wheelDependencies>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>        
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-docker-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>
-                                        ../../../foundation/aissemble-foundation-versioning-service/src/model_versioning
-                                    </directory>
-                                    <includes>
-                                        <include>versioning_api.py</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

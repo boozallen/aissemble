@@ -13,65 +13,12 @@
     <description>A base image for the aiSSEMBLE Model Training API service which runs on FastAPI</description>
 
     <packaging>docker-build</packaging>
-    
-    <properties>
-        <wheelOutputDirectory>${project.build.directory}/wheels/</wheelOutputDirectory>
-    </properties>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>retrieve-wheels</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>retrieve-wheels</goal>
-                        </goals>
-                        <configuration>
-                            <wheelDependencies>
-                                <wheelDependency>
-                                    <artifactId>aissemble-foundation-messaging-python-client</artifactId>
-                                    <targetDirectory>${wheelOutputDirectory}</targetDirectory>
-                                </wheelDependency>
-                                <wheelDependency>
-                                    <artifactId>aissemble-foundation-model-training-api</artifactId>
-                                    <targetDirectory>${wheelOutputDirectory}</targetDirectory>
-                                </wheelDependency>															
-                            </wheelDependencies>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>			
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-docker-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/src/main/resources/docker</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>../../../../foundation/aissemble-foundation-model-training-api/src/model_training_api</directory>
-                                    <includes>
-                                        <include>model_training_api.py</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -21,8 +21,8 @@ service:
 configMap:
   trainingApiConfig: |
     project_name=${projectName}
-    docker_registry=ghcr.io/
-    image_prefix=boozallen/
+    docker_registry=${dockerProjectRepositoryUrl}
+    image_prefix=
     image_tag=${version}
     image_pull_policy=Always
   trainingApiConfigDev: |

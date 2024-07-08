@@ -1,6 +1,6 @@
 FROM alpine:3.13
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 # This is the release of Vault to pull in.
 ARG VAULT_VERSION=1.15.2
