@@ -3,7 +3,7 @@
 ARG SPARK_VERSION
 FROM apache/spark-py:v${SPARK_VERSION}
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
 

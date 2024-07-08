@@ -1,7 +1,7 @@
 # Script for creating base Airflow Docker image
 FROM apache/airflow:2.7.0-python3.11
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
 
@@ -37,10 +37,10 @@ USER root
 RUN mkdir -p /tmp/mlruns /tmp/model
 RUN chown airflow:0 -R /tmp/mlruns /tmp/model
 
-ENV JAVA_HOME /usr/lib/jvm/default-java
+ENV JAVA_HOME=/usr/lib/jvm/default-java
 RUN export JAVA_HOME
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 ENV TERM linux
 
 # Airflow UID is 50000

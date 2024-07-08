@@ -350,9 +350,6 @@
 			},
 			{
 				"name": "dataAccessDockerPomFile"
-			},
-			{
-				"name": "vaultDockerPomFile"
 			}
 		],
 		"profileReferences": [
@@ -364,6 +361,14 @@
 			},
 			{
 				"name": "docker-pom-training-sagemaker"
+			}
+		]
+	},
+	{
+		"name": "docker-vault",
+		"targetReferences": [
+			{
+				"name": "vaultDockerPomFile"
 			}
 		]
 	},

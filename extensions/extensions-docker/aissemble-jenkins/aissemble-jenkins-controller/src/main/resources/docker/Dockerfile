@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:lts-jdk11
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
 USER jenkins

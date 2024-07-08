@@ -1,7 +1,7 @@
 #Script for creating base Kafka Docker image
 FROM bitnami/kafka:3.5
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
 RUN apt-get update -y \

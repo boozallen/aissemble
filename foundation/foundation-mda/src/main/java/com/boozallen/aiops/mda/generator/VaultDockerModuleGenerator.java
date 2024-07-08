@@ -21,7 +21,7 @@ import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryMana
 import java.util.Map;
 
 /**
- * Generates the policy decision point docker module.
+ * Generates the vault docker module.
  */
 public class VaultDockerModuleGenerator extends AbstractMavenModuleGenerator {
     /*--~-~-~~
