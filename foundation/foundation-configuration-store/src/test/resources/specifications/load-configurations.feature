@@ -14,7 +14,7 @@ Feature: Load configurations at specified URI based on environment context
   Scenario: the Configuration Service skips loading already fully loaded configurations
     Given URIs pointing to valid base and environment properties
     And URIs pointing to valid base and environment policies
-    And the configuration store has been fully populated with the specified configurations
+    And the configuration service records the that the given configurations were loaded successfully
     When the configuration service starts again
     Then the configuration service skips the loading process
     And notifies the user that the configurations were previously loaded
@@ -34,16 +34,6 @@ Feature: Load configurations at specified URI based on environment context
     And consumes the base properties
     And augments the base with the environment properties
 
-  Scenario: The properties are misformatted
-    Given URIs pointing to misformatted properties
-    When the properties are loaded
-    Then an exception is thrown stating properties are misformatted
-
-  Scenario: The properties are not distinguishable
-    Given URIs pointing to nondistinct properties
-    When the properties are loaded
-    Then an exception is thrown stating properties are not distinguishable
-
   @config-service
   Scenario: configuration service returns the configuration value
     Given the configuration service has started
@@ -61,7 +51,7 @@ Feature: Load configurations at specified URI based on environment context
     When the policies are loaded
     Then an exception is thrown stating a policy attribute is undefined
 
-    Examples: 
+    Examples:
     | attribute                     |
     | targets                       |
     | targets-retrieve-url          |
@@ -74,3 +64,8 @@ Feature: Load configurations at specified URI based on environment context
     Given URIs pointing to policies targeting the same property
     When the policies are loaded
     Then an exception is thrown stating a property cannot be targeted by multiple policies
+
+  Scenario: Encrypted properties are decrypted and stored into the config-store
+    Given there exists a krausening_password and encrypted properties
+    When the configuration service starts
+    Then the loaded properties contains the decrypted value

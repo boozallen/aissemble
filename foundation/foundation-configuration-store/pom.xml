@@ -57,12 +57,10 @@
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
+                        <KRAUSENING_BASE>${project.basedir}/src/test/resources/configurations/base</KRAUSENING_BASE>
+                        <KRAUSENING_EXTENSIONS>${project.basedir}/src/test/resources/configurations/example-env</KRAUSENING_EXTENSIONS>
+                        <KRAUSENING_PASSWORD>3uQ2j_=wmP5A2q8b</KRAUSENING_PASSWORD>
                     </systemPropertyVariables>
-                    <!-- set environment variables for unit test -->
-                    <environmentVariables>
-                        <BASE_PROPERTY_URI>${project.basedir}/src/test/resources/configurations/base</BASE_PROPERTY_URI>
-                        <ENVIRONMENT_PROPERTY_URI>${project.basedir}/src/test/resources/configurations/example-env</ENVIRONMENT_PROPERTY_URI>
-                    </environmentVariables>
                 </configuration>
             </plugin>
             <plugin>
@@ -114,7 +112,6 @@
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
             <artifactId>krausening</artifactId>
-            <version>${version.krausening}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

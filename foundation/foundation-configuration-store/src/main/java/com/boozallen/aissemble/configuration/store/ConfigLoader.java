@@ -13,19 +13,26 @@ package com.boozallen.aissemble.configuration.store;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.FileInputStream;
-
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
 import java.nio.file.InvalidPathException;
-
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.technologybrewery.krausening.Krausening;
 
 import com.boozallen.aissemble.configuration.dao.PropertyDao;
 import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicy;
@@ -33,24 +40,12 @@ import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicyMa
 import com.boozallen.aissemble.configuration.policy.exception.PropertyRegenerationPolicyException;
 import com.boozallen.aissemble.core.policy.configuration.policymanager.AbstractPolicyManager;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-
 /**
  * Handles parsing/reconciling configurations and associated metadata.
  */
 @ApplicationScoped
 public class ConfigLoader {
+
     private static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class);
     private PropertyDao propertyDao;
 
@@ -73,7 +68,7 @@ public class ConfigLoader {
     /**
      * Loads configurations from the base and environment URIs and reconciles them.
      * @param baseURI URI housing the base/default configuration files.
-     * @param environmentURI URI housing overrides of agumentations specific to the environment.
+     * @param environmentURI URI housing overrides of augmentations specific to the environment.
      * @return Set of properties.
      */
     public Set<Property> loadConfigs(String baseURI, String environmentURI) {
@@ -93,19 +88,19 @@ public class ConfigLoader {
 
     /**
      * Inspects config file(s) at the given URI and gathers all properties.
-     * @param URI Location housing configuration yamls.
+     * @param uri Location housing configuration properties.
      * @return Set of Property objects.
      */
-    private Set<Property> loadPropertiesURI(String URI) {
-        if (URI == null) {
+    private Set<Property> loadPropertiesURI(String uri) {
+        if (uri == null) {
             throw new IllegalArgumentException("Path cannot be null");
         }
 
-        List<File> yamlFiles = getYamlFiles(URI);
+        List<File> propertiesFiles = getPropertiesFiles(uri);
         Set<Property> aggregateProperties = new HashSet<>();
-        for (File yamlFile : yamlFiles) {
-            logger.info("Loading: " + yamlFile.getName());
-            for (Property property : parseYaml(yamlFile.getAbsolutePath())) {
+        for (File propertiesFile : propertiesFiles) {
+            logger.info("Loading: {}", propertiesFile.getName());
+            for (Property property : parseProperties(propertiesFile.getName())) {
                 // if the property already existed in the set, then add call returns false
                 if (!aggregateProperties.add(property)) {
                     throw new IllegalArgumentException("Duplicates found");
@@ -203,42 +198,42 @@ public class ConfigLoader {
     }
 
     /**
-     * Filters and collects yaml files at the URI.
-     * @param URI Location housing configuration yamls.
-     * @return List of yaml files.
+     * Filters and collects properties files at the URI.
+     * @param uri Location housing configuration properties.
+     * @return List of properties files.
      */
-    private List<File> getYamlFiles(String URI) {
-        try (Stream<Path> walk = Files.walk(Paths.get(URI))) {
+    private List<File> getPropertiesFiles(String uri) {
+        try (Stream<Path> walk = Files.walk(Paths.get(uri))) {
             return walk
                     .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().endsWith(".yaml") || path.toString().endsWith(".yml"))
+                    .filter(path -> path.toString().endsWith(".properties"))
                     .map(Path::toFile)
                     .collect(Collectors.toList());
         } catch (IOException | InvalidPathException e) {
-            throw new RuntimeException("Error accessing configuration files at " + URI, e);
+            throw new RuntimeException("Error accessing configuration files at " + uri, e);
         }
     }
 
     /**
-     * Deserializes the yaml file's contents into java objects.
-     * @param filePath Path to the yaml file.
+     * Load the properties file's using Krausening and deserialize contents into java objects.
+     * @param fileName name of the properties file.
      * @return Set of Property objects.
      */
-    private Set<Property> parseYaml(String filePath) {
+    private Set<Property> parseProperties(String fileName) {
         try {
-            LoaderOptions loaderOptions = new LoaderOptions();
-            loaderOptions.setAllowDuplicateKeys(false);
-            Constructor constructor = new Constructor(YamlConfig.class, loaderOptions);
-            TypeDescription configDescription = new TypeDescription(YamlConfig.class);
-            configDescription.addPropertyParameters("properties", YamlProperty.class);
-            constructor.addTypeDescription(configDescription);
-            Yaml yaml = new Yaml(constructor);
+            Krausening krausening = Krausening.getInstance();
+            Properties krauseningProperties = krausening.getProperties(fileName);
+            Set<Property> properties = new HashSet<>();
 
-            FileInputStream inputStream = new FileInputStream(filePath);
-            YamlConfig yamlConfig = yaml.load(inputStream);
-            return yamlConfig.toPropertySet();
+            for (Object propertyName: krauseningProperties.keySet()){
+                Property property = new Property(fileName.substring(0, fileName.indexOf('.')), propertyName.toString(),
+                        krauseningProperties.getProperty(propertyName.toString()));
+                properties.add(property);
+            }
+
+            return properties;
         } catch (Exception e) {
-            throw new IllegalArgumentException("Could not parse yaml", e);
+            throw new IllegalArgumentException("Could not parse properties file", e);
         }
     }
 
@@ -270,7 +265,7 @@ public class ConfigLoader {
 
     /**
      * Read property from store with given {@link PropertyKey} containing the group name and property name
-     * @param PropertyKey property key
+     * @param propertyKey property key
      * @return property read from the store
      */
     public Property read(PropertyKey propertyKey) {

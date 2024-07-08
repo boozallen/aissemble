@@ -5,12 +5,14 @@
 ########################################]]#
 
 aissemble-configuration-store-chart:
+  app:
+    name: "${appName}"
   image:
-    tag: ""
+    tag: "${versionTag}"
 
   deployment:
     env:
-      - name: BASE_PROPERTY_URI
+      - name: KRAUSENING_BASE
         value: /configurations/base
-      - name: ENVIRONMENT_PROPERTY_URI
+      - name: KRAUSENING_EXTENSIONS
         value: /configurations/env
