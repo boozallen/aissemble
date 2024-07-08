@@ -1090,24 +1090,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                 <hide.manual.actions>true</hide.manual.actions>
             </properties>
         </profile>
-        <profile>
-            <id>arm64</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.technologybrewery.habushu</groupId>
-                            <artifactId>habushu-maven-plugin</artifactId>
-                            <version>${version.habushu.plugin}</version>
-                            <configuration>
-                                <!-- we don't need to deploy "any" wheel artifacts twice: -->
-                                <skipDeploy>true</skipDeploy>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
     </profiles>
 
 </project>

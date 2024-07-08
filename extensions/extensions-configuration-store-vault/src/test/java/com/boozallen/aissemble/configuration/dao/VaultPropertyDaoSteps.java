@@ -88,7 +88,7 @@ public class VaultPropertyDaoSteps {
 
     private void setupVaultContainer() {
         final Properties encryptProperties = Krausening.getInstance().getProperties("encrypt.properties");
-        String dockerImage = "ghcr.io/boozallen/aissemble-vault:" + System.getProperty("version.aissemble.vault") + this.getSystemArchitectureTag();
+        String dockerImage = "ghcr.io/boozallen/aissemble-vault:" + System.getProperty("version.aissemble.vault");
         final DockerImageName vaultImage = DockerImageName.parse(dockerImage).asCompatibleSubstituteFor("vault");
         vaultContainer = new VaultContainer(vaultImage);
         vaultContainer.setWaitStrategy(Wait.forListeningPort());
@@ -104,15 +104,6 @@ public class VaultPropertyDaoSteps {
         // Override secrets.root.key values from the aissemble-vault image for VaultPropertyDao vault access.
         String unsealKeysJSONArrayString = vaultContainer.copyFileFromContainer("/unseal_keys.txt", this::inputStreamToString);
         encryptProperties.setProperty("secrets.unseal.keys", unsealKeysJSONArrayString.replaceAll("[\\s|\\[\\]\"]", ""));
-    }
-
-    private String getSystemArchitectureTag() {
-        String arch = System.getProperty("os.arch").toLowerCase().trim();
-        switch(arch) {
-            case "aarch64":
-            case "arm64":   return "-arm64";
-            default:        return "-amd64";
-        }
     }
 
     private String inputStreamToString(InputStream inputStream) {
