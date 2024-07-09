@@ -3,7 +3,7 @@ ARG DOCKER_BASELINE_REPO_ID
 ARG VERSION_AISSEMBLE
 
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
-FROM python:3.11-slim AS habushu_builder
+FROM python:3.11 AS habushu_builder
 # Poetry and supporting plugin installations
 RUN python -m ensurepip --upgrade && \
     pip install poetry && \
