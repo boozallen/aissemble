@@ -1,6 +1,6 @@
 # Script for creating base FastAPI Docker image
 
-FROM python:3.11-slim
+FROM python:3.11
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
