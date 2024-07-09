@@ -28,7 +28,7 @@
         <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
         <version.fermenter>2.10.3</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
-        <version.habushu.plugin>2.16.0</version.habushu.plugin>
+        <version.habushu.plugin>2.16.1</version.habushu.plugin>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.2.0</version.help.plugin>
         <version.krausening>19</version.krausening>
@@ -550,32 +550,29 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${version.fabric8.docker.maven.plugin}</version>
                     <extensions>true</extensions>
-                    <executions>
-                        <execution>
-                            <id>default-build</id>
-                            <configuration>
-                                <images>
-                                    <image>
-                                        <name>${docker.baseline.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
-                                        <build>
-                                            <buildx>
-                                                <platforms>
-                                                    <platform>${docker.platforms}</platform>
-                                                </platforms>
-                                            </buildx>
-                                            <args>
-                                                <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
-                                                <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
-                                                <SPARK_VERSION>${version.spark}</SPARK_VERSION>
-                                            </args>
-                                            <contextDir>${project.basedir}</contextDir>
-                                            <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
-                                        </build>
-                                    </image>
-                                </images>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>${docker.baseline.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
+                                <build>
+                                    <buildx>
+                                        <!-- use default cache, passed to docker via config flag.-->
+                                        <dockerStateDir>~/.docker</dockerStateDir>
+                                        <platforms>
+                                            <platform>${docker.platforms}</platform>
+                                        </platforms>
+                                    </buildx>
+                                    <args>
+                                        <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
+                                        <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
+                                        <SPARK_VERSION>${version.spark}</SPARK_VERSION>
+                                    </args>
+                                    <contextDir>${project.basedir}</contextDir>
+                                    <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>${group.helm.plugin}</groupId>
