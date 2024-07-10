@@ -52,57 +52,23 @@
             <version>${version.delta}</version>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>ci</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-push</id>
-                                <configuration>
-                                    <images>
-                                        <image>
-                                            <build>
-                                                <args>
-                                                    <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
-                                                </args>
-                                            </build>
-                                        </image>
-                                    </images>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-build</id>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <build>
-                                        <args>
-                                            <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
-                                        </args>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <images>
+                        <image>
+                            <build>
+                                <args>
+                                    <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
