@@ -23,6 +23,8 @@ jobs:
   build:
 
     runs-on: arc-runner-set-aissemble
+    env:
+      DOCKER_CONFIG: $HOME/.docker
 
     steps:
       - uses: actions/checkout@v4
@@ -81,7 +83,7 @@ jobs:
           distribution: 'temurin'
       - name: Build aiSSEMBLE
         run: |
-          ./mvnw -B clean install --file pom.xml -Pci,x86
+          ./mvnw -B clean install --file pom.xml -Pci
       #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
       # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
