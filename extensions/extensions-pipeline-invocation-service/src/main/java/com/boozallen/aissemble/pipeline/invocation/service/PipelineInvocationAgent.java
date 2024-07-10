@@ -88,7 +88,6 @@ public class PipelineInvocationAgent {
         List<String> args = executor.createBaseHelmInstallArgs(pipelineInvocationRequest.getApplicationName());
         args.addAll(buildHelmValuesArgs(pipelineInvocationRequest));
         args.addAll(buildFinalValuesOverrides(pipelineInvocationRequest));
-        args.add("aissemble-spark-application");
 
         return args;
     }

@@ -6,8 +6,6 @@ FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-quarkus:${VERSION_AISSEMBLE}
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
-ARG AISSEMBLE_HELM_REPO=oci://ghcr.io/boozallen
-ARG VERSION_KUBERNETES=1.28
 # This overwrites any existing configuration in /etc/yum.repos.d/kubernetes.repo
 # Follow up by installing kubectl and helm
 RUN cat <<EOF | tee /etc/yum.repos.d/kubernetes.repo

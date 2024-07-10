@@ -24,58 +24,9 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>ci</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-push</id>
-                                <configuration>
-                                    <images>
-                                        <image>
-                                            <build>
-                                                <args>
-                                                    <AISSEMBLE_HELM_REPO>${aissemble.helm.repo}</AISSEMBLE_HELM_REPO>
-                                                </args>
-                                            </build>
-                                        </image>
-                                    </images>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-build</id>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <build>
-                                        <args>
-                                            <AISSEMBLE_HELM_REPO>${aissemble.helm.repo}</AISSEMBLE_HELM_REPO>
-                                        </args>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
