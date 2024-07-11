@@ -70,7 +70,7 @@
         <version.hadoop>3.3.4</version.hadoop>
         <version.neo4j>4.1.5_for_spark_3</version.neo4j>
         <version.aws.sdk.bundle>1.12.262</version.aws.sdk.bundle>
-        <version.baton>1.1.0-SNAPSHOT</version.baton>
+        <version.baton>1.1.0</version.baton>
         <version.quarkus.cucumber>0.6.0</version.quarkus.cucumber>
         <version.quarkus.cucumber.java>7.4.1</version.quarkus.cucumber.java>
 
