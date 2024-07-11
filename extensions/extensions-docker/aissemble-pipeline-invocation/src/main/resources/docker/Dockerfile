@@ -1,27 +1,19 @@
-# syntax=docker/dockerfile:1.3-labs
-ARG DOCKER_BASELINE_REPO_ID
-ARG VERSION_AISSEMBLE
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-quarkus:${VERSION_AISSEMBLE}
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.20 AS builder
+USER root
+RUN microdnf install -y openssl gzip && \
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.20
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
-USER root
-# This overwrites any existing configuration in /etc/yum.repos.d/kubernetes.repo
-# Follow up by installing kubectl and helm
-RUN cat <<EOF | tee /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://pkgs.k8s.io/core:/stable:/v1.28/rpm/
-enabled=1
-gpgcheck=1
-gpgkey=https://pkgs.k8s.io/core:/stable:/v1.28/rpm/repodata/repomd.xml.key
-EOF
+COPY --from=builder /usr/local/bin/helm /usr/local/bin/helm
 
-RUN microdnf install git tar kubectl && \
-    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash && \
-    useradd --home /deployments/ --user-group --shell /usr/sbin/nologin --uid 1001 invocation
+#This is technically the default if nothing is set, but this ensures if we move it `run-java.sh` will still be able to find it
+ENV JAVA_APP_DIR="/deployments"
+COPY --chown=default target/dockerbuild/*.jar $JAVA_APP_DIR/
 
+ENV KRAUSENING_BASE="$JAVA_APP_DIR/krausening/base"
 
-USER 1001
-
-COPY target/dockerbuild/*.jar /deployments/
+# Setting log manager prevents vertx thread blocked exceptions. Password automatically masked by `run-java.sh`
+ENV JAVA_OPTS_APPEND="-Djava.util.logging.manager=org.jboss.logmanager.LogManager -DKRAUSENING_BASE=$KRAUSENING_BASE -DKRAUSENING_EXTENSIONS=$KRAUSENING_EXTENSIONS -DKRAUSENING_PASSWORD=$KRAUSENING_PASSWORD"

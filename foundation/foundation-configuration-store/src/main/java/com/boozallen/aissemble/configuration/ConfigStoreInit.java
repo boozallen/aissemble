@@ -40,10 +40,10 @@ public class ConfigStoreInit {
     public void init() {
         logger.info("Initialize store configuration properties and policies...");
         // We are loading all the properties upfront. In the future it might be more advantageous to load them as needed
-        String basePropertyUri = System.getProperty("KRAUSENING_BASE");
-        String environmentPropertyUri = System.getProperty("KRAUSENING_EXTENSIONS");
-        String basePolicyUri = System.getenv("BASE_POLICY_URI");
-        String environmentPolicyUri = System.getenv("ENVIRONMENT_POLICY_URI");
+        String basePropertyUri = getBootstrapConfiguration("KRAUSENING_BASE");
+        String environmentPropertyUri = getBootstrapConfiguration("KRAUSENING_EXTENSIONS");
+        String basePolicyUri = getBootstrapConfiguration("BASE_POLICY_URI");
+        String environmentPolicyUri = getBootstrapConfiguration("ENVIRONMENT_POLICY_URI");
 
         try {
             ConfigLoader configLoader = CDI.current().select(ConfigLoader.class,new Any.Literal()).get();
@@ -96,22 +96,34 @@ public class ConfigStoreInit {
         }
     }
 
+    private static String getBootstrapConfiguration(String propertyName) {
+        String propertyValue = System.getProperty(propertyName);
+        if(propertyValue == null) {
+            propertyValue = System.getenv(propertyName);
+            if(propertyValue != null) {
+                System.setProperty(propertyName, propertyValue);
+            }
+        }
+        return propertyValue;
+    }
+
     public static String getStatus() {
         return ConfigStoreInit.status.getValue();
     }
+
+    private enum Status {
+        LOAD_COMPLETE("Load Complete"),
+        LOAD_SKIPPED("Load Skipped");
+
+        private String value;
+
+        Status(final String value){
+            this.value = value;
+        }
+
+        public String getValue(){
+            return this.value;
+        }
+    }
 }
 
-enum Status {
-    LOAD_COMPLETE("Load Complete"),
-    LOAD_SKIPPED("Load Skipped");
-
-    private String value;
-
-    Status(final String value){
-        this.value = value;
-    }
-
-    public String getValue(){
-        return this.value;
-    }
-}

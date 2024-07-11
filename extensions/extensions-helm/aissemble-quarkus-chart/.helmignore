@@ -1,2 +1,5 @@
 target
 pom.xml
+
+#helm ignore the base template and generate the values.yaml via POM plugin executions
+values.template.yaml

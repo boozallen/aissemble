@@ -1,7 +1,3 @@
-# Script for creating base AIOps Model Training API image
-ARG DOCKER_BASELINE_REPO_ID
-ARG VERSION_AISSEMBLE
-
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
 FROM python:3.11 AS habushu_builder
 # Poetry and supporting plugin installations
@@ -24,8 +20,6 @@ RUN --mount=type=cache,target=/.cache/pypoetry/ \
     poetry bundle venv /opt/venv
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (END)
 
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-fastapi:${VERSION_AISSEMBLE} AS builder
-
 #HABUSHU_FINAL_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
 FROM python:3.11-slim AS final
 # Copy venv from builder and activate by adding to the path
@@ -37,7 +31,8 @@ LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 # Set/move any required environmental variables and key scripts/configs needed by FastAPI from the base image
 # into the slimmed down final Python image
-ENV API_MAIN=model_training_api_sagemaker.model_training_api_sagemaker
-COPY --from=builder --chown=1001 /start.sh /start.sh
+ENV API_HOST='0.0.0.0'
+ENV API_PORT='80'
+ENV EXTRA_OPTS=''
 
-CMD ["/start.sh"]
+CMD python -m uvicorn "model_training_api_sagemaker.model_training_api_sagemaker:app" --host "$API_HOST" --port "$API_PORT" $EXTRA_OPTS

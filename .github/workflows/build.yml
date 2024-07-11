@@ -17,14 +17,14 @@ on:
         type: string
         default: 'dev'
   push:
-    branches: [ "dev", "2-build-workflow" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
 
     runs-on: arc-runner-set-aissemble
     env:
-      DOCKER_CONFIG: $HOME/.docker
+      DOCKER_CONFIG: /home/runner/.docker
 
     steps:
       - uses: actions/checkout@v4

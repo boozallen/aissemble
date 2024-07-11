@@ -48,4 +48,11 @@ public class ConfigService {
         }
         return Response.status(404).build();
     }
+
+    @GET
+    @Path("/healthcheck")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String healthCheck() {
+        return "Configuration Store service is running...\n";
+    }
 }

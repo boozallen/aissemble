@@ -1,7 +1,7 @@
 ARG METASTORE_VERSION
-FROM apache/hive:${METASTORE_VERSION} as appsource
+FROM apache/hive:${METASTORE_VERSION} AS appsource
 
-FROM eclipse-temurin:17-jre as final
+FROM eclipse-temurin:17-jre AS final
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
@@ -15,8 +15,8 @@ ENV HIVE_HOME=/opt/hive
 COPY --from=appsource /opt/hadoop $HADOOP_HOME
 COPY --from=appsource /opt/hive $HIVE_HOME
 
-RUN groupadd -r hive --gid=1000 && \
-    useradd --home $HIVE_HOME -g hive --shell /usr/sbin/nologin --uid 1000 hive && \
+RUN groupadd -rf hive --gid=1000 && \
+    useradd --home $HIVE_HOME -g hive --shell /usr/sbin/nologin --uid 1000 hive -o && \
     chown hive:hive -R $HIVE_HOME && \
     ln -s $JAVA_HOME /opt/jre
 
