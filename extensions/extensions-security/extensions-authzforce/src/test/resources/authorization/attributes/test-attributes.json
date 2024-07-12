@@ -1,51 +1,51 @@
 [
 	{
-		"id": "urn:aiops:jerseyNumber",
+		"id": "urn:aissemble:jerseyNumber",
 		"category": "subject",
 		"type": "int",
 		"required": "true",
-		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint "
+		"attributePointClass": "com.boozallen.aissemble.security.authorization.LocalAttributePoint "
 	},
 	{
-		"id": "urn:aiops:hallOfFameProfile",
+		"id": "urn:aissemble:hallOfFameProfile",
 		"category": "subject",
 		"type": "uri",
 		"required": "false",
-		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+		"attributePointClass": "com.boozallen.aissemble.security.authorization.LocalAttributePoint"
 	},
 	{
-		"id": "urn:aiops:suspectedPedUser",
+		"id": "urn:aissemble:suspectedPedUser",
 		"category": "subject",
 		"type": "boolean",
 		"required": "false",
-		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+		"attributePointClass": "com.boozallen.aissemble.security.authorization.LocalAttributePoint"
 	},
 	{
-		"id": "urn:aiops:battingAverage",
+		"id": "urn:aissemble:battingAverage",
 		"category": "subject",
 		"type": "double",
 		"required": "true",
-		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+		"attributePointClass": "com.boozallen.aissemble.security.authorization.LocalAttributePoint"
 	},
 	{
-		"id": "urn:aiops:serviceEntryDate",
+		"id": "urn:aissemble:serviceEntryDate",
 		"category": "subject",
 		"type": "date",
 		"required": "true",
-		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+		"attributePointClass": "com.boozallen.aissemble.security.authorization.LocalAttributePoint"
 	},
 	{
-		"id": " urn:aiops:trimClassNameTest",
+		"id": " urn:aissemble:trimClassNameTest",
 		"category": "subject ",
 		"type": " date",
 		"required": "true ",
-		"attributePointClass": " com.boozallen.aiops.security.authorization.LocalAttributePoint "
+		"attributePointClass": " com.boozallen.aissemble.security.authorization.LocalAttributePoint "
 	},
 	{
-		"id": "urn:aiops:seasonsBattingOver350",
+		"id": "urn:aissemble:seasonsBattingOver350",
 		"category":"subject",
 		"type": "integer",
 		"required": "false",
-		"attributePointClass": "com.boozallen.aiops.security.authorization.LocalAttributePoint"
+		"attributePointClass": "com.boozallen.aissemble.security.authorization.LocalAttributePoint"
 	}
 ]

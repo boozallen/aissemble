@@ -10,10 +10,9 @@ package com.boozallen.aiops.security.client;
  * #L%
  */
 
-import com.boozallen.aiops.security.authorization.models.AuthRequest;
-import com.boozallen.aiops.security.authorization.models.PDPRequest;
+import com.boozallen.aissemble.security.authorization.models.AuthRequest;
+import com.boozallen.aissemble.security.authorization.models.PDPRequest;
 
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

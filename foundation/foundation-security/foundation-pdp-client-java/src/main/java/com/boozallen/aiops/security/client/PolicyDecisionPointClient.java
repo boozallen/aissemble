@@ -10,10 +10,10 @@ package com.boozallen.aiops.security.client;
  * #L%
  */
 
-import com.boozallen.aiops.security.authorization.models.AuthRequest;
-import com.boozallen.aiops.security.authorization.models.PDPRequest;
-import com.boozallen.aiops.security.authorization.policy.PolicyDecision;
-import com.boozallen.aiops.security.config.SecurityConfiguration;
+import com.boozallen.aissemble.security.authorization.models.AuthRequest;
+import com.boozallen.aissemble.security.authorization.models.PDPRequest;
+import com.boozallen.aissemble.security.authorization.policy.PolicyDecision;
+import com.boozallen.aissemble.security.config.SecurityConfiguration;
 import org.aeonbits.owner.KrauseningConfigFactory;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;

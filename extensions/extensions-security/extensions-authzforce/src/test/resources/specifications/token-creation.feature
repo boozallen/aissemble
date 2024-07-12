@@ -7,8 +7,8 @@ Feature: Create JSON Web Tokens based on PDP rules
 
     Examples: 
       | subject       | audience                                      | issuer      |
-      | tonyGwynn     | petco park fans                               | CN=aiops.bah, OU=bah, O=bah, L=DC, ST=DC, C=US |
-      | trevorHoffman | fans that stuck it out to the end of the game | CN=aiops.bah, OU=bah, O=bah, L=DC, ST=DC, C=US |
+      | tonyGwynn     | petco park fans                               | CN=aissemble.bah, OU=bah, O=bah, L=DC, ST=DC, C=US |
+      | trevorHoffman | fans that stuck it out to the end of the game | CN=aissemble.bah, OU=bah, O=bah, L=DC, ST=DC, C=US |
 
   Scenario: create a token with PDP rule claims
     When a token is requested for "tonyGwynn" and "unitTest"

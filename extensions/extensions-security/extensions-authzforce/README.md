@@ -15,8 +15,8 @@ imlements the AiopsSecureTokenServiceClient interface
     - Add the following to your code
     - 
     ```         
-      AiopsSecureTokenServiceClient aiopsSecureTokenServiceClient = new AiopsSimpleSecureTokenServiceClient();
-      aiopsSecureTokenServiceClient.authenticate("aiops", "password");
-      String token = aiopsSecureTokenServiceClient.getJWTToken();
+      AiopsSecureTokenServiceClient aissembleSecureTokenServiceClient = new AiopsSimpleSecureTokenServiceClient();
+      aissembleSecureTokenServiceClient.authenticate("aiops", "password");
+      String token = aissembleSecureTokenServiceClient.getJWTToken();
     ```
     - You can then use the information contained in the JWT token to allow/deny access

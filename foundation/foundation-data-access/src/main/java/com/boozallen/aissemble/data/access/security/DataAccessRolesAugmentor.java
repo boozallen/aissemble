@@ -15,8 +15,8 @@ import java.util.function.Supplier;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import com.boozallen.aiops.security.authorization.policy.PolicyDecision;
-import com.boozallen.aiops.security.authorization.policy.PolicyDecisionPoint;
+import com.boozallen.aissemble.security.authorization.policy.PolicyDecision;
+import com.boozallen.aissemble.security.authorization.policy.PolicyDecisionPoint;
 
 import io.quarkus.security.identity.AuthenticationRequestContext;
 import io.quarkus.security.identity.SecurityIdentity;
