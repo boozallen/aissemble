@@ -11,8 +11,8 @@ package com.boozallen.aissemble.upgrade.migration.v1_8_0;
  */
 
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
-import com.boozallen.aissemble.upgrade.util.pom.LocationAwareMavenReader;
-import com.boozallen.aissemble.upgrade.util.pom.PomModifications;
+import org.technologybrewery.baton.util.pom.LocationAwareMavenReader;
+import org.technologybrewery.baton.util.pom.PomModifications;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.InputLocation;
@@ -22,8 +22,8 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import java.io.File;
 import java.util.List;
 
-import static com.boozallen.aissemble.upgrade.util.pom.PomHelper.getLocationAnnotatedModel;
-import static com.boozallen.aissemble.upgrade.util.pom.PomHelper.writeModifications;
+import static org.technologybrewery.baton.util.pom.PomHelper.getLocationAnnotatedModel;
+import static org.technologybrewery.baton.util.pom.PomHelper.writeModifications;
 
 /**
  * This migration disables failing on Python linting for existing projects.
