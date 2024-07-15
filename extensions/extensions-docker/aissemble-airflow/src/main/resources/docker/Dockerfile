@@ -41,7 +41,7 @@ ENV JAVA_HOME=/usr/lib/jvm/default-java
 RUN export JAVA_HOME
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TERM linux
+ENV TERM=linux
 
 # Airflow UID is 50000
 USER airflow
