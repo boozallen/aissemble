@@ -95,6 +95,15 @@
             "includes": ["src/**/*.java"]
           }
         ]
+      },
+      {
+        "name": "extensions-security-projects-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.ExtensionsSecurityProjectsMigration",
+        "fileSets": [
+          {
+            "includes": ["src/**/*.java"]
+          }
+        ]
       }
     ]
   }
