@@ -62,12 +62,12 @@ import com.boozallen.aissemble.data.lineage.util.LineageUtil.LineageEventData;
 import static com.boozallen.aissemble.data.lineage.util.LineageUtil.recordLineage;
 import io.openlineage.client.OpenLineage.ParentRunFacet;
 #end
-import com.boozallen.aiops.security.client.PolicyDecisionPointClient;
-import com.boozallen.aiops.security.authorization.policy.PolicyDecision;
+import com.boozallen.aissemble.security.client.PolicyDecisionPointClient;
+import com.boozallen.aissemble.security.authorization.policy.PolicyDecision;
 import com.boozallen.aissemble.data.encryption.policy.EncryptionPolicy;
 import com.boozallen.aissemble.data.encryption.policy.EncryptionPolicyManager;
-import com.boozallen.aiops.security.exception.AiopsSecurityException;
-import com.boozallen.aiops.security.authorization.models.PDPRequest;
+import com.boozallen.aissemble.security.exception.AissembleSecurityException;
+import com.boozallen.aissemble.security.authorization.models.PDPRequest;
 import com.boozallen.aissemble.data.encryption.AiopsEncrypt;
 import com.boozallen.aissemble.data.encryption.SimpleAesEncrypt;
 import com.boozallen.aissemble.data.encryption.VaultEncrypt;
