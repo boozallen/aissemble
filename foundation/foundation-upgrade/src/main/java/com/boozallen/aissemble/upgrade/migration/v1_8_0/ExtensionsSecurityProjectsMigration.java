@@ -22,16 +22,29 @@ import java.util.Map;
 import static org.technologybrewery.baton.util.FileUtils.replaceLiteralInFile;
 
 /**
- Baton migration class to verify whether a migration is required for those java modules that the aiops reference was
- replaced with aissmeble.
-**/
+ Baton migration class to verify whether a migrations are required for any outdated PDP and/or authzforce modules which
+ are referencing AIOPS instead of aiSSEMBLE.
+ **/
 
-public class AiopsReferenceJavaMigration extends AbstractAissembleMigration {
+public class ExtensionsSecurityProjectsMigration extends AbstractAissembleMigration {
 
-    public static final Logger logger = LoggerFactory.getLogger(AiopsReferenceJavaMigration.class);
-    public static final Map<String, String> AIOPS_REFERENCE_JAVA_PACKAGE_MAP = Map.of(
-            "com.boozallen.aiops.data.access", "com.boozallen.aissemble.data.access",
-            "com.boozallen.aiops.security","com.boozallen.aissemble.security"
+    public static final Logger logger = LoggerFactory.getLogger(ExtensionsSecurityProjectsMigration.class);
+    public static final Map<String, String> EXTENSIONS_SECURITY_REFERENCE_PACKAGE_MAP = Map.of(
+            // aissemble/security/authorization/
+            "AiopsKeycloakSecureTokenServiceClient","AissembleKeycloakSecureTokenServiceClient",
+            "AiopsKeyStore","AissembleKeyStore",
+            "AiopsSecureTokenServiceClient","AissembleSecureTokenServiceClient",
+            "AiopsSimpleSecureTokenServiceClient","AissembleSimpleSecureTokenServiceClient",
+
+            // aissemble/security/authorization/policy/
+            "AiopsAttribute","AissembleAttribute",
+            "AiopsAttributePoint","AissembleAttributePoint",
+            "AiopsAttributeProvider","AissembleAttributeProvider",
+            "AiopsAttributeUtils","AissembleAttributeUtils",
+
+            // aissemble/security/authorization/exception
+            "AiopsSecurityException", "AissembleSecurityException"
+
     );
 
     /**
@@ -45,7 +58,7 @@ public class AiopsReferenceJavaMigration extends AbstractAissembleMigration {
         try (BufferedReader aiopsReferenceJavaConfig = new BufferedReader((new FileReader(file)))) {
             String line;
             while((line = aiopsReferenceJavaConfig.readLine()) !=null && !shouldExecute) {
-                for (String key : AIOPS_REFERENCE_JAVA_PACKAGE_MAP.keySet()) {
+                for (String key : EXTENSIONS_SECURITY_REFERENCE_PACKAGE_MAP.keySet()) {
                     if (line.contains(key)) {
                         shouldExecute = true;
                     }
@@ -67,7 +80,7 @@ public class AiopsReferenceJavaMigration extends AbstractAissembleMigration {
         boolean isMigrated = false;
 
         try {
-            for (Map.Entry<String, String> entry : AIOPS_REFERENCE_JAVA_PACKAGE_MAP.entrySet()) {
+            for (Map.Entry<String, String> entry : EXTENSIONS_SECURITY_REFERENCE_PACKAGE_MAP.entrySet()) {
                 replaceLiteralInFile(file, entry.getKey(), entry.getValue());
                 isMigrated = true;
             }

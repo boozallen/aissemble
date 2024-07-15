@@ -10,8 +10,8 @@ package com.boozallen.aissemble.security;
  * #L%
  */
 
-import com.boozallen.aiops.security.authorization.policy.AiopsAttributePoint;
-import com.boozallen.aiops.security.authorization.policy.AttributeValue;
+import com.boozallen.aissemble.security.authorization.policy.AissembleAttributePoint;
+import com.boozallen.aissemble.security.authorization.policy.AttributeValue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,12 +20,12 @@ import java.util.Collection;
  * Place holder attribute point that just does some local logic to support authorization demonstration.
  * This can be replaced with an actual attribute provider.
  */
-public class LocalAttributePoint implements AiopsAttributePoint {
+public class LocalAttributePoint implements AissembleAttributePoint {
 
     @Override
     public Collection<AttributeValue<?>> getValueForAttribute(String attributeId, String subject) {
         Collection<AttributeValue<?>> values = null;
-        if ("urn:aiops:accessData".equals(attributeId)) {
+        if ("urn:aissemble:accessData".equals(attributeId)) {
             values = sourceDataAccess(attributeId, subject);
         }
 
@@ -35,7 +35,7 @@ public class LocalAttributePoint implements AiopsAttributePoint {
     protected Collection<AttributeValue<?>> sourceDataAccess(String attributeId, String subject) {
         AttributeValue<?> value = null;
 
-        if ("aiops".equals(subject)) {
+        if ("aissemble".equals(subject)) {
             value = new AttributeValue<Boolean>(attributeId, true);
         } else {
             value = new AttributeValue<Boolean>(attributeId, false);

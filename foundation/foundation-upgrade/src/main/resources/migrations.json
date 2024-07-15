@@ -20,6 +20,48 @@
             "includes": ["pom.xml"]
           }
         ]
+      },
+      {
+        "name": "aiops-reference-python-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePythonMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-pipelines/*/src/*/step/*.py"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "aiops-reference-pdp-python-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePDPPythonMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-docker/*/src/main/resources/krausening/base/aiops-security.properties",
+              "*-docker/*/src/main/resources/krausening/base/aissemble-security.properties",
+              "*-docker/*/src/main/resources/docker/Dockerfile"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "aiops-reference-java-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferenceJavaMigration",
+        "fileSets": [
+          {
+            "includes": ["src/**/*.java"]
+          }
+        ]
+      },
+      {
+        "name": "extensions-security-projects-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.ExtensionsSecurityProjectsMigration",
+        "fileSets": [
+          {
+            "includes": ["src/**/*.java"]
+          }
+        ]
       }
     ]
   },
@@ -59,39 +101,6 @@
               "**/model-training-api/values.yaml",
               "**/pipeline-invocation-service/values.yaml"
             ]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-python-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePythonMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-pipelines/*/src/*/step/*.py"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-pdp-python-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePDPPythonMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-docker/*/src/main/resources/krausening/base/aiops-security.properties",
-              "*-docker/*/src/main/resources/krausening/base/aissemble-security.properties",
-              "*-docker/*/src/main/resources/docker/Dockerfile"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-java-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferenceJavaMigration",
-        "fileSets": [
-          {
-            "includes": ["src/**/*.java"]
           }
         ]
       }
