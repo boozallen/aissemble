@@ -29,8 +29,8 @@ USER airflow
 # Configure Airflow with PostgreSql so we can use LocalExecutor (run more than one DAG at a time)
 RUN pip install "apache-airflow[postgres]==${AIRFLOW_VERSION}" \
     --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
-RUN pip install --no-cache-dir  psycopg2 \
-pip install --no-cache-dir apache-airflow-providers-apache-spark apache-airflow-providers-cncf-kubernetes
+RUN pip install --no-cache-dir  psycopg2 &&  \
+    pip install --no-cache-dir apache-airflow-providers-apache-spark apache-airflow-providers-cncf-kubernetes
 
 USER root
 
