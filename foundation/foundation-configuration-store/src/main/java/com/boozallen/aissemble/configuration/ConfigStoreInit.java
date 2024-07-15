@@ -39,8 +39,9 @@ public class ConfigStoreInit {
     @PostConstruct
     public void init() {
         logger.info("Initialize store configuration properties and policies...");
-        String basePropertyUri = System.getenv("BASE_PROPERTY_URI");
-        String environmentPropertyUri = System.getenv("ENVIRONMENT_PROPERTY_URI");
+        // We are loading all the properties upfront. In the future it might be more advantageous to load them as needed
+        String basePropertyUri = System.getProperty("KRAUSENING_BASE");
+        String environmentPropertyUri = System.getProperty("KRAUSENING_EXTENSIONS");
         String basePolicyUri = System.getenv("BASE_POLICY_URI");
         String environmentPolicyUri = System.getenv("ENVIRONMENT_POLICY_URI");
 
@@ -65,7 +66,7 @@ public class ConfigStoreInit {
                 }
             }
             else {
-                throw new RuntimeException("Undefined environment variables: BASE_PROPERTY_URI and ENVIRONMENT_PROPERTY_URI");
+                throw new RuntimeException("Undefined environment variables: KRAUSENING_BASE and KRAUSENING_EXTENSIONS");
             }
 
             // Load and validate the policies

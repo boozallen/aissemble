@@ -3,16 +3,23 @@
 == Overview
 The Configuration Store is a tool that enables the various configurations for a project to be centrally defined and
 managed, while also standardizing access to the configurations. The Configuration Store dynamically provides
-environment-specific configurations, based on the project's development lifecycle phase. Usage limitations and
-regeneration strategies can also be set, allowing configurations to automatically refreshed, thereby bolstering
-security of sensitive properties.
+environment-specific configurations, based on the project's development lifecycle phase by leverages the opensource
+project https://github.com/TechnologyBrewery/krausening[Krausening]. Usage limitations and regeneration strategies can
+also be set, allowing configurations to automatically refreshed, thereby bolstering security of sensitive properties.
+
+Currently, the Configuration Store supports integration with Vault. This is an excellent solution for large
+production/test environments that need to have configuration encrypted at rest. However, this may not be ideal for
+small or local test environments. For this the Configuration Store can be configured to leverage an in-memory
+solution. Either solution will have the exact same usage and only differ in the setup and initialization of the
+Configuration Store.
 
 === Setup
 The Configuration Store tool is currently under development. Stay tuned for its release!
 
 === Usage
 Via the configuration store's helm chart, project teams can specify environment variables with the URIs that house
-the project's various configurations. It is required to specify a base property URI that houses the base/default
+the project's various Krausening properties. It is required to
+specify a base property URI that houses the base/default
 property configurations. Optionally, one can specify a base policy URI that houses the base/default policy configurations.
 
 In addition to the base URIs, one can optionally specify a secondary URI for both properties and/or policies that
@@ -27,51 +34,38 @@ The following example Configuration Store Helm chart demonstrates a URI specific
 [source,yaml]
 ----
   env:
-    BASE_PROPERTY_URI: <URI housing base property configurations>
-    ENVIRONMENT_PROPERTY_URI: <URI housing CI-specific property overrides/augmentations>
+    KRAUSENING_BASE: <URI housing base property configurations>
+    KRAUSENING_EXTENSIONS: <URI housing CI-specific property overrides/augmentations>
     BASE_POLICY_URI: <URI housing base property regeneration policies>
     ENVIRONMENT_POLICY_URI: <URI housing CI-specific property regeneration policies>
 ----
 
 ==== Properties
 Properties represent key values pairs for storing your project configurations. The key values pairs are stored as 
-string types using the respective `name` and `value` attributes. These pairs are represented in configuration files
-as properties in `YAML` format like the example below.
+string types using the standard `.properties` file format.
 
-Suppose we defined the following property configurations at the `BASE_PROPERTY_URI`:
-[source,yaml]
+Suppose we defined the following property configurations file named `messaging.properties` at the `KRAUSENING_BASE`:
+[source,properties]
 ----
-groupName: messaging
-properties:
-  - name: connector
-    value: smallrye-kafka
-  - name: topic
-    value: baseTopic
+connector=smallrye-kafka
+topic=baseTopic
 ----
 
-Next, suppose we defined the following property configurations at the `ENVIRONMENT_PROPERTY_URI`:
-[source,yaml]
+Next, suppose we defined the following property configurations file named `messaging.properties` at the
+`KRAUSENING_EXTENSIONS`:
+[source,properties]
 ----
-groupName: messaging
-properties:
-  - name: topic
-    value: ciTopic
-  - name: auth-token
-    value: auth-secret
+topic=ciTopic
+auth-token=auth-secret
 ----
 
-When these two configuration file are reconciled within the Configuration Store, it results in a configuration 
-equivalent to the following:
-[source,yaml]
+When these two configuration file are reconciled within the Configuration Store, it results in a configuration with
+a group name of `messaging` equivalent to the following:
+[source,properties]
 ----
-groupName: messaging
-properties:
-  - name: connector
-    value: smallrye-kafka
-  - name: topic
-    value: ciTopic
-  - name: auth-token
-    value: auth-secret
+connector=smallrye-kafka
+topic=ciTopic
+auth-token=auth-secret
 ----
 
 Such that the following calls to the tool would provide the following configurations:
@@ -82,6 +76,9 @@ client.getProperty("messaging", "connector")   ---> smallrye-kafka
 client.getProperty("messaging", "topic")       ---> ciTopic
 client.getProperty("messaging", "auth-token")  ---> auth-secret
 ----
+
+For more information on property definition and usage, visit
+https://github.com/TechnologyBrewery/krausening[Krausening].
 
 ==== Property Regeneration Policies
 Policies are used to define limitations and rules for when a given property should be regenerated. This allows the user

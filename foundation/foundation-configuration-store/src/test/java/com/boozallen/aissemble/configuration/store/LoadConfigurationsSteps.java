@@ -10,17 +10,12 @@ package com.boozallen.aissemble.configuration.store;
  * #L%
  */
 
-import io.cucumber.java.Before;
-import io.cucumber.java.After;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
-
-import io.restassured.response.ValidatableResponse;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,15 +25,23 @@ import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicy;
 import com.boozallen.aissemble.configuration.policy.exception.PropertyRegenerationPolicyException;
 import com.boozallen.aissemble.util.TestPropertyDao;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.restassured.response.ValidatableResponse;
+
 
 public class LoadConfigurationsSteps {
 
-    private final Property expectedProperty = new Property("messaging", "topic", "messaging-topic");
+    private final Property expectedProperty = new Property("microprofile-config-messaging", "topic", "messaging-topic");
+    private final Property expectedDecryptedProperty = new Property("aws-credentials", "AWS_SECRET_ACCESS_KEY", "env-secret-access-key");
     private final Property fullyLoadProperty = new Property("load-status", "fully-loaded", "true");
     private Set<PropertyRegenerationPolicy> policies;
     private ConfigLoader configLoader;
-    private String basePropertyUri;
-    private String environmentPropertyURI;
+    private static final String basePropertyUri = "src/test/resources/configurations/base";
+    private static final String environmentPropertyURI = "src/test/resources/configurations/example-env";
     private String basePolicyUri;
     private String environmentPolicyURI;
     private Exception foundError;
@@ -58,14 +61,18 @@ public class LoadConfigurationsSteps {
 
     @Given("URIs pointing to valid base and environment properties")
     public void URIsPointingToValidBaseAndEnvironmentProperties() {
-        basePropertyUri = "src/test/resources/configurations/base";
-        environmentPropertyURI = "src/test/resources/configurations/example-env";
+        // Set in statics
     }
 
     @Given("URIs pointing to valid base and environment policies")
     public void URIsPointingToValidBaseAndEnvironmentPolicies() {
         basePolicyUri = "src/test/resources/policies/base";
         environmentPolicyURI = "src/test/resources/policies/example-env";
+    }
+
+    @Given("there exists a krausening_password and encrypted properties")
+    public void thereExistsAKrausening_passwordAndEncryptedProperties() {
+        //Values set in test properties files
     }
     
     @When("the configuration service starts")
@@ -86,12 +93,6 @@ public class LoadConfigurationsSteps {
 
     @Then("the configuration service records the that the given configurations were loaded successfully")
     public void successStatusIsRecorded() {
-        String responseBody = getResponseBodyForProperty(fullyLoadProperty.getGroupName(), fullyLoadProperty.getPropertyName());
-        assertEquals(fullyLoadProperty.toJsonString(), responseBody);
-    }
-
-    @Given("the configuration store has been fully populated with the specified configurations")
-    public void theConfigurationsFullyLoaded() {
         String responseBody = getResponseBodyForProperty(fullyLoadProperty.getGroupName(), fullyLoadProperty.getPropertyName());
         assertEquals(fullyLoadProperty.toJsonString(), responseBody);
     }
@@ -134,32 +135,6 @@ public class LoadConfigurationsSteps {
     public void augmentsTheBaseWithTheEnvironmentConfigurations() {
         assertEquals(10, TestPropertyDao.loadedProperties.size());
         assertPropertySetsEqual(createExpectedProperties(), new HashSet<>(TestPropertyDao.loadedProperties.values()));
-    }
-
-    @Given("URIs pointing to misformatted properties")
-    public void URIsPointingToMisformattedProperties() {
-        basePropertyUri = "src/test/resources/configurations-misformatted/base";
-        environmentPropertyURI = "src/test/resources/configurations-misformatted/example-env";
-    }
-
-    @Then("an exception is thrown stating properties are misformatted")
-    public void anExceptionIsThrownStatingPropertiesAreMisformatted() {
-        String expectedMessage = "Could not parse yaml";
-        assertEquals(IllegalArgumentException.class, foundError.getClass());
-        assertEquals(expectedMessage, foundError.getMessage());
-    }
-
-    @Given("URIs pointing to nondistinct properties")
-    public void URIsPointingToNondistinctProperties() {
-        basePropertyUri = "src/test/resources/configurations-nondistinct/base";
-        environmentPropertyURI = "src/test/resources/configurations-nondistinct/example-env";
-    }
-
-    @Then("an exception is thrown stating properties are not distinguishable")
-    public void anExceptionIsThrownStatingPropertiesAreNotDistinguishable() {
-        String expectedMessage = "Duplicates found";
-        assertEquals(IllegalArgumentException.class, foundError.getClass());
-        assertEquals(expectedMessage, foundError.getMessage());
     }
 
 
@@ -241,18 +216,25 @@ public class LoadConfigurationsSteps {
         assertTrue(foundError.getMessage().contains("There should be at most one policy per target property"));
     }
 
+    @Then("the loaded properties contains the decrypted value")
+    public void theLoadedPropertiesContainsTheDecryptedValue() {
+        String responseBody = getResponseBodyForProperty(expectedDecryptedProperty.getGroupName(),
+                expectedDecryptedProperty.getPropertyName());
+        assertEquals(expectedDecryptedProperty.toJsonString(), responseBody);
+    }
+
     public Set<Property> createExpectedProperties() {
         Set<Property> expectedProperties = new HashSet<>();
 
-        expectedProperties.add(new Property("model-training-api", "AWS_ACCESS_KEY_ID", "env-access-key-id"));
-        expectedProperties.add(new Property("model-training-api", "AWS_SECRET_ACCESS_KEY", "env-secret-access-key"));
-        expectedProperties.add(new Property("data-lineage", "connector", "smallrye-kafka"));
-        expectedProperties.add(new Property("data-lineage", "serializer", "apache.StringSerializer"));
-        expectedProperties.add(new Property("data-lineage", "topic", "lineage-topic"));
-        expectedProperties.add(new Property("data-lineage", "cloud-events", "true"));
-        expectedProperties.add(new Property("data-lineage", "added-property", "example-value"));
-        expectedProperties.add(new Property("messaging", "connector", "smallrye-kafka"));
-        expectedProperties.add(new Property("messaging", "serializer", "apache.StringSerializer"));
+        expectedProperties.add(new Property("aws-credentials", "AWS_ACCESS_KEY_ID", "env-access-key-id"));
+        expectedProperties.add(new Property("aws-credentials", "AWS_SECRET_ACCESS_KEY", "env-secret-access-key"));
+        expectedProperties.add(new Property("microprofile-config-data-lineage", "connector", "smallrye-kafka"));
+        expectedProperties.add(new Property("microprofile-config-data-lineage", "serializer", "apache.StringSerializer"));
+        expectedProperties.add(new Property("microprofile-config-data-lineage", "topic", "lineage-topic"));
+        expectedProperties.add(new Property("microprofile-config-data-lineage", "cloud-events", "true"));
+        expectedProperties.add(new Property("microprofile-config-data-lineage", "added-property", "example-value"));
+        expectedProperties.add(new Property("microprofile-config-messaging", "connector", "smallrye-kafka"));
+        expectedProperties.add(new Property("microprofile-config-messaging", "serializer", "apache.StringSerializer"));
         expectedProperties.add(expectedProperty);
 
         return expectedProperties;
