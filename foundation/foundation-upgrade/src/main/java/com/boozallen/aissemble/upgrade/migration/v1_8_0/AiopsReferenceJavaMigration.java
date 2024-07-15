@@ -30,7 +30,8 @@ public class AiopsReferenceJavaMigration extends AbstractAissembleMigration {
 
     public static final Logger logger = LoggerFactory.getLogger(AiopsReferenceJavaMigration.class);
     public static final Map<String, String> AIOPS_REFERENCE_JAVA_PACKAGE_MAP = Map.of(
-            "com.boozallen.aiops.data.access", "com.boozallen.aissemble.data.access"
+            "com.boozallen.aiops.data.access", "com.boozallen.aissemble.data.access",
+            "com.boozallen.aiops.security","com.boozallen.aissemble.security"
     );
 
     /**

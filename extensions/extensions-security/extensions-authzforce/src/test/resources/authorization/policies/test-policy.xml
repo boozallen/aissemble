@@ -14,7 +14,7 @@
 	PolicyId="urn:oasis:names:tc:xacml:2.0:unit-test:policy"
 	RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides"
 	Version="1.0">
-	<Description>Policies for Aiops authorization testing</Description>
+	<Description>Policies for Aissemble authorization testing</Description>
 	<Target />
 	<Rule Effect="Permit"
 		RuleId="urn:oasis:names:tc:xacml:2.0:unit-test:resource:single:permit">
@@ -183,7 +183,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:jerseyNumber"
+						AttributeId="urn:aissemble:jerseyNumber"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#integer"
 						MustBePresent="true" />
@@ -222,7 +222,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:anyURI-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:hallOfFameProfile"
+						AttributeId="urn:aissemble:hallOfFameProfile"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#anyURI"
 						MustBePresent="false" />
@@ -255,7 +255,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:suspectedPedUser"
+						AttributeId="urn:aissemble:suspectedPedUser"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#boolean"
 						MustBePresent="false" />
@@ -290,7 +290,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:suspectedPedUser"
+						AttributeId="urn:aissemble:suspectedPedUser"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#boolean"
 						MustBePresent="false" />
@@ -325,7 +325,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:battingAverage"
+						AttributeId="urn:aissemble:battingAverage"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#double"
 						MustBePresent="true" />
@@ -360,7 +360,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:battingAverage"
+						AttributeId="urn:aissemble:battingAverage"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#double"
 						MustBePresent="true" />
@@ -395,7 +395,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:date-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:serviceEntryDate"
+						AttributeId="urn:aissemble:serviceEntryDate"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#date"
 						MustBePresent="true" />
@@ -430,7 +430,7 @@
 				<Apply
 					FunctionId="urn:oasis:names:tc:xacml:1.0:function:date-one-and-only">
 					<AttributeDesignator
-						AttributeId="urn:aiops:serviceEntryDate"
+						AttributeId="urn:aissemble:serviceEntryDate"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#date"
 						MustBePresent="true" />
@@ -509,7 +509,7 @@
 					<AttributeValue
 						DataType="http://www.w3.org/2001/XMLSchema#integer">1984</AttributeValue>
 					<AttributeDesignator
-						AttributeId="urn:aiops:seasonsBattingOver350"
+						AttributeId="urn:aissemble:seasonsBattingOver350"
 						Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 						DataType="http://www.w3.org/2001/XMLSchema#integer"
 						MustBePresent="false" />

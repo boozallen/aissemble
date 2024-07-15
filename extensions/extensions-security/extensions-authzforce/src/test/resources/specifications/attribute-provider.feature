@@ -2,12 +2,12 @@
 Feature: Specify custom attributes
 
   Scenario Outline: specify attributes with shorthand types
-    Given an attribute with aiops type "<aiopsType>"
+    Given an attribute with aissemble type "<aissembleType>"
     When the attribute is read
     Then the fully qualified type "<fullyQualifiedType>" is returned
 
     Examples:
-      | aiopsType | fullyQualifiedType                       |
+      | aissembleType | fullyQualifiedType                       |
       | string    | http://www.w3.org/2001/XMLSchema#string  |
       | boolean   | http://www.w3.org/2001/XMLSchema#boolean |
       | anyUri    | http://www.w3.org/2001/XMLSchema#anyURI  |

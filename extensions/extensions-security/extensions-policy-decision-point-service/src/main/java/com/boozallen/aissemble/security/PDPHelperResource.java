@@ -10,15 +10,15 @@ package com.boozallen;
  * #L%
  */
 
-import com.boozallen.aiops.security.authorization.models.AuthRequest;
-import com.boozallen.aiops.security.authorization.models.PDPRequest;
-import com.boozallen.aiops.security.authorization.policy.PolicyDecision;
+import com.boozallen.aissemble.security.authorization.models.AuthRequest;
+import com.boozallen.aissemble.security.authorization.models.PDPRequest;
+import com.boozallen.aissemble.security.authorization.policy.PolicyDecision;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
-import com.boozallen.aiops.security.authorization.AiopsSecureTokenServiceClient;
-import com.boozallen.aiops.security.authorization.AiopsSimpleSecureTokenServiceClient;
-import com.boozallen.aiops.security.authorization.policy.PolicyDecisionPoint;
+import com.boozallen.aissemble.security.authorization.AissembleSecureTokenServiceClient;
+import com.boozallen.aissemble.security.authorization.AissembleSimpleSecureTokenServiceClient;
+import com.boozallen.aissemble.security.authorization.policy.PolicyDecisionPoint;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/api")
 public class PDPHelperResource {
-    private AiopsSecureTokenServiceClient tokenClient = new AiopsSimpleSecureTokenServiceClient();
+    private AissembleSecureTokenServiceClient tokenClient = new AissembleSimpleSecureTokenServiceClient();
     private PolicyDecisionPoint pdp = PolicyDecisionPoint.getInstance();
 
     /**
@@ -61,8 +61,8 @@ public class PDPHelperResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String authenticate(AuthRequest authRequest) {
-        AiopsSecureTokenServiceClient aiopsSecureTokenServiceClient = new AiopsSimpleSecureTokenServiceClient();
-        String jwt = aiopsSecureTokenServiceClient.authenticate(authRequest.getUsername(), authRequest.getPassword());
+        AissembleSecureTokenServiceClient aissembleSecureTokenServiceClient = new AissembleSimpleSecureTokenServiceClient();
+        String jwt = aissembleSecureTokenServiceClient.authenticate(authRequest.getUsername(), authRequest.getPassword());
 
         return jwt;
     }

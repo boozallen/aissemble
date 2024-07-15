@@ -8,10 +8,10 @@
    <xs:import namespace="http://authzforce.github.io/xmlns/pdp/ext/3" />
    <xs:annotation>
       <xs:documentation xml:lang="en">
-         Data Model for the Aiops  Attribute Extension
+         Data Model for the Aissemble Attribute Extension
       </xs:documentation>
    </xs:annotation>
-   <xs:complexType name="AiopsAttributeExtension">
+   <xs:complexType name="AissembleAttributeExtension">
       <xs:annotation>
          <xs:documentation>
             aiSSEMBLE Attribute Extensions. This extension provides easier attribute store configuration for aiSSEMBLE.
