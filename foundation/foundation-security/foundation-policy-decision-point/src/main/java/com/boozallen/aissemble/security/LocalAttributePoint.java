@@ -1,8 +1,8 @@
-package com.boozallen;
+package com.boozallen.aissemble.security;
 
 /*-
  * #%L
- * aiSSEMBLE::Extensions::Security::Policy Decision Point Service
+ * AIOps Foundation::AIOps Core Security::AIOps Policy Decision Point
  * %%
  * Copyright (C) 2021 Booz Allen
  * %%
@@ -25,7 +25,7 @@ public class LocalAttributePoint implements AissembleAttributePoint {
     @Override
     public Collection<AttributeValue<?>> getValueForAttribute(String attributeId, String subject) {
         Collection<AttributeValue<?>> values = null;
-        if ("urn:aissemble:accessData".equals(attributeId)) {
+        if ("urn:aiops:accessData".equals(attributeId)) {
             values = sourceDataAccess(attributeId, subject);
         }
 
@@ -35,7 +35,7 @@ public class LocalAttributePoint implements AissembleAttributePoint {
     protected Collection<AttributeValue<?>> sourceDataAccess(String attributeId, String subject) {
         AttributeValue<?> value = null;
 
-        if ("aissemble".equals(subject)) {
+        if ("aiops".equals(subject)) {
             value = new AttributeValue<Boolean>(attributeId, true);
         } else {
             value = new AttributeValue<Boolean>(attributeId, false);
