@@ -1,8 +1,8 @@
-package com.boozallen.aiops.security;
+package com.boozallen.aissemble.security;
 
 /*-
  * #%L
- * AIOps Foundation::AIOps Core Security::AIOps Policy Decision Point
+ * aiSSEMBLE::Extensions::Security::Policy Decision Point Service
  * %%
  * Copyright (C) 2021 Booz Allen
  * %%
