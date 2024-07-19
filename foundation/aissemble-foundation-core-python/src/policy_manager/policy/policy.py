@@ -7,7 +7,7 @@
 # This software package is licensed under the Booz Allen Public License. All Rights Reserved.
 # #L%
 ###
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 from enum import Enum
 from typing import Any, List, Dict, Optional
 from krausening.logging import LogManager
@@ -29,8 +29,8 @@ class Target(BaseModel):
     Target contains the target information for the policy.
     """
 
-    retrieve_url: Optional[str]
-    type: Optional[str]
+    retrieve_url: Optional[str] = None
+    type: Optional[str] = None
 
 
 class ConfiguredTarget(Target):
@@ -53,7 +53,7 @@ class ConfiguredRule(BaseModel):
     __logger = LogManager.get_instance().get_logger("ConfiguredRule")
     __deprecated_set_methods = {"target": "set_deprecated_targetConfigurations"}
     className: str
-    configurations: Optional[Dict[str, Any]]
+    configurations: Optional[Dict[str, Any]] = None
     configuredTargets: Optional[List[ConfiguredTarget]] = []
 
     @property
@@ -103,7 +103,7 @@ class Policy(BaseModel):
     __deprecated_set_methods = {"target": "set_deprecated_target"}
     alertOptions: AlertOptions = AlertOptions.ON_DETECTION
     identifier: str
-    description: Optional[str]
+    description: Optional[str] = None
     targets: Optional[List[Target]] = []
     rules: List[ConfiguredRule] = []
 
@@ -132,9 +132,7 @@ class Policy(BaseModel):
         )
         self.targets = [new_value]
 
-    # Pydantic model config to allow policy subclasses to contain additional fields of any type
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     # Links Policy 'target' attribute to 'set_deprecated_target()' method to support
     # people still assigning values to the old attribute.
