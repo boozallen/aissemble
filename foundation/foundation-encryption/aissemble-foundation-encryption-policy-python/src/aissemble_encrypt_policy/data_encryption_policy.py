@@ -17,6 +17,6 @@ class DataEncryptionPolicy(Policy):
     configurations that are needed for data encryption.
     """
 
-    encryptPhase: Optional[str]
+    encryptPhase: Optional[str] = None
     encryptFields: List[str] = []
-    encryptAlgorithm: Optional[str]
+    encryptAlgorithm: Optional[str] = None
