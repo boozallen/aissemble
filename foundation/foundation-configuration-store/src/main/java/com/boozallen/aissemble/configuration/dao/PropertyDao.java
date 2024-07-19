@@ -22,7 +22,7 @@ import java.util.Set;
 public interface PropertyDao extends Dao<Property,PropertyKey> {
     /**
      * Read property from store with given {@link PropertyKey} containing the group name and property name
-     * @param PropertyKey property key
+     * @param propertyKey property key
      * @return Property
      */
     Property read(PropertyKey propertyKey);
@@ -39,4 +39,10 @@ public interface PropertyDao extends Dao<Property,PropertyKey> {
      * @param properties to be written to store
      */
     void write(Set<Property> properties);
+
+    /**
+     * Determines if the configs need to be loaded on start up
+     * @return true if the properties need to be loaded on start up
+     */
+    boolean requiresInitialConfigLoad();
 }

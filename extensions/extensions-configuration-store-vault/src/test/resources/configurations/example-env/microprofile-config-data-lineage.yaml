@@ -1,6 +1,0 @@
-groupName: data-lineage
-properties:
-  - name: cloud-events
-    value: true
-  - name: added-property
-    value: example-value

@@ -52,13 +52,13 @@ Feature: Load configurations at specified URI based on environment context
     Then an exception is thrown stating a policy attribute is undefined
 
     Examples:
-    | attribute                     |
-    | targets                       |
-    | targets-retrieve-url          |
-    | rules                         |
-    | rules-classname               |
-    | regeneration-method           |
-    | regeneration-method-classname |
+      | attribute                     |
+      | targets                       |
+      | targets-retrieve-url          |
+      | rules                         |
+      | rules-classname               |
+      | regeneration-method           |
+      | regeneration-method-classname |
 
   Scenario: A property has multiple policies
     Given URIs pointing to policies targeting the same property
@@ -69,3 +69,21 @@ Feature: Load configurations at specified URI based on environment context
     Given there exists a krausening_password and encrypted properties
     When the configuration service starts
     Then the loaded properties contains the decrypted value
+
+  Scenario Outline: The ConfigLoader can read and write to a specific dao type
+    Given the config loader to configured to use "<daoClass>"
+    And the properties are loaded
+    When the configurations are written
+    Then the properties can be read
+
+    Examples:
+      | daoClass   |
+      | krausening |
+      | inMemory   |
+
+  @vault @integration
+  Scenario: The ConfigLoader can read and write to the Vault server
+    Given the config loader to configured to use "vault"
+    And the properties are loaded
+    When the configurations are written
+    Then the properties can be read

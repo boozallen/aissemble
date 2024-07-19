@@ -48,7 +48,7 @@ public class VaultPropertyDao implements PropertyDao {
 
     /**
      * Read the property from Vault server with the given {@link PropertyKey} containing the group name and property name
-     * @param PropertyKey property key
+     * @param propertyKey property key
      * @return Property
      */
     @Override
@@ -100,6 +100,11 @@ public class VaultPropertyDao implements PropertyDao {
             throw new PropertyDaoException("Unable to write to vault with empty properties");
         }
 
+    }
+
+    @Override
+    public boolean requiresInitialConfigLoad() {
+        return true;
     }
 
     private void write(Vault vault, List<Property> properties) throws VaultException {

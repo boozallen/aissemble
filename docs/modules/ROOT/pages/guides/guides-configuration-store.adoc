@@ -7,12 +7,6 @@ environment-specific configurations, based on the project's development lifecycl
 project https://github.com/TechnologyBrewery/krausening[Krausening]. Usage limitations and regeneration strategies can
 also be set, allowing configurations to automatically refreshed, thereby bolstering security of sensitive properties.
 
-Currently, the Configuration Store supports integration with Vault. This is an excellent solution for large
-production/test environments that need to have configuration encrypted at rest. However, this may not be ideal for
-small or local test environments. For this the Configuration Store can be configured to leverage an in-memory
-solution. Either solution will have the exact same usage and only differ in the setup and initialization of the
-Configuration Store.
-
 === Setup
 The Configuration Store tool is currently under development. Stay tuned for its release!
 
@@ -79,6 +73,15 @@ client.getProperty("messaging", "auth-token")  ---> auth-secret
 
 For more information on property definition and usage, visit
 https://github.com/TechnologyBrewery/krausening[Krausening].
+
+==== Properties Storage Options
+The universal config store offers robust production ready configuration storage using vault. This is an excellent
+solution for large enterprise applications. For smaller applications looking for a more light weight but still robust
+storage option, the universal config can be set to use Krausening. The universal config can also be set up to use in
+memory storage if you need to run some quick local tests.
+
+The default property storage is Krausening. To change it to use one of the other options you can set the environment
+variable STORAGE_CLASS. The values currently available are `krausening`, `vault`, and `inMemory`
 
 ==== Property Regeneration Policies
 Policies are used to define limitations and rules for when a given property should be regenerated. This allows the user
