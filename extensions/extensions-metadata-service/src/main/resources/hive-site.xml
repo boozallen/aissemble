@@ -1,0 +1,16 @@
+<!--
+  #%L
+  aiSSEMBLE::Extensions::Docker::Metadata
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+<configuration>
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:derby:data/metastore_db;create=true</value>
+        <description>JDBC connect string for a JDBC metastore</description>
+    </property>
+</configuration>

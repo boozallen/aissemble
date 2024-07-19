@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # override image here
-aissemble-fastapi:
+aissemble-fastapi-chart:
   app:
     name: aissemble-versioning
   image:

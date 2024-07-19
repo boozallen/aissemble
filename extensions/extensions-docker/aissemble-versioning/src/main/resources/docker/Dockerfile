@@ -1,7 +1,3 @@
-# Script for creating base AIOps Versioning image
-ARG DOCKER_BASELINE_REPO_ID
-ARG VERSION_AISSEMBLE
-
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
 FROM python:3.11 AS habushu_builder
 # Poetry and supporting plugin installations
@@ -24,7 +20,7 @@ RUN --mount=type=cache,target=/.cache/pypoetry/ \
     poetry bundle venv /opt/venv
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (END)
 
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-fastapi:${VERSION_AISSEMBLE} AS builder
+FROM python:3.11 AS builder
 
 # Download Maven
 ARG MAVEN_VERSION=3.9.6
@@ -64,8 +60,8 @@ COPY ./src/main/resources/docker/settings.xml /root/.m2/
 
 # Set/move any required environmental variables and key scripts/configs needed by FastAPI from the base image
 # into the slimmed down final Python image
-ENV API_MAIN=model_versioning.versioning_api
-COPY --from=builder /start.sh /start.sh
-COPY --from=builder /app /app
+ENV API_HOST='0.0.0.0'
+ENV API_PORT='80'
+ENV EXTRA_OPTS=''
 
-CMD ["/start.sh"]
+CMD python -m uvicorn "model_versioning.versioning_api:app" --host "$API_HOST" --port "$API_PORT" $EXTRA_OPTS

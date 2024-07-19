@@ -30,11 +30,5 @@
             <version>${project.version}</version>
             <type>habushu</type>
         </dependency>
-        <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
-            <artifactId>aissemble-fastapi</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
     </dependencies>
 </project>

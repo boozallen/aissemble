@@ -49,12 +49,6 @@
             <artifactId>foundation-configuration-store</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>aissemble-quarkus</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
     </dependencies>
 
 </project>

@@ -143,20 +143,25 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>${version.cucumber.reporting.plugin}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- These are large dependencies only used for ObjectStoreValidator so they're being set to provided since we
+          aren't really leveraging the ObjectStore. If we pick the ObjectStore effort back up, we should make this more
+          modular, so you're only pulling it in if you need it. -->
+        <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
             <version>1.12.456</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-aws</artifactId>
             <version>${version.hadoop}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.masterthought</groupId>
-            <artifactId>cucumber-reporting</artifactId>
-            <version>${version.cucumber.reporting.plugin}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

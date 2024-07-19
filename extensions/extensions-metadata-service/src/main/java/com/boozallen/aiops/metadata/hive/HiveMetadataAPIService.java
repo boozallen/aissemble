@@ -119,6 +119,7 @@ public class HiveMetadataAPIService implements MetadataAPI {
                 .appName(metadataConfig.sparkAppName())
                 .enableHiveSupport()
                 .config("spark.driver.host", "localhost")
+                .config("spark.sql.warehouse.dir", "data/spark-warehouse")
                 .getOrCreate();
     }
 }

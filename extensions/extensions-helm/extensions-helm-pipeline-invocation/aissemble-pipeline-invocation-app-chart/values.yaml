@@ -4,7 +4,6 @@ aissemble-quarkus-chart:
   deployment:
     image:
       name: boozallen/aissemble-pipeline-invocation
-      tag: "@version.aissemble@"
     ports:
       - name: http-1
         containerPort: 8080
