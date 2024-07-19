@@ -1,5 +1,5 @@
 from google.protobuf import json_format
-from pydantic.error_wrappers import ValidationError
+from pydantic import ValidationError
 from grpc import StatusCode
 import logging
 
