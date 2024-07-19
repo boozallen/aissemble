@@ -4,6 +4,7 @@ aissemble-quarkus-chart:
   deployment:
     image:
       name: boozallen/aissemble-pipeline-invocation
+      tag: "@version.aissemble@"
     ports:
       - name: http-1
         containerPort: 8080
@@ -32,11 +33,13 @@ aissemble-quarkus-chart:
       - mp.messaging.incoming.pipeline-invocation.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
 
   service:
-    spec:
-      ports:
-        - name: "quarkus-management"
-          port: 9001
-          targetPort: 9000
+    ports:
+      - name: "invocation-rest"
+        port: 8085
+        targetPort: 8080
+      - name: "quarkus-mgmt"
+        port: 9001
+        targetPort: 9000
 
   ingress:
     enabled: false

@@ -69,6 +69,7 @@ extensions/extensions-helm/aissemble-spark-operator-chart/values.yaml
 extensions/extensions-helm/aissemble-jenkins-chart/values.yaml
 extensions/extensions-helm/aissemble-mlflow-chart/values.yaml
 extensions/extensions-helm/aissemble-kafka-chart/values.yaml
+extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart/values.yaml
 
 # The test project should test that we generate files that compile and have the expected structure for model options
 # there should not be any no custom logic added and we should clean up the project properly before each build
