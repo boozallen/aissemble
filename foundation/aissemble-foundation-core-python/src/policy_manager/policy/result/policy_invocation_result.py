@@ -17,5 +17,5 @@ class PolicyInvocationResult(BaseModel):
     """
 
     policyName: str
-    policyDescription: Optional[str]
+    policyDescription: Optional[str] = None
     timestamp: str

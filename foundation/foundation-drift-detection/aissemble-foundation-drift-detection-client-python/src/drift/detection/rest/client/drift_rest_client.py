@@ -26,7 +26,7 @@ class DriftVariable(DriftData):
     Represents a single drift variable
     """
 
-    type = "single"
+    type: str = "single"
     value: float
 
 
@@ -35,7 +35,7 @@ class DriftVariables(DriftData):
     Represents multiple drift variables
     """
 
-    type = "multiple"
+    type: str = "multiple"
     variables: List[DriftVariable] = []
 
 
@@ -44,8 +44,8 @@ class DriftDataInput(BaseModel):
     Represents the data needed.
     """
 
-    input: Optional[DriftData]
-    control: Optional[DriftData]
+    input: Optional[DriftData] = None
+    control: Optional[DriftData] = None
 
 
 class DriftDetectionResult(BaseModel):
@@ -67,11 +67,9 @@ class DriftRestClient:
         drift_data_input = DriftDataInput(input=input, control=control)
         query_params = {"policyIdentifier": policy_identifier}
         data_headers = {"Content-type": "application/json"}
-        # uncomment below for debugging purposes
-        # print('JSON being sent to drift invocation service: ' + drift_data_input.json())
         return requests.post(
             hostname + "/invoke-drift",
             params=query_params,
-            data=drift_data_input.json(),
+            data=drift_data_input.model_dump_json(serialize_as_any=True),
             headers=data_headers,
         )
