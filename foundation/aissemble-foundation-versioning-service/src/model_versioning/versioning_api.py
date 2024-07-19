@@ -25,7 +25,7 @@ app = FastAPI()
 class VersioningResponse(BaseModel):
     success: bool
     message: str
-    version: Optional[str]
+    version: Optional[str] = None
 
 
 class JWTBearer(HTTPBearer):

@@ -28,13 +28,13 @@ class PolicyRuleInput(BaseModel):
     """
     The configuration used for the rule.
     """
-    configurations: Optional[Dict[str, Any]]
+    configurations: Optional[Dict[str, Any]] = None
 
     """
     Any configurations for the target set of data that is needed by this
     rule.
     """
-    targetConfigurations: Optional[Dict[str, Any]]
+    targetConfigurations: Optional[Dict[str, Any]] = None
 
 
 class PolicyInput(BaseModel):
@@ -54,17 +54,17 @@ class PolicyInput(BaseModel):
     """
     The description of the policy.
     """
-    description: Optional[str]
+    description: Optional[str] = None
 
     """
     The targets this policy will be invoked on.
     """
-    targets: Optional[List[Target]]
+    targets: Optional[List[Target]] = None
 
     """
     The optional configuration for whether alerts should be sent or not.
     """
-    shouldSendAlert: Optional[AlertOptions]
+    shouldSendAlert: Optional[AlertOptions] = None
 
     """
     The rules for this policy.
@@ -76,14 +76,14 @@ class PolicyInput(BaseModel):
     a List of Target objects of a single Target attribute 'target'.
     This attribute is replaced by `targets`.
     """
-    target: Optional[Target]
+    target: Optional[Target] = None
 
     def getAnyTargets(self) -> List[Target]:
         """
         Used to check both target attributes to contain backwards compatibility with policies still using deprecated 'target'
         """
         if self.target is not None:
-            PolicyInput.__logger.warn(
+            self.__logger.warn(
                 "Detected use of deprecated Json Property 'target'. Existing "
                 + "values should be moved to the new Json Property 'targets'."
             )
