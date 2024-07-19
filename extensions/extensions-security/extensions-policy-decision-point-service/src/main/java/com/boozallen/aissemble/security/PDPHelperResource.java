@@ -21,6 +21,7 @@ import com.boozallen.aiops.security.authorization.AiopsSimpleSecureTokenServiceC
 import com.boozallen.aiops.security.authorization.policy.PolicyDecisionPoint;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -64,5 +65,12 @@ public class PDPHelperResource {
         String jwt = aiopsSecureTokenServiceClient.authenticate(authRequest.getUsername(), authRequest.getPassword());
 
         return jwt;
+    }
+
+    @GET
+    @Path("/healthcheck")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String healthCheck() {
+        return "PDP Service is running...\n";
     }
 }

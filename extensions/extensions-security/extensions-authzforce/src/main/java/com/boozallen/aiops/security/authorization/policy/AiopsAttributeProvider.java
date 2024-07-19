@@ -339,9 +339,9 @@ public class AiopsAttributeProvider extends BaseNamedAttributeProvider {
                 }
             }
         } catch (ClassNotFoundException e) {
-            logger.error("Could not find attribute point '{}' in classpath!", attributePointClassName);
+            logger.error("Could not find attribute point '{}' in classpath!", attributePointClassName, e);
         } catch (InstantiationException | IllegalAccessException e) {
-            logger.error("Could not instantiate attribute point '" + attributePointClassName + "'!", e);
+            logger.error("Could not instantiate attribute point '{}'!", attributePointClassName, e);
         }
 
         return attributePoint;

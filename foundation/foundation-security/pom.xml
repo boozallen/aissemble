@@ -15,7 +15,6 @@
 	<description>Contains the modules used for security</description>
 
 	<modules>
-		<module>foundation-policy-decision-point</module>
 		<module>aissemble-foundation-pdp-client-python</module>
 		<module>foundation-pdp-client-java</module>
 	</modules>
