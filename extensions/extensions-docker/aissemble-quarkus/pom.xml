@@ -14,4 +14,13 @@
 
     <packaging>docker-build</packaging>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

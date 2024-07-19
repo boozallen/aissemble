@@ -57,7 +57,9 @@ mvn archetype:generate -B \
 	-Dversion=1.0.0-SNAPSHOT \
 	-Dpackage=$package \
 	-DprojectGitUrl=https://github.com/boozallen/aissemble-archetype-test \
-	-DprojectName=Generator_Test
+	-DprojectName=Generator_Test \
+	-DmavenRepositoryUrl=https://repo1.maven.org/maven2 \
+	-DmavenSnapshotRepositoryUrl=https://s01.oss.sonatype.org/content/repositories/snapshots
 
 cd test-generator/
 

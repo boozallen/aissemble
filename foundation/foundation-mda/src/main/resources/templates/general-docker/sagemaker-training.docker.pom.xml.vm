@@ -64,7 +64,7 @@
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>io.fabric8</groupId>
+                <groupId>org.technologybrewery.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <executions>
                     <execution>

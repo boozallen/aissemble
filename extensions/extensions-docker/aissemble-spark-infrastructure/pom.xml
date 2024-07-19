@@ -56,7 +56,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.fabric8</groupId>
+                <groupId>org.technologybrewery.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <images>
@@ -87,6 +87,21 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <build>
+                                <args>
+                                    <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
     </build>
