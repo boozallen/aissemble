@@ -49,4 +49,11 @@ public class MetadataService {
                 .entity(metadata)
                 .build();
     }
+
+    @GET
+    @Path("/healthcheck")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String healthCheck() {
+        return "Metadata service is running...\n";
+    }
 }

@@ -10,7 +10,7 @@ deployment:
     # Override with specific image
     name: boozallen/aissemble-quarkus
     # Overrides the default chart AppVersion value
-    tag: ''
+    tag: "@version.aissemble@"
     # Default IfNotPresent
     imagePullPolicy: ''
   volumeMounts:

@@ -1,5 +1,5 @@
 ---
-aissemble-quarkus:
+aissemble-quarkus-chart:
   app:
     name: 'aissemble-lineage-http-consumer'
   deployment:

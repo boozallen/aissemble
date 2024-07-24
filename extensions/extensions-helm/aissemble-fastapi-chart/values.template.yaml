@@ -10,6 +10,7 @@ replicaCount: 1
 hostname: fastapi
 image:
   name: boozallen/aissemble-fastapi
+  tag: "@version.aissemble@"
   imagePullPolicy: Always
   dockerRepo: ghcr.io/
 
