@@ -7,7 +7,9 @@
 ARG DOCKER_BASELINE_REPO_ID
 ARG VERSION_AISSEMBLE
 
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-airflow:${VERSION_AISSEMBLE}
+# NB: 1.7.0 is the last version to include airflow support. It is being frozen there while we
+# align it to use a community image. TODO in https://github.com/boozallen/aissemble/issues/227
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-airflow:1.7.0
 
 # Airflow variables
 ARG AIRFLOW_USER_HOME=/home/airflow

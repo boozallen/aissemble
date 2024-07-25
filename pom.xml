@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-parent</artifactId>
-        <version>3</version>
+        <version>4</version>
     </parent>
 
     <artifactId>aissemble-root</artifactId>
@@ -55,6 +55,7 @@
     <properties>
         <ossrh.repo.url>https://oss.sonatype.org/content/repositories</ossrh.repo.url>
         <s01.ossrh.repo.url>https://s01.oss.sonatype.org/content/repositories</s01.ossrh.repo.url>
+        <ghcr.io.repo.url>https://maven.pkg.github.com/boozallen/aissemble</ghcr.io.repo.url>
         <version.avro>1.10.1</version.avro>
         <version.camel>2.7.0</version.camel>
         <version.cucumber>6.10.4</version.cucumber>
@@ -144,9 +145,9 @@
                 <enabled>true</enabled>
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
-            <id>ossrh-snapshots</id>
-            <name>oss.sonatype.org-snapshots</name>
-            <url>${ossrh.repo.url}/snapshots/</url>
+            <id>ghcr.io</id>
+            <name>ghcr.io-snapshots</name>
+            <url>${ghcr.io.repo.url}</url>
         </repository>
         <repository>
             <releases>
@@ -178,9 +179,9 @@
                 <enabled>true</enabled>
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
-            <id>ossrh</id>
-            <name>oss.sonatype.org-snapshots</name>
-            <url>${ossrh.repo.url}/snapshots</url>
+            <id>ghcr.io</id>
+            <name>ghcr.io-plugin-snapshots</name>
+            <url>${ghcr.io.repo.url}</url>
         </pluginRepository>
         <pluginRepository>
             <releases>
@@ -243,7 +244,7 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>io.fabric8</groupId>
+                            <groupId>org.technologybrewery.fabric8</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
                             <configuration>
                                 <skip>true</skip>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -13,6 +14,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <docker.repo.id>ghcr.io</docker.repo.id>
         <dockerImageName>boozallen/${project.artifactId}</dockerImageName>
     </properties>
 
@@ -20,24 +22,25 @@
         <profile>
             <id>ci</id>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <build>
-                                        <buildx>
-                                            <!-- use registry mirror to avoid docker pull too many request issues -->
-                                            <configFile>/etc/buildkitd.toml</configFile>
-                                        </buildx>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <configuration><images>
+                                    <image>
+                                        <build>
+                                            <buildx>
+                                                <!-- use registry mirror to avoid docker pull too many request issues -->
+                                                <configFile>/etc/buildkitd.toml</configFile>
+                                            </buildx>
+                                        </build>
+                                    </image>
+                                </images>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
         <profile>
@@ -56,11 +59,9 @@
 
     <modules>
         <module>aissemble-quarkus</module>
-        <module>aissemble-airflow</module>
         <module>aissemble-fastapi</module>
         <module>aissemble-hive</module>
         <module>aissemble-jenkins</module>
-        <module>aissemble-kafka</module>
         <module>aissemble-metadata</module>
         <module>aissemble-nvidia</module>
         <module>aissemble-policy-decision-point</module>
@@ -69,7 +70,6 @@
         <module>aissemble-spark-operator</module>
         <module>aissemble-vault</module>
         <module>aissemble-versioning</module>
-        <module>aissemble-mlflow</module>
         <module>aissemble-model-training-api-containers</module>
         <module>aissemble-data-lineage-http-consumer</module>
         <module>aissemble-pipeline-invocation</module>
@@ -118,22 +118,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <images>
-                        <image>
-                            <build>
-                                <args>
-                                    <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
-                                </args>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 </project>

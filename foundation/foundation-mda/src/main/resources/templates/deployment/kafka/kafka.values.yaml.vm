@@ -5,12 +5,14 @@
 replicaCount: 1
 
 hostname: kafka-cluster
+
+  # NB: 1.7.0 is the last version to include kafka support. It is being frozen there while we
+  # align it to use a community image. TODO in https://github.com/boozallen/aissemble/issues/228
 image:
   name: boozallen/aissemble-kafka
   imagePullPolicy: Always
   dockerRepo: ghcr.io/
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "${versionTag}"
+  tag: "1.7.0"
 
 deployment:
   ports:

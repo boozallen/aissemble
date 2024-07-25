@@ -4,8 +4,11 @@
 airflow:
   airflowVersion: 2.6.2
 
+
+  # NB: 1.7.0 is the last version to include airflow support. It is being frozen there until it is removed or pulled
+  # into an extension project.  TODO in https://github.com/boozallen/aissemble/issues/227
   defaultAirflowRepository: ghcr.io/boozallen/aissemble-airflow
-  defaultAirflowTag: @version.aissemble@
+  defaultAirflowTag: 1.7.0
 
   images:
     airflow:

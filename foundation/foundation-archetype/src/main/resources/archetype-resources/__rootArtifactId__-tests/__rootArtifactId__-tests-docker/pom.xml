@@ -28,7 +28,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>io.fabric8</groupId>
+                <groupId>org.technologybrewery.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
@@ -56,7 +56,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.fabric8</groupId>
+                        <groupId>org.technologybrewery.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>

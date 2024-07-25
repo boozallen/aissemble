@@ -64,11 +64,8 @@ docs/antora-aissemble-ui/public/
 # Helm charts
 **/charts/*
 Chart.lock
-extensions/extensions-helm/aissemble-airflow-chart/values.yaml
 extensions/extensions-helm/aissemble-spark-operator-chart/values.yaml
 extensions/extensions-helm/aissemble-jenkins-chart/values.yaml
-extensions/extensions-helm/aissemble-mlflow-chart/values.yaml
-extensions/extensions-helm/aissemble-kafka-chart/values.yaml
 extensions/extensions-helm/aissemble-fastapi-chart/values.yaml
 extensions/extensions-helm/aissemble-quarkus-chart/values.yaml
 

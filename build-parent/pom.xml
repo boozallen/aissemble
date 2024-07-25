@@ -14,6 +14,13 @@
 
     <description>Build parent to bring in required build-time dependencies (e.g., Maven configuration)</description>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ghcr.io</id>
+            <url>https://maven.pkg.github.com/boozallen/aissemble</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <version.aissemble>1.8.0-SNAPSHOT</version.aissemble>
 
@@ -75,7 +82,7 @@
         <version.quarkus.cucumber.java>7.4.1</version.quarkus.cucumber.java>
 
         <!-- io.fabric8:docker-maven-plugin -->
-        <version.fabric8.docker.maven.plugin>0.44.0</version.fabric8.docker.maven.plugin>
+        <version.fabric8.docker.maven.plugin>0.45-tb-0.1.0</version.fabric8.docker.maven.plugin>
         <docker.platforms>linux/amd64,linux/arm64</docker.platforms>
 
         <!-- ***************** -->
@@ -546,27 +553,54 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>io.fabric8</groupId>
+                    <!--
+                        NB: using a temporary fork of the docker-maven-plugin for faster local builds.
+                        This can be removed once https://github.com/fabric8io/docker-maven-plugin/issues/1804
+                        is incorporated into the io.fabric8 plugin directly.
+                      -->
+                    <groupId>org.technologybrewery.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${version.fabric8.docker.maven.plugin}</version>
                     <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <id>default-push</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                            <configuration>
+                                <images>
+                                    <image>
+                                        <build>
+                                            <buildx>
+                                                <builderName>maven</builderName>
+                                                <cacheTo>type=local,dest=~/.docker/cache .</cacheTo>
+                                                <cacheFrom>type=local,src=~/.docker/cache .</cacheFrom>
+                                            </buildx>
+                                        </build>
+                                    </image>
+                                </images>
+                            </configuration>
+                        </execution>
+                    </executions>
                     <configuration>
                         <images>
                             <image>
-                                <name>${docker.baseline.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
+                                <name>${docker.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
                                 <build>
-                                    <buildx>
-                                        <!-- use default cache, passed to docker via config flag.-->
-                                        <dockerStateDir>~/.docker</dockerStateDir>
-                                        <platforms>
-                                            <platform>${docker.platforms}</platform>
-                                        </platforms>
-                                    </buildx>
                                     <args>
                                         <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
                                         <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
                                         <SPARK_VERSION>${version.spark}</SPARK_VERSION>
                                     </args>
+                                    <buildx>
+                                        <builderName>default</builderName>
+                                        <dockerStateDir>~/.docker</dockerStateDir>
+                                        <platforms>
+                                            <platform>${docker.platforms}</platform>
+                                        </platforms>
+                                    </buildx>
                                     <contextDir>${project.basedir}</contextDir>
                                     <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
                                 </build>
@@ -991,6 +1025,33 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                                 <addPypiRepoAsPackageSources>false</addPypiRepoAsPackageSources>
                                 <useDevRepository>true</useDevRepository>
                             </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${version.fabric8.docker.maven.plugin}</version>
+                            <executions>
+                                <execution>
+                                    <id>default-build</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                    <configuration>
+                                        <!-- Deploy will build all platforms, so skip build phase in this case: -->
+                                        <buildArchiveOnly>true</buildArchiveOnly>
+                                        <images>
+                                            <image>
+                                                <build>
+                                                    <buildx>
+                                                        <builderName>maven</builderName>
+                                                    </buildx>
+                                                </build>
+                                            </image>
+                                        </images>
+                                    </configuration>
+                                </execution>
+                            </executions>
                         </plugin>
                     </plugins>
                 </pluginManagement>

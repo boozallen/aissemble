@@ -15,7 +15,7 @@
     <packaging>docker-build</packaging>
 
     <properties>
-        <dockerbuild.jars.directory>target/dockerbuild/jars/</dockerbuild.jars.directory>
+        <dockerbuild.jars.directory>target/dockerbuild/jars</dockerbuild.jars.directory>
         <version.hive.metastore>4.0.0</version.hive.metastore>
     </properties>
 
@@ -35,7 +35,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.fabric8</groupId>
+                <groupId>org.technologybrewery.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <images>
