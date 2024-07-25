@@ -119,9 +119,10 @@ public class AissembleAttributeProvider extends BaseNamedAttributeProvider {
      */
     @Override
     public <AV extends AttributeValue> AttributeBag<AV> get(AttributeFqn attributeGUID, Datatype<AV> attributeDatatype,
-        EvaluationContext context, Optional<EvaluationContext> optionalEvaluationContext) throws
-            IndeterminateEvaluationException {String id = attributeGUID.getId();String subject =
-            findSubjectInEnvironmentContext(context);
+        EvaluationContext context, Optional<EvaluationContext> optionalEvaluationContext) throws IndeterminateEvaluationException {
+
+        String id = attributeGUID.getId();
+        String subject = findSubjectInEnvironmentContext(context);
 
         // lookup the correct attribute point to use:
         Collection<AV> attributeCollection = new ArrayList<>();
