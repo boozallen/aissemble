@@ -15,7 +15,7 @@ on:
         description: "Maven names you want to remove"
         required: true
         type: string
-        default: 'com.boozallen-*'
+        default: 'com.boozallen.aissemble.foundation-core-java'
 
   schedule:
     - cron: "0 0 * * *"  # every day at midnight
