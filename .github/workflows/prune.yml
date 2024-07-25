@@ -5,6 +5,17 @@ name: Prune ghcr.io
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      imageName:
+        description: "Image names you want to remove"
+        required: true
+        type: string
+        default: 'aissemble-*'
+      mavenPackageName:
+        description: "Maven names you want to remove"
+        required: true
+        type: string
+        default: 'com.boozallen-*'
 
   schedule:
     - cron: "0 0 * * *"  # every day at midnight
@@ -15,14 +26,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prune
+      - name: Prune Docker
         uses: snok/container-retention-policy@v2
         with:
-          image-names: aissemble-*
+          image-names: ${{ inputs.imageName }}
           cut-off: Two days ago UTC
           account-type: org
           org-name: boozallen
           keep-at-least: 2
           untagged-only: true
           dry-run: false
+          token: ${{ secrets.GHCR_IO_TOKEN }}
+
+      - name: Prune Maven
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ inputs.mavenPackageName }}
+          package-type: maven
+          min-versions-to-keep: 1
+          delete-only-pre-release-versions: true
           token: ${{ secrets.GHCR_IO_TOKEN }}
