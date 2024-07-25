@@ -1007,9 +1007,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
 
         <profile>
             <id>ci</id>
-            <properties>
-                <docker.repo.id>ghcr.io</docker.repo.id>
-            </properties>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -1057,7 +1054,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                 </pluginManagement>
             </build>
         </profile>
-
         <profile>
             <id>integration-test</id>
             <build>
