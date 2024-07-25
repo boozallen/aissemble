@@ -16,7 +16,7 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-quarkus</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>docker-build</type>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>

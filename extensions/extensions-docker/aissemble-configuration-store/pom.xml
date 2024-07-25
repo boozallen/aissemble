@@ -52,6 +52,12 @@
             <artifactId>foundation-configuration-store</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>aissemble-quarkus</artifactId>
+            <version>${project.version}</version>
+            <type>docker-build</type>
+        </dependency>
     </dependencies>
 
 </project>
