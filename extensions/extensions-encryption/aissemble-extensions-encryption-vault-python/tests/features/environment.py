@@ -52,36 +52,37 @@ def start_container(context, docker_image, feature):
 
 
 def before_feature(context, feature):
-    logger.info("Starting Test container services")
+    if "integration" in feature.tags:
+        logger.info("Starting Test container services")
 
-    docker_image = "ghcr.io/boozallen/aissemble-vault:"
+        docker_image = "ghcr.io/boozallen/aissemble-vault:"
 
-    # append current version to docker image
-    # pyproject.toml has a "version" property, e.g. version = "0.12.0.dev"
-    # using major, minor, patch and -SNAPSHOT if dev
-    version = metadata.version("aissemble-extensions-encryption-vault-python")
-    docker_image += version_to_tag(version)
+        # append current version to docker image
+        # pyproject.toml has a "version" property, e.g. version = "0.12.0.dev"
+        # using major, minor, patch and -SNAPSHOT if dev
+        version = metadata.version("aissemble-extensions-encryption-vault-python")
+        docker_image += version_to_tag(version)
 
-    context.test_container = SafeDockerContainer(docker_image)
-    start_container(context, docker_image, feature)
+        context.test_container = SafeDockerContainer(docker_image)
+        start_container(context, docker_image, feature)
 
-    root_key_tuple = context.test_container.exec("cat /root_key.txt")
-    secrets_root_key = root_key_tuple.output.decode()
-    os.environ["SECRETS_ROOT_KEY"] = secrets_root_key
+        root_key_tuple = context.test_container.exec("cat /root_key.txt")
+        secrets_root_key = root_key_tuple.output.decode()
+        os.environ["SECRETS_ROOT_KEY"] = secrets_root_key
 
-    unseal_keys_tuple = context.test_container.exec("cat /unseal_keys.txt")
-    unseal_keys_txt = unseal_keys_tuple.output.decode()
-    unseal_keys_json = json.loads(unseal_keys_txt)
-    secrets_unseal_keys = ",".join(unseal_keys_json)
-    os.environ["SECRETS_UNSEAL_KEYS"] = secrets_unseal_keys
+        unseal_keys_tuple = context.test_container.exec("cat /unseal_keys.txt")
+        unseal_keys_txt = unseal_keys_tuple.output.decode()
+        unseal_keys_json = json.loads(unseal_keys_txt)
+        secrets_unseal_keys = ",".join(unseal_keys_json)
+        os.environ["SECRETS_UNSEAL_KEYS"] = secrets_unseal_keys
 
-    transit_client_token_tuple = context.test_container.exec(
-        "cat /transit_client_token.txt"
-    )
-    transit_client_token_txt = transit_client_token_tuple.output.decode()
-    transit_client_token_json = json.loads(transit_client_token_txt)
-    encrypt_client_token = transit_client_token_json["auth"]["client_token"]
-    os.environ["ENCRYPT_CLIENT_TOKEN"] = encrypt_client_token
+        transit_client_token_tuple = context.test_container.exec(
+            "cat /transit_client_token.txt"
+        )
+        transit_client_token_txt = transit_client_token_tuple.output.decode()
+        transit_client_token_json = json.loads(transit_client_token_txt)
+        encrypt_client_token = transit_client_token_json["auth"]["client_token"]
+        os.environ["ENCRYPT_CLIENT_TOKEN"] = encrypt_client_token
 
 
 # Execute docker-compose up/down if an @integration tag is encountered. Future iterations should
@@ -96,8 +97,9 @@ def after_tag(context, tag):
 
 
 def after_feature(context, feature):
-    logger.info("Stopping Test container services")
-    context.test_container.stop()
+    if hasattr(context, "test_container"):
+        logger.info("Stopping Test container services")
+        context.test_container.stop()
 
 
 def version_to_tag(version_str: str) -> str:
