@@ -51,8 +51,9 @@ Please consult our [Configuring Your Environment guidance](https://boozallen.git
 
 The following steps will build aiSSEMBLE. *You must follow the configuration guidance above first*.
 1. To get started, pull the latest code for the aiSSEMBLE repo from git.
-2. Ensure Rancher Desktop is running.
-3. Build the project locally using the `./mvnw clean install` command.
+1. [Configure ghcr.io **authentication** SNAPSHOT repository support - **server configuration is all you need, you can ignore setting up a repository**](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-with-a-personal-access-token)
+1. Ensure Rancher Desktop is running.
+1. Build the project locally using the `./mvnw clean install` command.
     * A successful build will have an output similar to the below.
     ```
             [INFO] ------------------------------------------------------------------------
