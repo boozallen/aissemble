@@ -53,4 +53,15 @@ public class AiopsReferenceJavaMigrationSteps extends AbstractMigrationTest {
         validatedFile = getTestFile("/v1_8_0/AiopsReferenceJavaMigration/validation/DataAccessRecordValidated.java");
         assertTrue("Data Access is still referencing aiops in the java package.", validateMigration(testFile, validatedFile));
     }
+
+    @Given("a Java file references the package com.boozallen.aiops.security")
+    public void aJavaFileReferencesThePackageComBoozallenAiopsSecurity() {
+        testFile = getTestFile("v1_8_0/AiopsReferenceJavaMigration/migration/Ingest.java");
+    }
+
+    @Then("the references are updated to com.boozallen.aissemble.security")
+    public void theReferencesAreUpdatedToComBoozallenAissembleSecurity() {
+        validatedFile = getTestFile("/v1_8_0/AiopsReferenceJavaMigration/validation/IngestValidated.java");
+        assertTrue("Data Access is still referencing aiops in the java package.", validateMigration(testFile, validatedFile));
+    }
 }
