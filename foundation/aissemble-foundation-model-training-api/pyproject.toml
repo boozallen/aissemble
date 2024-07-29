@@ -13,7 +13,7 @@ aissemble-foundation-messaging-python = {path = "../foundation-messaging/foundat
 python = ">=3.11.4, <3.12"
 fastapi = ">=0.95.0"
 uvicorn = {version = "^0.18.0", extras = ["standard"]}
-pydantic = ">=1.8.0,<2.0.0"
+pydantic = ">=2.8.0"
 kubernetes = ">=26.1.0"
 urllib3 = "^1.26.18"
 krausening = ">=19"

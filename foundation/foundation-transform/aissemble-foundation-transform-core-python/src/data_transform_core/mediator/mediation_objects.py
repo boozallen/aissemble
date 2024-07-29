@@ -49,7 +49,7 @@ class MediationConfiguration(MediationContext):
     """
 
     className: str
-    properties: Optional[List[MediationProperty]]
+    properties: Optional[List[MediationProperty]] = None
 
     def getShortClassName(self) -> str:
         """
