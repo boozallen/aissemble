@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: configmap-rolebinding-github-action-default
+  namespace: default
+subjects:
+  - kind: User
+    name: arc-runner-set-aissemble-gha-rs-no-permission
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: configmap-manager-default
+  apiGroup: rbac.authorization.k8s.io
+
+

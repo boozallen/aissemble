@@ -84,6 +84,9 @@
                                     </goals>
                                 </execution>
                             </executions>
+                            <configuration>
+                                <namespace>actions-runners</namespace>
+                            </configuration>
                         </plugin>
                     </plugins>
                 </pluginManagement>

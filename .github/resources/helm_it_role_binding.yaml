@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: helm-it-user-binding
+  namespace: actions-runners
+subjects:
+  - kind: ServiceAccount
+    name: arc-runner-set-aissemble-gha-rs-no-permission
+    namespace: actions-runners
+roleRef:
+  kind: ClusterRole
+  name: helm-it-user
+  apiGroup: rbac.authorization.k8s.io
