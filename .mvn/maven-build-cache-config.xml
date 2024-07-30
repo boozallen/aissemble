@@ -108,6 +108,14 @@
                     <reconciles>
                         <reconcile propertyName="skip" skipValue="true"/>
                     </reconciles>
+                    <nologs>
+                        <nolog propertyName="commandLineRules"/>
+                    </nologs>
+                </plugin>
+                <plugin artifactId="maven-deploy-plugin" goal="enforce">
+                    <nologs>
+                        <nolog propertyName="commandLineRules"/>
+                    </nologs>
                 </plugin>
             </plugins>
         </reconcile>
