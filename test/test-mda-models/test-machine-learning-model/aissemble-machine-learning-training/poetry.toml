@@ -1,0 +1,6 @@
+[virtualenvs]
+prefer-active-python = true
+in-project = true
+
+[repositories.dev-pypi]
+url = "https://test.pypi.org/legacy/"
