@@ -387,6 +387,19 @@ public class ManualActionNotificationService {
      */
     public void addHelmTiltFileMessage(final GenerationContext context, final String appName,
                                        final String deployArtifactId) {
+        addHelmTiltFileMessage(context, appName, deployArtifactId, false);
+    }
+
+    /**
+     * Adds a notification to update the Tiltfile.
+     *
+     * @param context          the generation context
+     * @param appName          the application name
+     * @param deployArtifactId the deploy artifact ID
+     * @param isConfigStore    whether the deployment is the config store
+     */
+    public void addHelmTiltFileMessage(final GenerationContext context, final String appName,
+                                       final String deployArtifactId, final Boolean isConfigStore) {
 
         final File rootDir = context.getExecutionRootDirectory();
         if (!rootDir.exists() || !tiltFileFound(rootDir)) {
@@ -397,7 +410,12 @@ public class ManualActionNotificationService {
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                VelocityNotification notification = new VelocityNotification("helm-" + appName, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.helm.tilt.vm");
+                VelocityNotification notification;
+                if (isConfigStore) {
+                    notification = new VelocityNotification("helm-" + appName, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.configuration.store.tilt.vm");
+                } else {
+                    notification = new VelocityNotification("helm-" + appName, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.helm.tilt.vm");
+                }
                 notification.addToVelocityContext("appName", appName);
                 notification.addToVelocityContext("deployArtifactId", deployArtifactId);
                 addManualAction(tiltFilePath, notification);
@@ -405,6 +423,7 @@ public class ManualActionNotificationService {
 
         }
     }
+
 
     /**
      * Adds a notification to update the Tiltfile for resources dependent on another resource

@@ -20,19 +20,19 @@ spec:
         app.kubernetes.io/version: {{ .Values.app.version | default .Chart.AppVersion }}
     spec:
       volumes:
-        {{- toYaml .Values.deployment.volumes | nindent 12}}
+        {{- tpl (toYaml .Values.deployment.volumes) . | nindent 8}}
         {{ if .Values.deployment.supplementalVolumes }}
-          {{- toYaml .Values.deployment.supplementalVolumes | nindent 12}}
+          {{- toYaml .Values.deployment.supplementalVolumes | nindent 8}}
         {{ end }}
       {{- with .Values.deployment.securityContext }}
       securityContext:
-        {{- toYaml . | nindent 12 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ .Values.deployment.serviceAccountName | default "default" }}
       automountServiceAccountToken: {{ .Values.deployment.automountServiceAccountToken | default false }}
       {{- with .Values.deployment.initContainers }}
       initContainers:
-        {{- toYaml . | nindent 12 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Values.app.name | default .Chart.Name }}

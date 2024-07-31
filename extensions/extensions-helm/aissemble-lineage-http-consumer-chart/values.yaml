@@ -7,4 +7,4 @@ aissemble-quarkus-chart:
       # Override with specific image
       name: boozallen/aissemble-data-lineage-http-consumer
   configMap:
-    name: supplemental-quarkus-config
+    name: lineage-http-consumer-quarkus-config

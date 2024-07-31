@@ -7,3 +7,8 @@ version: 1.0.0
 appVersion: 1.0.0
 sources:
   - https://github.com/boozallen/aissemble
+
+dependencies:
+  - name: aissemble-quarkus-chart
+    version: 1.0.0
+    repository: file://../aissemble-quarkus-chart/

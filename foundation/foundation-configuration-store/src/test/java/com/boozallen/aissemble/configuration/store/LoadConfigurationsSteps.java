@@ -13,7 +13,6 @@ package com.boozallen.aissemble.configuration.store;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -24,6 +23,7 @@ import com.boozallen.aissemble.configuration.ConfigStoreInit;
 import com.boozallen.aissemble.configuration.policy.PropertyRegenerationPolicy;
 import com.boozallen.aissemble.configuration.policy.exception.PropertyRegenerationPolicyException;
 import com.boozallen.aissemble.util.TestPropertyDao;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -31,6 +31,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.ValidatableResponse;
+import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 
 
 public class LoadConfigurationsSteps {
@@ -46,6 +47,8 @@ public class LoadConfigurationsSteps {
     private String environmentPolicyURI;
     private Exception foundError;
     private ValidatableResponse response;
+    private AdmissionReview admissionReviewRequest;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before("@config-loader")
     public void setup() {
