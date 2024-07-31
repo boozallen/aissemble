@@ -1,0 +1,52 @@
+{{ if .Values.webhook.enable }}
+{{- $appName := (index .Values "aissemble-quarkus-chart" "app" "name") -}}
+{{- $appVersion := .Chart.AppVersion -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $appName }}-webhook-init
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "50"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: {{ $appName }}-webhook-init
+    spec:
+      serviceAccountName: {{ .Values.webhook.serviceAccount.name }}
+      restartPolicy: OnFailure
+      {{- if .Values.webhook.certSecret.create }}
+      initContainers:
+      - name: create-certs
+        {{- with (index .Values "aissemble-quarkus-chart" "deployment" "image") }}
+        image: {{ .repo }}{{ .name }}:{{ .tag | default $appVersion }}
+        imagePullPolicy: {{.imagePullPolicy }}
+        {{- end }}
+        command: ["/usr/bin/genCerts.sh"]
+        args: [
+            "--namespace", "{{ .Release.Namespace }}",
+            "--service", "{{ $appName }}",
+            "--secret-name", "{{ .Values.webhook.certSecret.name }}"
+          ]
+      {{- end }}
+      containers:
+      - name: create-webhook
+        {{- with (index .Values "aissemble-quarkus-chart" "deployment" "image") }}
+        image: {{ .repo }}{{ .name }}:{{ .tag | default $appVersion }}
+        imagePullPolicy: {{.imagePullPolicy }}
+        {{- end }}
+        command: ["/usr/bin/genWebhook.sh"]
+        args: [
+            "--ca-bundle", "$(CA_BUNDLE)",
+            "--namespace", "{{ .Release.Namespace }}",
+            "--service", "{{ $appName }}",
+            "--webhook-name", "{{ .Values.webhook.name }}"
+          ]
+        env:
+        - name: CA_BUNDLE
+          valueFrom:
+              secretKeyRef:
+                name: {{ .Values.webhook.certSecret.name }}
+                key: ca.crt
+{{ end }}

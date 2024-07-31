@@ -5,19 +5,18 @@
 ########################################]]#
 
 aissemble-configuration-store-chart:
-  image:
-    pullPolicy: IfNotPresent
-
-  service:
-    type: LoadBalancer
-
-  deployment:
-    volumes:
-      - name: configurations
-        hostPath:
-          path: /local/path/set/in/tilt
-          type: Directory
-    volumeMounts:
-      - mountPath: /configurations
-        name: configurations
-        readOnly: true
+  aissemble-quarkus-chart:
+    deployment:
+      image:
+        imagePullPolicy: IfNotPresent
+      supplementalVolumes:
+        - name: configurations
+          hostPath:
+            path: /local/path/set/in/tilt
+            type: Directory
+      supplementalVolumeMounts:
+        - mountPath: /configurations
+          name: configurations
+          readOnly: true
+    service:
+      type: LoadBalancer

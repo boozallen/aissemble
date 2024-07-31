@@ -37,18 +37,6 @@ website,role=external,window=_blank].
       </activation>
       <repositories>
         <repository>
-          <id>archetype</id>
-          <url>ENTER YOUR MAVEN REPOSITORY HERE</url>
-          <releases>
-            <enabled>true</enabled>
-            <checksumPolicy>fail</checksumPolicy>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <checksumPolicy>fail</checksumPolicy>
-          </snapshots>
-        </repository>
-        <repository>
           <id>GIVE YOUR REPOSITORY AN ID</id>
           <name>GIVE YOUR REPOSITORY A NAME</name>
           <releases>
@@ -69,6 +57,8 @@ website,role=external,window=_blank].
   </activeProfiles>
 </settings>
 ----
+
+NOTE: If you want to create a project from a snapshot version of aiSSEMBLE, you will also need to add an archetype repository for `ghcr.io` with the following url: `https://maven.pkg.github.com/boozallen/aissemble`.
 
 === Maven Security Settings (OPTIONAL)
 

@@ -22,14 +22,6 @@
             <plugin>
                 <groupId>${group.helm.plugin}</groupId>
                 <artifactId>helm-maven-plugin</artifactId>
-                <configuration>
-                    <values>
-                        <!-- sets the spark-operator chart to make use of the current project version for our image -->
-                        <overrides>
-                            <spark-operator.image.tag>${project.version}</spark-operator.image.tag>
-                        </overrides>
-                    </values>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

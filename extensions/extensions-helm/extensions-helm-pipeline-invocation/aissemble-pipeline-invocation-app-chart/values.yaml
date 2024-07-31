@@ -24,7 +24,7 @@ aissemble-quarkus-chart:
           name: spark-application-values-files
 
   configMap:
-    name: supplemental-quarkus-config
+    name: pipeline-invocation-quarkus-config
     supplementalQuarkusConfig:
       - kafka.bootstrap.servers=kafka-cluster:9093
       - mp.messaging.incoming.pipeline-invocation.connector=smallrye-kafka

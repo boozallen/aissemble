@@ -20,7 +20,7 @@ deployment:
   volumes:
     - name: quarkus-application-properties
       configMap:
-        name: supplemental-quarkus-config
+        name: "{{ .Values.configMap.name }}"
         items:
           - key: quarkus-properties-file
             path: quarkus-properties-file

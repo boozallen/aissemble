@@ -1,0 +1,170 @@
+suite: config-store
+templates:
+  - webhook-init-job.yaml
+tests:
+  - it: Should contain correct default values
+    release:
+      namespace: default
+    asserts:
+      - isAPIVersion:
+          of: batch/v1
+      - isKind:
+          of: Job
+      - equal:
+          path: metadata.name
+          value: aissemble-configuration-store-webhook-init
+      - equal:
+          path: spec.template.metadata.name
+          value: aissemble-configuration-store-webhook-init
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: aissemble-configuration-store-webhook-sa
+      - equal:
+          path: spec.template.spec.restartPolicy
+          value: OnFailure
+      - equal:
+          path: spec.template.spec.initContainers[0].name
+          value: create-certs
+      - matchRegex:
+          path: spec.template.spec.initContainers[0].image
+          pattern: ghcr.io/boozallen/aissemble-configuration-store
+      - equal:
+          path: spec.template.spec.initContainers[0].imagePullPolicy
+          value: IfNotPresent
+      - equal:
+          path: spec.template.spec.initContainers[0].command[0]
+          value: /usr/bin/genCerts.sh
+      - equal:
+          path: spec.template.spec.initContainers[0].args[0]
+          value: --namespace
+      - equal:
+          path: spec.template.spec.initContainers[0].args[1]
+          value: default
+      - equal:
+          path: spec.template.spec.initContainers[0].args[2]
+          value: --service
+      - equal:
+          path: spec.template.spec.initContainers[0].args[3]
+          value: aissemble-configuration-store
+      - equal:
+          path: spec.template.spec.initContainers[0].args[4]
+          value: --secret-name
+      - equal:
+          path: spec.template.spec.initContainers[0].args[5]
+          value: aissemble-configuration-store-webhook-certs
+      - equal:
+          path: spec.template.spec.containers[0].name
+          value: create-webhook
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ghcr.io/boozallen/aissemble-configuration-store
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+      - equal:
+          path: spec.template.spec.containers[0].command[0]
+          value: /usr/bin/genWebhook.sh
+      - equal:
+          path: spec.template.spec.containers[0].args[0]
+          value: --ca-bundle
+      - equal:
+          path: spec.template.spec.containers[0].args[1]
+          value: $(CA_BUNDLE)
+      - equal:
+          path: spec.template.spec.containers[0].args[2]
+          value: --namespace
+      - equal:
+          path: spec.template.spec.containers[0].args[3]
+          value: default
+      - equal:
+          path: spec.template.spec.containers[0].args[4]
+          value: --service
+      - equal:
+          path: spec.template.spec.containers[0].args[5]
+          value: aissemble-configuration-store
+      - equal:
+          path: spec.template.spec.containers[0].args[6]
+          value: --webhook-name
+      - equal:
+          path: spec.template.spec.containers[0].args[7]
+          value: boozallen.aissemble-configuration-store.webhook
+      - equal:
+          path: spec.template.spec.containers[0].env[0].name
+          value: CA_BUNDLE
+      - equal:
+          path: spec.template.spec.containers[0].env[0].valueFrom.secretKeyRef.name
+          value: aissemble-configuration-store-webhook-certs
+      - equal:
+          path: spec.template.spec.containers[0].env[0].valueFrom.secretKeyRef.key
+          value: ca.crt
+  - it: Should set values appropriately
+    set:
+      aissemble-quarkus-chart:
+        app:
+          name: test-store
+        deployment:
+          image:
+            repo: test.io/
+            name: test/test-store
+            imagePullPolicy: Always
+            tag: 1.0.0
+      webhook:
+        name: test.web.hook
+        serviceAccount:
+          name: test-sa
+        certSecret:
+          name: test-certs
+    asserts:
+      - equal:
+          path: metadata.name
+          value: test-store-webhook-init
+      - equal:
+          path: spec.template.metadata.name
+          value: test-store-webhook-init
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: test-sa
+      - equal:
+          path: spec.template.spec.initContainers[0].image
+          value: test.io/test/test-store:1.0.0
+      - equal:
+          path: spec.template.spec.initContainers[0].imagePullPolicy
+          value: Always
+      - equal:
+          path: spec.template.spec.initContainers[0].args[3]
+          value: test-store
+      - equal:
+          path: spec.template.spec.initContainers[0].args[5]
+          value: test-certs
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: test.io/test/test-store:1.0.0
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always
+      - equal:
+          path: spec.template.spec.containers[0].args[5]
+          value: test-store
+      - equal:
+          path: spec.template.spec.containers[0].args[7]
+          value: test.web.hook
+      - equal:
+          path: spec.template.spec.containers[0].env[0].valueFrom.secretKeyRef.name
+          value: test-certs
+          
+  - it: Should not create the cert secret when disabled
+    set:
+      webhook:
+        certSecret:
+          create: false
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers
+
+  - it: Should not exist when disabled
+    set:
+      webhook:
+        enable: false
+    asserts:
+      - hasDocuments:
+          count: 0
