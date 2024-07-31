@@ -39,7 +39,6 @@ generated-test/
 *.pyc
 target
 dist
-poetry.toml
 poetry.lock
 
 # the wrapper should download the jar itself

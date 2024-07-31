@@ -575,8 +575,8 @@
                                         <build>
                                             <buildx>
                                                 <builderName>maven</builderName>
-                                                <cacheTo>type=local,dest=~/.docker/cache .</cacheTo>
-                                                <cacheFrom>type=local,src=~/.docker/cache .</cacheFrom>
+                                                <cacheTo>type=local,dest=${user.home}/.docker/cache</cacheTo>
+                                                <cacheFrom>type=local,src=${user.home}/.docker/cache</cacheFrom>
                                             </buildx>
                                         </build>
                                     </image>
