@@ -5,7 +5,7 @@ on a Quarkus server.
 
 To start this container run
 
-`docker run -p 8780:8080 boozallen/aissemble-policy-decision-point:AISSEMBLE_VERSION`
+`docker run -p 8780:8080 ghcr.io/boozallen/aissemble-policy-decision-point:AISSEMBLE_VERSION`
 
 substituting the current aiSSEMBLE&trade; version for `AISSEMBLE_VERSION`, ie 1.2.0-SNAPSHOT
 
@@ -16,15 +16,15 @@ POST localhost:8780/api/pdp
 Body:
 ``` json
 {
-  "jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI3ZDZmMWZlNS05YzZiLTQ1ZGEtODlmMS0yMDM5YWIwNWZhNDEiLCJzdWIiOiJhaW9wcyIsImF1ZCI6ImF1ZGllbmNlIiwibmJmIjoxNjI0OTc2MDI5LCJpYXQiOjE2MjQ5NzYwMjksImV4cCI6MTkyNDk4MDc5NywiaXNzIjoiYWlvcHMuYXV0aG9yaXR5In0.eUBC2ink77XRf5n5JIXlLZR-fBiRmGrqo1TBFz46yZhWDY38dsh30flELE8gO5SG2rUSIe-VmmjSny8PFLNGwy5MGLwr9z56HoH7OrejJeEzCa1yBl67VWgUZhoDy3RzvARfdBnUstfigHYeQA2ECvW-b2kppYJPVUNX2uKmwfZupwqCGqIX56s7qntV0dUAjpC_KiZ3fjUz1HXqK_evWos0xPVT8XOB2ZADhh87kf7LmocYQ4Y-Z_fsou6jqYh1lQT8WeI2AKskE613nSqmTA2bax5-dOFXKWKLy8t5glyjkdqFZVrLrNkK9tXqNYpZ8efIkZKOu7T9TlsvkHU1XQ",
-  "resource": null,
+  "jwt": "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI0ZDdmZTRkYy00MjI5LTQxMzAtODczMi00ZTUwY2FlYmRlOTIiLCJzdWIiOiJhaXNzZW1ibGUiLCJhdWQiOiJhdWRpZW5jZSIsIm5iZiI6MTcyMjU0MjUzMiwiaWF0IjoxNzIyNTQyNTkyLCJleHAiOjE3MjI1NDYyNTIsImlzcyI6ImFpb3BzLmF1dGhvcml0eSJ9.byliAiYHgapHVHi5dl2YjzkhlUBiPXhpsvCcEIFqTIdvs6ruGYJt7a-TxG5wLRMtUA34k0fNVKVAtNAb50P8bh60FphjI9PwUwjiYio1Cek9zJbQRz8gB-FMWwOX1dsOAt4XRiUDJHeuV_Rok4fa1p0CZJeuVRAW4YSb1v_jhN-mBg59jYbOM5kXuorZ8vG-rXcl2JYCCojmDOeW48WcCivhmUq70KTZzvhSS43DeCSGF4m20-hzjNOrZfwZC6OOYg0huiETZTXq2zpFXVGlyYMlheR5Dhn79GDKvs0N42TyGfSKfXVI5oCYlUj7he9Yous9zK2vFfZYgWQtYmf0Dw",
+  "resource": "*",
   "action": "data-access"
 }
 ```
-**Note:** The provided jwt has a long expiration date and is valid for several years.  Typically, you would configure 
-your security policies to limit how long a token can be valid and require a new token on a regular basis. To generate 
-a new token you can send a GET request to http://localhost:8080/api/token which will return a valid token.  You can 
-then substitute this token in the example json above.
+**Note:** The provided jwt is just an example and is expired. To generate a new token you can send a POST request to
+http://localhost:8080/api/authenticate with a `"username"` and `"password"`. The default example authentication mechanism
+simply returns a valid token for the given username. This can be replaced with, e.g., a Keycloak backed secure token
+service. Once you have a valid JWT, you can then substitute this token in the example json above.
 
 
 * jwt
@@ -35,9 +35,10 @@ then substitute this token in the example json above.
     * Used if you need a policy decision for performing an action.
 
 
-The default policy `test-policy.xml` will return a "PERMIT" decision if the subject has an attribute 
-`urn:aiops:accessData` with a value of true. Conversely, it will return a "DENY" decision of the same attribute is false.
-
-For this example we are using a local attribute store `LocalAttributePoint.java` which will look up attributes for 
-a given subject (from the jwt) and return the matching attributes.  
+The default policy `test-policy.xml` will return a "PERMIT" decision for the `data-access` action if the subject has an
+attribute `urn:aissemble:accessData` with a value of true. Conversely, it will return a "DENY" decision of the same
+attribute is false. For this example we are using a local attribute store `LocalAttributePoint.java` which will look up
+attributes for a given subject (from the jwt) and return the matching attributes.  This simple implementation simply
+sets the attribute to true if the subject (the user for which the token was created) is `aissemble` and false otherwise.
+For any actions other than `data-access` the policy will return a "NOT_APPLICABLE" decision.
  

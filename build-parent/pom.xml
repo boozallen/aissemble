@@ -589,6 +589,7 @@
                             <image>
                                 <name>${docker.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
                                 <build>
+                                    <filter>@</filter>
                                     <args>
                                         <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
                                         <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>

@@ -3,7 +3,7 @@ USER root
 RUN microdnf install -y openssl gzip && \
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-FROM ${docker.baseline.repo.id}/boozallen/aissemble-quarkus:${project.version} AS final
+FROM @docker.baseline.repo.id@/boozallen/aissemble-quarkus:@project.version@ AS final
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
