@@ -67,6 +67,7 @@
         <version.pegasus>27.7.18</version.pegasus>
         <version.smile>2.6.0</version.smile>
         <version.weld>3.1.4.Final</version.weld>
+        <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
     </properties>
 
     <dependencyManagement>

@@ -10,7 +10,7 @@ sources:
   - https://github.com/boozallen/aissemble
 dependencies:
   - name: spark-operator
-    version: 1.1.27
+    version: 1.4.6
     repository: https://kubeflow.github.io/spark-operator/
     import-values:
       - child: batchScheduler

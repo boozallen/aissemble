@@ -30,11 +30,6 @@ spark-operator:
     fsGroup: 1000
     fsGroupChangePolicy: "OnRootMismatch"
 
-  rbac:
-    # -- Create and use RBAC `ClusterRole` resources
-    # -- Set to false in order to enable overriding with our own RBAC template
-    createClusterRole: false
-
   # volumes - Operator volumes
   volumes:
     - name: spark-logging
@@ -48,7 +43,7 @@ spark-operator:
     - name: spark-logging
       mountPath: "/tmp/spark-events"
     - name: ivy-cache
-      mountPath: "/opt/spark/.ivy2"
+      mountPath: "/home/spark/.ivy2"
 
   webhook:
     # -- Enable webhook server
@@ -62,7 +57,3 @@ spark-operator:
     sparkoperator:
       # -- Optional name for the operator service account
       name: "sparkoperator"
-
-rbac:
-  # -- Set to True in order to enable overriding with our own RBAC template
-  createClusterRole: True
