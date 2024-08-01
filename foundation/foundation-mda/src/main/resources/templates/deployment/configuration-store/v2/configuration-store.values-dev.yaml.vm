@@ -17,6 +17,5 @@ aissemble-configuration-store-chart:
       supplementalVolumeMounts:
         - mountPath: /configurations
           name: configurations
-          readOnly: true
     service:
       type: LoadBalancer
