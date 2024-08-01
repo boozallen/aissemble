@@ -66,6 +66,7 @@
         <version.slf4j>2.0.7</version.slf4j>
         <version.delta.hive.connector>0.6.0</version.delta.hive.connector>
         <version.testcontainers>1.19.8</version.testcontainers>
+        <version.vault>5.1.0</version.vault>
 
 <!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
         <version.spark>3.4.0</version.spark>

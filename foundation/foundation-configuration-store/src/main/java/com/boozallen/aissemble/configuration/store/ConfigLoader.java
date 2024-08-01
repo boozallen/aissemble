@@ -29,6 +29,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,17 +49,26 @@ public class ConfigLoader {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class);
     private PropertyDao propertyDao;
-
-    @ConfigProperty(name = "config.store.property.dao.class")
-    public String propertyDaoClass;
+    private Instance<PropertyDao> instances;
 
     @Inject
-    public void setPropertyDao(Instance<PropertyDao> instances) {
-        instances.forEach(propertyDao -> {
+    public void setPropertyDaoInstances(Instance<PropertyDao> instances) {
+        this.instances = instances;
+    }
+
+    public void setPropertyDaoClass(String propertyDaoClass) throws RuntimeException {
+        this.instances.forEach(propertyDao -> {
             if (propertyDao.getClass().getName().contains(propertyDaoClass)) {
                 this.propertyDao = propertyDao;
             }
         });
+        if(this.propertyDao == null){
+            throw new RuntimeException("Invalid Storage Class");
+        }
+    }
+
+    protected PropertyDao getPropertyDao() {
+        return this.propertyDao;
     }
 
     public void setPropertyDao(PropertyDao propertyDao) {
@@ -84,6 +94,10 @@ public class ConfigLoader {
      */
     public Set<Property> loadConfigs(String baseURI) {
         return loadPropertiesURI(baseURI);
+    }
+
+    public boolean doInitialConfigLoad(){
+        return propertyDao.requiresInitialConfigLoad();
     }
 
     /**
@@ -256,7 +270,6 @@ public class ConfigLoader {
         try {
             propertyDao.write(properties);
             logger.info("Successfully wrote all properties to the store.");
-            updateLoadStatus(true);
         } catch (Exception e) {
             logger.error("Error updating properties.", e);
             updateLoadStatus(false);
@@ -276,14 +289,14 @@ public class ConfigLoader {
     public boolean isFullyLoaded() {
         try {
             Property statusProperty = propertyDao.read(new PropertyKey("load-status", "fully-loaded"));
-            return statusProperty != null && "true".equals(statusProperty.getValue());
+            return statusProperty != null && BooleanUtils.toBoolean(statusProperty.getValue());
         } catch (Exception e) {
             logger.warn("Properties are not loaded previously, continue", e);
             return false;
         }
     }
 
-    private void updateLoadStatus(boolean status) {
+    public void updateLoadStatus(boolean status) {
         Property statusProperty = new Property("load-status", "fully-loaded", String.valueOf(status));
         try {
             propertyDao.write(statusProperty);
