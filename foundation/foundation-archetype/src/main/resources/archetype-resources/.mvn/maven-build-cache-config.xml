@@ -107,6 +107,9 @@
                     <reconciles>
                         <reconcile propertyName="skip" skipValue="true"/>
                     </reconciles>
+                    <nologs>
+                        <nolog propertyName="commandLineRules"/>
+                    </nologs>
                 </plugin>
             </plugins>
         </reconcile>
