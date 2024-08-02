@@ -12,10 +12,6 @@
     <name>aiSSEMBLE::Extensions::Security::Policy Decision Point Service</name>
     <description>Policy Decision Point Services</description>
 
-    <properties>
-        <quarkus.package.type>uber-jar</quarkus.package.type>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -84,6 +80,26 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <!-- Packages the quarkus app and its dependencies into a zip-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/resources/quarkus-app.xml</descriptor>
+                    </descriptors>
+                    <finalName>quarkus</finalName>
+                    <appendAssemblyId>true</appendAssemblyId>
+                </configuration>
             </plugin>
         </plugins>
     </build>
