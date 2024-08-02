@@ -1,4 +1,4 @@
-FROM ${docker.baseline.repo.id}/boozallen/aissemble-quarkus:${project.version}
+FROM @docker.baseline.repo.id@/boozallen/aissemble-quarkus:@project.version@
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
