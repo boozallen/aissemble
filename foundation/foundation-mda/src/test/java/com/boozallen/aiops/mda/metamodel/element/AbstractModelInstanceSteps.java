@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
@@ -41,7 +42,6 @@ import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryMana
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceUrl;
 import org.technologybrewery.fermenter.mda.metamodel.ModelRepositoryConfiguration;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.technologybrewery.fermenter.mda.reporting.StatisticsService;
 
@@ -53,6 +53,7 @@ public abstract class AbstractModelInstanceSteps {
 
     private static final String AIOPS_MDA = "aiops-mda";
     protected static final String DICTIONARY_TYPE_TEST_STRING = "testString";
+    protected static final String DATA_FLOW_PIPELINE = "DataFlowPipeline";
 
     protected File dictionariesDirectory = new File(GENERATED_METADATA_DIRECTORY, "dictionaries");
     protected File compositesDirectory = new File(GENERATED_METADATA_DIRECTORY, "composites");
@@ -64,6 +65,7 @@ public abstract class AbstractModelInstanceSteps {
     protected Path projectDir;
     protected String projectName;
     protected PipelineElement pipeline;
+    protected File pipelineFile;
     protected String scenario;
     protected Map<String, Pipeline> pipelines = new HashMap<>();
     protected String scmUrl;

@@ -11,7 +11,6 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.DockerBuildParams;
-import com.boozallen.aiops.mda.ManualActionNotificationService;
 import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -75,6 +74,7 @@ public class MlflowDockerPomGenerator extends AbstractMavenModuleGenerator {
             vc.put(VelocityProperty.PARENT_DESCRIPTIVE_NAME, context.getDescriptiveName());
             vc.put(VelocityProperty.TRAINING_PIPELINES, mlStrategy.getSteps());
             vc.put(VelocityProperty.ENABLE_POSTGRES_SUPPORT, mlStrategy.isPostgresNeeded());
+            vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, mlStrategy.isRdbmsSupportNeeded());
             vc.put(VelocityProperty.USE_S3_LOCAL, true);
 
             fileName = replace(MODULE_ARTIFACT_ID, basefileName, mlflowDockerArtifactId);
@@ -92,7 +92,7 @@ public class MlflowDockerPomGenerator extends AbstractMavenModuleGenerator {
             manualActionNotificationService.addDeployPomMessage(context, "s3local-deploy-v2", "s3-local");
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-shared-infrastructure-deploy", "shared-infrastructure");
             manualActionNotificationService.addNoticeToUpdateS3LocalConfig(context, "mlflow-models", Arrays.asList("mlflow-storage"));
-            if (mlStrategy.isPostgresNeeded()) {
+            if (mlStrategy.isPostgresNeeded() || mlStrategy.isRdbmsSupportNeeded()) {
                 manualActionNotificationService.addDeployPomMessage(context, "postgres-deploy", "postgres");
             }
         }

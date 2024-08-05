@@ -10,8 +10,9 @@ package com.boozallen.aissemble.upgrade.migration;
  * #L%
  */
 
-import com.boozallen.aissemble.upgrade.util.FileUtils;
-import com.boozallen.aissemble.upgrade.util.MigrationUtils;
+import org.technologybrewery.baton.util.FileUtils;
+import org.technologybrewery.baton.util.CommonUtils;
+import static org.technologybrewery.baton.util.CommonUtils.isLessThanVersion;
 import com.google.common.io.Files;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.boozallen.aissemble.upgrade.util.MigrationUtils.isLessThanVersion;
 
 public class HelmChartsV2Migration extends AbstractAissembleMigration {
     public static final Logger logger = LoggerFactory.getLogger(HelmChartsV2Migration.class);
@@ -125,13 +125,13 @@ public class HelmChartsV2Migration extends AbstractAissembleMigration {
 
     private String upgradeVersionInString(String line) {
         String newLine;
-        ArrayList<String> captureGroups = FileUtils.getRegExCaptureGroups(
+        List<String> captureGroups = FileUtils.getRegExCaptureGroups(
                 VERSION_APP_VERSION_REPLACE_REGEX,
                 line
         );
         String currentVersion = getAissembleVersion();
         String oldVersion = captureGroups.get(1).replaceAll("['|\"]", "").trim();
-        String newVersion = MigrationUtils.isLessThanVersion(oldVersion, currentVersion) ? currentVersion : oldVersion;
+        String newVersion = CommonUtils.isLessThanVersion(oldVersion, currentVersion) ? currentVersion : oldVersion;
         newLine = captureGroups.get(0) + "\"" + newVersion + "\"";
         return StringUtils.appendIfMissing(newLine,"\n");
     }

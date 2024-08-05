@@ -1,4 +1,8 @@
-# Python data encryption
+## aiSSEMBLE&trade; Extensions Data Encryption Vault Python
+
+[![PyPI](https://img.shields.io/pypi/v/aissemble-extensions-encryption-vault-python?logo=python&logoColor=gold)](https://pypi.org/project/aissemble-extensions-encryption-vault-python/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aissemble-extensions-encryption-vault-python?logo=python&logoColor=gold)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/aissemble-extensions-encryption-vault-python?logo=python&logoColor=gold)
 
 This module provides a package for encrypting Python based pipeline data.  There are multiple encryption algorithms
 available.  Each with their own strengths and weaknesses as outlined below.  
@@ -18,7 +22,7 @@ The following example illustrates how to perform encryption.
     #### VaultRemoteEncryptionStrategy
     ```         
     # Uses remote Vault encryption
-    from aiops_encrypt.vault_remote_encryption_strategy import VaultRemoteEncryptionStrategy
+    from aissemble_encrypt.vault_remote_encryption_strategy import VaultRemoteEncryptionStrategy
 
     vault_remote = VaultRemoteEncryptionStrategy()
 
@@ -35,7 +39,7 @@ The following example illustrates how to perform encryption.
     #### VaultLocalEncryptionStrategy
     ```
     # Uses an encryption key retrieved from the Vault server, but performs the encryption locally.
-    from aiops_encrypt.vault_local_encryption_strategy import VaultLocalEncryptionStrategy
+    from aissemble_encrypt.vault_local_encryption_strategy import VaultLocalEncryptionStrategy
     
     vault_local = VaultLocalEncryptionStrategy()
 
@@ -49,7 +53,7 @@ The following example illustrates how to perform encryption.
     #### AesCbcEncryptionStrategy
     ```         
     # Uses the AES CBC encryption
-    from aiops_encrypt.aes_cbc_encryption_strategy import AesCbcEncryptionStrategy
+    from aissemble_encrypt.aes_cbc_encryption_strategy import AesCbcEncryptionStrategy
 
     aes_cbc = AesCbcEncryptionStrategy()
 
@@ -63,7 +67,7 @@ The following example illustrates how to perform encryption.
     #### AesGcm96EncryptionStrategy
     ```         
     # AES GCM encryption with a 96 bit initialization vector (same algorithm as Vault)
-    from aiops_encrypt.aes_gcm_96_encryption_strategy import AesGcm96EncryptionStrategy
+    from aissemble_encrypt.aes_gcm_96_encryption_strategy import AesGcm96EncryptionStrategy
 
     aes_gcm_96 = AesGcm96EncryptionStrategy()
 
@@ -73,7 +77,7 @@ The following example illustrates how to perform encryption.
     # decrypt cipher text data using AES CBC
     decrypted_value = aes_gcm_96.decrypt(encrypted_value)
     ```
-## AISSEMBLE&trade; Data Encryption
+## AISSEMBLE Data Encryption
 
 This package includes one security client for calling the "Secrets as a Service" encryption service.
 

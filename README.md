@@ -1,5 +1,8 @@
 # aiSSEMBLE&trade;
 [![Documentation](https://img.shields.io/badge/documentation-GitHub_Pages-blue)](https://boozallen.github.io/aissemble/aissemble/current/index.html)
+[![Maven Central](https://img.shields.io/maven-central/v/com.boozallen.aissemble/aissemble-root.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.boozallen.aissemble%22%20AND%20a%3A%22aissemble-root%22)
+![PyPI](https://img.shields.io/pypi/v/aissemble-foundation-core-python?logo=python&logoColor=gold)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aissemble-foundation-core-python?logo=python&logoColor=gold)
 [![Publish to GitHub Pages](https://github.com/boozallen/aissemble/actions/workflows/publish.yml/badge.svg)](https://github.com/boozallen/aissemble/actions/workflows/publish.yml)
 ## aiSSEMBLE Overview
 
@@ -48,8 +51,9 @@ Please consult our [Configuring Your Environment guidance](https://boozallen.git
 
 The following steps will build aiSSEMBLE. *You must follow the configuration guidance above first*.
 1. To get started, pull the latest code for the aiSSEMBLE repo from git.
-2. Ensure Rancher Desktop is running.
-3. Build the project locally using the `./mvnw clean install` command.
+1. [Configure ghcr.io **authentication** SNAPSHOT repository support - **server configuration is all you need, you can ignore setting up a repository**](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-with-a-personal-access-token)
+1. Ensure Rancher Desktop is running.
+1. Build the project locally using the `./mvnw clean install` command.
     * A successful build will have an output similar to the below.
     ```
             [INFO] ------------------------------------------------------------------------

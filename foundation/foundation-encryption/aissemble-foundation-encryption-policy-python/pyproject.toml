@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "aissemble-foundation-encryption-policy-python"
-version = "1.7.0"
+version = "1.8.0"
 description = "Data encryption policy for Python scripts"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
 packages = [
-    {include = "aiops_encrypt_policy", from = "src"}
+    {include = "aissemble_encrypt_policy", from = "src"}
 ]
 
 [tool.poetry.dependencies]

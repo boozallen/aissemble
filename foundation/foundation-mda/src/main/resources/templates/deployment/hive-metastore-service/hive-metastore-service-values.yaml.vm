@@ -10,7 +10,7 @@ image:
   imagePullPolicy: IfNotPresent
   dockerRepo: ghcr.io/
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "${versionTag}"
+  tag: "1.7.0"
 
 # hive-metastore-service Deployment
 deployment:

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Upgrade
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.test</groupId>
+        <artifactId>test-project</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>test-project-docker</artifactId>
+
+    <name>test-project::Docker</name>
+    <description>Contains the Docker Build this test-project</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <!-- TODO: Add docker modules here -->
+        <module>test-project-spark-worker-docker</module>
+        <module>test-project-policy-decision-point-docker</module>
+        <module>test-project-vault-docker</module>
+    </modules>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.technologybrewery.fermenter</groupId>
+                    <artifactId>fermenter-mda</artifactId>
+                    <configuration>
+                        <basePackage>org.test</basePackage>
+                        <!-- Reference models from test-project-pipeline-models. See the following
+                            page for more detailed information: https://fermenter.atlassian.net/wiki/spaces/FER/pages/48955396/Controlling+What+Gets+Generated#ControllingWhatGetsGenerated-UsingmetadataoutsideofyourcurrentMavenmodule -->
+                        <metadataDependencies>
+                            <metadataDependency>test-project-pipeline-models</metadataDependency>
+                        </metadataDependencies>
+                        <targetModelInstances>
+                            <targetModelInstance>test-project-pipeline-models</targetModelInstance>
+                        </targetModelInstances>
+                        <propertyVariables>
+                            <aissembleVersion>${version.aissemble}</aissembleVersion>
+                        </propertyVariables>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>test-project-pipeline-models</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <basePackage>org.test</basePackage>
+                    <profile>docker-spark-python-pipelines</profile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.orphedomos</groupId>
+                <artifactId>orphedomos-maven-plugin</artifactId>
+                <version>${version.orphedomos.plugin}</version>
+                <configuration>
+                    <skip>true</skip>
+                    <imageVersion>${project.version}</imageVersion>
+                    <imageName>${project.artifactId}</imageName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>ci</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.technologybrewery.orphedomos</groupId>
+                        <artifactId>orphedomos-maven-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <imageVersion>${project.version}</imageVersion>
+                            <!-- Add in repoId that corresponds to the serverId in your settings.xml
+                                 that contains the docker login credentials -->
+                            <repoId />
+                            <repoUrl>${docker.project.repository.url}</repoUrl>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

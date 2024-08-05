@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>${moduleArtifactId}</artifactId>
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>${parentDescriptiveName}::Data Access</name>
     <description>Build for a Data Access Docker container</description>

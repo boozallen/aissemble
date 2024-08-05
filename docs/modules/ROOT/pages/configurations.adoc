@@ -44,6 +44,7 @@ guide you through configuring WSL.
 [NOTE]
 =====
 Your WSL environment should be prepared now.
+=====
 
 ** *NOTE:* you can access your Windows files in WSL at `/mnt/<drive-letter>/<path>/<on>/<windows>`
 *** _Example:_ `/mnt/c/Users/MyUser/Downloads`

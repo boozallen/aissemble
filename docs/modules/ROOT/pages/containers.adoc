@@ -196,6 +196,7 @@ TIP: If your project is under version control, we recommend using a diff tool to
 |MLflow                                 | `mlflow-deploy-v2`                 |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-mlflow-chart/README.md[MLFlow,role=external,window=_blank]
 |Policy Decision Point                  | `policy-decision-point-deploy-v2`  |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-policy-decision-point-chart/README.md[Policy Decision Point,role=external,window=_blank]
 |S3 Local                               | `s3local-deploy-v2`                |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-localstack-chart/README.md[S3 Local,role=external,window=_blank]
+|Configuration Store                    | `configuration-store-deploy-v2`    |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-configuration-store-chart/README.md[Configuration Store,role=external,window=_blank]
 |======
 
 //todo drop example file replace with link to dockerfile build docs

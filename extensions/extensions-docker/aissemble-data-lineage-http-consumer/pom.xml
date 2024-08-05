@@ -3,10 +3,10 @@
     <parent>
         <artifactId>extensions-docker</artifactId>
         <groupId>com.boozallen.aissemble</groupId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <name>aiSSEMBLE::Extensions::Docker::Data Lineage HTTP Consumer</name>
     <artifactId>aissemble-data-lineage-http-consumer</artifactId>
@@ -21,7 +21,7 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-quarkus</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>docker-build</type>
         </dependency>
     </dependencies>
     <build>
@@ -49,6 +49,10 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

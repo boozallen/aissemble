@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>extensions-helm</artifactId>
@@ -21,7 +21,6 @@
         <module>aissemble-inference-chart</module>
         <module>aissemble-versioning-chart</module>
         <module>aissemble-kafka-chart</module>
-        <module>extensions-helm-hive</module>
         <module>aissemble-keycloak-chart</module>
         <module>aissemble-elasticsearch-operator-chart</module>
         <module>aissemble-elasticsearch-chart</module>
@@ -37,6 +36,7 @@
         <module>aissemble-metadata-chart</module>
         <module>aissemble-vault-chart</module>
         <module>aissemble-sealed-secrets-chart</module>
+        <module>aissemble-configuration-store-chart</module>
     </modules>
 
     <properties>

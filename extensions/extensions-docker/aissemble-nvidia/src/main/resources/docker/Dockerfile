@@ -1,6 +1,6 @@
 FROM nvidia/cuda:12.1.1-base-ubuntu22.04
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 # Workaround for ubuntu fix start
 # https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1962606

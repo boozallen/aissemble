@@ -1,0 +1,63 @@
+# Default values for config-store-service
+aissemble-quarkus-chart:
+  app:
+    name: aissemble-configuration-store
+
+  deployment:
+    image:
+      repo: ghcr.io/
+      name: boozallen/aissemble-configuration-store
+      imagePullPolicy: IfNotPresent
+      tag: "@version.aissemble@"
+    hostname: configuration-store
+    restartPolicy: Always
+
+    # Copied volumes/volumeMounts from parent chart to append that additional 'certs' volume while still enabling the
+    # the downstream chart consumer to utilize the `supplementalVolumes` and `supplementalVolumeMounts` config options
+    volumeMounts:
+      - name: quarkus-application-properties
+        mountPath: /deployments/config/application.properties
+        subPath: quarkus-properties-file
+      - name: certs
+        mountPath: "/etc/webhook/cert"
+        readOnly: true
+    volumes:
+      - name: quarkus-application-properties
+        configMap:
+          name: "{{ .Values.configMap.name }}"
+          items:
+            - key: quarkus-properties-file
+              path: quarkus-properties-file
+      - name: certs
+        secret:
+          secretName: aissemble-configuration-store-webhook-certs
+
+  service:
+    ports:
+      - name: http
+        port: 8083
+        protocol: TCP
+        targetPort: 8080
+      - name: https
+        port: 443
+        protocol: TCP
+        targetPort: 8443
+
+  configMap:
+    name: configuration-store-quarkus-config
+    supplementalQuarkusConfig:
+      - quarkus.http.ssl.certificate.file=/etc/webhook/cert/tls.crt
+      - quarkus.http.ssl.certificate.key-file=/etc/webhook/cert/tls.key
+    
+webhook:
+  enable: true
+  name: boozallen.aissemble-configuration-store.webhook # must be at least three segments separated by dots
+
+  serviceAccount:
+    create: true
+    name: aissemble-configuration-store-webhook-sa
+
+  certSecret:
+    create: true
+    name: aissemble-configuration-store-webhook-certs
+    

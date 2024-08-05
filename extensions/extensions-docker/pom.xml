@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>extensions-docker</artifactId>
@@ -13,34 +13,34 @@
     <packaging>pom</packaging>
 
     <properties>
+        <docker.repo.id>ghcr.io</docker.repo.id>
         <dockerImageName>boozallen/${project.artifactId}</dockerImageName>
-        <target.architecture>amd64</target.architecture>
     </properties>
 
     <profiles>
         <profile>
-            <id>arm64</id>
-            <properties>
-                <target.architecture>arm64</target.architecture>
-            </properties>
+            <id>ci</id>
             <build>
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <artifactId>maven-deploy-plugin</artifactId>
-                            <configuration>
-                                <skip>true</skip>
+                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <configuration><images>
+                                    <image>
+                                        <build>
+                                            <buildx>
+                                                <!-- use registry mirror to avoid docker pull too many request issues -->
+                                                <configFile>/etc/buildkitd.toml</configFile>
+                                            </buildx>
+                                        </build>
+                                    </image>
+                                </images>
                             </configuration>
                         </plugin>
                     </plugins>
                 </pluginManagement>
             </build>
-        </profile>
-        <profile>
-            <id>ci</id>
-            <properties>
-                <dockerImageVersion>${project.version}-${target.architecture}</dockerImageVersion>
-            </properties>
         </profile>
         <profile>
             <id>ensure-docker-dependencies</id>
@@ -58,11 +58,9 @@
 
     <modules>
         <module>aissemble-quarkus</module>
-        <module>aissemble-airflow</module>
         <module>aissemble-fastapi</module>
         <module>aissemble-hive</module>
         <module>aissemble-jenkins</module>
-        <module>aissemble-kafka</module>
         <module>aissemble-metadata</module>
         <module>aissemble-nvidia</module>
         <module>aissemble-policy-decision-point</module>
@@ -71,7 +69,6 @@
         <module>aissemble-spark-operator</module>
         <module>aissemble-vault</module>
         <module>aissemble-versioning</module>
-        <module>aissemble-mlflow</module>
         <module>aissemble-model-training-api-containers</module>
         <module>aissemble-data-lineage-http-consumer</module>
         <module>aissemble-pipeline-invocation</module>
@@ -97,23 +94,28 @@
         </dependencies>
     </dependencyManagement>
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <configuration>
-                    <buildArgs>
-                        <!-- allows arch-specific builds to reference the exact base image, might not be needed once we do multi-arch builds + manifest in Orphedomos -->
-                        <VERSION_AISSEMBLE>${dockerImageVersion}</VERSION_AISSEMBLE>
-                        <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
-                    </buildArgs>
-                    <aliases>
-                        <!-- Allows downstream projects/modules to use the locally built image -->
-                        <!-- It may make sense to have Orphedomos build the image with the repo included, which would remove the need for this -->
-                        <alias>${docker.baseline.repo.id}/${dockerImageName}:${dockerImageVersion}</alias>
-                    </aliases>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.technologybrewery.habushu</groupId>
+                    <artifactId>habushu-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>stage-python</id>
+                            <goals>
+                                <goal>containerize-dependencies</goal>
+                            </goals>
+                            <phase>prepare-package</phase>
+                            <configuration>
+                                <dockerfile>${project.basedir}/src/main/resources/docker/Dockerfile</dockerfile>
+                                <dockerBuilderBase>python:3.11</dockerBuilderBase>
+                                <dockerFinalBase>python:3.11-slim</dockerFinalBase>
+                                <dockerUser>1001</dockerUser>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

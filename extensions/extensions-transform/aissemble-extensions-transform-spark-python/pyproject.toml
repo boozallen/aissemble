@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-extensions-transform-spark-python"
-version = "1.7.0"
+version = "1.8.0"
 description = "Contains the core Python implementation of data transform for Spark"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
@@ -11,7 +11,7 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.11.4, <4"
 krausening = ">=19"
-pydantic = ">=1.8.0,<2.0.0"
+pydantic = ">=2.8.0"
 pyspark = "3.4.0"
 cryptography = ">=42.0.4"
 urllib3 = "^1.26.18"

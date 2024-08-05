@@ -1,0 +1,75 @@
+# Default values for hive-metastore-service
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+app:
+  # Sets labels for app.kubernetes.io/name. Default is Chart.name (aissemble-hive-metastore-service-chart)
+  name: 'hive-metastore-service'
+  # Sets the labels for app.kubernetes.io/version. Default is Chart.appVersion
+  version: ''
+
+replicaCount: 1
+hostname: hive-metastore-service
+image:
+  name: boozallen/aissemble-hive-service
+  imagePullPolicy: IfNotPresent
+  dockerRepo: "ghcr.io/"
+
+mysql:
+  enabled: true
+  fullnameOverride: "hive-metastore-db"
+  auth:
+    # The schematool for the metastore service will create the database for us.
+    database: "metastore"
+
+hive:
+  dbType: "mysql"
+
+# hive-metastore-service Deployment
+deployment:
+  ports:
+    - name: "thrift"
+      containerPort: 9083
+  baseEnv:
+    - name: HADOOP_CLASSPATH
+      value: $HADOOP_CLASSPATH:/opt/hadoop/share/hadoop/tools/lib/*.jar
+    - name: JAVA_HOME
+      value: /opt/jre
+  env: []
+  restartPolicy: Always
+  volumeMounts:
+    - name: metastore-service-config
+      mountPath: /opt/hive/conf/metastore-site.xml
+      subPath: metastore-site.xml
+  volumes:
+    - name: metastore-service-config
+      configMap:
+        name: metastore-service-config
+        items:
+          - key: metastore-site.xml
+            path: metastore-site.xml
+
+# hive-metastore-service Service
+service:
+  spec:
+    ports:
+      - name: "thrift"
+        port: 9083
+        targetPort: 9083
+
+# hive-metastore-service Config Map
+configMap:
+  metastoreServiceConfig:
+    baseProperties:
+      - name: metastore.thrift.uris
+        value: thrift://0.0.0.0:9083
+        description: Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.
+      - name: metastore.task.threads.always
+        value: org.apache.hadoop.hive.metastore.events.EventCleanerTask,org.apache.hadoop.hive.metastore.MaterializationsCacheCleanerTask
+      - name: metastore.expression.proxy
+        value: org.apache.hadoop.hive.metastore.DefaultPartitionExpressionProxy
+      - name: javax.jdo.option.ConnectionDriverName
+        value: com.mysql.cj.jdbc.Driver
+      - name: javax.jdo.option.ConnectionURL
+        value: jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false
+        description: JDBC connect string for a JDBC metastore
+    properties: {}

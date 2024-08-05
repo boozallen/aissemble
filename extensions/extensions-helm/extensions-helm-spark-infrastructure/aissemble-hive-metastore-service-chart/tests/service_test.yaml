@@ -1,0 +1,35 @@
+suite: hive-metastore-service-service
+templates:
+  - service.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: hive-metastore-service
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: hive-metastore-service
+      - contains:
+          path: spec.ports
+          content:
+              name: "thrift"
+              port: 9083
+              targetPort: 9083
+  - it: Should set values appropriately
+    set:
+      service:
+        spec:
+          ports:
+            - name: "8080"
+              port: 8080
+              targetPort: 8080
+    asserts:
+      - contains:
+          path: spec.ports
+          content:
+              name: "8080"
+              port: 8080
+              targetPort: 8080

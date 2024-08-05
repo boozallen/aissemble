@@ -1,8 +1,0 @@
-groupName: messaging-yaml-test
-properties:
-  - name: connector
-    value: smallrye-kafka
-  - name: serializer
-    value: apache.StringSerializer
-  - name: topic
-    value: messaging-topic

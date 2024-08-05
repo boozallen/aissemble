@@ -1,6 +1,6 @@
 FROM mysql/mysql-server:8.0.30
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 # MySQL places files into the root directory as a part of the startup process.
 # Since the root directory isn't owned by the mysql user, it has to run as root normally in order to create those files.

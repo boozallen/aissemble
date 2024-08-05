@@ -1,18 +1,14 @@
-ARG DOCKER_BASELINE_REPO_ID
-ARG VERSION_AISSEMBLE
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-quarkus:${VERSION_AISSEMBLE}
+FROM @docker.baseline.repo.id@/boozallen/aissemble-quarkus:@project.version@
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
-USER root
-RUN microdnf install jq
-USER 1001
+COPY --chown=default ./src/main/resources/truststore/aissemble-secure.jks ${JAVA_APP_DIR}/
+COPY --chown=default ./src/main/resources/krausening/base/aissemble-security.properties ${JAVA_APP_DIR}/krausening/base/
+COPY --chown=default ./src/main/resources/authorization/policies/test-policy.xml ${JAVA_APP_DIR}/
+COPY --chown=default ./src/main/resources/authorization/attributes/test-attributes.json ${JAVA_APP_DIR}/
+COPY --chown=default ./src/main/resources/authorization/pdp.xml ${JAVA_APP_DIR}/
+COPY --chown=default target/dockerbuild/*.jar ${JAVA_APP_DIR}/
 
-RUN mkdir -p /deployments/krausening/
-COPY target/dockerbuild/*.jar /deployments/
-
-COPY ./src/main/resources/truststore/aiops-secure.jks /deployments/
-COPY ./src/main/resources/krausening/base/aiops-security.properties /deployments/krausening/
-COPY ./src/main/resources/authorization/policies/test-policy.xml /deployments/
-COPY ./src/main/resources/authorization/attributes/test-attributes.json /deployments/
-COPY ./src/main/resources/authorization/pdp.xml /deployments/
+# Uncomment the following lines to enable remote debugging
+#ENV JAVA_OPTS_APPEND='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005'
+#EXPOSE 5005

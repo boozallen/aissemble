@@ -5,12 +5,22 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-nvidia</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::Nvidia</name>
     <description>A base image for a Nvidia Cuda implementation</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

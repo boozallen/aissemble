@@ -3,7 +3,7 @@ services:
   vault:
     # For testing we will pull the image directly from the remote server as opposed to a locally built image.
     # This will ensure that the Vault keys are in sync.
-    image: "ghcr.io/boozallen/aissemble-vault:${version.aissemble}-amd64"
+    image: "ghcr.io/boozallen/aissemble-vault:${version.aissemble}"
     cap_add:
       - IPC_LOCK
     environment:

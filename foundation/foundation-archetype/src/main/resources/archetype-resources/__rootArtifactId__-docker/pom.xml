@@ -61,12 +61,15 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
-                    <imageVersion>${project.version}</imageVersion>
-                    <imageName>${project.artifactId}</imageName>
+                    <images>
+                        <image>
+                            <name>${project.artifactId}:${project.version}</name>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
         </plugins>
@@ -78,15 +81,16 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.technologybrewery.orphedomos</groupId>
-                        <artifactId>orphedomos-maven-plugin</artifactId>
+                        <groupId>org.technologybrewery.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
-                            <imageVersion>${project.version}</imageVersion>
-                            <!-- Add in repoId that corresponds to the serverId in your settings.xml
-                                 that contains the docker login credentials -->
-                            <repoId />
-                            <repoUrl>${docker.project.repository.url}</repoUrl>
+                            <images>
+                                <image>
+                                    <name>${docker.project.repository.url}/${project.artifactId}:${project.version}
+                                    </name>
+                                </image>
+                            </images>
                         </configuration>
                     </plugin>
                 </plugins>

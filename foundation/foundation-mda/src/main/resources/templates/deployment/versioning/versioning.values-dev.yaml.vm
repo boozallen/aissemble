@@ -1,4 +1,4 @@
 # Dev values for versioning.
-aissemble-fastapi-chart:
-  image:
-    imagePullPolicy: IfNotPresent
+image:
+  imagePullPolicy: IfNotPresent
+  dockerRepo: ""

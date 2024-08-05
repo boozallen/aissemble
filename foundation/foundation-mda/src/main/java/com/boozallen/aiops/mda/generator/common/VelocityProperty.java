@@ -35,6 +35,7 @@ public final class VelocityProperty {
      * Captures the utilized version of aiSSEMBLE as a Python dependency version that
      * may be used in a Poetry pyproject.toml or pip requirements.txt specification
      */
+    public static final String AISSEMBLE_VERSION = "aissembleVersion";
     public static final String AISSEMBLE_PYTHON_VERSION = "aissemblePythonVersion";
     public static final String PIPELINE = "pipeline";
     public static final String PIPELINES = "pipelines";
@@ -50,6 +51,7 @@ public final class VelocityProperty {
     public static final String ENABLE_PYSPARK_SUPPORT = "enablePySparkSupport";
     public static final String ENABLE_SEDONA_SUPPORT = "enableSedonaSupport";
     public static final String ENABLE_POSTGRES_SUPPORT = "enablePostgresSupport";
+    public static final String ENABLE_RDBMS_SUPPORT = "enableRDBMSSupport";
     public static final String ENABLE_ELASTICSEARCH_SUPPORT = "enableElasticsearchSupport";
     public static final String ENABLE_NEO4J_SUPPORT = "enableNeo4jSupport";
     public static final String SPARK_EXTENSIONS = "sparkExtensions";

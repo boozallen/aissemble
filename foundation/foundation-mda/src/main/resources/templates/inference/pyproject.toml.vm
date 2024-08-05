@@ -33,7 +33,19 @@ behave = ">=1.2.6"
 nose = ">=1.3.7"
 grpcio-tools = "^1.50.0"
 grpcio-testing = "^1.50.0"
+pylint = "^3.1.0"
 
+[tool.pylint.MASTER]
+# Ignores protobuf generated files that fail linting
+ignore-patterns = '.*pb2[\S]*.py'
+
+#if ($aissembleVersion.endsWith("SNAPSHOT"))
+[[tool.poetry.source]]
+name = "devpypi"
+url = "https://test.pypi.org/simple/"
+priority = "supplemental"
+
+#end
 [build-system]
 requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"

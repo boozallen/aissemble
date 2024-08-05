@@ -5,7 +5,7 @@ Feature: Helm commands are built to submit spark applications
     When helm install command base arguments are configured
     Then the appropriate release name will be present
     And the appropriate helm command will be present
-    And a valid repo url will be specified
+    And a valid OCI helm chart reference will be specified
     And a valid version will be specified
 
   Scenario Outline: Helm installations contain appropriate values specifications

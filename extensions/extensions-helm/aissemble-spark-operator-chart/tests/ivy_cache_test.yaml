@@ -138,4 +138,4 @@ tests:
 #          path: spec.volumeMounts
 #          content:
 #            name: ivy-cache
-#            mountPath: /opt/spark/.ivy2
+#            mountPath: /home/spark/.ivy2

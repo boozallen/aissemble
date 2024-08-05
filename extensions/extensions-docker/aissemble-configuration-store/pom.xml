@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-configuration-store</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::Configuration Store</name>
     <description>A base image for the configuration store</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
     <build>
         <plugins>
             <plugin>
@@ -39,9 +39,12 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
-
 
     <dependencies>
         <dependency>
@@ -50,10 +53,10 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-quarkus</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>docker-build</type>
         </dependency>
     </dependencies>
 

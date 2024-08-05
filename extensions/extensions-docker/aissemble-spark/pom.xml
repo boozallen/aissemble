@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-spark</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::Spark</name>
     <description>A base PySpark image with a Hive connector</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <dependencies>
         <dependency>
@@ -60,6 +60,10 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

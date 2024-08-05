@@ -1,0 +1,124 @@
+suite: hive-metastore-service-deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: hive-metastore-service
+      - equal:
+          path: spec.template.spec.automountServiceAccountToken
+          value: false
+      - equal:
+          path: spec.template.spec.restartPolicy
+          value: Always     
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ghcr.io/boozallen/aissemble-hive-service
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HADOOP_CLASSPATH
+            value: $HADOOP_CLASSPATH:/opt/hadoop/share/hadoop/tools/lib/*.jar
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: JAVA_HOME
+            value: /opt/jre
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: metastore-service-config
+            mountPath: /opt/hive/conf/metastore-site.xml
+            subPath: metastore-site.xml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: metastore-service-config
+            configMap:
+              name: metastore-service-config
+              items:
+                - key: metastore-site.xml
+                  path: metastore-site.xml   
+  - it: Should set values appropriately
+    set:
+      deployment:
+        ports:
+          - name: test
+            containerPort: 8080
+            protocol: test
+        env:
+          - name: HADOOP_HOME
+            value: testHadoopHome
+          - name: HADOOP_CLASSPATH
+            value: test/Hadoop/Path
+          - name: JAVA_HOME
+            value: testJavaHome
+          - name: HIVE_HOME
+            value: testHiveHome
+        restartPolicy: Never
+        volumeMounts:
+          - name: test-config
+            mountPath: test/path
+            subPath: test.xml
+        volumes:
+          - name: test-config
+            configMap:
+              name: test-config
+              items:
+                - key: test-site.xml
+                  path: test-site.xml
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+            name: test
+            containerPort: 8080
+            protocol: test
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HADOOP_HOME
+            value: testHadoopHome
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HADOOP_CLASSPATH
+            value: test/Hadoop/Path
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: JAVA_HOME
+            value: testJavaHome
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HIVE_HOME
+            value: testHiveHome
+      - equal:
+          path: spec.template.spec.restartPolicy
+          value: Never 
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: test-config
+            mountPath: test/path
+            subPath: test.xml
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: test-config
+            configMap:
+              name: test-config
+              items:
+                - key: test-site.xml
+                  path: test-site.xml
+
+
+

@@ -18,7 +18,7 @@ The following environment variables are required for model versioning:
 Below is a basic example of how to leverage the versioning service:
 - Extending the baseline docker image to include Nexus credentials
     ```
-    FROM boozallen/aiops-versioning:1.0
+    FROM ghcr.io/boozallen/aissemble-versioning:1.0
 
     COPY /custom/maven/settings/containing/nexus/credentials.xml /root/.m2/settings.xml
     ```
@@ -37,7 +37,7 @@ Below is a basic example of how to leverage the versioning service:
     - Add the following to the above docker-compose file:
         ```
         policy-decision-point:
-            image: ${CONTAINER_REGISTRY}boozallen/policy-decision-point-docker:latest
+            image: ghcr.io/boozallen/policy-decision-point-docker:latest
             hostname: policy-decision-point
             container_name: policy-decision-point
             ports:

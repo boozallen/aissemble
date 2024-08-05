@@ -1,12 +1,19 @@
-ARG DOCKER_BASELINE_REPO_ID
-ARG VERSION_AISSEMBLE
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-quarkus:${VERSION_AISSEMBLE}
+FROM @docker.baseline.repo.id@/boozallen/aissemble-quarkus:@project.version@
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
-RUN useradd --home /home/configstore --user-group --shell /usr/sbin/nologin --uid 1001 configstore
 
-USER 1001
+RUN microdnf install -y openssl
 
-COPY target/quarkus-app/ /deployments/
+# Switch back to default user
+USER 185
+
+COPY --chown=default target/quarkus-app/lib/ $JAVA_APP_DIR/lib/
+COPY --chown=default target/quarkus-app/*.jar $JAVA_APP_DIR/
+COPY --chown=default target/quarkus-app/app/ $JAVA_APP_DIR/app/
+COPY --chown=default target/quarkus-app/quarkus/ $JAVA_APP_DIR/quarkus/
+
+# Custom scripts to generate certs for the mutating webhook and create the webhook itself
+COPY --chmod=755 ./src/main/resources/scripts/genCerts.sh /usr/bin/
+COPY --chmod=755 ./src/main/resources/scripts/genWebhook.sh /usr/bin/

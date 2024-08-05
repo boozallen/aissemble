@@ -41,7 +41,7 @@
 				<Apply
 						FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
 					<AttributeDesignator
-							AttributeId="urn:aiops:accessData"
+							AttributeId="urn:aissemble:accessData"
 							Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 							DataType="http://www.w3.org/2001/XMLSchema#boolean"
 							MustBePresent="false" />
@@ -76,7 +76,7 @@
 				<Apply
 						FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
 					<AttributeDesignator
-							AttributeId="urn:aiops:accessData"
+							AttributeId="urn:aissemble:accessData"
 							Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
 							DataType="http://www.w3.org/2001/XMLSchema#boolean"
 							MustBePresent="false" />

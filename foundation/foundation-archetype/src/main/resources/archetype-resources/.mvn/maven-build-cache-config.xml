@@ -22,7 +22,7 @@
         Maven build cache configuration for aiSSEMBLE
 
         This feature requires Maven 3.9+, and is enabled by default. To disable it, you must pass the
-        -Dmaven.build.cache.skipCache=trye flag to your build, or set `enabled` to `false` within this file. It is also
+        -Dmaven.build.cache.skipCache=true flag to your build, or set `enabled` to `false` within this file. It is also
         useful to look over the other build options available:
             https://maven.apache.org/extensions/maven-build-cache-extension/parameters.html
      -->
@@ -107,6 +107,9 @@
                     <reconciles>
                         <reconcile propertyName="skip" skipValue="true"/>
                     </reconciles>
+                    <nologs>
+                        <nolog propertyName="commandLineRules"/>
+                    </nologs>
                 </plugin>
             </plugins>
         </reconcile>

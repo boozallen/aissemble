@@ -45,20 +45,11 @@ public class HashingSteps {
     private static final Logger logger = LoggerFactory.getLogger(HashingSteps.class);
     private final GenericContainer<?> genericContainer = new GenericContainer<>(
             DockerImageName.parse(
-                    "ghcr.io/boozallen/aissemble-vault:" + System.getProperty("version.aissemble.vault") + this.getSystemArchitectureTag()
+                    "ghcr.io/boozallen/aissemble-vault:" + System.getProperty("version.aissemble.vault")
             )
     ).withCreateContainerCmdModifier(
             cmd -> cmd.withCapAdd(Capability.IPC_LOCK)
     );
-
-    private String getSystemArchitectureTag() {
-        String arch = System.getProperty("os.arch").toLowerCase().trim();
-        switch(arch) {
-            case "aarch64":
-            case "arm64":   return "-arm64";
-            default:        return "-amd64";
-        }
-    }
 
     @After("@hashing")
     public void tearDown() {

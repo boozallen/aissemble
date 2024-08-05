@@ -1,9 +1,9 @@
 [
 	{
-		"id": "urn:aiops:accessData",
+		"id": "urn:aissemble:accessData",
 		"category": "subject",
 		"type": "boolean",
 		"required": "false",
-		"attributePointClass": "com.boozallen.LocalAttributePoint"
+		"attributePointClass": "com.boozallen.aissemble.security.LocalAttributePoint"
 	}
 ]

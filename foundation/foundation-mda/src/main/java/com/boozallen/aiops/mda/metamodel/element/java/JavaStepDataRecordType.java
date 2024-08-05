@@ -10,10 +10,10 @@ package com.boozallen.aiops.mda.metamodel.element.java;
  * #L%
  */
 
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.metamodel.element.BaseStepDataRecordTypeDecorator;
 import com.boozallen.aiops.mda.metamodel.element.StepDataRecordType;
 

@@ -141,9 +141,9 @@ class AbstractPolicyManager(ABC):
             if policyInput.shouldSendAlert:
                 configuredPolicy.alertOptions = policyInput.shouldSendAlert
 
-            # Set the target
-            target = policyInput.target
-            configuredPolicy.target = target
+            # Set the targets
+            targets = policyInput.getAnyTargets()
+            configuredPolicy.targets = targets
 
             # Set any additional configurations
             self.setAdditionalConfigurations(configuredPolicy, policyInput)
@@ -152,7 +152,7 @@ class AbstractPolicyManager(ABC):
             if ruleInputs:
                 for ruleInput in ruleInputs:
                     # Add the policy rule if everything loads successfully
-                    configuredRule = self.validateAndConfigureRule(ruleInput, target)
+                    configuredRule = self.validateAndConfigureRule(ruleInput, targets)
                     if configuredRule:
                         configuredPolicy.rules.append(configuredRule)
 
@@ -177,7 +177,7 @@ class AbstractPolicyManager(ABC):
             )
 
     def validateAndConfigureRule(
-        self, ruleInput: PolicyRuleInput, target: Target
+        self, ruleInput: PolicyRuleInput, targets: List[Target]
     ) -> ConfiguredRule:
         className = ruleInput.className
         configurations = ruleInput.configurations
@@ -186,19 +186,24 @@ class AbstractPolicyManager(ABC):
         configuredRule = None
 
         if className.strip():
-            configuredTarget = None
-            if targetConfigurations:
-                configuredTarget = ConfiguredTarget(
-                    target_configurations=targetConfigurations
-                )
-                if target:
-                    configuredTarget.retrieve_url = target.retrieve_url
-                    configuredTarget.type = target.type
+            configuredTargets = []
+            if targets:
+                for target in targets:
+                    if targetConfigurations:
+                        configuredTarget = ConfiguredTarget(
+                            target_configurations=targetConfigurations
+                        )
+
+                        if target:
+                            configuredTarget.retrieve_url = target.retrieve_url
+                            configuredTarget.type = target.type
+
+                        configuredTargets.append(configuredTarget)
 
             configuredRule = ConfiguredRule(
                 className=className,
                 configurations=configurations,
-                targetConfigurations=configuredTarget,
+                configuredTargets=configuredTargets,
             )
         else:
             AbstractPolicyManager.__logger.warn(

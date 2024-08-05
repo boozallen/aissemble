@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-helm</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>extensions-helm-spark-infrastructure</artifactId>
@@ -16,14 +16,15 @@
 	<modules>
         <module>aissemble-spark-history-chart</module>
         <module>aissemble-thrift-server-chart</module>
+        <module>aissemble-hive-metastore-service-chart</module>
 	</modules>
+
     <build>
         <plugins>
 <!--            Disable unit testing on aggregator modules -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>run tests</id>

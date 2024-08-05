@@ -7,7 +7,9 @@
 ARG DOCKER_BASELINE_REPO_ID
 ARG VERSION_AISSEMBLE
 
-FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-mlflow:${VERSION_AISSEMBLE}
+# NB: will soon be updated to public mlflow image - but waiting to upgrade across the application, so point to the
+# 2.3.1 image that was part of aissemble 1.7.0 in the meantime.  TODO in https://github.com/boozallen/aissemble/issues/226
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-mlflow:1.7.0
 
 RUN mkdir -p /mlflow/startup
 COPY ./src/main/resources/start.sh /mlflow/startup/

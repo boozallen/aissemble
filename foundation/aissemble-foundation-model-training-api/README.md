@@ -1,5 +1,9 @@
 ## aiSSEMBLE&trade; Model Training API
 
+[![PyPI](https://img.shields.io/pypi/v/aissemble-foundation-model-training-api?logo=python&logoColor=gold)](https://pypi.org/project/aissemble-foundation-model-training-api/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aissemble-foundation-model-training-api?logo=python&logoColor=gold)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/aissemble-foundation-model-training-api?logo=python&logoColor=gold)
+
 This module contains the implementation and baseline Docker image for the aiSSEMBLE model training service. This service allows you to create model training jobs, list jobs, retrieve job logs, and kill jobs.
 
 ### Model Training API

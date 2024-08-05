@@ -16,7 +16,8 @@ Overriding inherited options requires prepending `aissemble-lineage-http-consume
 | Property              | Description                           | Required Override | Default                                        |
 |-----------------------|---------------------------------------|-------------------|------------------------------------------------|
 | app.name              | Sets label for app.kubernetes.io/name | No                | aissemble-lineage-http-consumer-chart          |    
-| deployment.image.name | The image name                        | No                | boozallen/aissemble-data-lineage-http-consumer | 
+| deployment.image.name | The image name                        | No                | boozallen/aissemble-data-lineage-http-consumer |
+| configMap.name        | The name of the config map for quarkus config properties | No | lineage-http-consumer-quarkus-config       |
 
 # Quarkus Configuration
 

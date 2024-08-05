@@ -1,0 +1,88 @@
+suite: config-store
+templates:
+  - webhook-cleanup-job.yaml
+tests:
+  - it: Should contain correct default values
+    asserts:
+      - isAPIVersion:
+          of: batch/v1
+      - isKind:
+          of: Job
+      - equal:
+          path: metadata.name
+          value: aissemble-configuration-store-webhook-cleanup
+      - equal:
+          path: spec.template.metadata.name
+          value: aissemble-configuration-store-webhook-cleanup
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: aissemble-configuration-store-webhook-sa
+      - equal:
+          path: spec.template.spec.restartPolicy
+          value: OnFailure
+      - equal:
+          path: spec.template.spec.containers[0].name
+          value: clean-webhook
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: curlimages/curl:latest
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+      - equal:
+          path: spec.template.spec.containers[0].command[0]
+          value: /bin/sh
+      - equal:
+          path: spec.template.spec.containers[0].command[1]
+          value: -c
+      # verify there's 3 curl commands
+      - matchRegex:
+          path: spec.template.spec.containers[0].command[2]
+          pattern: ^(?:.*\bcurl\b){3}.*$
+
+  - it: Should set values appropriately
+    set:
+      aissemble-quarkus-chart:
+        app:
+          name: test-store
+        deployment:
+          image:
+            imagePullPolicy: Always
+      webhook:
+        serviceAccount:
+          name: test-sa
+    asserts:
+      - equal:
+          path: metadata.name
+          value: test-store-webhook-cleanup
+      - equal:
+          path: spec.template.metadata.name
+          value: test-store-webhook-cleanup
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: test-sa
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always
+          
+  - it: Should not cleanup the secret if it was not created
+    set:
+      webhook:
+        certSecret:
+          create: false
+    asserts:
+      # verify there's only 2 curl commands
+      - matchRegex:
+          path: spec.template.spec.containers[0].command[2]
+          pattern: ^(?:.*\bcurl\b){2}.*$
+      - notMatchRegex:
+          path: spec.template.spec.containers[0].command[2]
+          pattern: ^(?:.*\bcurl\b){3}.*$
+
+  - it: Should not exist when disabled
+    set:
+      webhook:
+        enable: false
+    asserts:
+      - hasDocuments:
+          count: 0

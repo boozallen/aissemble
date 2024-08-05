@@ -64,6 +64,43 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins -->
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>artifacts-maven-plugin</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-model-plugin</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>mda-maven-plugin</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins -->
+        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of plugin dependencies -->
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-mda</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-upgrade</artifactId>
+            <version>${archetypeVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of plugin dependencies -->
+    </dependencies>
+
     <scm>
         <connection>scm:git:${projectGitUrl}.git</connection>
         <developerConnection>scm:git:${projectGitUrl}.git</developerConnection>
@@ -87,6 +124,14 @@
     </distributionManagement>
 
     <repositories>
+        <repository>
+            <id>sonatype-oss-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
         <repository>
             <id>${maven.repo.id}</id>
             <url>${maven.repo.url}</url>
@@ -139,6 +184,11 @@
                         <version>${version.aissemble}</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <deactivateMigrations>
+                        <deactivateMigration>python-linting-migration</deactivateMigration>
+                    </deactivateMigrations>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.technologybrewery.fermenter</groupId>

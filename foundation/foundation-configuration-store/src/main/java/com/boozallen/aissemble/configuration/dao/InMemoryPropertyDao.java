@@ -12,6 +12,8 @@ package com.boozallen.aissemble.configuration.dao;
 
 
 import com.boozallen.aissemble.configuration.store.Property;
+import com.boozallen.aissemble.configuration.store.PropertyKey;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,22 +40,27 @@ public class InMemoryPropertyDao implements PropertyDao {
     }
 
     @Override
-    public Property read(String groupName, String propertyName) {
-        logger.info(String.format("Read property request received, groupName: %s, propertyName: %s:", groupName, propertyName));
-        return this.store.get(groupName + "-" + propertyName);
+    public Property read(PropertyKey propertyKey) {
+        logger.info(String.format("Read property request received, groupName: %s, propertyName: %s", propertyKey.getGroupName(), propertyKey.getPropertyName()));
+        return this.store.get(propertyKey.getGroupName() + "-" + propertyKey.getPropertyName());
     }
 
     @Override
     public void write(Property property) {
-        this.store.put(property.getGroupName() + "-" + property.getName(), property);
+        this.store.put(property.getGroupName() + "-" + property.getPropertyName(), property);
         logger.info("Write property request received");
     }
 
     @Override
     public void write(Set<Property> properties) {
         for (Property property : new ArrayList<>(properties)) {
-            this.store.put(property.getGroupName() + "-" + property.getName(), property);
+            this.store.put(property.getGroupName() + "-" + property.getPropertyName(), property);
         }
         logger.info("Write properties request received");
+    }
+
+    @Override
+    public boolean requiresInitialConfigLoad() {
+        return true;
     }
 }

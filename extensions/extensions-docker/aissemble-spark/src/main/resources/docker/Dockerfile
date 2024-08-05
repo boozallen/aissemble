@@ -3,18 +3,18 @@
 ARG SPARK_VERSION
 FROM apache/spark-py:v${SPARK_VERSION}
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 USER root
 
 # Configures the desired version of Python to install
 ARG PYTHON_VERSION=3.11
 # Setup Spark home directory
-RUN mkdir ${SPARK_HOME}/checkpoint && \
-  mkdir ${SPARK_HOME}/krausening && \
-  mkdir ${SPARK_HOME}/warehouse && \
-  mkdir ${SPARK_HOME}/policies && \
-  mkdir ${SPARK_HOME}/logs && \
+RUN mkdir $SPARK_HOME/checkpoint && \
+  mkdir $SPARK_HOME/krausening && \
+  mkdir $SPARK_HOME/warehouse && \
+  mkdir $SPARK_HOME/policies && \
+  mkdir $SPARK_HOME/logs && \
   useradd --home /opt/spark --group 0 --shell /usr/sbin/nologin --uid 185 spark && \
   chown -R spark:spark /opt/spark
 
@@ -41,9 +41,9 @@ RUN apt-get update -y && apt-get install --assume-yes \
 RUN ln -sf /usr/bin/python3.11 /usr/bin/python3
 
 ## Add spark configurations
-COPY ./src/main/resources/conf/ ${SPARK_HOME}/conf/
+COPY ./src/main/resources/conf/ $SPARK_HOME/conf/
 
-RUN chown -R spark:spark ${SPARK_HOME}/conf/
+RUN chown -R spark:spark $SPARK_HOME/conf/
 
 # Fixed the Reflection API breaks java module boundary issue for Java 16+
 ENV JDK_JAVA_OPTIONS='--add-opens java.base/java.lang=ALL-UNNAMED'

@@ -620,7 +620,7 @@ general purpose data store that is well suited for intermediate storage that wil
 Spark implementations.
 * `hive` - leverage https://hive.apache.org/[Apache Hive,role=external,window=_blank] to save data; this is often a 
 good choice when you want to expose data for remote consumption.
-* `rdbms` - leverage https://www.sqlalchemy.org/[Rdbms,role=external,window=_blank] to save data.
+* `rdbms` - leverage https://spark.apache.org/docs/latest/sql-data-sources-jdbc.html[Rdbms,role=external,window=_blank] to save data.
 * `elasticsearch` - leverage https://www.elastic.co/[Elasticsearch,role=external,window=_blank] to save data.
 * `neo4j` - leverage https://neo4j.com/[Neo4j,role=external,window=_blank] to save data.
 

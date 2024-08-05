@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-foundation-versioning-service</artifactId>
@@ -19,13 +19,13 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-foundation-pdp-client-python</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>habushu</type>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-foundation-core-python</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>habushu</type>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>
@@ -39,6 +39,11 @@
             <plugin>
                 <groupId>org.technologybrewery.habushu</groupId>
                 <artifactId>habushu-maven-plugin</artifactId>
+                <!-- The existing solution is temporary and defaults to using rewritten paths.
+                We are actively developing multi-architecture solutions for users. -->
+                <configuration>
+                    <rewriteLocalPathDepsInArchives>true</rewriteLocalPathDepsInArchives>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

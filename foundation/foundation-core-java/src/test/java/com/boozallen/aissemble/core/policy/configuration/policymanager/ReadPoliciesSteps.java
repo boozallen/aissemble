@@ -56,6 +56,16 @@ public class ReadPoliciesSteps {
         PolicyTestUtil.writePolicyToFile(policyInput, filePath, fileName);
     }
 
+    @Given("a json file with a policy using the deprecated target attribute")
+    public void a_json_file_with_a_policy_using_the_deprecated_target_attribute() {
+        filePath = configuration.getPoliciesLocation();
+        String fileName = "deprecated-target.json";
+        policyInput = PolicyTestUtil.getRandomPolicy();
+        policyInput.setTargets(null);
+        policyInput.setTarget(PolicyTestUtil.getRandomTargets(1).get(0));
+        PolicyTestUtil.writePolicyToFile(policyInput, filePath, fileName);
+    }
+
     @Given("multiple json files exist, each with a configured policy")
     public void multiple_json_files_exist_each_with_a_configured_policy() {
         filePath = "./target/multiple-json-files";
@@ -124,6 +134,13 @@ public class ReadPoliciesSteps {
         Map<String, Policy> policies = policyManager.getPolicies();
         assertTrue(policies.containsKey(identifier));
     }
+
+    @Then("the policy has the deprecated target in the new targets attribute")
+    public void the_policy_has_the_deprecated_target_in_the_new_targets_attribute() {
+        assertEquals("The deprecated input target was not equal to the output policy target", 
+            policyInput.getTarget(), policyManager.getPolicy(policyInput.getIdentifier()).getTargets().get(0));
+    }
+
 
     @Then("all the policies from the multiple json files are available for service invocation")
     public void all_the_policies_from_the_multiple_json_files_are_available_for_service_invocation() {

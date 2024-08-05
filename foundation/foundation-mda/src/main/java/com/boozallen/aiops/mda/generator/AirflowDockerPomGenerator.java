@@ -77,6 +77,7 @@ public class AirflowDockerPomGenerator extends AbstractMavenModuleGenerator {
             vc.put(VelocityProperty.ENABLE_DELTA_SUPPORT, dataFlowStrategy.isDeltaSupportNeeded());
             vc.put(VelocityProperty.ENABLE_HIVE_SUPPORT, dataFlowStrategy.isHiveSupportNeeded());
             vc.put(VelocityProperty.ENABLE_POSTGRES_SUPPORT, dataFlowStrategy.isPostgresSupportNeeded());
+            vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, dataFlowStrategy.isRdbmsSupportNeeded());
             vc.put(VelocityProperty.ENABLE_ELASTICSEARCH_SUPPORT, dataFlowStrategy.isElasticsearchSupportNeeded());
             vc.put(VelocityProperty.ENABLE_NEO4J_SUPPORT, dataFlowStrategy.isNeo4jSupportNeeded());
             //get all the data flow pipelines that require airflow so we can generate dags for those too

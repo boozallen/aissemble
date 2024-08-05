@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-metadata</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::Metadata</name>
     <description>A base image for a Metadata service which utilizes Quarkus</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <plugins>
@@ -40,6 +40,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -53,7 +57,7 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>aissemble-quarkus</artifactId>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>docker-build</type>
         </dependency>
     </dependencies>
 

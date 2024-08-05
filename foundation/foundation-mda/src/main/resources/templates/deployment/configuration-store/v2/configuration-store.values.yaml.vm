@@ -1,0 +1,16 @@
+#[[########################################
+## CONFIG | Configuration Store Configs
+## See aiSSEMBLE aissemble-configuration-store-chart: README for more details.
+## https://github.com/boozallen/aissemble/
+########################################]]#
+
+aissemble-configuration-store-chart:
+  aissemble-quarkus-chart:
+    app:
+      name: "${appName}"
+    deployment:
+      env:
+        - name: KRAUSENING_BASE
+          value: /configurations/base
+        - name: KRAUSENING_EXTENSIONS
+          value: /configurations/env

@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-parent</artifactId>
-        <version>3</version>
+        <version>4</version>
     </parent>
 
     <artifactId>aissemble-root</artifactId>
-    <version>1.7.0</version>
+    <version>1.8.0</version>
     <packaging>pom</packaging>
 
     <name>aiSSEMBLE(TM)</name>
@@ -44,7 +44,7 @@
         <connection>scm:git:https://github.com/boozallen/aissemble.git</connection>
         <developerConnection>scm:git:ssh://git@ssh.github.com:443/boozallen/aissemble.git</developerConnection>
         <url>https://github.com/boozallen/aissemble</url>
-        <tag>aissemble-root-1.7.0</tag>
+        <tag>aissemble-root-1.8.0</tag>
     </scm>
 
     <issueManagement>
@@ -55,6 +55,7 @@
     <properties>
         <ossrh.repo.url>https://oss.sonatype.org/content/repositories</ossrh.repo.url>
         <s01.ossrh.repo.url>https://s01.oss.sonatype.org/content/repositories</s01.ossrh.repo.url>
+        <ghcr.io.repo.url>https://maven.pkg.github.com/boozallen/aissemble</ghcr.io.repo.url>
         <version.avro>1.10.1</version.avro>
         <version.camel>2.7.0</version.camel>
         <version.cucumber>6.10.4</version.cucumber>
@@ -66,6 +67,7 @@
         <version.pegasus>27.7.18</version.pegasus>
         <version.smile>2.6.0</version.smile>
         <version.weld>3.1.4.Final</version.weld>
+        <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
     </properties>
 
     <dependencyManagement>
@@ -144,9 +146,9 @@
                 <enabled>true</enabled>
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
-            <id>ossrh-snapshots</id>
-            <name>oss.sonatype.org-snapshots</name>
-            <url>${ossrh.repo.url}/snapshots/</url>
+            <id>ghcr.io</id>
+            <name>ghcr.io-snapshots</name>
+            <url>${ghcr.io.repo.url}</url>
         </repository>
         <repository>
             <releases>
@@ -178,9 +180,9 @@
                 <enabled>true</enabled>
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
-            <id>ossrh</id>
-            <name>oss.sonatype.org-snapshots</name>
-            <url>${ossrh.repo.url}/snapshots</url>
+            <id>ghcr.io</id>
+            <name>ghcr.io-plugin-snapshots</name>
+            <url>${ghcr.io.repo.url}</url>
         </pluginRepository>
         <pluginRepository>
             <releases>
@@ -243,8 +245,8 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>org.technologybrewery.orphedomos</groupId>
-                            <artifactId>orphedomos-maven-plugin</artifactId>
+                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
                             <configuration>
                                 <skip>true</skip>
                             </configuration>
@@ -299,7 +301,10 @@
                         <!-- Because the release plugin doesn't build after updating to the next development snapshot,
                           the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
                           committer after a release from needing to commit these files, we force the update here. -->
-                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu</completionGoals>
+                        <!-- NB: the scm:add was added after the 1.7.0 release as the updated pyproject.toml files weren't being
+                            added to the dev snapshot update commit. This wasn't noticed until now, because prior to this release
+                            we were manually bumping the dev version before we even cut the actual release. -->
+                        <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu scm:add</completionGoals>
                         <releaseProfiles>ossrh-release</releaseProfiles>
                     </configuration>
                 </plugin>

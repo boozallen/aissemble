@@ -34,7 +34,7 @@ protobuf = "^3.20.3"
 aissemble-foundation-core-python = "${aissemblePythonVersion}"
 aissemble-foundation-pdp-client-python = "${aissemblePythonVersion}"
 
-#if ($pipeline.trainingStep.modelLineage.isEnabled())
+#if ($pipeline.trainingStep.isModelLineageEnabled())
 aissemble-foundation-model-lineage = "${aissemblePythonVersion}"
 confluent-kafka = { version = "2.1.1", optional = true }
 #end
@@ -49,7 +49,15 @@ ${requirement}
 black = ">=22.1.0"
 behave = ">=1.2.6"
 nose = ">=1.3.7"
+pylint = "^3.1.0"
 
+#if ($aissembleVersion.endsWith("SNAPSHOT"))
+[[tool.poetry.source]]
+name = "devpypi"
+url = "https://test.pypi.org/simple/"
+priority = "supplemental"
+
+#end
 [build-system]
 requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"

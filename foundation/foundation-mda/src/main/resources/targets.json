@@ -1031,7 +1031,7 @@
   },
   {
     "name": "pythonGenericStepImpl",
-    "templateName": "templates/pipeline-common/generic.step.py.vm",
+    "templateName": "templates/pipeline-common/generic.python.step.py.vm",
     "outputFile": "impl/${name}.py",
     "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
     "metadataContext": "targeted",
@@ -1039,11 +1039,27 @@
   },
   {
     "name": "pySparkGenericStepImpl",
-    "templateName": "templates/pipeline-common/generic.step.py.vm",
-    "outputFile": "impl/${name}.py",
+    "templateName": "templates/pipeline-common/generic.pyspark.step.py.vm",
+    "outputFile": "step/${name}.py",
     "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
     "metadataContext": "targeted",
     "overwritable": false
+  },
+  {
+    "name": "pythonGenericStepBase",
+    "templateName": "templates/pipeline-common/generic.base.py.vm",
+    "outputFile": "${name}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "pySparkGenericStepBase",
+    "templateName": "templates/pipeline-common/generic.base.py.vm",
+    "outputFile": "step/${name}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.GenericStepPythonGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
   },
   {
     "name": "pySparkSchemaBaseInit",
@@ -1327,38 +1343,6 @@
     "overwritable": false
   },
   {
-    "name": "hiveMetastoreServiceHelmChartFileV2",
-    "templateName": "templates/deployment/hive-metastore-service/v2/hive-metastore-service-chart.yaml.vm",
-    "outputFile": "apps/${appName}/Chart.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreServiceValuesFileV2",
-    "templateName": "templates/deployment/hive-metastore-service/v2/hive-metastore-service-values.yaml.vm",
-    "outputFile": "apps/${appName}/values.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreServiceValuesDevFileV2",
-    "templateName": "templates/deployment/hive-metastore-service/v2/hive-metastore-service-values-dev.yaml.vm",
-    "outputFile": "apps/${appName}/values-dev.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.SparkInfrastructureGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreServiceArgoCDV2",
-    "templateName": "templates/deployment/argocd/v2/hive-metastore-service.yaml.vm",
-    "outputFile": "templates/hive-metastore-service.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
     "name": "hiveMetastoreDbValuesFile",
     "templateName": "templates/deployment/hive-metastore-db/hive.metastore.db.values.yaml.vm",
     "outputFile": "apps/${appName}/values.yaml",
@@ -1377,38 +1361,6 @@
   {
     "name": "hiveMetastoreDbArgoCD",
     "templateName": "templates/deployment/argocd/hive-metastore-db.yaml.vm",
-    "outputFile": "templates/hive-metastore-db.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreDbHelmChartFileV2",
-    "templateName": "templates/deployment/hive-metastore-db/v2/hive.metastore.db.chart.yaml.vm",
-    "outputFile": "apps/${appName}/Chart.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreDbValuesFileV2",
-    "templateName": "templates/deployment/hive-metastore-db/v2/hive.metastore.db.values.yaml.vm",
-    "outputFile": "apps/${appName}/values.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreDbValuesDevFileV2",
-    "templateName": "templates/deployment/hive-metastore-db/v2/hive.metastore.db.values-dev.yaml.vm",
-    "outputFile": "apps/${appName}/values-dev.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "hiveMetastoreDbArgoCDV2",
-    "templateName": "templates/deployment/argocd/v2/hive-metastore-db.yaml.vm",
     "outputFile": "templates/hive-metastore-db.yaml",
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
     "metadataContext": "targeted",
@@ -2376,9 +2328,9 @@
     "overwritable": false
   },
   {
-    "name": "policyDecisionPointAiopsSecurityProperties",
-    "templateName": "templates/general-docker/policy-decision-point.aiops-security.properties.vm",
-    "outputFile": "krausening/base/aiops-security.properties",
+    "name": "policyDecisionPointAissembleSecurityProperties",
+    "templateName": "templates/general-docker/policy-decision-point.aissemble-security.properties.vm",
+    "outputFile": "krausening/base/aissemble-security.properties",
     "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
     "metadataContext": "targeted",
     "overwritable": false
@@ -3188,6 +3140,46 @@
     "templateName": "templates/deployment/spark-infrastructure/v2/spark.infrastructure.values.dev.yaml.vm",
     "outputFile": "apps/${appName}/values-dev.yaml",
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "sparkInfrastructureArgoCDFileV2",
+    "templateName": "templates/deployment/argocd/v2/spark.infrastructure.yaml.vm",
+    "outputFile": "templates/spark-infrastructure.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleConfigurationStoreHelmChartFileV2",
+    "templateName": "templates/deployment/configuration-store/v2/configuration-store.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesConfigStoreGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleConfigurationStoreValuesFileV2",
+    "templateName": "templates/deployment/configuration-store/v2/configuration-store.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesConfigStoreGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleConfigurationStoreValuesDevFileV2",
+    "templateName": "templates/deployment/configuration-store/v2/configuration-store.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesConfigStoreGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "aissembleConfigurationStoreArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/configuration-store.yaml.vm",
+    "outputFile": "templates/${appName}.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesConfigStoreGenerator",
     "metadataContext": "targeted",
     "overwritable": false
   }

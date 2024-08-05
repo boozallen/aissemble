@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-spark-operator</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::Spark Operator</name>
     <description>A base Spark Operator service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <pluginManagement>
@@ -54,6 +54,10 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

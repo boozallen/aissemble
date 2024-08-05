@@ -74,12 +74,11 @@ suggest the use of a dash to separate terms.
 
 | ``dockerProjectRepositoryUrl``
 | The name of the custom docker repository to use for this project.
-| Should be specified and utilized with the https://github.com/TechnologyBrewery/orphedomos[orphedomos-maven-plugin] to
+| Should be specified and utilized with the fabric8 https://dmp.fabric8.io[docker-maven-plugin] to
 build and push docker images.
 
-Please see https://github.com/TechnologyBrewery/orphedomos?tab=readme-ov-file#repository-url[Orphedomos's documentation on
-repository URLs,role=external,window=_blank]. The https://github.com/TechnologyBrewery/orphedomos?tab=readme-ov-file#repository-id[Repository ID]
-should also be set and match a serverId entry in your settings.xml that holds credentials for the docker login.
+Please see https://dmp.fabric8.io/#registry[fabric8's documentation on
+registry URLs,role=external,window=_blank].
 
 If not specified, this will default to `docker-registry-PLACEHOLDER/repository` and will need to be updated in your root
 `pom.xml` file prior to pushing your first docker image.

@@ -24,13 +24,6 @@ Originally generated from: templates/data-delivery-pyspark/behave.environment.py
 logger = LogManager.get_instance().get_logger("Environment")
 
 
-def select_docker_compose_arch():
-    machine_arch = platform.machine().lower()
-    if machine_arch in ["arm64", "aarch64"]:
-        return "docker-compose-arm64.yml"
-    return "docker-compose.yml"
-
-
 def before_all(context):
     print("Executing setup for tests...")
     os.environ["KRAUSENING_BASE"] = "tests/resources/config/base"
@@ -75,7 +68,7 @@ def before_feature(context, feature):
             f"Starting services defined in Docker Compose file at {test_staging_path}"
         )
 
-        compose = DockerCompose(test_staging_path, select_docker_compose_arch())
+        compose = DockerCompose(test_staging_path, "docker-compose.yml")
         context.docker_compose_containers = compose
 
         compose.start()

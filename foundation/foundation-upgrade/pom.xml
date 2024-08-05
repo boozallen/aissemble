@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>foundation-upgrade</artifactId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.technologybrewery.baton</groupId>
             <artifactId>baton-maven-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>${version.baton}</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
@@ -55,11 +55,6 @@
             <groupId>com.electronwill.night-config</groupId>
             <artifactId>toml</artifactId>
             <version>3.6.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vdurmont</groupId>
-            <artifactId>semver4j</artifactId>
-            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

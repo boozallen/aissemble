@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-helm</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-quarkus-chart</artifactId>
@@ -15,6 +15,10 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+            </plugin>
             <plugin>
                 <groupId>${group.helm.plugin}</groupId>
                 <artifactId>helm-maven-plugin</artifactId>

@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-spark-infrastructure</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::Spark Infrastructure</name>
     <description>A base Spark History and Thrift service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <properties>
         <dockerbuild.jars.directory>target/dockerbuild/jars/</dockerbuild.jars.directory>
@@ -56,13 +56,18 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <version>${version.orphedomos.plugin}</version>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
-                    <buildArgs>
-                        <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
-                    </buildArgs>
+                    <images>
+                        <image>
+                            <build>
+                                <args>
+                                    <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
             <plugin>
@@ -82,6 +87,21 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <build>
+                                <args>
+                                    <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
     </build>

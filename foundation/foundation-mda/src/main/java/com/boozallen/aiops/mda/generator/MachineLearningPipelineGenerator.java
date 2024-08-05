@@ -13,6 +13,7 @@ package com.boozallen.aiops.mda.generator;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
+import com.boozallen.aiops.mda.metamodel.element.PostAction;
 import com.boozallen.aiops.mda.metamodel.element.Step;
 import com.boozallen.aiops.mda.metamodel.element.python.MachineLearningPipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonStep;
@@ -71,11 +72,8 @@ public class MachineLearningPipelineGenerator extends AbstractPythonGenerator {
 
         boolean enableAutoTrain = enableAutoTrain(mlPipeline);
         vc.put(VelocityProperty.AUTO_TRAIN, enableAutoTrain);
-        
-        String[] scmURL = context.getScmUrl().split("/");
-        vc.put(VelocityProperty.PROJECT_GIT_URL, scmURL[0] + "/" + scmURL[1]);
-        String pipelinePath = context.getRootArtifactId() + "-pipelines" + "/" + mlPipeline.getKababCaseName() + "/" + context.getArtifactId() + "/";
-        vc.put("pipelinePath", pipelinePath);
+
+        vc.put("containsOnnx", pipelineContainsOnnxPostAction(mlPipeline));
 
         String baseOutputFile = context.getOutputFile();
         String fileName = replace("pipelineName", baseOutputFile, mlPipeline.getSnakeCaseName());
@@ -93,6 +91,23 @@ public class MachineLearningPipelineGenerator extends AbstractPythonGenerator {
         }
 
         return enableAutoTrain;
+    }
+
+    private boolean pipelineContainsOnnxPostAction(MachineLearningPipeline pipeline) {
+        boolean containsOnnx = false;
+
+        // this surrounding if-check was added to prevent piplines that use sagemaker training from
+        // throwing a null pointer exception when detecting if Onnx conversion code is needed to be generated
+        if (pipeline.getTrainingStep() != null) {
+            for (PostAction postAction : pipeline.getTrainingStep().getPostActions()) {
+                if (PipelineUtils.forOnnxModelConversion(postAction)) {
+                    containsOnnx = true;
+                    break;
+                }
+            }
+        }
+
+        return containsOnnx;
     }
 
 }

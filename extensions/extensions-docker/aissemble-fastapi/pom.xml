@@ -5,13 +5,22 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-fastapi</artifactId>
     <name>aiSSEMBLE::Extensions::Docker::FastAPI</name>
     <description>A base FastAPI service</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

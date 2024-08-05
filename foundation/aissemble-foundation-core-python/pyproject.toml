@@ -1,22 +1,22 @@
 [tool.poetry]
 name = "aissemble-foundation-core-python"
-version = "1.7.0"
+version = "1.8.0"
 description = "Core classes for supporting concepts (alerting, metadata, etc) that are needed across most Python-based components"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
 packages = [
-    {include = "aiops_core_bom", from = "src"},
-    {include = "aiops_core_config", from = "src"},
-    {include = "aiops_core_filestore", from = "src"},
-    {include = "aiops_core_metadata", from = "src"},
-    {include = "aiopsauth", from = "src"},
+    {include = "aissemble_core_bom", from = "src"},
+    {include = "aissemble_core_config", from = "src"},
+    {include = "aissemble_core_filestore", from = "src"},
+    {include = "aissemble_core_metadata", from = "src"},
+    {include = "aissembleauth", from = "src"},
     {include = "inference", from = "src"},
     {include = "policy_manager", from = "src"}
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.11.4, <4"
-pydantic = ">=1.8.0,<2.0.0"
+pydantic = ">=2.8.0"
 krausening = ">=19"
 cryptography = ">=42.0.4"
 pyjwt = ">=2.3.0"
@@ -27,6 +27,7 @@ apache-libcloud = ">=3.6.0"
 urllib3 = "^1.26.18"
 psycopg2-binary = "^2.9.6"
 sqlalchemy = "^2.0.16"
+kafka-python = "^2.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"

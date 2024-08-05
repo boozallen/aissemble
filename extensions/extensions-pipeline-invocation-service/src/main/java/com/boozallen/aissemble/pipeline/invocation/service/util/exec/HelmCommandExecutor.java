@@ -41,6 +41,8 @@ public class HelmCommandExecutor {
     private String aissembleVersion;
     @ConfigProperty(name = "aissemble.helm.repo.url")
     private String aissembleHelmRepoUrl;
+    @ConfigProperty(name = "aissemble.helm.repo.protocol")
+    private String aissembleHelmRepoProtocol;
 
     /**
      * private constructor to retain singleton status
@@ -102,8 +104,7 @@ public class HelmCommandExecutor {
 
         args.add("install");
         args.add(appName);
-        args.add("--repo");
-        args.add(aissembleHelmRepoUrl);
+        args.add(aissembleHelmRepoProtocol + "://" + aissembleHelmRepoUrl + "/aissemble-spark-application-chart");
         args.add("--version");
         args.add(aissembleVersion);
         return args;

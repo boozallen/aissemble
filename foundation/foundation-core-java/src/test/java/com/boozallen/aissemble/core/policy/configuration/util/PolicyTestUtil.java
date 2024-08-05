@@ -114,9 +114,8 @@ public class PolicyTestUtil {
 
     public static PolicyInput getRandomPolicy() {
         PolicyInput policyInput = new PolicyInput(RandomStringUtils.randomAlphabetic(10));
-        policyInput.setTarget(getRandomTarget());
-        List<PolicyRuleInput> rules = getRandomRules(RandomUtils.nextInt(2, 6));
-        policyInput.setRules(rules);
+        policyInput.setTargets(getRandomTargets(RandomUtils.nextInt(2, 6)));
+        policyInput.setRules(getRandomRules(RandomUtils.nextInt(2, 6)));
         return policyInput;
     }
 
@@ -153,11 +152,15 @@ public class PolicyTestUtil {
         return rules;
     }
 
-    private static Target getRandomTarget() {
-        Target target = new Target("http://" + RandomStringUtils.randomAlphabetic(5) + ".com",
-                RandomStringUtils.randomAlphabetic(5));
-        return target;
+    public static List<Target> getRandomTargets(int numTargets) {
+        List<Target> targets = new ArrayList<>();
+        for (int i = 0; i < numTargets; i++) {
+            targets.add(new Target("http://" + RandomStringUtils.randomAlphabetic(5) + ".com",
+            RandomStringUtils.randomAlphabetic(5)));
+        }
+        return targets;
     }
+
 
     private static Map<String, Object> getRandomConfigs() {
         Map<String, Object> map = new HashMap<String, Object>();

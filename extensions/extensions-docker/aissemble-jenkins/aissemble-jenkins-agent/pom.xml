@@ -5,13 +5,22 @@
 	<parent>
 		<groupId>com.boozallen.aissemble</groupId>
 		<artifactId>aissemble-jenkins</artifactId>
-		<version>1.7.0</version>
+		<version>1.8.0</version>
 	</parent>
 
 	<artifactId>aissemble-jenkins-agent</artifactId>
 	<name>aiSSEMBLE::Extensions::Docker::Jenkins::Agent</name>
 	<description>A base image for a Jenkins Agent</description>
 
-	<packaging>orphedomos</packaging>
+	<packaging>docker-build</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.technologybrewery.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

@@ -14,7 +14,7 @@ import io.quarkiverse.cucumber.CucumberQuarkusTest;
 @CucumberOptions(
         features = "src/test/resources/specifications",
         plugin = {"json:target/cucumber-reports/cucumber.json"},
-        tags = "not @manual")
+        tags = "not @manual and not @integration")
 public class CucumberTest extends CucumberQuarkusTest {
     public static void main(String[] args) {
         runMain(CucumberTest.class, args);

@@ -1,4 +1,8 @@
-## Messaging - Python (UNDER CONSTRUCTION)
+## aiSSMEBLE&trade; Foundation Python Messaging Client (UNDER CONSTRUCTION)
+
+[![PyPI](https://img.shields.io/pypi/v/aissemble-foundation-messaging-python?logo=python&logoColor=gold)](https://pypi.org/project/aissemble-foundation-messaging-python/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aissemble-foundation-messaging-python?logo=python&logoColor=gold)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/aissemble-foundation-messaging-python?logo=python&logoColor=gold)
 
 # Overview
 aiSSEMBLE&trade;'s python messaging module provides an interface through which python pipelines can leverage messaging's
@@ -76,3 +80,6 @@ The testing strategy for the client's integration tests is to run the messaging 
 redirect_stdout=sys.stdout,
 redirect_stderr=sys.stdout
 ```
+
+Please see the [aiSSEMBLE Messaging documentation](https://boozallen.github.io/aissemble/aissemble/current/messaging-details.html)
+for additional general information.

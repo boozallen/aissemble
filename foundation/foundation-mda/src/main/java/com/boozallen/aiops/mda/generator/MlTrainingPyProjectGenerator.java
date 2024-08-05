@@ -11,8 +11,7 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.generator.post.action.ModelConversionType;
-import com.boozallen.aiops.mda.generator.post.action.PostActionType;
+import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.PostAction;
 import com.boozallen.aiops.mda.metamodel.element.Step;
@@ -85,7 +84,7 @@ public class MlTrainingPyProjectGenerator extends TargetedPipelinePyProjectGener
     protected Set<String> getPostActionDependencies(List<PostAction> postActions) {
         Set<String> postActionRequirements = new LinkedHashSet<>();
         for (PostAction postAction : postActions) {
-            if (forOnnxModelConversion(postAction)) {
+            if (PipelineUtils.forOnnxModelConversion(postAction)) {
                 postActionRequirements.add(ONNX_ML_TOOLS_DEPENDENCY);
 
                 String modelSource = postAction.getModelSource();
@@ -96,26 +95,6 @@ public class MlTrainingPyProjectGenerator extends TargetedPipelinePyProjectGener
         }
 
         return postActionRequirements;
-    }
-
-    /**
-     * Helper method that returns a {@link Boolean} value indicating whether the given {@link PostAction} is for
-     * an ONNX model conversion.
-     *
-     * @param postAction post action metamodel for which to determine if it is related to an ONNX model conversion
-     * @return whether the given {@link PostAction} is for an ONNX model conversion.
-     */
-    protected boolean forOnnxModelConversion(PostAction postAction) {
-        boolean forOnnxModelConversion = false;
-        PostActionType postActionType = PostActionType.getPostActionType(postAction);
-        if (postActionType == PostActionType.MODEL_CONVERSION) {
-            ModelConversionType modelConversionType = ModelConversionType.getModelConversionType(postAction);
-            if (modelConversionType == ModelConversionType.ONNX) {
-                forOnnxModelConversion = true;
-            }
-        }
-
-        return forOnnxModelConversion;
     }
 
 }

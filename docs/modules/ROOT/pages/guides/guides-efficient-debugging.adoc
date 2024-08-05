@@ -1,13 +1,12 @@
 = Leveraging Unit Testing and Live Updates: Recommendations for Efficient Development
 
-== Introduction
 During the development process, it's essential to employ effective strategies for testing and debugging to ensure the
 quality and reliability of software. This page will outline how and when to leverage unit testing and local live
 code deployment for efficient development and debugging while ensuring code longevity.
 
-=== Unit Test
+== Unit Test
 
-*What is a Unit Test*
+=== *What is a Unit Test*
 
 Unit testing involves writing and running tests to verify the correctness of individual components or units of code.
 It focuses on isolating and testing specific functions, methods, or classes independently of the larger system. Unit
@@ -20,7 +19,7 @@ xref:testing.adoc#_unit_testing_the_pipeline[Testing the
 Project page of the Getting Started guide]
 
 
-*Benefits of Unit Testing*
+=== *Benefits of Unit Testing*
 
 Unit testing offers several benefits that enhance the development process and code quality. Here, we introduce some
 commonly seen examples of using unit testing to improve debugging efficiency.
@@ -37,9 +36,10 @@ whenever possible, it can be enhanced by complementary techniques like live upda
 feedback during development, facilitating faster iterations and enabling immediate visual verification of code changes.
 Developers should use unit tests and live update when possible to enhance code quality and efficiency
 
-*Unit Testing Examples*
+=== *Unit Testing Examples*
 
-1. Data access and processing: Unit testing is particularly useful in scenarios such as data access and processing
+==== Data access and processing
+Unit testing is particularly useful in scenarios such as data access and processing
 within Python pipelines. For example, consider a data processing module that handles scaling and normalization of
 input features. Unit testing for this module would involve writing tests specifically targeting the scaling and
 normalization functions or classes.
@@ -66,7 +66,7 @@ Feature: Read a CSV file into a filestore
 [source,python]
 ----
 import os
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 import nose.tools as nt
 from src.pyspark_file_data_ingest.step.ingest import Ingest
 @given("Ingest csv file exist")
@@ -94,8 +94,8 @@ def step_impl(context):
     nt.ok_(dataframe)
 ----
 ****
-2. API alls and connection
 
+==== API calls and connection
 If your Python pipeline interacts with external APIs to fetch data or make predictions, unit tests can be employed to
 validate the API integration. This includes testing the request and response handling, verifying the correctness of
 data mapping, or parsing, and ensuring the pipeline behaves as expected when interacting with different API endpoints
@@ -104,15 +104,15 @@ tests, mocks should be used. Mocking allows you to simulate the behavior of exte
 network requests.
 
 * Example: In an aiSSEMBLE project, if you are interested in testing the connection of a Python pipeline to a
-data store using the `create_engine` function, you can employ unit tests that use mocks to verify the successful
+data store using the JDBC protocol, you can employ unit tests that use mocks to verify the successful
 establishment of this connection.
-** Create a scenario file named `create_engine_test.feature` in the
+** Create a scenario file named `create_jdbc_connection_test.feature` in the
 `pipeline_name/pipeline_name-pipelines/example-data-delivery-py-spark-pipeline/tests/features` directory. The path
 should be tailored to the pipeline you've created.
-** Create a python file named `create_engine_test_steps.py` in the
+** Create a python file named `create_jdbc_connection_test_steps.py` in the
 `pipeline_name/pipeline_name-pipelines/example-data-delivery-py-spark-pipeline/tests/features/steps` directory. The
 path should be tailored to the pipeline you've created. The unit test uses mock to simulate the return value when
-the user calls `create_engine` function.
+the user calls the `DataFrame.write.jdbc` function.
 
 ****
 `create_engine_test.feature` 
@@ -129,43 +129,45 @@ Feature: Placeholder test
 [source,python]
 ----
 from unittest.mock import patch
-import sqlalchemy
-from sqlalchemy.pool import QueuePool
+from pyspark.sql import readwriter
 import nose.tools as nt
 @given("Pyspark pipeline exists")
 def step_impl(context):
     return
-@then("User can connect to data store via create_engine function")
-@patch("sqlalchemy.create_engine")
-def step_impl(context, mock_create_engine):
-    mock_create_engine.return_value = {
-        "url": "postgresql://username:***@host:1001/database"
+@then("User can connect to data store via a jdbc connection through Spark")
+@patch("pyspark.sql.readwriter.DataFrame")
+def step_impl(context, mock_jdbc_reader):
+    mock_jdbc_reader.jdbc = {
+        "testValue": "test"
     }
-    sqlalchemy.create_engine(
-        "postgresql://username:password@host:1001/database",
-        poolclass=QueuePool,
-        pool_size=5,
+    return_value = readwriter.DataFrameReader.read.jdbc(
+        url="jdbc:database://database:port/databaseName",
+        properties = {
+            "user": "user",
+            "password":"password",
+            "driver": "driver"
+        }
     )
-    expected_url = "postgresql://username:***@host:1001/database"
-    nt.eq_(mock_create_engine.return_value["url"], expected_url)
+    expected_return = "test"
+    nt.eq_(return_value, expected_return)
 ----
 ****
 
-=== Live Updates
+== Live Updates
 
-*What are Live Updates*
+=== *What are Live Updates*
 
 Live updates, facilitated by tools like Tilt, allow developers to make changes to the code and see the results
 immediately without the need for a full rebuild or redeployment.
 
-*Benefits of Live Updates*
+=== *Benefits of Live Updates*
 
 1. Rapid prototyping: When rapidly iterating on a feature or exploring different approaches, live updates enable quick
 feedback by instantly reflecting code changes in a running application.
 2. Debugging and small code changes: Live updates are effective for debugging scenarios where developers need to
 quickly iterate on small code changes and observe the impact in real-time.
 
-*Example of How to Implement Live Updates and How They are Used*
+=== *Example of How to Implement Live Updates and How They are Used*
 
 An example of live update is the automatic updating of the inference code in the local deployment, making testing
 easier during the development process. The code in this example is generated as a manual action blob during the
@@ -204,7 +206,7 @@ docker_build_with_restart(
 )
 ----
 
-*Code Explanation*
+=== *Code Explanation*
 
 The code loads a module called `restart_process` and a function called `docker_build_with_restart`. It then defines
 a local resource named `compile-quick-inference` with specific commands and dependencies. A synchronization property
@@ -228,7 +230,7 @@ the `dist` directory from the previous step is kept in sync with a specific dire
 code in `load('ext://restart_process', 'docker_build_with_restart')`. The configuration includes the image reference,
 file location, and additional options and defines the setup of a Docker container with live update functionality.
 
-*How Live Updates Enable Debugging*
+=== *How Live Updates Enable Debugging*
 
 Live update functionality can be used to facilitate debugging inference steps within aiSSEMBLE projects. Here's a
 step-by-step guide on how the live update can help you quickly visualize changes when modifying an endpoint response

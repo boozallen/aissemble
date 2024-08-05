@@ -1,0 +1,14 @@
+[
+    {
+      "identifier": "policy-1",
+      "description": "policy-1-base",
+      "rules": [
+        {
+          "className": "com.test.RuleClassOne"
+        }
+      ],
+      "regeneration_method": {
+        "className": "com.test.RegenerationClass"
+      }
+    }
+  ]

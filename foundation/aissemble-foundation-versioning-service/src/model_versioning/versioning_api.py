@@ -16,8 +16,8 @@ from fastapi.security import (
     HTTPBearer,
     HTTPAuthorizationCredentials,
 )
-from aiops_security.pdp_client import PDPClient
-from aiopsauth.auth_config import AuthConfig
+from aissemble_security.pdp_client import PDPClient
+from aissembleauth.auth_config import AuthConfig
 
 app = FastAPI()
 
@@ -25,7 +25,7 @@ app = FastAPI()
 class VersioningResponse(BaseModel):
     success: bool
     message: str
-    version: Optional[str]
+    version: Optional[str] = None
 
 
 class JWTBearer(HTTPBearer):

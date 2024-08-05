@@ -82,6 +82,7 @@ public class SparkDockerPomGenerator extends AbstractMavenModuleGenerator {
                     dataFlowStrategy.isRdbmsSupportNeeded() ||
                     machineLearningStrategy.isRdbmsSupportNeeded();
             vc.put(VelocityProperty.ENABLE_POSTGRES_SUPPORT, postgresSupportIsNeeded);
+            vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, postgresSupportIsNeeded);
 
             vc.put(VelocityProperty.ENABLE_SEDONA_SUPPORT, dataFlowStrategy.isSedonaSupportNeeded());
             vc.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(metadataContext));

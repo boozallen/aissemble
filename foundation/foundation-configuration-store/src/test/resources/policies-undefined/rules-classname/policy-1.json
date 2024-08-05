@@ -1,0 +1,20 @@
+[
+    {
+      "identifier": "policy-1",
+      "description": "policy-1-base",
+      "targets": [
+        {
+          "retrieve_url": "/model-training-api/AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "retrieve_url": "/model-training-api/AWS_ACCESS_KEY_ID"
+        }
+      ],
+      "rules": [
+        {}
+      ],
+      "regeneration_method": {
+        "className": "com.test.RegenerationClass"
+      }
+    }
+  ]

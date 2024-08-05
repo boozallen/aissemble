@@ -44,7 +44,7 @@ generated directly into the folder for a data delivery pipeline.
 
 The default location for the semantic data classes is `<project>/<project>-shared/<project>-data-records`.
 
-==== Java Implementation
+=== Java Implementation
 [cols="2a,1a"]
 |===
 |Generated file | Description
@@ -74,7 +74,7 @@ The default location for the semantic data classes is `<project>/<project>-share
 |Deserializes a record so it can be received via messaging.
 |===
 
-==== Python Implementation
+=== Python Implementation
 [cols="2a,1a"]
 |===
 |Generated file | Description

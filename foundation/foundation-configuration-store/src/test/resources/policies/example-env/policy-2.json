@@ -1,0 +1,22 @@
+[
+    {
+      "identifier": "policy-2",
+      "description": "policy-2-environment",
+      "targets": [
+        {
+          "retrieve_url": "/data-lineage/serializer"
+        },
+        {
+          "retrieve_url": "/data-lineage/topic"
+        }
+      ],
+      "rules": [
+        {
+          "className": "com.test.RuleClassOne"
+        }
+      ],
+      "regeneration_method": {
+        "className": "com.test.RegenerationClass"
+      }
+    }
+  ]

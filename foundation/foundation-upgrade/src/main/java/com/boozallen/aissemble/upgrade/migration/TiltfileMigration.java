@@ -11,6 +11,8 @@ package com.boozallen.aissemble.upgrade.migration;
  */
 
 import com.boozallen.aissemble.upgrade.util.TiltfileUtil;
+import static org.technologybrewery.baton.util.FileUtils.replaceInFile;
+import static org.technologybrewery.baton.util.CommonUtils.isLessThanVersion;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +22,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static com.boozallen.aissemble.upgrade.util.MigrationUtils.isLessThanVersion;
-import static com.boozallen.aissemble.upgrade.util.FileUtils.replaceInFile;
 
 public class TiltfileMigration extends AbstractAissembleMigration {
     public static final String VERSION_REGEX = "(aissemble_version = *['\"])(\\d+\\.\\d+\\.\\d+(?:[\\.\\-\\d+a-zA-Z]*))(['\"])";

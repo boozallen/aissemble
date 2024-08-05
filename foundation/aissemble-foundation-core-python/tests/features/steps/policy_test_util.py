@@ -71,9 +71,9 @@ class PolicyTestUtil:
     @staticmethod
     def getRandomPolicy() -> PolicyInput:
         identifier = PolicyTestUtil.getRandomString(10)
-        target = PolicyTestUtil.getRandomTarget()
+        targets = PolicyTestUtil.getRandomTargets(PolicyTestUtil.getRandomNumber(2, 6))
         rules = PolicyTestUtil.getRandomRules(PolicyTestUtil.getRandomNumber(2, 6))
-        return PolicyInput(identifier=identifier, target=target, rules=rules)
+        return PolicyInput(identifier=identifier, targets=targets, rules=rules)
 
     @staticmethod
     def getRandomRules(number: int) -> List[PolicyRuleInput]:
@@ -106,11 +106,17 @@ class PolicyTestUtil:
         return rules
 
     @staticmethod
-    def getRandomTarget() -> Target:
-        retrieveUrl = "http://" + PolicyTestUtil.getRandomString(5) + ".com"
-        type = PolicyTestUtil.getRandomString(5)
-        return Target(retrieve_url=retrieveUrl, type=type)
+    def getRandomTargets(number: int) -> List[Target]:
+        targets = []
 
+        for index in range(number):
+            retrieveUrl = "http://" + PolicyTestUtil.getRandomString(5) + ".com"
+            type = PolicyTestUtil.getRandomString(5)
+            targets.append(Target(retrieve_url=retrieveUrl, type=type))
+
+        return targets
+
+    @staticmethod
     def getRandomConfigs() -> Dict[str, Any]:
         configs = dict()
         configs[PolicyTestUtil.getRandomString(5)] = PolicyTestUtil.getRandomString(3)
@@ -120,8 +126,10 @@ class PolicyTestUtil:
 
         return configs
 
+    @staticmethod
     def getRandomString(length: int) -> str:
         return "".join(random.choice(string.ascii_letters) for i in range(length))
 
+    @staticmethod
     def getRandomNumber(min: int, max: int) -> int:
         return random.randint(min, max)

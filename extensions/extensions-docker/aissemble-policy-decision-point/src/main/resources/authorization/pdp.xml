@@ -14,7 +14,7 @@
      xmlns:ext="http://github.com/boozallen/aissemble/authz/attribute/1"
      xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
      version="8.1">
-    <attributeProvider id="aiopsAttributeExtension" xsi:type="ext:AiopsAttributeExtension">
+    <attributeProvider id="aissembleAttributeExtension" xsi:type="ext:AissembleAttributeExtension">
         <xacml:Attributes Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"/>
     </attributeProvider>
     <policyProvider id="rootPolicyProvider" xsi:type="StaticPolicyProvider">

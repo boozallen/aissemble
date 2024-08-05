@@ -344,13 +344,13 @@ requires the model training image to be pushed to
 https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html[AWS ECR,role=external,window=_blank]. To enable
 this, you must first create a repository within your ECR registry named
 `<project-name>-<sagemaker-training-step-name>-docker` either through the AWS console or by using the AWS CLI. In
-addition, you must create a "server" within your Maven settings file (typically located at
+addition, you must create a "server" (which corresponds to your registry) within your Maven settings file (typically located at
 `${user.home}/.m2/settings.xml`) and provide your ECR credentials in the following format:
 
 [source]
 ----
 <server>
-  <id>REPO_ID</id>
+  <id>ECR_REGISTRY_URL</id>
   <username>AWS</username>
   <password>REPO_PASSWORD</password>
 </server>
@@ -358,7 +358,7 @@ addition, you must create a "server" within your Maven settings file (typically 
 
 In the above snippet:
 
-* Replace `REPO_ID` with any name, but it must match the `REPO_ID` you use in the `pom.xml` file discussed below
+* Replace `ECR_REGISTRY_URL` with your ECR registry URL, which should match the `<registry></registry>` value you provide in the `pom.xml` file discussed below
 * To obtain `password`:
 ** First https://maven.apache.org/guides/mini/guide-encryption.html#how-to-create-a-master-password[create a master
 Maven password,role=external,window=_blank]
@@ -369,8 +369,8 @@ Maven password,role=external,window=_blank]
 ==== Pushing Model Training Image to ECR
 
 Finally, in your `<project-name>/<project-name>-docker/<project-name>-<sagemaker-training-step-name>-docker/pom.xml`
-file, you must provide your ECR Repo URL, Repo ID (must match the `REPO_ID` provided in your `settings.xml` file), and
-add your ECR Repo URL as an image name prefix. You must also set `skip` to `false` to enable building and pushing the
+file, you must provide your ECR Registry URL (must match the server id value provided in
+your `settings.xml` file). You must also set `skip` to `false` to enable building and pushing the
 image to ECR. There are comments within that file which will point you towards those required changes.
 
 ==== Data Preparation
@@ -393,7 +393,7 @@ In order to include this API in your project, include an execution in your deplo
 
 Here are the available routes:
 
-POST /training-jobs?pipeline_step={pipelineStep}
+POST /training-jobs?pipeline_step=\{pipelineStep}
 
 * `pipelineStep` is the name of the "training" ML pipeline step you would like to execute
 ** Must be CamelCased
@@ -405,7 +405,7 @@ POST /training-jobs?pipeline_step={pipelineStep}
 ** Returns model training job name
 *** Sample response: "model-training-logistic-training-a8bfa39b-aa2b-403c-8311-f40dda"
 
-GET /training-jobs/{trainingJobName}
+GET /training-jobs/\{trainingJobName}
 
 * Returns logs from pod running model training job
 * Returns 400 error if job doesn't exist
@@ -440,7 +440,7 @@ GET /training-jobs
 ----
 
 
-GET /training-jobs?pipeline_step={pipelineStep}
+GET /training-jobs?pipeline_step=\{pipelineStep}
 
 * `pipelineStep` is the name of the "training" ML pipeline step you would like to execute
 ** Must be CamelCased
@@ -471,7 +471,7 @@ GET /training-jobs?pipeline_step={pipelineStep}
             'None}}'}]
 ----
 
-DELETE /training-jobs/{trainingJobName}
+DELETE /training-jobs/\{trainingJobName}
 
 * Deletes specified Kubernetes job
 * Returns 500 error if job does not exist
@@ -508,7 +508,7 @@ S3 with the provided bucket and prefix.
 ** If the job fails, a failure message will be logged to MLflow as an "error.txt" file.
 ** If the job succeeds, resulting model artifacts will be downloaded and logged to MLflow.
 
-GET /{sagemaker_job_name}
+GET /\{sagemaker_job_name}
 
 * Retrieves the status of a specific SageMaker training job.
 * Parameters:

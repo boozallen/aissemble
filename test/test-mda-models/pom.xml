@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
     <packaging>pom</packaging>
 
@@ -104,6 +104,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>test-chart</id>

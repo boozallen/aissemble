@@ -2,7 +2,7 @@
 
 [tool.poetry]
 name = "aissemble-test-data-delivery-pyspark-model"
-version = "1.7.0"
+version = "1.8.0"
 description = "Pyspark test module"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 
@@ -34,7 +34,7 @@ urllib3 = "^1.26.18"
 black = ">=22.1.0"
 behave = ">=1.2.6"
 nose = ">=1.3.7"
-testcontainers = ">=3.7.1"
+testcontainers = ">=4.5.1"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
 

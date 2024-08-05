@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-transform</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>aissemble-foundation-transform-core-python</artifactId>
@@ -20,6 +20,9 @@
             <plugin>
                 <groupId>org.technologybrewery.habushu</groupId>
                 <artifactId>habushu-maven-plugin</artifactId>
+                <configuration>
+                    <rewriteLocalPathDepsInArchives>true</rewriteLocalPathDepsInArchives>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

@@ -7,7 +7,7 @@
 # This software package is licensed under the Booz Allen Public License. All Rights Reserved.
 # #L%
 ###
-from behave import *
+from behave import given, when, then  # pylint: disable=no-name-in-module
 from os import environ, remove
 from os.path import join
 from policy_manager import DefaultPolicyManager
@@ -33,6 +33,17 @@ def step_impl(context):
     fileName = "multiple-rules.json"
     context.filePath = configuration.policiesLocation()
     context.policyInput = PolicyTestUtil.getRandomPolicy()
+    PolicyTestUtil.writePolicyToFile(context.policyInput, context.filePath, fileName)
+    context.tempFiles = [join(context.filePath, fileName)]
+
+
+@given("a json file with a policy using the deprecated target attribute")
+def step_impl(context):
+    fileName = "deprecated-target.json"
+    context.filePath = configuration.policiesLocation()
+    context.policyInput = PolicyTestUtil.getRandomPolicy()
+    context.policyInput.targets = None
+    context.policyInput.target = PolicyTestUtil.getRandomTargets(1)[0]
     PolicyTestUtil.writePolicyToFile(context.policyInput, context.filePath, fileName)
     context.tempFiles = [join(context.filePath, fileName)]
 
@@ -105,6 +116,16 @@ def step_impl(context):
     for path in context.tempFiles:
         remove(path)
     nt.ok_(identifier in policies, "Expected policy was not found")
+
+
+@then("the policy has the deprecated target in the new targets attribute")
+def step_impl(context):
+    inputTarget = context.policyInput.target
+    outputTarget = policyManager.getPolicy(context.policyInput.identifier).targets[0]
+    nt.ok_(
+        inputTarget == outputTarget,
+        "The deprecated input target was not equal to the output policy target",
+    )
 
 
 @then(

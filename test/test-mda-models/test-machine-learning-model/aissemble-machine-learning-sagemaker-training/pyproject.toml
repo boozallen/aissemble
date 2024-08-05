@@ -1,9 +1,6 @@
-# GENERATED STUB - PLEASE ***DO*** MODIFY
-# Originally generated from templates/sagemaker-training/pyproject.toml.vm.
-
 [tool.poetry]
 name = "aissemble-machine-learning-sagemaker-training"
-version = "1.7.0"
+version = "1.8.0"
 description = "Description of package"
 authors = ["Your Name <you@example.com>"]
 
@@ -17,6 +14,7 @@ include = ["src/aissemble_machine_learning_sagemaker_training/generated/**/*"]
 [tool.poetry.dependencies]
 python = "^3.11.4"
 sagemaker-training = "^4.6.1"
+mlflow = "^2.3.1"
 
 # Necessary for working with v39.0.0 of crytopgraphy
 # https://stackoverflow.com/questions/74981558/error-updating-python3-pip-attributeerror-module-lib-has-no-attribute-openss
@@ -26,9 +24,6 @@ pyopenssl = ">22.1.0"
 # may need to set the PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python to achieve backward compatibility
 # with any modules that were generated using protobuf 3.x
 protobuf = "^3.20.3"
-
-# Poetry is unable to resolve dependencies needed with MLflow. MLflow will be installed in the DockerFile
-# mlflow = "^2.3.1"
 
 # The latest versions of scipy cap numpy to < 1.26.0, but older versions don't. The recent release of numpy caused
 # scipy to downgrade to a version that is incompatible with the latest version of numpy. Presumably, scipy will release

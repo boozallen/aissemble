@@ -2,7 +2,7 @@
 
 FROM python:3.11
 
-LABEL org.opencontainers.image.source = "https://github.com/boozallen/aissemble"
+LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
 WORKDIR /app
 

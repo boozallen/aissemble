@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>foundation-data-access</artifactId>
@@ -98,7 +98,25 @@
                     <groupId>xml-apis</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
+            <exclusion>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+            </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hadoop</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            <exclusion>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+            </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <!-- Upgrade to 3.7.2 to fix CVE-2023-44981 -->
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.7.2</version>
         </dependency>
     </dependencies>
 

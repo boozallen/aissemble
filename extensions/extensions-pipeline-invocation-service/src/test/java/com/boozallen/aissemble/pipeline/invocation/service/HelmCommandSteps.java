@@ -17,7 +17,9 @@ import io.cucumber.java.en.When;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.HashMap;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,12 @@ public class HelmCommandSteps {
 
     @Inject
     PipelineInvocationAgent agent;
+
+    @ConfigProperty(name = "aissemble.helm.repo.url")
+    private String aissembleHelmRepoUrl;
+    
+    @ConfigProperty(name = "aissemble.helm.repo.protocol")
+    private String aissembleHelmRepoProtocol;
 
     private final String test_release_name = "java-pipeline";
 
@@ -51,9 +59,9 @@ public class HelmCommandSteps {
         assertTrue(referenceArgs.get(0).equalsIgnoreCase("install"));
     }
 
-    @Then("a valid repo url will be specified")
-    public void a_valid_repo_url_will_be_specified() {
-        assertTrue(referenceArgs.get(referenceArgs.indexOf("--repo") + 1).contains("ghcr.io/boozallen"));
+    @Then("a valid OCI helm chart reference will be specified")
+    public void a_valid_OCI_helm_chart_reference_will_be_specified() {
+        assertTrue(referenceArgs.get(2).contains(aissembleHelmRepoProtocol + "://" + aissembleHelmRepoUrl + "/aissemble-spark-application-chart"));
     }
 
     @Then("a valid version will be specified")

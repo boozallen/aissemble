@@ -5,11 +5,10 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>foundation-mda</artifactId>
-    <packaging>maven-plugin</packaging>
 
     <name>aiSSEMBLE::Foundation::MDA</name>
     <description>Model driven architecture artifacts for aiSSEMBLE</description>

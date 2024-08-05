@@ -1,5 +1,5 @@
 ---
-aissemble-quarkus:
+aissemble-quarkus-chart:
   app:
     name: 'aissemble-lineage-http-consumer'
   deployment:
@@ -7,4 +7,4 @@ aissemble-quarkus:
       # Override with specific image
       name: boozallen/aissemble-data-lineage-http-consumer
   configMap:
-    name: supplemental-quarkus-config
+    name: lineage-http-consumer-quarkus-config

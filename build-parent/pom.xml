@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-root</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>build-parent</artifactId>
@@ -14,8 +14,15 @@
 
     <description>Build parent to bring in required build-time dependencies (e.g., Maven configuration)</description>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ghcr.io</id>
+            <url>https://maven.pkg.github.com/boozallen/aissemble</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
-        <version.aissemble>1.7.0</version.aissemble>
+        <version.aissemble>1.8.0</version.aissemble>
 
         <!-- **************** -->
         <!-- Plugins versions -->
@@ -24,11 +31,10 @@
         <version.assembly.plugin>3.6.0</version.assembly.plugin>
         <version.buildhelper.plugin>3.2.0</version.buildhelper.plugin>
         <version.buildnumber.plugin>3.1.0</version.buildnumber.plugin>
-        <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
         <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
         <version.fermenter>2.10.3</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
-        <version.habushu.plugin>2.15.0</version.habushu.plugin>
+        <version.habushu.plugin>2.16.1</version.habushu.plugin>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.2.0</version.help.plugin>
         <version.krausening>19</version.krausening>
@@ -58,6 +64,8 @@
         <version.python.krausening>&gt;=${version.krausening}</version.python.krausening>
         <version.slf4j>2.0.7</version.slf4j>
         <version.delta.hive.connector>0.6.0</version.delta.hive.connector>
+        <version.testcontainers>1.19.8</version.testcontainers>
+        <version.vault>5.1.0</version.vault>
 
 <!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
         <version.spark>3.4.0</version.spark>
@@ -69,9 +77,13 @@
         <version.hadoop>3.3.4</version.hadoop>
         <version.neo4j>4.1.5_for_spark_3</version.neo4j>
         <version.aws.sdk.bundle>1.12.262</version.aws.sdk.bundle>
-        <version.baton>1.0.0</version.baton>
+        <version.baton>1.1.1</version.baton>
         <version.quarkus.cucumber>0.6.0</version.quarkus.cucumber>
         <version.quarkus.cucumber.java>7.4.1</version.quarkus.cucumber.java>
+
+        <!-- io.fabric8:docker-maven-plugin -->
+        <version.fabric8.docker.maven.plugin>0.45-tb-0.1.0</version.fabric8.docker.maven.plugin>
+        <docker.platforms>linux/amd64,linux/arm64</docker.platforms>
 
         <!-- ***************** -->
         <!-- Repository Deployment URLs - mostly in aissemble-root -->
@@ -165,6 +177,29 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <!-- START: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins:  -->
+        <dependency>
+            <groupId>org.technologybrewery.fermenter</groupId>
+            <artifactId>fermenter-mda</artifactId>
+            <version>${version.fermenter}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.technologybrewery.habushu</groupId>
+            <artifactId>habushu-maven-plugin</artifactId>
+            <version>${version.habushu.plugin}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.technologybrewery.baton</groupId>
+            <artifactId>baton-maven-plugin</artifactId>
+            <version>${version.baton}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- END: workaround to get maven build cache invalidation on new SNAPSHOTS of commonly updated plugins -->
+    </dependencies>
 
     <build>
 
@@ -491,8 +526,6 @@
                                 <operatorAndVersion>~${version.sedona}</operatorAndVersion>
                             </packageDefinition>
                         </managedDependencies>
-                        <sourceFailOnLintErrors>false</sourceFailOnLintErrors>
-                        <testFailOnLintErrors>false</testFailOnLintErrors>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -517,6 +550,63 @@
                             <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
                             <SPARK_VERSION>${version.spark}</SPARK_VERSION>
                         </buildArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <!--
+                        NB: using a temporary fork of the docker-maven-plugin for faster local builds.
+                        This can be removed once https://github.com/fabric8io/docker-maven-plugin/issues/1804
+                        is incorporated into the io.fabric8 plugin directly.
+                      -->
+                    <groupId>org.technologybrewery.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${version.fabric8.docker.maven.plugin}</version>
+                    <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <id>default-push</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                            <configuration>
+                                <images>
+                                    <image>
+                                        <build>
+                                            <buildx>
+                                                <builderName>maven</builderName>
+                                                <cacheTo>type=local,dest=${user.home}/.docker/cache</cacheTo>
+                                                <cacheFrom>type=local,src=${user.home}/.docker/cache</cacheFrom>
+                                            </buildx>
+                                        </build>
+                                    </image>
+                                </images>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>${docker.repo.id}/${dockerImageName}:${dockerImageVersion}</name>
+                                <build>
+                                    <filter>@</filter>
+                                    <args>
+                                        <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
+                                        <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
+                                        <SPARK_VERSION>${version.spark}</SPARK_VERSION>
+                                    </args>
+                                    <buildx>
+                                        <builderName>default</builderName>
+                                        <dockerStateDir>~/.docker</dockerStateDir>
+                                        <platforms>
+                                            <platform>${docker.platforms}</platform>
+                                        </platforms>
+                                    </buildx>
+                                    <contextDir>${project.basedir}</contextDir>
+                                    <dockerFile>./src/main/resources/docker/Dockerfile</dockerFile>
+                                </build>
+                            </image>
+                        </images>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -918,9 +1008,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
 
         <profile>
             <id>ci</id>
-            <properties>
-                <docker.repo.id>ghcr.io</docker.repo.id>
-            </properties>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -938,17 +1025,36 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                             </configuration>
                         </plugin>
                         <plugin>
-                            <groupId>org.technologybrewery.orphedomos</groupId>
-                            <artifactId>orphedomos-maven-plugin</artifactId>
-                            <configuration>
-                                <usePlainTextPassword>true</usePlainTextPassword>
-                            </configuration>
+                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${version.fabric8.docker.maven.plugin}</version>
+                            <executions>
+                                <execution>
+                                    <id>default-build</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                    <configuration>
+                                        <!-- Deploy will build all platforms, so skip build phase in this case: -->
+                                        <buildArchiveOnly>true</buildArchiveOnly>
+                                        <images>
+                                            <image>
+                                                <build>
+                                                    <buildx>
+                                                        <builderName>maven</builderName>
+                                                    </buildx>
+                                                </build>
+                                            </image>
+                                        </images>
+                                    </configuration>
+                                </execution>
+                            </executions>
                         </plugin>
                     </plugins>
                 </pluginManagement>
             </build>
         </profile>
-
         <profile>
             <id>integration-test</id>
             <build>
@@ -1038,24 +1144,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
             <properties>
                 <hide.manual.actions>true</hide.manual.actions>
             </properties>
-        </profile>
-        <profile>
-            <id>arm64</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.technologybrewery.habushu</groupId>
-                            <artifactId>habushu-maven-plugin</artifactId>
-                            <version>${version.habushu.plugin}</version>
-                            <configuration>
-                                <!-- we don't need to deploy "any" wheel artifacts twice: -->
-                                <skipDeploy>true</skipDeploy>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
     </profiles>
 

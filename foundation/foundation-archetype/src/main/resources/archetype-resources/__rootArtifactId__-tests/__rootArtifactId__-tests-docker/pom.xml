@@ -14,7 +14,7 @@
     <name>${projectName}::Tests::Docker</name>
     <description>Integration test docker image for ${projectName}</description>
 
-    <packaging>orphedomos</packaging>
+    <packaging>docker-build</packaging>
 
     <build>
         <plugins>
@@ -28,11 +28,15 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.technologybrewery.orphedomos</groupId>
-                <artifactId>orphedomos-maven-plugin</artifactId>
-                <version>${version.orphedomos.plugin}</version>
+                <groupId>org.technologybrewery.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                    <images>
+                        <image>
+                            <name>${project.artifactId}:${project.version}</name>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
         </plugins>
@@ -52,12 +56,15 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.technologybrewery.orphedomos</groupId>
-                        <artifactId>orphedomos-maven-plugin</artifactId>
-                        <version>${version.orphedomos.plugin}</version>
+                        <groupId>org.technologybrewery.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
-                            <imageVersion>latest</imageVersion>
+                            <images>
+                                <image>
+                                    <name>${project.artifactId}:latest</name>
+                                </image>
+                            </images>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -73,7 +80,9 @@
                                     <outputDirectory>${project.build.directory}/specifications/</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${project.parent.basedir}/${project.parent.artifactId}-java/src/main/resources/specifications/</directory>
+                                            <directory>
+                                                ${project.parent.basedir}/${project.parent.artifactId}-java/src/main/resources/specifications/
+                                            </directory>
                                             <includes>
                                                 <include>**</include>
                                             </includes>

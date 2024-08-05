@@ -1,127 +1,65 @@
 [
   {
-    "group": "v1-7-0-migrations",
+    "group": "v1-8-0-migrations",
     "type": "ordered",
     "migrations": [
       {
-        "name": "upgrade-foundation-extension-python-package-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.FoundationExtensionPythonPackageMigration",
+        "name": "python-linting-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.PythonLintingMigration",
         "fileSets": [
           {
-            "includes": ["*-pipelines/**/pyproject.toml"]
+            "includes": ["pom.xml"]
           }
         ]
       },
       {
-        "name": "upgrade-mlflow-v2-external-s3-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.MlflowV2ExternalS3Migration",
+        "name": "orphedomos-to-fabric8-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.OrphedomosToFabric8Migration",
         "fileSets": [
           {
-            "includes": ["*-deploy/src/main/resources/apps/*/Chart.yaml"],
-            "excludes": ["**/target/**/Chart.yaml"]
+            "includes": ["pom.xml"]
           }
         ]
       },
       {
-        "name": "upgrade-spark-application-base-values-s3-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.SparkApplicationBaseValuesS3Migration",
+        "name": "aiops-reference-python-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePythonMigration",
         "fileSets": [
           {
             "includes": [
-              "*-pipelines/*/src/*/resources/apps/*-base-values.yaml",
-              "*-pipelines/*/src/main/resources/apps/*-base-values.yaml"
+              "*-pipelines/*/src/*/step/*.py"
             ]
           }
         ]
       },
       {
-        "name": "upgrade-docker-pip-install-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.DockerPipInstallMigration",
-        "fileSets": [
-          {
-            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
-            "excludes": ["*-docker/*/target/Dockerfile"]
-          }
-        ]
-      },
-      {
-        "name": "upgrade-helm-chart-names-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsNameMigration",
+        "name": "aiops-reference-pdp-python-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePDPPythonMigration",
         "fileSets": [
           {
             "includes": [
-              "*-deploy/src/main/resources/apps/*/Chart.yaml",
-              "*-deploy/src/main/resources/apps/*/values*.yaml"
+              "*-docker/*/src/main/resources/krausening/base/aiops-security.properties",
+              "*-docker/*/src/main/resources/krausening/base/aissemble-security.properties",
+              "*-docker/*/src/main/resources/docker/Dockerfile"
             ]
           }
         ]
       },
       {
-        "name": "upgrade-helm-module-names-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsModuleMigration",
+        "name": "aiops-reference-java-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferenceJavaMigration",
         "fileSets": [
           {
-            "includes": [
-              "*-deploy/src/main/resources/apps/*/Chart.yaml",
-              "*-deploy/src/main/resources/apps/*/values*.yaml"
-            ]
+            "includes": ["src/**/*.java"]
           }
         ]
       },
       {
-        "name": "upgrade-helm-chart-repository-url-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.HelmChartsRepositoryUrlMigration",
+        "name": "extensions-security-projects-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.ExtensionsSecurityProjectsMigration",
         "fileSets": [
           {
-            "includes": [
-              "*-deploy/src/main/resources/apps/*/Chart.yaml"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "upgrade-spark-application-exec-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.SparkAppExecMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "pom.xml"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "enable-habushu-build-cache-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.EnableDistOutputFolderForHabushuBuildCacheMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "**/pom.xml"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.AiopsReferencesMigration",
-        "fileSets": [
-          {
-            "includes": ["src/**/*.java", "src/**/*.properties"]
-          }
-        ]
-      },
-      {
-        "name": "upgrade-project-specific-image-naming-convention-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_7_0.ProjectSpecificImageNameMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-deploy/src/main/resources/apps/*/values*.yaml",
-              "*-deploy/src/main/resources/apps/spark-worker-image/spark-worker-image.yaml",
-              "*-deploy/src/main/resources/apps/aissemble-machine-learning-training-image/aissemble-machine-learning-training-image.yaml",
-              "*-pipelines/*/src/**/resources/apps/*values.yaml",
-              "Tiltfile"
-            ]
+            "includes": ["src/**/*.java"]
           }
         ]
       }
@@ -158,9 +96,7 @@
               "**/spark-operator/values.yaml",
               "**/spark-infrastructure/values.yaml",
               "**/jenkins/values.yaml",
-              "**/kafka-cluster/values.yaml",
               "**/hive-metastore-db/values.yaml",
-              "**/hive-metastore-service/values.yaml",
               "**/metadata/values.yaml",
               "**/model-training-api/values.yaml",
               "**/pipeline-invocation-service/values.yaml"

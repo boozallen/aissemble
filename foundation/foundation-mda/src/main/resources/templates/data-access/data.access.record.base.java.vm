@@ -1,6 +1,6 @@
 package ${basePackage};
 
-import com.boozallen.aiops.data.access.AbstractDataAccessRecord;
+import com.boozallen.aissemble.data.access.AbstractDataAccessRecord;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.eclipse.microprofile.graphql.Ignore;

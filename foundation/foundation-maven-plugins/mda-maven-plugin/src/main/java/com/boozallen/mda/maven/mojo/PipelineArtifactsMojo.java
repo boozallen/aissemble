@@ -12,6 +12,7 @@ package com.boozallen.mda.maven.mojo;
 
 import com.boozallen.aiops.mda.generator.common.PipelineImplementationEnum;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil;
+import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.mda.maven.ArtifactType;
 import com.boozallen.mda.maven.PipelineType;
 import com.boozallen.mda.maven.util.ArtifactCopier;
@@ -34,7 +35,6 @@ import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceUrl;
 import org.technologybrewery.fermenter.mda.metamodel.ModelRepositoryConfiguration;
 import org.twdata.maven.mojoexecutor.MojoExecutor.ExecutionEnvironment;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 
 import org.codehaus.plexus.util.xml.Xpp3Dom;

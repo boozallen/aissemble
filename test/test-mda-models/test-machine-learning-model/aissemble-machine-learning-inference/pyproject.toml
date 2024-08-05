@@ -1,9 +1,6 @@
-# GENERATED STUB - PLEASE ***DO*** MODIFY
-# Originally generated from templates/inference/pyproject.toml.vm.
-
 [tool.poetry]
 name = "aissemble-machine-learning-inference"
-version = "1.7.0"
+version = "1.8.0"
 description = "Machine Learning Inference Test Module"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 
@@ -39,6 +36,8 @@ grpcio-testing = "^1.50.0"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
 
+[tool.pylint.MASTER]
+ignore-patterns = '.*pb2[\S]*.py'
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]
