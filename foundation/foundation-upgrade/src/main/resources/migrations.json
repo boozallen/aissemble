@@ -1,68 +1,8 @@
 [
   {
-    "group": "v1-8-0-migrations",
+    "group": "v1-9-0-migrations",
     "type": "ordered",
     "migrations": [
-      {
-        "name": "python-linting-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.PythonLintingMigration",
-        "fileSets": [
-          {
-            "includes": ["pom.xml"]
-          }
-        ]
-      },
-      {
-        "name": "orphedomos-to-fabric8-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.OrphedomosToFabric8Migration",
-        "fileSets": [
-          {
-            "includes": ["pom.xml"]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-python-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePythonMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-pipelines/*/src/*/step/*.py"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-pdp-python-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePDPPythonMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-docker/*/src/main/resources/krausening/base/aiops-security.properties",
-              "*-docker/*/src/main/resources/krausening/base/aissemble-security.properties",
-              "*-docker/*/src/main/resources/docker/Dockerfile"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "aiops-reference-java-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferenceJavaMigration",
-        "fileSets": [
-          {
-            "includes": ["src/**/*.java"]
-          }
-        ]
-      },
-      {
-        "name": "extensions-security-projects-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.ExtensionsSecurityProjectsMigration",
-        "fileSets": [
-          {
-            "includes": ["src/**/*.java"]
-          }
-        ]
-      }
     ]
   },
   {
