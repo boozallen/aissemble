@@ -42,7 +42,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/boozallen/aissemble.git</connection>
-        <developerConnection>scm:git:ssh://git@ssh.github.com:443/boozallen/aissemble.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/boozallen/aissemble.git</developerConnection>
         <url>https://github.com/boozallen/aissemble</url>
         <tag>HEAD</tag>
     </scm>
