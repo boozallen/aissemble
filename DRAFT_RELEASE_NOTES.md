@@ -1,7 +1,7 @@
 # Major Additions
 
 # Breaking Changes
-_<A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section>_
+_[A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section]_
 Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
 
 # Known Issues
