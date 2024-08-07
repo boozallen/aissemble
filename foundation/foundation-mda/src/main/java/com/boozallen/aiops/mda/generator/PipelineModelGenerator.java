@@ -11,7 +11,6 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -38,8 +37,6 @@ public class PipelineModelGenerator extends AbstractModelAgnosticGenerator {
     protected String pipelineTypeName = "pipelineTypeName";
     protected String implementationName = "implementationName";
     protected String filePath = "${project.basedir}/${project.artifactId}-pipeline-models/src/main/resources/pipelines/";
-
-    private Log log;
 
     @Override
     protected String getOutputSubFolder() {

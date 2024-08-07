@@ -10,30 +10,15 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
-import java.util.Random;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-
-import com.boozallen.aiops.mda.ManualActionNotificationService;
-import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
-import java.io.File;
-
 /**
  * This generator is used to generate the port map for the kubernetes deployment.
- * For now it will generate two random ports for the http and grpc ports, intended for the inference service.
+ * For now, it will generate two random ports for the http and grpc ports, intended for the inference service.
  */
 
 public class KubernetesPortMapGenerator extends AbstractKubernetesGenerator {
@@ -46,8 +31,6 @@ public class KubernetesPortMapGenerator extends AbstractKubernetesGenerator {
      * | inferenceValuesFileV2     | deployment/inference/v2/inference.values.yaml.vm      | apps/${appName}/values.yaml      |
      */
 
-    // Configure the logger
-    private static final Logger logger = LoggerFactory.getLogger(KubernetesPortMapGenerator.class);
     private static final int PORT_RANGE_MIN = 5000;
     private static final int PORT_NUMBER = 7080; 
     private static final int PORT_NUMBER2 = 7081;

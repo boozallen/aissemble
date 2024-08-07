@@ -75,9 +75,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-universe-bom</artifactId>
+                <version>${version.quarkus.plugin}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -135,6 +135,12 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

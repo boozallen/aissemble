@@ -10,8 +10,6 @@ package com.boozallen.aissemble.upgrade.util;
  * #L%
  */
 
-import com.vdurmont.semver4j.Semver;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

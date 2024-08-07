@@ -64,6 +64,7 @@
                             <build>
                                 <args>
                                     <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
+                                    <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
                                 </args>
                             </build>
                         </image>
@@ -87,21 +88,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>${group.fabric8.plugin}</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <images>
-                        <image>
-                            <build>
-                                <args>
-                                    <DELTA_HIVE_CONNECTOR_VERSION>${version.delta.hive.connector}</DELTA_HIVE_CONNECTOR_VERSION>
-                                </args>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
             </plugin>
         </plugins>
     </build>

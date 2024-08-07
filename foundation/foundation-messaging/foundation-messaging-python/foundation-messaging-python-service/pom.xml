@@ -40,6 +40,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-messaging-java</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-provider</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
+
+        <!-- messaging implementations -->
+        <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-kafka</artifactId>
             <version>${version.smallrye.reactive.messaging}</version>
@@ -49,21 +61,7 @@
             <artifactId>smallrye-reactive-messaging-amqp</artifactId>
             <version>${version.smallrye.reactive.messaging}</version>
         </dependency>
-        <dependency>
-            <groupId>io.smallrye.reactive</groupId>
-            <artifactId>smallrye-reactive-messaging-provider</artifactId>
-            <version>${version.smallrye.reactive.messaging}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
-            <artifactId>foundation-messaging-java</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.smallrye.reactive</groupId>
-            <artifactId>mutiny-reactive-streams-operators</artifactId>
-            <version>1.4.0</version>
-        </dependency>
+
         <dependency>
             <groupId>net.sf.py4j</groupId>
             <artifactId>py4j</artifactId>

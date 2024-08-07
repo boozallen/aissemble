@@ -18,7 +18,6 @@ import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
 import io.smallrye.reactive.messaging.providers.impl.ConnectorFactories;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class MessagingServiceCdiContext extends MessagingCdiContext {

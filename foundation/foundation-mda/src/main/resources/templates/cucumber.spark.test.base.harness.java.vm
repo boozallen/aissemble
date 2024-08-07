@@ -139,8 +139,12 @@ public abstract class SparkTestBaseHarness implements EventListener {
 
             long tearDownStart = System.currentTimeMillis();
             InMemoryConnector.clear();
-            container.shutdown();
-            spark.close();
+            if (container != null) {
+                container.shutdown();
+            }
+            if (spark != null) {
+                spark.close();
+            }
             applyAfterTests();
             long tearDownStop = System.currentTimeMillis();
             logger.debug("Stopped test resources in {}ms", (tearDownStop - tearDownStart));

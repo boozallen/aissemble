@@ -22,8 +22,6 @@ import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.spi.CDI;
 
-import java.util.HashMap;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -31,7 +29,6 @@ public class SendMessageSteps {
 
     MessagingService gateway;
     Exception foundError;
-    HashMap<String, String> channelMap = new HashMap<>();
 
     @Before("@send")
     public void setup() {

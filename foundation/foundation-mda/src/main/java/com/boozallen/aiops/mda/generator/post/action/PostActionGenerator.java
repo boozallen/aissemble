@@ -10,8 +10,6 @@ package com.boozallen.aiops.mda.generator.post.action;
  * #L%
  */
 
-import java.io.File;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;

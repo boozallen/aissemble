@@ -12,8 +12,6 @@ package com.boozallen.aiops.metadata;
 
 import com.boozallen.aissemble.core.metadata.MetadataAPI;
 import com.boozallen.aissemble.core.metadata.MetadataModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -26,7 +24,6 @@ import java.util.List;
 
 @Path("/metadata")
 public class MetadataService {
-    private static final Logger logger = LoggerFactory.getLogger(MetadataService.class);
 
     @Inject
     @MetadataAPIType("hive")

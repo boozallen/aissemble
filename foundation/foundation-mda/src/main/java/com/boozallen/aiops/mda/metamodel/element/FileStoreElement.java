@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.metamodel.element;
  * #L%
  */
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.element.MetamodelElement;
 

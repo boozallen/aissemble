@@ -14,8 +14,6 @@ import com.boozallen.mda.maven.ArtifactType;
 import com.boozallen.mda.maven.PipelineType;
 import com.boozallen.mda.maven.mojo.PipelineArtifactsMojo;
 
-import java.util.List;
-
 public abstract class ArtifactCopier {
     protected final CopierTarget target;
 

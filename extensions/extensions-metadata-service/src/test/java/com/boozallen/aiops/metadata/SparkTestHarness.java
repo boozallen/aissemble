@@ -11,8 +11,6 @@ package com.boozallen.aiops.metadata;
  */
 
 import com.boozallen.aissemble.core.cdi.CdiContext;
-import com.boozallen.aiops.data.delivery.spark.SparkConfig;
-import org.aeonbits.owner.KrauseningConfigFactory;
 import org.apache.log4j.Level;
 import org.apache.spark.sql.SparkSession;
 
@@ -20,15 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Sets up Spark to run within Cucumber.
- * <p>
- * GENERATED STUB CODE - PLEASE ***DO*** MODIFY
- * <p>
- * Originally generated from: templates/cucumber.spark.test.impl.harness.java.vm
+ * Sets up Spark to run within Cucumber. Added as a plugin to the Cucumber runner. (See {@link CucumberTest})
  */
 public class SparkTestHarness extends SparkTestBaseHarness {
-
-    private SparkConfig config = KrauseningConfigFactory.create(SparkConfig.class);
 
     /**
      * {@inheritDoc}

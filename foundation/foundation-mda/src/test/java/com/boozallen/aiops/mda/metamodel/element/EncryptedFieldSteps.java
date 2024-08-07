@@ -19,13 +19,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class EncryptedFieldSteps extends AbstractModelInstanceSteps {
 

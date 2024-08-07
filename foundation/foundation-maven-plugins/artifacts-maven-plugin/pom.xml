@@ -18,6 +18,7 @@
         <version.testing.harness>3.3.0</version.testing.harness>
         <version.exec.plugin>3.1.0</version.exec.plugin>
         <version.cucumber>7.17.0</version.cucumber>
+        <version.aether>1.1.0</version.aether>
     </properties>
 
     <build>
@@ -42,9 +43,8 @@
             <version>3.3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -61,19 +61,19 @@
         <dependency>
             <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-connector-basic</artifactId>
-            <version>1.0.0.v20140518</version>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-transport-file</artifactId>
-            <version>1.0.0.v20140518</version>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-transport-http</artifactId>
-            <version>1.0.0.v20140518</version>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -103,6 +103,10 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
             <version>${version.maven.resources.plugin}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
