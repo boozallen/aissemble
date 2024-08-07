@@ -12,8 +12,6 @@ package com.boozallen.aissemble.data.lineage;
 
 import com.boozallen.aissemble.data.lineage.config.ConfigUtil;
 import io.openlineage.client.OpenLineage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -25,7 +23,6 @@ public abstract class Dataset extends LineageBase<DatasetFacet> {
 
     private String name;
     private String namespace;
-    private static final Logger logger = LoggerFactory.getLogger(Dataset.class);
     protected static ConfigUtil util = ConfigUtil.getInstance();
 
     public Dataset(String name, Map<String, DatasetFacet> facets) {

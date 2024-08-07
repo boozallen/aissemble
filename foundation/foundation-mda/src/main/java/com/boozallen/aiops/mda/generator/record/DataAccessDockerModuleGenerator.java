@@ -13,8 +13,6 @@ package com.boozallen.aiops.mda.generator.record;
 import com.boozallen.aiops.mda.DockerBuildParams;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
-import com.boozallen.aiops.mda.ManualActionNotificationService;
-
 /**
  * Generates the data-access-docker module if needed.
  */

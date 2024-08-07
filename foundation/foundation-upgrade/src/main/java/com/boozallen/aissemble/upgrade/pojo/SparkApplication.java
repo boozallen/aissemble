@@ -1,7 +1,6 @@
 package com.boozallen.aissemble.upgrade.pojo;
 
 import java.util.List;
-import java.util.Map;
 
 /*-
  * #%L

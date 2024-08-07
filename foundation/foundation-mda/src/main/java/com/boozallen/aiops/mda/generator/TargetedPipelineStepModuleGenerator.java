@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.ManualActionNotificationService;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 import com.boozallen.aiops.mda.generator.util.PythonGeneratorUtils;

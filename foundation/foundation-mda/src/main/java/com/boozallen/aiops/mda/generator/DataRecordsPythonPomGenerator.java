@@ -11,7 +11,6 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.generator.util.MavenUtil;
 import com.boozallen.aiops.mda.generator.util.MavenUtil.Language;
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil;

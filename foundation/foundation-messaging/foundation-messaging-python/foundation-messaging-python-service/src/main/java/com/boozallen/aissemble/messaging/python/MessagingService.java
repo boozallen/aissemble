@@ -19,8 +19,6 @@ import com.boozallen.aissemble.messaging.python.channel.impl.TopicListenerImpl;
 import com.boozallen.aissemble.messaging.python.exception.TopicNotSupportedError;
 import com.boozallen.aissemble.messaging.python.transfer.Callback;
 import com.boozallen.aissemble.messaging.python.channel.ChannelFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.spi.CDI;
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ import java.util.concurrent.Future;
  */
 public final class MessagingService {
 
-    private static final Logger logger = LoggerFactory.getLogger(MessagingService.class);
     private static MessagingService INSTANCE;
     private final Map<String, TopicEmitter> emitters;
     private final Map<String, TopicListener> listeners;

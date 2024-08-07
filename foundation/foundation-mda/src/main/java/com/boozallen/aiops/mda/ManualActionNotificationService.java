@@ -321,19 +321,6 @@ public class ManualActionNotificationService {
             }
         }
     }
-    
-    /**
-     * Checks if there are deployment changes necessary for PySpark live update feature in
-     * Tiltfile and adds a message if so.
-     *
-     * @param context                     the generation context
-     * @param appName                     the app name
-     * @param dockerApplicationArtifactId the docker application artifact ID
-     * @param dockerArtifactId            the docker artifact ID
-     */
-    public void addDockerBuildTiltFileMessage(final GenerationContext context, final String appName, final String dockerApplicationArtifactId, final String dockerArtifactId) {
-        addDockerBuildTiltFileMessage(context, appName, dockerApplicationArtifactId, dockerArtifactId);
-    }
 
     /**
      * Checks if there are deployment changes necessary in the Tiltfile for Spark Worker and
@@ -668,9 +655,6 @@ public class ManualActionNotificationService {
                 final String key = getMessageKey(relativePomFilePath, "sagemaker");
 
                 VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.sagemaker.docker.pom.vm");
-                notification.addToVelocityContext("artifactId", artifactId);
-                notification.addToVelocityContext("dockerArtifactId", trainingDockerArtifactId);
-                notification.addToVelocityContext("registryUrlExists", registryUrlExists);
                 addManualAction(pomFilePath, notification);
             }
         }

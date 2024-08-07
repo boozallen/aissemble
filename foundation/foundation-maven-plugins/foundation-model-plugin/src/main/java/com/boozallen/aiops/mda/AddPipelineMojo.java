@@ -12,7 +12,6 @@ package com.boozallen.aiops.mda;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.technologybrewery.fermenter.mda.element.ExpandedFamily;
 import org.codehaus.plexus.components.interactivity.PrompterException;
 
 @Mojo(name = "add-pipeline")

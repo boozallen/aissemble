@@ -24,13 +24,11 @@ import org.technologybrewery.fermenter.mda.generator.GenerationException;
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class NameTranslationSteps {
 
 	private static final String BOOZ_ALLEN_PACKAGE = "com.boozallen.aiops";
 
-	protected File pipelineFile;
 	protected Pipeline pipeline;
 	protected GenerationException encounteredException;
 	protected StepElement testStep;

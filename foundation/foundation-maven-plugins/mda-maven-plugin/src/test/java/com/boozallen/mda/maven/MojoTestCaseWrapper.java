@@ -91,7 +91,8 @@ public class MojoTestCaseWrapper extends AbstractMojoTestCase {
                 new SimpleLocalRepositoryManagerFactory().newInstance(repoSession,
                         new LocalRepository(request.getLocalRepository().getBasedir())));
 
-        MavenSession session = new MavenSession(getContainer(),
+        //all constructors are deprecated and this is needed to stub the session for testing
+        @SuppressWarnings("deprecation") MavenSession session = new MavenSession(getContainer(),
                 repoSession,
                 request, result);
 

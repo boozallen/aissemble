@@ -118,6 +118,7 @@
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
             <artifactId>krausening</artifactId>
+            <version>${version.krausening}</version>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
@@ -218,6 +219,7 @@
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
         </dependency>
         #if ($pipeline.fileStores)
         <dependency>
@@ -243,26 +245,31 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
+            <version>${version.cucumber}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
+            <version>${version.cucumber}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
+            <version>${version.awaitility}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

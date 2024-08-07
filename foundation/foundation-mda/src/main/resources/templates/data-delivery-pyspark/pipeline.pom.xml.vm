@@ -71,12 +71,12 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-reflect</artifactId>
-            <version>2.12.1</version>
+            <version>${version.scala}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.2</version>
+            <version>3.6.1</version>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>

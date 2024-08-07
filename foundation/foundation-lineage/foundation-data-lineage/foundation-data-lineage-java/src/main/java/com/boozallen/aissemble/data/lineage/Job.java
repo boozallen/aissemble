@@ -26,7 +26,6 @@ public class Job extends LineageBase<JobFacet> {
 
     private String name;
     private String defaultNamespace;
-    private String namespace;
     private static ConfigUtil util = ConfigUtil.getInstance();
 
     public Job(String name) {
