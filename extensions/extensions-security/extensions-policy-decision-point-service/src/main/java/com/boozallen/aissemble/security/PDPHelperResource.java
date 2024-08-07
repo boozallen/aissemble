@@ -1,4 +1,4 @@
-package com.boozallen;
+package com.boozallen.aissemble.security;
 
 /*-
  * #%L

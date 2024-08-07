@@ -76,13 +76,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${version.aissemble}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${version.jackson}</version>
@@ -114,6 +107,7 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
+            <version>${version.resteasy}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -125,6 +119,7 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson2-provider</artifactId>
+            <version>${version.resteasy}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -136,12 +131,13 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
+            <version>${version.awaitility}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <version>${version.junit}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -153,11 +149,12 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
+            <version>${version.vertx}</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
-            <version>2.10.0</version>
+            <version>${version.smallrye.config}</version>
         </dependency>
         <dependency>
             <groupId>io.fabric8</groupId>
@@ -167,12 +164,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.7</version>
+            <version>${version.slf4j}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.6.4</version>
+            <version>${version.slf4j}</version>
         </dependency>
     </dependencies>
     <profiles>

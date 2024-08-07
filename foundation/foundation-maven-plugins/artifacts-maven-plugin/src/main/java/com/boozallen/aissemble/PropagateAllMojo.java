@@ -14,16 +14,12 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Goal used to propagate all artifacts of a project to an alternate repository
  */
 @Mojo(name = "propagate-all", requiresDependencyResolution = ResolutionScope.TEST, aggregator = true)
 public class PropagateAllMojo extends MojoBase {
-
-    private static final Logger logger = LoggerFactory.getLogger(PropagateMojo.class);
 
     @Parameter(property = "url", required = true)
     String url;

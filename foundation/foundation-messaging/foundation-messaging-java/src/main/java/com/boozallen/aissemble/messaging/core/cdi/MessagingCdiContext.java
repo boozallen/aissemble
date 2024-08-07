@@ -28,6 +28,7 @@ import io.smallrye.reactive.messaging.providers.extension.ReactiveMessagingExten
 import io.smallrye.reactive.messaging.providers.impl.ConfiguredChannelFactory;
 import io.smallrye.reactive.messaging.providers.impl.InternalChannelRegistry;
 import io.smallrye.reactive.messaging.providers.wiring.Wiring;
+import io.smallrye.reactive.messaging.providers.impl.ConnectorFactories;
 
 /**
  * {@link MessagingCdiContext} class provides the classes and extensions needed
@@ -40,7 +41,7 @@ public class MessagingCdiContext implements CdiContext {
 
     @Override
     public List<Class<?>> getCdiClasses() {
-        List<Class<?>> classes = new ArrayList<Class<?>>();
+        List<Class<?>> classes = new ArrayList<>();
         classes.add(MediatorFactory.class);
         classes.add(MediatorManager.class);
         classes.add(InternalChannelRegistry.class);
@@ -50,12 +51,13 @@ public class MessagingCdiContext implements CdiContext {
         classes.add(HealthCenter.class);
         classes.add(WorkerPoolRegistry.class);
         classes.add(Wiring.class);
+        classes.add(ConnectorFactories.class);
         return classes;
     }
 
     @Override
     public List<Extension> getExtensions() {
-        List<Extension> extensions = new ArrayList<Extension>();
+        List<Extension> extensions = new ArrayList<>();
         extensions.add(new ConfigExtension());
         extensions.add(new ReactiveMessagingExtension());
         return extensions;

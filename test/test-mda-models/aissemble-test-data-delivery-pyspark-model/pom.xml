@@ -171,7 +171,7 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-reflect</artifactId>
-            <version>2.12.1</version>
+            <version>${version.scala}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

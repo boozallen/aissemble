@@ -10,19 +10,14 @@ package com.boozallen.aiops.mda.util;
  * #L%
  */
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.boozallen.aiops.mda.metamodel.element.PipelineElement;
 import com.boozallen.aiops.mda.metamodel.element.PipelineTypeElement;
 import com.boozallen.aiops.mda.metamodel.element.StepElement;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestMetamodelUtil {
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private TestMetamodelUtil() {
     }

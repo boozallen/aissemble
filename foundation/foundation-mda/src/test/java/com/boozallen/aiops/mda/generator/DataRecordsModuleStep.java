@@ -250,10 +250,6 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         return packagePath.resolve(classFileName);
     }
 
-    private Path writeProjectPom(Model model) throws IOException {
-        return writePom(model, projectDir);
-    }
-
     private Path writeChildPom(Model model) throws IOException {
         return writeChildPom(model, projectDir);
     }

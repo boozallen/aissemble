@@ -34,7 +34,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- override Quarkus BOM versions to ensure compatibility with JClouds -->
+            <!-- override Quarkus BOM version to ensure compatibility with JClouds -->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>

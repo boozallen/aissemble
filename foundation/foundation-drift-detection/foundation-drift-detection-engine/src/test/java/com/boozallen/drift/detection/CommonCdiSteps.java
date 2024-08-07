@@ -10,12 +10,15 @@ package com.boozallen.drift.detection;
  * #L%
  */
 
-import com.boozallen.drift.detection.cdi.TestCdiContainer;
+import com.boozallen.aissemble.alerting.core.cdi.AlertingCdiContext;
+import com.boozallen.aissemble.core.cdi.CdiContainer;
 import com.boozallen.drift.detection.cdi.TestCdiContext;
 import com.boozallen.drift.detection.consumer.TestConsumer;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.jboss.weld.environment.se.WeldContainer;
+
+import java.util.List;
 
 public class CommonCdiSteps {
 
@@ -23,7 +26,7 @@ public class CommonCdiSteps {
 
     @Before("@cdi")
     public void setUp() {
-        container = TestCdiContainer.create(new TestCdiContext());
+        container = CdiContainer.create(List.of(new TestCdiContext(), new AlertingCdiContext()));
     }
 
     @After("@cdi")

@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.apache.spark.sql.functions.col;
-import static org.apache.spark.sql.functions.next_day;
 
 /**
  * Class to persist metadata to a Hive database. Requires a Spark Context with Hive

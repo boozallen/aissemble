@@ -198,6 +198,7 @@
 		<dependency>
 			<groupId>io.smallrye.reactive</groupId>
 			<artifactId>smallrye-reactive-messaging-kafka</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
 		</dependency>
         <!-- Test dependencies: -->
         <dependency>
@@ -224,6 +225,7 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
+            <version>${version.awaitility}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

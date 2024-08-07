@@ -42,9 +42,15 @@
             <version>${version.smallrye.reactive.messaging}</version>
         </dependency>
         <dependency>
+            <!-- NB: Not used directly, but extremely common during messaging instantiation for Publisher builder -->
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>mutiny-reactive-streams-operators</artifactId>
             <version>${version.mutiny}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config</artifactId>
+            <version>${version.smallrye.config}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
@@ -54,17 +60,12 @@
 
         <!-- Logging Dependencies (from aiops-parent pom) -->
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
         </dependency>
 
         <!--Test Dependencies -->

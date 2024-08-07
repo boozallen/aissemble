@@ -86,9 +86,6 @@ public class PipelineArtifactsMojo extends AbstractMojo {
     @Parameter(required = true, defaultValue = "${project.build.directory}/")
     private String outputDirectory;
 
-    @Parameter(defaultValue = "${project.build.directory}")
-    private String projectBuildDirectory;
-
     /**
      * Which artifact types to retrieve as part of plugin execution.  See ArtifactType.java for valid options.
      */

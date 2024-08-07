@@ -11,15 +11,12 @@ package com.boozallen.aiops.mda;
  */
 
 import com.boozallen.aiops.mda.enumeration.PipelineTypesEnum;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.technologybrewery.fermenter.mda.GenerateSourcesMojo;
 import org.technologybrewery.fermenter.mda.element.ExpandedFamily;
-import org.technologybrewery.fermenter.mda.element.Profile;
 import org.codehaus.plexus.components.interactivity.Prompter;
 import org.codehaus.plexus.components.interactivity.PrompterException;
 
