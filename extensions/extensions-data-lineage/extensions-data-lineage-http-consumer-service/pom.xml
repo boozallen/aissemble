@@ -139,26 +139,6 @@
                     <skipOriginalJarRename>true</skipOriginalJarRename>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-docker-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <includeArtifactIds>extensions-data-lineage</includeArtifactIds>
-                            <type>zip</type>
-                            <classifier>app</classifier>
-                            <failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Packages the quarkus app and its dependencies into a zip-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
