@@ -44,13 +44,12 @@
         <version.quarkus.plugin>${version.quarkus}</version.quarkus.plugin>
         <version.shade.plugin>3.2.4</version.shade.plugin>
         <version.smallrye.config>1.12.0</version.smallrye.config>
-        <version.smallrye.plugin>1.6.0</version.smallrye.plugin>
+        <version.smallrye.graphql>1.6.0</version.smallrye.graphql>
         <version.smallrye.reactive.messaging>3.15.0</version.smallrye.reactive.messaging>
         <version.orphedomos.plugin>0.10.1</version.orphedomos.plugin>
         <version.janino>3.0.8</version.janino>
         <version.jackson>2.13.2</version.jackson>
         <version.jclouds>2.5.0</version.jclouds>
-        <version.log4j>2.20.0</version.log4j>
         <version.maven.core>3.8.6</version.maven.core>
         <version.mutiny>0.5.0</version.mutiny>
         <version.plexus.component>2.1.1</version.plexus.component>
@@ -62,13 +61,14 @@
         <version.uvicorn>&gt;=0.18.0</version.uvicorn>
         <version.cryptography>&gt;=42.0.4</version.cryptography>
         <version.python.krausening>&gt;=${version.krausening}</version.python.krausening>
-        <version.slf4j>2.0.7</version.slf4j>
         <version.delta.hive.connector>0.6.0</version.delta.hive.connector>
         <version.testcontainers>1.19.8</version.testcontainers>
         <version.vault>5.1.0</version.vault>
+        <version.awaitility>4.0.3</version.awaitility>
 
 <!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
         <version.spark>3.4.0</version.spark>
+        <version.scala>2.12.1</version.scala>
         <version.delta>2.4.0</version.delta>
         <version.elasticsearch>8.9.0</version.elasticsearch>
         <version.sedona>1.4.0</version.sedona>
@@ -149,26 +149,6 @@
     <dependencyManagement>
         <!-- NB: Why are these here and not with the other dependencies? -->
         <dependencies>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${version.log4j}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-api</artifactId>
-                <version>${version.log4j}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-slf4j2-impl</artifactId>
-                <version>${version.log4j}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${version.slf4j}</version>
-            </dependency>
             <dependency>
                 <groupId>net.masterthought</groupId>
                 <artifactId>cucumber-reporting</artifactId>
@@ -1105,33 +1085,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>incremental</id>
-            <activation>
-                <property>
-                    <name>incremental</name>
-                </property>
-            </activation>
-            <properties>
-                <!-- the *local* dev, not refs/remotes/... -->
-                <gib.referenceBranch>dev</gib.referenceBranch>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.github.gitflow-incremental-builder</groupId>
-                        <artifactId>gitflow-incremental-builder</artifactId>
-                        <version>${version.gitflow-incremental-builder}</version>
-                        <extensions>true</extensions>
-                        <!-- https://github.com/gitflow-incremental-builder/gitflow-incremental-builder#configuration
-                             General recap: Anything that is directly set in <configuration> cannot be redefined via '-D...'!
-                             See also: https://github.com/gitflow-incremental-builder/gitflow-incremental-builder/issues/213 -->
-                        <configuration>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

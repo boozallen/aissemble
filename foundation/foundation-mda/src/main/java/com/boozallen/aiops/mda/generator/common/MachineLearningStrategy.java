@@ -18,8 +18,6 @@ import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.Step;
 import com.boozallen.aiops.mda.metamodel.element.Versioning;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonPipeline;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +25,6 @@ import java.util.List;
 import static com.boozallen.aiops.mda.generator.util.PipelineUtils.deriveArtifactIdFromCamelCase;
 
 public class MachineLearningStrategy extends AbstractStrategy {
-
-    private static final Logger logger = LoggerFactory.getLogger(MachineLearningStrategy.class);
 
     public MachineLearningStrategy(List<Pipeline> pipelines) {
         super(pipelines, PipelineEnum.MACHINE_LEARNING);

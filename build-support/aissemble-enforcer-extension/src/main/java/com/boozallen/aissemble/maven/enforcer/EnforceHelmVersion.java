@@ -10,7 +10,6 @@ package com.boozallen.aissemble.maven.enforcer;
  * #L%
  */
 
-import java.io.File;
 import javax.inject.Named;
 import javax.inject.Inject;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
@@ -21,7 +20,7 @@ import org.apache.maven.enforcer.rule.api.EnforcerRuleException;
 import org.apache.maven.enforcer.rules.AbstractStandardEnforcerRule;
 import org.apache.maven.enforcer.rules.utils.ArtifactMatcher;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.boozallen.aissemble.maven.enforcer.helper.HelmVersionHelper;
 

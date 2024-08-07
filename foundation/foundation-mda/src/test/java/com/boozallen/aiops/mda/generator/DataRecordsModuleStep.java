@@ -17,8 +17,6 @@ import com.boozallen.aiops.mda.metamodel.element.RecordElement;
 import com.boozallen.aiops.mda.metamodel.element.BasePipelineDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonRecord;
-import com.boozallen.aiops.mda.metamodel.element.python.PythonStep;
-import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
@@ -246,10 +244,6 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
             packagePath = packagePath.resolve(schema ? "schema" : "record");
         }
         return packagePath.resolve(classFileName);
-    }
-
-    private Path writeProjectPom(Model model) throws IOException {
-        return writePom(model, projectDir);
     }
 
     private Path writeChildPom(Model model) throws IOException {

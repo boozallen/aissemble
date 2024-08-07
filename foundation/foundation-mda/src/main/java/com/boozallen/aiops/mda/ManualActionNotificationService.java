@@ -58,7 +58,6 @@ public class ManualActionNotificationService {
     private static final Logger logger = LoggerFactory.getLogger(ManualActionNotificationService.class);
     private static final String EMPTY_LINE = "\n";
     private static final String SUPPRESS_WARNINGS = "maven-suppress-warnings";
-    private static final String SUPPRESS_TILT_WARNINGS_MSG = "* NOTE: If you do not want to see this message add '# " + SUPPRESS_WARNINGS + "' to the file\n";
     public static final String GROUP_TILT = "tilt";
 
     public void addSchemaElementDeprecationNotice(String illegalElement, String objectType) {
@@ -323,19 +322,6 @@ public class ManualActionNotificationService {
                 addManualAction(tiltFilePath, notification);
             }
         }
-    }
-    
-    /**
-     * Checks if there are deployment changes necessary for PySpark live update feature in
-     * Tiltfile and adds a message if so.
-     *
-     * @param context                     the generation context
-     * @param appName                     the app name
-     * @param dockerApplicationArtifactId the docker application artifact ID
-     * @param dockerArtifactId            the docker artifact ID
-     */
-    public void addDockerBuildTiltFileMessage(final GenerationContext context, final String appName, final String dockerApplicationArtifactId, final String dockerArtifactId) {
-        addDockerBuildTiltFileMessage(context, appName, dockerApplicationArtifactId, dockerArtifactId);
     }
 
     /**
@@ -678,9 +664,6 @@ public class ManualActionNotificationService {
             if (registryUrlExists) {
                 final String key = getMessageKey(pomFilePath, "pom");
                 VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.sagemaker.docker.pom.vm");
-                notification.addToVelocityContext("artifactId", artifactId);
-                notification.addToVelocityContext("dockerArtifactId", trainingDockerArtifactId);
-                notification.addToVelocityContext("registryUrlExists", registryUrlExists);
                 addManualAction(pomFilePath, notification);
             }
         }

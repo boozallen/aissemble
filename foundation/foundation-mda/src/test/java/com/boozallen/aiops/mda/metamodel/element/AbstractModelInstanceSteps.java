@@ -230,6 +230,7 @@ public abstract class AbstractModelInstanceSteps {
     }
 
     protected static class NullSession extends MavenSession {
+        @SuppressWarnings("deprecation") //all constructors are deprecated, and this is required for stubbing test session
         public NullSession() {
             super(null, null, new DefaultMavenExecutionRequest(), null);
         }

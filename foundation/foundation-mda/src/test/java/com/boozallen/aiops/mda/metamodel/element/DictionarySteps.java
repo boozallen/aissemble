@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.boozallen.aiops.mda.metamodel.element.python.PythonDictionaryType;
 import io.cucumber.java.After;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;

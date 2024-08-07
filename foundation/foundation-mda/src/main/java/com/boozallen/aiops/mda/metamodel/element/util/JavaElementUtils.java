@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 public class JavaElementUtils {
 
     public static final String VALIDATION_EXCEPTION_IMPORT = "com.boozallen.aissemble.core.exception.ValidationException";
-    public static final String SPARK_DATASET_UTILS_IMPORT = "com.boozallen.aiops.data.delivery.spark.SparkDatasetUtils";
     public static final String ROW_FACTORY_IMPORT = "org.apache.spark.sql.RowFactory";
     public static final String ARRAY_LIST_IMPORT = "java.util.ArrayList";
     public static final String STRING_UTILS_IMPORT = "org.apache.commons.lang3.StringUtils";

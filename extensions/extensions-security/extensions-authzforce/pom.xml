@@ -63,6 +63,7 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
+            <version>${version.resteasy}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.authzforce</groupId>
@@ -87,7 +88,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
+            <version>${version.slf4j}</version>
         </dependency>
 
         <!-- TEST dependencies -->
