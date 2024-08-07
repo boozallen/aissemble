@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>aiSSEMBLE::Foundation::Drift Detection::Core</name>
+    <name>aiSSEMBLE::Foundation::Drift Detection::Engine</name>
     <artifactId>foundation-drift-detection-engine</artifactId>
     <description>The drift detection core contains the resources used across all drift detection modules</description>
 

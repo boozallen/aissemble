@@ -12,8 +12,6 @@ package com.boozallen.aiops.mda.metamodel.element;
 
 import com.boozallen.aiops.mda.generator.common.FrameworkEnum;
 
-import java.util.List;
-
 /**
  * Defines the contract for how frameworks is configured.
  */

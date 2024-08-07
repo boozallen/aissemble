@@ -12,8 +12,6 @@ package com.boozallen.aiops.mda.metamodel.element;
 
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.technologybrewery.fermenter.mda.generator.GenerationException;
 import org.technologybrewery.fermenter.mda.metamodel.element.MetamodelUtils;
 
@@ -25,7 +23,6 @@ import org.technologybrewery.fermenter.mda.metamodel.element.MetamodelUtils;
  * all the pass-through methods that each decorator would otherwise need to implement (that add no real value).
  */
 public class BaseRecordFieldDecorator implements RecordField {
-    private static final Logger logger = LoggerFactory.getLogger(BaseRecordFieldDecorator.class);
 
     protected RecordField wrapped;
 

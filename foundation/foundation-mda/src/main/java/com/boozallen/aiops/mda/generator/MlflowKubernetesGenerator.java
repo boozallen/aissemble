@@ -12,14 +12,8 @@ package com.boozallen.aiops.mda.generator;
 
 import com.boozallen.aiops.mda.ManualActionNotificationService;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MlflowKubernetesGenerator extends AbstractKubernetesGenerator {
     /*--~-~-~~

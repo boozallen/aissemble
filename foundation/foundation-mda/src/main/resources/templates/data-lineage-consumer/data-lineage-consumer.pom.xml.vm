@@ -14,13 +14,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.boozallen.aissemble</groupId>
-        <artifactId>bom-component</artifactId>
-        <version>${version.aissemble}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
         <version>${version.quarkus}</version>
@@ -34,8 +27,6 @@
     <quarkus.package.uber-jar>true</quarkus.package.uber-jar>
     <quarkus.package.type>uber-jar</quarkus.package.type>
     <quarkus.package.add-runner-suffix>false</quarkus.package.add-runner-suffix>
-<!--    Overriding cucumber version to align with quarkus-cucumber -->
-    <version.cucumber>7.4.1</version.cucumber>
   </properties>
 
   <dependencies>
@@ -46,6 +37,12 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.slf4j</groupId>
+          <artifactId>slf4j-jboss-logmanager</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
 <!--    SMALLRYE CONNECTORS-->
@@ -130,7 +127,7 @@
         <groupId>org.technologybrewery.fermenter</groupId>
         <artifactId>fermenter-mda</artifactId>
         <configuration>
-          <basePackage>${groupId}</basePackage>
+          <basePackage>${project.groupId}</basePackage>
           <profile>aissemble-data-lineage-custom-consumer</profile>
           <propertyVariables>
             <aissembleVersion>${version.aissemble}</aissembleVersion>

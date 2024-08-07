@@ -17,7 +17,6 @@ import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -29,8 +28,6 @@ import org.junit.Assert;
 import org.technologybrewery.fermenter.mda.generator.GenerationException;
 import org.technologybrewery.fermenter.mda.metamodel.element.ConfigurationItemElement;
 import org.technologybrewery.fermenter.mda.util.JsonUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
 
 import java.io.File;
@@ -53,7 +50,6 @@ import static org.junit.Assert.assertTrue;
 
 public class PipelineSteps extends AbstractModelInstanceSteps {
 
-    private static final Logger logger = LoggerFactory.getLogger(PipelineSteps.class);
     private static final String BOOZ_ALLEN_PACKAGE = "com.boozallen.aiops";
     public static final String ABSTRACT_DATA_ACTION_IMPL_PY = "test/step/abstract_data_action_impl.py";
     public static final String ABSTRACT_PIPELINE_STEP_PY = "generated-test/step/abstract_pipeline_step.py";
@@ -778,7 +774,7 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
     public void the_pipeline_is_created_with_the_specified_persist_save_type(String expectedType) {
         assertNotNull("No pipeline found", pipeline);
 
-        List<StepElement> steps = (List<StepElement>)(List<?>) pipeline.getSteps();
+        @SuppressWarnings("unchecked") List<StepElement> steps = (List<StepElement>) pipeline.getSteps();
         assertTrue("No steps were found in the pipeline", CollectionUtils.isNotEmpty(steps));
         Persist persist = steps.get(0).getPersist();
         assertNotNull("Persist object not found", persist);

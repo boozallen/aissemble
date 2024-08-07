@@ -10,12 +10,8 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.generator.util.PipelineUtils;
-import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.Step;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-
-import java.util.stream.Collectors;
 
 import static com.boozallen.aiops.mda.generator.util.PipelineUtils.isGenericStep;
 

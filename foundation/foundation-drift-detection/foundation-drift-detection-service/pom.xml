@@ -99,9 +99,10 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.jboss.jandex</groupId>
+                <!-- WildFly plugin is archived: https://github.com/wildfly/jandex-maven-plugin -->
+                <groupId>io.smallrye</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
-                <version>1.0.7</version>
+                <version>3.1.6</version>
                 <executions>
                     <execution>
                         <id>make-index</id>

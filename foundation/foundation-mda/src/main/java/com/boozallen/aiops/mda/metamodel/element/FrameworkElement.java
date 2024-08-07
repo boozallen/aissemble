@@ -14,9 +14,6 @@ import com.boozallen.aiops.mda.generator.common.FrameworkEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @JsonPropertyOrder({ "names" })
 public class FrameworkElement implements Framework {
 

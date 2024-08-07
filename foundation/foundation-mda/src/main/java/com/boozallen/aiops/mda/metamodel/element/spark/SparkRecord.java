@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.boozallen.aiops.mda.metamodel.element.java.JavaDictionaryType;
-import com.boozallen.aiops.mda.metamodel.element.java.JavaRecordField;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaRecordFieldType;
 import com.boozallen.aiops.mda.metamodel.element.util.JavaElementUtils;
 import org.technologybrewery.fermenter.mda.TypeManager;

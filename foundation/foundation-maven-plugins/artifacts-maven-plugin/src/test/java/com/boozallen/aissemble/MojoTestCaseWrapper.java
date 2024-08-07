@@ -54,7 +54,6 @@ public class MojoTestCaseWrapper extends AbstractMojoTestCase {
     static final String TEMP_DIR_PATH = Paths.get(LOCAL_DIR, "tempDir").toString();
     static final String POM_DIR = Paths.get(LOCAL_DIR, "src", "test", "resources", "pom").toString();
     static final String TEST_POM_PATH = Paths.get(POM_DIR, "pom.xml").toString();
-    static String tempRepository;
     
     private MavenSession session;
     public void configurePluginTestHarness() throws Exception {

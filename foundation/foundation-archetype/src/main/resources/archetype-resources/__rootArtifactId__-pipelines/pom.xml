@@ -51,7 +51,7 @@
                 <groupId>org.technologybrewery.fermenter</groupId>
                 <artifactId>fermenter-mda</artifactId>
                 <configuration>
-                    <basePackage>${groupId}</basePackage>
+                    <basePackage>${project.groupId}</basePackage>
                     <profile>aissemble-maven-modules</profile>
                 </configuration>
             </plugin>

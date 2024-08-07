@@ -16,8 +16,6 @@ import com.boozallen.aissemble.core.policy.configuration.policy.DefaultPolicy;
 import com.boozallen.aissemble.core.policy.configuration.policy.Policy;
 import com.boozallen.aissemble.core.policy.configuration.policy.json.PolicyInput;
 import com.boozallen.aissemble.core.policy.configuration.policymanager.AbstractPolicyManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +29,7 @@ import java.util.Map;
  */
 public class EncryptionPolicyManager extends AbstractPolicyManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(EncryptionPolicyManager.class);
-
     private static EncryptionPolicyManager instance;
-
-    private static String POLICY_LOCATION = "POLICY_LOCATION";
 
     private Map<String, EncryptionPolicy> encryptionPolicies;
 
