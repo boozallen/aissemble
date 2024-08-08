@@ -501,7 +501,7 @@
 		]
 	},
 	{
-		"name": "aissemble-mlflow-docker",
+		"name": "mlflow-docker",
 		"targetReferences": [
 			{
 				"name": "mlflowDockerFile"
@@ -553,14 +553,14 @@
 		]
 	},
 	{
-		"name": "aissemble-mlflow-deploy",
+		"name": "mlflow-deploy",
 		"profileReferences": [
 			{
 				"name": "mlflow-kubernetes"
 			}
 		],
 		"deprecated": "true",
-		"warningMessage": "The profile `aissemble-mlflow-deploy` is deprecated, please follow the migration instructions for upgrading to the mlflow V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+		"warningMessage": "The profile `mlflow-deploy` is deprecated, please follow the migration instructions for upgrading to the mlflow V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "aissemble-training-docker",

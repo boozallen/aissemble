@@ -24,7 +24,7 @@
                 <artifactId>fermenter-mda</artifactId>
                 <configuration>
                     <basePackage>${basePackage}</basePackage>
-                    <profile>aissemble-mlflow-docker</profile>
+                    <profile>bitnami-mlflow-docker</profile>
                 </configuration>
             </plugin>
             <plugin>

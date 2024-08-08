@@ -191,7 +191,7 @@ public class YamlUtils {
      * @return implClass instance of file
      */
     public static <T extends AbstractYamlObject> T createYamlObjectFromFile(File file, Class<T> clazz, Logger logger) {
-        // Add custom functionality to our constructor to convert dashed attributes (i.e. aissemble-mlflow) 
+        // Add custom functionality to our constructor to convert dashed attributes (i.e. bitnami-mlflow)
         // to camel case (i.e. aissembleMlflow) for java serialization
         Representer representer = new Representer(new DumperOptions());
         representer.getPropertyUtils().setSkipMissingProperties(true);

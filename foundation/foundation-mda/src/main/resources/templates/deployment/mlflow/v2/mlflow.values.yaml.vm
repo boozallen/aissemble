@@ -1,9 +1,9 @@
 #[[#################################################################################
 ## CONFIG | MLflow Configs                                                        ##
-## See aiSSEMBLE aissemble-mlflow-chart: README for more details.                 ##
+## See aiSSEMBLE bitnami-mlflow-chart: README for more details.                 ##
 ## https://github.com/boozallen/aissemble/                           ##
 ################################################################################]]##
-aissemble-mlflow-chart:
+bitnami-mlflow-chart:
   mlflow:
     externalS3:
       existingSecret: remote-auth-config

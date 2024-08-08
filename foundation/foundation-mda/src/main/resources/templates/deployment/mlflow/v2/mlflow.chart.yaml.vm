@@ -28,7 +28,3 @@ appVersion: "1.0.0"
 # https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/
 # Note that this requires prefixing values with the name of the dependency (see test/src/test/resources in the aiSSEMBLE repo
 # for example usage) in order to override values.
-dependencies:
-  - name: aissemble-mlflow-chart
-    version: ${versionTag}
-    repository: oci://ghcr.io/boozallen
