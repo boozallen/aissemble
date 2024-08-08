@@ -10,6 +10,12 @@ also be set, allowing configurations to automatically refreshed, thereby bolster
 === Setup
 The Configuration Store tool is currently under development. Stay tuned for its release!
 
+In order for the configuration store to read your configs, they will need to be placed into a read-only PVC. It is
+assumed a PVC will meet most projects needs and be the most widely accepted structured solution. The configuration
+service will then consume these configs and place them into the configuration store. Please see the
+https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-configuration-store-chart/README.md[configuration-store,role=external,window=_blank]
+helm chart documentation on creating the PVC.
+
 === Usage
 Via the configuration store's helm chart, project teams can specify environment variables with the URIs that house
 the project's various Krausening properties. It is required to
@@ -28,8 +34,8 @@ The following example Configuration Store Helm chart demonstrates a URI specific
 [source,yaml]
 ----
   env:
-    KRAUSENING_BASE: <URI housing base property configurations>
-    KRAUSENING_EXTENSIONS: <URI housing CI-specific property overrides/augmentations>
+    BASE_PROPERTY: <URI housing base property configurations>
+    ENVIRONMENT_PROPERTY: <URI housing CI-specific property overrides/augmentations>
     BASE_POLICY_URI: <URI housing base property regeneration policies>
     ENVIRONMENT_POLICY_URI: <URI housing CI-specific property regeneration policies>
 ----
@@ -38,7 +44,7 @@ The following example Configuration Store Helm chart demonstrates a URI specific
 Properties represent key values pairs for storing your project configurations. The key values pairs are stored as 
 string types using the standard `.properties` file format.
 
-Suppose we defined the following property configurations file named `messaging.properties` at the `KRAUSENING_BASE`:
+Suppose we defined the following property configurations file named `messaging.properties` at the `BASE_PROPERTY`:
 [source,properties]
 ----
 connector=smallrye-kafka
@@ -46,7 +52,7 @@ topic=baseTopic
 ----
 
 Next, suppose we defined the following property configurations file named `messaging.properties` at the
-`KRAUSENING_EXTENSIONS`:
+`ENVIRONMENT_PROPERTY`:
 [source,properties]
 ----
 topic=ciTopic

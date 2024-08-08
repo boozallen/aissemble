@@ -33,6 +33,9 @@ public class KrauseningPropertyDao implements PropertyDao {
     private static final Logger logger = LoggerFactory.getLogger(KrauseningPropertyDao.class);
     private static final String PROPERTIES_FILE_EXTENSION="properties";
 
+    public KrauseningPropertyDao() {
+    }
+
     @Override
     public boolean checkEmpty() {
         throw new RuntimeException("not implemented");
@@ -77,10 +80,5 @@ public class KrauseningPropertyDao implements PropertyDao {
         for (Property property: properties) {
             this.write(property);
         }
-    }
-
-    @Override
-    public boolean requiresInitialConfigLoad() {
-        return false;
     }
 }

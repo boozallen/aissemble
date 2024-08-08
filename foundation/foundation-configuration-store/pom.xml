@@ -23,8 +23,9 @@
                     <version>${version.failsafe.plugin}</version>
                     <configuration>
                         <systemPropertyVariables>
-                            <KRAUSENING_BASE>./target/test-classes/configurations/base</KRAUSENING_BASE>
-                            <KRAUSENING_EXTENSIONS>./target/test-classes/configurations/example-env</KRAUSENING_EXTENSIONS>
+                            <BASE_PROPERTY>./target/test-classes/configurations/base</BASE_PROPERTY>
+                            <ENVIRONMENT_PROPERTY>./target/test-classes/configurations/example-env</ENVIRONMENT_PROPERTY>
+                            <KRAUSENING_PATH_PREFIX>./target/test-classes</KRAUSENING_PATH_PREFIX>
                             <KRAUSENING_PASSWORD>3uQ2j_=wmP5A2q8b</KRAUSENING_PASSWORD>
                             <version.aissemble.vault>${project.version}</version.aissemble.vault>
                         </systemPropertyVariables>
@@ -79,8 +80,9 @@
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
-                        <KRAUSENING_BASE>./target/test-classes/configurations/base</KRAUSENING_BASE>
-                        <KRAUSENING_EXTENSIONS>./target/test-classes/configurations/example-env</KRAUSENING_EXTENSIONS>
+                        <BASE_PROPERTY>./target/test-classes/configurations/base</BASE_PROPERTY>
+                        <ENVIRONMENT_PROPERTY>./target/test-classes/configurations/example-env</ENVIRONMENT_PROPERTY>
+                        <KRAUSENING_PATH_PREFIX>./target/test-classes</KRAUSENING_PATH_PREFIX>
                         <KRAUSENING_PASSWORD>3uQ2j_=wmP5A2q8b</KRAUSENING_PASSWORD>
                     </systemPropertyVariables>
                     <environmentVariables>

@@ -60,4 +60,12 @@ webhook:
   certSecret:
     create: true
     name: aissemble-configuration-store-webhook-certs
-    
+
+configurationVolume:
+  enabled: true
+  name: "configuration-store"
+  storageType: "custom"
+  storageClass: ""
+  accessModes:
+    - ReadOnlyMany
+  size: 200Mi

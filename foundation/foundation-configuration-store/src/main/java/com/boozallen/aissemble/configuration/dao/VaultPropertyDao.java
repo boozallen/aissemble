@@ -102,11 +102,6 @@ public class VaultPropertyDao implements PropertyDao {
 
     }
 
-    @Override
-    public boolean requiresInitialConfigLoad() {
-        return true;
-    }
-
     private void write(Vault vault, List<Property> properties) throws VaultException {
         for (Property property : properties) {
             // path: aissemble-properties/<<group name>>

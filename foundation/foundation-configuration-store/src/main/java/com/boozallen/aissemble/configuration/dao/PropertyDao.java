@@ -39,10 +39,4 @@ public interface PropertyDao extends Dao<Property,PropertyKey> {
      * @param properties to be written to store
      */
     void write(Set<Property> properties);
-
-    /**
-     * Determines if the configs need to be loaded on start up
-     * @return true if the properties need to be loaded on start up
-     */
-    boolean requiresInitialConfigLoad();
 }
