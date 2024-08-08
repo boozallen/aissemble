@@ -1,0 +1,38 @@
+# Chart should not attempt to create a namespace if the chart release is in that same namespace
+---
+{{- if and (index .Values "argo-cd" "enabled") 
+           (index .Values "argo-cd" "namespaceOverride")
+           (ne (index .Values "argo-cd" "namespaceOverride") (.Release.Namespace)) }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ index .Values "argo-cd" "namespaceOverride" }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-10"
+---
+{{- end }}
+{{- if and (.Values.jenkins.enabled)
+           (.Values.jenkins.namespaceOverride)
+           (ne (.Values.jenkins.namespaceOverride) (.Release.Namespace)) }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.jenkins.namespaceOverride }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-10"
+---
+{{- end }}
+{{- if and (index .Values "ingress-nginx" "enabled")
+           (index .Values "ingress-nginx" "namespaceOverride")
+           (ne (index .Values "ingress-nginx" "namespaceOverride") (.Release.Namespace)) }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ index .Values "ingress-nginx" "namespaceOverride" }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-10"
+---
+{{- end }}

@@ -1,5 +1,8 @@
 # Major Additions
 
+## aiSSEMBLE Infrastructure Helm Chart
+Created a helm chart with the necessary infrastructure for deploying your aiSSEMBLE project. This chart includes support for [Argo CD](https://argo-cd.readthedocs.io/en/stable/), [Jenkins](https://www.jenkins.io/), and [Nginx Ingress](https://docs.nginx.com/nginx-ingress-controller/). See the [chart README](https://github.com/boozallen/aissemble/tree/dev/extensions/extensions-helm/aissemble-infrastructure-chart#readme) for more details.
+
 # Breaking Changes
 _[A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section]_
 Note: instructions for adapting to these changes are outlined in the upgrade instructions below.

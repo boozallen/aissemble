@@ -160,6 +160,7 @@ projects, however, their helm charts are available to use for deployments:
 |======
 |Application    | ReadMe
 |SealedSecrets  | https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-sealed-secrets-chart/README.md[SealedSecrets,role=external,window=_blank]
+|aiSSEMBLE Infrastructure  | https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-infrastructure-chart/README.md[aiSSEMBLE Infrastructure,role=external,window=_blank]
 |======
 
 === Kubernetes Artifacts Upgrade

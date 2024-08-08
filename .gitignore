@@ -64,10 +64,10 @@ docs/antora-aissemble-ui/public/
 **/charts/*
 Chart.lock
 extensions/extensions-helm/aissemble-spark-operator-chart/values.yaml
-extensions/extensions-helm/aissemble-jenkins-chart/values.yaml
 extensions/extensions-helm/aissemble-fastapi-chart/values.yaml
 extensions/extensions-helm/aissemble-quarkus-chart/values.yaml
 extensions/extensions-helm/aissemble-configuration-store-chart/values.yaml
+extensions/extensions-helm/aissemble-infrastructure-chart/values.yaml
 
 # The test project should test that we generate files that compile and have the expected structure for model options
 # there should not be any no custom logic added and we should clean up the project properly before each build
