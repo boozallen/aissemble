@@ -32,24 +32,17 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy</id>
+                        <id>unpack-docker-dependencies</id>
                         <phase>prepare-package</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>extensions-pipeline-invocation-service</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <classifier>runner</classifier>
-                                    <outputDirectory>${project.build.directory}/dockerbuild</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <includeArtifactIds>extensions-pipeline-invocation-service</includeArtifactIds>
+                            <type>zip</type>
+                            <classifier>app</classifier>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact>
                         </configuration>
                     </execution>
                 </executions>
