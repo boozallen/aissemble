@@ -867,37 +867,6 @@
 		]
 	},
 	{
-		"name": "jenkins-kubernetes-v2",
-		"targetReferences": [
-			{
-				"name": "jenkinsHelmChartFileV2"
-			},
-			{
-				"name": "helmIgnoreFile"
-			},
-			{
-				"name": "jenkinsValuesFileV2"
-			},
-			{
-				"name": "jenkinsValuesDevFileV2"
-			},
-			{
-				"name": "valuesCIFile"
-			},
-			{
-				"name": "jenkinsArgoCDV2"
-			}
-		]
-	},
-	{
-		"name": "jenkins-deploy-v2",
-		"profileReferences": [
-			{
-				"name": "jenkins-kubernetes-v2"
-			}
-		]
-	},
-	{
 		"name": "data-access-kubernetes",
 		"targetReferences": [
 			{

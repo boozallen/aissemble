@@ -7,11 +7,11 @@
         <version>1.9.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>aissemble-jenkins-chart</artifactId>
+    <artifactId>aissemble-infrastructure-chart</artifactId>
     <packaging>helm</packaging>
 
-    <name>aiSSEMBLE::Extensions::Helm::Jenkins</name>
-    <description>Contains Helm Jenkins Chart</description>
+    <name>aiSSEMBLE::Extensions::Helm::Infrastructure</name>
+    <description>Contains Helm aiSSEMBLE Infrastructure Chart</description>
 
     <build>
         <plugins>

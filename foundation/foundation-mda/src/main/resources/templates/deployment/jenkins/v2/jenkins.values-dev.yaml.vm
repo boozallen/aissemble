@@ -1,7 +1,0 @@
-#[[########################################
-## CONFIG | Jenkins Configs
-########################################]]#
-aissemble-jenkins-chart:
-  jenkins:
-    controller:
-      serviceType: LoadBalancer

@@ -27,7 +27,6 @@
         <module>aissemble-spark-application-chart</module>
         <module>aissemble-spark-operator-chart</module>
         <module>aissemble-lineage-http-consumer-chart</module>
-        <module>aissemble-jenkins-chart</module>
         <module>extensions-helm-pipeline-invocation</module>
         <module>extensions-helm-spark-infrastructure</module>
         <module>aissemble-policy-decision-point-chart</module>
@@ -37,6 +36,7 @@
         <module>aissemble-vault-chart</module>
         <module>aissemble-sealed-secrets-chart</module>
         <module>aissemble-configuration-store-chart</module>
+        <module>aissemble-infrastructure-chart</module>
     </modules>
 
     <properties>
@@ -184,6 +184,14 @@
                             <helmRepo>
                                 <name>hashicorp</name>
                                 <url>https://helm.releases.hashicorp.com</url>
+                            </helmRepo>
+                            <helmRepo>
+                                <name>argoCD</name>
+                                <url>https://argoproj.github.io/argo-helm</url>
+                            </helmRepo>
+                            <helmRepo>
+                                <name>ingress-nginx</name>
+                                <url>https://kubernetes.github.io/ingress-nginx</url>
                             </helmRepo>
                         </helmExtraRepos>
                     </configuration>
