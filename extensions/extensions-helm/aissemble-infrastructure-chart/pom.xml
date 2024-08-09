@@ -12,6 +12,38 @@
 
     <name>aiSSEMBLE::Extensions::Helm::Infrastructure</name>
     <description>Contains Helm aiSSEMBLE Infrastructure Chart</description>
+    
+    <profiles>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>${group.helm.plugin}</groupId>
+                            <artifactId>helm-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>simulates-an-install</id>
+                                    <configuration>
+                                        <values>
+                                            <!-- sets the infrastructure chart to use test namespaces to avoid clashing
+                                                with existing deployment on the CI cluster-->
+                                            <overrides>
+                                                <argo-cd.namespaceOverride>argocd-ts</argo-cd.namespaceOverride>
+                                                <ingress-nginx.namespaceOverride>ingress-nginx-ts</ingress-nginx.namespaceOverride>
+                                                <jenkins.namespaceOverride>jenkins-ts</jenkins.namespaceOverride>
+                                            </overrides>
+                                        </values>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
