@@ -29,6 +29,6 @@ appVersion: "1.0.0"
 # Note that this requires prefixing values with the name of the dependency (see test/src/test/resources in the aiSSEMBLE repo
 # for example usage) in order to override values.
 dependencies:
-  - name: aissemble-mlflow-chart
-    version: ${versionTag}
-    repository: oci://ghcr.io/boozallen
+  - name: mlflow
+    version: 1.4.22
+    repository: https://charts.bitnami.com/bitnami

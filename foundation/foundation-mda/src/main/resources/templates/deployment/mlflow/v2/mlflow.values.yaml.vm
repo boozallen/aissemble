@@ -1,16 +1,30 @@
 #[[#################################################################################
 ## CONFIG | MLflow Configs                                                        ##
-## See aiSSEMBLE aissemble-mlflow-chart: README for more details.                 ##
-## https://github.com/boozallen/aissemble/                           ##
+## See Bitnami mlflow: README for more details.                                   ##
+## https://github.com/bitnami/charts/blob/main/bitnami/mlflow/README.md           ##
 ################################################################################]]##
-aissemble-mlflow-chart:
-  mlflow:
-    externalS3:
-      existingSecret: remote-auth-config
-      bucket: mlflow-models/mlflow-storage
-
-      # Update these keys with your external S3 details and credentials defined here:
-      # [YOUR-PROJECT]-deploy/src/main/resources/templates/sealed-secret.yaml
-      # existingSecretAccessKeyIDKey: 
-      # existingSecretKeySecretKey: 
-      # host:
+mlflow:
+  image:
+  registry: docker.io
+  repository: bitnami/mlflow
+  tag: 2.15.1-debian-12-r0
+  pullPolicy: Always
+  postgresql:
+    enabled: false
+  minio:
+    enabled: false
+  run:
+    enabled: false
+  tracking:
+    auth:
+      enabled: false
+    service:
+      type: ClusterIP
+      ports:
+        http: 5005
+  externalDatabase:
+    host: postgres
+    port: 5432
+    user: postgres
+    password: password
+    database: db

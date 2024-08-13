@@ -1,16 +1,15 @@
 #[[#################################################################################
 ## CONFIG | MLflow Configs                                                        ##
-## See aiSSEMBLE aissemble-mlflow-chart: README for more details.                 ##
-## https://github.com/boozallen/aissemble/                           ##
+## See Bitnami mlflow: README for more details.                                   ##
+## https://github.com/bitnami/charts/blob/main/bitnami/mlflow/README.md           ##
 ################################################################################]]##
-aissemble-mlflow-chart:
-  mlflow:
-    tracking:
-      service:
-        type: LoadBalancer
-    externalS3:
-      host: "s3-local"
-      port: 4566
-      protocol: http
-      existingSecretAccessKeyIDKey: "AWS_ACCESS_KEY_ID"
-      existingSecretKeySecretKey: "AWS_SECRET_ACCESS_KEY"
+mlflow:
+  tracking:
+    service:
+      type: LoadBalancer
+  externalS3:
+    host: "s3-local"
+    port: 4566
+    protocol: http
+    existingSecretAccessKeyIDKey: "AWS_ACCESS_KEY_ID"
+    existingSecretKeySecretKey: "AWS_SECRET_ACCESS_KEY"

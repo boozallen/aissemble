@@ -7,6 +7,7 @@ Created a helm chart with the necessary infrastructure for deploying your aiSSEM
 _[A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section]_
 Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
 
+
 # Known Issues
 There are no known issues with the 1.9.0 release.
 
@@ -75,3 +76,58 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.9.0 
 1. Repeat the previous step until all manual actions are resolved
 
 # What's Changed
+- The `aissemble-mflow-chart` has been replaced with a community `MLFlow` chart provided by Bitnami. This change will introduce several improvements and updates, ensuring better stability, support and performance.
+  - Chart Replacement: The `aissemble-mlflow-chart` is now replaced with the `MLFlow` chart by Bitnami.
+    <br>_**Note**: If you have any customizations to any of these files, please be sure to reapply them after making the changes._
+    - Required Actions:
+      - Update mlflow's `Chart.yaml`:
+        - Replace the `dependencies` block with the following in your mflow chart's Chart.yaml:
+           ```
+            dependencies:
+             - name: mlflow
+               version: 1.4.22
+               repository: https://charts.bitnami.com/bitnami
+           ```
+      - Update mlflow's `values.yaml`:
+        - Add the following configurations in `values.yaml`
+          ```
+          mlflow:
+          image:
+          registry: docker.io
+          repository: bitnami/mlflow
+          tag: 2.15.1-debian-12-r0
+          pullPolicy: Always
+          postgresql:
+          enabled: false
+          minio:
+          enabled: false
+          run:
+          enabled: false
+          tracking:
+          auth:
+          enabled: false
+          service:
+          type: ClusterIP
+          ports:
+          http: 5005
+          externalDatabase:
+          host: postgres
+          port: 5432
+          user: postgres
+          password: password
+          database: db
+          ```
+      - Update mlflow's `values-dev.yaml`:
+        - Add the following configurations in `values-dev.yaml`
+          ```
+          mlflow:
+          tracking:
+          service:
+          type: LoadBalancer
+          externalS3:
+          host: "s3-local"
+          port: 4566
+          protocol: http
+          existingSecretAccessKeyIDKey: "AWS_ACCESS_KEY_ID"
+          existingSecretKeySecretKey: "AWS_SECRET_ACCESS_KEY"
+          ```

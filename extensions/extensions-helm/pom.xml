@@ -30,7 +30,6 @@
         <module>extensions-helm-pipeline-invocation</module>
         <module>extensions-helm-spark-infrastructure</module>
         <module>aissemble-policy-decision-point-chart</module>
-        <module>aissemble-mlflow-chart</module>
         <module>aissemble-localstack-chart</module>
         <module>aissemble-metadata-chart</module>
         <module>aissemble-vault-chart</module>
