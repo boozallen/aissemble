@@ -34,4 +34,23 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>gh-build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>${group.helm.plugin}</groupId>
+                        <artifactId>helm-maven-plugin</artifactId>
+                        <configuration>
+                            <!-- Skip dry run due to rbac issues with api groups on EKS cluster -->
+                            <skipDryRun>true</skipDryRun>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
 </project>
