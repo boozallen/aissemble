@@ -45,7 +45,22 @@ aissemble-spark-operator-chart:
 | volumes                    | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`          |
 | volumeMounts               | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`          |
 | fullnameOverride           | String to override release name    | No                | spark-operator                              |
+| rbac.createClusterRole     | See `Migrated Properties`          | No                | false                                       |
 | serviceAccounts.spark.name | Name for the spark service account | No                | spark                                       |
+
+## Migrated Properties
+The following properties have been migrated from the `spark-operator` subchart to the `aissemble-spark-operator-chart` chart.
+Any required overrides should be cognisant of the alternate path.  For example:
+
+```yaml
+aissemble-spark-operator-chart:
+  rbac:
+    createClusterRole: false
+```
+
+| Property               | Description                                                                   | Default |
+|------------------------|-------------------------------------------------------------------------------|---------|
+| rbac.createClusterRole | Create and use RBAC `ClusterRole` resources.  Migrated to use modified rules. | true    |
 
 # Shared Ivy Cache
 
