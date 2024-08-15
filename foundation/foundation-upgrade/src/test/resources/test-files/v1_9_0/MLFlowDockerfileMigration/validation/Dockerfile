@@ -4,10 +4,11 @@
 #
 # Generated from: ${templateName}
 
+
+
+
+
 FROM bitnami/mlflow:2.15.1-debian-12-r0
 
 RUN mkdir -p /mlflow/startup
 COPY ./src/main/resources/start.sh /mlflow/startup/
-RUN chmod +x /mlflow/startup/start.sh
-
-CMD ["/mlflow/startup/start.sh"]

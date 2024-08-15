@@ -13,8 +13,6 @@ The following properties are inherited from the base [MLflow chart](https://gith
 
 | Property | Description | Default |
 |----------|-------------|---------|
-| image.registry | MLflow image registry | NB: OSS: update with aissemble docker repository |
-| image.repository | MLflow image repository | boozallen/aissemble-mlflow |
 | image.tag | MLflow image version tag | Chart.Version |
 | postgresql.enabled | Switch to enable or disable Bitnami's PostgreSQL helm chart | False |
 | minio.enabled | Switch to enable or disable MinIO helm chart | False |
