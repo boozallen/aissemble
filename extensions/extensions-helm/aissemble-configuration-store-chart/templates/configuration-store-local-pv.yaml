@@ -1,0 +1,20 @@
+{{- if and (eq .Values.configurationVolume.storageType "local") (.Values.configurationVolume.enabled) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    type: local
+  name: {{ .Values.configurationVolume.name }}-pv
+spec:
+  {{- with .Values.configurationVolume.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  capacity:
+    storage: {{ .Values.configurationVolume.size | default "200Mi" }}
+  hostPath:
+    path: {{ .Values.configurationVolume.volumePathOnNode }}
+    type: Directory
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ""
+{{- end }}

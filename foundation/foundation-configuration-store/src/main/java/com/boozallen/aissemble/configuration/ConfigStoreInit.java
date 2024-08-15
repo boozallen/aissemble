@@ -10,6 +10,8 @@ package com.boozallen.aissemble.configuration;
  * #L%
  */
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import com.boozallen.aissemble.configuration.dao.ConfigStoreDaoClass;
 import com.boozallen.aissemble.configuration.store.ConfigLoader;
 import com.boozallen.aissemble.configuration.store.Property;
@@ -26,7 +28,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.spi.CDI;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,10 +45,18 @@ import org.apache.commons.lang3.StringUtils;
 public class ConfigStoreInit {
     private static final Logger logger = LoggerFactory.getLogger(ConfigStoreInit.class);
     private static Status status;
+    private static final String KRAUSENING_BASE = "KRAUSENING_BASE";
+    private static final String DEFAULT_KRAUSENING_BASE_PATH = "/krausening/base";
+    private static final String KRAUSENING_EXTENSIONS = "KRAUSENING_EXTENSIONS";
+    private static final String DEFAULT_KRAUSENING_EXTENSIONS_PATH = "/krausening/extensions";
+    private static final String KRAUSENING_PATH_PREFIX = "KRAUSENING_PATH_PREFIX";
 
     @PostConstruct
     public void init() {
         logger.info("Initialize store configuration properties and policies...");
+
+        // Set Krausening env vars to a local path
+        setKrauseningPaths();
 
         // Get users desired storage class. If not set then default to Krausening
         String storageClass = getBootstrapConfiguration("STORAGE_CLASS") != null ?
@@ -52,7 +67,12 @@ public class ConfigStoreInit {
         logger.info("Using property Dao class: {}", propertyDaoClass);
 
         try {
-            ConfigLoader configLoader = CDI.current().select(ConfigLoader.class,new Any.Literal()).get();
+            // Pull the original configs onto the device
+            // Because the configs are read only, these copied files are loaded into the config-store and manipulated
+            // if needed.
+            pullConfigs();
+
+            ConfigLoader configLoader = CDI.current().select(ConfigLoader.class, new Any.Literal()).get();
             configLoader.setPropertyDaoClass(propertyDaoClass);
             if (configLoader.isFullyLoaded()) {
                 logger.info("Properties and policies are already fully loaded. Skipping reload.");
@@ -72,30 +92,66 @@ public class ConfigStoreInit {
         }
     }
 
-    private void loadConfigs(ConfigLoader configLoader) {
-        if(configLoader.doInitialConfigLoad()) {
-            String basePropertyUri = getBootstrapConfiguration("KRAUSENING_BASE");
-            String environmentPropertyUri = getBootstrapConfiguration("KRAUSENING_EXTENSIONS");
+    private void pullConfigs() throws IOException {
+        String basePropertyUri = getBootstrapConfiguration("BASE_PROPERTY");
+        if (StringUtils.isNotEmpty(basePropertyUri)) {
+            String krauseningPath = getBootstrapConfiguration(KRAUSENING_BASE);
+            Files.createDirectories(Paths.get(krauseningPath));
+            Path basePropertyPath = Paths.get(basePropertyUri);
+            try (Stream<Path> stream = Files.walk(basePropertyPath)) {
+                stream.forEach(source -> copy(source, Paths.get(krauseningPath)
+                        .resolve(basePropertyPath.relativize(source))));
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read from base property uri", e);
+            }
+        } else {
+            throw new RuntimeException("Undefined environment variables: BASE_PROPERTY");
+        }
 
-            // Load and validate the properties
-            Set<Property> properties;
-            if (StringUtils.isNotBlank(basePropertyUri)) {
-                if (StringUtils.isNotBlank(environmentPropertyUri)) {
-                    logger.debug("Loading configs for base and environment properties");
-                    properties = configLoader.loadConfigs(basePropertyUri,environmentPropertyUri);
-                }
-                else {
-                    logger.debug("Loading configs for base properties only");
-                    properties = configLoader.loadConfigs(basePropertyUri);
-                }
+        String environmentPropertyUri = getBootstrapConfiguration("ENVIRONMENT_PROPERTY");
+        if (StringUtils.isNotEmpty(environmentPropertyUri)) {
+            String krauseningPath = getBootstrapConfiguration(KRAUSENING_EXTENSIONS);
+            Files.createDirectories(Paths.get(krauseningPath));
+            Path environmentPropertyPath = Paths.get(environmentPropertyUri);
+            try (Stream<Path> stream = Files.walk(environmentPropertyPath)) {
+                stream.forEach(source -> copy(source, Paths.get(krauseningPath)
+                        .resolve(environmentPropertyPath.relativize(source))));
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read from extensions property uri", e);
+            }
+        }
+    }
+
+    private void copy(Path source, Path dest) {
+        try {
+            if(!Files.isDirectory(dest)) {
+                Files.copy(source, dest, REPLACE_EXISTING);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void loadConfigs(ConfigLoader configLoader) {
+        String basePropertyUri = getBootstrapConfiguration("KRAUSENING_BASE");
+        String environmentPropertyUri = getBootstrapConfiguration("KRAUSENING_EXTENSIONS");
+
+        // Load and validate the properties
+        Set<Property> properties;
+        if (StringUtils.isNotBlank(basePropertyUri)) {
+            if (StringUtils.isNotBlank(environmentPropertyUri)) {
+                logger.debug("Loading configs for base and environment properties");
+                properties = configLoader.loadConfigs(basePropertyUri, environmentPropertyUri);
             }
             else {
-                throw new RuntimeException("Undefined environment variables: KRAUSENING_BASE and KRAUSENING_EXTENSIONS");
+                logger.debug("Loading configs for base properties only");
+                properties = configLoader.loadConfigs(basePropertyUri);
             }
-            configLoader.write(properties);
-        } else {
-            logger.info("Skipping config loading on initialization");
         }
+        else {
+            throw new RuntimeException("Failed to retrieve configurations properly");
+        }
+        configLoader.write(properties);
     }
 
     private void loadPolicies(ConfigLoader configLoader) {
@@ -117,6 +173,17 @@ public class ConfigStoreInit {
             logger.info("No policies found to load");
         }
         // TODO configLoader.write(policies);
+    }
+
+    private void setKrauseningPaths() {
+        String prefix;
+        if(StringUtils.isNotEmpty(getBootstrapConfiguration(KRAUSENING_PATH_PREFIX))) {
+            prefix = getBootstrapConfiguration(KRAUSENING_PATH_PREFIX);
+        } else {
+            prefix = getBootstrapConfiguration("user.home");
+        }
+        System.setProperty(KRAUSENING_BASE, prefix + DEFAULT_KRAUSENING_BASE_PATH);
+        System.setProperty(KRAUSENING_EXTENSIONS, prefix + DEFAULT_KRAUSENING_EXTENSIONS_PATH);
     }
 
     private static String getBootstrapConfiguration(String propertyName) {

@@ -10,7 +10,19 @@ aissemble-configuration-store-chart:
       name: "${appName}"
     deployment:
       env:
-        - name: KRAUSENING_BASE
+        - name: BASE_PROPERTY
           value: /configurations/base
-        - name: KRAUSENING_EXTENSIONS
+        - name: ENVIRONMENT_PROPERTY
           value: /configurations/env
+      supplementalVolumes:
+        - name: configurations
+          persistentVolumeClaim:
+            claimName: configuration-store-claim
+          readOnly: true
+      supplementalVolumeMounts:
+        - name: configurations
+          mountPath: "/configurations"
+
+  configurationVolume:
+    storageType: "custom"
+    storageClass: ""

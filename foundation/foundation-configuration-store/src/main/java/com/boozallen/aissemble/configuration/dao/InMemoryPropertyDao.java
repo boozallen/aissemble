@@ -58,9 +58,4 @@ public class InMemoryPropertyDao implements PropertyDao {
         }
         logger.info("Write properties request received");
     }
-
-    @Override
-    public boolean requiresInitialConfigLoad() {
-        return true;
-    }
 }
