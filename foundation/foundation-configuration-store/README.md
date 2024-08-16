@@ -7,21 +7,42 @@ please refer to the [aiSSEMBLE&trade; Github Pages](https://boozallen.github.io/
 
 ## Developer Guidance
 
-### Deserializing YAML Content into Java Objects with snakeyaml
-The `ConfigLoader` leverages [snakeyaml](https://bitbucket.org/snakeyaml/snakeyaml/src/master/) to parse `YAML` files define configurations and associated metadata. This module contains two classes, `YamlProperty` and `YamlConfig`, which are the objects that house the deserialized information from the configuration `YAML` files. An example of properly formatted configurations files:
+### Deserializing Properties Content into Java Objects with Krausening
+The `ConfigLoader` leverages [Krausening](https://github.com/TechnologyBrewery/krausening/tree/dev/krausening) to parse properties files define configurations and associated metadata, which enables the configuration value encryption for security reasons.
 
-```yaml
-groupName: model-training-api
-properties:
-  - name: AWS_ACCESS_KEY_ID
-    value: base-access-key-id
-  - name: AWS_SECRET_ACCESS_KEY
-    value: base-secret-access-key
+A simple example below to show how to create the property `AWS_ACCESS_KEY_ID` in the group `aws-credentials` with a value of `base-access-key-id` and the property `AWS_SECRET_ACCESS_KEY` with a value of `base-secret-access-key`:
+
+aws-credentials.properties
+```aws-credentials.properties
+AWS_ACCESS_KEY_ID=base-access-key-id
+AWS_SECRET_ACCESS_KEY=base-secret-access-key
 ```
-
-Because the `YamlProperty` and `YamlConfig` classes are required to have attributes that mirror the format of the configuration `YAML` files, there is a separate `Property` class that simply adds the `groupName` metadata to the existing information housed in `YamlProperty`. Furthermore, because an object that will house the deserialized `YAML` contents must have an empty constructor, it was not possible to have any extending relationship between a supposed `AbstractProperty` and `YamlProperty` / `Property`.
-
-See the [snakeyaml documentation](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Documentation) for further details on deserializing yaml files.
 
 ### Handling Load Status
 The `ConfigLoader` leverages `load-status` to detect whether properties were already fully loaded or only partially loaded due to an interrupted process. The code logic ensures that a `fully-loaded` status is set when properties are loaded successfully. This status is then used to skip loading if the properties were successfully loaded previously, thus avoiding unnecessary reloading during deployment refreshes. For details on this behavior, refer to the implementation code and comments in the `ConfigLoader` class.
+
+### Inject Configuration Value
+To properly insert the configuration value into the kubernetes resource configuration, you need to place the configuration $getConfigValue() function with groupName and propertyName parameters specified (`;` is the delimiter of the parameters)
+
+An example of the format is 
+```text
+$getConfigValue(groupName=groupNameValue;propertyName=propertyNameValue) 
+```
+
+For example:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mytestconfigmap
+  labels:
+    aissemble-configuration-store: enabled
+data:
+  mytest.properties: |-
+    AWS_ACCESS_KEY_ID=$getConfigValue(groupName=aws-credentials;propertyName=AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY=$getConfigValue(groupName=aws-credentials;propertyName=AWS_SECRET_ACCESS_KEY)
+    fully-loaded=$getConfigValue(groupName=load-status;propertyName=fully-loaded)
+```
+
+The configuration store should be up and running before other services.
+To start, run `tilt up -f Tiltfile-config --port 10351` at the root directory of the project.

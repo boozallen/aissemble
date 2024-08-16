@@ -151,6 +151,12 @@
             <artifactId>kubernetes-client</artifactId>
             <version>6.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.flipkart.zjsonpatch</groupId>
+            <artifactId>zjsonpatch</artifactId>
+            <version>0.4.16</version>
+        </dependency>
+
 
         <!-- quarkus dependencies -->
         <dependency>
