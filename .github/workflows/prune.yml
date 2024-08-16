@@ -1,4 +1,5 @@
-# Prunes old aissemble-* untagged containers
+# Prunes old aissemble-* containers, excluding those with the following tags:
+# any release versions, the latest snapshot version, and the latest patch version
 
 name: Prune ghcr.io
 
@@ -15,14 +16,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prune
-        uses: snok/container-retention-policy@v2
+      # Required in order to access script files in this repository
+      - uses: actions/checkout@v4
+
+      # Prevents multi-platform release images from being pruned by identifying all manifest lists
+      - name: Fetch multi-platform package version SHAs
+        id: multi-arch-digests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHCR_IO_TOKEN }}
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/release_images.sh
+
+      # Prevents the latest snapshot images from being pruned
+      - name: Fetch latest snapshot version SHAs
+        id: latest-snapshot-digests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHCR_IO_TOKEN }}
+          LATEST_RELEASE_VERSION: ${{ steps.multi-arch-digests.outputs.latest-release-version }}
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/snapshot_images.sh
+
+      - name: Concatenate digests
+        id: concat-digests
+        run: |
+          skip_shas="${{ steps.multi-arch-digests.outputs.multi-arch-digests }} ${{ steps.latest-snapshot-digests.outputs.latest-snapshot-digests }}"
+          echo "skip-shas=$skip_shas" >> $GITHUB_OUTPUT
+
+      - name: Prune old release versions
+        uses: snok/container-retention-policy@v3.0.0
         with:
-          image-names: aissemble-*
-          cut-off: Two days ago UTC
-          account-type: org
-          org-name: boozallen
-          keep-at-least: 2
-          untagged-only: true
-          dry-run: false
+          skip-shas: ${{ steps.concat-digests.outputs.skip-shas }}
+          image-names: "aissemble-* !aissemble-*-chart"
+          image-tags: "!1.7.0 !1.7.0-arm64 !1.7.0-amd64"
+          cut-off: 2d
+          account: boozallen
           token: ${{ secrets.GHCR_IO_TOKEN }}
+
