@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying policy decision point service. C
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install policy-decision-point ghcr.io/boozallen/aissemble-policy-decision-point-chart --version <AISSEMBLE-VERSION>
+helm install policy-decision-point oci://ghcr.io/boozallen/aissemble-policy-decision-point-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

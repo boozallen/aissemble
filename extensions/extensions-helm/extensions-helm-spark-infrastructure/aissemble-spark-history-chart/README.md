@@ -4,7 +4,7 @@ Baseline Helm chart for deploying the Spark History Server. Chart is built and m
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install spark-history ghcr.io/boozallen/aissemble-spark-history-chart --version <AISSEMBLE-VERSION>
+helm install spark-history oci://ghcr.io/boozallen/aissemble-spark-history-chart --version <AISSEMBLE-VERSION>
 ```
 _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 

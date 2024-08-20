@@ -4,7 +4,7 @@ Baseline Helm chart for deploying the Spark Thrift Server. Chart is built and ma
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install thriftserver ghcr.io/boozallen/aissemble-thrift-server-chart --version <AISSEMBLE-VERSION>
+helm install thriftserver oci://ghcr.io/boozallen/aissemble-thrift-server-chart --version <AISSEMBLE-VERSION>
 ```
 _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 

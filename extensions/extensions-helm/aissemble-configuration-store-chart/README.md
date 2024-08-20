@@ -10,7 +10,7 @@ To use the module, perform [extension-helm setup](../README.md#leveraging-extens
 version with the desired aiSSEMBLE version. For example:
 
 ```bash
-helm install configuration-store ghcr.io/boozallen/aissemble-configuration-store-chart --version <AISSEMBLE-VERSION>
+helm install configuration-store oci://ghcr.io/boozallen/aissemble-configuration-store-chart --version <AISSEMBLE-VERSION>
 ```
 
 **Note**: *the version should match the aiSSEMBLE project version.*

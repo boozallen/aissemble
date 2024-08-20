@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying aiSSEMBLE Versioning module. Bui
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install versioning ghcr.io/boozallen/aissemble-versioning-chart --version <AISSEMBLE-VERSION>
+helm install versioning oci://ghcr.io/boozallen/aissemble-versioning-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

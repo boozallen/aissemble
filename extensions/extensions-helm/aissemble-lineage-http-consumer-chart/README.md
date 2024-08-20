@@ -5,7 +5,7 @@ Baseline Helm chart for packaging and deploying the [aiSSEMBLE lineage HTTP cons
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and tag with the desired 
 image built from the aiSSEMBLE Quarkus baseline image. For example:
 ```bash
-helm install lineage-http-consumer ghcr.io/boozallen/aissemble-lineage-http-consumer-chart --version <AISSEMBLE-VERSION> 
+helm install lineage-http-consumer oci://ghcr.io/boozallen/aissemble-lineage-http-consumer-chart --version <AISSEMBLE-VERSION> 
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

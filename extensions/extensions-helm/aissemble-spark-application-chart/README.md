@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying spark applications. The chart is
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the image and tag with the desired image built from the aiSSEMBLE-generated spark application image. It is intended to be used with value overrides that are specific to an aiSSEMBLE generated pipeline. For example:
 ```bash
-helm install pipeline-driver ghcr.io/boozallen/aissemble-spark-application-chart --version <AISSEMBLE-VERSION>
+helm install pipeline-driver oci://ghcr.io/boozallen/aissemble-spark-application-chart --version <AISSEMBLE-VERSION>
 --values <PATH-TO-VALUES-FILE(S)>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
