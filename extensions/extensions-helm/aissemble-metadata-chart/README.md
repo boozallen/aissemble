@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying metadata service. Chart is built
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install metadata ghcr.io/boozallen/aissemble-metadata-chart --version <AISSEMBLE-VERSION>
+helm install metadata oci://ghcr.io/boozallen/aissemble-metadata-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

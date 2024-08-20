@@ -15,7 +15,7 @@ To use the module, perform [extension-helm setup](../README.md#leveraging-extens
 version with the desired aiSSEMBLE version. For example:
 
 ```bash
-helm install aissemble-infrastructure ghcr.io/boozallen/aissemble-infrastructure-chart --version <AISSEMBLE-VERSION>
+helm install aissemble-infrastructure oci://ghcr.io/boozallen/aissemble-infrastructure-chart --version <AISSEMBLE-VERSION>
 ```
 
 **Note**: *the version should match the aiSSEMBLE project version.*

@@ -5,7 +5,7 @@ Baseline Helm chart for packaging and deploying aiSSEMBLE Data Access module. Bu
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart 
 version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install data-access ghcr.io/boozallen/aissemble-data-access-chart --version <AISSEMBLE-VERSION>
+helm install data-access oci://ghcr.io/boozallen/aissemble-data-access-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

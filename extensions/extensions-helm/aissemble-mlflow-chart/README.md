@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying MLflow. Built on the [Bitnami He
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install mlflow ghcr.io/boozallen/aissemble-mlflow-chart --version <AISSEMBLE-VERSION>
+helm install mlflow oci://ghcr.io/boozallen/aissemble-mlflow-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

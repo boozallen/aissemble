@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying inference applications. Chart is
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the image and tag with the desired image built from the aiSSEMBLE-generated inference image. For example:
 ```bash
-helm install inference ghcr.io/boozallen/aissemble-inference-chart --version <AISSEMBLE-VERSION> 
+helm install inference oci://ghcr.io/boozallen/aissemble-inference-chart --version <AISSEMBLE-VERSION> 
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 
