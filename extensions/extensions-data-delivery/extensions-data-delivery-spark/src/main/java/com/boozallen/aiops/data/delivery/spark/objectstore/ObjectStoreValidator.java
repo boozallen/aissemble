@@ -13,8 +13,8 @@ import java.util.List;
  * #L%
  */
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.aeonbits.owner.KrauseningConfigFactory;
 import org.apache.hadoop.conf.Configuration;

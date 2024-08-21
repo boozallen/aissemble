@@ -11,9 +11,9 @@ package com.boozallen.aiops.metadata;
  */
 
 import com.boozallen.aissemble.core.cdi.CdiContext;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

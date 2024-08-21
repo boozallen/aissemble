@@ -15,13 +15,14 @@ import com.boozallen.aissemble.core.cdi.CdiContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 import io.smallrye.config.inject.ConfigExtension;
 import io.smallrye.reactive.messaging.providers.MediatorFactory;
 import io.smallrye.reactive.messaging.providers.connectors.ExecutionHolder;
 import io.smallrye.reactive.messaging.providers.connectors.WorkerPoolRegistry;
 import io.smallrye.reactive.messaging.providers.extension.ChannelProducer;
+import io.smallrye.reactive.messaging.providers.extension.EmitterFactoryImpl;
 import io.smallrye.reactive.messaging.providers.extension.HealthCenter;
 import io.smallrye.reactive.messaging.providers.extension.MediatorManager;
 import io.smallrye.reactive.messaging.providers.extension.ReactiveMessagingExtension;
@@ -46,6 +47,7 @@ public class MessagingCdiContext implements CdiContext {
         classes.add(MediatorManager.class);
         classes.add(InternalChannelRegistry.class);
         classes.add(ConfiguredChannelFactory.class);
+        classes.add(EmitterFactoryImpl.class);
         classes.add(ChannelProducer.class);
         classes.add(ExecutionHolder.class);
         classes.add(HealthCenter.class);

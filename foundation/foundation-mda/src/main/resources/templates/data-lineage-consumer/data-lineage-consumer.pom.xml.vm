@@ -19,6 +19,18 @@
         <version>${version.quarkus}</version>
         <type>pom</type>
         <scope>import</scope>
+        <exclusions>
+          <!-- Quarkus 3.6 uses SmallRye Messaging 4.10, which is incompatible with 4.24. This causes issues for in-memory import -->
+          <exclusion>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>io.smallrye.reactive</groupId>
+        <artifactId>smallrye-reactive-messaging-api</artifactId>
+        <version>${version.smallrye.reactive.messaging}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

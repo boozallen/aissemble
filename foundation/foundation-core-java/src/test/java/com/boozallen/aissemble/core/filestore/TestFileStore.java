@@ -11,7 +11,7 @@ package com.boozallen.aissemble.core.filestore;
  */
 import org.jclouds.filesystem.reference.FilesystemConstants;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.nio.file.Paths;
 import java.util.Properties;
 

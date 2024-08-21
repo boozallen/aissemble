@@ -13,7 +13,7 @@ package com.boozallen.aissemble.alerting.slack.cdi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 import com.boozallen.aissemble.alerting.slack.consumer.SlackConsumer;
 import com.boozallen.aissemble.core.cdi.CdiContext;
