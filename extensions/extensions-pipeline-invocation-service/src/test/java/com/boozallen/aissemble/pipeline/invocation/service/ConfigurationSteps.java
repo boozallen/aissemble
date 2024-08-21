@@ -13,8 +13,8 @@ package com.boozallen.aissemble.pipeline.invocation.service;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class ConfigurationSteps {

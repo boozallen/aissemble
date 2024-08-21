@@ -3,7 +3,7 @@ package ${basePackage}.cdi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 #foreach ($step in $pipeline.steps)
 import ${basePackage}.${step.capitalizedName};

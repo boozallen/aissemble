@@ -11,36 +11,19 @@ package com.boozallen.aissemble.security.authorization;
  */
 
 import com.boozallen.aissemble.security.authorization.policy.PolicyRequest;
-import io.cucumber.core.api.TypeRegistry;
-import io.cucumber.core.api.TypeRegistryConfigurer;
-import io.cucumber.datatable.DataTableType;
-import io.cucumber.datatable.TableEntryTransformer;
+import io.cucumber.java.DataTableType;
 
-import java.util.Locale;
 import java.util.Map;
 
-public class Configurer implements TypeRegistryConfigurer {
+public class Configurer {
 
-    @Override
-    public void configureTypeRegistry(TypeRegistry registry) {
-
-        registry.defineDataTableType(new DataTableType(PolicyRequest.class, new TableEntryTransformer<PolicyRequest>() {
-            @Override
-            public PolicyRequest transform(Map<String, String> entry) {
-                return new PolicyRequest(entry.get("name"),entry.get("resource"),entry.get("action"));
-            }
-        }));
-        registry.defineDataTableType(new DataTableType(TokenDataInput.class, new TableEntryTransformer<TokenDataInput>() {
-            @Override
-            public TokenDataInput transform(Map<String, String> entry) {
-                return new TokenDataInput(entry.get("name"),entry.get("resource"),entry.get("action"),entry.get("result"));
-            }
-        }));
+    @DataTableType
+    public static PolicyRequest policyRequestEntry(Map<String, String> entry) {
+        return new PolicyRequest(entry.get("name"), entry.get("resource"), entry.get("action"));
     }
 
-    @Override
-    public Locale locale() {
-        return Locale.ENGLISH;
+    @DataTableType
+    public static TokenDataInput tokenDataInputEntry(Map<String, String> entry) {
+        return new TokenDataInput(entry.get("name"), entry.get("resource"), entry.get("action"), entry.get("result"));
     }
-
 }

@@ -59,18 +59,19 @@
         <ghcr.io.repo.url>https://maven.pkg.github.com/boozallen/aissemble</ghcr.io.repo.url>
         <version.avro>1.10.1</version.avro>
         <version.camel>2.7.0</version.camel>
-        <version.cucumber>6.10.4</version.cucumber>
+        <version.cucumber>7.4.1</version.cucumber>
         <version.feature.discovery>1.2.0</version.feature.discovery>
-        <version.gitflow-incremental-builder>4.4.1</version.gitflow-incremental-builder>
         <version.jersey>2.30</version.jersey>
         <version.junit>4.13.2</version.junit>
         <version.kafka>2.6.0</version.kafka>
         <version.pegasus>27.7.18</version.pegasus>
         <version.smile>2.6.0</version.smile>
-        <version.weld>3.1.4.Final</version.weld>
+        <version.weld>5.1.2.Final</version.weld>
         <version.slf4j>2.0.7</version.slf4j>
         <version.log4j>2.20.0</version.log4j>
         <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
+        <!-- NB: After Java 17 upgrade, we may not need this -->
+        <version.javax.inject>1</version.javax.inject>
     </properties>
 
     <dependencyManagement>

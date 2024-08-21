@@ -14,7 +14,7 @@ import com.boozallen.aissemble.data.lineage.config.ConfigUtil;
 import com.boozallen.aissemble.data.lineage.transport.MessagingTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 public final class EventEmitter {
 

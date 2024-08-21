@@ -20,12 +20,12 @@ import com.boozallen.aissemble.security.authorization.AissembleSecureTokenServic
 import com.boozallen.aissemble.security.authorization.AissembleSimpleSecureTokenServiceClient;
 import com.boozallen.aissemble.security.authorization.policy.PolicyDecisionPoint;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/api")
 public class PDPHelperResource {

@@ -36,12 +36,6 @@
     </build>
 
     <dependencies>
-        <!-- Explicitly declared due to breaking change for Maven 3.9.0 https://maven.apache.org/docs/3.9.0/release-notes.html -->
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>3.3.1</version>
-        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -116,45 +110,19 @@
         <!-- Test dependencies: -->
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>messages</artifactId>
-            <version>24.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${version.cucumber}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <!-- oddly points to a -SNAPSHOT dependency that is not resolvable, so manually overriding above: -->
-                    <groupId>io.cucumber</groupId>
-                    <artifactId>messages</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${version.cucumber}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <!-- oddly points to a -SNAPSHOT dependency that is not resolvable, so manually overriding above: -->
-                    <groupId>io.cucumber</groupId>
-                    <artifactId>messages</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.8.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -5,7 +5,7 @@ import java.util.List;
 import ${basePackage}.cdi.PipelinesCdiContext;
 import com.boozallen.aissemble.core.cdi.CdiContext;
 
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
 
 /**

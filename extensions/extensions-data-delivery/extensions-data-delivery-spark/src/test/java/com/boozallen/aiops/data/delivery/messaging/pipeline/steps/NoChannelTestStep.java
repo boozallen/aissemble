@@ -10,7 +10,7 @@ package com.boozallen.aiops.data.delivery.messaging.pipeline.steps;
  * #L%
  */
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class NoChannelTestStep extends AbstractTestStep {
