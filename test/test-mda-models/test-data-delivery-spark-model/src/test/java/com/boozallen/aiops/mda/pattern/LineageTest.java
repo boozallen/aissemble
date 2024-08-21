@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.eclipse.microprofile.reactive.messaging.Message;
 
@@ -25,9 +25,10 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
-import io.smallrye.reactive.messaging.providers.connectors.InMemorySink;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemorySink;
 import com.boozallen.aiops.mda.pattern.pipeline.PipelineBase;
+import com.boozallen.aiops.mda.pattern.Ingest;
 import com.boozallen.aissemble.common.Constants;
 
 import org.apache.hadoop.shaded.com.google.gson.JsonObject;

@@ -1,6 +1,6 @@
 package ${basePackage}.filestore;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * Utility for accessing the ${fileStore.name} file storage. To customize

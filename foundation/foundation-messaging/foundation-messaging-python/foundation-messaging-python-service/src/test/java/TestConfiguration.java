@@ -12,7 +12,7 @@ import io.cucumber.plugin.EventListener;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestRunStarted;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
 /**
  * This class helps to setup the configuration before and after the cucumber tests

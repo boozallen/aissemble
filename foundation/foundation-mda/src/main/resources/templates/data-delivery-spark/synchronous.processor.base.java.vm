@@ -13,7 +13,7 @@ import com.boozallen.aissemble.core.metadata.producer.MetadataProducer;
 #if ($step.isAlertingEnabled())
 import com.boozallen.aissemble.alerting.core.Alert;
 import com.boozallen.aissemble.alerting.core.AlertProducerApi;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 #end
 
 #if ($step.isPersistTypeRdbms() || $step.isPersistTypePostgres())
@@ -49,7 +49,7 @@ import org.apache.spark.sql.api.java.UDF2;
 import com.boozallen.aissemble.data.encryption.policy.config.EncryptAlgorithm;
 import org.apache.spark.sql.types.DataTypes;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Map;
 import java.util.HashMap;
 import ${basePackage}.pipeline.PipelineBase;

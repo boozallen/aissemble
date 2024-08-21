@@ -20,7 +20,7 @@ import com.boozallen.aissemble.messaging.python.exception.TopicNotSupportedError
 import com.boozallen.aissemble.messaging.python.transfer.Callback;
 import com.boozallen.aissemble.messaging.python.channel.ChannelFactory;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

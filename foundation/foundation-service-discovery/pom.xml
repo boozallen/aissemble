@@ -14,9 +14,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-universe-bom</artifactId>
+                <version>${version.quarkus.plugin}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

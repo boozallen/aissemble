@@ -13,7 +13,7 @@ package com.boozallen.aissemble.quarkus.context;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 import org.jboss.resteasy.microprofile.client.RestClientExtension;
 

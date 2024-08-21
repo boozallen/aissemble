@@ -13,7 +13,7 @@ package com.boozallen.aissemble.util;
 import com.boozallen.aissemble.configuration.dao.InMemoryPropertyDao;
 import com.boozallen.aissemble.configuration.store.Property;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
