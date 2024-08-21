@@ -72,6 +72,11 @@
             <version>${version.maven.core}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>${version.jakarta.inject}</version>
+        </dependency>
     </dependencies>
 
 </project>

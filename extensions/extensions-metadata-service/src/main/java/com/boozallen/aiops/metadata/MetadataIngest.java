@@ -14,8 +14,8 @@ import com.boozallen.aissemble.core.metadata.MetadataAPI;
 import com.boozallen.aissemble.core.metadata.MetadataModel;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Ingest Metadata from messaging

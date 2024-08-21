@@ -15,8 +15,8 @@ import com.boozallen.aissemble.pipeline.invocation.service.util.exec.HelmCommand
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
