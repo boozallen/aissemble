@@ -69,6 +69,7 @@
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <!-- It seems the shaded jar only has javax.* providers at the moment. Re-evaluate after JDK 17 upgrade is complete. -->
                                     <resource>META-INF/services/javax.ws.rs.ext.Providers</resource>
                                 </transformer>
                                 #if ($pipeline.fileStores)
@@ -118,7 +119,6 @@
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
             <artifactId>krausening</artifactId>
-            <version>${version.krausening}</version>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
@@ -139,6 +139,13 @@
             <type>test-jar</type>
             <scope>test</scope>
             <version>${version.aissemble}</version>
+        </dependency>
+        <dependency>
+            <!-- Spark hasn't migrated to Jakarta packages yet. Will need to shade it if we want to fully migrate. -->
+            <!-- See https://github.com/apache/incubator-hugegraph-toolchain/issues/464 -->
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         #if ($pipeline.isAlertingSupportNeeded())
         <dependency>
@@ -227,12 +234,6 @@
             <artifactId>jclouds-allblobstore</artifactId>
             <version>${version.jclouds}</version>
         </dependency>
-        <!-- the Quarkus BOM uses gson 2.9.0, but JClouds is only compatible up to version 1.8.9-->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.9</version>
-        </dependency>
         #end
         #if($enableSemanticDataSupport)
         <dependency>
@@ -245,19 +246,16 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>${version.cucumber}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>${version.cucumber}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -275,7 +273,6 @@
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
-            <version>${version.cucumber.reporting.plugin}</version>
             <scope>test</scope>
         </dependency>
         #if ($pipeline.fileStores)

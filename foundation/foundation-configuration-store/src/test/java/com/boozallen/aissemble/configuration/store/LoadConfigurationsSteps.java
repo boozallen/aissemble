@@ -22,8 +22,8 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

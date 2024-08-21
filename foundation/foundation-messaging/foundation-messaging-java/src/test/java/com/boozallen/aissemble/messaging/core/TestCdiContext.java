@@ -10,7 +10,7 @@ package com.boozallen.aissemble.messaging.core;
  * #L%
  */
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 import java.util.ArrayList;
 import java.util.List;
 import com.boozallen.aissemble.core.cdi.CdiContext;

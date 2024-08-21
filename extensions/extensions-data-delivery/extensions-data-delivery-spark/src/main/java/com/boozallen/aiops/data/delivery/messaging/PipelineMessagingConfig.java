@@ -13,7 +13,7 @@ package com.boozallen.aiops.data.delivery.messaging;
 import org.technologybrewery.krausening.Krausening;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

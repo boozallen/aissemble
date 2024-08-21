@@ -16,7 +16,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * If added to the CDI container, this class will log all emitted Run Events to the console.  Adding this class will

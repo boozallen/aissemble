@@ -13,10 +13,6 @@
     <name>aiSSEMBLE::Extensions::Pipeline Invocation Service</name>
     <description>Contains an invocation service for submitting spark applications</description>
 
-    <properties>
-        <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -72,6 +68,13 @@
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>foundation-pdp-client-java</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- Quarkus REST and JBoss RESTEasy are incompatible. (See https://quarkus.io/guides/rest-migration) -->
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>

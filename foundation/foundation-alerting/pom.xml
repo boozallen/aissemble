@@ -56,6 +56,16 @@
             <artifactId>weld-se-core</artifactId>
             <version>${version.weld}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>${version.jakarta.cdi}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>${version.jakarta.inject}</version>
+        </dependency>
 
         <!-- Logging Dependencies (from aiops-parent pom) -->
         <dependency>

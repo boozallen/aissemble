@@ -40,18 +40,18 @@
         <version.krausening>19</version.krausening>
         <version.plexus.archiver>3.6.0</version.plexus.archiver>
         <version.plugin.plugin>3.9.0</version.plugin.plugin>
-        <version.quarkus>2.8.3.Final</version.quarkus>
+        <version.quarkus>3.6.9</version.quarkus>
         <version.quarkus.plugin>${version.quarkus}</version.quarkus.plugin>
         <version.shade.plugin>3.2.4</version.shade.plugin>
-        <version.smallrye.config>1.12.0</version.smallrye.config>
-        <version.smallrye.graphql>1.6.0</version.smallrye.graphql>
-        <version.smallrye.reactive.messaging>3.15.0</version.smallrye.reactive.messaging>
+        <version.smallrye.config>3.9.1</version.smallrye.config>
+        <version.smallrye.graphql>2.9.1</version.smallrye.graphql>
+        <version.smallrye.reactive.messaging>4.24.0</version.smallrye.reactive.messaging>
         <version.orphedomos.plugin>0.10.1</version.orphedomos.plugin>
         <version.janino>3.0.8</version.janino>
-        <version.jackson>2.13.2</version.jackson>
-        <version.jclouds>2.5.0</version.jclouds>
+        <version.jackson>2.14.2</version.jackson>
+        <version.jclouds>2.6.0</version.jclouds>
         <version.maven.core>3.8.6</version.maven.core>
-        <version.mutiny>0.5.0</version.mutiny>
+        <version.mutiny>1.4.0</version.mutiny>
         <version.plexus.component>2.1.1</version.plexus.component>
         <version.postgresql>42.5.1</version.postgresql>
         <version.resteasy>4.7.7.Final</version.resteasy>
@@ -66,9 +66,15 @@
         <version.vault>5.1.0</version.vault>
         <version.awaitility>4.0.3</version.awaitility>
 
+        <!-- Java EE Dependencies -->
+        <version.jakarta.cdi>4.0.1</version.jakarta.cdi>
+        <version.jakarta.inject>2.0.1</version.jakarta.inject>
+        <version.jakarta.annotation>3.0.0</version.jakarta.annotation>
+        <version.javax.servlet>3.1.0</version.javax.servlet>
+
 <!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
         <version.spark>3.4.0</version.spark>
-        <version.scala>2.12.1</version.scala>
+        <version.scala>2.12.13</version.scala>
         <version.delta>2.4.0</version.delta>
         <version.elasticsearch>8.9.0</version.elasticsearch>
         <version.sedona>1.4.0</version.sedona>
@@ -78,8 +84,8 @@
         <version.neo4j>4.1.5_for_spark_3</version.neo4j>
         <version.aws.sdk.bundle>1.12.262</version.aws.sdk.bundle>
         <version.baton>1.1.1</version.baton>
-        <version.quarkus.cucumber>0.6.0</version.quarkus.cucumber>
-        <version.quarkus.cucumber.java>7.4.1</version.quarkus.cucumber.java>
+        <version.quarkus.cucumber>1.0.0</version.quarkus.cucumber>
+        <version.quarkus.cucumber.java>${version.cucumber}</version.quarkus.cucumber.java>
 
         <!-- io.fabric8:docker-maven-plugin -->
         <version.fabric8.docker.maven.plugin>0.45-tb-0.1.0</version.fabric8.docker.maven.plugin>
@@ -149,8 +155,14 @@
     </properties>
 
     <dependencyManagement>
-        <!-- NB: Why are these here and not with the other dependencies? -->
         <dependencies>
+            <!-- force upgrade jandex from 3.1.6 to 3.2.2 for compatibility with smalrye 4.24-->
+            <!-- NB: this will likely be unnecessary after upgrading to Quarkus 3.14+ -->
+            <dependency>
+                <groupId>io.smallrye</groupId>
+                <artifactId>jandex</artifactId>
+                <version>3.2.2</version>
+            </dependency>
             <dependency>
                 <groupId>net.masterthought</groupId>
                 <artifactId>cucumber-reporting</artifactId>

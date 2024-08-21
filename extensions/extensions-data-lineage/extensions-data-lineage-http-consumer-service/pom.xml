@@ -22,11 +22,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <properties>
-        <!--    Overriding cucumber version to align with quarkus-cucumber -->
-        <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
