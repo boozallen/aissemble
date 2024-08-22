@@ -14,6 +14,13 @@ There are no known issues with the 1.9.0 release.
 | Date<br/>identified | Vulnerability | Severity | Package | Affected <br/>versions | CVE | Fixed <br/>in |
 |---------------------|---------------|----------|---------|------------------------|-----|---------------|
 
+# Recommended Kubernetes Version
+aiSSEMBLE recommends any consumer be on a minimum Kubernetes version of 1.30. This is due to security 
+findings in 1.29. For more information on Kubernetes current security findings, view their 
+[CVE feed](https://kubernetes.io/docs/reference/issues-security/official-cve-feed/). If using AWS EKS, please follow 
+[AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) on upgrading your clusters 
+and node groups.
+
 # How to Upgrade
 The following steps will upgrade your project to 1.9. These instructions consist of multiple phases:
 - Automatic Upgrades - no manual action required
