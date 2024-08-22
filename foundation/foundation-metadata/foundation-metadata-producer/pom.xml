@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-metadata</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>foundation-metadata-producer</artifactId>
