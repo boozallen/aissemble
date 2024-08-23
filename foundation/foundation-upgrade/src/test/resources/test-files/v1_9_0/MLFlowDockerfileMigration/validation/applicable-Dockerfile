@@ -5,9 +5,6 @@
 # Generated from: ${templateName}
 
 
-
-
-
 FROM bitnami/mlflow:2.15.1-debian-12-r0
 
 RUN mkdir -p /mlflow/startup

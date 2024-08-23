@@ -16,6 +16,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.commons.io.FileUtils;
+import org.technologybrewery.baton.BatonException;
 
 import java.io.File;
 
@@ -31,15 +32,21 @@ public class MLFlowDockerfileMigrationSteps extends AbstractMigrationTest {
         try {
             isMigrated =  FileUtils.contentEquals(original, migrated);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BatonException("Problem performing migration!", e);
         }
         return isMigrated;
     }
 
     @Given("a Dockerfile is referencing the mlflow image from aissemble-mlflow")
     public void aDockerfileIsReferencingTheMlflowImageFromAissembleMlflow() {
-        testFile = getTestFile("v1_9_0/MLFlowDockerfileMigration/migration/Dockerfile");
+        testFile = getTestFile("v1_9_0/MLFlowDockerfileMigration/migration/applicable-Dockerfile");
     }
+
+    @Given("a Dockerfile that is NOT referencing the mlflow image from aissemble-mlflow")
+    public void a_dockerfile_that_is_not_referencing_the_mlflow_image_from_aissemble_mlflow() {
+        testFile = getTestFile("v1_9_0/MLFlowDockerfileMigration/migration/inapplicable-Dockerfile");
+    }
+
 
     @When("the 1.9.0 MLFlow Docker image migration executes")
     public void theMLFlowDockerImageMigrationExecutes() {
@@ -49,7 +56,14 @@ public class MLFlowDockerfileMigrationSteps extends AbstractMigrationTest {
 
     @Then("the image will pull the community docker image")
     public void theImageWillPullTheCommunityDockerImage() {
-        validatedFile = getTestFile("/v1_9_0/MLFlowDockerfileMigration/validation/Dockerfile");
+        validatedFile = getTestFile("/v1_9_0/MLFlowDockerfileMigration/validation/applicable-Dockerfile");
         assertTrue("Dockerfile is still referencing aissemble-mlflow instead of community mlflow Docker image.", validateMigration(testFile, validatedFile));
     }
+
+    @Then("the image is unchanged")
+    public void the_image_is_unchanged() {
+        validatedFile = getTestFile("/v1_9_0/MLFlowDockerfileMigration/validation/inapplicable-Dockerfile");
+        assertTrue("The migration is processing Dockerfile it should NOT be migrating!", validateMigration(testFile, validatedFile));
+    }
+
 }
