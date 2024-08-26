@@ -49,8 +49,8 @@ jobs:
           # replace all whitespaces with newline (required for sort) and then sort all release versions while removing any duplicates
           all_release_versions_sorted=$(echo "${all_release_versions[@]}" | tr ' ' '\n'| sort -u )
           
-          # replace the newlines with commas and then remove the trailing comma
-          all_release_versions=$(echo "${all_release_versions_sorted[@]}" | tr '\n' ',' | sed 's/,$//')
+          # remove any blank rows, replace the newlines with commas, then remove the trailing comma
+          all_release_versions=$(echo "${all_release_versions_sorted[@]}" | sed -r '/^\s*$/d'| tr '\n' ',' | sed 's/,$//')
           
           # save to output
           echo "release_values=${all_release_versions}" >> $GITHUB_OUTPUT
