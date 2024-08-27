@@ -1,8 +1,9 @@
-# Script for creating base Airflow Docker image
+# Script for creating policy decision point service image
 #
-# GENERATED DockerFile - please ***DO*** modify.
+# GENERATED DOCKERFILE - please ***DO*** modify.
 #
 # Generated from: ${templateName}
+
 
 FROM apache/airflow:2.9.3
 

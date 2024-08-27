@@ -10,5 +10,5 @@ sources:
   - https://github.com/boozallen/aissemble
 dependencies:
   - name: airflow
-    version: 1.10.0
+    version: 1.15.0
     repository: https://airflow.apache.org/

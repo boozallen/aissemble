@@ -83,5 +83,7 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.9.0 
 1. Repeat the previous step until all manual actions are resolved
 
 # What's Changed
-- MLFlow Chart version upgraded from `0.2.1` to `1.4.22`. 
+- MLFlow Chart version upgraded from `0.2.1` to `1.4.22`.
 - `aissemble-mlflow` Docker image using MLFlow 2.3.1 was replaced with `bitnami/mlflow:2.15.1-debian-12-r0`  Docker image using MLFlow 2.15.1.
+- Airflow Chart version upgraded from `1.10.0` to `1.15.0`.
+- `aissemble-airflow` Docker image using Airflow 2.6.2 was replaced with `apache/airflow`  Docker image using Airflow 2.9.3.

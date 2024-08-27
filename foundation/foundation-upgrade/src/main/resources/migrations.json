@@ -4,6 +4,16 @@
     "type": "ordered",
     "migrations": [
       {
+        "name": "airflow-dockerfile-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.AirflowDockerfileMigration",
+        "fileSets": [
+          {
+            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
+            "excludes": ["*-docker/*/target/Dockerfile"]
+          }
+        ]
+      },
+      {
         "name": "ml-flow-dockerfile-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.MLFlowDockerfileMigration",
         "fileSets": [

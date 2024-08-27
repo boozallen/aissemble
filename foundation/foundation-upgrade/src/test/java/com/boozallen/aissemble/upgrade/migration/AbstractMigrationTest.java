@@ -10,6 +10,9 @@ package com.boozallen.aissemble.upgrade.migration;
  * #L%
  */
 
+import org.apache.commons.io.FileUtils;
+import org.technologybrewery.baton.BatonException;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -21,6 +24,14 @@ public abstract class AbstractMigrationTest {
     protected boolean successful;
 
     private static final String TEST_FILES_FOLDER = Paths.get("target", "test-classes", "test-files").toString();
+
+    protected static boolean validateMigration(File original, File migrated) {
+        try {
+            return FileUtils.contentEquals(original, migrated);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     protected static void addTestFile(String subPath) throws IOException {
         File testFile = Paths.get(TEST_FILES_FOLDER, subPath).toFile();

@@ -1,10 +1,13 @@
-# Script for creating base Airflow Docker image
+# Script for creating policy decision point service image
 #
-# GENERATED DockerFile - please ***DO*** modify.
+# GENERATED DOCKERFILE - please ***DO*** modify.
 #
 # Generated from: ${templateName}
 
-FROM apache/airflow:2.9.3
+ARG DOCKER_BASELINE_REPO_ID
+ARG VERSION_AISSEMBLE
+
+FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-airflow:1.7.0
 
 # Airflow variables
 ARG AIRFLOW_USER_HOME=/home/airflow
