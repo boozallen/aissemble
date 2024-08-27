@@ -323,7 +323,9 @@
 			{
 				"name": "spark-operator-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-spark-operator-deploy` is not compatible with release `1.8`, please follow the migration instructions for upgrading to the Spark Operator V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade. If you would like to continue using your existing V1 chart, you must use version '1.7.0' of the 'aissemble-spark-operator' image."
 	},
 	{
 		"name": "aissemble-spark-operator-deploy-v2",
@@ -519,7 +521,7 @@
 			}
 		],
 		"deprecated": "true",
-		"warningMessage": "The profile `aissemble-airflow-deploy` is deprecated, please follow the migration instructions for upgrading to the airflow V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+		"warningMessage": "The profile `aissemble-airflow-deploy` is deprecated, please follow the migration instructions for upgrading to the airflow V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{ 
 		"name": "airflow-deploy-v2",
@@ -560,7 +562,7 @@
 			}
 		],
 		"deprecated": "true",
-		"warningMessage": "The profile `aissemble-mlflow-deploy` is deprecated, please follow the migration instructions for upgrading to the mlflow V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+		"warningMessage": "The profile `aissemble-mlflow-deploy` is deprecated, please follow the migration instructions for upgrading to the mlflow V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "aissemble-training-docker",
@@ -1047,7 +1049,7 @@
 			}
 		],
 		"deprecated": "true",
-		"warningMessage": "The profile `s3local-deploy` is deprecated, please follow the migration instructions for upgrading to the s3local V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+		"warningMessage": "The profile `s3local-deploy` is deprecated, please follow the migration instructions for upgrading to the s3local V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "s3local-kubernetes",
@@ -1332,7 +1334,7 @@
 			}
 		],
 		"deprecated": "true",
-		"warningMessage": "The `zookeeper-alert-deploy` profile is deprecated as the v2 Kafka chart now includes Zookeeper. See the instructions for migrating to the v2 Kafka chart: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+		"warningMessage": "The `zookeeper-alert-deploy` profile is deprecated as the v2 Kafka chart now includes Zookeeper. See the instructions for migrating to the v2 Kafka chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "zookeeper-alert-kubernetes",
@@ -1892,7 +1894,9 @@
 			{
 				"name": "metadata-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `metadata-deploy` is deprecated, please follow the migration instructions for upgrading to the metadata V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "metadata-kubernetes",
@@ -2123,7 +2127,7 @@
 			}
 		],
 		"deprecated": "true",
-		"warningMessage": "The profile `aissemble-policy-decision-point-deploy` is deprecated, please follow the migration instructions for upgrading to the policy decision point V2 charts: https://boozallen.github.io/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
+		"warningMessage": "The profile `aissemble-policy-decision-point-deploy` is deprecated, please follow the migration instructions for upgrading to the policy decision point V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "integration-test-docker",
