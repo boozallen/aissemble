@@ -1,5 +1,8 @@
 # Major Additions
 
+## Helm Migration
+The Spark Operator Helm chart has been migrated to the `v2` structure.  To migrate your helm charts to use the v2 pattern, please follow the [instructions](https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade) in the technical documentation.
+
 # Breaking Changes
 _<A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section>_
 Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
