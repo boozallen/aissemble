@@ -46,7 +46,6 @@
               "**/spark-infrastructure/values.yaml",
               "**/jenkins/values.yaml",
               "**/hive-metastore-db/values.yaml",
-              "**/hive-metastore-service/values.yaml",
               "**/metadata/values.yaml",
               "**/model-training-api/values.yaml",
               "**/pipeline-invocation-service/values.yaml"
