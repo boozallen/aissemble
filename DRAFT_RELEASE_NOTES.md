@@ -1,7 +1,14 @@
 # Major Additions
 
 ## Helm Migration
-The Spark Operator Helm chart has been migrated to the `v2` structure.  To migrate your helm charts to use the v2 pattern, please follow the [instructions](https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade) in the technical documentation.
+
+### Spark Operator
+The Spark Operator `v1` helm chart is not compatible with release `1.8` and should be migrated to the `v2` structure. To migrate your helm charts to use the `v2` pattern, please follow the [instructions](https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade) in the technical documentation. If you would like to continue using your existing `v1` chart, you must use version `1.7.0` of the `aissemble-spark-operator` image.
+
+Note: Projects created with aiSSEMBLE version `1.2.10` or later will already have the `v2` chart by default.
+
+### Hive Metastore Service
+Due to ongoing effort to create a Hive `v2` chart and subsequent incompatibilities, the Hive Metastore Service `v1` helm chart is not compatible with release `1.8` and should continue using version `1.7.0` of the `aissemble-hive-service` image.
 
 # Breaking Changes
 _<A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section>_
