@@ -19,3 +19,7 @@ spec:
         - {{ . }}
         {{- end }}    
     {{ end }}
+  {{- with .Values.spec.syncPolicy }}
+  syncPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
