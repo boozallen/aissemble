@@ -1,14 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
   name: configuration-store
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd
-    server: { { .Values.spec.destination.server } }
+    namespace: config-store-ns
+    server: {{ .Values.spec.destination.server }}
   project: default
   source:
     path: ${projectName}-deploy/src/main/resources/apps/configuration-store
@@ -21,3 +23,7 @@ spec:
         - {{ . }}
         {{- end }}
     {{ end }}
+  {{- with .Values.spec.syncPolicy }}
+  syncPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

@@ -31,7 +31,12 @@ aissemble-quarkus-chart:
       - name: certs
         secret:
           secretName: aissemble-configuration-store-webhook-certs
-
+    startupProbe:
+      httpGet:
+        path: /aissemble-properties/healthcheck
+        port: http
+      failureThreshold: 60
+      periodSeconds: 2
   service:
     ports:
       - name: http

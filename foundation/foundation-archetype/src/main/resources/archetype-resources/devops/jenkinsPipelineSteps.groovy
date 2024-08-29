@@ -35,11 +35,8 @@ def argocdTerminate(argocdAppName) {
 }
 
 def argocdSync(argocdAppName, argocdBranch) {
-    String argocdSyncLabel = "argocd.argoproj.io/instance=${argocdAppName}"
     sh "sleep 10"
     sh "/usr/local/bin/argocd app sync ${argocdAppName} --grpc-web --revision ${argocdBranch}"
-    sh "sleep 10"
-    sh "/usr/local/bin/argocd app sync -l ${argocdSyncLabel} --grpc-web --revision ${argocdBranch}"
 }
 
 def argocdDeploy(argocdAppName, argocdUrl, argocdDestinationServer, gitRepo, argocdBranch, argocdNamespace, values) {
