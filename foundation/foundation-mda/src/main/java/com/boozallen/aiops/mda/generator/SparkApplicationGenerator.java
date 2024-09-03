@@ -20,6 +20,8 @@ import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaPipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonPipeline;
+import com.boozallen.aiops.mda.metamodel.element.BaseFileStoreDecorator;
+import com.boozallen.aiops.mda.metamodel.element.FileStore;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
@@ -142,6 +144,21 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
         vc.put(VelocityProperty.PROJECT_NAME, projectName);
         vc.put(VelocityProperty.PIPELINE, pipeline.getName());
         vc.put(VelocityProperty.DOCKER_PROJECT_REPOSITORY_URL, dockerProjectRepositoryUrl);
+
+        /*
+         * Autogenerate the environment variables when a filestore is declared for the pipeline
+         */
+        List<FileStore> fileStores = pipeline.getFileStores();
+        boolean hasFileStore = fileStores.isEmpty();
+        if(!hasFileStore){
+            List<String> fileStoresDecorated = new ArrayList<>();
+            for(FileStore fileStore : fileStores){
+                BaseFileStoreDecorator decoratedStore = new BaseFileStoreDecorator(fileStore);
+                fileStoresDecorated.add(decoratedStore.getName());
+            }
+            vc.put(VelocityProperty.FILE_STORE_NAMES, fileStoresDecorated);
+        }
+        vc.put(VelocityProperty.HAS_FILE_STORE, !hasFileStore);
 
         if (!"test".equalsIgnoreCase(context.getArtifactType()) && SparkStorageEnum.S3LOCAL == metamodelRepository.getDeploymentConfigurationManager().getSparkDeploymentConfiguration().getStorageType()) {
             vc.put(VelocityProperty.USE_S3_LOCAL, true);

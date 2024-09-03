@@ -85,6 +85,16 @@ sparkApp:
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
+        #if (${hasFileStore})
+        #foreach ($fileName in $fileStoreNames)
+        - name: "${fileName}_FS_PROVIDER"
+          value: ""
+        - name: "${fileName}_FS_ACCESS_KEY_ID"
+          value: ""
+        - name: "${fileName}_FS_SECRET_ACCESS_KEY"
+          value: ""
+        #end
+        #end
         #if (${enableDataLineageSupport})
         - name: ENABLE_LINEAGE
           value: "true"
@@ -103,6 +113,16 @@ sparkApp:
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
+        #if (${hasFileStore})
+        #foreach ($fileName in $fileStoreNames)
+        - name: "${fileName}_FS_PROVIDER"
+          value: ""
+        - name: "${fileName}_FS_ACCESS_KEY_ID"
+          value: ""
+        - name: "${fileName}_FS_SECRET_ACCESS_KEY"
+          value: ""
+        #end
+        #end
         #if (${enableDataLineageSupport})
         - name: ENABLE_LINEAGE
           value: "true"
