@@ -91,6 +91,15 @@ jobs:
       - name: Build aiSSEMBLE
         run: |
           ./mvnw -B clean install -U --file pom.xml -Pci,integration-test,gh-build
+      # Install Maven which is needed for archetype tests
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.9
+      # Execute archetype tests
+      - name: Run Archetype Tests
+        run: |
+          ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
       #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
       # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
