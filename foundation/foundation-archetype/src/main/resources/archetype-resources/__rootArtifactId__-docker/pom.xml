@@ -61,7 +61,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.technologybrewery.fabric8</groupId>
+                <groupId>${group.fabric8.plugin}</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
@@ -81,14 +81,13 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.technologybrewery.fabric8</groupId>
+                        <groupId>${group.fabric8.plugin}</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
                             <images>
                                 <image>
-                                    <name>${docker.project.repository.url}/${project.artifactId}:${project.version}
-                                    </name>
+                                    <name>${docker.project.repository.url}${project.artifactId}:${project.version}</name>
                                 </image>
                             </images>
                         </configuration>

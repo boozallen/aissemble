@@ -17,7 +17,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.technologybrewery.fabric8</groupId>
+                <groupId>${group.fabric8.plugin}</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
