@@ -26,17 +26,6 @@ public class MLFlowDockerfileMigrationSteps extends AbstractMigrationTest {
     private AbstractAissembleMigration migration;
     private File validatedFile;
 
-    private static Boolean validateMigration(File original, File migrated) {
-        Boolean isMigrated = false;
-
-        try {
-            isMigrated =  FileUtils.contentEquals(original, migrated);
-        } catch (Exception e) {
-            throw new BatonException("Problem performing migration!", e);
-        }
-        return isMigrated;
-    }
-
     @Given("a Dockerfile is referencing the mlflow image from aissemble-mlflow")
     public void aDockerfileIsReferencingTheMlflowImageFromAissembleMlflow() {
         testFile = getTestFile("v1_9_0/MLFlowDockerfileMigration/migration/applicable-Dockerfile");
@@ -65,5 +54,4 @@ public class MLFlowDockerfileMigrationSteps extends AbstractMigrationTest {
         validatedFile = getTestFile("/v1_9_0/MLFlowDockerfileMigration/validation/inapplicable-Dockerfile");
         assertTrue("The migration is processing Dockerfile it should NOT be migrating!", validateMigration(testFile, validatedFile));
     }
-
 }

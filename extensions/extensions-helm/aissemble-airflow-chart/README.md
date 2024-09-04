@@ -1,10 +1,10 @@
 # aiSSEMBLE&trade; Airflow Helm Chart
-Baseline Helm chart for packaging and deploying Airflow. Built on the [official Helm chart](https://airflow.apache.org/docs/helm-chart/stable) and managed during the 
-normal Maven build lifecycle and placed in the **target/helm/repo** directory. See 
+Baseline Helm chart for packaging and deploying Airflow. Built on the [official Helm chart](https://airflow.apache.org/docs/helm-chart/stable) and managed during the
+normal Maven build lifecycle and placed in the **target/helm/repo** directory. See
 [Helm Maven Plugin](https://github.com/kokuwaio/helm-maven-plugin) for more details.
 
 # Basic usage with Helm CLI
-To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart 
+To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart
 version with the desired aiSSEMBLE version. For example:
 ```bash
 helm install airflow oci://ghcr.io/boozallen/aissemble-airflow-chart --version <AISSEMBLE-VERSION>
@@ -13,18 +13,15 @@ helm install airflow oci://ghcr.io/boozallen/aissemble-airflow-chart --version <
 
 # Properties
 
-The following properties are inherited from the base [Airflow chart](https://github.com/apache/airflow/tree/helm-chart/1.10.0/chart), 
-but with updated default values. 
+The following properties are inherited from the base [Airflow chart](https://github.com/apache/airflow/tree/helm-chart/1.15.0/chart),
+but with updated default values.
 
-*NOTE* there are several values that should be modified before use in a production environment; see 
-[production documentation](https://airflow.apache.org/docs/helm-chart/1.10.0/production-guide.html) for details. 
+*NOTE* there are several values that should be modified before use in a production environment; see
+[production documentation](https://airflow.apache.org/docs/helm-chart/1.15.0/production-guide.html) for details.
 
 | Property | Description | Default                                                                                                                                                                                                                                                                                             |
 |----------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| airflowVersion | The version of airflow to use | 2.6.2                                                                                                                                                                                                                                                                                               | 
-| defaultAirflowRepository | The airflow repo and image to use | ghcr.io/boozallen/aissemble-airflow                                                                                                                                                                                                                                                                 | 
-| defaultAirflowTag | The airflow image tag | Chart.Version                                                                                                                                                                                                                                                                                       | 
-| images.airflow.pullPolicy | The airflow image pull policy | Always                                                                                                                                                                                                                                                                                              |
+| airflowVersion | The version of airflow to use | 2.9.3                                                                                                                                                                                                                                                                                              | 
 | executor | The mechanism that handles the running of tasks | KubernetesExecutor                                                                                                                                                                                                                                                                                  |
 | statsd.enabled | Custom metrics service | false                                                                                                                                                                                                                                                                                               |
 | triggerer.enabled | Monitors all deferred tasks in your environment | false                                                                                                                                                                                                                                                                                               |
@@ -50,16 +47,16 @@ but with updated default values.
 | volumes | Volumes for airflow | &emsp;- name: model <br/>&emsp;&emsp;persistentVolumeClaim: <br/>&emsp;&emsp;&emsp;claimName: model <br/>&emsp;- name: boms-notebook <br/>&emsp;&emsp;persistentVolumeClaim: <br/>&emsp;&emsp;&emsp;claimName: boms-notebook                                                                        |
 
 
-All properties must be prefixed with the key `aissemble-airflow-chart.airflow` to override any values in the chart. See 
-[helm documentation](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#overriding-values-from-a-parent-chart) 
+All properties must be prefixed with the key `aissemble-airflow-chart.airflow` to override any values in the chart. See
+[helm documentation](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#overriding-values-from-a-parent-chart)
 for more info.
 
 # Migration from aiSSEMBLE v1 Helm Charts
-If you are migrating from the v1 version of the airflow chart, use the tables below to apply any existing customizations 
+If you are migrating from the v1 version of the airflow chart, use the tables below to apply any existing customizations
 from the old chart to the new v2 chart.
 
 ## Property Location
-All properties listed below have been moved to the parent chart. If any properties are set to the default value, we 
+All properties listed below have been moved to the parent chart. If any properties are set to the default value, we
 recommend removing them from your values file entirely.
 
 **Note**: *all new property locations include the prefix `aissemble-airflow-chart.airflow`*
@@ -81,7 +78,7 @@ recommend removing them from your values file entirely.
 | deployment.volumes | volumes | Yes                |                                                                                                                                                                                      |
 | ingress.enabled | ingress.web.enabled | No                 |                                                                                                                                                                                      |
 | ingress.metadata.annotations | ingress.web.annotations | No                |                                                                                                                                                                                      |
-| ingress.hosts[\*].host | ingress.web.hosts[\*].name | No                | 
+| ingress.hosts[\*].host | ingress.web.hosts[\*].name | No                |
 | ingress.hosts[\*].paths[\*].path | ingress.web.path | No                | To provide additional paths with custom service names, make use of `ingress.web.precedingPaths[*].serviceName` or `ingress.web.succeedingPaths[*].serviceName`                       |
 | ingress.hosts[\*].paths[\*].pathType | ingress.web.pathType | No                |                                                                                                                                                                                      | 
 
@@ -104,8 +101,8 @@ The following properties no longer exist.
 ## Additional Changes
 
 ### Dockerfile
-The following script `<YOUR-PROJECT>-docker/<YOUR-PROJECT>-airflow-docker/src/main/resources/start.sh` and it's 
-associated usage in the `<YOUR-PROJECT>-docker/<YOUR-PROJECT>-airflow-docker/src/main/resources/docker/Dockerfile` 
+The following script `<YOUR-PROJECT>-docker/<YOUR-PROJECT>-airflow-docker/src/main/resources/start.sh` and it's
+associated usage in the `<YOUR-PROJECT>-docker/<YOUR-PROJECT>-airflow-docker/src/main/resources/docker/Dockerfile`
 should be removed:
 ```
 COPY ./src/main/resources/start.sh $AIRFLOW_HOME/
