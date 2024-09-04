@@ -1,24 +1,26 @@
 Feature: Migrate from using Orphedomos to Fabric8 docker-maven-plugin
 
-  Scenario: Pom file with Orphedomos plugin configuration is migrated to Fabric8 docker-maven-plugin
-    Given A pom with Orphedomos in the plugin management
-    When The migration executes
-    Then The pom is updated to use the Fabric8 docker-maven-plugin
-    And Fabric8 is configured properly
-    And the previous configuration was removed
+  Scenario: A standard Docker parent POM is migrated to Fabric8
+    Given a the default POM for the parent module of a project's Docker moduels
+    When the Fabric8 migration executes
+    Then the Orphedomos plugin is replaced with Fabric8
+    And the "ci" profile configuration is updated
 
-  Scenario Outline: Pom file with Orphedomos plugin configuration in a profile is migrated to Fabric8 docker-maven-plugin
-    Given A pom with an Orphedomos config in a "<profile>" profile
-    When The migration executes
-    Then Fabric8 is configured properly in the "<profile>" profile
-    And the previous "<profile>" profile configuration was removed
-    Examples:
-      | profile          |
-      | integration-test |
-      | ci               |
+  Scenario: A standard Docker module POM is migrated to Fabric8
+    Given a default POM for a Docker module
+    When the Fabric8 migration executes
+    Then the Orphedomos packaging is replaced with Fabric8's docker-build packaging
 
-  Scenario: Pom file with Orphedomos packaging type is migrated to Fabric8 docker-build
-    Given A pom with its packaging set to Orphedomos
-    When The migration executes
-    Then The pom is updated to use packaging type of docker-build
+  Scenario: Pom file with Orphedomos plugin configuration in profile(s) plugin management section is migrated to Fabric8 docker-maven-plugin
+    Given a POM that uses Orphedomos in multiple profiles
+    When the Fabric8 migration executes
+    Then the Orphedomos plugin is replaced with Fabric8 in all profiles
+    And the "ci" profile configuration is updated
+    And the "integration-test" profile configuration is updated
+    And the "other-profile" profile configuration is updated
+
+  Scenario: A non-applicable POM is not migrated
+    Given a POM that does not use the Orphedomos plugin
+    When the Fabric8 migration executes
+    And the POM is not modified
 

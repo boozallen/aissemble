@@ -15,15 +15,15 @@
 
     <parent>
         <groupId>org.test</groupId>
-        <artifactId>test-project-docker</artifactId>
+        <artifactId>test-docker</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>test-project-spark-worker-docker</artifactId>
+    <artifactId>test-spark-worker-docker</artifactId>
 
     <packaging>orphedomos</packaging>
 
-    <name>test-project::Docker::Spark</name>
+    <name>Test::Docker::Spark</name>
     <description>Build for a Spark Docker container which contains all pipelines</description>
     <modelVersion>4.0.0</modelVersion>
 
@@ -72,8 +72,8 @@
                 </executions>
                 <configuration>
                     <groupId>${project.groupId}</groupId>
-                    <modelsArtifactId>test-project-pipeline-models</modelsArtifactId>
-                    <pipelinesDirectory>${project.parent.parent.basedir}/test-project-pipelines/</pipelinesDirectory>
+                    <modelsArtifactId>test-pipeline-models</modelsArtifactId>
+                    <pipelinesDirectory>${project.parent.parent.basedir}/test-pipelines/</pipelinesDirectory>
                     <outputDirectory>${project.build.directory}/dockerbuild/</outputDirectory>
                     <habushuArtifactVersion>${version.habushu.dist.artifact}</habushuArtifactVersion>
                     <targetPipelineTypes>
@@ -83,20 +83,12 @@
                 <dependencies>
                     <dependency>
                         <groupId>${project.groupId}</groupId>
-                        <artifactId>test-project-pipeline-models</artifactId>
+                        <artifactId>test-pipeline-models</artifactId>
                         <version>${project.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>spark-pipeline</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
-    </dependencies>
 </project>
 
