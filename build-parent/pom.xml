@@ -146,6 +146,10 @@
         <version.helm.plugin>6.14.3</version.helm.plugin>
         <version.helm.min>3.12.0</version.helm.min>
         <version.snakeyaml>2.0</version.snakeyaml>
+
+        <!-- Used for publishing artifacts into internal nexus repo-->
+        <id.nexus.server>nexus</id.nexus.server>
+        <pypi.project.repository.url>https://nexus.boozallencsn.com/repository/aiops-pypi-internal/</pypi.project.repository.url>
     </properties>
 
     <dependencyManagement>
@@ -1007,7 +1011,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
     </build>
 
     <profiles>
-
         <profile>
             <id>ci</id>
             <build>
@@ -1018,12 +1021,14 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                             <artifactId>habushu-maven-plugin</artifactId>
                             <version>${version.habushu.plugin}</version>
                             <configuration>
+                                <pypiRepoId>${id.nexus.server}</pypiRepoId>
+                                <pypiRepoUrl>${pypi.project.repository.url}</pypiRepoUrl>
                                 <deleteVirtualEnv>true</deleteVirtualEnv>
                                 <forceSync>true</forceSync>
                                 <decryptPassword>false</decryptPassword>
                                 <rewriteLocalPathDepsInArchives>true</rewriteLocalPathDepsInArchives>
                                 <addPypiRepoAsPackageSources>false</addPypiRepoAsPackageSources>
-                                <useDevRepository>true</useDevRepository>
+                                <useDevRepository>false</useDevRepository>
                             </configuration>
                         </plugin>
                         <plugin>
