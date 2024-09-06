@@ -1,0 +1,12 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  targetRevision: dev
+  repo: test.url
+  helm:
+    valueFiles:
+      - values.yaml
+
+global:
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/

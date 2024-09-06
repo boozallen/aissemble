@@ -22,6 +22,29 @@
             "excludes": ["*-docker/*/target/Dockerfile"]
           }
         ]
+      },
+      {
+        "name": "argocd-template-sync-policy-configuration-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.ArgocdTemplateSyncPolicyMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/src/main/resources/templates/*.yaml"
+            ],
+            "excludes": ["*-deploy/src/main/resources/templates/sealed-secret.yaml"]
+          }
+        ]
+      },
+      {
+        "name": "argocd-value-file-sync-policy-configuration-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.ArgocdValueFileSyncPolicyMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/src/main/resources/values.yaml"
+            ]
+          }
+        ]
       }
     ]
   },
