@@ -111,7 +111,7 @@ spec:
         {{- if or (not (eq .Values.sparkConf "")) (not ( eq .Values.hiveSite "")) }}
         - name: spark-config
           configMap:
-            name: {{ .Release.Name }}-spark-conf
+            name: spark-config
             items:
               {{- if not (eq .Values.sparkConf "") }}
               - key: sparkConf

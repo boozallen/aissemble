@@ -25,7 +25,7 @@ tests:
       - notFailedTemplate: {}
       - equal:
           path: metadata.name
-          value: "RELEASE-NAME-shs-spark-conf"
+          value: "RELEASE-NAME-shs-spark-config"
       - equal:
           path: data.sparkConf
           value: "spark.executor.instances: 2"
@@ -41,7 +41,7 @@ tests:
           content:
             name: spark-config
             configMap:
-              name: RELEASE-NAME-shs-spark-conf
+              name: RELEASE-NAME-shs-spark-config
               items:
                 - key: sparkConf
                   path: spark-defaults.conf

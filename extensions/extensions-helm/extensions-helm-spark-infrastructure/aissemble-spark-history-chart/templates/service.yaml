@@ -11,8 +11,8 @@ spec:
   selector:
     app: {{ .Release.Name }}
   ports:
-    - name: {{ .Release.Name }}-service-port
+    - name: {{ .Values.service.port.name }}
       protocol: TCP
       port: {{ .Values.service.port.port }}
-      targetPort: shs-http
+      targetPort: {{ .Values.service.port.targetPort }}
 {{- end }}

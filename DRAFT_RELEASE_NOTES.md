@@ -7,6 +7,8 @@ Created a helm chart with the necessary infrastructure for deploying your aiSSEM
 _[A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section]_
 Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
 
+- Projects MUST upgrade to the new v2 spark-infrastructure chart in order to retain functionality for data-delivery pipelines.
+
 # Known Issues
 There are no known issues with the 1.9.0 release.
 
@@ -37,6 +39,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
 | upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE       |
 | ml-flow-dockerfile-migration                       | Updates the MLFlow's Dockerfile to use the bitnami/mlflow image as a base instead of the deprecated boozallen/aissemble-mlflow image"                                      |
+| update-data-access-thrift-endpoint-migration       | For projects using the default data-access thrift endpoint, updates to the new endpoint associated with v2 spark-infrastructure                                            |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
@@ -74,13 +77,12 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.9.0 
 
 ## Conditional Steps
 
-
 ## Final Steps - Required for All Projects
 ### Finalizing the Upgrade
 1. Run `./mvnw org.technologybrewery.baton:baton-maven-plugin:baton-migrate` to apply the automatic migrations
-1. Run `./mvnw clean install` and resolve any manual actions that are suggested
+2. Run `./mvnw clean install` and resolve any manual actions that are suggested
     - **NOTE:** This will update any aiSSEMBLE dependencies in 'pyproject.toml' files automatically
-1. Repeat the previous step until all manual actions are resolved
+3. Repeat the previous step until all manual actions are resolved
 
 # What's Changed
 - MLFlow Chart version upgraded from `0.2.1` to `1.4.22`.

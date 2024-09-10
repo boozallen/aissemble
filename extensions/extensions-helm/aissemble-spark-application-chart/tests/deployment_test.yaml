@@ -13,9 +13,6 @@ tests:
           path: spec.sparkVersion
           value: 3.4.0
       - equal:
-          path: spec.sparkConfigMap
-          value: spark-config
-      - equal:
           path: spec.dynamicAllocation.enabled
           value: true
       - equal:

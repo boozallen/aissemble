@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-spark-conf
+  name: spark-config
 data:
 {{- if not (eq .Values.sparkConf "") }}
   sparkConf:

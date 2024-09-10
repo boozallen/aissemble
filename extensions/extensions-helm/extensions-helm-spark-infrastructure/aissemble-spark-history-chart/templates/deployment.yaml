@@ -80,7 +80,7 @@ spec:
                   key: {{ $v.key }}
             {{- end }}
           ports:
-            - containerPort: 18080
+            - containerPort: {{ .Values.service.port.port }}
               name: {{ .Values.service.port.name }}
           volumeMounts:
             {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
@@ -112,7 +112,7 @@ spec:
         {{- if not (eq .Values.sparkConf "") }}
         - name: spark-config
           configMap:
-            name: {{ .Release.Name }}-shs-spark-conf
+            name: {{ .Release.Name }}-shs-spark-config
             items:
               - key: sparkConf
                 path: spark-defaults.conf

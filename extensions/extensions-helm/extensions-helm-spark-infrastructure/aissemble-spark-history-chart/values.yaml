@@ -27,6 +27,7 @@ service:
   port:
     name: "shs-http"
     port: 18080
+    targetPort: 18080
 
 ingress:
   enabled: true

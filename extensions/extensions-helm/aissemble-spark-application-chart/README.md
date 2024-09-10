@@ -42,6 +42,22 @@ For more information on what properties can be configured for SparkApplication, 
 | service.spec.ports.port                         | The port to be exposed                                                             | No                | 4747                                            |
 | service.spec.ports.targetPort                   | The port that the exposed port should map to                                       | No                | 4747                                            |
 
+## Default Spark Properties
+The following Spark settings are set by default to ensure compatibility with aiSSEMBLE-provided resources.  They may be 
+overridden as needed, and each is nested beneath `sparkApp.spec.sparkConf`:
+
+| Property                                 | Value                                          |
+|------------------------------------------|------------------------------------------------|
+| spark.hive.server2.thrift.port           | "10000"                                        |
+| spark.hive.server2.thrift.http.port      | "10001"                                        |
+| spark.hive.server2.transport.mode        | "http"                                         |
+| spark.hadoop.fs.s3a.path.style.access    | "true"                                         |
+| spark.hive.server2.thrift.http.path      | "cliservice                                    |
+| spark.hive.metastore.schema.verification | "false"                                        |
+| spark.hive.metastore.warehouse.dir       | "s3a://spark-infrastructure/warehouse"         |
+| spark.hive.metastore.uris                | "thrift://hive-metastore-service:9083/default" |
+| spark.eventLog.dir                       | "/opt/spark/spark-events"                      |
+
 # Interoperability with the aiSSEMBLE Spark Operator Helm Chart
 The aiSSEMBLE Spark Application Helm Chart is largely intended to be used in conjunction with the [aiSSEMBLE Spark
 Operator Helm Chart](../aissemble-spark-operator-chart/README.md).  As such, some features of this chart are designed to
@@ -56,9 +72,18 @@ made if you make any of the following customizations:
  - Changing `ivyCache.name` in the Spark Operator chart
  - Adding volumes/volumeMounts to your SparkApplication definition
 
-### Disabling the Ivy Cache
-If you decide to disable the
-`ivyCache` feature, you will need to manually remove the `volume` and `volumeMount` from the `sparkApp` definition
+## Shared Spark History Events
+To support shared Spark history events between multiple SparkApplication instances, this chart automatically creates a 
+`volume` and `volumeMount` using the PersistentVolumeClaim created by the Spark Infrastructure chart. This chart 
+assumes the default configuration for the Spark Infrastructure chart. In order to ensure compatibility, some manual 
+changes may need to be made if you make any of the following customizations:
+- Disabling the `aissemble-spark-history-chart` feature in the Spark Infrastructure chart
+- Changing `aissemble-spark-history-chart.eventVolume.name` in the Spark Infrastructure chart
+- Adding volumes/volumeMounts to your SparkApplication definition
+
+### Disabling the Ivy Cache and/or Spark History
+If you decide to disable the `ivyCache` feature or the `aissemble-spark-history-chart`, you will need to manually 
+remove one of or both the `volume` and `volumeMount` from the `sparkApp` definition
 in your values file, e.g.:
 ```yaml
 sparkApp:
@@ -82,9 +107,21 @@ sparkApp:
           claimName: my-ivy-cache
 ```
 
+### Changing the Spark History eventVolume name
+If you change the default name of the `PersistentVolumeClaim` created by the Spark Infrastructure chart, you will 
+need to update the `volume` in the `sparkApp` definition in your values file, e.g.:
+```yaml
+sparkApp:
+  spec:
+    volumes:
+      - name: spark-events
+        persistentVolumeClaim:
+          claimName: my-spark-events-claim
+```
+
 ### Adding Volumes/VolumeMounts
 Because lists in YAML are immutable, if you add volumes or volumeMounts to your SparkApplication definition you will need
-to manually include the `spark-ivy-cache` volume and/or volumeMounts to your values file, e.g.:
+to manually include the `spark-ivy-cache` and `spark-events` volumes and/or volumeMounts to your values file, e.g.:
 ```yaml 
 sparkApp:
   spec:
@@ -92,18 +129,25 @@ sparkApp:
       - name: spark-ivy-cache
         persistentVolumeClaim:
           claimName: my-ivy-cache
+      - name: spark-events
+        persistentVolumeClaim:
+          claimName: spark-events-claim
       - name: my-volume
         emptyDir: {}
     driver:
       volumeMounts:
         - name: spark-ivy-cache
           mountPath: /tmp/.ivy2
+        - name: spark-events
+          mountPath: "/opt/spark/spark-events"
         - name: my-volume
           mountPath: /tmp/my-volume 
     executor:
       volumeMounts:
         - name: spark-ivy-cache
           mountPath: /tmp/.ivy2
+        - name: spark-events
+          mountPath: "/opt/spark/spark-events"
         - name: my-volume
           mountPath: /tmp/my-volume
 ```
