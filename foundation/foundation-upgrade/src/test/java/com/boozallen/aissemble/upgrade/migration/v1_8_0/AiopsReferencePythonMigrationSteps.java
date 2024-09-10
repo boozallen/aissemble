@@ -49,7 +49,7 @@ public class AiopsReferencePythonMigrationSteps extends AbstractMigrationTest {
 
     @Then("the reference are updated to aissemble_core_filestore.file_store_factory")
     public void theReferenceAreUpdatedToAissemble_core_filestoreFile_store_factory() {
-        validatedFile = getTestFile("/v1_8_0/AiopsReferencePythonMigration/validation/IngestValidated.py");
+        validatedFile = getTestFile("v1_8_0/AiopsReferencePythonMigration/validation/IngestValidated.py");
         assertTrue("Python modules are referencing an older package in imports.", validateMigration(testFile, validatedFile));
     }
 }
