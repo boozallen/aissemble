@@ -57,13 +57,13 @@ public class ArgocdTemplateSyncPolicyMigrationStep extends AbstractMigrationTest
     @Then("the syncPolicy template function is included in the template")
     public void theSyncPolicyTemplateFunctionIsIncludedInTheTemplate() {
         validatedFile = getTestFile("/v1_9_0/ArgocdTemplateSyncPolicyMigration/validation/" + testFile.getName());
-        assertTrue("The syncPolicy helm function is included in the template.", validateMigration(testFile, validatedFile));
+        assertLinesMatch("The syncPolicy helm function is included in the template.", validatedFile, testFile);
     }
 
     @Then("the template is unchanged")
     public void theTemplateIsUnchanged() {
         validatedFile = getTestFile("/v1_9_0/ArgocdTemplateSyncPolicyMigration/validation/" + testFile.getName());
-        assertTrue("The ArgoCD template is not impacted by migration!", validateMigration(testFile, validatedFile));
+        assertLinesMatch("The ArgoCD template is not impacted by migration!", validatedFile, testFile);
     }
 
     @Then("the application template still has indent with 4 spaces")

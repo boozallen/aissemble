@@ -49,7 +49,7 @@ public class AirflowDockerfileMigrationSteps extends AbstractMigrationTest {
     @Then("the Dockerfile will pull the community docker Airflow image")
     public void theDockerfileWillPullTheCommunityDockerAirflowImage() {
         validatedFile = getTestFile("/v1_9_0/AirflowDockerfileMigration/validation/Dockerfile");
-        assertTrue("Dockerfile is still referencing aissemble-airflow instead of community airflow Docker image.", validateMigration(testFile, validatedFile));
+        assertLinesMatch("Dockerfile is still referencing aissemble-airflow instead of community airflow Docker image.", validatedFile, testFile);
     }
 
     @Then("the airflow migration is skipped")

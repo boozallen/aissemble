@@ -46,12 +46,12 @@ public class MLFlowDockerfileMigrationSteps extends AbstractMigrationTest {
     @Then("the image will pull the community docker image")
     public void theImageWillPullTheCommunityDockerImage() {
         validatedFile = getTestFile("/v1_9_0/MLFlowDockerfileMigration/validation/applicable-Dockerfile");
-        assertTrue("Dockerfile is still referencing aissemble-mlflow instead of community mlflow Docker image.", validateMigration(testFile, validatedFile));
+        assertLinesMatch("Dockerfile is still referencing aissemble-mlflow instead of community mlflow Docker image.", validatedFile, testFile);
     }
 
     @Then("the image is unchanged")
     public void the_image_is_unchanged() {
         validatedFile = getTestFile("/v1_9_0/MLFlowDockerfileMigration/validation/inapplicable-Dockerfile");
-        assertTrue("The migration is processing Dockerfile it should NOT be migrating!", validateMigration(testFile, validatedFile));
+        assertLinesMatch("The migration is processing Dockerfile it should NOT be migrating!", validatedFile, testFile);
     }
 }
