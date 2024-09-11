@@ -87,10 +87,14 @@ jobs:
           distribution: 'temurin'
       - name: Create Docker Builder Config File
         run: sudo touch /etc/buildkitd.toml
+      # Generate the settings.xml for ghcr.io, pypi, & dev-pypi server profiles
+      - name: Create settings.xml
+        run: |
+          echo "<settings><servers><server><id>ghcr.io</id><username>${{ secrets.GHCR_IO_USERNAME }}</username><password>${{ secrets.GHCR_IO_TOKEN }}</password></server><server><id>pypi</id><username>${{ secrets.PYPI_USERNAME }}</username><password>${{ secrets.PYPI_TOKEN }}</password></server><server><id>dev-pypi</id><username>${{ secrets.TEST_PYPI_USERNAME }}</username><password>${{ secrets.TEST_PYPI_TOKEN }}</password></server> </servers></settings>" > $HOME/.m2/settings.xml
       # Run build with the gh-build profile
       - name: Build aiSSEMBLE
         run: |
-          ./mvnw -B clean install -U --file pom.xml -Pci,integration-test,gh-build
+          ./mvnw -B clean deploy -U -file pom.xml -Pci,integration-test,gh-build --settings $HOME/.m2/settings.xml
       # Install Maven which is needed for archetype tests
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
