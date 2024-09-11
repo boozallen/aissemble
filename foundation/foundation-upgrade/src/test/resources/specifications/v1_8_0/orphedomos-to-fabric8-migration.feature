@@ -24,3 +24,55 @@ Feature: Migrate from using Orphedomos to Fabric8 docker-maven-plugin
     When the Fabric8 migration executes
     And the POM is not modified
 
+  Scenario: A POM with the Docker packaging type includes the docker-maven-plugin in the build
+    Given a POM with the "docker-build" packaging type
+    And the docker-maven-plugin is not already in the build section
+    When the add Fabric8 migration executes
+    Then the docker-maven-plugin is added to the build section with minimal configuration
+
+  Scenario: The docker plugin is added when there is no existing plugins section
+    Given a POM with the "docker-build" packaging type
+    And there is no plugins section in build
+    When the add Fabric8 migration executes
+    Then the docker-maven-plugin is added to the build section with minimal configuration
+
+  Scenario: The docker plugin is added when there is no existing build section
+    Given a POM with the "docker-build" packaging type
+    And there is no build section
+    When the add Fabric8 migration executes
+    Then the docker-maven-plugin is added to a new build section with minimal configuration
+
+  Scenario: The migration is skipped if the plugin is already present
+    Given a POM with the "docker-build" packaging type
+    And the docker plugin is already in the build section
+    When the add Fabric8 migration executes
+    Then the add Fabric8 migration is skipped
+
+  Scenario Outline: A non-Docker module with the docker-maven-plugin configured is migrated
+    Given a POM with the "<packaging>" packaging type
+    And the docker-maven-plugin is configured directly in the build
+    When the Fabric8 location migration executes
+    Then the plugin configuration <is> moved to the pluginManagement section
+
+    Examples:
+      | packaging | is     |
+      | pom       | is     |
+      | jar       | is not |
+
+  Scenario: A non-Docker module with the docker-maven-plugin configured in a profile is migrated
+    Given a POM with the "pom" packaging type
+    And the docker-maven-plugin is configured directly in the build of a profile
+    When the Fabric8 location migration executes
+    Then the plugin configuration is moved to the pluginManagement section within the profile
+
+  Scenario: A non-Docker module with the docker-maven-plugin a no other plugins is migrated
+    Given a POM with the "pom" packaging type
+    And the docker-maven-plugin is the only plugin configured in the build
+    When the Fabric8 location migration executes
+    Then the plugin configuration is moved to the pluginManagement section and plugins is removed
+
+  Scenario: A non-Docker module with the docker-maven-plugin and no pluginManagement section is migrated
+    Given a POM with the "pom" packaging type
+    And the docker-maven-plugin is configured directly in the build but there is no pluginManagement section
+    When the Fabric8 location migration executes
+    Then the plugin configuration is moved to a new pluginManagement section

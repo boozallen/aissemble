@@ -50,7 +50,7 @@ public class ExtensionsSecurityProjectsMigrationSteps extends AbstractMigrationT
 
     @Then("the objects are updated to aissemble replacing aiops")
     public void theObjectsAreUpdatedToAissembleReplacingAiops() {
-        validatedFile = getTestFile("/v1_8_0/ExtensionsSecurityProjectsMigration/validation/IngestValidation.java");
+        validatedFile = getTestFile("v1_8_0/ExtensionsSecurityProjectsMigration/validation/IngestValidation.java");
         assertTrue("Extensions Security projects are still referencing aiops in the java Objects.", validateMigration(testFile, validatedFile));
     }
 }

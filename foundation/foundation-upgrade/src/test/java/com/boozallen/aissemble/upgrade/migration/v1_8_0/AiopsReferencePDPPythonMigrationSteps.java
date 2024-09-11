@@ -69,7 +69,7 @@ public class AiopsReferencePDPPythonMigrationSteps extends AbstractMigrationTest
 
     @Then("the target path in the Dockerfile will be refactored to referenced aissemble-security.properties")
     public void theTargetPathInTheDockerfileWillBeRefactoredToReferencedAissembleSecurityProperties() {
-        validatedFile = getTestFile("/v1_8_0/AiopsReferencePDPPythonMigration/validation/Dockerfile_Validated");
+        validatedFile = getTestFile("v1_8_0/AiopsReferencePDPPythonMigration/validation/Dockerfile_Validated");
         assertTrue("PDP Dockerfile is still referencing aiops in the target path.", validateMigration(testFile, validatedFile));
     }
 }

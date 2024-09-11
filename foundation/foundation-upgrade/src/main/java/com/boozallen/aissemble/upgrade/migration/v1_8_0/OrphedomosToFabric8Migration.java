@@ -48,12 +48,12 @@ import static org.technologybrewery.baton.util.FileUtils.getRegExCaptureGroups;
  */
 
 public class OrphedomosToFabric8Migration extends AbstractAissembleMigration {
+    public static final String FABRIC8_GROUP_ID = "${group.fabric8.plugin}";
+    public static final String FABRIC8_ARTIFACT_ID = "docker-maven-plugin";
+    public static final String FABRIC8_PACKAGING = "docker-build";
     private static final String ORPHEDOMOS_GROUP_ID = "org.technologybrewery.orphedomos";
     private static final String ORPHEDOMOS_ARTIFACT_ID = "orphedomos-maven-plugin";
     private static final String ORPHEDOMOS_PACKAGING = "orphedomos";
-    private static final String FABRIC8_GROUP_ID = "${group.fabric8.plugin}";
-    private static final String FABRIC8_ARTIFACT_ID = "docker-maven-plugin";
-    private static final String FABRIC8_PACKAGING = "docker-build";
     private static final String SPACE = " ";
     private static final Logger logger = LoggerFactory.getLogger(OrphedomosToFabric8Migration.class);
     private static final String EXTRACT_PACKAGING_REGEX = "(<packaging>)orphedomos(<\\/packaging>)";
