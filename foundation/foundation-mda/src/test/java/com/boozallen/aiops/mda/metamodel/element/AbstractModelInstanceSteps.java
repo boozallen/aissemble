@@ -204,8 +204,8 @@ public abstract class AbstractModelInstanceSteps {
 
     protected GenerationContext createGenerationContext(Target target) {
         VelocityEngine engine = new VelocityEngine();
-        engine.setProperty("resource.loader", "class");
-        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        engine.setProperty("resource.loaders", "class");
+        engine.setProperty("resource.loader.class.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         engine.init();
         GenerationContext context = new GenerationContext(target);
         context.setBasePackage(BOOZ_ALLEN_PACKAGE);

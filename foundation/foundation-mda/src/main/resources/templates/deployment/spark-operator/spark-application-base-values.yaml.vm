@@ -85,6 +85,22 @@ sparkApp:
       env:
         - name: KRAUSENING_BASE
           value: /opt/spark/krausening/base
+        #if (${enableFileStore})
+        #foreach (${fileStore} in ${fileStores})
+        - name: "${fileStore.getName()}_FS_PROVIDER"
+          value: "REPLACE ME: YOUR FILE STORE PROVIDER GOES HERE!"
+        - name: "${fileStore.getName()}_FS_ACCESS_KEY_ID"
+          valueFrom:
+            secretKeyRef:
+              name: remote-auth-config
+              key: AWS_ACCESS_KEY_ID
+        - name: "${fileStore.getName()}_FS_SECRET_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: remote-auth-config
+              key: AWS_SECRET_ACCESS_KEY
+        #end
+        #end
         #if (${enableDataLineageSupport})
         - name: ENABLE_LINEAGE
           value: "true"
