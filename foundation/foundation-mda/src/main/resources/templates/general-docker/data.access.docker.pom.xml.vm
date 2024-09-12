@@ -59,6 +59,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>${group.fabric8.plugin}</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 

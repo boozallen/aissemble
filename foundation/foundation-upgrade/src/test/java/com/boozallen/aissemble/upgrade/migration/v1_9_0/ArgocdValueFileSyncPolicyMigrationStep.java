@@ -44,7 +44,7 @@ public class ArgocdValueFileSyncPolicyMigrationStep extends AbstractMigrationTes
     @Then("the value file is updated with expected syncPolicy value function")
     public void theSyncPolicyTemplateFunctionIsIncludedInTheTemplate() {
         File validatedFile = getTestFile(String.format("v1_9_0/ArgocdValueFileSyncPolicyMigration/validation/%s-values.yaml", configuration));
-        assertTrue("the value file is updated with expected syncPolicy value function.", validateMigration(testFile, validatedFile));
+        assertLinesMatch("the value file is updated with expected syncPolicy value function.", validatedFile, testFile);
     }
 
     @Given("an ArgoCD value file has indent with 4 spaces")
