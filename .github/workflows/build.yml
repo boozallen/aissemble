@@ -16,16 +16,12 @@ on:
         required: true
         type: string
         default: "dev"
-  push:
-    branches: [ "dev" ]
 
 jobs:
   build:
-
     runs-on: arc-runner-set-aissemble
     env:
       DOCKER_CONFIG: /home/runner/.docker
-
     steps:
       - uses: actions/checkout@v4
         with:
