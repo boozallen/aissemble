@@ -16,6 +16,13 @@ tests:
         supplementalQuarkusConfig:
           - myproperty1=value1
           - myproperty2=value2
+      toggleableConfiguration:
+        toggle: true
+        configMap:
+          supplementalQuarkusConfig:
+            - file=/filepath
+            - key-file=/keypath
+
     asserts:
       - equal:
           path: data
@@ -23,3 +30,5 @@ tests:
             quarkus-properties-file: |-
               myproperty1=value1
               myproperty2=value2
+              file=/filepath
+              key-file=/keypath

@@ -65,6 +65,12 @@ tests:
           periodSeconds: 2
       app:
         name: project-quarkus
+      togglableConfiguration:
+        toggle: false
+        volumes:
+          - name: test-toggleable-volume
+        volumeMounts:
+          - name: test-toggleable-volume
     asserts:
       - equal:
           path: spec.template.spec.securityContext.runAsUser
@@ -91,6 +97,10 @@ tests:
           content:
             name: quarkus-application-properties
           any: true
+      - notContains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: test-togglable-volume
       - contains:
           path: spec.template.spec.volumes
           content:
@@ -101,6 +111,10 @@ tests:
           content:
             name: quarkus-application-properties
           any: true
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: test-togglable-volume
       - equal:
           path: spec.template.spec.containers[0].startupProbe.failureThreshold
           value: 60

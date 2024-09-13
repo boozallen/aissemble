@@ -21,9 +21,10 @@ spec:
     spec:
       volumes:
         {{- tpl (toYaml .Values.deployment.volumes) . | nindent 8}}
-        {{ if .Values.deployment.supplementalVolumes }}
+        {{- if .Values.deployment.supplementalVolumes }}
           {{- toYaml .Values.deployment.supplementalVolumes | nindent 8}}
-        {{ end }}
+        {{- end }}
+        {{- include "toggleable.configuration.volumes" . | nindent 8}}
       {{- with .Values.deployment.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -58,8 +59,9 @@ spec:
           {{- end }}
           volumeMounts:
             {{- toYaml .Values.deployment.volumeMounts | nindent 12}}
-            {{ if .Values.deployment.supplementalVolumeMounts }}
+            {{- if .Values.deployment.supplementalVolumeMounts }}
               {{- toYaml .Values.deployment.supplementalVolumeMounts | nindent 12}}
-            {{ end }}
+            {{- end }}
+            {{- include "toggleable.configuration.volumeMounts" . | nindent 12 }}
       hostname: {{ .Values.deployment.hostname | default .Chart.Name }}
       restartPolicy: {{ .Values.deployment.restartPolicy | default "Always" }}
