@@ -11,99 +11,121 @@ package com.boozallen.aissemble.upgrade.migration.v1_8_0;
  */
 
 import com.boozallen.aissemble.upgrade.migration.AbstractMigrationTest;
-import org.technologybrewery.baton.util.pom.PomHelper;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import io.cucumber.java.en.Given;
+import org.apache.maven.model.BuildBase;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
+import org.apache.maven.model.Profile;
+import org.technologybrewery.baton.util.pom.PomHelper;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
 
 public class OrphedomosToFabric8MigrationSteps  extends AbstractMigrationTest {
+    public static final String FABRIC8_ARTIFACT = "docker-maven-plugin";
+    public static final String FABRIC8_GROUP = "${group.fabric8.plugin}";
+    private File validationFile;
 
-    protected List<String> profilePluginsArtifactIds;
-
-    @Given("A pom with Orphedomos in the plugin management")
-    public void a_pom_with_orphedomos_in_the_plugin_management() {
-        testFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/migrate-configuration/pom.xml");
+    @Given("a the default POM for the parent module of a project's Docker moduels")
+    public void aTheDefaultPOMForTheParentModuleOfAProjectsDockerModuels() {
+        testFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/migration/standard-parent/pom.xml");
+        validationFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/validation/standard-parent/pom.xml");
     }
-    @When("The migration executes")
-    public void the_migration_executes() {
+
+    @Given("a default POM for a Docker module")
+    public void aDefaultPOMForADockerModule() {
+        testFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/migration/standard-image/pom.xml");
+        validationFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/validation/standard-image/pom.xml");
+    }
+
+    @Given("a POM that uses Orphedomos in multiple profiles")
+    public void aPOMThatUsesOrphedomosInMultipleProfiles() {
+        testFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/migration/multi-profile/pom.xml");
+        validationFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/validation/multi-profile/pom.xml");
+    }
+
+    @Given("a POM that does not use the Orphedomos plugin")
+    public void aPOMThatDoesNotUseTheOrphedomosPlugin() {
+        testFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/migration/skip-migrate/pom.xml");
+        validationFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/validation/skip-migrate/pom.xml");
+    }
+
+    @When("the Fabric8 migration executes")
+    public void theMigrationExecutes() {
         performMigration(new OrphedomosToFabric8Migration());
-        assertTrue("The migration should execute", shouldExecute);
-    }
-    @Then("The pom is updated to use the Fabric8 docker-maven-plugin")
-    public void the_pom_is_updated_to_use_the_fabric8_docker_maven_plugin() {
-        Model model = PomHelper.getLocationAnnotatedModel(testFile);
-        Object artifactId = model.getBuild().getPlugins().get(1).getArtifactId();
-        assertEquals("docker-maven-plugin", artifactId.toString());
-
-        Object groupId = model.getBuild().getPlugins().get(1).getGroupId();
-        assertEquals("io.fabric8", groupId.toString());
-
     }
 
-    @And("Fabric8 is configured properly")
-    public void fabric8_is_configured_properly(){
-        Model model = PomHelper.getLocationAnnotatedModel(testFile);
-        Object configuration = model.getBuild().getPlugins().get(1).getConfiguration();
-        assertNotNull("The configuration was not added properly", configuration);
-    }
-    @Then("the previous configuration was removed")
-    public void the_previous_configuration_was_removed() {
-        Model model = PomHelper.getLocationAnnotatedModel(testFile);
-        boolean hasOrphedomosArtifactId = model.getBuild().getPluginManagement().getPlugins().stream()
-                .map(Plugin::getArtifactId)
-                .anyMatch(artifactId -> artifactId.equals("orphedomos-maven-plugin"));
-        assertFalse("The previous orphedomos plugin was not removed successfully", hasOrphedomosArtifactId);
+    @Then("the Orphedomos plugin is replaced with Fabric8")
+    public void theOrphedomosPluginIsReplacedWithFabric() throws IOException {
+        assertValidationFile("Orphedomos plugin should be replaced with Fabric8");
     }
 
-
-    @Given("A pom with its packaging set to Orphedomos")
-    public void a_pom_with_its_packaging_set_to_orphedomos() {
-        testFile = getTestFile("v1_8_0/OrphedomosToFabric8Migration/migrate-packaging-only/pom.xml");
-    }
-    @Then("The pom is updated to use packaging type of docker-build")
-    public void the_pom_is_updated_to_use_packaging_type_of_docker_build() {
-        Model model = PomHelper.getLocationAnnotatedModel(testFile);
-        Object packaging = model.getPackaging();
-        assertEquals("docker-build", packaging);
+    @Then("the Orphedomos packaging is replaced with Fabric8's docker-build packaging")
+    public void theOrphedomosPackagingIsReplacedWithFabric8sDockerBuildPackaging() throws IOException {
+        assertValidationFile("Orphedomos packaging should be replaced with `docker-maven-plugin`");
     }
 
-    @When("The migration is executed")
-    public void the_migration_is_executed() {
-        performMigration(new OrphedomosToFabric8Migration());
-
+    @Then("the Orphedomos plugin is replaced with Fabric8 in all profiles")
+    public void theOrphedomosPluginIsReplacedWithFabricInAllProfiles() throws IOException {
+        assertValidationFile("Orphedomos plugin in profiles should be replaced with Fabric8");
     }
 
-    @Given("A pom with an Orphedomos config in a {string} profile")
-    public void a_pom_with_an_orphedomos_config_in_a_profile(String profile) {
-        testFile = getTestFile(String.format("v1_8_0/OrphedomosToFabric8Migration/migrate-profile/%s/pom.xml", profile));
+    @Then("the {string} profile configuration is updated")
+    public void theProfileConfigurationIsUpdated(String profile) {
+        Model expectedModel = PomHelper.getLocationAnnotatedModel(validationFile);
+        Model actualModel = PomHelper.getLocationAnnotatedModel(testFile);
+        BuildBase expectedProfile = getProfile(expectedModel, profile).getBuild();
+        BuildBase actualProfile = getProfile(actualModel, profile).getBuild();
+
+        assertEquals("The profile configuration should be updated",
+                getFabric8PluginConfig(expectedProfile.getPlugins()),
+                getFabric8PluginConfig(actualProfile.getPlugins()));
+
+        if (expectedProfile.getPluginManagement() != null) {
+            assertEquals("The profile configuration should be updated in pluginManagement",
+                    getFabric8PluginConfig(expectedProfile.getPluginManagement().getPlugins()),
+                    getFabric8PluginConfig(actualProfile.getPluginManagement().getPlugins()));
+        }
     }
 
-    @Then("Fabric8 is configured properly in the {string} profile")
-    public void fabric8_is_configured_properly_in_the_profile(String profileId) {
-        Model model = PomHelper.getLocationAnnotatedModel(testFile);
-        profilePluginsArtifactIds = model.getProfiles().stream()
-                .filter(profile -> profile.getId().equals(profileId))
-                .flatMap(profile -> profile.getBuild().getPlugins().stream())
-                .map(Plugin::getArtifactId)
-                .collect(Collectors.toCollection(ArrayList::new));
-        assertTrue(String.format("Orphedomos should not be present in profile \"%s\".", profileId), profilePluginsArtifactIds.contains("docker-maven-plugin"));
+    @Then("the POM is not modified")
+    public void thePOMIsNotModified() {
+        assertFalse("Migration should not have executed", shouldExecute);
     }
 
-    @And("the previous {string} profile configuration was removed")
-    public void the_previous_profile_configuration_was_removed(String profileId) {
-        assertFalse(String.format("Orphedomos should not be present in profile \"%s\".", profileId), profilePluginsArtifactIds.contains("orphedomos-maven-plugin"));
+    private void assertValidationFile(String message) throws IOException {
+        String expectedContent = FileUtils.readFileToString(validationFile, "UTF-8");
+        String actualContent = FileUtils.readFileToString(testFile, "UTF-8");
+        assertEquals(message, expectedContent, actualContent);
+    }
+
+    private static Profile getProfile(Model model, String id) {
+        for (Profile profile : model.getProfiles()) {
+            if (profile.getId().equals(id)) {
+                return profile;
+            }
+        }
+        throw new RuntimeException("Profile not found: " + id);
+    }
+
+    private static String getFabric8PluginConfig(List<Plugin> plugins) {
+        if (CollectionUtils.isEmpty(plugins)) {
+            return null;
+        }
+        for (Plugin plugin : plugins) {
+            if (FABRIC8_GROUP.equals(plugin.getGroupId()) && FABRIC8_ARTIFACT.equals(plugin.getArtifactId())) {
+                return Objects.toString(plugin.getConfiguration());
+            }
+        }
+        throw new RuntimeException("Fabric8 plugin not found");
     }
 }

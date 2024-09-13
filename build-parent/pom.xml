@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-root</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
     </parent>
 
     <artifactId>build-parent</artifactId>
@@ -22,7 +22,7 @@
     </distributionManagement>
 
     <properties>
-        <version.aissemble>1.8.0</version.aissemble>
+        <version.aissemble>1.8.1</version.aissemble>
 
         <!-- **************** -->
         <!-- Plugins versions -->
@@ -84,6 +84,8 @@
         <!-- io.fabric8:docker-maven-plugin -->
         <version.fabric8.docker.maven.plugin>0.45-tb-0.1.0</version.fabric8.docker.maven.plugin>
         <docker.platforms>linux/amd64,linux/arm64</docker.platforms>
+        <!-- Used for switching between forked and original helm repo-->
+        <group.fabric8.plugin>org.technologybrewery.fabric8</group.fabric8.plugin>
 
         <!-- ***************** -->
         <!-- Repository Deployment URLs - mostly in aissemble-root -->
@@ -558,7 +560,7 @@
                         This can be removed once https://github.com/fabric8io/docker-maven-plugin/issues/1804
                         is incorporated into the io.fabric8 plugin directly.
                       -->
-                    <groupId>org.technologybrewery.fabric8</groupId>
+                    <groupId>${group.fabric8.plugin}</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${version.fabric8.docker.maven.plugin}</version>
                     <extensions>true</extensions>
@@ -1025,7 +1027,7 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                             </configuration>
                         </plugin>
                         <plugin>
-                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <groupId>${group.fabric8.plugin}</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
                             <version>${version.fabric8.docker.maven.plugin}</version>
                             <executions>

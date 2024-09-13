@@ -50,7 +50,7 @@ public class AiopsReferenceJavaMigrationSteps extends AbstractMigrationTest {
 
     @Then("the references are updated to com.boozallen.aissemble.data.access")
     public void theReferencesAreUpdatedToComBoozallenAissembleDataAccess() {
-        validatedFile = getTestFile("/v1_8_0/AiopsReferenceJavaMigration/validation/DataAccessRecordValidated.java");
+        validatedFile = getTestFile("v1_8_0/AiopsReferenceJavaMigration/validation/DataAccessRecordValidated.java");
         assertTrue("Data Access is still referencing aiops in the java package.", validateMigration(testFile, validatedFile));
     }
 
@@ -61,7 +61,7 @@ public class AiopsReferenceJavaMigrationSteps extends AbstractMigrationTest {
 
     @Then("the references are updated to com.boozallen.aissemble.security")
     public void theReferencesAreUpdatedToComBoozallenAissembleSecurity() {
-        validatedFile = getTestFile("/v1_8_0/AiopsReferenceJavaMigration/validation/IngestValidated.java");
+        validatedFile = getTestFile("v1_8_0/AiopsReferenceJavaMigration/validation/IngestValidated.java");
         assertTrue("Data Access is still referencing aiops in the java package.", validateMigration(testFile, validatedFile));
     }
 }

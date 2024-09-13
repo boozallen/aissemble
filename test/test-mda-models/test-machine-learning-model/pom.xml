@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test-mda-models</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
     </parent>
 
     <artifactId>test-machine-learning-model</artifactId>

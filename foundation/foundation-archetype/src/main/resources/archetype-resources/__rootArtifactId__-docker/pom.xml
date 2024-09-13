@@ -48,6 +48,18 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>${group.fabric8.plugin}</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                        <images>
+                            <image>
+                                <name>${project.artifactId}:${project.version}</name>
+                            </image>
+                        </images>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -60,18 +72,6 @@
                     <profile>docker-spark-python-pipelines</profile>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.technologybrewery.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                    <images>
-                        <image>
-                            <name>${project.artifactId}:${project.version}</name>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -79,21 +79,22 @@
         <profile>
             <id>ci</id>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.technologybrewery.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <skip>false</skip>
-                            <images>
-                                <image>
-                                    <name>${docker.project.repository.url}/${project.artifactId}:${project.version}
-                                    </name>
-                                </image>
-                            </images>
-                        </configuration>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>${group.fabric8.plugin}</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <configuration>
+                                <skip>false</skip>
+                                <images>
+                                    <image>
+                                        <name>${docker.project.repository.url}${project.artifactId}:${project.version}</name>
+                                    </image>
+                                </images>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
     </profiles>

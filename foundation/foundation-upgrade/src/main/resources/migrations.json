@@ -62,6 +62,24 @@
             "includes": ["src/**/*.java"]
           }
         ]
+      },
+      {
+        "name": "add-fabric8-to-build-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AddFabric8ToDockerMigration",
+        "fileSets": [
+          {
+            "includes": ["pom.xml"]
+          }
+        ]
+      },
+      {
+        "name": "fabric8-location-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.Fabric8LocationMigration",
+        "fileSets": [
+          {
+            "includes": ["pom.xml"]
+          }
+        ]
       }
     ]
   },
@@ -93,7 +111,6 @@
         "fileSets": [
           {
             "includes": [
-              "**/spark-operator/values.yaml",
               "**/spark-infrastructure/values.yaml",
               "**/jenkins/values.yaml",
               "**/hive-metastore-db/values.yaml",

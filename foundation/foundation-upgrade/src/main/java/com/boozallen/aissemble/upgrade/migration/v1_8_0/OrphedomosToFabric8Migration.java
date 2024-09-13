@@ -13,22 +13,26 @@ package com.boozallen.aissemble.upgrade.migration.v1_8_0;
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
 import org.technologybrewery.baton.util.pom.LocationAwareMavenReader;
 import org.apache.maven.model.Build;
+import org.apache.maven.model.BuildBase;
 import org.apache.maven.model.InputLocation;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.Profile;
-import org.technologybrewery.baton.util.FileUtils;
 import org.technologybrewery.baton.util.pom.PomHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import org.technologybrewery.baton.util.pom.PomModifications;
+import org.technologybrewery.baton.util.pom.PomModifications.Modification;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,13 +48,16 @@ import static org.technologybrewery.baton.util.FileUtils.getRegExCaptureGroups;
  */
 
 public class OrphedomosToFabric8Migration extends AbstractAissembleMigration {
-    private static final Logger logger = LoggerFactory.getLogger(OrphedomosToFabric8Migration.class);
+    public static final String FABRIC8_GROUP_ID = "${group.fabric8.plugin}";
+    public static final String FABRIC8_ARTIFACT_ID = "docker-maven-plugin";
+    public static final String FABRIC8_PACKAGING = "docker-build";
     private static final String ORPHEDOMOS_GROUP_ID = "org.technologybrewery.orphedomos";
     private static final String ORPHEDOMOS_ARTIFACT_ID = "orphedomos-maven-plugin";
-    private static final String FABRIC8_GROUP_ID = "io.fabric8";
-    private static final String FABRIC8_ARTIFACT_ID = "docker-maven-plugin";
+    private static final String ORPHEDOMOS_PACKAGING = "orphedomos";
+    private static final String SPACE = " ";
+    private static final Logger logger = LoggerFactory.getLogger(OrphedomosToFabric8Migration.class);
     private static final String EXTRACT_PACKAGING_REGEX = "(<packaging>)orphedomos(<\\/packaging>)";
-    private static final String SECOND_REGEX_GROUPING = "$2";
+    private static final String PACKAGING = "packaging";
     private static final String GROUP_ID = "groupId";
     private static final String ARTIFACT_ID = "artifactId";
     private static final String VERSION = "version";
@@ -60,10 +67,10 @@ public class OrphedomosToFabric8Migration extends AbstractAissembleMigration {
     private static final String CONFIGURATION = "configuration";
     private static final String CI = "ci";
     private static final String INTEGRATION_TEST = "integration-test";
-    private static String imageName;
-    private static String imageVersion;
-    private static String repoUrl;
-    private static String profile;
+
+    private String buildImageName;
+    private String buildImageVersion;
+    private String buildRepoUrl;
 
     /**
      * Function to validate whether migration should be performed or not.
@@ -74,15 +81,15 @@ public class OrphedomosToFabric8Migration extends AbstractAissembleMigration {
     protected boolean shouldExecuteOnFile(File file) {
         Model model = getLocationAnnotatedModel(file);
 
-        Plugin orphedomosBuildPlugin = getBuildPlugin(model, ORPHEDOMOS_ARTIFACT_ID);
+        Boolean hasOrphedomosBuildPluginsCount = !getAllBuildPluginsByGroupIdAndArtifactId(model, ORPHEDOMOS_GROUP_ID, ORPHEDOMOS_ARTIFACT_ID).isEmpty();
+        Boolean hasOrphedomosProfilePluginsCount = !getAllProfilePluginsByGroupIdAndArtifactId(model, ORPHEDOMOS_GROUP_ID, ORPHEDOMOS_ARTIFACT_ID).isEmpty();
 
-        Plugin orphedomosCiProfilePlugin = getProfilePlugin(model, ORPHEDOMOS_ARTIFACT_ID, CI);
-        Plugin orphedomosItProfilePlugin = getProfilePlugin(model, ORPHEDOMOS_ARTIFACT_ID, INTEGRATION_TEST);
-
-        return orphedomosBuildPlugin != null
-                || orphedomosCiProfilePlugin != null
-                || orphedomosItProfilePlugin != null
-                || containsOrphedomosPackaging(file);
+        if (hasOrphedomosBuildPluginsCount|| hasOrphedomosProfilePluginsCount || containsOrphedomosPackaging(file)) {
+            logger.info("Orphedomos plugin configuration found. Migrating the following file: {}", file.getAbsolutePath());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -93,107 +100,238 @@ public class OrphedomosToFabric8Migration extends AbstractAissembleMigration {
     @Override
     protected boolean performMigration(File file) {
         Model model = getLocationAnnotatedModel(file);
-        Plugin buildPlugin = getBuildPlugin(model, ORPHEDOMOS_ARTIFACT_ID);
-        boolean replacedBuildConfig = false;
-        boolean replacedCiProfile = false;
-        boolean replacedItProfile = false;
-        boolean replacedPackaging = false;
+        PomModifications modifications = new PomModifications();
 
-        Xpp3Dom config;
-
-        if (buildPlugin != null) {
-            config = getConfiguration(buildPlugin);
-        } else {
-            config = null;
-            logger.info("Orphedomos plugin configuration not found. Skipping configuration migration.");
+        List<Plugin> buildPlugins = getAllBuildPluginsByGroupIdAndArtifactId(model, ORPHEDOMOS_GROUP_ID, ORPHEDOMOS_ARTIFACT_ID);
+        if (!buildPlugins.isEmpty()) {
+            for (Plugin buildPlugin: buildPlugins) {
+                    modifications.addAll(getAllPluginModifications(file, buildPlugin, null));
+            }
         }
 
-        // check if pom file has orphedomos-maven-plugin configuration
-        if (config != null) {
-            replacedBuildConfig = executeBuildConfigMigration(file, config, buildPlugin);
-        }
-
-        // check if pom file has <packaging>orphedomos</packaging> and replace
+        //check if pom file has <packaging>orphedomos</packaging> and replace
         if (containsOrphedomosPackaging(file)) {
-            replacedPackaging = executePackagingMigration(file);
+            modifications.add(getPackagingMigrationMod(model));
         }
 
-        model = getLocationAnnotatedModel(file);
-        Plugin ciProfilePlugin = getProfilePlugin(model, ORPHEDOMOS_ARTIFACT_ID, CI);
-        Plugin itProfilePlugin = getProfilePlugin(model, ORPHEDOMOS_ARTIFACT_ID, INTEGRATION_TEST);
-
-        // check if pom file has orphedomos plugin in profile
-        if (ciProfilePlugin != null) {
-            profile = CI;
-            replacedCiProfile = executeProfileMigration(file, ciProfilePlugin, CI);
-        }
-        if (itProfilePlugin != null) {
-            profile = INTEGRATION_TEST;
-            replacedItProfile = executeProfileMigration(file, itProfilePlugin, INTEGRATION_TEST);
+        List<Pair<String, Plugin>> profilePluginPairs = getAllProfilePluginsByGroupIdAndArtifactId(model, ORPHEDOMOS_GROUP_ID, ORPHEDOMOS_ARTIFACT_ID);
+        if (!profilePluginPairs.isEmpty()) {
+            for (Pair<String, Plugin> profilePluginPair: profilePluginPairs) {
+                modifications.addAll(getAllPluginModifications(file, profilePluginPair.getRight(), profilePluginPair.getLeft()));
+            }
         }
 
-        return replacedBuildConfig || replacedCiProfile || replacedItProfile || replacedPackaging;
+        return writeModifications(file, modifications.finalizeMods());
+    }
+
+    private Predicate<Plugin> getFilterByGroupAndArtifactId(String pluginGroupId, String pluginArtifactId) {
+        return plugin -> plugin.getGroupId().equals(pluginGroupId) 
+                       && plugin.getArtifactId().equals(pluginArtifactId);
     }
 
     /**
-     * Returns instance of Plugin class with name equal to the pluginName provided, in the pom's build block
+     * Returns alls instances of {@link Plugin} with the matching group id and artifact id in the build section of a given pom model
      * @param model      the model to check
-     * @param pluginName the name of the plugin
-     * @return Plugin with the plugin name specified
+     * @param pluginGroupId the group id of the plugin
+     * @param pluginArtifactId the artifact id of the plugin
+     * @return {@link List} of {@link Plugin}s
      */
-    private Plugin getBuildPlugin(Model model, String pluginName) {
+    private List<Plugin> getAllBuildPluginsByGroupIdAndArtifactId(Model model, String pluginGroupId, String pluginArtifactId) {
+        List<Plugin> plugins = new ArrayList<Plugin>();
+        Predicate<Plugin> pluginGroupArtifactIdFilter = getFilterByGroupAndArtifactId(pluginGroupId, pluginArtifactId);
+
+        // Check the main build
         Build build = model.getBuild();
         if (build != null) {
-            List<Plugin> plugins = build.getPlugins();
-            for (Plugin plugin : plugins) {
-                if (pluginName.equalsIgnoreCase(plugin.getArtifactId())) {
-                    return plugin;
-                }
+            // Get the build plugins
+            plugins.addAll(build.getPlugins().stream()
+                .filter(pluginGroupArtifactIdFilter)
+                .collect(Collectors.toCollection(ArrayList::new))
+            );
+
+            // Get the build plugin management
+            if (build.getPluginManagement() != null) {
+                plugins.addAll(build.getPluginManagement().getPlugins().stream()
+                    .filter(pluginGroupArtifactIdFilter)
+                    .collect(Collectors.toCollection(ArrayList::new))
+                );
             }
         }
-        return null;
+
+        return plugins;
     }
 
     /**
-     * Returns instance of Plugin class with name equal to the pluginName provided, in the pom's profiles block
+     * Returns alls instances of {@link Plugin} with the matching group id and artifact id in the profile section of a given pom model
      * @param model      the model to check
-     * @param pluginName the name of the plugin
-     * @param profileId  the profile housing the plugin
-     * @return Plugin with the plugin name specified
+     * @param pluginGroupId the group id of the plugin
+     * @param pluginArtifactId the artifact id of the plugin
+     * @return {@link List} of {@link Pair}s of the {@link String} profile name paired with its respective {@link Plugin}
      */
-    private Plugin getProfilePlugin(Model model, String pluginName, String profileId) {
+    private List<Pair<String, Plugin>> getAllProfilePluginsByGroupIdAndArtifactId(Model model, String pluginGroupId, String pluginArtifactId) {
+        List<Pair<String, Plugin>> profilePluginsPairs = new ArrayList<>();
+        Predicate<Plugin> pluginGroupArtifactIdFilter = getFilterByGroupAndArtifactId(pluginGroupId, pluginArtifactId);
+
+        // Check the build within each profile
         List<Profile> profiles = model.getProfiles();
-        if (profiles != null) {
-            List<Plugin> plugins = profiles.stream()
-                    .filter(profile -> profile.getId().equals(profileId))
-                    .flatMap(profile -> profile.getBuild().getPlugins().stream())
-                    .collect(Collectors.toCollection(ArrayList::new));
-            for (Plugin plugin : plugins) {
-                if (pluginName.equalsIgnoreCase(plugin.getArtifactId())) {
-                    return plugin;
+        for (Profile profile: profiles) {
+
+            BuildBase profileBuild = profile.getBuild();
+
+            if (profileBuild != null) {
+                List<Plugin> matchingPlugins = new ArrayList<>();
+
+                // Check the profile build plugins
+                matchingPlugins.addAll(profileBuild.getPlugins().stream()
+                    .filter(pluginGroupArtifactIdFilter)
+                    .collect(Collectors.toCollection(ArrayList::new))
+                );
+
+                // Check the profile build plugin management
+                if (profileBuild.getPluginManagement() != null) {
+                    matchingPlugins.addAll(profileBuild.getPluginManagement().getPlugins().stream()
+                        .filter(pluginGroupArtifactIdFilter)
+                        .collect(Collectors.toCollection(ArrayList::new))
+                    );
+                }
+
+                // If there are matching plugins, add them to the list of pairs
+                if (!matchingPlugins.isEmpty()) {
+                    matchingPlugins.stream().forEach(plugin -> profilePluginsPairs.add(Pair.of(profile.getId(), plugin)));
                 }
             }
         }
-        return null;
+        
+        return profilePluginsPairs;
     }
 
-    private Xpp3Dom getConfiguration(Plugin plugin) {
-        Object pluginConfiguration = plugin.getConfiguration();
-        return (Xpp3Dom) pluginConfiguration;
-    }
+    /**
+     * Returns all {@link Modification}s necessary for migrating an Orphedomos {@link Plugin} instance to fabric8
+     * @param file
+     * @param plugin
+     * @param profileName
+     * @return
+     */
+    private List<Modification> getAllPluginModifications(File file, Plugin plugin, String profileName) {
+        List<Modification> modifications = new ArrayList<>();
 
-    private String getConfigValue(Xpp3Dom configuration, String parameter) {
-        String parameterValue;
-        if (hasConfigurationItem(configuration, parameter)) {
-            parameterValue = configuration.getChild(parameter).getValue();
-        } else {
-            parameterValue = null;
+        // Replace groupID and artifactID
+        modifications.addAll(getReplaceGroupIdArtifactIdMod(plugin));
+
+        // check if pom file has orphedomos configuration
+        Xpp3Dom config = (Xpp3Dom) plugin.getConfiguration();
+
+        if (config != null) {
+            // grab the old imageVersion and imageName and repoUrl
+            String imageVersion = getConfigValue(config, IMAGE_VERSION);
+            String imageName = getConfigValue(config, IMAGE_NAME);
+            String repoUrl = getConfigValue(config, REPO_URL);
+    
+            // check if it's a profile or build plugin instance
+            if (profileName == null) {
+                if (imageName == null) {
+                    imageName = "${project.artifactId}";
+                }
+                if (imageVersion == null) {
+                    imageVersion = "${project.version}";
+                }
+
+                // set the values from the build plugin so they can be used as defaults in the profile config
+                buildRepoUrl = repoUrl;
+                buildImageName = imageName;
+                buildImageVersion = imageVersion;
+
+            } else {
+                // Use values from build plugin config as defaults if available
+                if (imageName == null) {
+                    imageName = buildImageName != null ? buildImageName : "${project.artifactId}";
+                }
+                if (imageVersion == null) {
+                    imageVersion = buildImageVersion != null ? buildImageVersion : "${project.version}";
+                }
+                if (repoUrl == null && !profileName.equals(INTEGRATION_TEST)) {
+                    repoUrl = buildRepoUrl != null ? buildRepoUrl : "${docker.project.repository.url}";
+                }
+            }
+
+            // Replace orphedomos configuration
+            modifications.add(getReplaceOrphedomosConfigMod(plugin, repoUrl, imageName, imageVersion, profileName));
         }
-        return parameterValue;
+
+        // delete single line version tag if it exists
+        if (plugin.getVersion() != null) {
+            modifications.add(getDeleteSingleLineVersionTagMod(plugin));
+        }
+
+        return modifications;
     }
 
-    private static boolean hasConfigurationItem(Xpp3Dom configuration, String configurationItem) {
-        return configuration.getChildren(configurationItem).length > 0;
+    private List<PomModifications.Replacement> getReplaceGroupIdArtifactIdMod(Plugin plugin) {
+        InputLocation startGroupId = plugin.getLocation(GROUP_ID);
+        InputLocation endGroupId = PomHelper.incrementColumn(startGroupId, ORPHEDOMOS_GROUP_ID.length());
+
+        InputLocation startArtifactId = plugin.getLocation(ARTIFACT_ID);
+        InputLocation endArtifactId = PomHelper.incrementColumn(startArtifactId, ORPHEDOMOS_ARTIFACT_ID.length());
+
+        List<PomModifications.Replacement> pomReplacements = new ArrayList<>();
+        pomReplacements.add(new PomModifications.Replacement(startGroupId, endGroupId, FABRIC8_GROUP_ID));
+        pomReplacements.add(new PomModifications.Replacement(startArtifactId, endArtifactId, FABRIC8_ARTIFACT_ID));
+        return pomReplacements;
+    }
+
+    private PomModifications.Replacement getPackagingMigrationMod(Model model) {
+        InputLocation startPackaging = model.getLocation(PACKAGING);
+        InputLocation endPackaging = PomHelper.incrementColumn(startPackaging, ORPHEDOMOS_PACKAGING.length());
+
+        return new PomModifications.Replacement(startPackaging, endPackaging, FABRIC8_PACKAGING);
+    }
+
+    private PomModifications.Deletion getDeleteSingleLineVersionTagMod(Plugin plugin) {
+        InputLocation startVersionLocation = plugin.getLocation(VERSION + LocationAwareMavenReader.START);
+        InputLocation endVersionLocation = plugin.getLocation(VERSION + LocationAwareMavenReader.END);
+
+        return new PomModifications.Deletion(startVersionLocation, endVersionLocation);
+    }
+
+    private PomModifications.Replacement getReplaceOrphedomosConfigMod(Plugin plugin, String repoUrl, String imageName, String imageVersion, String profileName) {
+        InputLocation startConfigLocation = plugin.getLocation(CONFIGURATION + LocationAwareMavenReader.START);
+        InputLocation endConfigLocation = plugin.getLocation(CONFIGURATION + LocationAwareMavenReader.END);
+
+        return new PomModifications.Replacement(startConfigLocation, endConfigLocation, 1, getPluginConfig(repoUrl, imageName, imageVersion, profileName));
+    }
+
+    /**
+     * Function that creates the new Fabric8 docker-maven-plugin configuration code.
+     */
+    private static UnaryOperator<String> getPluginConfig(String repoUrl, String imageName, String imageVersion, String profileName) {
+        // set the specific config for all build plugins and these two profiles
+        if (profileName == null || profileName.equals(INTEGRATION_TEST) || profileName.equals(CI)) {
+            Boolean shouldSkip = profileName == null ? true : false; // profiles should to set skip to false
+            return  (indent) ->
+                    indent + "<configuration>\n" +
+                    indent + StringUtils.repeat(SPACE, 4) + "<skip>" + shouldSkip.toString() + "</skip>\n" +
+                    indent + StringUtils.repeat(SPACE, 4) + "<images>\n" +
+                    indent + StringUtils.repeat(SPACE, 4 * 2) + "<image>\n" +
+                    indent + StringUtils.repeat(SPACE, 4 * 3) + "<name>" + getNameConfig(repoUrl, imageName, imageVersion, profileName) + "</name>\n" +
+                    indent + StringUtils.repeat(SPACE, 4 * 2) + "</image>\n" +
+                    indent + StringUtils.repeat(SPACE, 4) + "</images>\n" +
+                    indent + "</configuration>\n";
+        } 
+        // set the config to blank for all other profiles
+        else {
+            return  (indent) ->
+                    indent + "<configuration>\n" +
+                    indent + StringUtils.repeat(SPACE, 4) + "<!-- Orphedomos configuration overwritten. Update with respective fabric8 config.-->\n" +
+                    indent + "</configuration>\n";
+        }
+    }
+
+    private static String getNameConfig(String repoUrl, String imageName, String imageVersion, String profileName) {
+        if (repoUrl != null && !repoUrl.isBlank()) {
+            return repoUrl + imageName + ":" + imageVersion;
+        } else {
+            return imageName + ":" + imageVersion;
+        }
     }
 
     /**
@@ -210,204 +348,17 @@ public class OrphedomosToFabric8Migration extends AbstractAissembleMigration {
         return shouldExecute;
     }
 
-    private boolean executeBuildConfigMigration(File file, Xpp3Dom config, Plugin buildPlugin) {
-        // grab the old imageVersion and imageName
-        imageVersion = getConfigValue(config, IMAGE_VERSION);
-        imageName = getConfigValue(config, IMAGE_NAME);
-
-        if (imageName == null) {
-            imageName = "${project.artifactId}";
-        }
-        if (imageVersion == null) {
-            imageVersion = "${project.version}";
-        }
-
-        // Replace groupID and artifactID
-        PomModifications modifyPlugin = getReplaceGroupIdArtifactIdMod(buildPlugin);
-        boolean replacedGroupIdArtifactId = writeModifications(file, modifyPlugin.finalizeMods());
-
-        // get the latest plugin after previous modification
-        Plugin fabric8Plugin = getCurrentBuildPlugin(file);
-
-        // delete old orphedomos configuration
-        PomModifications removeOldConfig = new PomModifications();
-        if (fabric8Plugin != null) {
-            updateModWithDeleteOrphedomosConfig(fabric8Plugin, removeOldConfig);
-
-            // delete single line version tag if it exists
-            if (fabric8Plugin.getVersion() != null) {
-                updateModWithDeleteSingleLineVersionTag(fabric8Plugin, removeOldConfig);
-            }
-        }
-
-        boolean replacedConfig = writeModifications(file, removeOldConfig.finalizeMods());
-
-        // get the latest plugin after previous modification
-        Plugin updatedBuildPlugin = getCurrentBuildPlugin(file);
-
-        // add the plugin image configuration
-        boolean replacedImageConfig = false;
-        PomModifications modifyConfig = getImageConfigAddMod(updatedBuildPlugin);
-        replacedImageConfig = writeModifications(file, modifyConfig.finalizeMods());
-
-        return replacedGroupIdArtifactId || replacedImageConfig || replacedConfig;
-    }
-
-    private Plugin getCurrentBuildPlugin(File file) {
-        Model updatedModel = getLocationAnnotatedModel(file);
-        return getBuildPlugin(updatedModel, FABRIC8_ARTIFACT_ID);
-    }
-
-    private Plugin getCurrentProfilePlugin(File file, String profileName) {
-        Model updatedModel = getLocationAnnotatedModel(file);
-        return getProfilePlugin(updatedModel, FABRIC8_ARTIFACT_ID, profileName);
-    }
-
-    private PomModifications getReplaceGroupIdArtifactIdMod(Plugin plugin) {
-        PomModifications modifyPlugin = new PomModifications();
-        InputLocation startGroupId = plugin.getLocation(GROUP_ID);
-        InputLocation endGroupId = PomHelper.incrementColumn(startGroupId, ORPHEDOMOS_GROUP_ID.length());
-
-        InputLocation startArtifactId = plugin.getLocation(ARTIFACT_ID);
-        InputLocation endArtifactId = PomHelper.incrementColumn(startArtifactId, ORPHEDOMOS_ARTIFACT_ID.length());
-
-        modifyPlugin.add(new PomModifications.Replacement(startGroupId, endGroupId, FABRIC8_GROUP_ID));
-        modifyPlugin.add(new PomModifications.Replacement(startArtifactId, endArtifactId, FABRIC8_ARTIFACT_ID));
-        return modifyPlugin;
-    }
-
-    private PomModifications getImageConfigAddMod(Plugin updatedBuildPlugin) {
-        PomModifications modifyImages = new PomModifications();
-
-        // add new configuration code
-        int indent = 4;
-        int startConfigCodeRow = updatedBuildPlugin.getLocation(ARTIFACT_ID).getLineNumber();
-        InputLocation startConfigCode = new InputLocation(startConfigCodeRow + 1, updatedBuildPlugin.getLocation(ARTIFACT_ID).getColumnNumber());
-        modifyImages.add(new PomModifications.Insertion(startConfigCode, indent, OrphedomosToFabric8Migration::getBuildConfigCode));
-
-        return modifyImages;
-    }
-
-    /**
-     * Function that creates the new Fabric8 docker-maven-plugin configuration code.
-     */
-    private static String getBuildConfigCode(String indent) {
-        return StringUtils.repeat(indent, 5) + "<configuration>\n" +
-                StringUtils.repeat(indent, 6) + "<skip>true</skip>\n" +
-                StringUtils.repeat(indent, 6) + "<images>\n" +
-                StringUtils.repeat(indent, 7) + "<image>\n" +
-                StringUtils.repeat(indent, 8) + "<name>" + imageName + ":" + imageVersion + "</name>\n" +
-                StringUtils.repeat(indent, 7) + "</image>\n" +
-                StringUtils.repeat(indent, 6) + "</images>\n" +
-                StringUtils.repeat(indent, 5) + "</configuration>\n";
-    }
-
-    private void updateModWithDeleteOrphedomosConfig(Plugin fabric8Plugin, PomModifications removeOldConfig) {
-        InputLocation startConfigLocation = fabric8Plugin.getLocation(CONFIGURATION + LocationAwareMavenReader.START);
-        InputLocation endConfigLocation = fabric8Plugin.getLocation(CONFIGURATION + LocationAwareMavenReader.END);
-        PomModifications.Deletion pomDeletePreviousConfig = new PomModifications.Deletion(startConfigLocation, endConfigLocation);
-        removeOldConfig.add(pomDeletePreviousConfig);
-    }
-
-    private void updateModWithDeleteSingleLineVersionTag(Plugin fabric8Plugin, PomModifications removeOldConfig) {
-        InputLocation startVersionLocation = fabric8Plugin.getLocation(VERSION + LocationAwareMavenReader.START);
-        InputLocation endVersionLocation = fabric8Plugin.getLocation(VERSION + LocationAwareMavenReader.END);
-
-        PomModifications.Deletion pomDeletePreviousVersion = new PomModifications.Deletion(startVersionLocation, endVersionLocation);
-        removeOldConfig.add(pomDeletePreviousVersion);
-    }
-
-    private boolean executeProfileMigration(File file, Plugin profilePlugin, String profileId) {
-        Xpp3Dom config = getConfiguration(profilePlugin);
-        repoUrl = getConfigValue(config, REPO_URL);
-        imageVersion = getConfigValue(config, IMAGE_VERSION);
-        imageName = getConfigValue(config, IMAGE_NAME);
-
-        if (repoUrl == null) {
-            repoUrl = "${docker.project.repository.url}";
-        }
-        if (imageName == null) {
-            imageName = "${project.artifactId}";
-        }
-        if (imageVersion == null) {
-            imageVersion = "${project.version}";
-        }
-
-        // Replace groupID and artifactID in the profile's plugin
-        PomModifications modifyPlugin = getReplaceGroupIdArtifactIdMod(profilePlugin);
-        boolean replacedGroupIdArtifactId = writeModifications(file, modifyPlugin.finalizeMods());
-
-        // get the latest plugin after previous modification
-        Plugin fabric8Plugin = getCurrentProfilePlugin(file, profileId);
-
-        // delete old orphedomos configuration
-        PomModifications removeOldConfig = new PomModifications();
-        if (fabric8Plugin != null) {
-            updateModWithDeleteOrphedomosConfig(fabric8Plugin, removeOldConfig);
-
-            // delete single line version tag if it exists
-            if (fabric8Plugin.getVersion() != null) {
-                updateModWithDeleteSingleLineVersionTag(fabric8Plugin, removeOldConfig);
-            }
-        }
-        boolean replacedConfig = writeModifications(file, removeOldConfig.finalizeMods());
-
-        // get the latest plugin after previous modification
-        Plugin updatedProfilePlugin = getCurrentProfilePlugin(file, profileId);
-
-        // add the relevant profile's configuration accordingly
-        boolean replacedProfilePluginConfig;
-        PomModifications modifyPluginConfig = getProfilePluginConfigMod(updatedProfilePlugin);
-        replacedProfilePluginConfig = writeModifications(file, modifyPluginConfig.finalizeMods());
-
-        return replacedGroupIdArtifactId || replacedProfilePluginConfig || replacedConfig;
-    }
-
-    private PomModifications getProfilePluginConfigMod(Plugin updatedProfilePlugin) {
-        PomModifications modifyProfile = new PomModifications();
-        int indent = 4;
-        int startConfigCodeRow = updatedProfilePlugin.getLocation(ARTIFACT_ID).getLineNumber();
-        InputLocation startConfigCode = new InputLocation(startConfigCodeRow + 1, updatedProfilePlugin.getLocation(ARTIFACT_ID).getColumnNumber());
-        modifyProfile.add(new PomModifications.Insertion(startConfigCode, indent, OrphedomosToFabric8Migration::getProfilePluginConfig));
-        return modifyProfile;
-    }
-
-    private static String getProfilePluginConfig(String indent) {
-        return StringUtils.repeat(indent, 5) + "<configuration>\n" +
-                StringUtils.repeat(indent, 6) + "<skip>false</skip>\n" +
-                StringUtils.repeat(indent, 6) + "<images>\n" +
-                StringUtils.repeat(indent, 7) + "<image>\n" +
-                getNameConfig(indent) +
-                StringUtils.repeat(indent, 7) + "</image>\n" +
-                StringUtils.repeat(indent, 6) + "</images>\n" +
-                StringUtils.repeat(indent, 5) + "</configuration>\n";
-    }
-
-    private static String getNameConfig(String indent) {
-        if (profile.equals(INTEGRATION_TEST)) {
-            return StringUtils.repeat(indent, 8) + "<name>" + imageName + ":" + imageVersion + "</name>\n";
+    private String getConfigValue(Xpp3Dom configuration, String parameter) {
+        String parameterValue;
+        if (hasConfigurationItem(configuration, parameter)) {
+            parameterValue = configuration.getChild(parameter).getValue();
         } else {
-            return StringUtils.repeat(indent, 8) + "<name>" + repoUrl + "/" + imageName + ":" + imageVersion + "</name>\n";
+            parameterValue = null;
         }
+        return parameterValue;
     }
 
-    /**
-     * Function that performs the migration on the pom file's packaging type.
-     */
-    private boolean executePackagingMigration(File file) {
-        boolean performedSuccessfully = false;
-        String replacementText = FIRST_REGEX_GROUPING + "docker-build" + SECOND_REGEX_GROUPING;
-        try {
-            performedSuccessfully = FileUtils.replaceInFile(
-                    file,
-                    EXTRACT_PACKAGING_REGEX,
-                    replacementText
-            );
-        } catch (Exception e) {
-            logger.error("Unable to perform packaging type migration due to exception", e);
-        }
-
-        return performedSuccessfully;
+    private static boolean hasConfigurationItem(Xpp3Dom configuration, String configurationItem) {
+        return configuration.getChildren(configurationItem).length > 0;
     }
-
 }

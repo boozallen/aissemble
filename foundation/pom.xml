@@ -6,11 +6,11 @@
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>build-parent</artifactId>
         <relativePath>../build-parent/pom.xml</relativePath>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
     </parent>
 
     <artifactId>foundation</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 
     <name>aiSSEMBLE::Foundation</name>
     <description>Root pom for foundational aspects of the aiSSEMBLE Solution Baseline</description>

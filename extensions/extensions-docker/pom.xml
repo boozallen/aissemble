@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
     </parent>
 
     <artifactId>extensions-docker</artifactId>
@@ -24,7 +24,7 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>org.technologybrewery.fabric8</groupId>
+                            <groupId>${group.fabric8.plugin}</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
                             <configuration><images>
                                     <image>
