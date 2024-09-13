@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk11
+FROM docker.io/jenkins/jenkins:lts-jdk11
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
