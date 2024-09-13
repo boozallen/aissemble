@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-maven-plugins</artifactId>
-        <version>1.8.1-SNAPSHOT</version>
+        <version>1.8.1</version>
     </parent>
     <groupId>com.boozallen.aissemble</groupId>
     <artifactId>artifacts-maven-plugin</artifactId>

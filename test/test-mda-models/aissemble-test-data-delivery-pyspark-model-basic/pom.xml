@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test-mda-models</artifactId>
-        <version>1.8.1-SNAPSHOT</version>
+        <version>1.8.1</version>
     </parent>
 
     <artifactId>aissemble-test-data-delivery-pyspark-model-basic</artifactId>
