@@ -1,0 +1,37 @@
+name: 'Update Antora docs'
+description: 'Updates the Antora docs'
+inputs:
+  version:  
+    required: true
+  major-minor-version:  
+    required: true
+  patch-version:  
+    required: true
+  is-pre-release:  
+    required: true
+  release-branch:  
+    required: true
+  custom-facet-old-version:  
+    required: true
+  custom-facet-new-version:  
+    required: true
+    
+runs:
+  using: "composite"
+  steps:
+    - name: Update
+      shell: bash
+      run: |
+        sed -i "s/^version: .*/version: ${{ inputs.patch-version }}/" docs/antora.yml
+        version=$( ${{ inputs.is-pre-release }} && echo ${{ inputs.version }} || echo ${{ inputs.major-minor-version }} )
+        sed -i "s/^display_version: .*/display_version: $version/" docs/antora.yml
+        sed -i "s/^prerelease: .*/prerelease: ${{ inputs.is-pre-release }}/" docs/antora.yml
+        sed -i "s/^    is-pre-release: .*/    is-pre-release: ${{ inputs.is-pre-release }}/" docs/antora.yml
+        find docs/modules/ROOT/attachments/ -type f -exec sed -i 's|${{ inputs.custom-facet-old-version }}|${{ inputs.custom-facet-new-version }}|g' {} +
+        git config --global user.email "aissemble@bah.com"
+        git config --global user.name "aiSSEMBLE Team"
+        git diff
+        git add docs/antora.yml docs/modules/ROOT/attachments/
+        git commit -S -m "Updating Antora documentation for version ${{ inputs.version }}"
+        git push origin HEAD:${{ inputs.release-branch }}
+
