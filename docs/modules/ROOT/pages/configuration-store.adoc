@@ -1,4 +1,12 @@
 = Universal Configuration Store
+:git-tree:
+
+ifeval::[{is-pre-release} == true]
+:git-tree: dev
+endif::[]
+ifeval::[{is-pre-release} != true]
+:git-tree: aissemble-root-{page-version}
+endif::[]
 
 == Overview
 The Universal Configuration Store is a tool that enables the various configurations for a project to be centrally defined and managed. 
@@ -6,8 +14,8 @@ It then provides a standardized way of accessing them, allowing the environment 
 their respective resources within the project at runtime.
 
 == Setup
-To setup the Configuration Store one must <<defining-configuration-properties,define the configurations>> through properties files, optionally creating <<environment-specific-overrides,environment 
-specific overrides>>. Then the Configuration Store is ready for <<deploying-the-configuration-store,deployment>> to a Kubernetes cluster, using the <<backend-storage-types,backend storage type>>
+To setup the Configuration Store one must <<_defining_configuration_properties,define the configurations>> through properties files, optionally creating <<_environment_specific_overrides,environment 
+specific overrides>>. Then the Configuration Store is ready for <<_deploying_the_configuration_store,deployment>> to a Kubernetes cluster, using the <<_backend_storage_types,backend storage type>>
 of choice.
 
 === Defining Configuration Properties
@@ -48,8 +56,8 @@ NOTE: The `topic` property is overwritten when the environment specific value `c
 
 === Deploying the Configuration Store
 The https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-configuration-store-chart/README.md[Configuration Store Helm chart,role=external,window=_blank] is used for easily deploying it to a Kubernetes cluster. As part of the deployment, one must
-provide the store access to the custom configurations by <<mounting-properties-files,mounting the properties files>> to the Kubernetes resource. Additionally,
-the <<backend-storage-types,backend storage type>> can be adjusted to fit a project's needs.
+provide the store access to the custom configurations by <<_mounting_properties_files,mounting the properties files>> to the Kubernetes resource. Additionally,
+the <<_backend_storage_types,backend storage type>> can be adjusted to fit a project's needs.
 
 NOTE: When deploying a project locally, the Configuration Store must be manually deployed first before all other resources. Please
 create a https://github.com/boozallen/aissemble/issues[Github Issue,role=external,window=_blank] if additional assistance is required.
@@ -75,7 +83,7 @@ available are `krausening`, `vault`, and `inMemory`.
 
 == Usage
 After the configurations are ingested and reconciled within the store, the next step is to access them within a project using one of 
-the two available methods: the <<rest-endpoint,REST endpoint>> or <<kubernetes-resource-injection-recommended,Kubernetes resource injection>>.
+the two available methods: the <<_rest_endpoint,REST endpoint>> or <<_kubernetes_resource_injection_recommended,Kubernetes resource injection>>.
 Configuration properties are identified by using a group name and property name, where group name is determined by the name of the file
 the property is defined in.
 
