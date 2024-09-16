@@ -13,6 +13,8 @@ package com.boozallen.aiops.mda.generator;
 import org.technologybrewery.fermenter.mda.generator.AbstractModelAgnosticGenerator;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
+import com.boozallen.aiops.mda.ManualActionNotificationService;
+
 /**
  * Generates configuration code with no model interaction. This is often useful for
  * configuration files that must exist in some form or similar constructs.
@@ -44,6 +46,8 @@ public class ModelAgnosticResourcesGenerator extends AbstractModelAgnosticGenera
      */
 
 
+    protected ManualActionNotificationService manualActionNotificationService = new ManualActionNotificationService();
+
 	@Override
 	protected String getOutputSubFolder() {
 		return "resources/";
@@ -52,6 +56,9 @@ public class ModelAgnosticResourcesGenerator extends AbstractModelAgnosticGenera
 	@Override
 	public void generate(GenerationContext context) {
 		super.generate(context);
+
+        // Add the config store manual action
+        manualActionNotificationService.addDeployPomMessage(context, "configuration-store-deploy-v2", "configuration-store");
 	}
 
 }

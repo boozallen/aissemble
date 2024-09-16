@@ -58,13 +58,12 @@ public class ManualActionNotificationService {
     private static final Logger logger = LoggerFactory.getLogger(ManualActionNotificationService.class);
     private static final String EMPTY_LINE = "\n";
     private static final String SUPPRESS_WARNINGS = "maven-suppress-warnings";
-    private static final String SUPPRESS_TILT_WARNINGS_MSG = "* NOTE: If you do not want to see this message add '# " + SUPPRESS_WARNINGS + "' to the file\n";
     public static final String GROUP_TILT = "tilt";
 
     public void addSchemaElementDeprecationNotice(String illegalElement, String objectType) {
         final String SCHEMA_ELEMENT_DEPRECATION_KEY = "schema_element_deprecation";
 
-        VelocityNotification notification = new VelocityNotification(SCHEMA_ELEMENT_DEPRECATION_KEY, "schemaelementdeprecation", new HashSet<String>(), "templates/notifications/notification.schema.element.deprecation.vm");
+        VelocityNotification notification = new VelocityNotification(getMessageKey(SCHEMA_ELEMENT_DEPRECATION_KEY, illegalElement), "schemaelementdeprecation", new HashSet<String>(), "templates/notifications/notification.schema.element.deprecation.vm");
         notification.addToVelocityContext("objectType", objectType);
         notification.addToVelocityContext("illegalElement", illegalElement);
         addManualAction(SCHEMA_ELEMENT_DEPRECATION_KEY, notification);
@@ -96,33 +95,21 @@ public class ManualActionNotificationService {
      * @param moduleType the module type
      */
     public void addNoticeToAddModuleToParentBuild(GenerationContext context, String artifactId, String moduleType) {
-
-        final String parentArtifactId = context.getArtifactId();
         final String pomFilePath = context.getProjectDirectory() + File.separator + "pom.xml";
         final String query = "<module>" + artifactId + "</module>";
         boolean alreadyExists = existsInFile(pomFilePath, query);
 
-        File projectDirectory = context.getProjectDirectory();
-        File executionRootDirectory = context.getExecutionRootDirectory();
-        StringBuilder parentDirectory = new StringBuilder();
-
-        while (!executionRootDirectory.equals(projectDirectory)) {
-
-            parentDirectory.insert(0, projectDirectory.getParentFile().getName() + File.separator);
-            projectDirectory = projectDirectory.getParentFile();
-        }
-
-        String displayPomFilePath = parentDirectory + parentArtifactId + File.separator + "pom.xml";
+        String relativePomFilePath = getRelativePathToProjectRoot(context.getExecutionRootDirectory(), new File(pomFilePath));
 
         if (!alreadyExists) {
-            final String key = getMessageKey(pomFilePath, "module");
+            final String key = getMessageKey(relativePomFilePath, "module");
 
             HashSet<String> items = new HashSet<String>();
             items.add("<module>" + (artifactId) + "</module>");
 
             VelocityNotification notification = new VelocityNotification(key, items, "templates/notifications/notification.module.to.parent.vm");
             notification.addToVelocityContext("moduleType", moduleType);
-            notification.addToVelocityContext("displayPomFilePath", displayPomFilePath);
+            notification.addToVelocityContext("displayPomFilePath", relativePomFilePath);
             notification.addToVelocityContext("artifactId", artifactId);
             addManualAction(pomFilePath, notification);
         }
@@ -142,7 +129,8 @@ public class ManualActionNotificationService {
         boolean alreadyExists = existsInFile(pomFilePath, String.format("extensions-data-delivery-spark-%s", persistType));
 
         if (!alreadyExists) {
-            final String key = getMessageKey(pomFilePath, "extensions-data-delivery-spark");
+            String relativePomFilePath = getRelativePathToProjectRoot(context.getExecutionRootDirectory(), new File(pomFilePath));
+            final String key = getMessageKey(relativePomFilePath, "extensions-data-delivery-spark", persistType);
 
             VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.dependency.vm");
             notification.addToVelocityContext("dependencyArtifactId", String.format("extensions-data-delivery-spark-%s", persistType));
@@ -173,7 +161,7 @@ public class ManualActionNotificationService {
             final String stepNameSnakeCase = PipelineUtils.deriveLowerSnakeCaseNameFromHyphenatedString(stepName);
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, dockerApplicationArtifactId);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey(tiltFilePath, "Tiltfile");
+                final String key = getMessageKey("Tiltfile", "docker-build", dockerApplicationArtifactId);
 
                 addLocalResourceTiltFileMessage(context, dockerArtifactId, dockerApplicationArtifactId, stepName, pipelineName + "/" + stepName, true);
 
@@ -216,7 +204,8 @@ public class ManualActionNotificationService {
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, params.getDockerApplicationArtifactId());
 
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                VelocityNotification notification = new VelocityNotification("docker-build-" + params.getDeployedAppName(),
+                final String key = getMessageKey("Tilefile", "docker-build", params.getDockerApplicationArtifactId());
+                VelocityNotification notification = new VelocityNotification(key,
                         GROUP_TILT, new HashSet<>(), "templates/notifications/notification.docker.tilt.vm");
                 notification.addToVelocityContext("appNameTitle", params.getAppName());
                 notification.addToVelocityContext("dockerArtifactId", params.getDockerArtifactId());
@@ -239,7 +228,7 @@ public class ManualActionNotificationService {
     public void addHabushuRegexPluginInvocation(final GenerationContext context) {
         if(!existsInFile("pom.xml", "<id>set-habushu-dist-artifact-version</id>")) {
             VelocityNotification notification = new VelocityNotification(
-                    "<id>set-habushu-dist-artifact-version</id>",
+                    getMessageKey("pom.xml", "set-habushu-dist-artifact-version"),
                     "root-plugins",
                     new HashSet<>(),
                     "templates/notifications/notification.root.habushu.regex.plugin.vm"
@@ -255,14 +244,18 @@ public class ManualActionNotificationService {
      * @param context generation context
      */
     public void addCleanPluginNotification(final String deployArtifactId, final GenerationContext context) {
-        if(deployArtifactId != null && !existsInFile(deployArtifactId + "/pom.xml", "<artifactId>maven-clean-plugin</artifactId>")) {
+        final File rootDir = context.getExecutionRootDirectory();
+        final String deployPom = rootDir.getAbsolutePath() + File.separator + deployArtifactId +  File.separator + "pom.xml";
+
+        if(deployArtifactId != null && !existsInFile(deployPom, "<artifactId>maven-clean-plugin</artifactId>")) {
+            String relativePomFilePath = getRelativePathToProjectRoot(rootDir, new File(deployPom));
             VelocityNotification notification = new VelocityNotification(
-                    "clean-deploy-apps-targets",
+                    getMessageKey(relativePomFilePath, "clean-deploy-apps-targets"),
                     "deploy-plugins",
                     new HashSet<>(),
                     "templates/notifications/notification.deploy.clean.app.target.vm"
             );
-            addManualAction(context.getRootArtifactId() + "/" + deployArtifactId, notification);
+            addManualAction(deployPom, notification);
         }
     }
 
@@ -272,16 +265,20 @@ public class ManualActionNotificationService {
      * @param context generation context
      */
     public void addPipelineInvocationServiceDeployment(final GenerationContext context) {
-        String deployArtifactId = MavenUtil.getDeployModuleName(context.getExecutionRootDirectory());
-        if(deployArtifactId != null && !existsInFile(deployArtifactId + "/pom.xml", "<artifactId>mda-maven-plugin</artifactId>")) {
+        final File rootDir = context.getExecutionRootDirectory();
+        String deployArtifactId = MavenUtil.getDeployModuleName(rootDir);
+        final String deployPom = rootDir.getAbsolutePath() + File.separator + deployArtifactId + File.separator + "pom.xml";
+
+        if(deployArtifactId != null && !existsInFile(deployPom, "<artifactId>mda-maven-plugin</artifactId>")) {
+            String relativePomFilePath = getRelativePathToProjectRoot(rootDir, new File(deployPom));
             VelocityNotification notification = new VelocityNotification(
-                    "pipeline-invocation-service-spark-apps",
+                    getMessageKey(relativePomFilePath, "pipeline-invocation-service-spark-apps"),
                     "deploy-plugins",
                     new HashSet<>(),
                     "templates/notifications/notification.mda.maven.pipeline.invocation.execution.vm"
             );
             notification.addToExternalVelocityContextProperties("deployArtifactId", deployArtifactId);
-            addManualAction(context.getRootArtifactId() + "/" + deployArtifactId, notification);
+            addManualAction(deployPom, notification);
             addDeployPomMessage(context, "pipeline-invocation-service-v2", "pipeline-invocation-service");
         }
         addCleanPluginNotification(deployArtifactId, context);
@@ -313,7 +310,7 @@ public class ManualActionNotificationService {
             final String pipelinesArtifactId = dockerArtifactId.replace("-docker", "-pipelines");
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, "compile-" + moduleName);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey(tiltFilePath, "Tiltfile");
+                final String key = getMessageKey("Tiltfile", "local-resource", moduleName);
 
                 VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.local.resource.tilt.vm");
                 notification.addToVelocityContext("srcModuleName", moduleName);
@@ -371,7 +368,9 @@ public class ManualActionNotificationService {
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                VelocityNotification notification = new VelocityNotification("spark-worker", GROUP_TILT, new HashSet<>(),
+                final String key = getMessageKey("Tiltfile", "spark-worker-docker-build");
+
+                VelocityNotification notification = new VelocityNotification(key, GROUP_TILT, new HashSet<>(),
                         "templates/notifications/notification.spark.worker.docker.build.tilt.vm");
                 addManualAction(tiltFilePath, notification);
             }
@@ -384,22 +383,10 @@ public class ManualActionNotificationService {
      * @param context          the generation context
      * @param appName          the application name
      * @param deployArtifactId the deploy artifact ID
-     */
-    public void addHelmTiltFileMessage(final GenerationContext context, final String appName,
-                                       final String deployArtifactId) {
-        addHelmTiltFileMessage(context, appName, deployArtifactId, false);
-    }
-
-    /**
-     * Adds a notification to update the Tiltfile.
-     *
-     * @param context          the generation context
-     * @param appName          the application name
-     * @param deployArtifactId the deploy artifact ID
      * @param isConfigStore    whether the deployment is the config store
      */
     public void addHelmTiltFileMessage(final GenerationContext context, final String appName,
-                                       final String deployArtifactId, final Boolean isConfigStore) {
+                                       final String deployArtifactId) {
 
         final File rootDir = context.getExecutionRootDirectory();
         if (!rootDir.exists() || !tiltFileFound(rootDir)) {
@@ -410,12 +397,8 @@ public class ManualActionNotificationService {
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                VelocityNotification notification;
-                if (isConfigStore) {
-                    notification = new VelocityNotification("helm-" + appName, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.configuration.store.tilt.vm");
-                } else {
-                    notification = new VelocityNotification("helm-" + appName, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.helm.tilt.vm");
-                }
+                final String key = getMessageKey("Tiltfile", "helm", appName);
+                VelocityNotification notification = new VelocityNotification(key, GROUP_TILT, new HashSet<String>(), "templates/notifications/notification.helm.tilt.vm");
                 notification.addToVelocityContext("appName", appName);
                 notification.addToVelocityContext("deployArtifactId", deployArtifactId);
                 addManualAction(tiltFilePath, notification);
@@ -445,7 +428,9 @@ public class ManualActionNotificationService {
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, item.toString().trim());
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                VelocityNotification notification = new VelocityNotification("resource-dependencies", new HashSet<>(), "templates/notifications/notification.resource.tilt.vm");
+                final String key = getMessageKey("Tiltfile", "resource-dependencies", appName);
+
+                VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.resource.tilt.vm");
                 notification.addToVelocityContext("appName", appName);
                 notification.addToVelocityContext("formattedAppDependencies", formattedAppDependencies);
                 addManualAction(tiltFilePath, notification);
@@ -498,12 +483,12 @@ public class ManualActionNotificationService {
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey(tiltFilePath, "Tiltfile");
+                final String key = getMessageKey("Tiltfile", "yaml", appName);
 
                 HashSet<String> items = new HashSet<String>();
                 items.add(yamlFilePath);
 
-                VelocityNotification notification = new VelocityNotification("yaml", GROUP_TILT, items,
+                VelocityNotification notification = new VelocityNotification(key, GROUP_TILT, items,
                         "templates/notifications/notification.yaml.tiltfile.vm");
                 addManualAction(tiltFilePath, notification);
             }
@@ -537,7 +522,9 @@ public class ManualActionNotificationService {
 
             //add a manual action for any resources that may need to be added
             if (items.size() > 0) {
-                VelocityNotification notification = new VelocityNotification("elasticsearch", GROUP_TILT, items,
+                final String key = getMessageKey("Tiltfile", "elasticsearch");
+
+                VelocityNotification notification = new VelocityNotification(key, GROUP_TILT, items,
                         "templates/notifications/notification.elastic.search.tilt.vm");
                 addManualAction(tiltFilePath, notification);
             }
@@ -566,7 +553,9 @@ public class ManualActionNotificationService {
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                VelocityNotification notification = new VelocityNotification("spark-worker", GROUP_TILT, new HashSet<>(),
+                final String key = getMessageKey("Tiltfile", "spark-application");
+
+                VelocityNotification notification = new VelocityNotification(key, GROUP_TILT, new HashSet<>(),
                         "templates/notifications/notification.spark.worker.tilt.vm");
                 notification.addToVelocityContext("parentArtifactId", parentArtifactId);
                 notification.addToVelocityContext("pipelineArtifactId", pipelineArtifactId);
@@ -646,7 +635,6 @@ public class ManualActionNotificationService {
             NotificationParams params = configureNotification(optionalRoot, profile, artifactId, MavenUtil::getDockerModuleName);
             if (StringUtils.isNotEmpty(profile)) {
                 if (!params.isExistsInFileOrNotification()) {
-
                     VelocityNotification notification = new VelocityNotification(params.getKey(), "dockerpom", new HashSet<>(), "templates/notifications/notification.docker.pom.vm");
                     notification.addToVelocityContext(("profile"), profile);
                     notification.addToVelocityContext("appName", artifactId);
@@ -676,7 +664,9 @@ public class ManualActionNotificationService {
             String pomFilePath = pomPath + File.separator + trainingDockerArtifactId;
             boolean registryUrlExists = existsInFile(pomFilePath,"<registry>ECR_REGISTRY_URL</registry>");
             if (registryUrlExists) {
-                final String key = getMessageKey(pomFilePath, "pom");
+                String relativePomFilePath = getRelativePathToProjectRoot(rootDir, pomRoot) + File.separator + trainingDockerArtifactId;
+                final String key = getMessageKey(relativePomFilePath, "sagemaker");
+
                 VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.sagemaker.docker.pom.vm");
                 notification.addToVelocityContext("artifactId", artifactId);
                 notification.addToVelocityContext("dockerArtifactId", trainingDockerArtifactId);
@@ -753,7 +743,8 @@ public class ManualActionNotificationService {
         }
 
         if (CollectionUtils.isNotEmpty(dependenciesToAdd)) {
-            final String key = getMessageKey(pyprojectFilePath, "requirement");
+            String relativePyprojectFilePath = getRelativePathToProjectRoot(context.getExecutionRootDirectory(), context.getProjectDirectory()) + File.separator + "pyproject.toml";
+            final String key = getMessageKey(relativePyprojectFilePath, "requirement", context.getArtifactId());
 
             HashSet<String> items = new HashSet<String>();
             for (String dependency : dependenciesToAdd) {
@@ -784,13 +775,15 @@ public class ManualActionNotificationService {
                             "apps", "s3-local", "values.yaml")).toAbsolutePath().normalize();
             try {
                 if (showWarnings(s3ValuesPath.toString())) {
+                    String relativeValuesFilePath = getRelativePathToProjectRoot(rootDir, s3ValuesPath.toFile());
+
                     if (!existsInFile(s3ValuesPath.toString(), "- name: " + bucketName)) {
 
                         HashSet<String> items = new HashSet<String>();
                         for (String objectName : objectNames) {
                             items.add(objectName);
                         }
-                        final String key = getMessageKey(s3ValuesPath.toString(), bucketName, "buckets");
+                        final String key = getMessageKey(relativeValuesFilePath, "buckets", bucketName);
                         VelocityNotification notification = new VelocityNotification(key, items, "templates/notifications/notification.s3.local.buckets.vm");
                         notification.addToVelocityContext("rootPath", rootPath.relativize(s3ValuesPath).toString());
                         notification.addToVelocityContext("bucketName", bucketName);
@@ -806,7 +799,7 @@ public class ManualActionNotificationService {
                         }
 
                         if (pathExistsInFile) {
-                            final String key = getMessageKey(s3ValuesPath.toString(), bucketName, "bucketobjects");
+                            final String key = getMessageKey(relativeValuesFilePath, "bucketobjects", bucketName);
 
                             VelocityNotification notification = new VelocityNotification(key, items, "templates/notifications/notification.s3.local.bucketobjects.vm");
                             notification.addToVelocityContext("rootPath", rootPath.relativize(s3ValuesPath).toString());
@@ -839,7 +832,9 @@ public class ManualActionNotificationService {
                 if (showWarnings(kafkaValuesPath.toString())
                         && !existsInFile(kafkaValuesPath.toString(), topicName + ":")
                         && existsInFile(kafkaValuesPath.toString(), "KAFKA_CREATE_TOPICS")) {
-                    final String key = getMessageKey(kafkaValuesPath.toString(), "topics");
+                    
+                    String relativeValuesFilePath = getRelativePathToProjectRoot(rootDir, kafkaValuesPath.toFile());
+                    final String key = getMessageKey(relativeValuesFilePath, "kafka-topics");
 
                     HashSet<String> items = new HashSet<String>();
                     items.add(topicName);
@@ -864,6 +859,22 @@ public class ManualActionNotificationService {
         } catch (IOException e) {
             throw new GenerationException("Could not introspect file: " + filePath, e);
         }
+    }
+
+    /**
+     * Returns the path of the current project directory relative to the project root.
+     * Given:
+     *   my/test/project
+     *   my/test/project/submodule1/submodule2
+     * Returns:
+     *   submodule1/submodule2
+     * 
+     * @param projectRoot The root directory
+     * @param currentDirectory The current directory
+     * @return The relative path as a {@link String}
+     */
+    private String getRelativePathToProjectRoot(File projectRoot, File currentDirectory) {
+        return projectRoot.toPath().relativize(currentDirectory.toPath()).toString();
     }
 
     private String getMessageKey(final String... keyComponents) {
@@ -930,21 +941,25 @@ public class ManualActionNotificationService {
     /**
      * Performs some common logic to set up information for building notifications to update pom files.
      *
-     * @param optionalRoot The root directory of the files needed for this notification
+     * @param rootDir      The root directory of the files needed for this notification
      * @param profile      The generation profile
      * @param appName      The app name to add to the pom file
      * @param getModule    A function to find the artifact id for the notification, varies by module type
      * @return An object containing the parameters needed for the rest of the notification generation
      */
-    private NotificationParams configureNotification(File optionalRoot, String profile, String appName, Function<File, String> getModule) {
+    private NotificationParams configureNotification(File rootDir, String profile, String appName, Function<File, String> getModule) {
         NotificationParams params = new NotificationParams();
 
-        params.setArtifactId(getModule.apply(optionalRoot));
-        final String deployDir = optionalRoot.getAbsolutePath() + File.separator + params.getArtifactId();
+        params.setArtifactId(getModule.apply(rootDir));
+        final String deployDir = rootDir.getAbsolutePath() + File.separator + params.getArtifactId();
+
         params.setPomFilePath(deployDir + File.separator + "pom.xml");
         params.setProfileConfiguration("<profile>" + profile + "</profile>");
         params.setPomFile(new File(params.getPomFilePath()));
-        params.setKey(getMessageKey(params.getPomFilePath(), "execution", appName));
+
+        String relativePomFilePath = getRelativePathToProjectRoot(rootDir, params.getPomFile());
+        params.setKey(getMessageKey(relativePomFilePath, "execution", appName));
+
         params.setExistsInFileOrNotification(executionAppExistsInPomFile(params.getPomFile(), appName) || executionAppExistsInNotification(params.getPomFilePath(), params.getKey(), appName));
 
         return params;
