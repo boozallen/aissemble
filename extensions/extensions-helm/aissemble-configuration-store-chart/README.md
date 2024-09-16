@@ -36,9 +36,9 @@ The following properties are override from the base (Quarkus)
 | toggleableConfiguration.configMap.supplementalQuarkusConfig | The toggleable list of additional properties to provide to the Quarkus app                                                                                                                                                                                                     | No                | `- quarkus.http.ssl.certificate.file=/etc/webhook/cert/tls.crt`<br/>`- quarkus.http.ssl.certificate.key-file=/etc/webhook/cert/tls.key`                                                                                         |
 
 ## Persistent Volume Properties
-
 The following properties are used to create the Persistent Volume and Persistent Volume Claim used to mount the configs
-onto the configuration service
+onto the configuration service. Additionally you must define [environment variables](#environment-variables) specifying the location
+of the configs to the service.
 
 | Property                                     | Description                                                                                   | Required Override | Default             |
 |----------------------------------------------|-----------------------------------------------------------------------------------------------|-------------------|---------------------|
@@ -46,11 +46,30 @@ onto the configuration service
 | configurationVolume.name                     | The name used to create the pv and pvc                                                        | No                | configuration-store |
 | configurationVolume.storageType              | Determines mounting a local mount for tests or a custom mount <br/>Options: local, custom     | No                | custom              |
 | configurationVolume.storageClass             | The PVCs class of storage. If storageType is custom then the storageClass needs to be defined | No*               | ""                  |
+| configurationVolume.volumePathOnNode         | Defines the host machine filesystem path to mount                                             | Yes**             | ""                  |
 | configurationVolume.accessModes.ReadOnlyMany | The modes this PVC will support when mounting                                                 | No                | ReadOnlyMany        |
 | configurationVolume.size                     | The size of the PVC                                                                           | No                | 1Gi                 |     
 
 \* If the storage class is left as default empty string then Kubernetes will try and find the Clusters default
 StorageClass
+
+\*\* Should only be overwritten when using a local mount as the storage type
+
+
+### Environment Variables
+The following environment variables are used by the configuration service for locating the mounted configs. These environment
+variables should specify their filepath location within the Persistent Volume. 
+
+```yaml
+aissemble-configuration-store-chart:
+  aissemble-quarkus-chart:
+    deployment:
+      env:
+        - name: BASE_PROPERTY
+          value: <URI housing base property configurations>
+        - name: ENVIRONMENT_PROPERTY
+          value: <Optional URI housing property overrides>
+```
 
 ## Custom Properties
 The following properties are specific to the aiSSEMBLE Configuration Store chart and it's creation of a [Kubernetes mutating webhook](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) for injecting config store values into kubernetes resources. When the webhook is enabled, this helm chart should be deployed in a separate namespace than your project resources to [avoid deadlocks with self hosted webhooks](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#avoiding-deadlocks-in-self-hosted-webhooks). It is recommended to keep the webhook enabled to ensure full functionality of the configuration store.

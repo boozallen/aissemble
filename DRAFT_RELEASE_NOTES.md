@@ -1,5 +1,8 @@
 # Major Additions
 
+## Universal Configurations Store
+The Configuration Store is a tool that enables the various configurations for a project to be centrally defined and managed. It then provides a standardized way of accessing them, allowing the environment specific configurations to be dynamically provided to the their respective resources within the project at runtime. See the [official documentation](https://boozallen.github.io/aissemble/aissemble/current-dev/configuration-store.html) for more details on leveraging the configuration store.
+
 ## aiSSEMBLE Infrastructure Helm Chart
 Created a helm chart with the necessary infrastructure for deploying your aiSSEMBLE project. This chart includes support for [Argo CD](https://argo-cd.readthedocs.io/en/stable/), [Jenkins](https://www.jenkins.io/), and [Nginx Ingress](https://docs.nginx.com/nginx-ingress-controller/). See the [chart README](https://github.com/boozallen/aissemble/tree/dev/extensions/extensions-helm/aissemble-infrastructure-chart#readme) for more details.
 

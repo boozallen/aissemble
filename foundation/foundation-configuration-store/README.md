@@ -20,29 +20,3 @@ AWS_SECRET_ACCESS_KEY=base-secret-access-key
 
 ### Handling Load Status
 The `ConfigLoader` leverages `load-status` to detect whether properties were already fully loaded or only partially loaded due to an interrupted process. The code logic ensures that a `fully-loaded` status is set when properties are loaded successfully. This status is then used to skip loading if the properties were successfully loaded previously, thus avoiding unnecessary reloading during deployment refreshes. For details on this behavior, refer to the implementation code and comments in the `ConfigLoader` class.
-
-### Inject Configuration Value
-To properly insert the configuration value into the kubernetes resource configuration, you need to place the configuration $getConfigValue() function with groupName and propertyName parameters specified (`;` is the delimiter of the parameters)
-
-An example of the format is 
-```text
-$getConfigValue(groupName=groupNameValue;propertyName=propertyNameValue) 
-```
-
-For example:
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mytestconfigmap
-  labels:
-    aissemble-configuration-store: enabled
-data:
-  mytest.properties: |-
-    AWS_ACCESS_KEY_ID=$getConfigValue(groupName=aws-credentials;propertyName=AWS_ACCESS_KEY_ID)
-    AWS_SECRET_ACCESS_KEY=$getConfigValue(groupName=aws-credentials;propertyName=AWS_SECRET_ACCESS_KEY)
-    fully-loaded=$getConfigValue(groupName=load-status;propertyName=fully-loaded)
-```
-
-The configuration store should be up and running before other services.
-To start, run `tilt up -f Tiltfile-config --port 10351` at the root directory of the project.

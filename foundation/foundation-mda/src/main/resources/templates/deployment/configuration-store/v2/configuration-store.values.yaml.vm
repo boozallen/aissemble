@@ -21,7 +21,6 @@ aissemble-configuration-store-chart:
       supplementalVolumeMounts:
         - name: configurations
           mountPath: "/configurations"
-          readOnly: true
 
   configurationVolume:
     storageType: "custom"

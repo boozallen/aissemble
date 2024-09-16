@@ -19,6 +19,7 @@
 * Supporting Components
 ** xref:alerting-details.adoc[]
 ** xref:bias-detection.adoc[]
+** xref:configuration-store.adoc[]
 ** xref:data-access-details.adoc[]
 ** xref:data-encryption.adoc[]
 ** xref:data-profiling-details.adoc[]
