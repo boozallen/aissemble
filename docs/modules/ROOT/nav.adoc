@@ -48,4 +48,3 @@
 ** xref:guides/guides-local-multi-node.adoc[]
 ** xref:guides/poetry-command-python-pipeline.adoc[]
 ** xref:guides/guides-sagemaker-training.adoc[]
-** xref:guides/guides-configuration-store.adoc[]
