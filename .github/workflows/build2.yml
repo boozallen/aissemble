@@ -1,0 +1,119 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build aissemble
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildBranch:
+        description: "Branch you want to build"
+        required: true
+        type: string
+        default: "285-deploy-artifacts-fix"
+  push:
+    branches: [ "285-deploy-artifacts-fix" ]
+jobs:
+  build:
+    runs-on: arc-runner-set-aissemble
+    env:
+      DOCKER_CONFIG: /home/runner/.docker
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.buildBranch }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Install required packages
+        run: |
+          sudo apt-get update
+          sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl \
+              git libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev zip unzip \
+              libpython3.11
+      - name: Install Python
+        uses: gabrielfalcao/pyenv-action@v18
+        with:
+          default: 3.11.4
+      - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
+        id: cached-m2-repo
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+      - name: Load m2 build cache
+        id: cached-m2-build
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-build-cache-
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Poetry cache
+        id: cached-poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            poetry-
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+      - name: Install Helm Unittest Plugin
+        run: |
+          echo "Updating helm unittest plugin to latest version..."
+          helm plugin install https://github.com/helm-unittest/helm-unittest.git
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Create Docker Builder Config File
+        run: sudo touch /etc/buildkitd.toml
+      # Generate the settings.xml for ghcr.io, pypi, & dev-pypi server profiles
+      - name: Create settings.xml
+        run: |
+          echo "<settings><servers><server><id>ghcr.io</id><username>${{ secrets.GHCR_IO_USERNAME }}</username><password>${{ secrets.GHCR_IO_TOKEN }}</password></server><server><id>pypi</id><username>${{ secrets.PYPI_USERNAME }}</username><password>${{ secrets.PYPI_TOKEN }}</password></server><server><id>dev-pypi</id><username>${{ secrets.TEST_PYPI_USERNAME }}</username><password>${{ secrets.TEST_PYPI_TOKEN }}</password></server> </servers></settings>" > $HOME/.m2/settings.xml
+      # Run build with the gh-build profile
+      - name: Build aiSSEMBLE
+        run: |
+          ./mvnw -B clean install -U -file pom.xml -Pci,gh-build --settings $HOME/.m2/settings.xml
+      # Install Maven which is needed for archetype tests
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.9
+      # Execute archetype tests
+      - name: Run Archetype Tests
+        run: |
+          ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
+      #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
+      # until https://github.com/actions/cache/issues/1315 is resolved
+      - name: Save m2 repository cache
+        id: save-m2-repo
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+      - name: Save m2 build cache
+        id: save-m2-build
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ~/.m2/build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
