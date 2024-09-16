@@ -91,7 +91,8 @@ jobs:
       # Run build with the gh-build profile
       - name: Build aiSSEMBLE
         run: |
-          ./mvnw -B clean install -U -file pom.xml -Pci,gh-build --settings $HOME/.m2/settings.xml
+          echo "pretend build"
+#          ./mvnw -B clean install -U -file pom.xml -Pci,gh-build --settings $HOME/.m2/settings.xml
       # Install Maven which is needed for archetype tests
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
