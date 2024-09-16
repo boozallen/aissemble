@@ -53,3 +53,24 @@ ingress:
   hosts:
     - host:
       paths:
+
+# Define all toggleable configuration. e.g: volumes, volumeMounts, and configMap
+# the content will be added to the resources if the toggle is set to true
+# Usage:
+#
+#  toggleableConfiguration:
+#    toggle: true/false (boolean value)
+#    volumes:
+#      - name: test
+#        secret:
+#          secretName: test-certs
+#    volumeMounts:
+#      - name: test-certs
+#        mountPath: "/path/dir"
+#    configMap:
+#      name: test-quarkus-config
+#      supplementalQuarkusConfig:
+#        - file1=/etc/path1
+#        - file2=/etc/path2
+toggleableConfiguration:
+  toggle: false

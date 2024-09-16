@@ -7,3 +7,4 @@ data:
     {{- range $property := .Values.configMap.supplementalQuarkusConfig }}
       {{ $property }}
     {{- end }}
+    {{- template "toggleable.configuration.configMap" . }}
