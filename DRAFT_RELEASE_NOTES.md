@@ -4,7 +4,15 @@
 The Configuration Store is a tool that enables the various configurations for a project to be centrally defined and managed. It then provides a standardized way of accessing them, allowing the environment specific configurations to be dynamically provided to the their respective resources within the project at runtime. See the [official documentation](https://boozallen.github.io/aissemble/aissemble/current-dev/configuration-store.html) for more details on leveraging the configuration store.
 
 ## aiSSEMBLE Infrastructure Helm Chart
-Created a helm chart with the necessary infrastructure for deploying your aiSSEMBLE project. This chart includes support for [Argo CD](https://argo-cd.readthedocs.io/en/stable/), [Jenkins](https://www.jenkins.io/), and [Nginx Ingress](https://docs.nginx.com/nginx-ingress-controller/). See the [chart README](https://github.com/boozallen/aissemble/tree/dev/extensions/extensions-helm/aissemble-infrastructure-chart#readme) for more details.
+Created a helm chart with the necessary infrastructure for deploying your aiSSEMBLE project. This chart includes support for [Argo CD](https://argo-cd.readthedocs.io/en/stable/), [Jenkins](https://www.jenkins.io/), and [Nginx Ingress](https://docs.nginx.com/nginx-ingress-controller/). See the [chart README](https://github.com/boozallen/aissemble/tree/dev/extensions/extensions-helm/aissemble-infrastructure-chart#readme) for more details. 
+
+## Spark Infrastructure v2 Helm Chart
+The following Helm charts have been migrated to the v2 structure and combined into a single `spark-infrastructure` chart. To migrate your helm charts to use the v2 pattern, follow the instruction in the [technical documentation](https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade).
+- Spark Infrastructure
+- Hive Metastore Service
+- Hive Metastore Database
+
+With this new chart, the `aissemble-hive-mysql` image  is no longer in use and is deprecated.  It will no longer be updated or maintained.  If you are on an older version of the Spark infrastructure charts, you can continue to use the 1.8 version of the `aissemble-hive-mysql` image.  However, we recommend upgrading to the new v2 spark-infrastructure chart to take full advantage of future fixes and improvements.
 
 # Breaking Changes
 _[A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section]_

@@ -59,7 +59,7 @@
     <modules>
         <module>aissemble-quarkus</module>
         <module>aissemble-fastapi</module>
-        <module>aissemble-hive</module>
+        <module>aissemble-hive-service</module>
         <module>aissemble-jenkins</module>
         <module>aissemble-metadata</module>
         <module>aissemble-nvidia</module>
