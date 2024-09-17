@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-transform-core-python"
-version = "1.8.1"
+version = "1.8.2.dev"
 description = "Contains the core Python implementation of data transform"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
