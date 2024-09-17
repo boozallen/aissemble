@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
-        <artifactId>aissemble-hive</artifactId>
+        <artifactId>extensions-docker</artifactId>
         <version>1.9.0-SNAPSHOT</version>
     </parent>
 
