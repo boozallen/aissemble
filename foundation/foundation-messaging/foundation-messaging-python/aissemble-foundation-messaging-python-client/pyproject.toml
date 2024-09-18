@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-messaging-python"
-version = "1.8.1"
+version = "1.8.2"
 description = "Defines a root level messaging architecture in python"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"

@@ -37,17 +37,32 @@ aissemble-spark-operator-chart:
     webhook.enable: false
 ```
 
-| Property                           | Description                        | Required Override | Default                                                           |
-|------------------------------------|------------------------------------|-------------------|-------------------------------------------------------------------|
-| image.repository                   | The image repository               | No                | ghcr.io/boozallen/aissemble-spark-operator                        |
-| image.tag                          | The image tag                      | No                | Chart.Version                                                     |
-| webhook.enable                     | Enable webhook server              | No                | true                                                              |
-| volumes                            | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2` |
-| volumeMounts                       | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2` |
-| fullnameOverride                   | String to override release name    | No                | spark-operator                                                    |
-| serviceAccounts.spark.name         | Name for the spark service account | No                | spark                                                             |
-| serviceAccounts.sparkoperator.name | Name for the spark service account | No                | sparkoperator                                                     |
+| Property                           | Description                        | Required Override | Default                                                                                         |
+|------------------------------------|------------------------------------|-------------------|-------------------------------------------------------------------------------------------------|
+| image.repository                   | The image repository               | No                | ghcr.io/boozallen/aissemble-spark-operator                                                      |
+| image.tag                          | The image tag                      | No                | Chart.Version                                                                                   |
+| webhook.enable                     | Enable webhook server              | No                | true                                                                                            |
+| volumes                            | Volumes for the pod                | No                | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2`                               |
+| volumeMounts                       | Volume Mounts for the pod          | No                | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2`                               |
+| fullnameOverride                   | String to override release name    | No                | spark-operator                                                                                  |
+| rbac.createClusterRole             | See `Migrated Properties`          | No                | false                                                                                           |
+| serviceAccounts.spark.name         | Name for the spark service account | No                | spark                                                                                           |
+| serviceAccounts.sparkoperator.name | Name for the spark service account | No                | sparkoperator                                                                                   |
 | podSecurityContext                 | Pod security context               | No                | runAsUser: 185<br/>runAsGroup: 1000<br/>fsGroup: 1000<br/>fsGroupChangePolicy: "OnRootMismatch" |
+
+## Migrated Properties
+The following properties have been migrated from the `spark-operator` subchart to the `aissemble-spark-operator-chart` chart.
+Any required overrides should be cognisant of the alternate path.  For example:
+
+```yaml
+aissemble-spark-operator-chart:
+  rbac:
+    createClusterRole: false
+```
+
+| Property               | Description                                                                   | Default |
+|------------------------|-------------------------------------------------------------------------------|---------|
+| rbac.createClusterRole | Create and use RBAC `ClusterRole` resources.  Migrated to use modified rules. | true    |
 
 # Shared Ivy Cache
 

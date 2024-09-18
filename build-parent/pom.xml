@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-root</artifactId>
-        <version>1.8.1</version>
+        <version>1.8.2</version>
     </parent>
 
     <artifactId>build-parent</artifactId>
@@ -22,7 +22,7 @@
     </distributionManagement>
 
     <properties>
-        <version.aissemble>1.8.1</version.aissemble>
+        <version.aissemble>1.8.2</version.aissemble>
 
         <!-- **************** -->
         <!-- Plugins versions -->

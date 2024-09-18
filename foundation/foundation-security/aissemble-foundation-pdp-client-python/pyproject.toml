@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-pdp-client-python"
-version = "1.8.1"
+version = "1.8.2"
 description = "REST Policy Decision Point (PDP) client for Python-based components"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
