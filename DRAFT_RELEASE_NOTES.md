@@ -53,6 +53,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-v2-chart-files-aissemble-version-migration | Updates the helm chart dependencies within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE |
 | upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (<YOUR_PROJECT>-deploy/src/main/resources/apps/) to use the latest version of the aiSSEMBLE       |
 | ml-flow-dockerfile-migration                       | Updates the MLFlow's Dockerfile to use the bitnami/mlflow image as a base instead of the deprecated boozallen/aissemble-mlflow image"                                      |
+| airflow-dockerfile-migration                       | Updates the Airflow's Dockerfile to use the bitnami/airflow image as a base instead of the deprecated boozallen/aissemble-airflow image"                                   |
 | update-data-access-thrift-endpoint-migration       | For projects using the default data-access thrift endpoint, updates to the new endpoint associated with v2 spark-infrastructure                                            |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
@@ -103,3 +104,4 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.9.0 
 - `aissemble-mlflow` Docker image using MLFlow 2.3.1 was replaced with `bitnami/mlflow:2.15.1-debian-12-r0`  Docker image using MLFlow 2.15.1.
 - Airflow Chart version upgraded from `1.10.0` to `1.15.0`.
 - `aissemble-airflow` Docker image using Airflow 2.6.2 was replaced with `apache/airflow`  Docker image using Airflow 2.9.3.
+- `aissemble-kafka` Docker image using Kafka 3.5.1 was replaced with `apache/kafka`  Docker image using Kafka 3.8.0.
