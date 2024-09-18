@@ -284,15 +284,20 @@ public abstract class AbstractModelInstanceSteps {
         writePom(model, projectDir);
     }
 
-    protected void createPipeline(String name, String typeName, String implName) throws IOException {
-        createPipeline(name, typeName, implName, p -> {});
+    protected void createAndSavePipeline(String name, String typeName, String implName) throws IOException {
+        createAndSavePipeline(name, typeName, implName, p -> {});
     }
 
-    protected void createPipeline(String name, String typeName, String implName, Consumer<PipelineElement> customization) throws IOException {
-        this.pipeline = TestMetamodelUtil.createPipelineWithType(name, BOOZ_ALLEN_PACKAGE, typeName, implName);
+    protected void createAndSavePipeline(String name, String typeName, String implName, Consumer<PipelineElement> customization) throws IOException {
+        this.pipeline = createPipeline(name, typeName, implName);
         customization.accept(pipeline);
         savePipelineToFile(pipeline);
+    }
+
+    protected PipelineElement createPipeline(String name, String typeName, String implName) throws IOException {
+        this.pipeline = TestMetamodelUtil.createPipelineWithType(name, BOOZ_ALLEN_PACKAGE, typeName, implName);
         pipelines.put(name, pipeline);
+        return pipeline;
     }
 
     protected static String unique(String name) {

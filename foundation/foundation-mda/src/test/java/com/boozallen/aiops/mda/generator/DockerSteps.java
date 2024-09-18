@@ -41,12 +41,12 @@ public class DockerSteps extends AbstractModelInstanceSteps {
 
     @Given("a data-flow pipeline using {string} with data-lineage enabled")
     public void a_data_flow_pipeline_using_with_data_lineage_enabled(String implName) throws IOException {
-        createPipeline(unique("DockerPipeline"), "data-flow", implName, p -> p.setDataLineage(true));
+        createAndSavePipeline(unique("DockerPipeline"), "data-flow", implName, p -> p.setDataLineage(true));
     }
 
     @Given("a machine-learning pipeline using {string} with model-lineage enabled")
     public void a_machine_learning_pipeline_using_with_model_lineage_enabled(String implName) throws IOException {
-        createPipeline(unique("DockerPipeline"), "machine-learning", implName, pipeline -> {
+        createAndSavePipeline(unique("DockerPipeline"), "machine-learning", implName, pipeline -> {
             StepElement step = createTrainingStepWithLineage("test-training-step");
             pipeline.addStep(step);
         });
