@@ -75,7 +75,7 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
 
     @Given("a {string} pipeline using {string} named {string}")
     public void a_pipeline_using_named(String typeName, String implName, String name) throws IOException {
-        createPipeline(name, typeName, implName);
+        createAndSavePipeline(name, typeName, implName);
     }
 
     @Given("a dictionary and 0 or more record models")

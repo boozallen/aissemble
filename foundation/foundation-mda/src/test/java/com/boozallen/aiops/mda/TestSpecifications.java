@@ -19,7 +19,10 @@ import io.cucumber.junit.CucumberOptions;
  * Test harness to run Gherkin Business Driven Development specifications.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/specifications", plugin = "json:target/cucumber-reports/cucumber.json", tags="not @manual")
+@CucumberOptions(
+        features = "src/test/resources/specifications",
+        plugin = "json:target/cucumber-reports/cucumber.json",
+        tags="not @manual")
 public class TestSpecifications {
     
 }

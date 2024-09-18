@@ -71,6 +71,15 @@ public class PipelineElement extends NamespacedMetamodelElement implements Pipel
     }
 
     /**
+     * Sets the file stores used by this pipeline
+     *
+     * @param fileStores - a list of File Stores to attach to the pipeline element
+     */
+    public void setFileStores(List<FileStore> fileStores) {
+        this.fileStores = fileStores;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @JsonInclude(Include.NON_NULL)
