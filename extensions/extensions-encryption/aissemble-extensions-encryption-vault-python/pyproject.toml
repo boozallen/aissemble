@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-extensions-encryption-vault-python"
-version = "1.8.2.dev"
+version = "1.8.2"
 description = "Vault data encryption classes (python)"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"

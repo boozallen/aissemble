@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "aissemble-machine-learning-training"
-version = "1.8.2.dev"
+version = "1.8.2"
 description = "Description of package"
 authors = ["Your Name <you@example.com>"]
 
