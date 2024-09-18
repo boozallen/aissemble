@@ -28,30 +28,30 @@
         <!-- Plugins versions -->
         <!-- **************** -->
         <version.archetype.plugin>3.2.1</version.archetype.plugin>
-        <version.assembly.plugin>3.6.0</version.assembly.plugin>
-        <version.buildhelper.plugin>3.2.0</version.buildhelper.plugin>
-        <version.buildnumber.plugin>3.1.0</version.buildnumber.plugin>
+        <version.assembly.plugin>3.7.1</version.assembly.plugin>
+        <version.buildhelper.plugin>3.6.0</version.buildhelper.plugin>
+        <version.buildnumber.plugin>3.2.1</version.buildnumber.plugin>
         <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
         <version.fermenter>2.10.3</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
         <version.habushu.plugin>2.16.1</version.habushu.plugin>
         <version.python>3.11.4</version.python>
-        <version.help.plugin>3.2.0</version.help.plugin>
+        <version.help.plugin>3.5.0</version.help.plugin>
         <version.krausening>19</version.krausening>
         <version.plexus.archiver>3.6.0</version.plexus.archiver>
         <version.plugin.plugin>3.9.0</version.plugin.plugin>
         <version.quarkus>3.6.9</version.quarkus>
         <version.quarkus.plugin>${version.quarkus}</version.quarkus.plugin>
-        <version.shade.plugin>3.2.4</version.shade.plugin>
+        <version.shade.plugin>3.6.0</version.shade.plugin>
         <version.smallrye.config>3.9.1</version.smallrye.config>
         <version.smallrye.graphql>2.9.1</version.smallrye.graphql>
         <version.smallrye.reactive.messaging>4.24.0</version.smallrye.reactive.messaging>
         <version.orphedomos.plugin>0.10.1</version.orphedomos.plugin>
         <version.janino>3.0.8</version.janino>
-        <version.jackson>2.14.2</version.jackson>
+        <version.jackson>2.15.0</version.jackson>
         <version.jclouds>2.6.0</version.jclouds>
         <version.maven.core>3.8.6</version.maven.core>
-        <version.mutiny>1.4.0</version.mutiny>
+        <version.mutiny>2.6.2</version.mutiny>
         <version.plexus.component>2.1.1</version.plexus.component>
         <version.postgresql>42.5.1</version.postgresql>
         <version.resteasy>4.7.7.Final</version.resteasy>
@@ -119,7 +119,7 @@
         <!-- maven-enforcer-plugin -->
         <version.maven.min>3.6.2</version.maven.min>
         <version.jdk.required>${maven.compiler.argument.source}</version.jdk.required>
-        <version.jdk.next-unsupported>12</version.jdk.next-unsupported>
+        <version.jdk.next-unsupported>18</version.jdk.next-unsupported>
         <insecure.repositories>ERROR</insecure.repositories>
 
         <!-- maven-idea-plugin & maven-eclipse-plugin -->
