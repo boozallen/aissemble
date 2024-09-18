@@ -67,7 +67,7 @@
             <version>${version.jakarta.inject}</version>
         </dependency>
 
-        <!-- Logging Dependencies (from aiops-parent pom) -->
+        <!-- Logging Dependencies (from aissemble-parent pom) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

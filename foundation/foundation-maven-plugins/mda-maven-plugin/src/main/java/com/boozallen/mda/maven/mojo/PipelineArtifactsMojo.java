@@ -338,7 +338,7 @@ public class PipelineArtifactsMojo extends AbstractMojo {
                 throw new NoSuchFileException("No archive present in directory " + archiveDir);
             }
             Path archive = archiveOpt.get();
-            FileSystem fileSystem = FileSystems.newFileSystem(archive, null);
+            FileSystem fileSystem = FileSystems.newFileSystem(archive, (ClassLoader) null);
             Path appsDirToExtract = fileSystem.getPath(getPathToValuesFileDir(implType, pipelineName));
             Files.walk(appsDirToExtract, 1).forEach((fileToExtract -> {
                 try {

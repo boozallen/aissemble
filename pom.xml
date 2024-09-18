@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-parent</artifactId>
-        <version>4</version>
+        <version>5</version>
         <relativePath />
     </parent>
 
@@ -70,7 +70,6 @@
         <version.slf4j>2.0.7</version.slf4j>
         <version.log4j>2.20.0</version.log4j>
         <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
-        <!-- NB: After Java 17 upgrade, we may not need this -->
         <version.javax.inject>1</version.javax.inject>
     </properties>
 
