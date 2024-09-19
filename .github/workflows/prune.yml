@@ -10,74 +10,19 @@ on:
     - cron: "0 0 * * *"  # every day at midnight
 
 jobs:
-  # Phase 1: find all docker image names and release tags
-  fetch_image_info:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Fetch all aiSSEMBLE docker image names and release versions, then save to respective outputs
-        id: fetch-image-info
-        env:
-          GH_TOKEN: ${{ secrets.GHCR_IO_TOKEN }}
-
-        # Find all docker image names that starts with "aissemble" and does not end with "-chart" and save them to matrix-values output
-        # And find all release version tags and saves them to release-values output
-        run: |
-          image_names=$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "-GitHub-Api-Version: 2022-11-28" \
-            -H "Authorization: Token ${GH_TOKEN}" \
-            --paginate "/orgs/boozallen/packages?package_type=container" | \
-            jq -c '[.[] | select((.name | startswith("aissemble")) and (.name | endswith("-chart") | not)) | .name]')
-          
-          # save to output
-          echo "matrix_values=${image_names}" >> $GITHUB_OUTPUT
-  
-          # loop through each image name and find all release tags using regex pattern
-          for name in $(echo "$image_names" | jq -r '.[]'); do
-              release_versions=$(gh api \
-                -H "Accept: application/vnd.github+json" \
-                -H "-GitHub-Api-Version: 2022-11-28" \
-                -H "Authorization: Token ${GH_TOKEN}" \
-                --paginate "/orgs/boozallen/packages/container/${name}/versions" \
-                | jq -r '.[] | .metadata.container.tags[] | select(test("^\\d+\\.\\d+\\.\\d+$"))')
-          
-              # append all release tags to all_release_versions array
-              all_release_versions+=("${release_versions}")
-          done
-          
-          # replace all whitespaces with newline (required for sort) and then sort all release versions while removing any duplicates
-          all_release_versions_sorted=$(echo "${all_release_versions[@]}" | tr ' ' '\n'| sort -u )
-          
-          # remove any blank rows, replace the newlines with commas, then remove the trailing comma
-          all_release_versions=$(echo "${all_release_versions_sorted[@]}" | sed -r '/^\s*$/d'| tr '\n' ',' | sed 's/,$//')
-          
-          # save to output
-          echo "release_values=${all_release_versions}" >> $GITHUB_OUTPUT
-          
-
-    # Identify the outputs of phase 1: fetch_image_info so they can be used in phase 2
-    outputs:
-      matrix-values: ${{ steps.fetch-image-info.outputs.matrix_values }}
-      release-values: ${{ steps.fetch-image-info.outputs.release_values }}
 
   
-  # Phase 2: loop through output of phase 1 to prune images
   prune_ghcr:
-    # Tells workflow to wait for the "fetch_image_info" phase to finish
-    needs: fetch_image_info
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        package-name: ${{ fromJson(needs.fetch_image_info.outputs.matrix-values) }}
 
     steps:
       - name: Prune ghcr
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           log-level: info
-          package: ${{ matrix.package-name }}
+          packages: "^aissemble(?!.*?-chart$).*$"
+          expand-packages: true
           token: ${{ secrets.GHCR_IO_TOKEN }}
-          exclude-tags: ${{ needs.fetch_image_info.outputs.release-values }}
+          exclude-tags: "^\\d+\\.\\d+\\.\\d+$"
+          use-regex: true
           keep-n-tagged: 2
