@@ -7,6 +7,7 @@ Note: instructions for adapting to these changes are outlined in the upgrade ins
 
 _There are no breaking changes in the 1.10 release._
 
+
 # Known Issues
 _There are no known issues with the 1.10 release._
 
@@ -74,3 +75,4 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.10.0
 3. Repeat the previous step until all manual actions are resolved
 
 # What's Changed
+- `pyproject.toml` files updated to allow for Python version `>=3.8`.

@@ -12,12 +12,12 @@ aissemble-foundation-pdp-client-python = {path = "../../../../foundation/foundat
 aissemble-foundation-core-python = {path = "../../../../foundation/aissemble-foundation-core-python", develop = true}
 aissemble-foundation-encryption-policy-python = {path = "../../../../foundation/foundation-encryption/aissemble-foundation-encryption-policy-python", develop = true}
 aissemble-extensions-encryption-vault-python = {path = "../../../../extensions/extensions-encryption/aissemble-extensions-encryption-vault-python", develop = true}
-python = "^3.11.4"
+python = ">=3.8"
 mlflow = "^2.3.1"
 fastapi = ">=0.95.0"
 uvicorn = { version = "^0.18.0", extras = ["standard"]}
 grpcio = "^1.50.0"
-krausening = ">=19"
+krausening = ">=20"
 pandas = "^1.5.0"
 
 # The latest versions of scipy cap numpy to < 1.26.0, but older versions don't. The recent release of numpy caused

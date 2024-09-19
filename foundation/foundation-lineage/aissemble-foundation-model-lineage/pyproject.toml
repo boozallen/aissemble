@@ -9,7 +9,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
+python = ">=3.8"
 openlineage-python = {version = "^0.21.1"}
 
 #[tool.poetry.group.monorepo.dependencies]

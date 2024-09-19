@@ -12,9 +12,9 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
+python = ">=3.8"
 py4j = "0.10.9.7"
-krausening = ">=19"
+krausening = ">=20"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"

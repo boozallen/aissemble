@@ -9,9 +9,10 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
-krausening = ">=19"
+python = ">=3.8"
+krausening = ">=20"
 pydantic = ">=2.8.0"
+
 pyspark = "3.4.0"
 cryptography = ">=42.0.4"
 urllib3 = "^1.26.18"
