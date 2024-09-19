@@ -14,6 +14,9 @@ The following Helm charts have been migrated to the v2 structure and combined in
 
 With this new chart, the `aissemble-hive-mysql` image  is no longer in use and is deprecated.  It will no longer be updated or maintained.  If you are on an older version of the Spark infrastructure charts, you can continue to use the 1.8 version of the `aissemble-hive-mysql` image.  However, we recommend upgrading to the new v2 spark-infrastructure chart to take full advantage of future fixes and improvements.
 
+## ArgoCD Deployment Branch
+Resolved issue when deploying with ArgoCD where apps would fail to utilize the current deploy job branch parameter. Now ArgoCD deployments will use the correct deploy branch when performing test deployments on branches other than `dev`.
+
 # Breaking Changes
 _[A short bulleted list of changes that will cause downstream projects to be partially or wholly inoperable without changes. Instructions for those changes should live in the How To Upgrade section]_
 Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
