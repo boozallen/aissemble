@@ -33,7 +33,7 @@ Usage:
 
 {{/* vim: set filetype=mustache: */}}
 {{/*
-Renders volumeMounts that specified under toggleConfiguration.
+Renders supplementalQuarkusConfig that specified under toggleConfiguration.configMap.
 Usage:
 {{ include "toggleable.configuration.configMap" . }}
 */}}
