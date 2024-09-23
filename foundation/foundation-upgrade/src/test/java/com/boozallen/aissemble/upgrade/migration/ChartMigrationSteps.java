@@ -174,6 +174,7 @@ public class ChartMigrationSteps {
                 String incomingVersion = (String) chartFileContents.get("version");
                 assertEquals("Chart version was changed when only dependency versions should have", VERSION_ONE, incomingVersion );
 
+                //noinspection unchecked
                 ArrayList<HashMap<String, Object>> dependencies = (ArrayList<HashMap<String, Object>>) dependenciesObject;
                 String currentVersion = migration.getCurrentAissembleVersion();
 
@@ -222,6 +223,7 @@ public class ChartMigrationSteps {
         HashMap<String, Object> valuesFileContents;
         try {
             valuesFileContents = MigrationTestUtils.extractYamlContents(valuesFile);
+            //noinspection unchecked
             HashMap<String,Object> image = (HashMap<String, Object>) valuesFileContents.get("image");
             String incomingVersionTag = (String) image.get("tag");
 

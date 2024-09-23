@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: test
+  name: vp-spark-operator
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd
+    namespace: vp-argocd
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: abc-deploy/src/main/resources/apps/test
+    path: vp-deploy/src/main/resources/apps/spark-operator
     repoURL: {{ .Values.spec.repo }}
     targetRevision: {{ .Values.spec.targetRevision }}
     {{ if .Values.spec.helm.valueFiles }}
@@ -22,5 +22,9 @@ spec:
         {{- end }}
     {{ end }}
   syncPolicy:
+    {{- with .Values.spec.syncPolicy.automated }}
+    automated: {{ toYaml . }}
+    {{- end }}
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true # https://github.com/argoproj/argo-cd/issues/820#issuecomment-1354636933

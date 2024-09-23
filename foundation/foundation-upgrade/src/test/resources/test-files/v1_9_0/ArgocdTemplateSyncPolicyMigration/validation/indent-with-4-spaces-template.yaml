@@ -21,6 +21,7 @@ spec:
                 - {{ . }}
               {{- end }}
         {{ end }}
+    {{- /* SKIP-MIGRATION: 'argocd-template-sync-policy-configuration-migration' */}}
     {{- with .Values.spec.syncPolicy }}
     syncPolicy:
         {{- toYaml . | nindent 8 }}

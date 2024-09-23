@@ -1,4 +1,4 @@
-piVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: test
@@ -21,6 +21,7 @@ spec:
         - {{ . }}
         {{- end }}
     {{ end }}
+  {{- /* SKIP-MIGRATION: 'argocd-template-sync-policy-configuration-migration' */}}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
     {{- toYaml . | nindent 4 }}

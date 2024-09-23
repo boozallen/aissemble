@@ -29,9 +29,11 @@
         "fileSets": [
           {
             "includes": [
-              "*-deploy/src/main/resources/templates/*.yaml"
+              "src/main/resources/templates/*.yaml"
             ],
-            "excludes": ["*-deploy/src/main/resources/templates/sealed-secret.yaml"]
+            "excludes": [
+              "src/main/resources/templates/sealed-secret.yaml"
+            ]
           }
         ]
       },

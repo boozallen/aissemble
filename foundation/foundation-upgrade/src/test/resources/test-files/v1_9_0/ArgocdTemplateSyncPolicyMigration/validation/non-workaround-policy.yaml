@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vp-spark-operator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: vp-argocd
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    path: vp-deploy/src/main/resources/apps/spark-operator
+    repoURL: {{ .Values.spec.repo }}
+    targetRevision: {{ .Values.spec.targetRevision }}
+    {{ if .Values.spec.helm.valueFiles }}
+    helm:
+      valueFiles:
+        {{- range .Values.spec.helm.valueFiles }}
+        - {{ . }}
+        {{- end }}
+    {{ end }}
+  syncPolicy:
+    {{- with .Values.spec.syncPolicy.automated }}
+    automated: {{ toYaml . }}
+    {{- end }}
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true # https://github.com/argoproj/argo-cd/issues/820#issuecomment-1354636933
+
+{{- /*
+WARNING: To update template manually, ensure the spec.syncPolicy.syncOptions and spec.syncPolicy.automated values are
+included in the template logic. This allows the syncWave feature of ArgoCD to be properly utilized for sequencing
+Configuration Store deployment before other apps. Example template logic:
+
+  syncPolicy:
+  {{- with .Values.spec.syncPolicy }}
+    {{- if .automated }}
+    automated:
+      {{- toYaml .automated | nindent 6}}
+    {{- else if hasKey . "automated" }}
+    automated: {}
+    {{- end }}
+  {{- end }}
+    syncOptions:
+    - ServerSideApply=true
+    {{- if .Values.spec.syncPolicy }}
+      {{- with .Values.spec.syncPolicy.syncOptions }}
+        {{- toYaml . | nindent 4 }}
+      {{- end }}
+    {{- end }}
+
+To ignore the file during this migration and suppress this comment, retain the comment below anywhere in the file: */}}
+  {{- /* SKIP-MIGRATION: 'argocd-template-sync-policy-configuration-migration' */}}
