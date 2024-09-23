@@ -14,7 +14,7 @@
     <description>Provides pluggable messaging functionality to the python messaging client</description>
     <packaging>jar</packaging>
     <properties>
-        <byte.buddy>1.14.9</byte.buddy>
+        <byte.buddy>1.15.1</byte.buddy>
     </properties>
 
     <build>
