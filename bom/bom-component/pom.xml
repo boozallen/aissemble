@@ -25,13 +25,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-universe-bom</artifactId>
-                <version>${version.quarkus.plugin}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.technologybrewery.krausening</groupId>
                 <artifactId>krausening</artifactId>
                 <version>${version.krausening}</version>

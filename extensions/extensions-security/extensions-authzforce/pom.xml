@@ -90,6 +90,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>${version.slf4j}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>${version.jakarta.activation.api}</version>
+        </dependency>
         <!-- TEST dependencies -->
         <dependency>
             <groupId>io.cucumber</groupId>
