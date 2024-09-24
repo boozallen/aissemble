@@ -2,7 +2,6 @@
 ## CONFIG | Kafka Configs
 ########################################
 kafka:
-  kafkaVersion: 3.8.0
   fullnameOverride: kafka-cluster
   # Container Ports Configuration
   containerPorts:
