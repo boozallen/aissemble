@@ -1147,7 +1147,9 @@
 			{
 				"name": "kafka-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `kafka-deploy` is deprecated, please follow the migration instructions for upgrading to the kafka V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "kafka-connect-kubernetes",

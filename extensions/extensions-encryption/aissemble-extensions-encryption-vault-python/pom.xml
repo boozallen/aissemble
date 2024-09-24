@@ -20,7 +20,7 @@
             <artifactId>aissemble-vault</artifactId>
             <scope>test</scope>
             <version>${project.version}</version>
-            <type>pom</type>
+            <type>docker-build</type>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>
