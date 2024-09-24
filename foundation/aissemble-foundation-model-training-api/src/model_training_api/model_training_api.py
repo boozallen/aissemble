@@ -192,7 +192,7 @@ def list_jobs(pipeline_step: Union[str, None] = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/{training_job_name}")
+@app.delete("/training-jobs/{training_job_name}")
 def kill_job(training_job_name):
     """Delete model training job
     Args:
