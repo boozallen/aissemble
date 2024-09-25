@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-machine-learning-sagemaker-training"
-version = "1.9.0.dev"
+version = "1.9.1"
 description = "Description of package"
 authors = ["Your Name <you@example.com>"]
 

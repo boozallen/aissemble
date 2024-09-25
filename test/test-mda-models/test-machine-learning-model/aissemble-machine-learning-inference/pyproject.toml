@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-machine-learning-inference"
-version = "1.9.0.dev"
+version = "1.9.1"
 description = "Machine Learning Inference Test Module"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 
