@@ -1,68 +1,8 @@
 [
   {
-    "group": "v1-9-0-migrations",
+    "group": "v1-10-0-migrations",
     "type": "ordered",
     "migrations": [
-      {
-        "name": "airflow-dockerfile-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.AirflowDockerfileMigration",
-        "fileSets": [
-          {
-            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
-            "excludes": ["*-docker/*/target/Dockerfile"]
-          }
-        ]
-      },
-      {
-        "name": "ml-flow-dockerfile-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.MLFlowDockerfileMigration",
-        "fileSets": [
-          {
-            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
-            "excludes": ["*-docker/*/target/Dockerfile"]
-          }
-        ]
-      },
-      {
-        "name": "argocd-template-sync-policy-configuration-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.ArgocdTemplateSyncPolicyMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "src/main/resources/templates/*.yaml"
-            ],
-            "excludes": [
-              "src/main/resources/templates/sealed-secret.yaml"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "argocd-value-file-sync-policy-configuration-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.ArgocdValueFileSyncPolicyMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-deploy/src/main/resources/values.yaml"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "group": "v1-9-0-migrations",
-    "type": "ordered",
-    "migrations": [
-      {
-        "name": "update-data-access-thrift-endpoint-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.UpdateDataAccessThriftServerEndpointMigration",
-        "fileSets": [
-          {
-            "includes": ["*-pipelines/*-data-access/src/main/resources/application.properties"]
-          }
-        ]
-      }
     ]
   },
   {
