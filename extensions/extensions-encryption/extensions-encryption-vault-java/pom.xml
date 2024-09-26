@@ -12,9 +12,6 @@
     <name>aiSSEMBLE::Extensions::Encryption::Vault::Java</name>
     <description>Vault data encryption classes (java)</description>
 
-    <properties>
-        <version.vault>5.1.0</version.vault>
-    </properties>
 
     <dependencies>
         <dependency>

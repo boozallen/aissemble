@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.18.9
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
