@@ -22,9 +22,6 @@ import com.boozallen.aiops.mda.metamodel.element.StepDataRecordType;
  */
 public class JavaStepDataRecordType extends BaseStepDataRecordTypeDecorator {
 
-    private AIOpsModelInstanceRepostory modelRepository = ModelInstanceRepositoryManager
-            .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
-
     /**
      * {@inheritDoc}
      */
@@ -41,7 +38,7 @@ public class JavaStepDataRecordType extends BaseStepDataRecordTypeDecorator {
         String fullyQualifiedRecordType = null;
 
         String packageName = getPackage();
-        if (StringUtils.isNotBlank(packageName) && !packageName.equals(modelRepository.getBasePackage())) {
+        if (StringUtils.isNotBlank(packageName) ){
             fullyQualifiedRecordType = packageName + "." + getName();
         }
 
