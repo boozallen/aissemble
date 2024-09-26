@@ -1,5 +1,6 @@
 # Bug Fixes
- - TBD
+
+ - Remove incorrect manual action for adding Configuration Store to Tiltfile
 
 # Known Issues
 Refer to the release notes for [1.9](https://github.com/boozallen/aissemble/releases/tag/aissemble-root-1.9.1)

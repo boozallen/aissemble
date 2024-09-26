@@ -68,7 +68,9 @@ public abstract class AbstractKubernetesGenerator extends AbstractResourcesGener
 
         final ManualActionNotificationService manualActionNotificationService = getNotificationService();
         final String deployArtifactId = generationContext.getArtifactId();
-        addTiltNotification(generationContext, appName, deployArtifactId);
+        if (!"configuration-store".equals(appName)) {
+            addTiltNotification(generationContext, appName, deployArtifactId);
+        }
 
         final String appDependencies = generationContext.getPropertyVariables().get(APP_DEPENDENCIES);
         if (!StringUtils.isEmpty(appDependencies)) {
