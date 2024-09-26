@@ -9,13 +9,13 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <3.12"
+python = ">=3.8"
 fastapi = ">=0.95.0"
 uvicorn = {version = "^0.18.0", extras = ["standard"]}
 pydantic = ">=2.8.0"
 kubernetes = ">=26.1.0"
 urllib3 = "^1.26.18"
-krausening = ">=19"
+krausening = ">=20"
 sagemaker = ">=2.218.0"
 mlflow = "^2.3.1"
 

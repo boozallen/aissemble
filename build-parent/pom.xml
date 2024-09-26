@@ -37,7 +37,7 @@
         <version.habushu.plugin>2.16.1</version.habushu.plugin>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.2.0</version.help.plugin>
-        <version.krausening>19</version.krausening>
+        <version.krausening>20</version.krausening>
         <version.plexus.archiver>3.6.0</version.plexus.archiver>
         <version.plugin.plugin>3.9.0</version.plugin.plugin>
         <version.quarkus>2.8.3.Final</version.quarkus>

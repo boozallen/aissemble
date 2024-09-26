@@ -15,9 +15,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
+python = ">=3.8"
 pydantic = ">=2.8.0"
-krausening = ">=19"
+krausening = ">=20"
 cryptography = ">=42.0.4"
 pyjwt = ">=2.3.0"
 pyjks = ">=20.0.0"
