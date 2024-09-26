@@ -12,8 +12,9 @@ _There are no breaking changes in the 1.10 release._
 _There are no known issues with the 1.10 release._
 
 # Known Vulnerabilities
-| Date<br/>identified | Vulnerability | Severity | Package | Affected <br/>versions | CVE | Fixed <br/>in |
-|---------------------|---------------|----------|---------|------------------------|-----|---------------|
+| Date<br/>identified | Vulnerability                                                             | Severity | Package                   | Affected <br/>versions | CVE                                                               | Fixed <br/>in |
+|---------------------|---------------------------------------------------------------------------|----------|---------------------------|------------------------|-------------------------------------------------------------------|---------------|
+
 
 # How to Upgrade
 The following steps will upgrade your project to 1.10. These instructions consist of multiple phases:
