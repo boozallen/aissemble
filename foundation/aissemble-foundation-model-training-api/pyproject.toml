@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-model-training-api"
-version = "1.9.0.dev"
+version = "1.10.0.dev"
 description = ""
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"

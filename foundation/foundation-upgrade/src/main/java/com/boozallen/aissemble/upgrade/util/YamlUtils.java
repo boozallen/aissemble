@@ -50,6 +50,15 @@ public class YamlUtils {
         }
     }
 
+    public static boolean isComment(String trimmedLine) {
+        // Helm template comment can be: "{{/*", "{{ /*", or "{{- /*"
+        return trimmedLine.startsWith("#") || trimmedLine.matches("\\{\\{-? */\\*.*");
+    }
+
+    public static boolean isHelmFunction(String trimmedLine) {
+        return trimmedLine.startsWith("{{");
+    }
+
     @SuppressWarnings({"unchecked", "unused"})
     public static class YamlObject {
         private final Map<String, Object> contents;
@@ -254,7 +263,7 @@ public class YamlUtils {
         int index = startIndex;
         while (indentSpaces == 0) {
             String line = yamlFileContent.get(index).stripTrailing();
-            if (!StringUtils.isBlank(line)) {
+            if (!StringUtils.isBlank(line) && !isComment(line.trim()) && !isHelmFunction(line.trim())) {
                 indentSpaces = line.indexOf(line.trim());
             }
             index++;

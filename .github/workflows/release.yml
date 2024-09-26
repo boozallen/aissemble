@@ -12,19 +12,19 @@ on:
   workflow_dispatch:
     inputs:
       releaseVersion:
-        description: "The version you want to release aiSSEMBLE on."
+        description: "Release Version"
         required: true
         type: string
       developmentVersion:
-        description: "The version that dev should be on after this release."
+        description: "Next Dev Version"
         required: true
         type: string
       releaseBranch:
-        description: "OPTIONAL: The branch to use for running the release."
+        description: "Release Branch (default: aissemble-release-<MajMinVersion>)"
         required: false
         type: string
       existingVersion:
-        description: "OPTIONAL: The existing aiSSEMBLE version. Defaults to patchVersion-SNAPSHOT"
+        description: "Existing Version (default: <MajMinPatchVersion>-SNAPSHOT)"
         required: false
         type: string
 
