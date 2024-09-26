@@ -864,6 +864,9 @@
                             <TESTCONTAINERS_RYUK_DISABLED>${TESTCONTAINERS_RYUK_DISABLED}</TESTCONTAINERS_RYUK_DISABLED>
                             <!--<TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX>YOUR MIRROR OR INTENRAL REPO GOES HERE - e.g., nexus.foobar.com/</TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX>-->
                         </environmentVariables>
+                        <!-- Spark needs to use an internal API that has been made inaccessible by default. This
+                        exposes it -->
+                        <argLine>--add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>
                     </configuration>
                 </plugin>
                 <plugin>
