@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-extensions-transform-spark-python"
-version = "1.9.2.dev"
+version = "1.9.2"
 description = "Contains the core Python implementation of data transform for Spark"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-core-python"
-version = "1.9.2.dev"
+version = "1.9.2"
 description = "Core classes for supporting concepts (alerting, metadata, etc) that are needed across most Python-based components"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"

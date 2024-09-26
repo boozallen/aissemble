@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-maven-plugins</artifactId>
-        <version>1.9.2-SNAPSHOT</version>
+        <version>1.9.2</version>
     </parent>
 
     <artifactId>mda-maven-plugin</artifactId>
