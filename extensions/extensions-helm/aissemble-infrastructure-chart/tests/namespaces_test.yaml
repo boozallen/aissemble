@@ -1,0 +1,64 @@
+suite: infrastructure
+templates:
+  - namespaces.yaml
+tests:
+  - it: Should contain a Argo CD namespace
+    documentIndex: 0
+    asserts:
+      - containsDocument:
+          kind: Namespace
+          apiVersion: v1
+          name: argocd
+  - it: Should contain a Jenkins Namespace
+    documentIndex: 1
+    asserts:
+      - containsDocument:
+          kind: Namespace
+          apiVersion: v1
+          name: jenkins
+  - it: Should contain a Ingress Nginx namespace
+    documentIndex: 2
+    asserts:
+      - containsDocument:
+          kind: Namespace
+          apiVersion: v1
+          name: ingress-nginx
+  - it: Should be 3 namespaces in total
+    asserts:
+      - hasDocuments:
+          count: 3
+  - it: Does not produce namespaces if options are disabled
+    set:
+      argo-cd:
+        enabled: false
+      jenkins:
+        enabled: false
+      ingress-nginx:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: Does not produce namespaces if overrides are disabled
+    set:
+      argo-cd:
+        namespaceOverride: ""
+      jenkins:
+        namespaceOverride: ""
+      ingress-nginx:
+        namespaceOverride: ""
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: Does not produce namespaces if overrides match the release namespace
+    release:
+      namespace: test
+    set:
+      argo-cd:
+        namespaceOverride: test
+      jenkins:
+        namespaceOverride: test
+      ingress-nginx:
+        namespaceOverride: test
+    asserts:
+      - hasDocuments:
+          count: 0

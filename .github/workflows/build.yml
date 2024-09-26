@@ -15,17 +15,13 @@ on:
         description: "Branch you want to build"
         required: true
         type: string
-        default: 'dev'
-  push:
-    branches: [ "dev" ]
+        default: "dev"
 
 jobs:
   build:
-
     runs-on: arc-runner-set-aissemble
     env:
       DOCKER_CONFIG: /home/runner/.docker
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -76,6 +72,10 @@ jobs:
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
+      - name: Install Helm Unittest Plugin
+        run: |
+          echo "Updating helm unittest plugin to latest version..."
+          helm plugin install https://github.com/helm-unittest/helm-unittest.git
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
@@ -83,9 +83,23 @@ jobs:
           distribution: 'temurin'
       - name: Create Docker Builder Config File
         run: sudo touch /etc/buildkitd.toml
+      # Generate the settings.xml for ghcr.io, pypi, & dev-pypi server profiles
+      - name: Create settings.xml
+        run: |
+          echo "<settings><servers><server><id>ghcr.io</id><username>${{ secrets.GHCR_IO_USERNAME }}</username><password>${{ secrets.GHCR_IO_TOKEN }}</password></server><server><id>pypi</id><username>${{ secrets.PYPI_USERNAME }}</username><password>${{ secrets.PYPI_TOKEN }}</password></server><server><id>dev-pypi</id><username>${{ secrets.TEST_PYPI_USERNAME }}</username><password>${{ secrets.TEST_PYPI_TOKEN }}</password></server> </servers></settings>" > $HOME/.m2/settings.xml
+      # Run build with the gh-build profile
       - name: Build aiSSEMBLE
         run: |
-          ./mvnw -B clean install --file pom.xml -Pci
+          ./mvnw -B clean deploy -U -file pom.xml -Pci,integration-test,gh-build --settings $HOME/.m2/settings.xml
+      # Install Maven which is needed for archetype tests
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.9
+      # Execute archetype tests
+      - name: Run Archetype Tests
+        run: |
+          ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
       #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
       # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache

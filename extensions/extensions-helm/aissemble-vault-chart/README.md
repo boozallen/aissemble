@@ -6,7 +6,7 @@ and managed during the normal Maven build lifecycle and placed in the **target/h
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install vault ghcr.io/boozallen/aissemble-vault-chart --version <AISSEMBLE-VERSION>
+helm install vault oci://ghcr.io/boozallen/aissemble-vault-chart --version <AISSEMBLE-VERSION>
 ```
 _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 

@@ -11,7 +11,7 @@ via Tilt.
 After building the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and install the chart. For example:
 
 ```bash
-helm install localstack ghcr.io/boozallen/aissemble-localstack-chart --version <AISSEMBLE-VERSION>
+helm install localstack oci://ghcr.io/boozallen/aissemble-localstack-chart --version <AISSEMBLE-VERSION>
 ```
 
 **Note**: *the version should match the aiSSEMBLE project version.*

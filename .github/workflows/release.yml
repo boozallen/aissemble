@@ -1,0 +1,110 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Release aissemble
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: "Release Version"
+        required: true
+        type: string
+      developmentVersion:
+        description: "Next Dev Version"
+        required: true
+        type: string
+      releaseBranch:
+        description: "Release Branch (default: aissemble-release-<MajMinVersion>)"
+        required: false
+        type: string
+      existingVersion:
+        description: "Existing Version (default: <MajMinPatchVersion>-SNAPSHOT)"
+        required: false
+        type: string
+
+jobs:
+  build:
+
+    runs-on: arc-runner-set-aissemble
+    env:
+      DOCKER_CONFIG: /home/runner/.docker
+      RELEASE_VERSION: ${{ inputs.releaseVersion }}
+      NEXT_DEVELOPMENT_VERSION: ${{ inputs.developmentVersion }}
+      RELEASE_BRANCH: ${{ inputs.releaseBranch }}
+      EXISTING_VERSION: ${{ inputs.existingVersion }}
+
+    steps:
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+      - name: Install git
+        run: |
+          sudo apt-get update
+          sudo apt install -y git
+      - uses: actions/checkout@v4
+      - name: Split version
+        id: split_version
+        uses: ./.github/actions/split_version
+        with:
+          version: ${{ env.RELEASE_VERSION }}
+          release-branch: ${{ env.RELEASE_BRANCH }}
+          existing-version: ${{ env.EXISTING_VERSION }}
+      - name: Print release parameters
+        run: | 
+          echo "Releasing with the following parameters"
+          echo "Release version: ${{ env.RELEASE_VERSION }}"
+          echo "Next Development version: ${{ env.NEXT_DEVELOPMENT_VERSION }}"
+          echo "Major minor version: ${{ steps.split_version.outputs.major-minor-version }}"
+          echo "Patch Version: ${{ steps.split_version.outputs.patch-version }}"
+          echo "Is pre release version: ${{ steps.split_version.outputs.is-pre-release }}"
+          echo "Release branch: ${{ steps.split_version.outputs.release-branch }}"
+          echo "Existing version: ${{ steps.split_version.outputs.existing-version }}"
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.split_version.outputs.release-branch }}
+      - name: Update Antora Docs
+        uses: ./.github/actions/update_antora
+        with:
+          version: ${{ env.RELEASE_VERSION }}
+          major-minor-version: ${{ steps.split_version.outputs.major-minor-version }} 
+          patch-version: ${{ steps.split_version.outputs.patch-version }}
+          is-pre-release: ${{ steps.split_version.outputs.is-pre-release }}
+          release-branch: ${{ steps.split_version.outputs.release-branch }}
+          custom-facet-old-version: ${{ steps.split_version.outputs.existing-version }}
+          custom-facet-new-version: ${{ env.RELEASE_VERSION }}
+      - name: Install dependencies
+        uses: ./.github/actions/install_dependencies
+        with:
+          docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Create settings.xml
+        run: |
+          echo "<settings><servers><server><id>ossrh</id><username>${{ secrets.SONATYPE_CENTRAL_REPO_TOKEN_USER }}</username><password>${{ secrets.SONATYPE_CENTRAL_REPO_TOKEN_KEY }}</password></server><server><id>ghcr.io</id><username>${{ secrets.GHCR_IO_USERNAME }}</username><password>${{ secrets.GHCR_IO_TOKEN }}</password></server><server><id>pypi</id><username>${{ secrets.PYPI_USERNAME }}</username><password>${{ secrets.PYPI_TOKEN }}</password></server></servers></settings>" > $HOME/.m2/settings.xml
+      - name: Release aiSSEMBLE
+        run: | 
+          ./mvnw release:clean release:prepare release:perform -s $HOME/.m2/settings.xml -U -B -Pci,gh-build -DpushChanges=true -DreleaseVersion=${{ env.RELEASE_VERSION }} -DdevelopmentVersion=${{ env.NEXT_DEVELOPMENT_VERSION }} -Dgpg.keyname=aissemble@bah.com -DsignTag=true -Dmaven.build.cache.enabled=false
+      - name: Split version
+        id: split_version_development
+        uses: ./.github/actions/split_version
+        with:
+          version: ${{ env.NEXT_DEVELOPMENT_VERSION }}
+      - name: Update Antora Docs
+        uses: ./.github/actions/update_antora
+        with:
+          version: ${{ env.NEXT_DEVELOPMENT_VERSION }}
+          patch-version: ${{ steps.split_version_development.outputs.patch-version }}
+          major-minor-version: ${{ steps.split_version_development.outputs.major-minor-version }} 
+          is-pre-release: ${{ steps.split_version_development.outputs.is-pre-release }}
+          release-branch: ${{ steps.split_version.outputs.release-branch }}
+          custom-facet-old-version: ${{ env.RELEASE_VERSION }}
+          custom-facet-new-version: ${{ env.NEXT_DEVELOPMENT_VERSION }}
+

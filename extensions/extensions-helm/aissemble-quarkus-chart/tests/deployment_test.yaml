@@ -57,8 +57,20 @@ tests:
           - name: some-extra-file
             mountPath: /deployments/config/anotherfile.properties
             subPath: some-extra-file
+        startupProbe:
+          httpGet:
+            path: /path/health
+            port: http
+          failureThreshold: 60
+          periodSeconds: 2
       app:
         name: project-quarkus
+      togglableConfiguration:
+        toggle: false
+        volumes:
+          - name: test-toggleable-volume
+        volumeMounts:
+          - name: test-toggleable-volume
     asserts:
       - equal:
           path: spec.template.spec.securityContext.runAsUser
@@ -85,6 +97,10 @@ tests:
           content:
             name: quarkus-application-properties
           any: true
+      - notContains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: test-togglable-volume
       - contains:
           path: spec.template.spec.volumes
           content:
@@ -95,3 +111,19 @@ tests:
           content:
             name: quarkus-application-properties
           any: true
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: test-togglable-volume
+      - equal:
+          path: spec.template.spec.containers[0].startupProbe.failureThreshold
+          value: 60
+      - equal:
+          path: spec.template.spec.containers[0].startupProbe.periodSeconds
+          value: 2
+      - equal:
+          path: spec.template.spec.containers[0].startupProbe.httpGet.path
+          value: /path/health
+      - equal:
+          path: spec.template.spec.containers[0].startupProbe.httpGet.port
+          value: http

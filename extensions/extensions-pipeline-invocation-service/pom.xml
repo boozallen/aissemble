@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.8.2</version>
+        <version>1.9.1</version>
     </parent>
 
     <artifactId>extensions-pipeline-invocation-service</artifactId>
@@ -14,7 +14,6 @@
     <description>Contains an invocation service for submitting spark applications</description>
 
     <properties>
-        <quarkus.package.type>uber-jar</quarkus.package.type>
         <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
     </properties>
 
@@ -155,6 +154,26 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <!-- Packages the quarkus app and its dependencies into a zip-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/resources/quarkus-app.xml</descriptor>
+                    </descriptors>
+                    <finalName>quarkus</finalName>
+                    <appendAssemblyId>true</appendAssemblyId>
+                </configuration>
             </plugin>
         </plugins>
     </build>

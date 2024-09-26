@@ -134,9 +134,16 @@ STATUS=$(curl -ik \
           "port": 443
         }
       },
+      "objectSelector": {
+        "matchLabels":
+        {
+          "aissemble-configuration-store": "enabled"
+        }
+
+      },
       "rules": [
         {
-          "operations": ["CREATE", "UPDATE"],
+          "operations": ["CREATE"],
           "apiGroups": ["", "apps"],
           "apiVersions": ["*"],
           "resources": ["*"],

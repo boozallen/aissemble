@@ -6,7 +6,7 @@ This chart is based heavily upon the original spark-On-k8s-operator upstream cha
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install spark-operator ghcr.io/boozallen/aissemble-spark-operator-chart --version <AISSEMBLE-VERSION>
+helm install spark-operator oci://ghcr.io/boozallen/aissemble-spark-operator-chart --version <AISSEMBLE-VERSION>
 ```
 _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 
@@ -133,76 +133,76 @@ having to migrate any of your v1 properties.
 
 ## Property Location
 All properties listed below have been moved to the parent chart. If any of your current properties are set to the same default value, we recommend 
-removing them from your values file entirely. 
+removing them from your values file entirely.
 
 **Note**: *all new property locations must include the prefix `aissemble-spark-operator-chart.spark-operator`*
 
 The following properties utilize the same name in the both the V1 and V2 charts:
 
-| Property | Default Value | Additional Notes |
-|----------|---------------|------------------|
-| replicaCount | 1 | |
-| image.repository | ghcr.io/boozallen/aissemble-spark-operator | |
-| image.pullPolicy | IfNotPresent | |
-| image.tag | Chart.Version | |
-| imagePullSecrets | [] | |
-| nameOverride | "" | |
-| fullnameOverride | spark-operator | |
-| rbac.createRole | true | |
-| rbac.createClusterRole  | true | |
-| serviceAccounts.spark.create  | true | |
-| serviceAccounts.spark.name | spark | |
-| serviceAccounts.spark.annotations | {} | |
-| serviceAccounts.sparkoperator.create | true | |
-| serviceAccounts.sparkoperator.name | sparkoperator | |
-| serviceAccounts.sparkoperator.annotations | {} | |
-| controllerThreads | 10 | |
-| resyncInterval | 30 | |
-| uiService.enable | true | |
-| ingressUrlFormat | "" | |
-| logLevel| 2 | |
-| securityContext | {} | |
-| podSecurityContext | runAsUser: 185<br/>runAsGroup: 1000<br/>fsGroup: 1000<br/>fsGroupChangePolicy: "OnRootMismatch"| Additional security context is necessary for utilizing the Shared Ivy Cache detailed above |
-| volumes | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2` | Additional volume is necessary for utilizing the Shared Ivy Cache detailed above |
-| volumeMounts | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2` | Additional volume mount is necessary for utilizing the Shared Ivy Cache detailed above |
-| webhook.enable | true | |
-| webhook.port | 8080 | |
-| webhook.namespaceSelector | "" | |
-| webhook.timeout | 30 | |
-| metrics.enable | true | |
-| metrics.port | 10254 | |
-| metrics.portName | metrics | |
-| metrics.endpoint | /metrics | |
-| metrics.prefix | "" | |
-| podMonitor.enable | false | |
-| podMonitor.labels | {} | |
-| podMonitor.jobLabel | spark-operator-podmonitor |  |
-| podMonitor.podMetricsEndpoint | scheme: http<br/>interval: 5s |
-| nodeSelector | {} | |
-| tolerations | [] | |
-| affinity | {} | |
-| podAnnotations | {} | |
-| podLabels | {} | |
-| resources | {} | |
-| batchScheduler.enable | false | |
-| resourceQuotaEnforcement.enable | false | |
-| leaderElection.lockName | spark-operator-lock | |
-| leaderElection.lockNamespace | "" | |
-| istio.enabled | false | |
-| labelSelectorFilter | "" | |
+| Property                                  | Default Value                                                                                   | Additional Notes                                                                           |
+|-------------------------------------------|-------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| replicaCount                              | 1                                                                                               |                                                                                            |
+| image.repository                          | ghcr.io/boozallen/aissemble-spark-operator                                                      |                                                                                            |
+| image.pullPolicy                          | IfNotPresent                                                                                    |                                                                                            |
+| image.tag                                 | Chart.Version                                                                                   |                                                                                            |
+| imagePullSecrets                          | []                                                                                              |                                                                                            |
+| nameOverride                              | ""                                                                                              |                                                                                            |
+| fullnameOverride                          | spark-operator                                                                                  |                                                                                            |
+| rbac.createRole                           | true                                                                                            |                                                                                            |
+| rbac.createClusterRole                    | true                                                                                            |                                                                                            |
+| serviceAccounts.spark.create              | true                                                                                            |                                                                                            |
+| serviceAccounts.spark.name                | spark                                                                                           |                                                                                            |
+| serviceAccounts.spark.annotations         | {}                                                                                              |                                                                                            |
+| serviceAccounts.sparkoperator.create      | true                                                                                            |                                                                                            |
+| serviceAccounts.sparkoperator.name        | sparkoperator                                                                                   |                                                                                            |
+| serviceAccounts.sparkoperator.annotations | {}                                                                                              |                                                                                            |
+| controllerThreads                         | 10                                                                                              |                                                                                            |
+| resyncInterval                            | 30                                                                                              |                                                                                            |
+| uiService.enable                          | true                                                                                            |                                                                                            |
+| ingressUrlFormat                          | ""                                                                                              |                                                                                            |
+| logLevel                                  | 2                                                                                               |                                                                                            |
+| securityContext                           | {}                                                                                              |                                                                                            |
+| podSecurityContext                        | runAsUser: 185<br/>runAsGroup: 1000<br/>fsGroup: 1000<br/>fsGroupChangePolicy: "OnRootMismatch" | Additional security context is necessary for utilizing the Shared Ivy Cache detailed above |
+| volumes                                   | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2`                               | Additional volume is necessary for utilizing the Shared Ivy Cache detailed above           |
+| volumeMounts                              | `spark-logging=/tmp/spark-logging`, `ivy-cache=/home/spark/.ivy2`                               | Additional volume mount is necessary for utilizing the Shared Ivy Cache detailed above     |
+| webhook.enable                            | true                                                                                            |                                                                                            |
+| webhook.port                              | 8080                                                                                            |                                                                                            |
+| webhook.namespaceSelector                 | ""                                                                                              |                                                                                            |
+| webhook.timeout                           | 30                                                                                              |                                                                                            |
+| metrics.enable                            | true                                                                                            |                                                                                            |
+| metrics.port                              | 10254                                                                                           |                                                                                            |
+| metrics.portName                          | metrics                                                                                         |                                                                                            |
+| metrics.endpoint                          | /metrics                                                                                        |                                                                                            |
+| metrics.prefix                            | ""                                                                                              |                                                                                            |
+| podMonitor.enable                         | false                                                                                           |                                                                                            |
+| podMonitor.labels                         | {}                                                                                              |                                                                                            |
+| podMonitor.jobLabel                       | spark-operator-podmonitor                                                                       |                                                                                            |
+| podMonitor.podMetricsEndpoint             | scheme: http<br/>interval: 5s                                                                   |
+| nodeSelector                              | {}                                                                                              |                                                                                            |
+| tolerations                               | []                                                                                              |                                                                                            |
+| affinity                                  | {}                                                                                              |                                                                                            |
+| podAnnotations                            | {}                                                                                              |                                                                                            |
+| podLabels                                 | {}                                                                                              |                                                                                            |
+| resources                                 | {}                                                                                              |                                                                                            |
+| batchScheduler.enable                     | false                                                                                           |                                                                                            |
+| resourceQuotaEnforcement.enable           | false                                                                                           |                                                                                            |
+| leaderElection.lockName                   | spark-operator-lock                                                                             |                                                                                            |
+| leaderElection.lockNamespace              | ""                                                                                              |                                                                                            |
+| istio.enabled                             | false                                                                                           |                                                                                            |
+| labelSelectorFilter                       | ""                                                                                              |                                                                                            |
 
 The following properties have been renamed/moved to a new location in the V2 charts:
 
-| Old Property Location | New Property Location | Default Value | Additional Notes |
-|-----------------------|-----------------------|---------------|------------------|
-| sparkJobNamespace | sparkJobNamespaces | [""] | The new attribute takes a list of namespaces |
+| Old Property Location | New Property Location | Default Value | Additional Notes                             |
+|-----------------------|-----------------------|---------------|----------------------------------------------|
+| sparkJobNamespace     | sparkJobNamespaces    | [""]          | The new attribute takes a list of namespaces |
 
 ## Property Removed
 The following properties no longer exist.
 
-| Property | Reason |
-|----------|--------|
-| webhook.initAnnotations | This property is not used in the new chart due to the webhook no longer using an init job |
+| Property                   | Reason                                                                                      |
+|----------------------------|---------------------------------------------------------------------------------------------|
+| webhook.initAnnotations    | This property is not used in the new chart due to the webhook no longer using an init job   |
 | webhook.cleanupAnnotations | This property is not used in the new chart due to the webhook no longer using a cleanup job |
 
 ## Additional Changes

@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying FastAPI web applications. Chart 
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the image and tag with the desired image built from the aiSSEMBLE FastAPI baseline image. For example:
 ```bash
-helm install fastapi ghcr.io/boozallen/aissemble-fastapi-chart --version <AISSEMBLE-VERSION>
+helm install fastapi oci://ghcr.io/boozallen/aissemble-fastapi-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

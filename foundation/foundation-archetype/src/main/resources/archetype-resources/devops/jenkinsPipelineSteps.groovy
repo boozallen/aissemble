@@ -35,23 +35,20 @@ def argocdTerminate(argocdAppName) {
 }
 
 def argocdSync(argocdAppName, argocdBranch) {
-    String argocdSyncLabel = "argocd.argoproj.io/instance=${argocdAppName}"
     sh "sleep 10"
     sh "/usr/local/bin/argocd app sync ${argocdAppName} --grpc-web --revision ${argocdBranch}"
-    sh "sleep 10"
-    sh "/usr/local/bin/argocd app sync -l ${argocdSyncLabel} --grpc-web --revision ${argocdBranch}"
 }
 
 def argocdDeploy(argocdAppName, argocdUrl, argocdDestinationServer, gitRepo, argocdBranch, argocdNamespace, values) {
     String valuesParam = "--values " + values.join(" --values ")
-    sh "sleep 60" //wait for app to shutdown before creation
     sh "/usr/local/bin/argocd app create ${argocdAppName} --grpc-web \
             --server ${argocdUrl} \
             --dest-namespace ${argocdNamespace} \
             --dest-server ${argocdDestinationServer} \
             --repo ${gitRepo} \
             --path ${artifactId}-deploy/src/main/resources --revision ${argocdBranch} \
-            ${valuesParam}"
+            ${valuesParam} \
+            --helm-set spec.targetRevision=${argocdBranch}"
     try {
         argocdSync(argocdAppName, argocdBranch)
     } catch (err) {

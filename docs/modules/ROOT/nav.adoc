@@ -19,6 +19,7 @@
 * Supporting Components
 ** xref:alerting-details.adoc[]
 ** xref:bias-detection.adoc[]
+** xref:configuration-store.adoc[]
 ** xref:data-access-details.adoc[]
 ** xref:data-encryption.adoc[]
 ** xref:data-profiling-details.adoc[]
@@ -47,4 +48,3 @@
 ** xref:guides/guides-local-multi-node.adoc[]
 ** xref:guides/poetry-command-python-pipeline.adoc[]
 ** xref:guides/guides-sagemaker-training.adoc[]
-** xref:guides/guides-configuration-store.adoc[]

@@ -58,10 +58,7 @@ through their own mechanisms, most frequently Helm charts.
 |Component of internal Spark Operator functionality.
 
 |`spark-infrastructure`
-|Hosts Spark History and Hive Thrift Server.
-
-|`hive-metastore-service`
-|Standalone Hive metastore deployment shared by all Spark pipelines and executions.
+|Hosts Spark History, Hive Thrift Server, and Hive metastore Deployment shared by all Spark pipelines and executions.
 
 |`s3-local`
 |Default shared storage solution from which Spark executors can read and write.

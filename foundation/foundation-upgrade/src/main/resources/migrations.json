@@ -1,83 +1,65 @@
 [
   {
-    "group": "v1-8-0-migrations",
+    "group": "v1-9-0-migrations",
     "type": "ordered",
     "migrations": [
       {
-        "name": "python-linting-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.PythonLintingMigration",
+        "name": "airflow-dockerfile-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.AirflowDockerfileMigration",
         "fileSets": [
           {
-            "includes": ["pom.xml"]
+            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
+            "excludes": ["*-docker/*/target/Dockerfile"]
           }
         ]
       },
       {
-        "name": "orphedomos-to-fabric8-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.OrphedomosToFabric8Migration",
+        "name": "ml-flow-dockerfile-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.MLFlowDockerfileMigration",
         "fileSets": [
           {
-            "includes": ["pom.xml"]
+            "includes": ["*-docker/*/src/main/resources/docker/Dockerfile"],
+            "excludes": ["*-docker/*/target/Dockerfile"]
           }
         ]
       },
       {
-        "name": "aiops-reference-python-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePythonMigration",
+        "name": "argocd-template-sync-policy-configuration-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.ArgocdTemplateSyncPolicyMigration",
         "fileSets": [
           {
             "includes": [
-              "*-pipelines/*/src/*/step/*.py"
+              "src/main/resources/templates/*.yaml"
+            ],
+            "excludes": [
+              "src/main/resources/templates/sealed-secret.yaml"
             ]
           }
         ]
       },
       {
-        "name": "aiops-reference-pdp-python-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferencePDPPythonMigration",
+        "name": "argocd-value-file-sync-policy-configuration-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.ArgocdValueFileSyncPolicyMigration",
         "fileSets": [
           {
             "includes": [
-              "**/aiops-security.properties",
-              "**/aissemble-security.properties",
-              "*-docker/*/src/main/resources/docker/Dockerfile"
+              "*-deploy/src/main/resources/values.yaml"
             ]
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "group": "v1-9-0-migrations",
+    "type": "ordered",
+    "migrations": [
       {
-        "name": "aiops-reference-java-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AiopsReferenceJavaMigration",
+        "name": "update-data-access-thrift-endpoint-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_9_0.UpdateDataAccessThriftServerEndpointMigration",
         "fileSets": [
           {
-            "includes": ["src/**/*.java"]
-          }
-        ]
-      },
-      {
-        "name": "extensions-security-projects-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.ExtensionsSecurityProjectsMigration",
-        "fileSets": [
-          {
-            "includes": ["src/**/*.java"]
-          }
-        ]
-      },
-      {
-        "name": "add-fabric8-to-build-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.AddFabric8ToDockerMigration",
-        "fileSets": [
-          {
-            "includes": ["pom.xml"]
-          }
-        ]
-      },
-      {
-        "name": "fabric8-location-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_8_0.Fabric8LocationMigration",
-        "fileSets": [
-          {
-            "includes": ["pom.xml"]
+            "includes": ["*-pipelines/*-data-access/src/main/resources/application.properties"]
           }
         ]
       }
@@ -113,7 +95,6 @@
             "includes": [
               "**/spark-infrastructure/values.yaml",
               "**/jenkins/values.yaml",
-              "**/hive-metastore-db/values.yaml",
               "**/metadata/values.yaml",
               "**/model-training-api/values.yaml",
               "**/pipeline-invocation-service/values.yaml"

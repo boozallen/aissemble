@@ -46,6 +46,8 @@ public final class VelocityProperty {
     public static final String STEP = "step";
     public static final String STEPS = "steps";
     public static final String FILE_STORE = "fileStore";
+    public static final String FILE_STORES = "fileStores";
+    public static final String ENABLE_FILE_STORE = "enableFileStore";
     public static final String ENABLE_DELTA_SUPPORT = "enableDeltaSupport";
     public static final String ENABLE_HIVE_SUPPORT = "enableHiveSupport";
     public static final String ENABLE_PYSPARK_SUPPORT = "enablePySparkSupport";

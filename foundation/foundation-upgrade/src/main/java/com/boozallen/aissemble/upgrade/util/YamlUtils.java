@@ -11,6 +11,7 @@ package com.boozallen.aissemble.upgrade.util;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.io.Files;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import com.boozallen.aissemble.upgrade.pojo.AbstractYamlObject;
@@ -34,6 +35,9 @@ import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlUtils {
+    private static final String SPACE = " ";
+    private static final int TAB = 2;
+    private static final String VALUE_FOR_KEY_IS_NOT = "Value for [%s] is not %s: %s";
     public static YamlObject loadYaml(File file) throws IOException {
         Yaml yaml = new Yaml();
         try (InputStream fileStream = Files.asByteSource(file).openStream()) {
@@ -44,6 +48,15 @@ public class YamlUtils {
             }
             return new YamlObject(contents);
         }
+    }
+
+    public static boolean isComment(String trimmedLine) {
+        // Helm template comment can be: "{{/*", "{{ /*", or "{{- /*"
+        return trimmedLine.startsWith("#") || trimmedLine.matches("\\{\\{-? */\\*.*");
+    }
+
+    public static boolean isHelmFunction(String trimmedLine) {
+        return trimmedLine.startsWith("{{");
     }
 
     @SuppressWarnings({"unchecked", "unused"})
@@ -61,7 +74,7 @@ public class YamlUtils {
         public String getString(String key) {
             Object value = get(key);
             if (!(value instanceof String)) {
-                throw new IllegalArgumentException("Value for [" + key + "] is not a string: " + value);
+                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a string", value));
             }
             return (String) value;
         }
@@ -73,7 +86,7 @@ public class YamlUtils {
         public int getInt(String key) {
             Object value = get(key);
             if (!(value instanceof Integer)) {
-                throw new IllegalArgumentException("Value for [" + key + "] is not an integer: " + value);
+                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "an integer", value));
             }
             return (int) value;
         }
@@ -85,7 +98,7 @@ public class YamlUtils {
         public double getDouble(String key) {
             Object value = get(key);
             if (!(value instanceof Double)) {
-                throw new IllegalArgumentException("Value for [" + key + "] is not a double: " + value);
+                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a double", value));
             }
             return (double) value;
         }
@@ -97,7 +110,7 @@ public class YamlUtils {
         public boolean getBoolean(String key) {
             Object value = get(key);
             if (!(value instanceof Boolean)) {
-                throw new IllegalArgumentException("Value for [" + key + "] is not a boolean: " + value);
+                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a boolean", value));
             }
             return (boolean) value;
         }
@@ -109,7 +122,7 @@ public class YamlUtils {
         public YamlObject getObject(String key) {
             Object value = get(key);
             if (!(value instanceof Map)) {
-                throw new IllegalArgumentException("Value for [" + key + "] is not a map: " + value);
+                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a map", value));
             }
             return new YamlObject((Map<String, Object>) value);
         }
@@ -121,7 +134,7 @@ public class YamlUtils {
         public List<?> getList(String key) {
             Object value = get(key);
             if (!(value instanceof List)) {
-                throw new IllegalArgumentException("Value for [" + key + "] is not a list: " + value);
+                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a list", value));
             }
             return (List<Object>) value;
         }
@@ -218,5 +231,43 @@ public class YamlUtils {
             logger.error("Unable to load file into yaml class due to exception:", e);
         }
         return helmYamlObject;
+    }
+
+    /**
+     * Provide indent with given indent spaces and level of indention
+     * @param level the level of indent
+     * @return the indent
+     */
+    public static String indent(int level, int tab) {
+        return StringUtils.repeat(SPACE, level*tab);
+    }
+
+    /**
+     * Provide indent with default indent spaces (2) and level of indention
+     * @param level the level of indent
+     * @return the indent
+     */
+    public static String indent(int level) {
+        return StringUtils.repeat(SPACE, level*TAB);
+    }
+
+
+    /**
+     * get the number of indent spaces with given file yaml file content in List format and a start index to search the indent
+     * @param yamlFileContent yaml file content in list format
+     * @param startIndex start index to search the indent
+     * @return number of indent spaces
+     */
+    public static int getIndentSpaces(List<String> yamlFileContent, int startIndex) {
+        int indentSpaces = 0;
+        int index = startIndex;
+        while (indentSpaces == 0) {
+            String line = yamlFileContent.get(index).stripTrailing();
+            if (!StringUtils.isBlank(line) && !isComment(line.trim()) && !isHelmFunction(line.trim())) {
+                indentSpaces = line.indexOf(line.trim());
+            }
+            index++;
+        }
+        return indentSpaces;
     }
 }

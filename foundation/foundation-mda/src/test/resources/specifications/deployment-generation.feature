@@ -30,4 +30,4 @@ Feature: Generating deployments
     Examples:
       | profile                               |
       | mlflow-deploy-v2                      |
-      | aissemble-spark-infrastructure-deploy |
+      | aissemble-spark-infrastructure-deploy-v2 |

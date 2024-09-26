@@ -184,11 +184,6 @@
                         <version>${version.aissemble}</version>
                     </dependency>
                 </dependencies>
-                <configuration>
-                    <deactivateMigrations>
-                        <deactivateMigration>python-linting-migration</deactivateMigration>
-                    </deactivateMigrations>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.technologybrewery.fermenter</groupId>

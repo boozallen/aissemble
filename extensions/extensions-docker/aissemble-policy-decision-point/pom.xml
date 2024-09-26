@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-docker</artifactId>
-        <version>1.8.2</version>
+        <version>1.9.1</version>
     </parent>
 
     <artifactId>aissemble-policy-decision-point</artifactId>
@@ -24,15 +24,17 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-docker-resources</id>
+                        <id>unpack-docker-resources</id>
                         <phase>prepare-package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/dockerbuild</outputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
                             <includeArtifactIds>extensions-policy-decision-point-service</includeArtifactIds>
-                            <classifier>runner</classifier>
+                            <type>zip</type>
+                            <classifier>app</classifier>
+                            <failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact>
                         </configuration>
                     </execution>
                 </executions>

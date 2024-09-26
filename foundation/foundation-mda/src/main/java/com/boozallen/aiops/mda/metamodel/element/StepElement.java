@@ -174,6 +174,15 @@ public class StepElement extends MetamodelElement implements Step {
 	public List<String> getFileStores() {
 		return fileStores;
 	}
+
+	/**
+	 * Sets the file stores for this step by name
+	 *
+	 * @param fileStores - a list of file store names
+	 */
+	public void setFileStores(List<String> fileStores) {
+		this.fileStores = fileStores;
+	}
 	
 	/**
 	 * Sets the alerting enabled for this step.

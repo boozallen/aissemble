@@ -30,7 +30,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.technologybrewery.krausening.Krausening;
@@ -94,10 +93,6 @@ public class ConfigLoader {
      */
     public Set<Property> loadConfigs(String baseURI) {
         return loadPropertiesURI(baseURI);
-    }
-
-    public boolean doInitialConfigLoad(){
-        return propertyDao.requiresInitialConfigLoad();
     }
 
     /**

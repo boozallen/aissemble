@@ -94,17 +94,12 @@ public class SparkDockerPomGenerator extends AbstractMavenModuleGenerator {
 
             final String sparkOperatorAppName = "spark-operator";
             final String sparkInfrastructureAppName = "spark-infrastructure";
-            final String hiveMetastoreDbAppName = "hive-metastore-db";
-            final String hiveMetastoreServiceAppName = "hive-metastore-service";
             final String sparkWorkerAppName = "spark-worker-image";
 
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, sparkDockerArtifactId, "docker");
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-operator-deploy-v2", sparkOperatorAppName);
-            manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-infrastructure-deploy", sparkInfrastructureAppName);
+            manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-infrastructure-deploy-v2", sparkInfrastructureAppName);
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-worker-deploy", sparkWorkerAppName);
-            manualActionNotificationService.addDeployPomMessage(context, "hive-metastore-db-deploy", hiveMetastoreDbAppName);
-            List<String> appDependencies = List.of(hiveMetastoreDbAppName);
-            manualActionNotificationService.addDeployPomMessage(context, "hive-metastore-service-deploy", hiveMetastoreServiceAppName, appDependencies);
             manualActionNotificationService.addSparkWorkerDockerBuildTiltMessage(context, sparkWorkerAppName, sparkDockerArtifactId
                     ,context.getArtifactId());
             String pipelineArtifactId;

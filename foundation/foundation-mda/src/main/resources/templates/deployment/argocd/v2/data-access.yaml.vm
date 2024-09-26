@@ -21,3 +21,7 @@ spec:
   destination:
     namespace: argocd
     server: {{ .Values.spec.destination.server }}
+  {{- with .Values.spec.syncPolicy }}
+  syncPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

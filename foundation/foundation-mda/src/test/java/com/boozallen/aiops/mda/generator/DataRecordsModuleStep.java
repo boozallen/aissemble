@@ -17,8 +17,6 @@ import com.boozallen.aiops.mda.metamodel.element.RecordElement;
 import com.boozallen.aiops.mda.metamodel.element.BasePipelineDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonRecord;
-import com.boozallen.aiops.mda.metamodel.element.python.PythonStep;
-import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
@@ -77,7 +75,7 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
 
     @Given("a {string} pipeline using {string} named {string}")
     public void a_pipeline_using_named(String typeName, String implName, String name) throws IOException {
-        createPipeline(name, typeName, implName);
+        createAndSavePipeline(name, typeName, implName);
     }
 
     @Given("a dictionary and 0 or more record models")
@@ -136,7 +134,11 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
     public void the_user_is_notified_that_the_module_must_be_added_to_the_parent_pom(String moduleName) {
         String moduleItem = "<module>" + moduleName + "</module>";
         String file = projectDir.resolve("pom.xml").toString();
-        Notification moduleNotification = getNotification(file, "module");
+
+        // Since Project Directory equals Execution Root Directory, the resulting relative path for the key is just pom.xml
+        String key = "pom.xml_module";
+
+        Notification moduleNotification = getNotification(file, key);
         assertTrue("Module notification missing item " + moduleItem, moduleNotification.getItems().contains(moduleItem));
     }
 
@@ -279,12 +281,12 @@ public class DataRecordsModuleStep extends AbstractModelInstanceSteps {
         return packaging;
     }
 
-    private Notification getNotification(String file, String notificationType) {
+    private Notification getNotification(String file, String key) {
         Map<String, Map<String, Notification>> notifications = NotificationCollector.getNotifications();
         assertTrue("No notifications for file " + file, notifications.containsKey(file));
         Map<String, Notification> fileNotifications = notifications.get(file);
-        assertTrue("No notifications of type " + notificationType + " for " + file, fileNotifications.containsKey(file + "_" + notificationType));
-        return fileNotifications.get(file + "_" + notificationType);
+        assertTrue("No notifications of type " + key + " for " + file, fileNotifications.containsKey(key));
+        return fileNotifications.get(key);
     }
 
     /**

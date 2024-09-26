@@ -1,4 +1,4 @@
-# Prunes old aissemble-* untagged containers
+# Prunes old aissemble-* containers, excluding all release tags and the two most recent non-release tags
 
 name: Prune ghcr.io
 
@@ -10,19 +10,19 @@ on:
     - cron: "0 0 * * *"  # every day at midnight
 
 jobs:
-  build:
 
+  
+  prune_ghcr:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prune
-        uses: snok/container-retention-policy@v2
+      - name: Prune ghcr
+        uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          image-names: aissemble-*
-          cut-off: Two days ago UTC
-          account-type: org
-          org-name: boozallen
-          keep-at-least: 2
-          untagged-only: true
-          dry-run: false
+          log-level: info
+          packages: "^aissemble(?!.*?-chart$).*$"
+          expand-packages: true
           token: ${{ secrets.GHCR_IO_TOKEN }}
+          exclude-tags: "^\\d+\\.\\d+\\.\\d+$"
+          use-regex: true
+          keep-n-tagged: 2

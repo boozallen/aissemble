@@ -12,26 +12,30 @@ aissemble-quarkus-chart:
     hostname: configuration-store
     restartPolicy: Always
 
-    # Copied volumes/volumeMounts from parent chart to append that additional 'certs' volume while still enabling the
-    # the downstream chart consumer to utilize the `supplementalVolumes` and `supplementalVolumeMounts` config options
-    volumeMounts:
-      - name: quarkus-application-properties
-        mountPath: /deployments/config/application.properties
-        subPath: quarkus-properties-file
-      - name: certs
-        mountPath: "/etc/webhook/cert"
-        readOnly: true
+  # Specify 'certs' volume/volumeMounts and certificate confiMap supplementalQuarkusConfig under the toggleableConfiguration
+  # , which can be toggled alone with the webhook.enable flag while still enabling the downstream chart consumer to utilize
+  # the `supplementalVolumes` and `supplementalVolumeMounts` config options
+  toggleableConfiguration:
+    toggle: true
     volumes:
-      - name: quarkus-application-properties
-        configMap:
-          name: "{{ .Values.configMap.name }}"
-          items:
-            - key: quarkus-properties-file
-              path: quarkus-properties-file
       - name: certs
         secret:
           secretName: aissemble-configuration-store-webhook-certs
+    volumeMounts:
+      - name: certs
+        mountPath: "/etc/webhook/cert"
+        readOnly: true
+    configMap:
+      supplementalQuarkusConfig:
+        - quarkus.http.ssl.certificate.file=/etc/webhook/cert/tls.crt
+        - quarkus.http.ssl.certificate.key-file=/etc/webhook/cert/tls.key
 
+    startupProbe:
+      httpGet:
+        path: /aissemble-properties/healthcheck
+        port: http
+      failureThreshold: 60
+      periodSeconds: 2
   service:
     ports:
       - name: http
@@ -42,13 +46,9 @@ aissemble-quarkus-chart:
         port: 443
         protocol: TCP
         targetPort: 8443
-
   configMap:
     name: configuration-store-quarkus-config
-    supplementalQuarkusConfig:
-      - quarkus.http.ssl.certificate.file=/etc/webhook/cert/tls.crt
-      - quarkus.http.ssl.certificate.key-file=/etc/webhook/cert/tls.key
-    
+
 webhook:
   enable: true
   name: boozallen.aissemble-configuration-store.webhook # must be at least three segments separated by dots
@@ -60,4 +60,12 @@ webhook:
   certSecret:
     create: true
     name: aissemble-configuration-store-webhook-certs
-    
+
+configurationVolume:
+  enabled: true
+  name: "configuration-store"
+  storageType: "custom"
+  storageClass: ""
+  accessModes:
+    - ReadOnlyMany
+  size: 200Mi

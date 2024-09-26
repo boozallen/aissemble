@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying Keycloak. Built on the [Bitnami 
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install keycloak ghcr.io/boozallen/aissemble-keycloak-chart --version <AISSEMBLE-VERSION>
+helm install keycloak oci://ghcr.io/boozallen/aissemble-keycloak-chart --version <AISSEMBLE-VERSION>
 ```
 **Note**: *the version should match the aiSSEMBLE project version.*
 

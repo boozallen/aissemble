@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>extensions-docker</artifactId>
+        <version>1.9.1</version>
+    </parent>
+
+    <artifactId>aissemble-hive-service</artifactId>
+    <name>aiSSEMBLE::Extensions::Docker::Hive Service</name>
+    <description>A base image for a Hive Metastore Service</description>
+
+    <packaging>docker-build</packaging>
+
+    <properties>
+        <dockerbuild.jars.directory>target/dockerbuild/jars</dockerbuild.jars.directory>
+        <version.hive.metastore>4.0.0</version.hive.metastore>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.delta</groupId>
+            <artifactId>delta-hive_2.12</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${version.mysql-connector}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>${group.fabric8.plugin}</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <build>
+                                <args>
+                                    <METASTORE_VERSION>${version.hive.metastore}</METASTORE_VERSION>
+                                    <JARS_DIR>${dockerbuild.jars.directory}</JARS_DIR>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${dockerbuild.jars.directory}</outputDirectory>
+                    <includeTypes>jar</includeTypes>
+                    <excludeTransitive>true</excludeTransitive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

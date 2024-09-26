@@ -290,7 +290,9 @@
 			{
 				"name": "spark-infrastructure-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-spark-infrastructure-deploy` is deprecated, please follow the migration instructions for upgrading to the V2 charts: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "aissemble-spark-infrastructure-deploy-v2",
@@ -314,6 +316,9 @@
 			},
 			{
 				"name": "sparkInfrastructureArgoCDFileV2"
+			},
+			{
+				"name": "sealedSecretArgoCDFile"
 			}
 		]
 	},
@@ -869,37 +874,6 @@
 		]
 	},
 	{
-		"name": "jenkins-kubernetes-v2",
-		"targetReferences": [
-			{
-				"name": "jenkinsHelmChartFileV2"
-			},
-			{
-				"name": "helmIgnoreFile"
-			},
-			{
-				"name": "jenkinsValuesFileV2"
-			},
-			{
-				"name": "jenkinsValuesDevFileV2"
-			},
-			{
-				"name": "valuesCIFile"
-			},
-			{
-				"name": "jenkinsArgoCDV2"
-			}
-		]
-	},
-	{
-		"name": "jenkins-deploy-v2",
-		"profileReferences": [
-			{
-				"name": "jenkins-kubernetes-v2"
-			}
-		]
-	},
-	{
 		"name": "data-access-kubernetes",
 		"targetReferences": [
 			{
@@ -1025,6 +999,9 @@
 			},
 			{
 				"name": "hiveMetastoreServiceArgoCD"
+			},
+			{
+				"name": "valuesCIFile"
 			}
 		]
 	},
@@ -1034,7 +1011,9 @@
 			{
 				"name": "hive-metastore-db-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `hive-metastore-db-deploy` is deprecated, please follow the migration instructions for upgrading to the spark-infrastructure V2 charts: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "hive-metastore-service-deploy",
@@ -1042,7 +1021,9 @@
 			{
 				"name": "hive-metastore-service-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `hive-metastore-service-deploy` is deprecated, please follow the migration instructions for upgrading to the spark-infrastructure V2 charts: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "s3local-deploy-v2",
@@ -1166,7 +1147,9 @@
 			{
 				"name": "kafka-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `kafka-deploy` is deprecated, please follow the migration instructions for upgrading to the kafka V2 chart: https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade"
 	},
 	{
 		"name": "kafka-connect-kubernetes",

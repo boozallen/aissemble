@@ -3,7 +3,7 @@
     <parent>
         <artifactId>extensions-docker</artifactId>
         <groupId>com.boozallen.aissemble</groupId>
-        <version>1.8.2</version>
+        <version>1.9.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>docker-build</packaging>

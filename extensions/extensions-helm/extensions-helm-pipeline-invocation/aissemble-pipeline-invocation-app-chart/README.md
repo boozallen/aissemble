@@ -4,7 +4,7 @@ Baseline Helm chart for packaging and deploying a pipeline invocation service. C
 # Basic usage with Helm CLI
 To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
 ```bash
-helm install pipeline-invocation-service ghcr.io/boozallen/aissemble-pipeline-invocation-chart --version <AISSEMBLE-VERSION>
+helm install pipeline-invocation-service oci://ghcr.io/boozallen/aissemble-pipeline-invocation-chart --version <AISSEMBLE-VERSION>
 ```
 
 **Note**: *the version should match the aiSSEMBLE project version.*

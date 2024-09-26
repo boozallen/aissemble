@@ -1,0 +1,48 @@
+name: 'Install Dependencies'
+description: 'Install the dependencies needed to build aissemble'
+inputs:
+  docker-username: 
+    required: true
+  docker-token:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install required packages
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl \
+          git libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev zip unzip \
+          libpython3.11
+    - name: Install Python
+      uses: gabrielfalcao/pyenv-action@v18
+      with:
+        default: 3.11.4
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+    - name: Install Helm
+      shell: bash
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+    - name: Install Helm Unittest Plugin
+      shell: bash
+      run: |
+        echo "Updating helm unittest plugin to latest version..."
+        helm plugin install https://github.com/helm-unittest/helm-unittest.git
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: Create Docker Builder Config File
+      shell: bash
+      run: sudo touch /etc/buildkitd.toml
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ inputs.docker-username }}
+        password: ${{ inputs.docker-token }}

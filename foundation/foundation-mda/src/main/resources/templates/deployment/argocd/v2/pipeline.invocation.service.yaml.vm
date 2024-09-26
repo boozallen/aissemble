@@ -14,3 +14,7 @@ spec:
     path: ${projectName}-deploy/src/main/resources/apps/pipeline-invocation-service
     repoURL: {{ .Values.spec.repo }}
     targetRevision: {{ .Values.spec.targetRevision }}
+  {{- with .Values.spec.syncPolicy }}
+  syncPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

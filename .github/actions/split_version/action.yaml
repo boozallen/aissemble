@@ -1,0 +1,44 @@
+name: 'Split Version'
+description: 'Splits the inputed version into major, minor, and patch components'
+inputs:
+  version: 
+    required: true
+  release-branch:
+    required: true
+  existing-version:
+    required: true
+outputs:
+  major-minor-version:
+    value: ${{ steps.split.outputs.major-minor-version }}
+  patch-version:
+    value: ${{ steps.split.outputs.patch-version }}
+  is-pre-release:
+    value: ${{ steps.split.outputs.is-pre-release }}
+  release-branch:
+    value: ${{ steps.split.outputs.release-branch }}
+  existing-version:
+    value: ${{ steps.split.outputs.existing-version }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Split
+      id: split
+      shell: bash
+      # Gets minor version 1.9.0-rc1 -> 1.9 
+      # Gets patch version 1.9.0-rc1 -> 1.9.0
+      # Determines if release is a pre release candidate
+      # Gets the release branch inputs.release-branch != "" ? inputs.release-branch : aissemble-release-$mino_version 
+      # Gets the existing version inputs.existing-version != "" ? inputs.existing-version : $patch_version-SNAPSHOT 
+      run: |
+        major=$(echo ${{ inputs.version }} | cut -d "." -f 1) 
+        minor=$(echo ${{ inputs.version }} | cut -d "." -f 2) 
+        patch=$(echo ${{ inputs.version }} | cut -d "." -f 3 | cut -d "-" -f 1) 
+        minor_version=$major.$minor
+        patch_version=$major.$minor.$patch
+        echo "major-minor-version=$minor_version" >> $GITHUB_OUTPUT 
+        echo "patch-version=$patch_version" >> $GITHUB_OUTPUT
+        echo "is-pre-release=$( [ "${{ inputs.version }}" != "$patch_version" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+        echo "release-branch=$( [ "${{ inputs.release-branch }}" != "" ] && echo "${{ inputs.release-branch }}" || echo "aissemble-release-$minor_version")" >> $GITHUB_OUTPUT
+        echo "existing-version=$( [ "${{ inputs.existing-version }}" != "" ] && echo "${{ inputs.existing-version }}" || echo "$patch_version-SNAPSHOT")" >> $GITHUB_OUTPUT
+

@@ -20,6 +20,8 @@ import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaPipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonPipeline;
+import com.boozallen.aiops.mda.metamodel.element.BaseFileStoreDecorator;
+import com.boozallen.aiops.mda.metamodel.element.FileStore;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
@@ -143,12 +145,24 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
         vc.put(VelocityProperty.PIPELINE, pipeline.getName());
         vc.put(VelocityProperty.DOCKER_PROJECT_REPOSITORY_URL, dockerProjectRepositoryUrl);
 
+        List<FileStore> fileStores = pipeline.getFileStores();
+        boolean enableFileStore = !fileStores.isEmpty();
+        vc.put(VelocityProperty.ENABLE_FILE_STORE, enableFileStore);
+        if(enableFileStore){
+            List<BaseFileStoreDecorator> decoratedStores = new ArrayList<>();
+            for(FileStore fileStore : fileStores){
+                BaseFileStoreDecorator decoratedStore = new BaseFileStoreDecorator(fileStore);
+                decoratedStores.add(decoratedStore);
+            }
+            vc.put(VelocityProperty.FILE_STORES, decoratedStores);
+        }
+
         if (!"test".equalsIgnoreCase(context.getArtifactType()) && SparkStorageEnum.S3LOCAL == metamodelRepository.getDeploymentConfigurationManager().getSparkDeploymentConfiguration().getStorageType()) {
             vc.put(VelocityProperty.USE_S3_LOCAL, true);
             manualActionNotificationService.addDeployPomMessage(context, "s3local-deploy-v2", "s3-local");
             manualActionNotificationService.addPipelineInvocationServiceDeployment(context);
             manualActionNotificationService.addNoticeToUpdateKafkaConfig(context, "pipeline-invocation");
-            manualActionNotificationService.addNoticeToUpdateS3LocalConfig(context, "spark-infrastructure", Arrays.asList("spark-events/"));
+            manualActionNotificationService.addNoticeToUpdateS3LocalConfig(context, "spark-infrastructure", Arrays.asList("warehouse/"));
 
         }
 

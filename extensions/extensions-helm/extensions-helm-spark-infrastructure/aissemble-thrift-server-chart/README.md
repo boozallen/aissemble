@@ -1,11 +1,18 @@
 # aiSSEMBLE&trade; Spark Thrift Helm Chart
-Baseline Helm chart for deploying the Spark Thrift Server. Chart is built and managed during the normal Maven build lifecycle and placed in the **target/helm/repo** directory. See https://github.com/kokuwaio/helm-maven-plugin for more details.
+
+Baseline Helm chart for deploying the Spark Thrift Server. Chart is built and managed during the normal Maven build
+lifecycle and placed in the **target/helm/repo** directory. See https://github.com/kokuwaio/helm-maven-plugin for more
+details.
 
 # Basic usage with Helm CLI
-To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart version with the desired aiSSEMBLE version. For example:
+
+To use the module, perform [extension-helm setup](../README.md#leveraging-extensions-helm) and override the chart
+version with the desired aiSSEMBLE version. For example:
+
 ```bash
-helm install thriftserver ghcr.io/boozallen/aissemble-thrift-server-chart --version <AISSEMBLE-VERSION>
+helm install thriftserver oci://ghcr.io/boozallen/aissemble-thrift-server-chart --version <AISSEMBLE-VERSION>
 ```
+
 _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 
 # Properties
@@ -35,3 +42,32 @@ _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 | service.ports                    | Name of the service port.                                                                                                         | `[{name: "thrift", port: 10000}, {name: "thrift-http", port: 10001}]` |
 | sparkConf                        | Configuration for the Spark Thrift Server.                                                                                        | ""                                                                    |
 | hiveSite                         | Configuration for the Hive Site.                                                                                                  | ""                                                                    |
+
+# Migration from aiSSEMBLE v1 Helm Charts
+
+If you are migrating from the v1 version of the spark-infrastructure chart, use the tables below to apply any
+existing customizations from the old chart to the new v2 chart.
+
+## Property Location
+
+All properties listed below have been moved to the parent chart. If any properties are set to the default value, we
+recommend removing them from your values file entirely.
+
+**Note**: *all new property locations include the prefix `aissemble-thrift-server-chart.`*
+
+| Old Property Location   | New Property Location | Additional Notes                             |
+|-------------------------|-----------------------|----------------------------------------------|
+| service.spec.ports[]    | service.ports[]       |                                              |
+| service.spec.type       | service.type          |                                              |
+| configMap.sparkDefaults | sparkConf             | Removes the need for the spark-config volume |
+| configMap.hiveConfig    | hiveSite              |                                              |
+| deployment.ports[]      | service.ports[]       |                                              |
+| deployment.args         | deployment.command    |                                              |
+
+## Property Removed
+
+The following properties no longer exist.
+
+| Property | Reason                                                     |                                                                                                                                                                       
+|----------|------------------------------------------------------------|
+| status   | This property was ignored in the original chart by default | 

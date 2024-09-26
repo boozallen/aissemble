@@ -204,8 +204,8 @@ public abstract class AbstractModelInstanceSteps {
 
     protected GenerationContext createGenerationContext(Target target) {
         VelocityEngine engine = new VelocityEngine();
-        engine.setProperty("resource.loader", "class");
-        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        engine.setProperty("resource.loaders", "class");
+        engine.setProperty("resource.loader.class.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         engine.init();
         GenerationContext context = new GenerationContext(target);
         context.setBasePackage(BOOZ_ALLEN_PACKAGE);
@@ -284,15 +284,20 @@ public abstract class AbstractModelInstanceSteps {
         writePom(model, projectDir);
     }
 
-    protected void createPipeline(String name, String typeName, String implName) throws IOException {
-        createPipeline(name, typeName, implName, p -> {});
+    protected void createAndSavePipeline(String name, String typeName, String implName) throws IOException {
+        createAndSavePipeline(name, typeName, implName, p -> {});
     }
 
-    protected void createPipeline(String name, String typeName, String implName, Consumer<PipelineElement> customization) throws IOException {
-        this.pipeline = TestMetamodelUtil.createPipelineWithType(name, BOOZ_ALLEN_PACKAGE, typeName, implName);
+    protected void createAndSavePipeline(String name, String typeName, String implName, Consumer<PipelineElement> customization) throws IOException {
+        this.pipeline = createPipeline(name, typeName, implName);
         customization.accept(pipeline);
         savePipelineToFile(pipeline);
+    }
+
+    protected PipelineElement createPipeline(String name, String typeName, String implName) throws IOException {
+        this.pipeline = TestMetamodelUtil.createPipelineWithType(name, BOOZ_ALLEN_PACKAGE, typeName, implName);
         pipelines.put(name, pipeline);
+        return pipeline;
     }
 
     protected static String unique(String name) {

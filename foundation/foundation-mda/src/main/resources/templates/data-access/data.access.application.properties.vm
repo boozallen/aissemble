@@ -23,4 +23,4 @@ quarkus.vertx.max-event-loop-execute-time=30s
 quarkus.datasource.jdbc.acquisition-timeout=30s
 quarkus.datasource.db-kind=other
 quarkus.datasource.jdbc.driver=org.apache.hive.jdbc.HiveDriver
-quarkus.datasource.jdbc.url=jdbc:hive2://spark-infrastructure:10001/default;transportMode=http;httpPath=cliservice
+quarkus.datasource.jdbc.url=jdbc:hive2://spark-infrastructure-sts-service:10001/default;transportMode=http;httpPath=cliservice

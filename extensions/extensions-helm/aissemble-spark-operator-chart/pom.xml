@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-helm</artifactId>
-        <version>1.8.2</version>
+        <version>1.9.1</version>
     </parent>
 
     <artifactId>aissemble-spark-operator-chart</artifactId>
@@ -33,5 +33,24 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>gh-build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>${group.helm.plugin}</groupId>
+                        <artifactId>helm-maven-plugin</artifactId>
+                        <configuration>
+                            <!-- Skip dry run due to rbac issues with api groups on EKS cluster -->
+                            <skipDryRun>true</skipDryRun>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

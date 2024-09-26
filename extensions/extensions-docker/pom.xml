@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.8.2</version>
+        <version>1.9.1</version>
     </parent>
 
     <artifactId>extensions-docker</artifactId>
@@ -59,7 +59,7 @@
     <modules>
         <module>aissemble-quarkus</module>
         <module>aissemble-fastapi</module>
-        <module>aissemble-hive</module>
+        <module>aissemble-hive-service</module>
         <module>aissemble-jenkins</module>
         <module>aissemble-metadata</module>
         <module>aissemble-nvidia</module>

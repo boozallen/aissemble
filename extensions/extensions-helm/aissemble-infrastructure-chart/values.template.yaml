@@ -1,0 +1,75 @@
+############################################
+## CONFIG | aiSSEMBLE Infrastructure Configs
+############################################
+
+# Default values for argocd
+argo-cd:
+  enabled: true
+  fullnameOverride: argocd
+  namespaceOverride: argocd
+  crds:
+    keep: false # Remove CRDs on chart uninstall
+  global:
+    domain: argocd.localdev.me
+  configs:
+    cm:
+      # this is to ensure the sync wave works among apps.
+      # ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/upgrading/1.7-1.8/#health-assessement-of-argoprojioapplication-crd-has-been-removed
+      resource.customizations: |
+        argoproj.io/Application:
+          health.lua: |
+            hs = {}
+            hs.status = "Progressing"
+            hs.message = ""
+            if obj.status ~= nil then
+              if obj.status.health ~= nil then
+                hs.status = obj.status.health.status
+                if obj.status.health.message ~= nil then
+                  hs.message = obj.status.health.message
+                end
+              end
+            end
+            return hs
+    params:
+      server.insecure: true # disables TLS
+  server:
+    # enables HTTP server ingress for UI at http://argocd.localdev.me:8080/
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+
+    # enable GRPC server ingress for CLI at grpc.argocd.localdev.me:8080
+    ingressGrpc: 
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: GRPC
+
+# Default values for jenkins
+jenkins:
+  enabled: true
+  fullnameOverride: jenkins
+  namespaceOverride: jenkins
+  controller:
+    image:
+      registry: ghcr.io
+      repository: boozallen/aissemble-jenkins-controller
+      tag: "@version.aissemble@"
+    ingress:
+      # enables HTTP server ingress for UI at http://jenkins.localdev.me:8080/
+      enabled: true
+      hostName: jenkins.localdev.me
+      ingressClassName: nginx
+    # note the official chart does not use the controller tag value for testing, so disabling here
+    testEnabled: false
+  agent:
+    image:
+      registry: ghcr.io
+      repository: boozallen/aissemble-jenkins-agent
+      tag: "@version.aissemble@"
+
+# Default values for nginx
+ingress-nginx:
+  enabled: true
+  fullnameOverride: ingress-nginx
+  namespaceOverride: ingress-nginx

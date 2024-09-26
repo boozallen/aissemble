@@ -1,0 +1,67 @@
+suite: config-store
+templates:
+  - configuration-store-local-pv.yaml
+tests:
+  - it: Should contain correct default values
+    set:
+      configurationVolume:
+        storageType: local
+    asserts:
+      - isAPIVersion:
+          of: v1
+      - isKind:
+          of: PersistentVolume
+      - equal:
+          path: metadata.name
+          value: configuration-store-pv
+      - equal:
+          path: spec.capacity.storage
+          value: 200Mi
+      - equal:
+          path: spec.hostPath.path
+          value:
+      - equal:
+          path: spec.hostPath.type
+          value: Directory
+      - equal:
+          path: spec.persistentVolumeReclaimPolicy
+          value: "Delete"
+      - equal:
+          path: spec.storageClassName
+          value: ""
+
+  - it: Should set values appropriately
+    set:
+      configurationVolume:
+        name: test-store
+        storageType: local
+        size: 2Gi
+        storageClassName: test
+        volumePathOnNode: /test
+    asserts:
+      - equal:
+          path: metadata.name
+          value: test-store-pv
+      - equal:
+          path: spec.capacity.storage
+          value: 2Gi
+      - equal:
+          path: spec.hostPath.path
+          value: /test
+      - equal:
+          path: spec.hostPath.type
+          value: Directory
+      - equal:
+          path: spec.persistentVolumeReclaimPolicy
+          value: "Delete"
+      - equal:
+          path: spec.storageClassName
+          value: ""
+
+  - it: Should not exist when disabled
+    set:
+      configurationVolume:
+        storageType: custom
+    asserts:
+      - hasDocuments:
+          count: 0
