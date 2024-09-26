@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test-machine-learning-model</artifactId>
-        <version>1.9.1</version>
+        <version>1.9.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>aissemble-machine-learning-sagemaker-training</artifactId>

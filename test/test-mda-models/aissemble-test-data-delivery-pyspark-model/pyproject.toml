@@ -2,7 +2,7 @@
 
 [tool.poetry]
 name = "aissemble-test-data-delivery-pyspark-model"
-version = "1.9.1"
+version = "1.9.2.dev"
 description = "Pyspark test module"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 
