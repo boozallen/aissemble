@@ -15,9 +15,9 @@
     <description>Contains the implementation modules used for security</description>
 
     <properties>
-        <version.authzforce>20.1.0</version.authzforce>
-        <version.authzforce.api>21.2.0</version.authzforce.api>
-        <version.authzforce.model>8.2.1</version.authzforce.model>
+        <version.authzforce>21.0.1</version.authzforce>
+        <version.authzforce.api>22.0.0</version.authzforce.api>
+        <version.authzforce.model>9.0.0</version.authzforce.model>
     </properties>
 
     <modules>
