@@ -1,5 +1,5 @@
 # Script for creating base Quarkus application Docker image
-FROM registry.access.redhat.com/ubi9/openjdk-11-runtime:1.20
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.20
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
