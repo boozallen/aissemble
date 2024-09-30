@@ -1,7 +1,7 @@
 # Script for creating base Spark Docker image
 #
 ARG SPARK_VERSION
-FROM apache/spark-py:v${SPARK_VERSION}
+FROM docker.io/apache/spark-py:v${SPARK_VERSION}
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 

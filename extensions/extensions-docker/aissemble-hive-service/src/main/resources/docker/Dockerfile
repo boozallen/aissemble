@@ -1,7 +1,7 @@
 ARG METASTORE_VERSION
-FROM apache/hive:${METASTORE_VERSION} AS appsource
+FROM docker.io/apache/hive:${METASTORE_VERSION} AS appsource
 
-FROM eclipse-temurin:17-jre AS final
+FROM docker.io/eclipse-temurin:17-jre AS final
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 

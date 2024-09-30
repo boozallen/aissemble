@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=/.cache/pypoetry/ \
     poetry bundle venv /opt/venv
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (END)
 
-FROM python:3.11 AS builder
+FROM docker.io/python:3.11 AS builder
 
 # Download Maven
 ARG MAVEN_VERSION=3.9.6

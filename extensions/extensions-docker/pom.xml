@@ -19,30 +19,6 @@
 
     <profiles>
         <profile>
-            <id>ci</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>${group.fabric8.plugin}</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <configuration><images>
-                                    <image>
-                                        <build>
-                                            <buildx>
-                                                <!-- use registry mirror to avoid docker pull too many request issues -->
-                                                <configFile>/etc/buildkitd.toml</configFile>
-                                            </buildx>
-                                        </build>
-                                    </image>
-                                </images>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
             <id>ensure-docker-dependencies</id>
             <!-- This profile is used to ensure that the docker dependencies are encoded in Maven properly. Because of
             the way docker works, any missing image will just be downloaded from the repository. This changes the repo

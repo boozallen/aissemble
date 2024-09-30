@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.1.1-base-ubuntu22.04
+FROM docker.io/nvidia/cuda:12.1.1-base-ubuntu22.04
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 

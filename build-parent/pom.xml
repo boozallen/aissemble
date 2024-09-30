@@ -599,7 +599,7 @@
                                     </args>
                                     <buildx>
                                         <builderName>default</builderName>
-                                        <dockerStateDir>~/.docker</dockerStateDir>
+                                        <dockerStateDir>~/.docker/fabric8</dockerStateDir>
                                         <platforms>
                                             <platform>${docker.platforms}</platform>
                                         </platforms>
