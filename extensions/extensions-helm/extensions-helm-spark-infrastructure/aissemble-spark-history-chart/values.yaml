@@ -7,9 +7,9 @@ deployment:
   labels: {}
   replicas: 1
   image:
-    repository: "apache/spark"
+    repository: "ghcr.io/boozallen/aissemble-spark"
     imagePullPolicy: IfNotPresent
-    tag: "3.5.1"
+    tag: "1.10.0-SNAPSHOT"
   command: ["/opt/spark/sbin/start-history-server.sh"]
   env:
     SPARK_NO_DAEMONIZE: "true"

@@ -47,7 +47,7 @@ public class PipelineMessagingConfig implements ConfigSource, Extension {
         Map<String, String> map = new HashMap<>();
         for (String name : pipelineProperties.stringPropertyNames()) {
             String reactiveName = mapToReactiveProperty(name);
-            String value = pipelineProperties.getProperty(reactiveName);
+            String value = pipelineProperties.getProperty(name);
             map.put(reactiveName, value);
         }
         return map;
