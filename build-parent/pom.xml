@@ -55,7 +55,7 @@
         <version.plexus.component>2.1.1</version.plexus.component>
         <version.postgresql>42.5.1</version.postgresql>
         <version.resteasy>4.7.7.Final</version.resteasy>
-        <version.vertx>4.2.5</version.vertx>
+        <version.vertx>4.4.6</version.vertx>
         <version.urllib3>^1.26.18</version.urllib3>
         <version.fastapi>&gt;=0.95.0</version.fastapi>
         <version.uvicorn>&gt;=0.18.0</version.uvicorn>
@@ -71,11 +71,14 @@
         <version.jakarta.cdi>4.0.1</version.jakarta.cdi>
         <version.jakarta.inject>2.0.1</version.jakarta.inject>
         <version.jakarta.annotation>3.0.0</version.jakarta.annotation>
+        <version.jakarta.wr.rs>3.1.0</version.jakarta.wr.rs>
+        <version.jakarta.activation.api>2.1.2</version.jakarta.activation.api>
         <version.javax.servlet>3.1.0</version.javax.servlet>
 
 <!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
-        <version.spark>3.4.0</version.spark>
+        <version.spark>3.5.2</version.spark>
         <version.scala>2.12.13</version.scala>
+        <version.scala.minor>2.12</version.scala.minor>
         <version.delta>2.4.0</version.delta>
         <version.elasticsearch>8.9.0</version.elasticsearch>
         <version.sedona>1.4.0</version.sedona>
@@ -370,6 +373,7 @@
                         <environmentVariables>
                             <TESTCONTAINERS_RYUK_DISABLED>${TESTCONTAINERS_RYUK_DISABLED}</TESTCONTAINERS_RYUK_DISABLED>
                         </environmentVariables>
+                        <argLine>--add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -544,6 +548,7 @@
                             <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
                             <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
                             <SPARK_VERSION>${version.spark}</SPARK_VERSION>
+                            <SCALA_VERSION>${version.scala.minor}</SCALA_VERSION>
                         </buildArgs>
                     </configuration>
                 </plugin>
@@ -589,6 +594,7 @@
                                         <DOCKER_BASELINE_REPO_ID>${docker.baseline.repo.id}/</DOCKER_BASELINE_REPO_ID>
                                         <VERSION_AISSEMBLE>${version.aissemble}</VERSION_AISSEMBLE>
                                         <SPARK_VERSION>${version.spark}</SPARK_VERSION>
+                                        <SCALA_VERSION>${version.scala.minor}</SCALA_VERSION>
                                     </args>
                                     <buildx>
                                         <builderName>default</builderName>
@@ -863,6 +869,9 @@
                             <TESTCONTAINERS_RYUK_DISABLED>${TESTCONTAINERS_RYUK_DISABLED}</TESTCONTAINERS_RYUK_DISABLED>
                             <!--<TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX>YOUR MIRROR OR INTENRAL REPO GOES HERE - e.g., nexus.foobar.com/</TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX>-->
                         </environmentVariables>
+                        <!-- Spark needs to use an internal API that has been made inaccessible by default. This
+                        exposes it -->
+                        <argLine>--add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>
                     </configuration>
                 </plugin>
                 <plugin>

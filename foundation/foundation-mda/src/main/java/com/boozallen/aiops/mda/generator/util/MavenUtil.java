@@ -120,7 +120,13 @@ public class MavenUtil {
         String projectPrefix = context.getRootArtifactId();
         String defaultDataRecords = projectPrefix + "-" + dataModule.getBaseName();
         Path projectRoot = context.getExecutionRootDirectory().toPath();
-        Path defaultModulePath = projectRoot.resolve(Path.of(getSharedModuleName(context.getExecutionRootDirectory()), defaultDataRecords));
+        Path defaultModulePath;
+        if (getSharedModuleName(context.getExecutionRootDirectory()) != null) {
+            defaultModulePath = projectRoot.resolve(Path.of(getSharedModuleName(context.getExecutionRootDirectory()),
+                    defaultDataRecords));
+        } else {
+            defaultModulePath = projectRoot.resolve(Path.of(defaultDataRecords));
+        }
         Language defaultLanguage = getModuleLanguage(defaultModulePath.resolve("pom.xml"));
         if (SemanticDataUtil.arePythonDataRecordsNeeded(metadataContext)
                 && SemanticDataUtil.areJavaDataRecordsNeeded(metadataContext)
