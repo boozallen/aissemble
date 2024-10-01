@@ -28,7 +28,7 @@
         <module>extensions-docker</module>
         <module>extensions-alerting</module>
         <module>extensions-messaging</module>
-        <module>extensions-metadata-service</module>
+        <!--<module>extensions-metadata-service</module>-->
         <module>extensions-helm</module>
         <module>aissemble-extensions-model-training-api-sagemaker</module>
         <module>extensions-pipeline-invocation-service</module>
