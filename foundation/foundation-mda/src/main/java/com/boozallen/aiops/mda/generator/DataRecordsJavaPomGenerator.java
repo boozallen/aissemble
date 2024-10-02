@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.generator.util.MavenUtil;
 import com.boozallen.aiops.mda.generator.util.MavenUtil.Language;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil;
 import org.apache.velocity.VelocityContext;

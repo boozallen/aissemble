@@ -25,13 +25,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-universe-bom</artifactId>
-                <version>${version.quarkus.plugin}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.technologybrewery.krausening</groupId>
                 <artifactId>krausening</artifactId>
                 <version>${version.krausening}</version>
@@ -61,17 +54,17 @@
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-graphql-client</artifactId>
-                <version>${version.smallrye.plugin}</version>
+                <version>${version.smallrye.graphql}</version>
             </dependency>
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-graphql-client-api</artifactId>
-                <version>${version.smallrye.plugin}</version>
+                <version>${version.smallrye.graphql}</version>
             </dependency>
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-graphql-client-implementation-vertx</artifactId>
-                <version>${version.smallrye.plugin}</version>
+                <version>${version.smallrye.graphql}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
@@ -119,7 +112,7 @@
             <dependency>
                 <groupId>org.awaitility</groupId>
                 <artifactId>awaitility</artifactId>
-                <version>4.0.3</version>
+                <version>${version.awaitility}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

@@ -3,6 +3,18 @@
     "group": "v1-10-0-migrations",
     "type": "ordered",
     "migrations": [
+      {
+        "name": "spark-version-upgrade-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.SparkVersionUpgradeMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-pipelines/*/src/*/resources/apps/*-values.yaml",
+              "*-pipelines/*/src/main/resources/apps/*-values.yaml"
+            ]
+          }
+        ]
+      }
     ]
   },
   {

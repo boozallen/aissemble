@@ -2,7 +2,7 @@ package ${basePackage}.cdi;
 
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 import com.boozallen.aissemble.core.filestore.EnvironmentVariableFileStoreConfig;
 
 import com.boozallen.aissemble.core.metadata.producer.MetadataProducer;

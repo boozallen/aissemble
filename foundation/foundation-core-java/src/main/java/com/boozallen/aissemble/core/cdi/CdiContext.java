@@ -10,7 +10,7 @@ package com.boozallen.aissemble.core.cdi;
  * #L%
  */
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 import java.util.List;
 
 /**

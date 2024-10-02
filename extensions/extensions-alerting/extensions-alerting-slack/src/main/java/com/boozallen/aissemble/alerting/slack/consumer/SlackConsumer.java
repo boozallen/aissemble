@@ -10,7 +10,7 @@ package com.boozallen.aissemble.alerting.slack.consumer;
  * #L%
  */
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.aeonbits.owner.KrauseningConfigFactory;
 import org.apache.commons.lang3.StringUtils;

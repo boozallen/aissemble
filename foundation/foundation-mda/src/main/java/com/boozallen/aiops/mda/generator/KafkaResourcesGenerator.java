@@ -14,8 +14,6 @@ import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.Step;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
-import java.util.Objects;
-
 public class KafkaResourcesGenerator extends ModelAgnosticResourcesGenerator {
     /*--~-~-~~
      * Usages:

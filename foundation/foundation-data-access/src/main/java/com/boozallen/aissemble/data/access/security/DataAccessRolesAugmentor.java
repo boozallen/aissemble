@@ -13,7 +13,7 @@ package com.boozallen.aissemble.data.access.security;
 import java.security.Principal;
 import java.util.function.Supplier;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.boozallen.aissemble.security.authorization.policy.PolicyDecision;
 import com.boozallen.aissemble.security.authorization.policy.PolicyDecisionPoint;

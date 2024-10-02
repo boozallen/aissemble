@@ -22,8 +22,8 @@ import java.util.concurrent.CompletionStage;
 #end
 
 #if ($needsAnyCdi)
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.spi.CDI;
 #end
 
 import ${basePackage}.pipeline.PipelineBase;

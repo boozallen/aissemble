@@ -21,7 +21,7 @@ import io.cucumber.plugin.EventListener;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestRunStarted;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
 /**
  * Sets up base functionality for Spark to run within Cucumber.
@@ -139,8 +139,12 @@ public abstract class SparkTestBaseHarness implements EventListener {
 
             long tearDownStart = System.currentTimeMillis();
             InMemoryConnector.clear();
-            container.shutdown();
-            spark.close();
+            if (container != null) {
+                container.shutdown();
+            }
+            if (spark != null) {
+                spark.close();
+            }
             applyAfterTests();
             long tearDownStop = System.currentTimeMillis();
             logger.debug("Stopped test resources in {}ms", (tearDownStop - tearDownStart));

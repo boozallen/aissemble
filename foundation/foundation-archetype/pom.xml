@@ -15,14 +15,9 @@
     <packaging>maven-archetype</packaging>
 
     <dependencies>
-
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
         </dependency>
 
         <!-- Test Dependencies -->
@@ -37,18 +32,23 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-console</artifactId>
-            <version>3.0.17</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.21</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven.archetype</groupId>
             <artifactId>archetype-common</artifactId>
             <version>3.2.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- Supports archetype execution via Groovy Shell -->
         <dependency>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-provider-api</artifactId>
@@ -68,7 +68,7 @@
             <extension>
                 <groupId>org.apache.maven.archetype</groupId>
                 <artifactId>archetype-packaging</artifactId>
-                <version>3.2.0</version>
+                <version>3.2.1</version>
             </extension>
         </extensions>
         <plugins>
@@ -89,7 +89,7 @@
             <!-- Generally we don't want to use the maven-antrun-plugin but we are using it here as the most sensible copy/rename option -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -143,7 +143,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>test-project-archetype</id>

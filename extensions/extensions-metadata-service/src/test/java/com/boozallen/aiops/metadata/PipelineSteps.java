@@ -18,10 +18,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.spark.sql.SparkSession;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +35,6 @@ import static org.junit.Assert.assertEquals;
 @ApplicationScoped
 public class PipelineSteps {
 
-    private SparkSession sparkSession;
     MetadataAPI metadataAPI;
     private MetadataService metadataService;
     private int return_status;
@@ -44,7 +42,6 @@ public class PipelineSteps {
     @Before("@metadata")
     public void setUp() {
         // test objects to initialize before each scenario
-        sparkSession = SparkTestHarness.getSparkSession();
         metadataAPI = new HiveMetadataAPIService();
         metadataService = new MetadataService();
         metadataService.metadataAPI = metadataAPI;

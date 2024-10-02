@@ -1,7 +1,8 @@
 # Script for creating base Spark Docker image
 #
 ARG SPARK_VERSION
-FROM docker.io/apache/spark-py:v${SPARK_VERSION}
+ARG SCALA_VERSION
+FROM docker.io/apache/spark:${SPARK_VERSION}-scala${SCALA_VERSION}-java17-python3-ubuntu
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
@@ -14,9 +15,7 @@ RUN mkdir $SPARK_HOME/checkpoint && \
   mkdir $SPARK_HOME/krausening && \
   mkdir $SPARK_HOME/warehouse && \
   mkdir $SPARK_HOME/policies && \
-  mkdir $SPARK_HOME/logs && \
-  useradd --home /opt/spark --group 0 --shell /usr/sbin/nologin --uid 185 spark && \
-  chown -R spark:spark /opt/spark
+  mkdir $SPARK_HOME/logs
 
 # Update repositories and add necessary ones
 RUN apt-get -y update \

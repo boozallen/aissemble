@@ -13,19 +13,8 @@
     <name>aiSSEMBLE::Extensions::Pipeline Invocation Service</name>
     <description>Contains an invocation service for submitting spark applications</description>
 
-    <properties>
-        <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>com.boozallen.aissemble</groupId>
                 <artifactId>bom-instantiation</artifactId>
@@ -34,9 +23,9 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-universe-bom</artifactId>
-                <version>${version.quarkus}</version>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>aissemble-quarkus-bom</artifactId>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -47,17 +36,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-bom</artifactId>
-            <version>${version.quarkus}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -90,6 +68,13 @@
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>foundation-pdp-client-java</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- Quarkus REST and JBoss RESTEasy are incompatible. (See https://quarkus.io/guides/rest-migration) -->
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
@@ -103,7 +88,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
-            <version>1.3</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.slf4j</groupId>

@@ -24,6 +24,7 @@ rules:
   - ""
   resources:
   - pods
+  - persistentvolumeclaims
   verbs:
   - "*"
 - apiGroups:
@@ -37,7 +38,7 @@ rules:
   - get
   - delete
   - update
-  - list
+  - patch
 - apiGroups:
   - extensions
   - networking.k8s.io
@@ -74,10 +75,7 @@ rules:
   resources:
   - customresourcedefinitions
   verbs:
-  - create
   - get
-  - update
-  - delete
 - apiGroups:
   - admissionregistration.k8s.io
   resources:
@@ -93,8 +91,10 @@ rules:
   resources:
   - sparkapplications
   - sparkapplications/status
+  - sparkapplications/finalizers
   - scheduledsparkapplications
   - scheduledsparkapplications/status
+  - scheduledsparkapplications/finalizers
   verbs:
   - "*"
   {{- if .Values.batchScheduler.enable }}

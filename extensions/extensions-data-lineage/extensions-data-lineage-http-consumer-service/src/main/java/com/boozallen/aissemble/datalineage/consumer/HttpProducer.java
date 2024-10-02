@@ -14,8 +14,8 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.POST;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.POST;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.CompletionStage;
 

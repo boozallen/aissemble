@@ -37,7 +37,7 @@
         <module>aissemble-fastapi</module>
         <module>aissemble-hive-service</module>
         <module>aissemble-jenkins</module>
-        <module>aissemble-metadata</module>
+        <!--<module>aissemble-metadata</module>-->
         <module>aissemble-nvidia</module>
         <module>aissemble-policy-decision-point</module>
         <module>aissemble-spark</module>
@@ -54,7 +54,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>bom-component</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>

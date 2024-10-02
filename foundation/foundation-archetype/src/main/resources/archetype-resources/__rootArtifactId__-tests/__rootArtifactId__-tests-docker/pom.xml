@@ -44,7 +44,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>${project.parent.artifactId}-java</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -14,11 +14,10 @@ import com.boozallen.aissemble.messaging.core.cdi.MessagingCdiContext;
 import io.smallrye.reactive.messaging.amqp.AmqpConnector;
 import io.smallrye.reactive.messaging.kafka.KafkaCDIEvents;
 import io.smallrye.reactive.messaging.kafka.KafkaConnector;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 import io.smallrye.reactive.messaging.providers.impl.ConnectorFactories;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class MessagingServiceCdiContext extends MessagingCdiContext {

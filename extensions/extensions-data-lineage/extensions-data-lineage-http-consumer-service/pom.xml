@@ -13,13 +13,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-bom</artifactId>
                 <version>${version.quarkus}</version>
@@ -28,11 +21,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <properties>
-        <!--    Overriding cucumber version to align with quarkus-cucumber -->
-        <version.cucumber>${version.quarkus.cucumber.java}</version.cucumber>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -68,11 +56,6 @@
         </dependency>
 
         <!--    SMALLRYE CONNECTORS-->
-        <dependency>
-            <groupId>io.smallrye.reactive</groupId>
-            <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
-            <version>${version.smallrye.reactive.messaging}</version>
-        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-reactive-messaging-amqp</artifactId>

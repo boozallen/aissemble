@@ -13,9 +13,22 @@
     <name>aiSSEMBLE::Extensions::Alerting::Teams</name>
     <description>The Alerting Teams module uses Microsoft Teams to send alerts</description>
 
-    <properties>
-        <version.smallrye.config.override>2.8.0</version.smallrye.config.override>
-    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>aissemble-quarkus-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye.reactive</groupId>
+                <artifactId>smallrye-reactive-messaging-api</artifactId>
+                <version>${version.smallrye.reactive.messaging}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -29,7 +42,6 @@
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
-            <version>${version.smallrye.config.override}</version>
         </dependency>
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
@@ -73,10 +85,6 @@
                 <exclusion>
                     <groupId>org.jboss.slf4j</groupId>
                     <artifactId>slf4j-jboss-logmanager</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.smallrye.config</groupId>
-                    <artifactId>smallrye-config</artifactId>
                 </exclusion>
             </exclusions>
             <scope>test</scope>
