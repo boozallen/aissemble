@@ -16,6 +16,10 @@ on:
         required: true
         type: string
         default: "dev"
+  push:
+    branches: [ "dev" ]
+  schedule:
+    - cron: "0 6 * * *" # every day at 6am UTC
 
 jobs:
   build:
@@ -26,6 +30,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.buildBranch }}
+      - name: clear cache on nightly build
+        if: ${{ github.event.schedule }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log("Clearing cache")
+            const caches = await github.rest.actions.getActionsCacheList({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            for (const cache of caches.data.actions_caches) {
+              console.log(cache)
+              github.rest.actions.deleteActionsCacheById({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                cache_id: cache.id,
+              })
+            }
+            console.log("Clear completed")
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
