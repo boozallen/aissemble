@@ -10,7 +10,7 @@ sparkApp:
     imagePullPolicy: IfNotPresent
     restartPolicy:
       type: Never
-    sparkVersion: "3.4.0"
+    sparkVersion: "3.5.2"
     sparkConf:
       spark.hive.server2.thrift.port: "10000"
       spark.hive.server2.thrift.http.port: "10001"
@@ -21,6 +21,7 @@ sparkApp:
       spark.hive.metastore.uris: "thrift://hive-metastore-service:9083/default"
       spark.eventLog.dir: "/opt/spark/spark-events"
       spark.hive.metastore.warehouse.dir: "s3a://spark-infrastructure/warehouse"
+      spark.jars.ivy: "/opt/spark/.ivy2"
     dynamicAllocation:
       enabled: true
       initialExecutors: 0
@@ -48,7 +49,7 @@ sparkApp:
       coreLimit: "1200m"
       memory: "512m"
       labels:
-        version: 3.4.0
+        version: 3.5.2
       volumeMounts:
         - name: ivy-cache
           mountPath: "/opt/spark/.ivy2"

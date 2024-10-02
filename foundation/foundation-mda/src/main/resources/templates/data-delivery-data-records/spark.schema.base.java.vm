@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.spark.sql.Column;
-import scala.collection.JavaConversions;
+import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
 import com.boozallen.aiops.data.delivery.spark.SparkSchema;
@@ -92,28 +92,28 @@ public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
             #foreach ($field in $record.fields)
                 #set ( $columnName = "#if($field.column)$field.column#{else}$field.upperSnakecaseName#end" )
                 #if (${field.isRequired()})
-                    .withColumn("${columnName}_IS_NOT_NULL", col("${columnName}").isNotNull())
+                    .withColumn("${columnName}_IS_NOT_NULL", col(${columnName}_COLUMN).isNotNull())
                 #end
                 #if (${field.getValidation().getMinValue()})
-                    .withColumn("${columnName}_GREATER_THAN_MIN", col("${columnName}").gt(lit(${field.getValidation().getMinValue()})).or(col("${columnName}").equalTo(lit(${field.getValidation().getMinValue()}))))
+                    .withColumn("${columnName}_GREATER_THAN_MIN", col(${columnName}_COLUMN).gt(lit(${field.getValidation().getMinValue()})).or(col(${columnName}_COLUMN).equalTo(lit(${field.getValidation().getMinValue()}))))
                 #end
                 #if (${field.getValidation().getMaxValue()})
-                    .withColumn("${columnName}_LESS_THAN_MAX", col("${columnName}").lt(lit(${field.getValidation().getMaxValue()})).or(col("${columnName}").equalTo(lit(${field.getValidation().getMaxValue()}))))
+                    .withColumn("${columnName}_LESS_THAN_MAX", col(${columnName}_COLUMN).lt(lit(${field.getValidation().getMaxValue()})).or(col(${columnName}_COLUMN).equalTo(lit(${field.getValidation().getMaxValue()}))))
                 #end
                 #if (${field.getValidation().getScale()})
-                    .withColumn("${columnName}_MATCHES_SCALE", col("${columnName}").rlike(("^[0-9]*(?:\\.[0-9]{0,${field.getValidation().getScale()}})?$")))
+                    .withColumn("${columnName}_MATCHES_SCALE", col(${columnName}_COLUMN).rlike(("^[0-9]*(?:\\.[0-9]{0,${field.getValidation().getScale()}})?$")))
                 #end
                 #if (${field.getValidation().getMinLength()})
-                    .withColumn("${columnName}_GREATER_THAN_MAX_LENGTH", col("${columnName}").rlike(("^.{${field.getValidation().getMinLength()},}")))
+                    .withColumn("${columnName}_GREATER_THAN_MAX_LENGTH", col(${columnName}_COLUMN).rlike(("^.{${field.getValidation().getMinLength()},}")))
                 #end
                 #if (${field.getValidation().getMaxLength()})
-                    .withColumn("${columnName}_LESS_THAN_MAX_LENGTH", col("${columnName}").rlike(("^.{${field.getValidation().getMaxLength()},}")).equalTo(lit(false)))
+                    .withColumn("${columnName}_LESS_THAN_MAX_LENGTH", col(${columnName}_COLUMN).rlike(("^.{${field.getValidation().getMaxLength()},}")).equalTo(lit(false)))
                 #end
                 #foreach ($format in $field.getValidation().getFormats())
                     #if ($foreach.first)
-                        .withColumn("${columnName}_MATCHES_FORMAT", col("${columnName}").rlike(("$format.replace("\","\\")"))
+                        .withColumn("${columnName}_MATCHES_FORMAT", col(${columnName}_COLUMN).rlike(("$format.replace("\","\\")"))
                     #else
-                        .or(col("${columnName}").rlike(("$format.replace("\","\\")")))
+                        .or(col(${columnName}_COLUMN).rlike(("$format.replace("\","\\")")))
                     #end
                     #if ($foreach.last)
                         )
@@ -122,7 +122,7 @@ public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
             #end ;
 
         Column filterSchema = null;
-        List<String> validationColumns = new ArrayList();
+        List<String> validationColumns = new ArrayList<>();
         Collections.addAll(validationColumns, dataWithValidations.columns());
         validationColumns.removeAll(Arrays.asList(data.columns()));
         for (String columnName : validationColumns) {
@@ -139,7 +139,8 @@ public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
         }
 
         // Remove validation columns from valid data
-        Seq<String> columnsToDrop = JavaConversions.asScalaBuffer(validationColumns).toSeq();
+        Seq<String> columnsToDrop =
+                JavaConverters.collectionAsScalaIterableConverter(validationColumns).asScala().toSeq();
         validData = validData.drop(columnsToDrop);
 
         return validData;
