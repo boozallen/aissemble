@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Upgrade
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -55,20 +65,10 @@
                                     <!-- It seems the shaded jar only has javax.* providers at the moment. Re-evaluate after JDK 17 upgrade is complete. -->
                                     <resource>META-INF/services/javax.ws.rs.ext.Providers</resource>
                                 </transformer>
-                                <transformer
-                                        implementation="org.apache.logging.log4j.maven.plugins.shade.transformer.Log4j2PluginCacheFileTransformer">
-                                </transformer>
                             </transformers>
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.logging.log4j</groupId>
-                        <artifactId>log4j-transform-maven-shade-plugin-extensions</artifactId>
-                        <version>${version.log4j.transform}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

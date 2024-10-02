@@ -16,7 +16,8 @@ import com.boozallen.aissemble.upgrade.migration.utils.MigrationTestUtils;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.commons.lang.math.RandomUtils;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -70,7 +71,7 @@ public class ChartMigrationSteps {
     @Given("a v1 chart")
     public void aV1Chart(List<String> expectedV1Charts) {
         // Choose a v1 chart name at random
-        String chartName = expectedV1Charts.get(RandomUtils.nextInt(expectedV1Charts.size()-1));
+        String chartName = expectedV1Charts.get(RandomUtils.nextInt(0, expectedV1Charts.size()-1));
 
         // Create the main chart directory
         createYamlTestDirectory(chartName);

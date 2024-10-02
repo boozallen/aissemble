@@ -27,8 +27,8 @@ aissemble-quarkus-chart:
         readOnly: true
     configMap:
       supplementalQuarkusConfig:
-        - quarkus.http.ssl.certificate.file=/etc/webhook/cert/tls.crt
-        - quarkus.http.ssl.certificate.key-file=/etc/webhook/cert/tls.key
+        - quarkus.http.ssl.certificate.files=/etc/webhook/cert/tls.crt
+        - quarkus.http.ssl.certificate.key-files=/etc/webhook/cert/tls.key
 
     startupProbe:
       httpGet:

@@ -286,7 +286,7 @@ public class ConfigLoader {
             Property statusProperty = propertyDao.read(new PropertyKey("load-status", "fully-loaded"));
             return statusProperty != null && BooleanUtils.toBoolean(statusProperty.getValue());
         } catch (Exception e) {
-            logger.warn("Properties are not loaded previously, continue", e);
+            logger.warn("Unable to determine load status", e);
             return false;
         }
     }

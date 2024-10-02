@@ -14,6 +14,17 @@
             ]
           }
         ]
+      },
+      {
+        "name": "log4j-maven-shade-plugin-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.Log4jMavenShadePluginMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "pom.xml"
+            ]
+          }
+        ]
       }
     ]
   },
