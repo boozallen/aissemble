@@ -62,7 +62,7 @@
         <version.cryptography>&gt;=42.0.4</version.cryptography>
         <version.python.krausening>&gt;=${version.krausening}</version.python.krausening>
         <version.delta.hive.connector>0.6.0</version.delta.hive.connector>
-        <version.testcontainers>1.19.8</version.testcontainers>
+        <version.testcontainers>1.20.1</version.testcontainers>
         <version.vault>5.1.0</version.vault>
         <version.awaitility>4.0.3</version.awaitility>
         <version.plexus.util>3.5.1</version.plexus.util>

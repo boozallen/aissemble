@@ -67,10 +67,12 @@
         <version.pegasus>27.7.18</version.pegasus>
         <version.smile>2.6.0</version.smile>
         <version.weld>5.1.2.Final</version.weld>
-        <version.slf4j>2.0.7</version.slf4j>
-        <version.log4j>2.20.0</version.log4j>
-        <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
+        <version.slf4j>2.0.16</version.slf4j>
+        <version.log4j>2.24.0</version.log4j>
+        <version.log4j.transform>0.1.0</version.log4j.transform>
+        <version.cucumber.reporting.plugin>5.8.1</version.cucumber.reporting.plugin>
         <version.javax.inject>1</version.javax.inject>
+        <version.rest.assured>5.5.0</version.rest.assured>
     </properties>
 
     <dependencyManagement>
@@ -94,7 +96,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <version>3.17.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -157,6 +159,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${version.rest.assured}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

@@ -2083,7 +2083,9 @@
 			{
 				"name": "vaultDockerFile"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "The profile `aissemble-vault-docker` is deprecated, existing vault docker builds within your downstream project must now be maintained on your own. If your current vault docker image does not contain any customizations, the `ghcr.io/boozallen/aissemble-vault` image can be used instead."
 	},
 	{
 		"name": "vault-deploy",

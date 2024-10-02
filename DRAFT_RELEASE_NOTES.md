@@ -28,9 +28,11 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 
 | Migration Name                                             | Description                                                                                                                                                                                                                                      |
 |------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration               | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                                                                                     |
-| upgrade-v2-chart-files-aissemble-version-migration         | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE                                                                     |
-| upgrade-v1-chart-files-aissemble-version-migration         | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE                                                                           |
+| upgrade-tiltfile-aissemble-version-migration               | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                        |
+| upgrade-v2-chart-files-aissemble-version-migration         | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE   |
+| upgrade-v1-chart-files-aissemble-version-migration         | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE   |
+| spark-version-upgrade-migration                            | Updates the Spark Application executor failure parameters to their new key name to ensure compatibility with spark `3.5`                                                                  |
+| log4j-maven-shade-plugin-migration                         | Updates the Maven Shade Plugin with the new Log4j dependency information                                                                                     |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
