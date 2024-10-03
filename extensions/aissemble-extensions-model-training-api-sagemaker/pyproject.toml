@@ -17,7 +17,9 @@ kubernetes = ">=26.1.0"
 urllib3 = "^1.26.18"
 krausening = ">=20"
 sagemaker = ">=2.218.0"
-mlflow = "^2.3.1"
+
+# As part of Issue #397, we removed the mlflow dependency as it is included within sagemaker 
+# and specifying it here causes excessive dependency resolution times
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"
