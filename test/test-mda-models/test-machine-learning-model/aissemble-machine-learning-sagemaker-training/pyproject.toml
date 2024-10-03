@@ -16,17 +16,14 @@ python = ">=3.8"
 sagemaker-training = ">=4.6.1"
 mlflow = ">=2.16.2"
 
-# Poetry lock was timing out attempting to resolve dependencies
-# I removed the mlflow dependency and ran poetry add mlflow and the dependencies resolved, so I copied
-# over the problematic pacakges' versions from the lock file.
-opentelemetry-api = ">=1.9.0,<3"
-opentelemetry-sdk = ">=1.9.0,<3"
-mlflow-skinny = "2.16.2"
-botocore = ">=1.33.2,<2.0a.0"
+# sagemaker-training (4.8.1) depends on protobuf (>=3.9.2,<=3.20.3)
+# mlflow-skinny (2.16.2) depends on protobuf (>=3.12.0,<6)
+protobuf = ">=3.12.0,<=3.20.3" 
 
 # Poetry export-without-path-deps fails due to a "Dependency walk failed at urllib3 (>=1.26.0)"
 # Adding to resolve the issue; Poetry changes the value from >= -> ^
 urllib3 = "^1.26.18"
+
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.1.0"
