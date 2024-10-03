@@ -21,6 +21,7 @@
         <version.mojo.executor>2.4.0</version.mojo.executor>
         <version.testing.harness>3.3.0</version.testing.harness>
         <version.exec.plugin>3.1.0</version.exec.plugin>
+        <version.aether>1.1.0</version.aether>
     </properties>
 
     <dependencies>
@@ -108,14 +109,23 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <!-- this is added because the maven-dependency-plugin is looking for commons-io 2.13.0 but
-            we are using the 2.16.1 version in the build-parent. This is for test only ref: #390 -->
-            <version>2.13.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-connector-basic</artifactId>
+            <version>${version.aether}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-transport-http</artifactId>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
