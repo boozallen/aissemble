@@ -66,6 +66,7 @@
         <version.vault>5.1.0</version.vault>
         <version.awaitility>4.0.3</version.awaitility>
         <version.plexus.util>3.5.1</version.plexus.util>
+        <version.jackson.mapper.asl>1.9.3</version.jackson.mapper.asl>
 
         <!-- Java EE Dependencies -->
         <version.jakarta.cdi>4.0.1</version.jakarta.cdi>
@@ -121,7 +122,7 @@
         <maven.compiler.argument.testSource>${maven.compiler.source}</maven.compiler.argument.testSource>
 
         <!-- maven-enforcer-plugin -->
-        <version.maven.min>3.6.2</version.maven.min>
+        <version.maven.min>3.9.6</version.maven.min>
         <version.jdk.required>${maven.compiler.argument.source}</version.jdk.required>
         <version.jdk.next-unsupported>18</version.jdk.next-unsupported>
         <insecure.repositories>ERROR</insecure.repositories>

@@ -5,7 +5,7 @@ The tools and configurations below are required to run aiSSEMBLE.
 
 === Build/Local Deployment Configurations
 
-* Java: https://adoptium.net/temurin/archive/?version=11[JDK 11,role=external,window=_blank]
+* Java: https://adoptium.net/temurin/archive/?version=17[JDK 17,role=external,window=_blank]
   (see the https://whichjdk.com/[following discussion,role=external,window=_blank] to choose between different JDKs)
 * Python: Python 3.11.4+ (we recommend using https://github.com/pyenv/pyenv[pyenv,role=external,window=_blank])
 * Build Process: https://maven.apache.org/[Maven,role=external,window=_blank] (see the

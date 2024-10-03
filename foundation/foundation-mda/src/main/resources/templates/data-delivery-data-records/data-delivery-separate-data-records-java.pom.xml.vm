@@ -30,6 +30,7 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
+            <version>${version.jackson.mapper.asl}</version>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>

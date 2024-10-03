@@ -3,9 +3,9 @@
 ## TBD
 
 # Breaking Changes
-Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
+- Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
 
-_There are no breaking changes in the 1.10 release._
+With the upgrade to Java 17, the new minimum required Maven version is now 3.9.6. This can result in deprecated classes or incompatible dependencies, please update your modules accordingly.
 
 
 # Known Issues
