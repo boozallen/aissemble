@@ -108,6 +108,9 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+            <!-- this is added because the maven-dependency-plugin is looking for commons-io 2.13.0 but
+            we are using the 2.16.1 version in the build-parent. This is for test only ref: #390 -->
+            <version>2.13.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
