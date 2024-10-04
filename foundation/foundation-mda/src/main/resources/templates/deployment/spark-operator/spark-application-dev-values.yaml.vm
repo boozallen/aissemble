@@ -2,6 +2,7 @@ sparkApp:
     spec:
       image: "${projectName}-spark-worker-docker:latest"
       sparkConf:
+        spark.jars.ivy: "/opt/spark/.ivy2"
         spark.eventLog.enabled: "true"
         #if ("${sparkExtensions}" != "")
         spark.sql.extensions: "${sparkExtensions}"
