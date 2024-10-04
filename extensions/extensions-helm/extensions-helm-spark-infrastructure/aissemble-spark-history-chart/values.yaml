@@ -16,6 +16,8 @@ deployment:
   envFromSecret: {}
   volumes: []
   volumeMounts: []
+  tolerations: []
+  affinity: {}
 
 dependencies:
   packages: []

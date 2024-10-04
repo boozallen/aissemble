@@ -32,6 +32,10 @@ spec:
         {{ toYaml .Values.deployment.labels }}
         {{- end }}
     spec:
+      {{- if .Values.deployment.affinity }}
+      affinity:
+      {{- toYaml .Values.deployment.affinity | nindent 8 }}
+      {{- end }}
       {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
       initContainers:
         - name: "populate-jar-volume"
@@ -120,4 +124,8 @@ spec:
         {{- if .Values.deployment.volumes }}
         {{- toYaml .Values.deployment.volumes }}
         {{- end }}
+      {{- if .Values.deployment.tolerations }}
+      tolerations:
+      {{- toYaml .Values.deployment.tolerations | nindent 8 }}
+      {{- end }}
 {{- end }}
