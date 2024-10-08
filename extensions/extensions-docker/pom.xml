@@ -84,8 +84,8 @@
                             <phase>prepare-package</phase>
                             <configuration>
                                 <dockerfile>${project.basedir}/src/main/resources/docker/Dockerfile</dockerfile>
-                                <dockerBuilderBase>python:3.11</dockerBuilderBase>
-                                <dockerFinalBase>python:3.11-slim</dockerFinalBase>
+                                <dockerBuilderBase>docker.io/python:3.11</dockerBuilderBase>
+                                <dockerFinalBase>docker.io/python:3.11-slim</dockerFinalBase>
                                 <dockerUser>1001</dockerUser>
                             </configuration>
                         </execution>

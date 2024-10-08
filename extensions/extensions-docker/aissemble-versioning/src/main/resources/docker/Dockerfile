@@ -1,10 +1,10 @@
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
-FROM python:3.11 AS habushu_builder
+FROM docker.io/python:3.11 AS habushu_builder
 # Poetry and supporting plugin installations
 RUN python -m ensurepip --upgrade && \
     pip install poetry && \
     poetry self add poetry-monorepo-dependency-plugin && \
-    poetry self add poetry-plugin-bundle
+    poetry self add poetry-plugin-bundle@1.3.0
 
 WORKDIR /work-dir
 COPY --chown=1001 target/containerize-support ./containerize-support/
@@ -31,7 +31,7 @@ RUN wget https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries
 COPY ./src/main/resources/model_versioning /app/model_versioning
 
 #HABUSHU_FINAL_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
-FROM python:3.11-slim AS final
+FROM docker.io/python:3.11-slim AS final
 # Copy venv from builder and activate by adding to the path
 COPY --from=habushu_builder --chown=1001 /opt/venv /opt/venv/
 ENV PATH="/opt/venv/bin:$PATH"
