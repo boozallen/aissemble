@@ -34,7 +34,7 @@
         <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
         <version.fermenter>2.10.3</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
-        <version.habushu.plugin>2.16.1</version.habushu.plugin>
+        <version.habushu.plugin>2.17.0</version.habushu.plugin>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.5.0</version.help.plugin>
         <version.krausening>20</version.krausening>
