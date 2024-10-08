@@ -92,7 +92,11 @@ public abstract class SparkTestBaseHarness implements EventListener {
 
         for (Map.Entry<String, String> entry : sparkApplicationConfig.spec().sparkConf().entrySet()) {
             logger.warn(entry.getKey() + " " + entry.getValue());
-            builder = builder.config(entry.getKey(), entry.getValue());
+            if (!entry.getKey().equalsIgnoreCase("spark.jars.ivy")) {
+                builder = builder.config(entry.getKey(), entry.getValue());
+            } else {
+                logger.info(String.format("Skip spark config: %s", entry.getKey()));
+            }
         }
         return builder.getOrCreate();
     }
