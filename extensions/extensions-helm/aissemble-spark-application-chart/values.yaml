@@ -21,6 +21,7 @@ sparkApp:
       spark.hive.metastore.uris: "thrift://hive-metastore-service:9083/default"
       spark.eventLog.dir: "/opt/spark/spark-events"
       spark.hive.metastore.warehouse.dir: "s3a://spark-infrastructure/warehouse"
+      spark.jars.ivy: "/opt/spark/.ivy2"
     dynamicAllocation:
       enabled: true
       initialExecutors: 0

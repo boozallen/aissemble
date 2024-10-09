@@ -47,7 +47,11 @@ def create_standalone_spark_session(sparkapplication_path: str) -> SparkSession:
             ",".join(spec_map["spec"]["deps"]["repositories"]),
         )
     for key, value in spec_map["spec"]["sparkConf"].items():
-        builder = builder.config(key, value)
+        logger.info("sparkConf - key: {}, value: {}: ".format(key, value))
+        if "spark.jars.ivy" != key.lower():
+            builder = builder.config(key, value)
+        else:
+            logger.info("Skip spark config - key: {}: ".format(key))
     return builder.getOrCreate()
 
 
