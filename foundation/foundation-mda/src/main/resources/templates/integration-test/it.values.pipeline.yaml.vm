@@ -1,8 +1,15 @@
+#set ($index = $artifactId.indexOf('-tests'))
+#set ($parentArtifactId = $artifactId.substring(0, $index))
+
 deployment:
   command: '[ "java" ]'
-  args: '[ "-jar", "${artifactId}.jar" ]'
+  args: '[ "-jar", "${parentArtifactId}-tests-docker.jar" ]'
   initContainers:
     - name: wait-for-spark-operator
       image: busybox:latest
       command: [ "/bin/sh","-c" ]
-      args: [ "until nc -vz spark-operator-webhook.default 443; do sleep 5; echo 'waiting for spark operator...'; done" ]
+      args: [ "until nc -vz spark-operator-webhook-svc.default 443; do sleep 5; echo 'waiting for spark operator...'; done" ]
+    - name: wait-for-spark-thrift-service
+      image: busybox:latest
+      command: [ "/bin/sh","-c" ]
+      args: [ "until nc -vz thrift-server.default 10001; do sleep 5; echo 'waiting for spark thrift service...'; done" ]

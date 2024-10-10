@@ -16,6 +16,17 @@
         ]
       },
       {
+        "name": "it-infrastructure-java-upgrade-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.ItInfrastructureJavaUpgradeMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-tests/**/Dockerfile"
+            ]
+          }
+        ]
+      },
+      {
         "name": "log4j-maven-shade-plugin-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.Log4jMavenShadePluginMigration",
         "fileSets": [

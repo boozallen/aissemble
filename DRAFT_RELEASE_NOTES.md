@@ -26,13 +26,14 @@ The following steps will upgrade your project to 1.10. These instructions consis
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                             | Description                                                                                                                                                                                                                                      |
-|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration               | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                        |
-| upgrade-v2-chart-files-aissemble-version-migration         | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE   |
-| upgrade-v1-chart-files-aissemble-version-migration         | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE   |
-| spark-version-upgrade-migration                            | Updates the Spark Application executor failure parameters to their new key name to ensure compatibility with spark `3.5`                                                                  |
-| log4j-maven-shade-plugin-migration                         | Updates the Maven Shade Plugin with the new Log4j dependency information                                                                                     |
+| Migration Name                                     | Description                                                                                                                                                                  |
+|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| upgrade-tiltfile-aissemble-version-migration       | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                 |
+| upgrade-v2-chart-files-aissemble-version-migration | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE |
+| upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE       |
+| spark-version-upgrade-migration                    | Updates the Spark Application executor failure parameters to their new key name to ensure compatibility with spark `3.5`                                                     |
+| it-infrastructure-java-upgrade-migration           | Updates the Java docker image version in the integration test docker module to JDK 17                                                                                        |
+| log4j-maven-shade-plugin-migration                 | Updates the Maven Shade Plugin with the new Log4j dependency information                                                                                                     |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

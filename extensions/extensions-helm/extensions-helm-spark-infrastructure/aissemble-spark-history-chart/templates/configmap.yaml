@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-shs-spark-config
+  name: {{ .Values.app.name }}-spark-config
 data:
   sparkConf:
     {{- toYaml .Values.sparkConf | nindent 8 }}

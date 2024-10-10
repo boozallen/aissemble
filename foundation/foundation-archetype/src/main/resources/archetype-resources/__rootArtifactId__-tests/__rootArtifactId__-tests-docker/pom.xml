@@ -110,6 +110,7 @@
                                             <artifactId>${project.parent.artifactId}-java</artifactId>
                                             <version>${project.version}</version>
                                             <type>jar</type>
+                                            <classifier>shaded</classifier>
                                             <overWrite>true</overWrite>
                                             <destFileName>${project.artifactId}.jar</destFileName>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
