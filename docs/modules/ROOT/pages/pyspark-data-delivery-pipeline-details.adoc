@@ -75,7 +75,6 @@ to the xref:testing.adoc#_testing_the_project[Testing your Project] page.
 
 == Related Pages
 * xref:add-pipelines-to-build.adoc#_adding_a_pipeline[Adding a Pipeline]
-* xref:guides/guides-sagemaker-training.adoc#_configuring_and_executing_sagemaker_training_jobs[Configuring and Executing Sagemaker Training Jobs]
 * xref:testing.adoc#_testing_the_project[Testing the Project]
 * xref:guides/guides-spark-job.adoc#_configuring_and_executing_spark_jobs[Configuring and Executing Spark Jobs]
 * xref:pipeline-metamodel.adoc#_pipeline_metamodel[Pipeline Metamodel]

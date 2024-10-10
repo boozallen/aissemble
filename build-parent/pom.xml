@@ -494,10 +494,6 @@
                                 <operatorAndVersion>${version.aissemble}</operatorAndVersion>
                             </packageDefinition>
                             <packageDefinition>
-                                <packageName>aissemble-model-training-api-sagemaker</packageName>
-                                <operatorAndVersion>${version.aissemble}</operatorAndVersion>
-                            </packageDefinition>
-                            <packageDefinition>
                                 <packageName>aissemble-test-data-delivery-pyspark-model</packageName>
                                 <operatorAndVersion>${version.aissemble}</operatorAndVersion>
                             </packageDefinition>

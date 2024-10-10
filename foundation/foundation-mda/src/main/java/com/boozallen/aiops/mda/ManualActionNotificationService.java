@@ -634,32 +634,7 @@ public class ManualActionNotificationService {
             }
         }
     }
-    /**
-     * Adds a notification to inform user to change the pom.xml for the sagemaker docker module.
-     *
-     * @param context                  the generation context
-     * @param artifactId               the artifactId
-     * @param trainingDockerArtifactId the pom file in dockerArifactId 
-     */
-    public void addSagemakerDockerPomMessage(final GenerationContext context, final String artifactId, final String trainingDockerArtifactId) {
-        final File rootDir = context.getExecutionRootDirectory();
-        final String pomPath = rootDir.getAbsolutePath() + File.separator + artifactId;
-        File pomRoot = new File(pomPath);
-        if (!rootDir.exists() || !dockerModuleFoundPom(pomRoot)) {
-            logger.warn("Unable to find Docker module. Will not be able to direct manual updates for the deploy module's POM.xml");
-        } else {
-            String pomFilePath = pomPath + File.separator + trainingDockerArtifactId;
-            boolean registryUrlExists = existsInFile(pomFilePath,"<registry>ECR_REGISTRY_URL</registry>");
-            if (registryUrlExists) {
-                String relativePomFilePath = getRelativePathToProjectRoot(rootDir, pomRoot) + File.separator + trainingDockerArtifactId;
-                final String key = getMessageKey(relativePomFilePath, "sagemaker");
-
-                VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.sagemaker.docker.pom.vm");
-                addManualAction(pomFilePath, notification);
-            }
-        }
-    }
-
+    
     private boolean executionAppExistsInPomFile(File file, String appName) {
         return propertyVariableExistsInPomFile(file, appName, "appName", appName);
     }

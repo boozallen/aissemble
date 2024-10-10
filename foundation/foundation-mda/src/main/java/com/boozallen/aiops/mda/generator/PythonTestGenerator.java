@@ -22,12 +22,10 @@ import java.util.Map;
 public class PythonTestGenerator extends AbstractPythonGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                  | Template                      | Generated File                            |
-     * |-------------------------|-------------------------------|-------------------------------------------|
-     * | behaveFeatureSagemaker  | behave-sagemaker.feature.vm   | features/${behaveFeature}.feature         |
-     * | behaveStepsSagemaker    | behave-sagemaker.steps.py.vm  | features/steps/${behaveFeature}_steps.py  |
-     * | behaveFeature           | behave.feature.vm             | features/${behaveFeature}.feature         |
-     * | behaveSteps             | behave.steps.py.vm            | features/steps/${behaveFeature}_steps.py  |
+     * | Target         | Template            | Generated File                            |
+     * |----------------|---------------------|-------------------------------------------|
+     * | behaveFeature  | behave.feature.vm   | features/${behaveFeature}.feature         |
+     * | behaveSteps    | behave.steps.py.vm  | features/steps/${behaveFeature}_steps.py  |
      */
 
 

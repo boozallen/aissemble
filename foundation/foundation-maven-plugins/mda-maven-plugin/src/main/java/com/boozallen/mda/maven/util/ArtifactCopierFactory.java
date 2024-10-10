@@ -42,7 +42,6 @@ public class ArtifactCopierFactory {
             }
         } else if (pipeline.getType().getName().equals("machine-learning")) {
             artifactCopiers.add(new MachineLearningTrainingCopier(pipeline, PipelineType.ML_TRAINING, "training"));
-            artifactCopiers.add(new MachineLearningTrainingCopier(pipeline, PipelineType.SAGEMAKER_TRAINING, "sagemaker-training"));
         } else {
             throw new RuntimeException("Unrecognized pipeline type: " + pipeline.getType().getName());
         }
