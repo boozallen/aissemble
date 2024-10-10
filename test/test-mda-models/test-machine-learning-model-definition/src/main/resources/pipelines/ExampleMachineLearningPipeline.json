@@ -49,10 +49,6 @@
 			]
 		},
 		{
-			"name": "AissembleMachineLearningSagemakerTraining",
-			"type": "sagemaker-training"
-		},
-		{
 			"name": "AissembleMachineLearningInference",
 			"type": "inference",
 			"inbound": {

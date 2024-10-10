@@ -32,5 +32,4 @@ Feature: Minimum Python version can be set in the pyproject.toml.vm files.
     Examples:
       | pipelineStepType   | profile                             |
       | training           | machine-learning-training           |
-      | sagemaker-training | machine-learning-sagemaker-training | 
       | inference          | machine-learning-inference          |

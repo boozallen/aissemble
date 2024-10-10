@@ -19,7 +19,6 @@ import com.boozallen.aiops.mda.metamodel.element.Step;
 public class MachineLearningPipeline extends PythonPipeline {
 
     public static final String TRAINING_STEP_TYPE = "training";
-    public static final String SAGEMAKER_TRAINING_STEP_TYPE = "sagemaker-training";
     public static final String INFERENCE_STEP_TYPE = "inference";
 
     /**
@@ -36,15 +35,6 @@ public class MachineLearningPipeline extends PythonPipeline {
      */
     public Step getTrainingStep() {
         return getStepByType(TRAINING_STEP_TYPE);
-    }
-
-    /**
-     * Returns the training step for this machine learning pipeline.
-     * 
-     * @return training step
-     */
-    public Step getSagemakerTrainingStep() {
-        return getStepByType(SAGEMAKER_TRAINING_STEP_TYPE);
     }
 
     /**
