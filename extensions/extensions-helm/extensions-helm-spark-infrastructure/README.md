@@ -37,7 +37,10 @@ In order to perform this migration, the following steps should be taken:
     - [aissemble-thrift-server-chart](./aissemble-thrift-server-chart)
 
 Certain settings must also be applied to each of your SparkApplications. The following entries should be added to each
-data-delivery pipeline's `resources/apps/<pipeline>-dev.yaml` file:
+data-delivery pipeline's `resources/apps/<pipeline>-dev-values.yaml` file.
+
+If other modules with apps to deploy data-delivery pipelines locally are present, the change must also be applied to the helm value files they leverage as well
+e.g. `resources/apps/<pipeline>-integration-test-values.yaml`.
 
 ```yaml
 sparkApp:
