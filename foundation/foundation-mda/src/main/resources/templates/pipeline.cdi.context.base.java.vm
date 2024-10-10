@@ -11,9 +11,8 @@ import ${basePackage}.${step.capitalizedName};
 #foreach ($store in $pipeline.fileStores)
 import ${basePackage}.filestore.${store.fullName};
 #end
-import com.boozallen.aissemble.core.cdi.CdiContext;
 
-import io.smallrye.config.inject.ConfigExtension;
+import com.boozallen.aissemble.core.cdi.CdiContext;
 import com.boozallen.aiops.data.delivery.messaging.PipelineMessagingConfig;
 
 
