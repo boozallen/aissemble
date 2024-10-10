@@ -82,3 +82,4 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.10.0
 
 # What's Changed
 - `pyproject.toml` files updated to allow for Python version `>=3.8`.
+- All SageMaker modules and corresponding references were removed in commit bdcbb409.

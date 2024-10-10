@@ -42,16 +42,6 @@ public class MachineLearningStrategy extends AbstractStrategy {
     }
 
     /**
-     * This method gets the Sagemaker training steps across all machine-learning pipelines.
-     * @return steps with their associated pipeline
-     */
-    public List<PipelineStepPair> getSagemakerTrainingSteps() {
-        // the training module contains the core pipeline implementation
-        // which is why this returns only training steps
-        return getStepsByType("sagemaker-training");
-    }
-
-    /**
      * Gets the inference steps across all machine-learning pipelines.
      * @return
      */
@@ -93,24 +83,6 @@ public class MachineLearningStrategy extends AbstractStrategy {
 
         return trainingModules;
     }
-
-    /**
-     * Gets the list of Sagemaker training modules.
-     * 
-     * @return the list of Sagemaker training modules
-     */
-    public List<String> getSagemakerTrainingModules() {
-        List<String> sagemakerTrainingModules = new ArrayList<>();
-        for (PipelineStepPair pair : getSagemakerTrainingSteps()) {
-            String moduleName = pair.getStep().getName();
-            String moduleArtifactId = deriveArtifactIdFromCamelCase(moduleName);
-            sagemakerTrainingModules.add(moduleArtifactId);
-
-        }
-
-        return sagemakerTrainingModules;
-    }
-
 
     /**
      * Returns all the Machine Learning pipelines using Airflow as the execution helper
@@ -221,8 +193,7 @@ public class MachineLearningStrategy extends AbstractStrategy {
                 // Potentially, if !pipelineSteps.isEmpty(), since current getSteps() implementation only returns
                 // training steps
                 for (Step step : pipelineSteps) {
-                    if (step.getType().equalsIgnoreCase("inference") || step.getType().equalsIgnoreCase("training") 
-                        || step.getType().equalsIgnoreCase("sagemaker-training")) {
+                    if (step.getType().equalsIgnoreCase("inference") || step.getType().equalsIgnoreCase("training")) {
                         inferenceOrTrainingPipelineStepFound = true;
                         break;
                     }

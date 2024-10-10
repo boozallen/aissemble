@@ -19,7 +19,6 @@
         These should also not be added until after your first run of ./mvnw clean install so that the modules are generated first. -->
         <module>aissemble-machine-learning-training</module>
         <module>aissemble-machine-learning-inference</module>
-        <module>aissemble-machine-learning-sagemaker-training</module>
     </modules>
 
     <build>

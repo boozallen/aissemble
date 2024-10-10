@@ -38,18 +38,6 @@ deployment:
   env:
     - name: KRAUSENING_BASE
       value: /opt/app/resources/config/base
-    #if(${appName} == "model-training-api-sagemaker")
-    - name: AWS_ACCESS_KEY_ID
-      value: access_key
-    - name: AWS_SECRET_ACCESS_KEY
-      value: secret_access_key
-    - name: AWS_SESSION_TOKEN
-      value: session_token
-    - name: AWS_DEFAULT_REGION
-      value: default_region
-    - name: AWS_ROLE_ARN
-      value: role_arn
-    #end
   volumeMounts:
     - name: training-api-config
       mountPath: /opt/app/resources/config/base

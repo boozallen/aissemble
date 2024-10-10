@@ -93,9 +93,9 @@ public class PipelineArtifactsMojo extends AbstractMojo {
     private List<ArtifactType> targetArtifactTypes;
 
     /**
-     * Configure the plugin to target only certain pipeline types, defaults to {"data-flow", "machine-learning-training", "sagemaker-training"}
+     * Configure the plugin to target only certain pipeline types, defaults to {"data-flow", "machine-learning-training"}
      */
-    @Parameter(defaultValue = "data-flow,machine-learning-training,sagemaker-training")
+    @Parameter(defaultValue = "data-flow,machine-learning-training")
     private List<String> targetPipelineTypes;
 
     /**

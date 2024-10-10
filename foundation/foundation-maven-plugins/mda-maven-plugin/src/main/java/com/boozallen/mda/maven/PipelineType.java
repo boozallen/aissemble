@@ -12,8 +12,7 @@ package com.boozallen.mda.maven;
 
 public enum PipelineType {
     DATA_FLOW("data-flow"),
-    ML_TRAINING("machine-learning-training"),
-    SAGEMAKER_TRAINING("sagemaker-training");
+    ML_TRAINING("machine-learning-training");
 
     private final String typeName;
 
