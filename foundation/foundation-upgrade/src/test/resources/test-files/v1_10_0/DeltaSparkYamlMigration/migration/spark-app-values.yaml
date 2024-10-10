@@ -1,0 +1,44 @@
+metadata:
+  name: persist-pipeline
+sparkApp:
+  spec:
+    type: Java
+    image: "docker-registry-PLACEHOLDER/repository/dev-398-spark-worker-docker:latest"
+    mainClass: org.test.PersistPipelineDriver
+    mainApplicationFile: "local:///opt/spark/jobs/pipelines/persist-pipeline.jar"
+    deps:
+      packages:
+        - mysql:mysql-connector-java:8.0.30
+        - org.apache.hadoop:hadoop-aws:3.3.4
+        - com.amazonaws:aws-java-sdk-bundle:1.12.262
+        - org.neo4j:neo4j-connector-apache-spark_2.12:4.1.5_for_spark_3
+        - org.elasticsearch:elasticsearch-spark-30_2.12:8.9.0
+        - io.delta:delta-core_2.12:2.4.0 #comment
+        - io.delta:delta-core_2.13:2.0.0
+        - io.delta:delta-storage:2.4.0 #comment
+      excludePackages: []
+    hadoopConf:
+      fs.s3a.fast.upload: "true"
+      fs.s3a.path.style: "true"
+    driver:
+      cores: 1
+      coreLimit: "1200m"
+      memory: "2048m"
+      # Setup these secret key references within your SealedSecret
+      envFrom:
+        - secretRef:
+            name: remote-auth-config
+      env:
+        - name: KRAUSENING_BASE
+          value: /opt/spark/krausening/base
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+    executor:
+      cores: 1
+      memory: "4096m"
+      envFrom:
+        - secretRef:
+            name: remote-auth-config
+      env:
+        - name: KRAUSENING_BASE
+          value: /opt/spark/krausening/base
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
