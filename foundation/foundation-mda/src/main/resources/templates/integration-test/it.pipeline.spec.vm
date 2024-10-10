@@ -1,6 +1,8 @@
 @pipeline
-Feature: Run Spark Operator job
+Feature: Example feature file
+  Generated sample BDD specification/feature file - PLEASE ***DO*** MODIFY.
 
-  Scenario: Executes a pipeline
-    When the job is triggered
-    Then the pipeline is executed
+  Scenario: Update me
+    Given a precondition
+    When an action occurs
+    Then a postcondition results

@@ -41,22 +41,6 @@ parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/spark-operator/
 )
 k8s_yaml(yaml)
 
-
-# Hive Metastore DB
-yaml = helm(
-    parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/hive-metastore-db',
-    values=[parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/hive-metastore-db/values.yaml']
-)
-k8s_yaml(yaml)
-
-# Zookeeper Alert
-yaml = helm(
-    parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/zookeeper-alert',
-    values=[parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/zookeeper-alert/values.yaml',
-    parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/zookeeper-alert/values-dev.yaml']
-)
-k8s_yaml(yaml)
-
 # Kafka
 yaml = helm(
     parent_dir + '${parentArtifactId}-deploy/src/main/resources/apps/kafka-cluster',
@@ -67,7 +51,7 @@ k8s_yaml(yaml)
 
 # Policy Decision Point
 docker_build(
-    ref='boozallen/${parentArtifactId}-policy-decision-point-docker',
+    ref='${parentArtifactId}-policy-decision-point-docker',
     context=parent_dir + '${parentArtifactId}-docker/${parentArtifactId}-policy-decision-point-docker',
     build_args=build_args,
     dockerfile=parent_dir + '${parentArtifactId}-docker/${parentArtifactId}-policy-decision-point-docker/src/main/resources/docker/Dockerfile'

@@ -1,4 +1,7 @@
+#set ($index = $artifactId.indexOf('-tests'))
+#set ($parentArtifactId = $artifactId.substring(0, $index))
+
 image:
-  name: boozallen/${artifactId}
+  name: ${parentArtifactId}-tests-docker
   imagePullPolicy: IfNotPresent
   dockerRepo: ""
