@@ -130,6 +130,10 @@
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-messaging-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
             <artifactId>extensions-data-delivery-spark</artifactId>
         </dependency>
         <dependency>

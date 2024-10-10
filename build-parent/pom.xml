@@ -55,7 +55,7 @@
         <version.plexus.component>2.1.1</version.plexus.component>
         <version.postgresql>42.5.1</version.postgresql>
         <version.resteasy>4.7.7.Final</version.resteasy>
-        <version.vertx>4.4.6</version.vertx>
+        <version.vertx>4.5.9</version.vertx>
         <version.urllib3>^1.26.18</version.urllib3>
         <version.fastapi>&gt;=0.95.0</version.fastapi>
         <version.uvicorn>&gt;=0.18.0</version.uvicorn>

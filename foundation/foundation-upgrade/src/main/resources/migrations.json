@@ -16,6 +16,28 @@
         ]
       },
       {
+        "name": "spark-pipeline-messaging-pom-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.SparkPipelineMessagingPomMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-pipelines/*/pom.xml"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "spark-pipeline-messaging-cdi-factory-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.SparkPipelineMessagingCdiFactoryMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "src/main/java/**/cdi/CdiContainerFactory.java"
+            ]
+          }
+        ]
+      },
+      {
         "name": "it-infrastructure-java-upgrade-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.ItInfrastructureJavaUpgradeMigration",
         "fileSets": [

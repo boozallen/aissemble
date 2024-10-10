@@ -32,6 +32,8 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | upgrade-v2-chart-files-aissemble-version-migration | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE |
 | upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE       |
 | spark-version-upgrade-migration                    | Updates the Spark Application executor failure parameters to their new key name to ensure compatibility with spark `3.5`                                                     |
+| spark-pipeline-messaging-pom-migration             | Updates a Spark pipeline module `pom.xml` with the new CDI classes dependency to ensure messaging compatibility with Java 17                                                             |
+| spark-pipeline-messaging-cdi-factory-migration     | Updates a Spark pipeline module `CdiContainerFactory.java` with the new CDI classes to ensure messaging compatibility with Java 17                                                   |
 | it-infrastructure-java-upgrade-migration           | Updates the Java docker image version in the integration test docker module to JDK 17                                                                                        |
 | log4j-maven-shade-plugin-migration                 | Updates the Maven Shade Plugin with the new Log4j dependency information                                                                                                     |
 
