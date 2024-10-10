@@ -19,15 +19,18 @@ tests:
           count: 1
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-shs-service
+          value: aissemble-spark-history-chart
       - notExists:
           path: metadata.annotations
       - equal:
           path: spec.type
           value: LoadBalancer
       - equal:
-          path: spec.selector.app
-          value: RELEASE-NAME
+          path: spec.selector["app.kubernetes.io/instance"]
+          value: aissemble-spark-history-chart
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: aissemble-spark-history-chart
       - contains:
           path: spec.ports
           content:

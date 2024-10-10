@@ -19,15 +19,18 @@ tests:
           count: 1
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-sts-service
+          value: aissemble-thrift-server-chart
       - notExists:
           path: metadata.annotations
       - equal:
           path: spec.type
           value: ClusterIP
       - equal:
-          path: spec.selector.app
-          value: RELEASE-NAME
+          path: spec.selector["app.kubernetes.io/instance"]
+          value: aissemble-thrift-server-chart
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: aissemble-thrift-server-chart
       - contains:
           path: spec.ports
           any: true

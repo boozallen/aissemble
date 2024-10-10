@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-sts-ingress
+  name: {{ .Values.app.name | default .Chart.Name }}
   {{- with .Values.ingress.metadata.annotations }}
   annotations:
   {{- toYaml . | nindent 8 }}
@@ -10,7 +10,6 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.ingressClassName }}
   rules:
-    {{- $releasename := printf "%s-service" .Release.Name }}
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
@@ -20,7 +19,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ .backend.service.name | default $releasename }}
+                name: {{ .backend.service.name }}
                 port:
                   number: {{ .backend.service.port.number }}
           {{- end }}

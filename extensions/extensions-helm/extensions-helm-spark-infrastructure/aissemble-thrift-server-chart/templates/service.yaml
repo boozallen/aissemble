@@ -2,14 +2,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-sts-service
+  labels:
+    app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+    app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
+  name: {{ .Values.app.name | default .Chart.Name }}
   {{- if .Values.service.annotations }}
   annotations: {{ .Values.service.annotations }}
   {{- end }}
 spec:
   type: {{.Values.service.type }}
   selector:
-    app: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Values.app.name | default .Chart.Name }}
+    app.kubernetes.io/name: {{ .Values.app.name | default .Chart.Name }}
   ports:
     {{ .Values.service.ports | toYaml | nindent 4}}
 {{- end }}
