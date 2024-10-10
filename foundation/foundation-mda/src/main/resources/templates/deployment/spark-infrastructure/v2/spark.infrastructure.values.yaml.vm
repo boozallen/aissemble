@@ -1,10 +1,14 @@
 # This file contains the default values for the aiSSEMBLE Spark Infrastructure Helm chart.
 
 aissemble-spark-history-chart:
+  app:
+    name: "spark-history"
   eventVolume:
     enabled: true
 
 aissemble-thrift-server-chart:
+  app:
+    name: "thrift-server"
   dependencies:
     packages:
       - org.apache.hadoop:hadoop-aws:3.3.4

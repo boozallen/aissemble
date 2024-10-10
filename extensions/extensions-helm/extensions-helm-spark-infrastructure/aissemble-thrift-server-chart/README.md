@@ -19,6 +19,7 @@ _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 
 | Property                         | Description                                                                                                                       | Default                                                               |
 |----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| app.name                         | Sets label for app.kubernetes.io/name                                                                                             | Chart.Name (aissemble-thrift-server-chart)                            |
 | enable                           | Enable or disable the entirety of the spark-thrift-server deployment.  When false, equivalent to not installing the chart.        | true                                                                  |
 | deployment.annotations           | Annotations to apply to the Spark Thrift Server Deployment.                                                                       | {}                                                                    |
 | deployment.labels                | Labels to apply to the Spark Thrift Server Deployment.                                                                            | {}                                                                    |
@@ -47,6 +48,10 @@ _**NOTE:**_ *the version should match the aiSSEMBLE project version.*
 
 If you are migrating from the v1 version of the spark-infrastructure chart, use the tables below to apply any
 existing customizations from the old chart to the new v2 chart.
+
+Any connections to the thrift server will need to be updated to include the new `.Values.app.name` as the host name for
+the connection. Previously the default name was `spark-infrastructure`. For instance the Data Access JDBC url will need
+to be updated to match the app name. 
 
 ## Property Location
 

@@ -15,6 +15,7 @@ tests:
   - it: If spark conf is specified, the ConfigMap should be created with the provided values
     set:
       sparkConf: "spark.executor.instances: 2"
+      app.name: "spark-history"
     templates:
       - configmap.yaml
     asserts:
@@ -25,7 +26,7 @@ tests:
       - notFailedTemplate: {}
       - equal:
           path: metadata.name
-          value: "RELEASE-NAME-shs-spark-config"
+          value: "spark-history-spark-config"
       - equal:
           path: data.sparkConf
           value: "spark.executor.instances: 2"
@@ -33,6 +34,7 @@ tests:
   - it: If spark conf is specified, a volume should be created from the created configmap
     set:
       sparkConf: "spark.executor.instances: 2"
+      app.name: "spark-history"
     templates:
       - deployment.yaml
     asserts:
@@ -41,7 +43,7 @@ tests:
           content:
             name: spark-config
             configMap:
-              name: RELEASE-NAME-shs-spark-config
+              name: spark-history-spark-config
               items:
                 - key: sparkConf
                   path: spark-defaults.conf

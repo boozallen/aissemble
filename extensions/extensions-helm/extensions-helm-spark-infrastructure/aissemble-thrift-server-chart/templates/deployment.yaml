@@ -2,21 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-sts
+  name: "{{ .Values.app.name | default .Chart.Name }}"
   {{- if .Values.deployment.annotations }}
   annotations:
     {{ toYaml .Values.deployment.annotations | default "" }}
   {{- end }}
   labels:
-     app: {{ .Release.Name }}
-     {{- if .Values.deployment.labels }}
-     {{ toYaml .Values.deployment.labels }}
-     {{- end }}
+    app.kubernetes.io/instance: "{{ .Values.app.name | default .Chart.Name }}"
+    app.kubernetes.io/name: "{{ .Values.app.name | default .Chart.Name }}"
+    {{- if .Values.deployment.labels }}
+    {{ toYaml .Values.deployment.labels }}
+    {{- end }}
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app.kubernetes.io/instance: "{{ .Values.app.name | default .Chart.Name }}"
+      app.kubernetes.io/name: "{{ .Values.app.name | default .Chart.Name }}"
       {{- if .Values.deployment.labels }}
       {{ toYaml .Values.deployment.labels }}
       {{- end }}
@@ -27,14 +29,15 @@ spec:
         {{ toYaml .Values.deployment.annotations | default "" }}
       {{- end }}
       labels:
-        app: {{ .Release.Name }}
+        app.kubernetes.io/instance: "{{ .Values.app.name | default .Chart.Name }}"
+        app.kubernetes.io/name: "{{ .Values.app.name | default .Chart.Name }}"
         {{- if .Values.deployment.labels }}
         {{ toYaml .Values.deployment.labels }}
         {{- end }}
     spec:
       {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
       initContainers:
-        - name: "populate-sts-jar-volume"
+        - name: "populate-thrift-service-jar-volume"
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           command: ["sh", "-c", "cp /opt/spark/jars/* /tmp/jars/"]

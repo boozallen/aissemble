@@ -2,21 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-shs
+  name: "{{ .Values.app.name | default .Chart.Name }}"
   {{- if .Values.deployment.annotations }}
   annotations:
     {{ toYaml .Values.deployment.annotations | default "" }}
   {{- end }}
   labels:
-     app: {{ .Release.Name }}
-     {{- if .Values.deployment.labels }}
-     {{ toYaml .Values.deployment.labels }}
-     {{- end }}
+    app.kubernetes.io/instance: "{{ .Values.app.name | default .Chart.Name }}"
+    app.kubernetes.io/name: "{{ .Values.app.name | default .Chart.Name }}"
+    {{- if .Values.deployment.labels }}
+    {{ toYaml .Values.deployment.labels }}
+    {{- end }}
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app.kubernetes.io/instance: "{{ .Values.app.name | default .Chart.Name }}"
+      app.kubernetes.io/name: "{{ .Values.app.name | default .Chart.Name }}"
       {{- if .Values.deployment.labels }}
       {{ toYaml .Values.deployment.labels }}
       {{- end }}
@@ -27,7 +29,8 @@ spec:
         {{ toYaml .Values.deployment.annotations | default "" }}
       {{- end }}
       labels:
-        app: {{ .Release.Name }}
+        app.kubernetes.io/instance: "{{ .Values.app.name | default .Chart.Name }}"
+        app.kubernetes.io/name: "{{ .Values.app.name | default .Chart.Name }}"
         {{- if .Values.deployment.labels }}
         {{ toYaml .Values.deployment.labels }}
         {{- end }}
@@ -112,7 +115,7 @@ spec:
         {{- if not (eq .Values.sparkConf "") }}
         - name: spark-config
           configMap:
-            name: {{ .Release.Name }}-shs-spark-config
+            name: {{ .Values.app.name }}-spark-config
             items:
               - key: sparkConf
                 path: spark-defaults.conf
