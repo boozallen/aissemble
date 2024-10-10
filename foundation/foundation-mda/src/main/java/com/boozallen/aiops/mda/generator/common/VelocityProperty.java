@@ -96,7 +96,6 @@ public final class VelocityProperty {
     public static final String ALERTING_SUPPORT_NEEDED = "alertingSupportNeeded";
     public static final String DATA_LINEAGE_CHANNEL_NAME = "dataLineageChannel";
     public static final String DATA_LINEAGE_STEPS_BY_PIPELINE = "dataLineageStepsByPipeline";
-    public static final String USE_SPARK_PACKAGE_DEPS = "usePackageDeps";
     public static final String ENABLE_SEMANTIC_DATA_SUPPORT = "enableSemanticDataSupport";
     public static final String JAVA_DATA_RECORDS = "javaDataRecords";
     public static final String PYTHON_DATA_RECORDS = "pythonDataRecords";

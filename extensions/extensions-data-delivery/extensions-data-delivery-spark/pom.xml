@@ -108,7 +108,7 @@
 
         <dependency>
             <groupId>io.delta</groupId>
-            <artifactId>delta-core_2.12</artifactId>
+            <artifactId>delta-spark_2.12</artifactId>
             <version>${version.delta}</version>
         </dependency>
 

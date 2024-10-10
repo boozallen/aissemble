@@ -22,7 +22,6 @@ import com.boozallen.aiops.mda.metamodel.element.java.JavaPipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonPipeline;
 import com.boozallen.aiops.mda.metamodel.element.BaseFileStoreDecorator;
 import com.boozallen.aiops.mda.metamodel.element.FileStore;
-import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
@@ -114,20 +113,6 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
         vc.put("versionHadoop", config.getHadoopVersion());
         vc.put("versionNeo4j", config.getNeo4jVersion());
         vc.put("versionAwsSdkBundle", config.getAwsSdkBundleVersion());
-
-        // Addresses a Spark bug in which the --packages argument was not respected in cluster mode (3.0.0 <= x < 3.4.0)
-        // We don't currently support Spark <3.x.x in aiSSEMBLE, but we include a check for it just in case we ever do.
-        // Configuration option added in 1.5.0 (minimum).
-        // If configuration option is NOT available in the provided version, direct URLs will be included in the
-        // deps.jars argument.
-        ComparableVersion provided = new ComparableVersion(config.getSparkVersion());
-        ComparableVersion spark340 = new ComparableVersion("3.4.0");
-        ComparableVersion spark300 = new ComparableVersion("3.0.0");
-        ComparableVersion spark150 = new ComparableVersion("1.5.0");
-        vc.put(VelocityProperty.USE_SPARK_PACKAGE_DEPS,
-                provided.compareTo(spark150) >= 0 &&
-                (provided.compareTo(spark340) >= 0 || provided.compareTo(spark300) < 0)
-        );
 
         if (pipeline.getType().getImplementation().equalsIgnoreCase("data-delivery-spark")) {
             handleSpark(vc, context);

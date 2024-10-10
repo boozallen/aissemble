@@ -1,0 +1,87 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: persist-pipeline
+  namespace: default
+
+spec:
+  deps:
+    excludePackages: []
+    packages:
+      - mysql:mysql-connector-java:8.0.30
+      - org.apache.hadoop:hadoop-aws:3.3.4
+      - com.amazonaws:aws-java-sdk-bundle:1.12.262
+      - org.neo4j:neo4j-connector-apache-spark_2.12:4.1.5_for_spark_3
+      - org.elasticsearch:elasticsearch-spark-30_2.12:8.9.0
+      - io.delta:delta-spark_2.12:3.2.1
+      - io.delta:delta-storage:3.2.1
+  driver:
+    coreLimit: 1200m
+    cores: 1
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+    envFrom:
+      - secretRef:
+          name: remote-auth-config
+    javaOptions: -DKRAUSENING_BASE=/opt/spark/krausening/base
+    memory: 2048m
+    serviceAccount: spark
+    volumeMounts:
+      - mountPath: /opt/spark/.ivy2
+        name: ivy-cache
+      - mountPath: /opt/spark/spark-events
+        name: spark-events
+  dynamicAllocation:
+    enabled: true
+    initialExecutors: 0
+    maxExecutors: 4
+    minExecutors: 0
+  executor:
+    coreLimit: 1200m
+    cores: 1
+    env:
+      - name: KRAUSENING_BASE
+        value: /opt/spark/krausening/base
+    envFrom:
+      - secretRef:
+          name: remote-auth-config
+    javaOptions: -DKRAUSENING_BASE=/opt/spark/krausening/base
+    labels:
+      version: 3.5.2
+    memory: 4096m
+    volumeMounts:
+      - mountPath: /opt/spark/.ivy2
+        name: ivy-cache
+      - mountPath: /opt/spark/spark-events
+        name: spark-events
+  hadoopConf:
+    fs.s3a.fast.upload: "true"
+    fs.s3a.path.style: "true"
+  image: docker-registry-PLACEHOLDER/repository/dev-398-spark-worker-docker:latest
+  imagePullPolicy: IfNotPresent
+  mainApplicationFile: local:///opt/spark/jobs/pipelines/persist-pipeline.jar
+  mainClass: org.test.PersistPipelineDriver
+  mode: cluster
+  restartPolicy:
+    type: Never
+  sparkConf:
+    spark.eventLog.dir: /opt/spark/spark-events
+    spark.hadoop.fs.s3a.path.style.access: "true"
+    spark.hive.metastore.schema.verification: "false"
+    spark.hive.metastore.uris: thrift://hive-metastore-service:9083/default
+    spark.hive.metastore.warehouse.dir: s3a://spark-infrastructure/warehouse
+    spark.hive.server2.thrift.http.path: cliservice
+    spark.hive.server2.thrift.http.port: "10001"
+    spark.hive.server2.thrift.port: "10000"
+    spark.hive.server2.transport.mode: http
+    spark.jars.ivy: /opt/spark/.ivy2
+  sparkVersion: 3.5.2
+  type: Java
+  volumes:
+    - name: ivy-cache
+      persistentVolumeClaim:
+        claimName: ivy-cache
+    - name: spark-events
+      persistentVolumeClaim:
+        claimName: spark-events-claim

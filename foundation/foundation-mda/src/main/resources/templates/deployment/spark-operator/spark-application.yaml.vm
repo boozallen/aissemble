@@ -14,28 +14,6 @@ spec:
   mainApplicationFile: "local:///opt/spark/jobs/pipelines/${mainApplicationFile}"
   sparkConfigMap: spark-config # common configuration for spark/hadoop config in spark deploy
   deps:
-    #if (!${usePackageDeps})
-    jars:
-      - https://repo1.maven.org/maven2/mysql/mysql-connector-java/${versionMysqlConnector}/mysql-connector-java-${versionMysqlConnector}.jar
-      #if (${useS3Local})
-      - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${versionHadoop}/hadoop-aws-${versionHadoop}.jar
-      - https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${versionAwsSdkBundle}/aws-java-sdk-bundle-${versionAwsSdkBundle}.jar
-      #end
-      #if (${enableElasticsearchSupport})
-      - https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-spark-30_2.12/${versionElasticsearch}/elasticsearch-spark-30_2.12-${versionElasticsearch}.jar
-      #end
-      #if (${enableNeo4jSupport})
-      - https://repo1.maven.org/maven2/org/neo4j/neo4j-connector-apache-spark_2.12/${versionNeo4j}/neo4j-connector-apache-spark_2.12-${versionNeo4j}.jar
-      #end
-      #if (${enableSedonaSupport})
-      - https://repo1.maven.org/maven2/org/apache/sedona/sedona-sql-3.0_2.12/${versionSedona}/sedona-sql-3.0_2.12-${versionSedona}.jar
-      #if (${enablePySparkSupport})
-      - https://repo1.maven.org/maven2/org/apache/sedona/sedona-python-adapter-3.0_2.12/${versionSedona}/sedona-python-adapter-3.0_2.12-${versionSedona}.jar
-      - https://repo1.maven.org/maven2/org/datasyslab/geotools-wrapper/${versionGeotools}/geotools-wrapper-${versionGeotools}.jar
-      - https://repo1.maven.org/maven2/org/postgresql/postgresql/${versionPostgresql}/postgresql-${versionPostgresql}.jar
-      #end
-      #end
-    #else
     packages:
       - mysql:mysql-connector-java:${versionMysqlConnector}
       #if (${useS3Local})
@@ -49,7 +27,7 @@ spec:
       - org.elasticsearch:elasticsearch-spark-30_2.12:${versionElasticsearch}
       #end
       #if (${enableDeltaSupport})
-      - io.delta:delta-core_2.12:${versionDelta}
+      - io.delta:delta-spark_2.12:${versionDelta}
       - io.delta:delta-storage:${versionDelta}
       #end
       #if (${enableSedonaSupport})
@@ -60,7 +38,6 @@ spec:
       - org.postgresql:postgresql:${versionPostgresql}
       #end
       #end
-    #end
     excludePackages: []
   sparkConf:
 #if ("${sparkExtensions}" != "")
