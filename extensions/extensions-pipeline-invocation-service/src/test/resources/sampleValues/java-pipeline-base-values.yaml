@@ -13,7 +13,7 @@ spec:
       - mysql:mysql-connector-java:8.0.30
       - org.apache.hadoop:hadoop-aws:3.3.4
       - com.amazonaws:aws-java-sdk-bundle:1.12.262
-      - io.delta:delta-core_2.12:2.4.0
+      - io.delta:delta-spark_2.12:3.2.1
       - io.delta:delta-storage:2.4.0
     excludePackages: []
   hadoopConf:

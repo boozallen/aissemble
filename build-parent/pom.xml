@@ -80,7 +80,7 @@
         <version.spark>3.5.2</version.spark>
         <version.scala>2.12.13</version.scala>
         <version.scala.minor>2.12</version.scala.minor>
-        <version.delta>2.4.0</version.delta>
+        <version.delta>3.2.1</version.delta>
         <version.elasticsearch>8.9.0</version.elasticsearch>
         <version.sedona>1.4.0</version.sedona>
         <version.geotools.wrapper>1.4.0-28.2</version.geotools.wrapper>
