@@ -118,10 +118,6 @@ extensions/extensions-helm/aissemble-infrastructure-chart/values.yaml
 **/aissemble_machine_learning_training/
 **/aissemble-machine-learning-training/tests
 
-### machine-learning-sagemaker-training
-**/aissemble_machine_learning_sagemaker_training/
-**/aissemble-machine-learning-sagemaker-training/tests
-
 ### test-machine-learning-training-base-model
 **/aissemble_machine_learning_training_base/
 **/aissemble-machine-learning-training-base/tests

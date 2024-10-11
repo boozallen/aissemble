@@ -321,14 +321,6 @@
     "overwritable": false
   },
   {
-    "name": "sagemakerTrainingPipelinePyProject",
-    "templateName": "templates/sagemaker-training/pyproject.toml.vm",
-    "outputFile": "pyproject.toml",
-    "generator": "com.boozallen.aiops.mda.generator.PythonPipelinePyProjectGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
     "name": "trainingPipelineBase",
     "templateName": "templates/general-mlflow/training.base.py.vm",
     "outputFile": "${pipelineName}_base.py",
@@ -348,14 +340,6 @@
     "name": "trainingPipelineImpl",
     "templateName": "templates/general-mlflow/training.impl.py.vm",
     "outputFile": "impl/${pipelineName}.py",
-    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "sagemakerTrainingPipelineImpl",
-    "templateName": "templates/sagemaker-training/training.impl.py.vm",
-    "outputFile": "${pipelineName}.py",
     "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
     "metadataContext": "targeted",
     "overwritable": false
@@ -404,24 +388,6 @@
   {
     "name": "behaveSteps",
     "templateName": "templates/behave.steps.py.vm",
-    "outputFile": "features/steps/${behaveFeature}_steps.py",
-    "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false,
-    "artifactType": "test"
-  },
-  {
-    "name": "behaveFeatureSagemaker",
-    "templateName": "templates/behave-sagemaker.feature.vm",
-    "outputFile": "features/${behaveFeature}.feature",
-    "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false,
-    "artifactType": "test"
-  },
-  {
-    "name": "behaveStepsSagemaker",
-    "templateName": "templates/behave-sagemaker.steps.py.vm",
     "outputFile": "features/steps/${behaveFeature}_steps.py",
     "generator": "com.boozallen.aiops.mda.generator.PythonTestGenerator",
     "metadataContext": "targeted",
@@ -509,26 +475,10 @@
     "overwritable": false
   },
   {
-    "name": "sagemakerTrainingDockerFile",
-    "templateName": "templates/general-docker/sagemaker-training.docker.file.vm",
-    "outputFile": "docker/Dockerfile",
-    "generator": "com.boozallen.aiops.mda.generator.SagemakerTrainingDockerResourcesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
     "name": "trainingDockerPomFile",
     "templateName": "templates/general-docker/training.docker.pom.xml.vm",
     "outputFile": "${moduleArtifactId}/pom.xml",
     "generator": "com.boozallen.aiops.mda.generator.TrainingDockerModuleGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "sagemakerTrainingDockerPomFile",
-    "templateName": "templates/general-docker/sagemaker-training.docker.pom.xml.vm",
-    "outputFile": "${moduleArtifactId}/pom.xml",
-    "generator": "com.boozallen.aiops.mda.generator.SagemakerTrainingDockerModuleGenerator",
     "metadataContext": "targeted",
     "overwritable": false
   },

@@ -26,11 +26,10 @@ import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 public class PythonPipelinePyProjectGenerator extends TargetedPipelinePyProjectGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                              | Template                                 | Generated File  |
-     * |-------------------------------------|------------------------------------------|-----------------|
-     * | pySparkPyProject                    | data-delivery-pyspark/pyproject.toml.vm  | pyproject.toml  |
-     * | pythonInferencePyProject            | inference/pyproject.toml.vm              | pyproject.toml  |
-     * | sagemakerTrainingPipelinePyProject  | sagemaker-training/pyproject.toml.vm     | pyproject.toml  |
+     * | Target                    | Template                                 | Generated File  |
+     * |---------------------------|------------------------------------------|-----------------|
+     * | pySparkPyProject          | data-delivery-pyspark/pyproject.toml.vm  | pyproject.toml  |
+     * | pythonInferencePyProject  | inference/pyproject.toml.vm              | pyproject.toml  |
      */
 
     @Override

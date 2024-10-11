@@ -31,14 +31,13 @@ import java.util.stream.Collectors;
 public class MachineLearningPipelineGenerator extends AbstractPythonGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                         | Template                                | Generated File             |
-     * |--------------------------------|-----------------------------------------|----------------------------|
-     * | trainingPipelineBase           | general-mlflow/training.base.py.vm      | ${pipelineName}_base.py    |
-     * | trainingPipelineConfigScript   | general-mlflow/training.config.py.vm    | config/pipeline_config.py  |
-     * | trainingPipelineDriver         | general-mlflow/training.driver.py.vm    | ${pipelineName}_driver.py  |
-     * | trainingPipelineImpl           | general-mlflow/training.impl.py.vm      | impl/${pipelineName}.py    |
-     * | pipelineBase                   | pipeline.base.py.vm                     | pipeline/pipeline_base.py  |
-     * | sagemakerTrainingPipelineImpl  | sagemaker-training/training.impl.py.vm  | ${pipelineName}.py         |
+     * | Target                        | Template                              | Generated File             |
+     * |-------------------------------|---------------------------------------|----------------------------|
+     * | trainingPipelineBase          | general-mlflow/training.base.py.vm    | ${pipelineName}_base.py    |
+     * | trainingPipelineConfigScript  | general-mlflow/training.config.py.vm  | config/pipeline_config.py  |
+     * | trainingPipelineDriver        | general-mlflow/training.driver.py.vm  | ${pipelineName}_driver.py  |
+     * | trainingPipelineImpl          | general-mlflow/training.impl.py.vm    | impl/${pipelineName}.py    |
+     * | pipelineBase                  | pipeline.base.py.vm                   | pipeline/pipeline_base.py  |
      */
 
 
@@ -95,9 +94,7 @@ public class MachineLearningPipelineGenerator extends AbstractPythonGenerator {
 
     private boolean pipelineContainsOnnxPostAction(MachineLearningPipeline pipeline) {
         boolean containsOnnx = false;
-
-        // this surrounding if-check was added to prevent piplines that use sagemaker training from
-        // throwing a null pointer exception when detecting if Onnx conversion code is needed to be generated
+        
         if (pipeline.getTrainingStep() != null) {
             for (PostAction postAction : pipeline.getTrainingStep().getPostActions()) {
                 if (PipelineUtils.forOnnxModelConversion(postAction)) {

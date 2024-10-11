@@ -273,7 +273,6 @@ processing
 * `generic` - the step will provide minimal scaffolding for custom logic to be executed in the training/inference steps
 * `training` - the step will train an ML model
 * `inference` - the step will expose a trained model for inference
-* `sagemakertraining` - the step will use Amazon SageMaker
 
 | `steps/step/inbound` (xref:#_pipeline_step_inbound_options[details])
 | No
