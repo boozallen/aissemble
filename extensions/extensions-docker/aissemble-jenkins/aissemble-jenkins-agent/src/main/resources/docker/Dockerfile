@@ -1,4 +1,4 @@
-FROM docker.io/jenkins/ssh-agent:latest-debian-jdk11
+FROM docker.io/jenkins/ssh-agent:latest-debian-jdk17
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
