@@ -73,7 +73,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
-            <!--NB: inactive by default until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
+            <!--TODO: 3 steps are disabled and shall be available once https://github.com/boozallen/aissemble/issues/430 is resolved: : -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -89,11 +89,7 @@
                             <executable>helm</executable>
                             <arguments>
                                 <argument>template</argument>
-                                <argument>aissemble-spark-application-chart</argument>
-                                <argument>--repo</argument>
-                                <argument>${aissemble.helm.repo}</argument>
-                                <argument>--version</argument>
-                                <argument>${version.aissemble}</argument>
+                                <argument>${project.basedir}/../../../extensions/extensions-helm/aissemble-spark-application-chart</argument>
                                 <argument>--values</argument>
                                 <argument>
                                     src/main/resources/apps/spark-java-data-delivery-patterns-base-values.yaml,src/test/resources/apps/spark-java-data-delivery-patterns-test-values.yaml
@@ -247,6 +243,18 @@
             <artifactId>cucumber-reporting</artifactId>
             <version>${version.cucumber.reporting.plugin}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>${version.test.resteasy}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-aws</artifactId>
+            <version>${version.hadoop}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
