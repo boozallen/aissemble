@@ -89,36 +89,15 @@
             </plugin>
             <!--NB: inactive by default until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>test-chart</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>helm</executable>
-                            <arguments>
-                                <argument>template</argument>
-                                <argument>aissemble-spark-application-chart</argument>
-                                <argument>--repo</argument>
-                                <argument>${aissemble.helm.repo}</argument>
-                                <argument>--version</argument>
-                                <argument>${version.aissemble}</argument>
-                                <argument>--values</argument>
-                                <argument>
-                                    src/aissemble_test_data_delivery_pyspark_model_basic/resources/apps/pyspark-data-delivery-basic-base-values.yaml,tests/resources/apps/pyspark-data-delivery-basic-test-values.yaml
-                                </argument>
-                                <argument>-s</argument>
-                                <argument>templates/deployment.yaml</argument>
-                            </arguments>
-                            <outputFile>target/apps/pyspark-data-delivery-basic-test-chart.yaml</outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>${group.helm.plugin}</groupId>
+                <artifactId>helm-maven-plugin</artifactId>
+                <configuration>
+                    <values>
+                        <yamlFile>${project.basedir}/src/aissemble_test_data_delivery_pyspark_model_basic/resources/apps/pyspark-data-delivery-basic-base-values.yaml</yamlFile>
+                        <yamlFile>${project.basedir}/tests/resources/apps/pyspark-data-delivery-basic-test-values.yaml</yamlFile>
+                    </values>
+                    <additionalArguments>--name-template pyspark-data-delivery-basic-test-chart.yaml</additionalArguments>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.technologybrewery.habushu</groupId>

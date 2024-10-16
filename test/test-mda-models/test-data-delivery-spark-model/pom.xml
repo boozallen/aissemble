@@ -73,38 +73,17 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
-            <!--NB: inactive by default until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${version.exec.maven.plugin}</version>
-                <executions>
-                    <execution>
-                        <id>test-chart</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>helm</executable>
-                            <arguments>
-                                <argument>template</argument>
-                                <argument>aissemble-spark-application-chart</argument>
-                                <argument>--repo</argument>
-                                <argument>${aissemble.helm.repo}</argument>
-                                <argument>--version</argument>
-                                <argument>${version.aissemble}</argument>
-                                <argument>--values</argument>
-                                <argument>
-                                    src/main/resources/apps/spark-java-data-delivery-patterns-base-values.yaml,src/test/resources/apps/spark-java-data-delivery-patterns-test-values.yaml
-                                </argument>
-                                <argument>-s</argument>
-                                <argument>templates/deployment.yaml</argument>
-                            </arguments>
-                            <outputFile>target/apps/spark-java-data-delivery-patterns-test-chart.yaml</outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>${group.helm.plugin}</groupId>
+                <artifactId>helm-maven-plugin</artifactId>
+                <configuration>
+                    <values>
+                        <yamlFile>${project.basedir}/src/main/resources/apps/spark-java-data-delivery-patterns-base-values.yaml</yamlFile>
+                        <yamlFile>${project.basedir}/src/test/resources/apps/spark-java-data-delivery-patterns-test-values.yaml</yamlFile>
+                    </values>
+                    <templateOutputDir>${project.basedir}/target/apps/</templateOutputDir>
+                    <additionalArguments>--name-template spark-java-data-delivery-patterns-test-chart.yaml</additionalArguments>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

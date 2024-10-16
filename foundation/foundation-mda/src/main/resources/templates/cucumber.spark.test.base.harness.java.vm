@@ -34,7 +34,7 @@ public abstract class SparkTestBaseHarness implements EventListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(SparkTestBaseHarness.class);
 	protected static final SparkConfig config = KrauseningConfigFactory.create(SparkConfig.class);
-    private static final File DEFAULT_SPARK_TEST_APPLICATION_SPEC = new File("./target/apps/${artifactId}-test-chart.yaml");
+    private static final File DEFAULT_SPARK_TEST_APPLICATION_SPEC = new File("./target/apps/aissemble-spark-application-chart/templates/deployment.yaml");
 #if (${pipeline.isHiveSupportNeeded()})
     private static final String hiveDerbyHome = new File("./target/derby").getAbsolutePath();
 #end

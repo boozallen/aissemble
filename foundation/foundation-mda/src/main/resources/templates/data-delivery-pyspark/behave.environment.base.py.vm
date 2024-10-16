@@ -14,7 +14,7 @@ logger = LogManager.get_instance().get_logger("Environment")
 """
 Generated or model-dependent setup to be executed prior to unit tests.
 """
-def initialize(sparkapplication_path = "target/apps/${artifactId}-test-chart.yaml"):
+def initialize(sparkapplication_path = "target/apps/aissemble-spark-application-chart/templates/deployment.yaml"):
     create_standalone_spark_session(sparkapplication_path)
 
 
