@@ -1,5 +1,4 @@
 spec:
-  serviceEnabled: "true"
   driver:
     javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4747"
   executor:
@@ -7,6 +6,7 @@ spec:
 
 
 service:
+  enabled: true
   spec:
     ports:
       - name: "debug"

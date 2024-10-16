@@ -1,0 +1,74 @@
+suite: Pipeline Invocation Service RBAC
+templates:
+  - rbac.yaml
+tests:
+  - it: Should contain ClusterRole document
+    documentIndex: 0
+    asserts:
+      - containsDocument:
+          kind: ClusterRole
+          apiVersion: rbac.authorization.k8s.io/v1
+  - it: Should contain ClusterRoleBinding document
+    documentIndex: 1
+    asserts:
+      - containsDocument:
+          kind: ClusterRoleBinding
+          apiVersion: rbac.authorization.k8s.io/v1
+  - it: Should be 2 documents in total
+    asserts:
+      - hasDocuments:
+          count: 2
+  - it: Do not contain any documents if options are disabled
+    set:
+      rbac:
+        createClusterRole: false
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: ClusterRole should include appropriate default values
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: metadata.name
+          value: pipeline-invocation-service-sa-clusterrole
+  - it: ClusterRoleBinding should include appropriate default values
+    documentIndex: 1
+    release:
+      namespace: default
+    asserts:
+      - equal:
+          path: metadata.name
+          value: pipeline-invocation-service-sa-clusterrole-binding
+      - contains:
+          path: subjects
+          content:
+            kind: ServiceAccount
+            name: pipeline-invocation-service-sa
+            namespace: default
+      - equal:
+          path: roleRef.kind
+          value: ClusterRole
+      - equal:
+          path: roleRef.name
+          value: pipeline-invocation-service-sa-clusterrole
+      - equal:
+          path: roleRef.apiGroup
+          value: rbac.authorization.k8s.io
+  - it: Should set values appropriately for the cluster role binding
+    set:
+      aissemble-quarkus-chart:
+        deployment:
+          serviceAccountName: test
+    release:
+      namespace: default
+    documentIndex: 1
+    asserts:
+      - contains:
+          path: subjects
+          content:
+            kind: ServiceAccount
+            name: test
+            namespace: default
+      - equal:
+          path: metadata.name
+          value: test-clusterrole-binding

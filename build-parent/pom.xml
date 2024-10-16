@@ -67,6 +67,7 @@
         <version.awaitility>4.0.3</version.awaitility>
         <version.plexus.util>3.5.1</version.plexus.util>
         <version.jackson.mapper.asl>1.9.3</version.jackson.mapper.asl>
+        <version.exec.maven.plugin>3.4.1</version.exec.maven.plugin>
 
         <!-- Java EE Dependencies -->
         <version.jakarta.cdi>4.0.1</version.jakarta.cdi>

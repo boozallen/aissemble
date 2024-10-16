@@ -18,6 +18,10 @@ import org.jboss.logging.Logger;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import io.quarkus.runtime.Shutdown;
 
 /**
  * Entrypoint for message-based requests for SparkApplication submission.
@@ -27,6 +31,7 @@ public class MessageEndpoint {
     public static final String CHANNEL_NAME = "pipeline-invocation";
 
     private static final Logger logger = Logger.getLogger(MessageEndpoint.class);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(16);
 
     @Inject
     PipelineInvocationAgent pipelineInvocationAgent;
@@ -38,13 +43,28 @@ public class MessageEndpoint {
     @Incoming(CHANNEL_NAME)
     @Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
     public void receivePipelineRequest(String rawRequest) {
+        // Running the helm command asynchronously in a separated thread to avoid vertx event loop thread block issue
+        executorService.execute(() -> {
+            try {
+                PipelineInvocationRequest pipelineInvocationRequest = PipelineInvocationRequest.fromString(rawRequest);
+                logger.info("Received message request to submit " + pipelineInvocationRequest.getApplicationName() + ".");
+                pipelineInvocationAgent.submitSparkApplication(pipelineInvocationRequest);
+                logger.info("Submitted " + pipelineInvocationRequest.getApplicationName() + " for processing.");
+            } catch (Exception e) {
+                throw new RuntimeException("Fail executing pipeline invocation command", e);
+            }
+        });
+    }
+
+    @Shutdown
+    public void shutdown() {
+        executorService.shutdown();
         try {
-            PipelineInvocationRequest pipelineInvocationRequest = PipelineInvocationRequest.fromString(rawRequest);
-            logger.info("Received message request to submit " + pipelineInvocationRequest.getApplicationName() + ".");
-            pipelineInvocationAgent.submitSparkApplication(pipelineInvocationRequest);
-            logger.info("Submitted " + pipelineInvocationRequest.getApplicationName() + " for processing.");
-        } catch (Exception failsafe) {
-            throw new RuntimeException(failsafe);
+            if (!executorService.awaitTermination(1500, TimeUnit.MILLISECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
         }
     }
 }

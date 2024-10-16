@@ -101,7 +101,7 @@ public class PipelineInvocationAgent {
         List<String> args = new ArrayList<>();
 
         args.add("--set");
-        args.add("spec.serviceEnabled=false");
+        args.add("service.enabled=false");
 
         for(Map.Entry<String, String> entry : request.getOverrideValues().entrySet()) {
             args.add("--set");

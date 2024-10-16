@@ -12,7 +12,7 @@ aissemble-quarkus-chart:
         containerPort: 9000
         protocol: TCP
     restartPolicy: Always
-    serviceAccountName: sparkoperator
+    serviceAccountName: pipeline-invocation-service-sa
     automountServiceAccountToken: true
 
     supplementalVolumeMounts:
@@ -60,3 +60,5 @@ aissemble-quarkus-chart:
                 name: pipeline-invocation-service
                 port:
                   number: 8080
+rbac:
+  createClusterRole: true
