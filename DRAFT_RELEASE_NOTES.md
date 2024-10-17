@@ -73,6 +73,10 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.10.0
 
 ## Conditional Steps
 
+### Data Access Dependency Update
+Data Access no longer needs to explicitly set the `kafka-clients` dependency. It can be removed along with its 
+exclusion from the `quarkus-smallrye-reactive-messaging-kafka` dependency.
+
 ## Final Steps - Required for All Projects
 ### Finalizing the Upgrade
 1. Run `./mvnw org.technologybrewery.baton:baton-maven-plugin:baton-migrate` to apply the automatic migrations
