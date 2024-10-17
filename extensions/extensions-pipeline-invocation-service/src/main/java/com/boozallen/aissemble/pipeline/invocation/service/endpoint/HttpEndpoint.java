@@ -30,7 +30,7 @@ import java.io.IOException;
 @Path("/invoke-pipeline")
 @ApplicationScoped
 public class HttpEndpoint {
-    private static final Logger logger = Logger.getLogger(MessageEndpoint.class);
+    private static final Logger logger = Logger.getLogger(HttpEndpoint.class);
 
     @Inject
     private PipelineInvocationAgent pipelineInvocationAgent;

@@ -71,7 +71,23 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.10.0
    </parent>
    ```
 
+### Split Data Records for the Spark Pipeline
+If your spark pipeline is using `aissemble-data-records-separate-module` profile for your data records, you must add the `<version>` tag for
+the `jackson-mapper-asl` dependency artifact in the root pom.xml file to enable the build.
+```xml
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+  +         <version>${version.jackson.mapper.asl}</version>
+        </dependency>
+```
+
+
 ## Conditional Steps
+
+### For projects that have customized the Spark Operator Service Account permissions
+The service account for the pipeline invocation service is now separated from spark operator and configured solely for the service.
+If you added any custom configurations to the `sparkoperator` service account pertaining to the pipeline invocation service, you will need to migrate the related changes to the new `pipeline-invocation-service-sa`. Refer to Pipeline Invocation Helm Chart [README](https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart/README.md) for detail.
 
 ## Final Steps - Required for All Projects
 ### Finalizing the Upgrade

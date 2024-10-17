@@ -68,7 +68,7 @@ public class HelmCommandExecutor {
      * @throws ShellExecutionException
      */
     public int executeAndLogOutput(List<String> arguments) throws ShellExecutionException {
-        logger.error("Executing Helm command: {} {}", HELM_COMMAND, StringUtils.join(arguments, " "));
+        logger.info("Executing Helm command: {} {}", HELM_COMMAND, StringUtils.join(arguments, " "));
 
         ProcessExecutor executor = createHelmExecutor(arguments);
         return executor.executeAndRedirectOutput(logger);
