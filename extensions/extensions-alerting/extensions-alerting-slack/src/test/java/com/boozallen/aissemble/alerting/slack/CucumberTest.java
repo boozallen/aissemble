@@ -17,6 +17,6 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/specifications", plugin = "json:target/cucumber-reports/cucumber.json", tags = "not @manual")
-public class CucumberIT {
+public class CucumberTest {
 
 }
