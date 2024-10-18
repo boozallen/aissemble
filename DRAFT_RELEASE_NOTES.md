@@ -85,9 +85,8 @@ the `jackson-mapper-asl` dependency artifact in the root pom.xml file to enable 
 
 ## Conditional Steps
 
-### Data Access Dependency Update
-Data Access no longer needs to explicitly set the `kafka-clients` dependency. It can be removed along with its 
-exclusion from the `quarkus-smallrye-reactive-messaging-kafka` dependency.
+### Kafka Clients Dependency Update
+Data Access and the Java testing module (`<YOUR_PROJECT>-tests/<YOUR_PROJECT>-tests-java/pom.xml`) no longer need to explicitly set the `kafka-clients` dependency. It can be removed along with its exclusion from the `quarkus-smallrye-reactive-messaging-kafka` dependency.
 
 ### For projects that have customized the Spark Operator Service Account permissions
 The service account for the pipeline invocation service is now separated from spark operator and configured solely for the service.
