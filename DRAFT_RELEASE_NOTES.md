@@ -101,4 +101,5 @@ If you added any custom configurations to the `sparkoperator` service account pe
 
 # What's Changed
 - `pyproject.toml` files updated to allow for Python version `>=3.8`.
-- All SageMaker modules and corresponding references were removed in commit bdcbb409.
+- All SageMaker modules and corresponding references were removed in commit 8ce393f.
+- The Service Discovery module and corresponding references were removed in commit 4a1d7abf. 

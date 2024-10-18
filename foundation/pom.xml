@@ -29,7 +29,6 @@
         <module>foundation-data-access</module>
         <module>foundation-metadata</module>
         <module>foundation-transform</module>
-        <module>foundation-service-discovery</module>
         <module>foundation-messaging</module>
         <module>foundation-alerting</module>
         <module>foundation-drift-detection</module>
