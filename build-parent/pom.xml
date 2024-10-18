@@ -77,9 +77,9 @@
         <version.jakarta.activation.api>2.1.2</version.jakarta.activation.api>
         <version.javax.servlet>3.1.0</version.javax.servlet>
 
-<!--        Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
+        <!-- Spark Default Dependencies.  See `spark-*` profiles below for alternative sets -->
         <version.spark>3.5.2</version.spark>
-        <version.scala>2.12.13</version.scala>
+        <version.scala>2.12.20</version.scala>
         <version.scala.minor>2.12</version.scala.minor>
         <version.delta>3.2.1</version.delta>
         <version.elasticsearch>8.9.0</version.elasticsearch>
@@ -867,9 +867,14 @@
                             <TESTCONTAINERS_RYUK_DISABLED>${TESTCONTAINERS_RYUK_DISABLED}</TESTCONTAINERS_RYUK_DISABLED>
                             <!--<TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX>YOUR MIRROR OR INTENRAL REPO GOES HERE - e.g., nexus.foobar.com/</TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX>-->
                         </environmentVariables>
-                        <!-- Spark needs to use an internal API that has been made inaccessible by default. This
-                        exposes it -->
-                        <argLine>--add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>
+                        <!-- Spark needs to use an internal API that has been made inaccessible by default, this is resolved by add-exports.
+                        Apache Hive currently does not support java 17, so the add-opens workaround is used to allow the illegal reflection 
+                        call until Hive updates their compatible Java versions.  
+                        https://stackoverflow.com/questions/41265266/how-to-solve-inaccessibleobjectexception-unable-to-make-member-accessible-m?rq=2-->
+                        <argLine>
+                            --add-exports java.base/sun.nio.ch=ALL-UNNAMED
+                            --add-opens java.base/java.net=ALL-UNNAMED
+                        </argLine>
                     </configuration>
                 </plugin>
                 <plugin>
