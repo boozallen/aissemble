@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-helm</artifactId>
-        <version>1.9.2</version>
+        <version>1.9.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>aissemble-vault-chart</artifactId>

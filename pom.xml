@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>aissemble-root</artifactId>
-    <version>1.9.2</version>
+    <version>1.9.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>aiSSEMBLE(TM)</name>
