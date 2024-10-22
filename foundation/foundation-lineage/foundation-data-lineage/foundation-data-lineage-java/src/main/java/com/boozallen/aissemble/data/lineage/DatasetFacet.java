@@ -57,7 +57,7 @@ public abstract class DatasetFacet extends Facet<OpenLineage.DatasetFacet> {
         private final URI schemaUrl;
 
         public DefaultDatasetFacet(String schemaUrl, URI producer) {
-            super(producer);
+            super(producer, null);
             this.schemaUrl = URI.create(schemaUrl);
         }
         

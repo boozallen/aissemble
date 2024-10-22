@@ -158,6 +158,9 @@
         <version.helm.plugin>6.14.3</version.helm.plugin>
         <version.helm.min>3.12.0</version.helm.min>
         <version.snakeyaml>2.0</version.snakeyaml>
+
+        <!-- OpenLineage java -->
+        <version.open.lineage.java>1.23.0</version.open.lineage.java>
     </properties>
 
     <dependencyManagement>
