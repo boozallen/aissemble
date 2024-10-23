@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-data-lineage-python"
-version = "1.9.2"
+version = "1.9.3"
 description = "Data lineage API for Python scripts"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"

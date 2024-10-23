@@ -21,7 +21,24 @@ spec:
         - {{ . }}
         {{- end }}    
     {{ end }}
+  {{- /* SKIP-MIGRATION: 'argocd-template-sync-policy-configuration-migration' */}}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- with .Values.spec.syncPolicy }}
+      {{- if .automated }}
+    automated:
+        {{- toYaml .automated | nindent 6}}
+      {{- else if hasKey . "automated" }}
+    automated: {}
+      {{- end }}
+    {{- end }}
+    {{/* This template comment explains how the logic below works*/}}
+    {{- /* This one trims the newlines so it doesn't affect output */ -}}
+    #these options are important
+    syncOptions:
+      - ServerSideApply=true # https://github.com/argoproj/argo-cd/issues/820#issuecomment-135463693
+    {{- if .Values.spec.syncPolicy }}
+      {{- with .Values.spec.syncPolicy.syncOptions }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+    {{- end }}

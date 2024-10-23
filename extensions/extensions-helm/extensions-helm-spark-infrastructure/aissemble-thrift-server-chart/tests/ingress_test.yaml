@@ -39,7 +39,7 @@ tests:
     asserts:
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-sts-ingress
+          value: aissemble-thrift-server-chart
       - notExists:
           path: metadata.annotations
 

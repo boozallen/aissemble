@@ -1,5 +1,9 @@
 # This file contains the default values for the aiSSEMBLE Thrift Service Helm chart.
 
+app:
+  # Sets labels for app.kubernetes.io/name Default is Chart.Name (aissemble-thrift-server-chart)
+  name: ''
+
 enable: true
 
 deployment:

@@ -6,7 +6,7 @@
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>build-parent</artifactId>
         <relativePath>../build-parent/pom.xml</relativePath>
-        <version>1.9.2</version>
+        <version>1.9.3</version>
     </parent>
 
     <artifactId>test</artifactId>
