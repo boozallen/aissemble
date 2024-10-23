@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-drift-detection-client-python"
-version = "1.9.3.dev"
+version = "1.9.3"
 description = ""
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
