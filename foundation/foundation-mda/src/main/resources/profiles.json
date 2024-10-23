@@ -542,9 +542,6 @@
 			},
 			{
 				"name": "mlflowLineageProperties"
-			},
-			{
-				"name": "trainingGitkeepFile"
 			}
 		]
 	},

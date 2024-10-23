@@ -166,10 +166,11 @@ class ${pipeline.capitalizedName}Base(ABC):
     #if ($pipeline.trainingStep.isModelLineageEnabled())
                 # pylint: disable-next=assignment-from-none
                 event_data = self.create_base_lineage_event_data()
+                default_namespace = self.get_default_namespace()
         #end
                 start = datetime.utcnow()
                 #if ($pipeline.trainingStep.isModelLineageEnabled())
-                self.record_lineage(self.create_lineage_start_event(run_id=run_id, job_name=job_name, parent_run_facet=parent_run_facet, event_data=event_data, start_time=start))
+                self.record_lineage(self.create_lineage_start_event(run_id=run_id, job_name=job_name, default_namespace=default_namespace, parent_run_facet=parent_run_facet, event_data=event_data, start_time=start))
                 #end
                 loaded_dataset = self.load_dataset()
                 prepped_dataset = self.prep_dataset(loaded_dataset)
@@ -186,12 +187,12 @@ class ${pipeline.capitalizedName}Base(ABC):
                 self.log_information(start, end, loaded_dataset, features)
                 self.logger.info('Complete')
                 #if ($pipeline.trainingStep.isModelLineageEnabled())
-                self.record_lineage(self.create_lineage_complete_event(run_id=run_id, job_name=job_name, parent_run_facet=parent_run_facet, event_data=event_data, start_time=start, end_time=end))
+                self.record_lineage(self.create_lineage_complete_event(run_id=run_id, job_name=job_name, default_namespace=default_namespace, parent_run_facet=parent_run_facet, event_data=event_data, start_time=start, end_time=end))
 
                 #end
         except Exception as error:
             #if ($pipeline.trainingStep.isModelLineageEnabled())
-            self.record_lineage(self.create_lineage_fail_event(run_id=run_id, job_name=job_name, event_data=event_data, parent_run_facet=parent_run_facet, start_time=start, end_time=datetime.now(), error=error))
+            self.record_lineage(self.create_lineage_fail_event(run_id=run_id, job_name=job_name, event_data=event_data, default_namespace=default_namespace, parent_run_facet=parent_run_facet, start_time=start, end_time=datetime.now(), error=error))
             PipelineBase().record_pipeline_lineage_fail_event()
             #end
             raise Exception(error)
@@ -237,7 +238,7 @@ class ${pipeline.capitalizedName}Base(ABC):
 
         return LineageEventData(job_facets=job_facets, run_facets=run_facets, event_inputs=[input_dataset])
 
-    def create_lineage_start_event(self, run_id: str = None, job_name: str = "", parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
+    def create_lineage_start_event(self, run_id: str = None, job_name: str = "", default_namespace:str = None, parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
         """
         Creates the Start RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
         To customize the event, override the customize_lineage_start_event(...) function to include the job facets, run facets
@@ -253,6 +254,7 @@ class ${pipeline.capitalizedName}Base(ABC):
             run_id=run_id,
             parent_run_facet=parent_run_facet,
             job_name=job_name,
+            default_namespace=default_namespace,
             event_data=event_data)
         event = self.customize_lineage_start_event(event, **kwargs)
         return self.customize_run_event(event)
@@ -273,7 +275,7 @@ class ${pipeline.capitalizedName}Base(ABC):
 
         return event
 
-    def create_lineage_complete_event(self, run_id: str = None, job_name: str = "", parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
+    def create_lineage_complete_event(self, run_id: str = None, job_name: str = "", default_namespace:str = None, parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
         """
         Creates the Complete RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
         To customize the event, override the customize_lineage_complete_event(...) function to include the job facets, run facets
@@ -289,6 +291,7 @@ class ${pipeline.capitalizedName}Base(ABC):
             run_id=run_id,
             parent_run_facet=parent_run_facet,
             job_name=job_name,
+            default_namespace=default_namespace,
             event_data=event_data)
         event = self.customize_lineage_complete_event(event, **kwargs)
         return self.customize_run_event(event)
@@ -305,7 +308,7 @@ class ${pipeline.capitalizedName}Base(ABC):
            event.run.facets.update(self.record_run_end(kwargs["start_time"], kwargs["end_time"]))
         return event
 
-    def create_lineage_fail_event(self, run_id: str = None, job_name: str = "", parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
+    def create_lineage_fail_event(self, run_id: str = None, job_name: str = "", default_namespace:str = None, parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent:
         """
         Creates the Fail RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
         To customize the event, override the customize_lineage_fail_event(...) function to include the job facets, run facets
@@ -321,6 +324,7 @@ class ${pipeline.capitalizedName}Base(ABC):
             run_id=run_id,
             parent_run_facet=parent_run_facet,
             job_name=job_name,
+            default_namespace=default_namespace,
             event_data=event_data)
         event = self.customize_lineage_fail_event(event, **kwargs)
         return self.customize_run_event(event)
@@ -377,6 +381,11 @@ class ${pipeline.capitalizedName}Base(ABC):
         """
         return "${pipeline.capitalizedName}.${pipeline.trainingStep.name}"
 
+    def get_default_namespace(self) -> str:
+        """
+        The default namespace is the Pipeline name. Override this function to change the default namespace.
+        """
+        return "${pipeline.capitalizedName}"
 #end
 
     def set_dataset_origin(self, origin: str) -> None:

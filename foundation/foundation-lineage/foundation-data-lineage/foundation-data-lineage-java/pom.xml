@@ -49,19 +49,11 @@
         <dependency>
             <groupId>io.openlineage</groupId>
             <artifactId>openlineage-java</artifactId>
-            <version>0.22.0</version>
+            <version>${version.open.lineage.java}</version>
         </dependency>
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
             <artifactId>krausening</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
@@ -72,6 +64,25 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>foundation-common</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-provider</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-api</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-core-java</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
 
@@ -97,6 +108,18 @@
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
             <version>${version.cucumber.reporting.plugin}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <version>${version.weld}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-api</artifactId>
+            <version>5.0.SP3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

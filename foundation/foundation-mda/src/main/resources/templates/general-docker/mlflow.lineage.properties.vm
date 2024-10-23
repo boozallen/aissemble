@@ -1,2 +1,4 @@
 data.lineage.enabled=true
 data.lineage.producer=${scmUrl}
+# Override default namespace configurations here
+data.lineage.namespace=default-namespace-override
