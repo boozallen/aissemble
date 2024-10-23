@@ -49,24 +49,15 @@ jobs:
               })
             }
             console.log("Clear completed")
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Install dependencies
+        uses: ./.github/actions/install_dependencies
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Install required packages
-        run: |
-          sudo apt-get update
-          sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl \
-              git libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev zip unzip \
-              libpython3.11
-      - name: Install Python
-        uses: gabrielfalcao/pyenv-action@v18
-        with:
-          default: 3.11.4
+          docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
+      #NB: We restore/save cache manually so that we save the cache even if the build fails
       - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
         id: cached-m2-repo
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
@@ -74,38 +65,29 @@ jobs:
             maven-
       - name: Load m2 build cache
         id: cached-m2-build
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/.m2/build-cache
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-build-cache-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Load docker build cache
+        id: cached-docker-build
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.docker/cache
+          key: docker-cache-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            docker-cache-
+      #NB: Not saving poetry cache on failure in case it's a failure caused by an in-flight python package release
       - name: Poetry cache
         id: cached-poetry
         uses: actions/cache@v4
         with:
           path: ~/.cache/pypoetry
-          key: poetry-cache-${{ hashFiles('**/pom.xml') }}
+          key: poetry-cache-${{ hashFiles('**/pyproject.toml') }}
           restore-keys: |
-            poetry-
-      - name: Install Helm
-        run: |
-          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-          chmod 700 get_helm.sh
-          ./get_helm.sh
-      - name: Install Helm Unittest Plugin
-        run: |
-          echo "Updating helm unittest plugin to latest version..."
-          helm plugin install https://github.com/helm-unittest/helm-unittest.git
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Create Docker Builder Config File
-        run: sudo touch /etc/buildkitd.toml
+            poetry-cache-
       # Generate the settings.xml for ghcr.io, pypi, & dev-pypi server profiles
       - name: Create settings.xml
         run: |
@@ -123,19 +105,24 @@ jobs:
       - name: Run Archetype Tests
         run: |
           ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
-      #NB: The following two explicit cache saves are necessary to ensure caches are saved on build failure,
-      # until https://github.com/actions/cache/issues/1315 is resolved
       - name: Save m2 repository cache
         id: save-m2-repo
         uses: actions/cache/save@v4
-        if: always()
+        if: always() && steps.cached-m2-repo.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
       - name: Save m2 build cache
         id: save-m2-build
         uses: actions/cache/save@v4
-        if: always()
+        if: always() && steps.cached-m2-build.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/build-cache
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
+      - name: Save docker build cache
+        id: save-docker-build
+        uses: actions/cache/save@v4
+        if: always() && steps.cached-docker-build.outputs.cache-hit != 'true'
+        with:
+          path: ~/.docker/cache
+          key: docker-cache-${{ hashFiles('**/Dockerfile') }}
