@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-model-lineage"
-version = "1.9.4.dev"
+version = "1.9.4"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 description = "Model lineage API"
 readme = "README.md"
