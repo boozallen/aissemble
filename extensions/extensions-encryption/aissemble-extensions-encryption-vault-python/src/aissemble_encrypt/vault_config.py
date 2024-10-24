@@ -64,18 +64,23 @@ class VaultConfig:
         Returns the secrets host url.
         This should only be used for integration tests, and not otherwise.
         """
-        return self.properties["secrets.host.url"]
+        if "SECRETS_HOST_URL" in os.environ:
+            # host and port of the aissemble-vault container
+            return os.environ["SECRETS_HOST_URL"]
+        else:
+            return self.properties["secrets.host.url"]
 
     @staticmethod
-    def validate_container_start():
+    def validate_container_start(port):
         started = False
         max_wait = 20
         wait = 0
         while wait < max_wait:
-            logger.info("Waiting for Vault to start")
+            url = f"http://localhost:{port}/v1/sys/health"
+            logger.info(f"Waiting for Vault to start at {url}")
 
             try:
-                requests.get("http://localhost:8200/v1/sys/health")
+                requests.get(url)
                 logger.info("Vault started successfully!")
                 started = True
                 break

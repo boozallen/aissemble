@@ -1,11 +1,11 @@
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError, UnrecognizedBrokerVersion, NoBrokersAvailable
 
-from container.safe_docker_container import SafeDockerContainer
+from testcontainers.core.container import DockerContainer
 from testcontainers.core.waiting_utils import wait_container_is_ready
 
 
-class KafkaKraftContainer(SafeDockerContainer):
+class KafkaKraftContainer(DockerContainer):
     """
     Kafka container.
 

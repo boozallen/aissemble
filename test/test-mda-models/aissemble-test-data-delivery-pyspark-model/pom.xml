@@ -190,28 +190,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${version.exec.maven.plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>ensure-docker-compose-installed</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>sh</executable>
-                                    <arguments>
-                                        <argument>
-                                            ${project.basedir}/tests/resources/integration-test-resources/docker-compose-setup.sh
-                                        </argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-resources-plugin</artifactId>
                         <executions>
                             <execution>
