@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-helm</artifactId>
-        <version>1.9.3</version>
+        <version>1.9.4</version>
     </parent>
 
     <artifactId>aissemble-lineage-http-consumer-chart</artifactId>
