@@ -161,6 +161,9 @@
 
         <!-- OpenLineage java -->
         <version.open.lineage.java>1.23.0</version.open.lineage.java>
+
+        <!-- Used for pinning version specifically test-mda-model-->
+        <version.test.resteasy>3.15.6.Final</version.test.resteasy>
     </properties>
 
     <dependencyManagement>
