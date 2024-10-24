@@ -45,10 +45,13 @@ public abstract class AbstractFileStore {
      * @return a fully connected context
      */
     public BlobStoreContext openContext() {
-        return ContextBuilder.newBuilder(fileStoreConfig.getProvider())
-                .credentials(fileStoreConfig.getAccessKeyId(), fileStoreConfig.getSecretAccessKey())
-                .overrides(fileStoreConfig.getOverrides())
-                .buildView(BlobStoreContext.class);
+        ContextBuilder contextBuilder = ContextBuilder.newBuilder(fileStoreConfig.getProvider())
+                .credentials(fileStoreConfig.getAccessKeyId(), fileStoreConfig.getSecretAccessKey());
+
+        if (fileStoreConfig.getOverrides() != null) {
+            contextBuilder.overrides(fileStoreConfig.getOverrides());
+        }
+        return contextBuilder.buildView(BlobStoreContext.class);
     }
 
     /**

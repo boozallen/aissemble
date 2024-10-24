@@ -28,6 +28,7 @@ public class EnvironmentVariableFileStoreConfig extends AbstractFileStoreConfig 
 
     /**
      * Get the configurations for the given filestore name.
+     *
      * @param name the name of the filestore
      * @return the configurations from the environment variables.
      */
@@ -58,11 +59,12 @@ public class EnvironmentVariableFileStoreConfig extends AbstractFileStoreConfig 
     public Properties getOverrides() {
         // Convert namespaced override values to property names understood by JClouds
         final String overridesJsonString = this.config.get(getName() + "_FS_OVERRIDES");
-        final Gson gson = new Gson();
-        final Map overrides = gson.fromJson(overridesJsonString, Map.class);
-
         final Properties propertyOverrides = new Properties();
-        propertyOverrides.putAll(overrides);
+        if (overridesJsonString != null && !overridesJsonString.isBlank()) {
+            final Gson gson = new Gson();
+            final Map overrides = gson.fromJson(overridesJsonString, Map.class);
+            propertyOverrides.putAll(overrides);
+        }
         return propertyOverrides;
     }
 }
