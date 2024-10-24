@@ -78,38 +78,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- NB: Temp workaround until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <!-- Skip helm test-chart generation during a release, since the necessary helm charts won't be published -->
-            <id>skip-helm</id>
-            <properties>
-                <!-- skip tests since they rely on the generated test SparkApplication yaml that we are disabling -->
-                <skipTests>true</skipTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${version.exec.maven.plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>test-chart</id>
-                                <configuration>
-                                    <skip>true</skip>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

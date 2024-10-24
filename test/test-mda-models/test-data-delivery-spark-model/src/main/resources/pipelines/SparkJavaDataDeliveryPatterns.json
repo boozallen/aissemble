@@ -69,14 +69,6 @@
 			}
 		},
 		{
-			"name": "VoidInboundAndMessagingOutboundAsync",
-			"type": "asynchronous",
-			"outbound": {
-				"type": "messaging",
-				"channelName": "outboundChannel"
-			}
-		},
-		{
 			"name": "MessagingInboundAndVoidOutbound",
 			"type": "synchronous",
 			"inbound": {
@@ -403,32 +395,8 @@
 			}
 		},
 		{
-			"name": "MessagingOutboundWithCustomTypesAsync",
-			"type": "asynchronous",
-			"outbound": {
-				"type": "messaging",
-				"channelName": "outboundChannel",
-				"recordType": {
-					"name": "CustomRecord",
-					"package": "com.boozallen.aiops.mda.pattern.record"
-				}
-			}
-		},
-		{
 			"name": "MessagingOutboundWithCustomRec",
 			"type": "synchronous",
-			"outbound": {
-				"type": "messaging",
-				"channelName": "outboundChannel",
-				"recordType": {
-					"name": "CustomRec",
-					"package": "com.boozallen.aiops.mda.pattern.record"
-				}
-			}
-		},
-		{
-			"name": "MessagingOutboundWithCustomRecAsync",
-			"type": "asynchronous",
 			"outbound": {
 				"type": "messaging",
 				"channelName": "outboundChannel",
