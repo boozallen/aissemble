@@ -21,7 +21,6 @@ spec:
         - {{ . }}
         {{- end }}    
     {{ end }}
-  {{- with .Values.spec.syncPolicy }}
   syncPolicy:
     {{- with .Values.spec.syncPolicy }}
       {{- if .automated }}
