@@ -8,8 +8,7 @@
 # #L%
 ###
 from krausening.logging import LogManager
-from container.safe_docker_container import SafeDockerContainer
-from testcontainers.core.waiting_utils import wait_for
+from testcontainers.core.container import DockerContainer
 from aissemble_encrypt.vault_config import VaultConfig
 from importlib import metadata
 import packaging.version
@@ -44,12 +43,14 @@ def select_krausening_extensions():
         os.environ["KRAUSENING_EXTENSIONS"] = "tests/resources/krausening/arm64"
 
 
-def start_container(context, docker_image, feature):
+def start_container(context, docker_image, feature) -> int:
     logger.info(f"Starting container: {docker_image}")
-    context.test_container.with_bind_ports(8200, 8200)
+    context.test_container.with_exposed_ports(8200)
     context.test_container.start()
-    wait_for(VaultConfig.validate_container_start)
-
+    extport = context.test_container.get_exposed_port(8200)
+    if not VaultConfig.validate_container_start(extport):
+        raise Exception("Vault failed to start")
+    return extport
 
 def before_feature(context, feature):
     if "integration" in feature.tags:
@@ -63,8 +64,9 @@ def before_feature(context, feature):
         version = metadata.version("aissemble-extensions-encryption-vault-python")
         docker_image += version_to_tag(version)
 
-        context.test_container = SafeDockerContainer(docker_image)
-        start_container(context, docker_image, feature)
+        context.test_container = DockerContainer(docker_image)
+        port = start_container(context, docker_image, feature)
+        os.environ["SECRETS_HOST_URL"] = f"http://127.0.0.1:{port}"
 
         root_key_tuple = context.test_container.exec("cat /root_key.txt")
         secrets_root_key = root_key_tuple.output.decode()
