@@ -17,3 +17,8 @@ Feature: Migrate Delta Lake Spark dependencies
     Given a POM that references the delta-core package
     When the 1.10.0 DeltaSpark POM migration executes
     Then delta-core is updated to delta-spark and the version is set to the version.delta property
+
+  Scenario: POM dependencies are migrated without dependency management
+    Given a POM that references the delta-core package that does not have dependencyManagement
+    When the 1.10.0 DeltaSpark POM migration executes
+    Then delta-core is updated to delta-spark and the version is set to the version.delta property

@@ -13,6 +13,7 @@ package com.boozallen.aissemble.upgrade.migration.v1_10_0;
 import com.boozallen.aissemble.upgrade.migration.AbstractAissembleMigration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Dependency;
+import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.model.InputLocation;
 import org.apache.maven.model.InputLocationTracker;
 import org.apache.maven.model.Model;
@@ -86,10 +87,13 @@ public class DeltaSparkPomMigration extends AbstractAissembleMigration {
 
     private List<Dependency> getDeltaCoreDependencies(ModelBase model) {
         List<Dependency> deltaCoreDependencies = new ArrayList<>();
-        model.getDependencyManagement().getDependencies()
-                .stream()
-                .filter(DeltaSparkPomMigration::isDeltaCore)
-                .forEach(deltaCoreDependencies::add);
+        DependencyManagement dependencyManagement = model.getDependencyManagement();
+        if (dependencyManagement != null) {
+            dependencyManagement.getDependencies()
+                    .stream()
+                    .filter(DeltaSparkPomMigration::isDeltaCore)
+                    .forEach(deltaCoreDependencies::add);
+        }
         model.getDependencies()
                 .stream()
                 .filter(DeltaSparkPomMigration::isDeltaCore)

@@ -73,7 +73,8 @@
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.DeltaSparkYamlMigration",
         "fileSets": [
           {
-            "includes": ["**/*.yaml"]
+            "includes": ["**/*.yaml"],
+            "excludes": ["**/target/**", "**/templates/**"]
           }
         ]
       }

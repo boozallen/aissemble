@@ -31,6 +31,11 @@ public class DeltaSparkMigration extends AbstractMigrationTest {
         testFile = getTestFile("v1_10_0/DeltaSparkPomMigration/migration/pom.xml");
     }
 
+    @Given("a POM that references the delta-core package that does not have dependencyManagement")
+    public void aPOMThatReferencesTheDeltaCorePackageThatDoesNotHaveDependencyManagement() {
+        testFile = getTestFile("v1_10_0/DeltaSparkPomMigration/migration/no-mgmt.xml");
+    }
+
     @When("the 1.10.0 DeltaSpark yaml migration executes")
     public void theDeltaSparkYamlMigrationExecutes() {
         DeltaSparkYamlMigration migration = new DeltaSparkYamlMigration();

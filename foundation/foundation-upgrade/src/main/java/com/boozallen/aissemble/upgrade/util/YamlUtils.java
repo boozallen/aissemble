@@ -32,6 +32,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.representer.Representer;
@@ -40,13 +41,31 @@ public class YamlUtils {
     private static final String SPACE = " ";
     private static final int TAB = 2;
 
+    /**
+     * Reads the YAML file into a {@link YamlObject}.  If the file contains a list at the root level, then the returned
+     * YamlObject will have one entry under the key "items" that is the resulting list. Multiple objects separated by
+     * dashes is not supported.
+     *
+     * @param file a YAML file to parse
+     * @return the {@link YamlObject} represented by the file
+     * @throws IOException if the file cannot be read
+     * @throws YAMLException if the file fails to parse to a valid YamlObject
+     */
     public static YamlObject loadYaml(File file) throws IOException {
         Yaml yaml = new Yaml();
         try (InputStream fileStream = Files.asByteSource(file).openStream()) {
-            Map<String, Object> contents = yaml.load(fileStream);
-            //If the file is empty or only contains comments, contents will be null
-            if (contents == null) {
+            Object data = yaml.load(fileStream);
+            Map<String, Object> contents;
+            //If the file is empty or only contains comments, data will be null
+            if (data == null) {
                 contents = Map.of();
+            } else if (data instanceof Map) {
+                //noinspection unchecked
+                contents = (Map<String, Object>) data;
+            } else if (data instanceof List) {
+                contents = Map.of("items", data);
+            } else {
+                throw new YAMLException("Unrecognized root data type [" + data.getClass().getName() + "] in file: " + file.getAbsolutePath());
             }
             return new YamlObject(contents);
         }
@@ -78,7 +97,7 @@ public class YamlUtils {
         }
 
         public boolean hasInt(String... path) {
-            return hasValue(int.class, path);
+            return hasValue(Integer.class, path);
         }
 
         public int getInt(String... path) {
@@ -86,7 +105,7 @@ public class YamlUtils {
         }
 
         public boolean hasDouble(String... path) {
-            return hasValue(double.class, path);
+            return hasValue(Double.class, path);
         }
 
         public double getDouble(String... path) {
@@ -94,7 +113,7 @@ public class YamlUtils {
         }
 
         public boolean hasBoolean(String... path) {
-            return hasValue(boolean.class, path);
+            return hasValue(Boolean.class, path);
         }
 
         public boolean getBoolean(String... path) {
