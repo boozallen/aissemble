@@ -17,7 +17,9 @@ from collections.abc import Callable
 from threading import RLock
 import os
 import sys
-from py4j.java_gateway import launch_gateway
+from py4j.java_gateway import launch_gateway, find_jar_path
+from py4j.version import __version__
+from py4j.protocol import Py4JError
 from . import RESDIR
 
 
@@ -167,9 +169,31 @@ class MessagingClient:
         path_to_jar = str(RESDIR.joinpath("classpath/*"))
         classpath = path_to_jar
 
+        py4j_jar_path = self.get_py4j_jar_path()
         return launch_gateway(
+            jarpath=py4j_jar_path,
             classpath=classpath,
             die_on_exit=True,
             redirect_stdout=sys.__stdout__,
             redirect_stderr=sys.__stderr__,
         )
+
+    def get_py4j_jar_path(self):
+        """
+        Tries to find the path where the py4j jar is located.
+        """
+        jar_path = find_jar_path()
+        if not jar_path:
+            jar_file = "py4j{0}.jar".format(__version__)
+            ## if jar_path not found by py4j, the `sys.prefix` could be changed
+            ## set the py4j jar path to default /usr/local/share directory where
+            ## the local installations are
+            default_py4j_jar_path = "/usr/local/share/py4j/" + jar_file
+            if os.path.exists(default_py4j_jar_path):
+                self.logger.info(
+                    "Setting py4j jar path to: {0}".format(default_py4j_jar_path)
+                )
+                jar_path = default_py4j_jar_path
+            else:
+                raise Py4JError("Could not find py4j jar at {0}".format(jar_path))
+        return jar_path
