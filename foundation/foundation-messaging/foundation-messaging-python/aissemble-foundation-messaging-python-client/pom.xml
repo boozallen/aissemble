@@ -78,6 +78,14 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                        <configuration>
+                            <artifactItem>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>foundation-messaging-python-service</artifactId>
+                                <version>${project.version}</version>
+                                <type>jar</type>
+                            </artifactItem>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
