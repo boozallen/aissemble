@@ -21,7 +21,7 @@ def step_impl(context, topic_name):
     os.environ["mp.messaging.incoming.channel-a-in.topic"] = topic_name
 
     context.service_port = launch_gateway(
-        classpath="dist/dependency/*",
+        classpath="src/aissemble_messaging/service_resources/classpath/*",
         die_on_exit=True,
         redirect_stdout=1,
     )
@@ -56,7 +56,7 @@ def step_impl(context, topic_name):
 @given('consumer subscribe to a topic named "{topic_name}"')
 def step_impl(context, topic_name):
     context.service_port = launch_gateway(
-        classpath="dist/dependency/*",
+        classpath="src/aissemble_messaging/service_resources/classpath/*",
         die_on_exit=True,
         redirect_stdout=1,
     )

@@ -13,14 +13,16 @@ def step_impl(context, topic_name):
     )
     os.environ["mp.messaging.outgoing.channel-a-out.topic"] = topic_name
     context.service_port = launch_gateway(
-        classpath="dist/dependency/*", die_on_exit=True, redirect_stdout=1
+        classpath="src/aissemble_messaging/service_resources/classpath/*",
+        die_on_exit=True,
+        redirect_stdout=1,
     )
 
 
 @given('a messaging topic named "TopicD" does not exist in the service')
 def step_impl(context):
     context.service_port = launch_gateway(
-        classpath="dist/dependency/*",
+        classpath="src/aissemble_messaging/service_resources/classpath/*",
         die_on_exit=True,
         redirect_stdout=1,
     )

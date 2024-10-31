@@ -20,16 +20,6 @@
             <artifactId>foundation-messaging-python-service</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>foundation-messaging-java</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>foundation-core-java</artifactId>
-            <version>${project.version}</version>
-        </dependency> -->
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
@@ -69,7 +59,7 @@
                     <licenseFile>LICENSE</licenseFile>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
@@ -78,17 +68,10 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
-                        <configuration>
-                            <artifactItem>
-                                <groupId>${project.groupId}</groupId>
-                                <artifactId>foundation-messaging-python-service</artifactId>
-                                <version>${project.version}</version>
-                                <type>jar</type>
-                            </artifactItem>
-                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
+            
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
@@ -102,9 +85,10 @@
                             <outputDirectory>${basedir}/src/aissemble_messaging/service_resources/classpath</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>dist/dependency</directory>
+                                    <!-- <directory>dist/dependency</directory> -->
+                                    <directory>${project.parent.basedir}/foundation-messaging-python-service/target</directory>
                                     <includes>
-                                        <include>foundation-messaging-python-service-1.10.0-SNAPSHOT-min.jar</include>
+                                        <include>foundation-messaging-python-service-1.10.0-SNAPSHOT-min-jar-with-dependencies.jar</include>
                                     </includes>
                             </resource>
                             </resources>
