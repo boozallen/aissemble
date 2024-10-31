@@ -135,17 +135,4 @@ public class SparkPipelineMessagingCdiFactoryMigration extends AbstractPomMigrat
             throw new BatonException("Failed to update the file with the new CDI context object(s): " + file.getAbsolutePath(), e);
         }
     }
-
-
-    /**
-     * Checks if a given pom model contains any dependencies with a provided group ID and artifact ID
-     */
-    private boolean hasDependency(Model model, String groupId, String artifactId) {
-        return model.getDependencies()
-             .stream()
-             .anyMatch(dependency ->
-                 dependency.getGroupId().equals(groupId) &&
-                 dependency.getArtifactId().contains(artifactId)
-             );
-    }
 }

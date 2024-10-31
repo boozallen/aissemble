@@ -149,7 +149,7 @@
             <!-- See https://github.com/apache/incubator-hugegraph-toolchain/issues/464 -->
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${version.javax.servlet}</version>
         </dependency>
         #if ($pipeline.isAlertingSupportNeeded())
         <dependency>
