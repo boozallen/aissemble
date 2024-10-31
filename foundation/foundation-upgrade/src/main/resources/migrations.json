@@ -38,6 +38,17 @@
         ]
       },
       {
+        "name": "spark-pipeline-servlet-api-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.SparkPipelineServletApiMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-pipelines/*/pom.xml"
+            ]
+          }
+        ]
+      },
+      {
         "name": "it-infrastructure-java-upgrade-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.ItInfrastructureJavaUpgradeMigration",
         "fileSets": [
@@ -75,6 +86,34 @@
           {
             "includes": ["**/*.yaml"],
             "excludes": ["**/target/**", "**/templates/**"]
+          }
+        ]
+      },
+      {
+        "name": "pom-dependency-version-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.PomDependencyVersionMigration",
+        "fileSets": [
+          {
+            "includes": ["pom.xml"]
+          }
+        ]
+      },
+      {
+        "name": "java-package-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.JavaPackageMigration",
+        "fileSets": [
+          {
+            "includes": ["src/**/*.java"],
+            "excludes": ["**/target/**"]
+          }
+        ]
+      },
+      {
+        "name": "quarkus-bom-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_10_0.QuarkusBomMigration",
+        "fileSets": [
+          {
+            "includes": ["pom.xml"]
           }
         ]
       }

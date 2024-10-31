@@ -31,7 +31,6 @@ public class SparkPipelineMessagingPomMigration extends AbstractPomMigration {
     private static final Logger logger = LoggerFactory.getLogger(SparkPipelineMessagingPomMigration.class);
 
     private static final String SMALLRYE_REACTIVE_MESSAGING_GROUP_ID = "io.smallrye.reactive";
-    private static final String SMALLRYE_REACTIVE_MESSAGING_ARTIFACT_ID = "smallrye-reactive-messaging";
     private static final String SMALLRYE_REACTIVE_MESSAGING_KAFKA_ARTIFACT_ID = "smallrye-reactive-messaging-kafka";
 
     private static final String AISSEMBLE_GROUP_ID = "com.boozallen.aissemble";
@@ -64,18 +63,6 @@ public class SparkPipelineMessagingPomMigration extends AbstractPomMigration {
         modifications.add(new Insertion(model.getLocation("dependencies" + END), 1, this::getDependencyContent));
 
         return PomHelper.writeModifications(pomFile, modifications.finalizeMods());
-    }
-
-    /**
-     * Checks if a given pom model contains any dependencies with a provided group ID and artifact ID
-     */
-    private boolean hasDependency(Model model, String groupId, String artifactId) {
-        return model.getDependencies()
-             .stream()
-             .anyMatch(dependency ->
-                 dependency.getGroupId().equals(groupId) &&
-                 dependency.getArtifactId().contains(artifactId)
-             );
     }
 
     private String getDependencyContent(String ignore) {

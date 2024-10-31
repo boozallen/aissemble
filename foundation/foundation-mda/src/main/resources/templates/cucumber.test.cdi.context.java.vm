@@ -15,7 +15,7 @@ import io.smallrye.reactive.messaging.memory.InMemoryConnector;
  *
  * Originally generated from: ${templateName} 
  */
-public class TestCdiContext extends PipelinesCdiContext {
+public class TestCdiContext implements CdiContext {
 
 	@Override
 	public List<Class<?>> getCdiClasses() {
@@ -24,4 +24,8 @@ public class TestCdiContext extends PipelinesCdiContext {
 		return classes;
 	}
 
+	@Override
+	public List<Extension> getExtensions() {
+		return Collections.emptyList();
+	}
 }
