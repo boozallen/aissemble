@@ -158,6 +158,10 @@ public class JavaStep extends BaseStepDecorator {
         return isVoid(getOutbound());
     }
 
+    public boolean useEmitter() {
+        return hasNativeInbound() || hasVoidInbound();
+    }
+
     public Set<String> getBaseImports() {
         getBaseSignature();
         addPersistImports();

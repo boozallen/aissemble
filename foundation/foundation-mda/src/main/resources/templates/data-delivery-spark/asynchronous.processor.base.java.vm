@@ -26,7 +26,7 @@ import org.reactivestreams.Subscription;
 #if (${step.outbound})
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 #end
-#if ((${step.hasMessagingOutbound()} && ${step.hasNativeInbound()}))
+#if ((${step.hasMessagingOutbound()} && ${step.useEmitter()}))
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 #end
@@ -137,7 +137,7 @@ public abstract class ${step.capitalizedName}Base extends AbstractPipelineStep {
     #end
 #end
 
-#if ($step.hasMessagingOutbound() && $step.hasNativeInbound())
+#if ($step.hasMessagingOutbound() && $step.useEmitter())
 	@OnOverflow(value = OnOverflow.Strategy.BUFFER, bufferSize = 20)
 	@Inject
 	@Channel(OUTGOING_CHANNEL)
@@ -182,7 +182,7 @@ public abstract class ${step.capitalizedName}Base extends AbstractPipelineStep {
 	@Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
 	@OnOverflow(value = OnOverflow.Strategy.BUFFER, bufferSize = 20)
 	#end
-	#if (${step.hasMessagingOutbound()} && !${step.hasNativeInbound()})
+	#if (${step.hasMessagingOutbound()} && !${step.hasNativeInbound()} && !${step.hasVoidInbound()})
 	@Outgoing(OUTGOING_CHANNEL)
 	#end
 	${step.baseSignature} {
@@ -209,7 +209,7 @@ public abstract class ${step.capitalizedName}Base extends AbstractPipelineStep {
 			#if ($step.billOfMaterial && $step.billOfMaterial.enabled)
 			recordBOM();
 			#end
-			#if ($step.hasMessagingOutbound() && $step.hasNativeInbound())
+			#if ($step.hasMessagingOutbound() && $step.useEmitter())
 			${step.baseOutboundType} outboundPayload = executeStepImpl(#if (${step.baseInboundType}) inbound #end);
             #if ($pipeline.getDataLineage())
             eventEndTime = ZonedDateTime.now(ZoneOffset.UTC);
