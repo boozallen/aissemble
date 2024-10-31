@@ -104,7 +104,7 @@
                                 <resource>
                                     <directory>dist/dependency</directory>
                                     <includes>
-                                        <include>*.jar</include>
+                                        <include>foundation-messaging-python-service-1.10.0-SNAPSHOT-min.jar</include>
                                     </includes>
                             </resource>
                             </resources>

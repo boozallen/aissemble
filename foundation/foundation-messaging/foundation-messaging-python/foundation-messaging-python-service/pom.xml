@@ -15,6 +15,7 @@
     <packaging>jar</packaging>
     <properties>
         <byte.buddy>1.15.1</byte.buddy>
+        <proguard.version>2.6.1</proguard.version>
     </properties>
 
     <build>
@@ -34,6 +35,141 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>${proguard.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <injar>${project.build.finalName}.jar</injar>
+                    <outjar>${project.build.finalName}-min.jar</outjar>
+                    <libs>
+                        <lib>${java.home}/jmods/java.base.jmod</lib>
+                    </libs>
+                    <options>
+                        <option>-keep public class * { public static void main(String[]); } </option>
+                    </options>
+                    <!-- <assembly>
+                        <inclusions>
+                            <inclusion>
+                                <groupId>com.boozallen.aissemble</groupId>
+                                <artifactId>foundation-core-java</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>com.boozallen.aissemble</groupId>
+                                <artifactId>foundation-messaging-java</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>io.smallrye.reactive</groupId>
+                                <artifactId>smallrye-reactive-messaging-provider</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>org.jboss.weld.se</groupId>
+                                <artifactId>weld-se-core</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>jakarta.inject</groupId>
+                                <artifactId>jakarta.inject-api</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>io.smallrye.reactive</groupId>
+                                <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>io.smallrye.reactive</groupId>
+                                <artifactId>smallrye-reactive-messaging-amqp</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>net.sf.py4j</groupId>
+                                <artifactId>py4j</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>io.smallrye.reactive</groupId>
+                                <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>net.bytebuddy</groupId>
+                                <artifactId>byte-buddy</artifactId>
+                            </inclusion>
+                        </inclusions>
+                    </assembly> -->
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.boozallen.aissemble</groupId>
+                        <artifactId>foundation-core-java</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.boozallen.aissemble</groupId>
+                        <artifactId>foundation-messaging-java</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.smallrye.reactive</groupId>
+                        <artifactId>smallrye-reactive-messaging-provider</artifactId>
+                        <version>${version.smallrye.reactive.messaging}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss.weld.se</groupId>
+                        <artifactId>weld-se-core</artifactId>
+                        <version>${version.weld}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>jakarta.inject</groupId>
+                        <artifactId>jakarta.inject-api</artifactId>
+                        <version>${version.jakarta.inject}</version>
+                    </dependency>
+
+                    <!-- messaging implementations -->
+                    <dependency>
+                        <groupId>io.smallrye.reactive</groupId>
+                        <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+                        <version>${version.smallrye.reactive.messaging}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.smallrye.reactive</groupId>
+                        <artifactId>smallrye-reactive-messaging-amqp</artifactId>
+                        <version>${version.smallrye.reactive.messaging}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sf.py4j</groupId>
+                        <artifactId>py4j</artifactId>
+                        <version>0.10.9.7</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.smallrye.reactive</groupId>
+                        <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
+                        <version>${version.smallrye.reactive.messaging}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.bytebuddy</groupId>
+                        <artifactId>byte-buddy</artifactId>
+                        <version>${byte.buddy}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -76,7 +212,6 @@
             <artifactId>smallrye-reactive-messaging-amqp</artifactId>
             <version>${version.smallrye.reactive.messaging}</version>
         </dependency>
-
         <dependency>
             <groupId>net.sf.py4j</groupId>
             <artifactId>py4j</artifactId>
