@@ -283,7 +283,7 @@
     "name": "mlflowLineageProperties",
     "templateName": "templates/general-docker/mlflow.lineage.properties.vm",
     "outputFile": "krausening/base/data-lineage.properties",
-    "generator": "com.boozallen.aiops.mda.generator.DataLineageResourcesGenerator",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningResourcesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
 },

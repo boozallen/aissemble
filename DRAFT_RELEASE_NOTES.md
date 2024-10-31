@@ -8,6 +8,8 @@ Note: instructions for adapting to these changes are outlined in the upgrade ins
 
 - All upgrading projects must be built with Java 17 to ensure compatibility with this release. 
 - The new minimum required Maven version is now `3.9.6` to ensure compatibility with Java 17.
+- We are dropping the support for the data and model lineage event legacy namespace option (`data.lineage.namespace`). This means you will need to define your own namespace for each event in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. For more guidance, please refer to the [Lineage Metadata GitHub documentation](https://boozallen.github.io/aissemble/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration).
+
 
 # Known Issues
 _There are no known issues with the 1.10 release._
