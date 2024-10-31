@@ -36,27 +36,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/dependency</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--Obfuscate the artifact jar with its dependencies-->
             <plugin>
                 <groupId>com.github.wvengen</groupId>
                 <artifactId>proguard-maven-plugin</artifactId>
                 <version>${proguard.version}</version>
                 <executions>
                     <execution>
+                        <id>proguard</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>proguard</goal>
                         </goals>
@@ -69,52 +57,8 @@
                         <lib>${java.home}/jmods/java.base.jmod</lib>
                     </libs>
                     <options>
-                        <option>-keep public class * { public static void main(String[]); } </option>
+                        <option>-keep public class * { public static void main(java.lang.String[]); } </option>
                     </options>
-                    <!-- <assembly>
-                        <inclusions>
-                            <inclusion>
-                                <groupId>com.boozallen.aissemble</groupId>
-                                <artifactId>foundation-core-java</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>com.boozallen.aissemble</groupId>
-                                <artifactId>foundation-messaging-java</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>io.smallrye.reactive</groupId>
-                                <artifactId>smallrye-reactive-messaging-provider</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>org.jboss.weld.se</groupId>
-                                <artifactId>weld-se-core</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>jakarta.inject</groupId>
-                                <artifactId>jakarta.inject-api</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>io.smallrye.reactive</groupId>
-                                <artifactId>smallrye-reactive-messaging-kafka</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>io.smallrye.reactive</groupId>
-                                <artifactId>smallrye-reactive-messaging-amqp</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>net.sf.py4j</groupId>
-                                <artifactId>py4j</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>io.smallrye.reactive</groupId>
-                                <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
-                            </inclusion>
-                            <inclusion>
-                                <groupId>net.bytebuddy</groupId>
-                                <artifactId>byte-buddy</artifactId>
-                            </inclusion>
-                        </inclusions>
-                    </assembly> -->
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -142,8 +86,6 @@
                         <artifactId>jakarta.inject-api</artifactId>
                         <version>${version.jakarta.inject}</version>
                     </dependency>
-
-                    <!-- messaging implementations -->
                     <dependency>
                         <groupId>io.smallrye.reactive</groupId>
                         <artifactId>smallrye-reactive-messaging-kafka</artifactId>
@@ -171,9 +113,33 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <!-- Packages the obfuscated project into an uber jar-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/resources/includes-dependencies.xml</descriptor>
+                    </descriptors>
+                    <finalName>${project.build.finalName}</finalName>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.boozallen.aissemble.messaging.python.MessagingServiceRunner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
     <dependencies>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
