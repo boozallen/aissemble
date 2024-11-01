@@ -42,4 +42,8 @@ public enum PipelineEnum {
                 .map(type -> type.pipelineType)
                 .collect(Collectors.joining(", ", "[", "]"));
     }
+
+    public static String getPipelineType(PipelineEnum pipelineEnum) {
+        return pipelineEnum.pipelineType;
+    }
 }

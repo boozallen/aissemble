@@ -22,7 +22,6 @@ public class ConfigUtil {
     public static Krausening krausening;
     public static Properties properties;
     public static final String CONFIG_FILE = "data-lineage.properties";
-    private static final String LEGACY_NAMESPACE_PROPERTY = "data.lineage.namespace";
     private static final String DEFAULT_PRODUCER = "http://github.com/producer";
     private static final String DEFAULT_DATA_LINEAGE_ENABLED = "true";
     private static final String DEFAULT_DATA_LINEAGE_SCHEMA_URL = "https://openlineage.io/spec/1-0-5/OpenLineage.json";
@@ -79,8 +78,6 @@ public class ConfigUtil {
             return properties.getProperty(jobNamespaceProperty);
         } else if (defaultNamespace != null) {
             return defaultNamespace;
-        } else if (propertyNames.contains(LEGACY_NAMESPACE_PROPERTY)) {
-            return properties.getProperty(LEGACY_NAMESPACE_PROPERTY);
         } else {
             throw new NoSuchElementException(getNoPropertyErrorMessage(jobNamespaceProperty));
         }
@@ -97,8 +94,6 @@ public class ConfigUtil {
 
         if (propertyNames.contains(datasetNamespaceProperty)) {
             return properties.getProperty(datasetNamespaceProperty);
-        } else if (propertyNames.contains(LEGACY_NAMESPACE_PROPERTY)) {
-            return properties.getProperty(LEGACY_NAMESPACE_PROPERTY);
         } else {
             throw new NoSuchElementException(getNoPropertyErrorMessage(datasetNamespaceProperty));
         }

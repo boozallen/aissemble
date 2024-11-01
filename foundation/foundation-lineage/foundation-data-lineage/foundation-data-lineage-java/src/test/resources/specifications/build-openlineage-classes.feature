@@ -27,7 +27,7 @@ Feature: Data lineage wrapper classes can be used to produce equivalent classes 
     Then a valid OpenLineage Job will be created with its fields populated
 
   Scenario: An Input Dataset is used to build an equivalent OpenLineage Input Dataset object
-    Given a valid Input Dataset object named "test_name"
+    Given a valid Input Dataset object named "test_input_dataset"
     When the Input Dataset's function to build an OpenLineage object is called
     Then a valid OpenLineage Input Dataset will be created with its fields populated
 
@@ -75,16 +75,8 @@ Feature: Data lineage wrapper classes can be used to produce equivalent classes 
     When the Job is translated to an OpenLineage Job
     Then the Job namespace value is set to "myDefaultNamespace"
 
-  Scenario: If I do not set a namespace value for a job, it will use the set legacy namespace
+  Scenario: If I do not set a namespace value for a job, it will throw an exception
     Given the property "data.lineage.myJob.namespace" is not set
-    And I have configured the property "data.lineage.namespace" with the value "legacyNamespace"
-    And a valid Job object named "myJob"
-    When the Job is translated to an OpenLineage Job
-    Then the Job namespace value is set to "legacyNamespace"
-
-  Scenario: If I set no namespace values for a job and no legacy namespace, it will throw an exception
-    Given the property "data.lineage.myJob.namespace" is not set
-    And the property "data.lineage.namespace" is not set
     And a valid Job object named "myJob"
     When the Job is translated to an OpenLineage Job
     Then an exception is raised
@@ -95,15 +87,7 @@ Feature: Data lineage wrapper classes can be used to produce equivalent classes 
     When the Input Dataset is translated to an OpenLineage Dataset
     Then the namespace value of the Dataset is set to "myDataSource"
 
-  Scenario: If I do not set a namespace value for an Input Dataset, it will use the set legacy namespace
+  Scenario: If I do not set a namespace value for an Input Dataset, it will throw an exception
     Given the property "data.lineage.myInputDataset.namespace" is not set
-    And I have configured the property "data.lineage.namespace" with the value "legacyNamespace"
-    And a valid Input Dataset object named "myInputDataset"
-    When the Input Dataset is translated to an OpenLineage Dataset
-    Then the namespace value of the Dataset is set to "legacyNamespace"
-
-  Scenario: If I do not set a namespace value for an Input Dataset and no legacy namespace, it will throw an exception
-    Given the property "data.lineage.myInputDataset.namespace" is not set
-    And the property "data.lineage.namespace" is not set
     When a valid Input Dataset object named "myInputDataset" is declared
     Then an exception is raised
