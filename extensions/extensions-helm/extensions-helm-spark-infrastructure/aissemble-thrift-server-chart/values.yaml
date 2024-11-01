@@ -13,7 +13,7 @@ deployment:
   image:
     repository: "ghcr.io/boozallen/aissemble-spark"
     imagePullPolicy: IfNotPresent
-    tag: "1.10.0-SNAPSHOT"
+    tag: ""
   command: ["/opt/spark/sbin/start-thriftserver.sh"]
   env:
     SPARK_NO_DAEMONIZE: "true"
