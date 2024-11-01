@@ -166,21 +166,21 @@
             <artifactId>extensions-authzforce</artifactId>
         </dependency>
         #if ($enableSedonaSupport)
-		<dependency>
-			<groupId>org.apache.sedona</groupId>
-			<artifactId>sedona-python-adapter-3.0_2.12</artifactId>
-			<version>${version.sedona}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.sedona</groupId>
-			<artifactId>sedona-viz-3.0_2.12</artifactId>
-			<version>${version.sedona}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.datasyslab</groupId>
-			<artifactId>geotools-wrapper</artifactId>
-			<version>${version.geotools.wrapper}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.sedona</groupId>
+            <artifactId>sedona-python-adapter-3.0_2.12</artifactId>
+            <version>${version.sedona}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sedona</groupId>
+            <artifactId>sedona-viz-3.0_2.12</artifactId>
+            <version>${version.sedona}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datasyslab</groupId>
+            <artifactId>geotools-wrapper</artifactId>
+            <version>${version.geotools.wrapper}</version>
+        </dependency>
         #end
         #if ($enablePostgresSupport)
         <dependency>
@@ -190,22 +190,22 @@
         #end
         #if ($enableElasticsearchSupport)
         <!-- Version must match the version set in the elasticsearch helm chart-->
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch-spark-30_2.12</artifactId>
-			<version>${version.elasticsearch}</version>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-spark-30_2.12</artifactId>
+            <version>${version.elasticsearch}</version>
             <scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>commons-compiler</artifactId>
-			<version>${version.janino}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>janino</artifactId>
-			<version>${version.janino}</version>
-		</dependency>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>commons-compiler</artifactId>
+            <version>${version.janino}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>${version.janino}</version>
+        </dependency>
         #end
         #if ($enableNeo4jSupport)
         <dependency>

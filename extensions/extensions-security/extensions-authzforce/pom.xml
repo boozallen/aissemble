@@ -11,16 +11,12 @@
 
     <name>aiSSEMBLE::Extensions::Security::Authzforce</name>
     <description>Authzforce implementation of a Policy Decision Point (PDP)</description>
+    <properties>
+        <version.jjwt>0.11.2</version.jjwt>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>com.boozallen.aissemble</groupId>
                 <artifactId>bom-instantiation</artifactId>
@@ -35,7 +31,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-admin-client</artifactId>
-            <version>13.0.1</version>
+            <version>26.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.technologybrewery.krausening</groupId>
@@ -44,26 +40,21 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.11.2</version>
+            <version>${version.jjwt}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.11.2</version>
+            <version>${version.jjwt}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>0.11.2</version>
+            <version>${version.jjwt}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <version>${version.resteasy}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.authzforce</groupId>
@@ -78,7 +69,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>2.9.3</version>
+            <version>3.1.8</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -95,6 +86,7 @@
             <artifactId>jakarta.activation-api</artifactId>
             <version>${version.jakarta.activation.api}</version>
         </dependency>
+
         <!-- TEST dependencies -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -112,37 +104,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>1.2.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>1.2.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
             <version>${version.cucumber.reporting.plugin}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Logging Dependencies (from build-parent pom) -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
