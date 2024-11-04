@@ -124,3 +124,5 @@ If you added any custom configurations to the `sparkoperator` service account pe
 - `pyproject.toml` files updated to allow for Python version `>=3.8`.
 - All SageMaker modules and corresponding references were removed in commit 8ce393f.
 - The Service Discovery module and corresponding references were removed in commit d10db5d0. 
+- Leveraging a new version of Booz Allen Licenses. Booz Allen projects may find some minor updates to header file text
+  that better conforms to some strict linting standards.
