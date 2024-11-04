@@ -54,7 +54,7 @@
         <version.mutiny>2.6.2</version.mutiny>
         <version.plexus.component>2.1.1</version.plexus.component>
         <version.postgresql>42.5.1</version.postgresql>
-        <version.resteasy>4.7.7.Final</version.resteasy>
+        <version.resteasy>6.2.8.Final</version.resteasy>
         <version.vertx>4.5.9</version.vertx>
         <version.urllib3>^1.26.18</version.urllib3>
         <version.fastapi>&gt;=0.95.0</version.fastapi>
@@ -161,9 +161,6 @@
 
         <!-- OpenLineage java -->
         <version.open.lineage.java>1.23.0</version.open.lineage.java>
-
-        <!-- Used for pinning version specifically test-mda-model-->
-        <version.test.resteasy>3.15.6.Final</version.test.resteasy>
     </properties>
 
     <dependencyManagement>

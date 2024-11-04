@@ -17,13 +17,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
                 <artifactId>aissemble-quarkus-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>

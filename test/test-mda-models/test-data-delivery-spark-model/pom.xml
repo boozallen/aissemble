@@ -131,7 +131,7 @@
             <artifactId>foundation-metadata-producer</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>extensions-messaging-kafka</artifactId>
         </dependency>
         <dependency>
@@ -144,11 +144,22 @@
             <classifier>tests</classifier>
             <type>test-jar</type>
             <scope>test</scope>
-            <version>${project.version}</version>
+            <version>${version.aissemble}</version>
+        </dependency>
+        <dependency>
+            <!-- Spark hasn't migrated to Jakarta packages yet. Will need to shade it if we want to fully migrate. -->
+            <!-- See https://github.com/apache/incubator-hugegraph-toolchain/issues/464 -->
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>foundation-pdp-client-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-authzforce</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.sedona</groupId>
@@ -169,6 +180,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>extensions-data-delivery-spark-postgres</artifactId>
         </dependency>
+        <!-- Version must match the version set in the elasticsearch helm chart-->
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-spark-30_2.12</artifactId>
@@ -194,21 +206,26 @@
             <artifactId>foundation-alerting</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>foundation-encryption-policy-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>extensions-encryption-vault-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.boozallen.aissemble</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>foundation-data-lineage-java</artifactId>
         </dependency>
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-kafka</artifactId>
             <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jclouds</groupId>
+            <artifactId>jclouds-allblobstore</artifactId>
+            <version>${version.jclouds}</version>
         </dependency>
         <!-- Test dependencies: -->
         <dependency>
@@ -245,16 +262,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <version>${version.test.resteasy}</version>
+            <groupId>org.apache.jclouds.api</groupId>
+            <artifactId>filesystem</artifactId>
+            <version>${version.jclouds}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-aws</artifactId>
-            <version>${version.hadoop}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
