@@ -62,7 +62,7 @@
             </properties>
         </profile>
         <profile>
-            <id>release</id>
+            <id>ci</id>
             <properties>
                 <overwrite.dependencies>true</overwrite.dependencies>
             </properties>
