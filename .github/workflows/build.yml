@@ -55,6 +55,14 @@ jobs:
           docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
           docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
       #NB: We restore/save cache manually so that we save the cache even if the build fails
+      - name: Load docker build cache
+        id: cached-docker-build
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.docker/cache
+          key: docker-cache-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            docker-cache-
       - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
         id: cached-m2-repo
         uses: actions/cache/restore@v4
@@ -71,14 +79,6 @@ jobs:
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-build-cache-
-      - name: Load docker build cache
-        id: cached-docker-build
-        uses: actions/cache/restore@v4
-        with:
-          path: ~/.docker/cache
-          key: docker-cache-${{ hashFiles('**/Dockerfile') }}
-          restore-keys: |
-            docker-cache-
       #NB: Not saving poetry cache on failure in case it's a failure caused by an in-flight python package release
       - name: Poetry cache
         id: cached-poetry
@@ -105,6 +105,13 @@ jobs:
       - name: Run Archetype Tests
         run: |
           ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
+      - name: Save docker build cache
+        id: save-docker-build
+        uses: actions/cache/save@v4
+        if: always() && steps.cached-docker-build.outputs.cache-hit != 'true'
+        with:
+          path: ~/.docker/cache
+          key: docker-cache-${{ hashFiles('**/Dockerfile') }}
       - name: Save m2 repository cache
         id: save-m2-repo
         uses: actions/cache/save@v4
@@ -119,10 +126,3 @@ jobs:
         with:
           path: ~/.m2/build-cache
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
-      - name: Save docker build cache
-        id: save-docker-build
-        uses: actions/cache/save@v4
-        if: always() && steps.cached-docker-build.outputs.cache-hit != 'true'
-        with:
-          path: ~/.docker/cache
-          key: docker-cache-${{ hashFiles('**/Dockerfile') }}

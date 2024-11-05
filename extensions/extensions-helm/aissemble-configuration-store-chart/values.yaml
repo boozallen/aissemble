@@ -8,7 +8,7 @@ aissemble-quarkus-chart:
       repo: ghcr.io/
       name: boozallen/aissemble-configuration-store
       imagePullPolicy: IfNotPresent
-      tag: "@version.aissemble@"
+      tag: ""
     hostname: configuration-store
     restartPolicy: Always
 
