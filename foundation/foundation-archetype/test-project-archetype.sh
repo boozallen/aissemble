@@ -128,6 +128,7 @@ echo "{
               \"type\": \"delta-lake\"
             }
           }
+        ]
       }" > test-generator-pipeline-models/src/main/resources/pipelines/ExampleDataDeliveryPipeline.json
 
 # ExampleDataDeliveryPySparkPipeline.json
