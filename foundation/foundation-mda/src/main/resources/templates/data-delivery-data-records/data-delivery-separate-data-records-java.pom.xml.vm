@@ -36,5 +36,10 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>foundation-core-java</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
     </dependencies>
 </project>

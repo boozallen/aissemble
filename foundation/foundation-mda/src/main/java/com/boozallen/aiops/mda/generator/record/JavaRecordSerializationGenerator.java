@@ -28,12 +28,12 @@ import java.util.Map;
 public class JavaRecordSerializationGenerator extends JavaRecordGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                      | Template                                              | Generated File                                     |
-     * |-----------------------------|-------------------------------------------------------|----------------------------------------------------|
-     * | javaRecordDeserializerBase  | data-delivery-spark/record.deserializer.base.java.vm  | ${basePackage}/${recordName}DeserializerBase.java  |
-     * | javaRecordDeserializerImpl  | data-delivery-spark/record.deserializer.impl.java.vm  | ${basePackage}/${recordName}Deserializer.java      |
-     * | javaRecordSerializerBase    | data-delivery-spark/record.serializer.base.java.vm    | ${basePackage}/${recordName}SerializerBase.java    |
-     * | javaRecordSerializerImpl    | data-delivery-spark/record.serializer.impl.java.vm    | ${basePackage}/${recordName}Serializer.java        |
+     * | Target                      | Template                                                     | Generated File                                     |
+     * |-----------------------------|--------------------------------------------------------------|----------------------------------------------------|
+     * | javaRecordDeserializerBase  | data-delivery-data-records/record.deserializer.base.java.vm  | ${basePackage}/${recordName}DeserializerBase.java  |
+     * | javaRecordDeserializerImpl  | data-delivery-data-records/record.deserializer.impl.java.vm  | ${basePackage}/${recordName}Deserializer.java      |
+     * | javaRecordSerializerBase    | data-delivery-data-records/record.serializer.base.java.vm    | ${basePackage}/${recordName}SerializerBase.java    |
+     * | javaRecordSerializerImpl    | data-delivery-data-records/record.serializer.impl.java.vm    | ${basePackage}/${recordName}Serializer.java        |
      */
 
     @Override

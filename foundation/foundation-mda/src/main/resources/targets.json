@@ -1983,7 +1983,7 @@
   },
   {
     "name": "javaRecordFieldEnum",
-    "templateName": "templates/data-delivery-spark/record.field.enum.java.vm",
+    "templateName": "templates/data-delivery-data-records/record.field.enum.java.vm",
     "outputFile": "${basePackage}/${recordName}Field.java",
     "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordGenerator",
     "metadataContext": "targeted",
@@ -2672,7 +2672,7 @@
   },
   {
     "name": "javaRecordSerializerBase",
-    "templateName": "templates/data-delivery-spark/record.serializer.base.java.vm",
+    "templateName": "templates/data-delivery-data-records/record.serializer.base.java.vm",
     "outputFile": "${basePackage}/${recordName}SerializerBase.java",
     "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
     "metadataContext": "targeted",
@@ -2680,7 +2680,7 @@
   },
   {
     "name": "javaRecordSerializerImpl",
-    "templateName": "templates/data-delivery-spark/record.serializer.impl.java.vm",
+    "templateName": "templates/data-delivery-data-records/record.serializer.impl.java.vm",
     "outputFile": "${basePackage}/${recordName}Serializer.java",
     "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
     "metadataContext": "targeted",
@@ -2688,7 +2688,7 @@
   },
   {
     "name": "javaRecordDeserializerBase",
-    "templateName": "templates/data-delivery-spark/record.deserializer.base.java.vm",
+    "templateName": "templates/data-delivery-data-records/record.deserializer.base.java.vm",
     "outputFile": "${basePackage}/${recordName}DeserializerBase.java",
     "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
     "metadataContext": "targeted",
@@ -2696,7 +2696,7 @@
   },
   {
     "name": "javaRecordDeserializerImpl",
-    "templateName": "templates/data-delivery-spark/record.deserializer.impl.java.vm",
+    "templateName": "templates/data-delivery-data-records/record.deserializer.impl.java.vm",
     "outputFile": "${basePackage}/${recordName}Deserializer.java",
     "generator": "com.boozallen.aiops.mda.generator.record.JavaRecordSerializationGenerator",
     "metadataContext": "targeted",

@@ -31,5 +31,10 @@
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>extensions-data-delivery-spark</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
     </dependencies>
 </project>
