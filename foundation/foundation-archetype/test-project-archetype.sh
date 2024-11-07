@@ -22,26 +22,26 @@ mkdir -p target/temp
 cd target/temp
 
 function updatePomBasedOnChildDirs {
-	# The 'TODO' text line that we're going to replace in the file
+  # The 'TODO' text line that we're going to replace in the file
     # should be passed in as the first param to this method. i.e.
     #    updatePomBasedOnChildDirs '<!-- TODO: this is where manual actions go -->'
-	todoText=$1
+  todoText=$1
 
     modules=""
-	for d in */ ; do
-	  if [ $d != "target/" ]; then
+  for d in */ ; do
+    if [ $d != "target/" ]; then
       # Drop / from the end of the directory
       d="${d/\//}"
       modules+="<module>$d</module>"
-		fi
-	done
+    fi
+  done
 
-	echo -e "\nINFO: Adding \n\t$modules\n\tto $PWD/pom.xml\n"
-	fileContents=`cat pom.xml`
-	fileContents="${fileContents/$todoText/$modules}"
+  echo -e "\nINFO: Adding \n\t$modules\n\tto $PWD/pom.xml\n"
+  fileContents=`cat pom.xml`
+  fileContents="${fileContents/$todoText/$modules}"
 
-	# NOTE - the formatting get's all messed up
-	echo -e $fileContents > pom.xml
+  # NOTE - the formatting get's all messed up
+  echo -e $fileContents > pom.xml
 }
 
 package='com.bah.aiops'
@@ -49,17 +49,17 @@ echo "Using Project Version: $1"
 echo -e "\nINFO: Generating a new project from the archetype\n"
 rm -rf test-generator
 mvn archetype:generate -B \
-	-DarchetypeGroupId=com.boozallen.aissemble \
-	-DarchetypeArtifactId=foundation-archetype \
+  -DarchetypeGroupId=com.boozallen.aissemble \
+  -DarchetypeArtifactId=foundation-archetype \
   -DarchetypeVersion="$1" \
-	-DgroupId=com.bah.aiops \
-	-DartifactId=test-generator \
-	-Dversion=1.0.0-SNAPSHOT \
-	-Dpackage=$package \
-	-DprojectGitUrl=https://github.com/boozallen/aissemble-archetype-test \
-	-DprojectName=Generator_Test \
-	-DmavenRepositoryUrl=https://repo1.maven.org/maven2 \
-	-DmavenSnapshotRepositoryUrl=https://s01.oss.sonatype.org/content/repositories/snapshots
+  -DgroupId=com.bah.aiops \
+  -DartifactId=test-generator \
+  -Dversion=1.0.0-SNAPSHOT \
+  -Dpackage=$package \
+  -DprojectGitUrl=https://github.com/boozallen/aissemble-archetype-test \
+  -DprojectName=Generator_Test \
+  -DmavenRepositoryUrl=https://repo1.maven.org/maven2 \
+  -DmavenSnapshotRepositoryUrl=https://s01.oss.sonatype.org/content/repositories/snapshots
 
 cd test-generator/
 
@@ -99,72 +99,99 @@ echo "{
 
 # ExampleDataDelivery.json
 echo "{
-      	\"name\": \"ExampleDataDeliveryPipeline\",
-      	\"package\": \"${package}\",
-      	\"type\": {
-      		\"name\": \"data-flow\",
-      		\"implementation\": \"data-delivery-spark\"
-      	}
+        \"name\": \"ExampleDataDeliveryPipeline\",
+        \"package\": \"${package}\",
+        \"type\": {
+          \"name\": \"data-flow\",
+          \"implementation\": \"data-delivery-spark\"
+        },
+        \"steps\": [
+          {
+            \"name\": \"Ingest\",
+            \"type\": \"synchronous\",
+            \"inbound\": {
+              \"type\": \"messaging\",
+              \"channelName\": \"example-channel\",
+              \"recordType\": {
+                \"name\": \"ExampleRecord\",
+                \"package\": \"${package}\"
+              }
+            },
+            \"persist\": {
+              \"type\": \"hive\"
+            }
+          },
+          {
+            \"name\": \"Transform\",
+            \"type\": \"synchronous\",
+            \"persist\": {
+              \"type\": \"delta-lake\"
+            }
+          }
       }" > test-generator-pipeline-models/src/main/resources/pipelines/ExampleDataDeliveryPipeline.json
 
 # ExampleDataDeliveryPySparkPipeline.json
 echo "{
-      	\"name\": \"ExampleDataDeliveryPySparkPipeline\",
-      	\"package\": \"${package}\",
-      	\"type\": {
-      		\"name\": \"data-flow\",
-      		\"implementation\": \"data-delivery-pyspark\"
-      	},
-      	\"steps\": [
-      		{
-      			\"name\": \"Ingest\",
-      			\"type\": \"synchronous\",
-      			\"persist\": {
-      				\"type\": \"hive\"
-      			}
-      		},
-      		{
-      			\"name\": \"Transform\",
-      			\"type\": \"synchronous\",
-      			\"persist\": {
-      				\"type\": \"hive\"
-      			}
-      		},
-      		{
-      			\"name\": \"Enrich\",
-      			\"type\": \"synchronous\",
-      			\"persist\": {
-      				\"type\": \"hive\"
-      			}
-      		}
-      	]
+        \"name\": \"ExampleDataDeliveryPySparkPipeline\",
+        \"package\": \"${package}\",
+        \"type\": {
+          \"name\": \"data-flow\",
+          \"implementation\": \"data-delivery-pyspark\"
+        },
+        \"steps\": [
+          {
+            \"name\": \"Ingest\",
+            \"type\": \"synchronous\",
+            \"inbound\": {
+              \"type\": \"messaging\",
+              \"channelName\": \"example-channel\"
+            },
+            \"persist\": {
+              \"type\": \"hive\"
+            }
+          },
+          {
+            \"name\": \"Transform\",
+            \"type\": \"synchronous\",
+            \"persist\": {
+              \"type\": \"delta-lake\"
+            }
+          },
+          {
+            \"name\": \"Enrich\",
+            \"type\": \"synchronous\",
+            \"persist\": {
+              \"type\": \"hive\"
+            }
+          }
+        ]
       }" > test-generator-pipeline-models/src/main/resources/pipelines/ExampleDataDeliveryPySparkPipeline.json
 
 # ExampleMachineLearningPipeline.json
 echo "{
-      	\"name\": \"ExampleMachineLearningPipeline\",
-      	\"package\": \"com.boozallen.aiops.cookbook\",
-      	\"type\": {
-      		\"name\": \"machine-learning\",
-      		\"implementation\": \"machine-learning-mlflow\",
-      		\"versioning\": {
-      			\"enabled\": false
-      		}
-      	},
-      	\"steps\": [
-      		{
-      			\"name\": \"MachineLearningTraining\",
-      			\"type\": \"training\",
-      			\"inbound\": {
-      				\"type\": \"messaging\",
-      				\"channelName\": \"train\"
-      			}
-      		},
-      		{
-      			\"name\": \"MachineLearningInference\",
-      			\"type\": \"inference\"
-      		}
-      	]
+        \"name\": \"ExampleMachineLearningPipeline\",
+        \"package\": \"com.boozallen.aiops.cookbook\",
+        \"type\": {
+          \"name\": \"machine-learning\",
+          \"implementation\": \"machine-learning-mlflow\",
+          \"versioning\": {
+            \"enabled\": false
+          }
+        },
+        \"steps\": [
+          {
+            \"name\": \"MachineLearningTraining\",
+            \"type\": \"training\",
+            \"inbound\": {
+              \"type\": \"messaging\",
+              \"channelName\": \"train\"
+            }
+          },
+          {
+            \"name\": \"MachineLearningInference\",
+            \"type\": \"inference\"
+          }
+        ]
       }" > test-generator-pipeline-models/src/main/resources/pipelines/ExampleMachineLearningPipeline.json
 
 # Create build cache files to make builds more efficient, when possible - testing the parts of the archetype impacted by change:

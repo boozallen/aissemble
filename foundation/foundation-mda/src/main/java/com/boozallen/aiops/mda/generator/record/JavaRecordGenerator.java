@@ -29,11 +29,11 @@ import com.boozallen.aiops.mda.metamodel.element.java.JavaRecord;
 public class JavaRecordGenerator extends AbstractJavaGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target               | Template                                        | Generated File                          |
-     * |----------------------|-------------------------------------------------|-----------------------------------------|
-     * | javaRecordBase       | data-delivery-data-records/record.base.java.vm  | ${basePackage}/${recordName}Base.java   |
-     * | javaRecordImpl       | data-delivery-data-records/record.impl.java.vm  | ${basePackage}/${recordName}.java       |
-     * | javaRecordFieldEnum  | data-delivery-spark/record.field.enum.java.vm   | ${basePackage}/${recordName}Field.java  |
+     * | Target               | Template                                              | Generated File                          |
+     * |----------------------|-------------------------------------------------------|-----------------------------------------|
+     * | javaRecordBase       | data-delivery-data-records/record.base.java.vm        | ${basePackage}/${recordName}Base.java   |
+     * | javaRecordFieldEnum  | data-delivery-data-records/record.field.enum.java.vm  | ${basePackage}/${recordName}Field.java  |
+     * | javaRecordImpl       | data-delivery-data-records/record.impl.java.vm        | ${basePackage}/${recordName}.java       |
      */
 
 

@@ -52,6 +52,7 @@ def start_container(context, docker_image, feature) -> int:
         raise Exception("Vault failed to start")
     return extport
 
+
 def before_feature(context, feature):
     if "integration" in feature.tags:
         logger.info("Starting Test container services")
