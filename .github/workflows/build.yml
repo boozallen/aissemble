@@ -26,29 +26,20 @@ jobs:
     runs-on: arc-runner-set-aissemble
     env:
       DOCKER_CONFIG: /home/runner/.docker
+      RUNS_ON_S3_BUCKET_CACHE: aissemble-github-cache
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.buildBranch }}
-      - name: clear cache on nightly build
-        if: ${{ github.event.schedule }}
-        uses: actions/github-script@v6
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          script: |
-            console.log("Clearing cache")
-            const caches = await github.rest.actions.getActionsCacheList({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            })
-            for (const cache of caches.data.actions_caches) {
-              console.log(cache)
-              github.rest.actions.deleteActionsCacheById({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                cache_id: cache.id,
-              })
-            }
-            console.log("Clear completed")
+          aws-access-key-id: ${{ secrets.S3_CACHE_USER }}
+          aws-secret-access-key: ${{ secrets.S3_CACHE_USER_SECRET }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: true
+          # 3 hours, as our nightly takes ~ 2
+          role-duration-seconds: 10800
       - name: Install dependencies
         uses: ./.github/actions/install_dependencies
         with:
@@ -57,7 +48,7 @@ jobs:
       #NB: We restore/save cache manually so that we save the cache even if the build fails
       - name: Load docker build cache
         id: cached-docker-build
-        uses: actions/cache/restore@v4
+        uses: runs-on/cache/restore@v4
         with:
           path: ~/.docker/cache
           key: docker-cache-${{ hashFiles('**/Dockerfile') }}
@@ -65,7 +56,7 @@ jobs:
             docker-cache-
       - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
         id: cached-m2-repo
-        uses: actions/cache/restore@v4
+        uses: runs-on/cache/restore@v4
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
@@ -73,7 +64,7 @@ jobs:
             maven-
       - name: Load m2 build cache
         id: cached-m2-build
-        uses: actions/cache/restore@v4
+        uses: runs-on/cache/restore@v4
         with:
           path: ~/.m2/build-cache
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
@@ -82,7 +73,7 @@ jobs:
       #NB: Not saving poetry cache on failure in case it's a failure caused by an in-flight python package release
       - name: Poetry cache
         id: cached-poetry
-        uses: actions/cache@v4
+        uses: runs-on/cache@v4
         with:
           path: ~/.cache/pypoetry
           key: poetry-cache-${{ hashFiles('**/pyproject.toml') }}
@@ -107,21 +98,21 @@ jobs:
           ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
       - name: Save docker build cache
         id: save-docker-build
-        uses: actions/cache/save@v4
+        uses: runs-on/cache/save@v4
         if: always() && steps.cached-docker-build.outputs.cache-hit != 'true'
         with:
           path: ~/.docker/cache
           key: docker-cache-${{ hashFiles('**/Dockerfile') }}
       - name: Save m2 repository cache
         id: save-m2-repo
-        uses: actions/cache/save@v4
+        uses: runs-on/cache/save@v4
         if: always() && steps.cached-m2-repo.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
       - name: Save m2 build cache
         id: save-m2-build
-        uses: actions/cache/save@v4
+        uses: runs-on/cache/save@v4
         if: always() && steps.cached-m2-build.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/build-cache
