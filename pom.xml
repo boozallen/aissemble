@@ -39,6 +39,9 @@
         <module>foundation</module>
         <module>extensions</module>
         <module>test</module>
+        <!--We are relying on the sequential build from Maven; if we ever use parallel builds, we would need to
+         ensure the report aggregator depends on all other modules-->
+        <module>cucumber-report-aggregator</module>
     </modules>
 
     <scm>
