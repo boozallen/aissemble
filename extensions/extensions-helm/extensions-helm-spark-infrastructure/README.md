@@ -50,3 +50,13 @@ sparkApp:
       spark.eventLog.dir: "/opt/spark/spark-events"
       spark.hive.metastore.warehouse.dir: "s3a://spark-infrastructure/warehouse"
 ```
+
+Finally, the same change must be applied to your values file for the CI environment.
+e.g. `resources/apps/<pipeline>-ci-values.yaml`.
+Note the different endpoint. Be sure it is configured to the remote endpoint you intend to use.
+```yaml
+    sparkConf:
+      spark.hadoop.fs.s3a.endpoint: "s3.amazonaws.com"
+      spark.eventLog.dir: "/opt/spark/spark-events"
+      spark.hive.metastore.warehouse.dir: "s3a://spark-infrastructure/warehouse"
+```
