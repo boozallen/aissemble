@@ -1,0 +1,7 @@
+containerMode:
+  type: "dind"
+githubConfigUrl: "https://github.com/boozallen/aissemble"
+maxRunners: 3
+template:
+  spec:
+    serviceAccountName: "arc-runner-set-aissemble-gha-rs-custom-permissions"

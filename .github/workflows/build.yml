@@ -49,6 +49,7 @@ jobs:
       - name: Load docker build cache
         id: cached-docker-build
         uses: runs-on/cache/restore@v4
+        if: ${{ ! github.event.schedule }}
         with:
           path: ~/.docker/cache
           key: docker-cache-${{ hashFiles('**/Dockerfile') }}
@@ -57,6 +58,7 @@ jobs:
       - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
         id: cached-m2-repo
         uses: runs-on/cache/restore@v4
+        if: ${{ ! github.event.schedule }}
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
@@ -65,6 +67,7 @@ jobs:
       - name: Load m2 build cache
         id: cached-m2-build
         uses: runs-on/cache/restore@v4
+        if: ${{ ! github.event.schedule }}
         with:
           path: ~/.m2/build-cache
           key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
@@ -74,6 +77,7 @@ jobs:
       - name: Poetry cache
         id: cached-poetry
         uses: runs-on/cache@v4
+        if: ${{ ! github.event.schedule }}
         with:
           path: ~/.cache/pypoetry
           key: poetry-cache-${{ hashFiles('**/pyproject.toml') }}
