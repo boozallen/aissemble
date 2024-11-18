@@ -55,10 +55,4 @@ public class DeploymentSteps extends AbstractModelInstanceSteps {
                 new Slf4jDelegate(logger),
                 projectDir.toFile());
     }
-
-    @Then("the placeholder SealedSecret is created")
-    public void the_placeholder_sealed_secret_is_created() {
-        Path sealedSecret = projectDir.resolve("main/resources/templates/").resolve("sealed-secret.yaml");
-        assertTrue("File not created", Files.exists(sealedSecret));
-    }
 }

@@ -3,7 +3,7 @@ Feature: Data encryption
     # Generated sample BDD specification/feature file - PLEASE ***DO*** MODIFY.
     # Originally generated from templates/behave.feature.vm.
 
-  Scenario: Get fields from native inbound collection with inbound record type (set([CustomRecord]))
+  Scenario: Get fields from native inbound collection with inbound record type (set([CustomData]))
   Given a pipeline with native inbound collection and inbound record type
   When field names are retrieved for the inbound record
   Then a list of field names can be retrieved
@@ -18,7 +18,7 @@ Feature: Data encryption
   When field names are retrieved for the set of inbound dataframes
   Then each list of field names can be retrieved
 
-  Scenario: Encrypt fields for native inbound with inbound record type (set([CustomRecord]))
+  Scenario: Encrypt fields for native inbound with inbound record type (set([CustomData]))
   Given a pipeline with native inbound collection and inbound record type
   When encryption is called on the inbound record
   Then the correct fields are encrypted

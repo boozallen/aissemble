@@ -28,7 +28,27 @@
                         <groupId>io.smallrye.reactive</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.scala-lang</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
+            </dependency>
+            <!-- Downgrade Scala 2.13 (from Quarkus) to Scala 2.12 -->
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-reflect</artifactId>
+                <version>${version.scala}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${version.scala}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-compiler</artifactId>
+                <version>${version.scala}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

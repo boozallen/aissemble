@@ -316,9 +316,6 @@
 			},
 			{
 				"name": "sparkInfrastructureArgoCDFileV2"
-			},
-			{
-				"name": "sealedSecretArgoCDFile"
 			}
 		]
 	},
@@ -1206,9 +1203,6 @@
 			},
 			{
 				"name": "sparkInfrastructureArgoCD"
-			},
-			{
-				"name": "sealedSecretArgoCDFile"
 			}
 		]
 	},
@@ -2691,9 +2685,6 @@
 			},
 			{
 				"name": "mlflowArgoCDV2"
-			},
-			{
-				"name": "sealedSecretArgoCDFile"
 			}
 		]
 	}
