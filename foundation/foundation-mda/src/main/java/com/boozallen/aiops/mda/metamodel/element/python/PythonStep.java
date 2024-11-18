@@ -11,6 +11,7 @@ package com.boozallen.aiops.mda.metamodel.element.python;
  */
 
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
+import com.boozallen.aiops.mda.generator.util.PythonGeneratorUtils;
 import com.boozallen.aiops.mda.metamodel.element.BaseStepDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Persist;
 import com.boozallen.aiops.mda.metamodel.element.Step;
@@ -28,6 +29,8 @@ import java.util.TreeSet;
  */
 public class PythonStep extends BaseStepDecorator {
 
+    private String profileName;
+    private String rootArtifactId;
     protected static final String DATAFRAME_TYPE = "pysparkDataFrame";
     private static final String NONE = "None";
     private static final String STRING = "str";
@@ -98,7 +101,7 @@ public class PythonStep extends BaseStepDecorator {
     public Set<String> getBaseImports() {
         getBaseSignature();
         addPersistImports();
-        return getImportsWithRelativePaths(false);
+        return getImports(false);
     }
 
     /**
@@ -110,7 +113,7 @@ public class PythonStep extends BaseStepDecorator {
     public Set<String> getImplImports() {
         getConcreteSignature();
 
-        return getImportsWithRelativePaths(true);
+        return getImports(true);
     }
 
     /**
@@ -120,6 +123,8 @@ public class PythonStep extends BaseStepDecorator {
      * By using relative (instead of absolute) imports to generated record/dictionary classes,
      * we simplify generation and mitigate the need to generate the encapsulating package
      * path into every import statement in order to form valid absolute imports.
+     * This Relative imports only applies for Old Monolith Generation.
+     * For New case of Semantic Data we simply fetch from shared directory.
      * <p> For example, the import statement to a metamodel defined record becomes
      * {@code from ..record.custom_record import CustomRecord} instead of
      * {@code from the_package_name.record.custom_record import CustomRecord}.
@@ -130,18 +135,25 @@ public class PythonStep extends BaseStepDecorator {
      * @return {@link #imports} that have been appropriately modified to include the correct
      * relative import paths for any references to metamodel-define records or dictionary types.
      */
-    private Set<String> getImportsWithRelativePaths(boolean isImplModule) {
-        Set<String> importsWithRelativePaths = new TreeSet<>();
+    private Set<String> getImports(boolean isImplModule) {
+        Set<String> importsSet = new TreeSet<>();
         for (String moduleImport : imports) {
             if (moduleImport.startsWith("from record.")
                     || moduleImport.startsWith("from dictionary.")) {
-                importsWithRelativePaths.add(moduleImport.replace("from ",
-                        isImplModule ? "from .." : "from ..."));
+                if(profileName.equals("data-delivery-pyspark"))
+                {
+                    importsSet.add(moduleImport.replace("from ",
+                            isImplModule ? "from .." : "from ..."));
+                }else if(profileName.equals("data-delivery-pyspark-pipeline")){
+                    String rootArtifact = rootArtifactId.replace("-", "_");
+                    importsSet.add(moduleImport.replace("from ",
+                            "from " + rootArtifact + "_data_records."));
+                }
             } else {
-                importsWithRelativePaths.add(moduleImport);
+                importsSet.add(moduleImport);
             }
         }
-        return importsWithRelativePaths;
+        return importsSet;
     }
 
     /**
@@ -207,6 +219,14 @@ public class PythonStep extends BaseStepDecorator {
         String outputType = "List[str]";
 
         return createSignature("get_fields_list", inputType, outputType, false);
+    }
+
+    public void setProfileName(String profileName){
+        this.profileName = profileName;
+    }
+
+    public void setRootArtifactId(String rootArtifactId){
+        this.rootArtifactId = rootArtifactId;
     }
 
     private String createSignature(String methodName, String inputType, String outputType, boolean asyncMethod) {
