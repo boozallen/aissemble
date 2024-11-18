@@ -64,30 +64,15 @@
 				<include>.tiltignore</include>
 				<include>devops/**</include>
 				<include>jenkinsPipelineSteps.groovy</include>
-				<include>.mvn/**</include>
 			</includes>
-			<excludes>
-				<exclude>mvnw</exclude>
-				<exclude>mvnw.cmd</exclude>
-			</excludes>
-		</fileSet>
-		<fileSet>
-			<directory>.mvn</directory>
-			<includes/>
 		</fileSet>
 		<fileSet filtered="false" encoding="UTF-8">
 			<directory/>
 			<includes>
 				<include>mvnw</include>
 				<include>mvnw.cmd</include>
+				<include>.mvn/**</include>
 			</includes>
-			<excludes>
-				<exclude>Tiltfile</exclude>
-				<exclude>.tiltignore</exclude>
-				<exclude>devops/**</exclude>
-				<exclude>jenkinsPipelineSteps.groovy</exclude>
-				<exclude>.mvn/**</exclude>
-			</excludes>
 		</fileSet>
 	</fileSets>
 
@@ -102,7 +87,7 @@
 				<fileSet filtered="true" encoding="UTF-8">
 					<directory>src/main/resources</directory>
 					<includes>
-						<include>**</include>
+						<include>*/**</include>
 					</includes>
 				</fileSet>
 			</fileSets>
@@ -116,7 +101,7 @@
 				<fileSet filtered="true" encoding="UTF-8">
 					<directory>src/main/resources</directory>
 					<includes>
-						<include>**</include>
+						<include>*/**</include>
 					</includes>
 				</fileSet>
 			</fileSets>
@@ -130,8 +115,11 @@
 				<fileSet filtered="true" encoding="UTF-8">
 					<directory/>
 					<includes>
-						<include>**</include>
+						<include>*/**</include>
 					</includes>
+					<excludes>
+						<exclude>pom.xml</exclude>
+					</excludes>
 				</fileSet>
 			</fileSets>
 		</module>

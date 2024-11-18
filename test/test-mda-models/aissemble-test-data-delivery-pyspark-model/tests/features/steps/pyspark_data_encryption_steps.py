@@ -31,10 +31,10 @@ from aissemble_test_data_delivery_pyspark_model.step.native_inbound_and_messagin
 from aissemble_test_data_delivery_pyspark_model.step.native_inbound_with_custom_collection_type import (
     NativeInboundWithCustomCollectionType,
 )
-from aissemble_test_data_delivery_pyspark_model.step.native_inbound_with_custom_record_type_async import (
-    NativeInboundWithCustomRecordTypeAsync,
+from aissemble_test_data_delivery_pyspark_model.step.native_inbound_with_custom_data_type_async import (
+    NativeInboundWithCustomDataTypeAsync,
 )
-from aissemble_test_data_delivery_pyspark_model.record.custom_record import CustomRecord
+from aissemble_test_data_delivery_pyspark_model.record.custom_data import CustomData
 from krausening.logging import LogManager
 from pyspark.sql.types import StructType, StructField, StringType
 
@@ -43,9 +43,9 @@ logger = LogManager.get_instance().get_logger("DataEncryptionTest")
 
 @given("a pipeline with native inbound collection and inbound record type")
 def step_impl(context):
-    custom_record1 = CustomRecord()
-    custom_record1.custom_field = "some test data"
-    context.inbound = {custom_record1}
+    custom_data1 = CustomData()
+    custom_data1.custom_field = "some test data"
+    context.inbound = {custom_data1}
 
     context.fields_to_encrypt = ["custom_field"]
 
@@ -200,7 +200,7 @@ def step_impl(context):
 @then("the correct AES algorithm is applied to the data set")
 def step_impl(context):
     for record in context.encrypted_dataset:
-        logger.info("Set[(CustomRecord)] - AES Encrypted Value: " + record.custom_field)
+        logger.info("Set[(CustomData)] - AES Encrypted Value: " + record.custom_field)
         nt.ok_(
             record.custom_field != "some test data",
             "Field data from set was not AES encrypted.  Still the original value.",
@@ -225,9 +225,7 @@ def step_impl(context):
             record.custom_field.startswith("vault:"),
             "Field data from set was not encrypted using Vault.",
         )
-        logger.info(
-            "CustomRecord - The Vault encrypted value is: " + record.custom_field
-        )
+        logger.info("CustomData - The Vault encrypted value is: " + record.custom_field)
 
 
 @then("the correct Vault algorithm is applied to the dataframe")

@@ -3030,14 +3030,6 @@
     "overwritable": false
   },
   {
-    "name": "sealedSecretArgoCDFile",
-    "templateName": "templates/deployment/argocd/v2/sealed.secret.yaml.vm",
-    "outputFile": "templates/sealed-secret.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
     "name": "sparkInfrastructureHelmChartFileV2",
     "templateName": "templates/deployment/spark-infrastructure/v2/spark.infrastructure.chart.yaml.vm",
     "outputFile": "apps/${appName}/Chart.yaml",

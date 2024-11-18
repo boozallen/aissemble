@@ -112,23 +112,6 @@
             <artifactId>extensions-data-delivery-spark</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Downgrade Scala 2.13 (from Quarkus) to Scala 2.12 -->
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-reflect</artifactId>
-            <version>${version.scala}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-compiler</artifactId>
-            <version>${version.scala}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${version.scala}</version>
-        </dependency>
         <dependency>
             <!-- Spark hasn't migrated to Jakarta packages yet. Will need to shade it if we want to fully migrate. -->
             <!-- See https://github.com/apache/incubator-hugegraph-toolchain/issues/464 -->

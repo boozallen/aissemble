@@ -49,6 +49,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${version.cucumber.reporting.plugin}</version>
                 <executions>
                     <execution>
                         <id>execution</id>

@@ -31,8 +31,10 @@ import static org.apache.spark.sql.functions.lit;
  */
 public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
 
+#set($columnVars = {})
 #foreach ($field in $record.fields)
-    public static final String ${field.upperSnakecaseName}_COLUMN = "${field.sparkAttributes.columnName}";
+    #set ($columnVars[$field.name] = "${field.upperSnakecaseName}_COLUMN")
+    public static final String ${columnVars[$field.name]} = "${field.sparkAttributes.columnName}";
 #end
 
     public ${record.capitalizedName}SchemaBase() {
@@ -40,9 +42,9 @@ public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
 
   #foreach ($field in $record.fields)
       #if ($field.sparkAttributes.isDecimalType())
-        add(${field.upperSnakecaseName}_COLUMN, new ${field.shortType}(${field.sparkAttributes.defaultDecimalPrecision}, ${field.sparkAttributes.decimalScale}), ${field.sparkAttributes.isNullable()}, "${field.description}");
+        add(${columnVars[$field.name]}, new ${field.shortType}(${field.sparkAttributes.defaultDecimalPrecision}, ${field.sparkAttributes.decimalScale}), ${field.sparkAttributes.isNullable()}, "${field.description}");
       #else
-        add(${field.upperSnakecaseName}_COLUMN, ${field.shortType}, ${field.sparkAttributes.isNullable()}, "${field.description}");
+        add(${columnVars[$field.name]}, ${field.shortType}, ${field.sparkAttributes.isNullable()}, "${field.description}");
       #end
   #end
     }
@@ -56,12 +58,12 @@ public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
      */
     public Dataset<Row> cast(Dataset<Row> dataset) {
     #foreach ($field in $record.fields)
-        DataType ${field.name}Type = getDataType(${field.upperSnakecaseName}_COLUMN);
+        DataType ${field.name}Type = getDataType(${columnVars[$field.name]});
     #end
 
         return dataset
         #foreach ($field in $record.fields)
-        		.withColumn(${field.upperSnakecaseName}_COLUMN, col(${field.upperSnakecaseName}_COLUMN).cast(${field.name}Type))#if (!$foreach.hasNext);#end
+        		.withColumn(${columnVars[$field.name]}, col(${columnVars[$field.name]}).cast(${field.name}Type))#if (!$foreach.hasNext);#end
         #end
     }
 
@@ -90,30 +92,29 @@ public abstract class ${record.capitalizedName}SchemaBase extends SparkSchema {
     public Dataset<Row> validateDataFrame(Dataset<Row> data) {
         Dataset<Row> dataWithValidations = data
             #foreach ($field in $record.fields)
-                #set ( $columnName = "#if($field.column)$field.column#{else}$field.upperSnakecaseName#end" )
                 #if (${field.isRequired()})
-                    .withColumn("${columnName}_IS_NOT_NULL", col(${columnName}_COLUMN).isNotNull())
+                    .withColumn(${columnVars[$field.name]} + "_IS_NOT_NULL", col(${columnVars[$field.name]}).isNotNull())
                 #end
                 #if (${field.getValidation().getMinValue()})
-                    .withColumn("${columnName}_GREATER_THAN_MIN", col(${columnName}_COLUMN).gt(lit(${field.getValidation().getMinValue()})).or(col(${columnName}_COLUMN).equalTo(lit(${field.getValidation().getMinValue()}))))
+                    .withColumn(${columnVars[$field.name]} + "_GREATER_THAN_MIN", col(${columnVars[$field.name]}).gt(lit(${field.getValidation().getMinValue()})).or(col(${columnVars[$field.name]}).equalTo(lit(${field.getValidation().getMinValue()}))))
                 #end
                 #if (${field.getValidation().getMaxValue()})
-                    .withColumn("${columnName}_LESS_THAN_MAX", col(${columnName}_COLUMN).lt(lit(${field.getValidation().getMaxValue()})).or(col(${columnName}_COLUMN).equalTo(lit(${field.getValidation().getMaxValue()}))))
+                    .withColumn(${columnVars[$field.name]} + "_LESS_THAN_MAX", col(${columnVars[$field.name]}).lt(lit(${field.getValidation().getMaxValue()})).or(col(${columnVars[$field.name]}).equalTo(lit(${field.getValidation().getMaxValue()}))))
                 #end
                 #if (${field.getValidation().getScale()})
-                    .withColumn("${columnName}_MATCHES_SCALE", col(${columnName}_COLUMN).rlike(("^[0-9]*(?:\\.[0-9]{0,${field.getValidation().getScale()}})?$")))
+                    .withColumn(${columnVars[$field.name]} + "_MATCHES_SCALE", col(${columnVars[$field.name]}).rlike(("^[0-9]*(?:\\.[0-9]{0,${field.getValidation().getScale()}})?$")))
                 #end
                 #if (${field.getValidation().getMinLength()})
-                    .withColumn("${columnName}_GREATER_THAN_MAX_LENGTH", col(${columnName}_COLUMN).rlike(("^.{${field.getValidation().getMinLength()},}")))
+                    .withColumn(${columnVars[$field.name]} + "_GREATER_THAN_MAX_LENGTH", col(${columnVars[$field.name]}).rlike(("^.{${field.getValidation().getMinLength()},}")))
                 #end
                 #if (${field.getValidation().getMaxLength()})
-                    .withColumn("${columnName}_LESS_THAN_MAX_LENGTH", col(${columnName}_COLUMN).rlike(("^.{${field.getValidation().getMaxLength()},}")).equalTo(lit(false)))
+                    .withColumn(${columnVars[$field.name]} + "_LESS_THAN_MAX_LENGTH", col(${columnVars[$field.name]}).rlike(("^.{${field.getValidation().getMaxLength()},}")).equalTo(lit(false)))
                 #end
                 #foreach ($format in $field.getValidation().getFormats())
                     #if ($foreach.first)
-                        .withColumn("${columnName}_MATCHES_FORMAT", col(${columnName}_COLUMN).rlike(("$format.replace("\","\\")"))
+                        .withColumn(${columnVars[$field.name]} + "_MATCHES_FORMAT", col(${columnVars[$field.name]}).rlike(("$format.replace("\","\\")"))
                     #else
-                        .or(col(${columnName}_COLUMN).rlike(("$format.replace("\","\\")")))
+                        .or(col(${columnVars[$field.name]}).rlike(("$format.replace("\","\\")")))
                     #end
                     #if ($foreach.last)
                         )

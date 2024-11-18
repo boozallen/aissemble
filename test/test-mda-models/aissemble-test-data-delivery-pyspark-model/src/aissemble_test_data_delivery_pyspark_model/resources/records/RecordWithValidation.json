@@ -8,28 +8,32 @@
 			"type": {
 				"name": "stringWithValidation",
 				"package": "com.boozallen.aiops.mda.pattern.dictionary"
-			}
+			},
+			"column": "str_v8n"
 		},
 		{
 			"name": "integerValidation",
 			"type": {
 				"name": "integerWithValidation",
 				"package": "com.boozallen.aiops.mda.pattern.dictionary"
-			}
+			},
+			"column": "int_v8n"
 		},
 		{
 			"name": "decimalValidation",
 			"type": {
 				"name": "decimalWithValidation",
 				"package": "com.boozallen.aiops.mda.pattern.dictionary"
-			}
+			},
+			"column": "dec_v8n"
 		},
 		{
 			"name": "floatValidation",
 			"type": {
 				"name": "floatWithValidation",
 				"package": "com.boozallen.aiops.mda.pattern.dictionary"
-			}
+			},
+			"column": "float_v8n"
 		},
 		{
 			"name": "requiredSimpleType",
@@ -37,6 +41,7 @@
 				"name": "customType",
 				"package": "com.boozallen.aiops.mda.pattern.dictionary"
 			},
+			"column": "simple_v8n",
 			"required": true
 		},
 		{
@@ -45,6 +50,7 @@
 				"name": "stringWithValidation",
 				"package": "com.boozallen.aiops.mda.pattern.dictionary"
 			},
+			"column": "complex_v8n",
 			"required": true
 		}
 	]
