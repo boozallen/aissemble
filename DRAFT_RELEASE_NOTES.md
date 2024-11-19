@@ -94,20 +94,6 @@ All references to the `com.boozallen.aissemble:bom-component` should be replaced
 
 ## Conditional Steps
 
-### Split Data Records for the Spark Pipeline
-If your spark pipeline is using `aissemble-data-records-separate-module` profile for your data records, you must add the `<version>` tag for
-the `jackson-mapper-asl` dependency artifact in the root pom.xml file to enable the build.
-```xml
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-  +         <version>${version.jackson.mapper.asl}</version>
-        </dependency>
-```
-
-### Kafka Clients Dependency Update
-Data Access and the Java testing module (`<YOUR_PROJECT>-tests/<YOUR_PROJECT>-tests-java/pom.xml`) no longer need to explicitly set the `kafka-clients` dependency. It can be removed along with its exclusion from the `quarkus-smallrye-reactive-messaging-kafka` dependency.
-
 ### For projects that have customized the Spark Operator Service Account permissions
 The service account for the pipeline invocation service is now separated from spark operator and configured solely for the service.
 If you added any custom configurations to the `sparkoperator` service account pertaining to the pipeline invocation service, you will need to migrate the related changes to the new `pipeline-invocation-service-sa`. Refer to Pipeline Invocation Helm Chart [README](https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart/README.md) for detail.

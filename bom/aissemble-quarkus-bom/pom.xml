@@ -50,6 +50,13 @@
                 <artifactId>scala-compiler</artifactId>
                 <version>${version.scala}</version>
             </dependency>
+
+            <!-- TODO: Remove after 1.10 release! -->
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>${version.jackson.mapper.asl}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
