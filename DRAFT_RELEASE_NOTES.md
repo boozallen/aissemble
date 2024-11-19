@@ -3,12 +3,21 @@
 ## Java 17 Upgrade
 The aiSSEMBLE project is now built with Java 17. All dependencies inherited from aiSSEMBLE have been updated to a Java 17 compatible version and automatic migrations (detailed below) have been created to streamline this transition for downstream projects. It is recommended to review non-inherited dependencies and custom logic within your project, as this upgrade can break existing functionality due to deprecated classes and incompatible dependencies.
 
-# Breaking Changes
-Note: instructions for adapting to these changes are outlined in the upgrade instructions below.
+## Python Version Supported Expanded
+All aiSSEMBLE python libraries now support a minimum version of 3.8 (previously 3.11).
 
-- All upgrading projects must be built with Java 17 to ensure compatibility with this release. 
-- The new minimum required Maven version is now `3.9.6` to ensure compatibility with Java 17.
-- We are dropping the support for the data and model lineage event legacy namespace option (`data.lineage.namespace`). This means you will need to define your own namespace for each event in the `data-lineage.properties` file, such that Jobs are tied to pipelines and Datasets are tied to data sources. For more guidance, please refer to the [Lineage Metadata GitHub documentation](https://boozallen.github.io/aissemble/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration).
+## Improved Licence Generation
+Leveraging a new version of Booz Allen Licenses. Booz Allen projects may find some minor updates to header file text that better conforms to some strict linting standards.
+
+# Breaking Changes
+_Note: instructions for adapting to these changes are outlined in the upgrade instructions below._
+
+- All projects must be built with Java 17. The aiSSEMBLE team recommends [SDKMan](https://sdkman.io/) for managing multiple Java versions.
+- The new minimum required Maven version is now `3.9.6` to ensure compatibility with Java 17. The aiSSEMBLE team recommens using the [Maven Wrapper](https://maven.apache.org/wrapper/) to ensure compatibility.
+- Deprecated features were removed:
+  - All SageMaker modules and corresponding references were removed in commit 8ce393f.
+  - The Service Discovery module and corresponding references were removed in commit d10db5d0.
+  - The `data.lineage.namespace` legacy property was removed. For more guidance, please refer to the [Lineage Metadata GitHub documentation](https://boozallen.github.io/aissemble/aissemble/current-dev/lineage-medatada-capture-overview.html#_configuration).
 
 
 # Known Issues
@@ -20,6 +29,11 @@ _There are no known issues with the 1.10 release._
 
 
 # How to Upgrade
+
+>[!WARNING]
+> The upgrade process is a little different for this release to support the Java 17 updates. Specifically, the finalization
+> section has a few more steps.
+
 The following steps will upgrade your project to `1.10`. These instructions consist of multiple phases:
 - Automatic Upgrades - no manual action required
 - Precondition Steps - needed in all situations
@@ -94,22 +108,27 @@ All references to the `com.boozallen.aissemble:bom-component` should be replaced
 
 ## Conditional Steps
 
+### For projects created before version 1.7.0
+Older projects were not generated with a [Maven Wrapper](https://maven.apache.org/wrapper/) configuration by default. To ease Maven version management and ensure consistent builds across environments, the aiSSEMBLE team recommends using a wrapper. Simply create a `.mvn/wrapper` directory and place a aiSSEMBLE-compatible [maven-wrapper.properties](https://github.com/boozallen/aissemble/blob/main/.mvn/wrapper/maven-wrapper.properties) inside (see below). Then run `mvn wrapper:wrapper` to generate the two `mvnw` executables. This Maven wrapper should be used over the system-wide Maven for all operations.
+
+```properties
+distributionUrl=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip
+wrapperUrl=https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.3.2/maven-wrapper-3.3.2.jar
+```
+
 ### For projects that have customized the Spark Operator Service Account permissions
 The service account for the pipeline invocation service is now separated from spark operator and configured solely for the service.
 If you added any custom configurations to the `sparkoperator` service account pertaining to the pipeline invocation service, you will need to migrate the related changes to the new `pipeline-invocation-service-sa`. Refer to Pipeline Invocation Helm Chart [README](https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart/README.md) for detail.
 
 ## Final Steps - Required for All Projects
 ### Finalizing the Upgrade
-1. Run `./mvnw org.technologybrewery.baton:baton-maven-plugin:baton-migrate` to apply the automatic migrations
-2. Remove the `com.boozallen.aissemble:aissemble-quarkus-bom:${version.aissemble}` dependency from the root `pom.xml` and `<YOUR_PROJECT>-tests/<YOUR_PROJECT>-tests-java/pom.xml` of your project
+1. Ensure you are using Java 17 for Maven. (Run `mvn -v` to check.)
+2. Run `./mvnw org.technologybrewery.baton:baton-maven-plugin:baton-migrate` to apply the automatic migrations
+3. Remove the `com.boozallen.aissemble:aissemble-quarkus-bom:${version.aissemble}` dependency from the root `pom.xml` and `<YOUR_PROJECT>-tests/<YOUR_PROJECT>-tests-java/pom.xml` of your project
     - **NOTE:** Any Quarkus apps within your project should be updated to include the `com.boozallen.aissemble:aissemble-quarkus-bom:${version.aissemble}` within the `<dependencyManagement>` section of their respective `pom.xml` instead
-3. Run `./mvnw clean install` and resolve any manual actions that are suggested
+4. Run `./mvnw clean install` and resolve any manual actions that are suggested
     - **NOTE:** This will update any aiSSEMBLE dependencies in 'pyproject.toml' files automatically
-4. Repeat the previous step until all manual actions are resolved
+5. Repeat the previous step until all manual actions are resolved
 
 # What's Changed
-- `pyproject.toml` files updated to allow for Python version `>=3.8`.
-- All SageMaker modules and corresponding references were removed in commit 8ce393f.
-- The Service Discovery module and corresponding references were removed in commit d10db5d0. 
-- Leveraging a new version of Booz Allen Licenses. Booz Allen projects may find some minor updates to header file text
-  that better conforms to some strict linting standards.
+
