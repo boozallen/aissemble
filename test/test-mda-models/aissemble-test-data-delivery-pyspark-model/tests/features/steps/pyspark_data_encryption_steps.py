@@ -16,12 +16,7 @@ Originally generated from: templates/behave.steps.py.vm
 """
 
 from behave import given, when, then  # pylint: disable=no-name-in-module
-from os import path, walk
 import nose.tools as nt
-import ast
-import sys
-import os
-from pathlib import Path
 from aissemble_test_data_delivery_pyspark_model.step.native_inbound_with_custom_types import (
     NativeInboundWithCustomTypes,
 )
@@ -31,12 +26,8 @@ from aissemble_test_data_delivery_pyspark_model.step.native_inbound_and_messagin
 from aissemble_test_data_delivery_pyspark_model.step.native_inbound_with_custom_collection_type import (
     NativeInboundWithCustomCollectionType,
 )
-from aissemble_test_data_delivery_pyspark_model.step.native_inbound_with_custom_data_type_async import (
-    NativeInboundWithCustomDataTypeAsync,
-)
 from aissemble_test_data_delivery_pyspark_model.record.custom_data import CustomData
 from krausening.logging import LogManager
-from pyspark.sql.types import StructType, StructField, StringType
 
 logger = LogManager.get_instance().get_logger("DataEncryptionTest")
 
@@ -92,21 +83,6 @@ def step_impl(context):
     )
 
 
-@when("field names are retrieved for the inbound record")
-def step_impl(context):
-    context.input_fields = context.pipeline.get_fields_list(context.inbound)
-    logger.info(context.input_fields)
-    nt.eq_(len(context.input_fields), 1, "Wrong number of input fields")
-
-
-@when("field names are retrieved for the set of inbound dataframes")
-def step_impl(context):
-    for df in context.inbound:
-        context.input_fields = context.pipeline.get_fields_list(df)
-        logger.info(context.input_fields)
-        nt.eq_(len(context.input_fields), 1, "Wrong number of input fields")
-
-
 @when("encryption is called on the inbound record")
 def step_impl(context):
     context.encrypted_dataset = context.pipeline.apply_encryption_to_dataset(
@@ -123,16 +99,6 @@ def step_impl(context):
     logger.info("processing encrypted_dataset")
 
     logger.info(context.encrypted_dataset)
-
-
-@then("a list of field names can be retrieved")
-def step_impl(context):
-    nt.eq_(
-        context.input_fields[0],
-        "custom_field",
-        'Input field was not "custom_field".  Instead it was '
-        + context.input_fields[0],
-    )
 
 
 @then("the correct fields are encrypted")
