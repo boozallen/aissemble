@@ -220,7 +220,8 @@ Additionally, update any `import` statements in your pipeline code to reflect th
 
 In some very targeted cases where the data model will never need to be re-used and there is only one pipeline that
 processes the data, the semantic data classes can be directly generated into the pipeline module. In general, this is
-the legacy behavior of aiSSEMBLE and should only be undertaken with due consideration. In order to do this, update the
+the legacy behavior of aiSSEMBLE and should only be undertaken with due consideration. In order to do this, first delete
+generated spark pipelines if necessary and update the
 POM file of the pipeline to replace the `<profile>data-delivery-spark-pipeline</profile>` with
 `<profile>data-delivery-spark</profile>` in the following location:
 

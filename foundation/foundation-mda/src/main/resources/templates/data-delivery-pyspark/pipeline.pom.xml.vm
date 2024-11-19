@@ -24,7 +24,7 @@
                 <artifactId>fermenter-mda</artifactId>
                 <configuration>
                     <basePackage>${moduleArtifactIdPythonCase}</basePackage>
-                    <profile>data-delivery-pyspark</profile>
+                    <profile>data-delivery-pyspark-pipeline</profile>
                     <propertyVariables>
                         <targetPipeline>${pipeline.name}</targetPipeline>
                         <behaveFeature>data_delivery</behaveFeature>

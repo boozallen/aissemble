@@ -214,6 +214,44 @@ public class MavenUtil {
             return packaging;
         }
     }
+
+    /**
+     * Reads the given POM file to determine what profile is used for pyspark data delivery pipeline
+     *
+     * @param context GenerationContext
+     * @return the profile for pyspark data delivery pipeline
+     */
+    public static String getPySparkDataDeliveryProfileName(GenerationContext context) {
+
+        File pomFile = new File(context.getProjectDirectory() + File.separator + "pom.xml");
+
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+            Document doc = dBuilder.parse(pomFile);
+            doc.getDocumentElement().normalize();
+            //Get all fields with tag <profile>
+            NodeList nodeList = doc.getElementsByTagName("profile");
+            for (int i = 0; i < nodeList.getLength(); i++){
+                Node node = nodeList.item(i);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE){
+
+                    Element element = (Element) node;
+                    String field = element.getTextContent();
+                    if(field.equals("data-delivery-pyspark") || field.equals("data-delivery-pyspark-pipeline") )
+                    {
+                        return field;
+                    }
+                }
+            }
+        } catch (Exception e){
+            logger.error("Unable to find profileName", e);
+            throw new NoSuchElementException("No profile name identified within " + pomFile.getPath());
+        }
+        return null;
+    }
 }
 
 
