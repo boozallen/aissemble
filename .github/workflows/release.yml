@@ -45,10 +45,6 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
-      - name: Install git
-        run: |
-          sudo apt-get update
-          sudo apt install -y git
       - uses: actions/checkout@v4
       - name: Split version
         id: split_version
