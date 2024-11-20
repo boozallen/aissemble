@@ -1,8 +1,0 @@
-spec:
-  helm:
-    valueFiles:
-      - values.yaml
-      - values-dev.yaml
-
-global:
-  namespace: default

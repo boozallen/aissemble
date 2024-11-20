@@ -1,9 +1,0 @@
-spec:
-  destination:
-    server: https://kubernetes.default.svc
-  targetRevision: dev
-  repo: https://github.com/boozallen/aissemble.git
-  helm:
-    valueFiles:
-      - values.yaml
-
