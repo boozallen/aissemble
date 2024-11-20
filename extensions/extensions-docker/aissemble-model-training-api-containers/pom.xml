@@ -5,18 +5,17 @@
 	<parent>
 		<groupId>com.boozallen.aissemble</groupId>
 		<artifactId>extensions-docker</artifactId>
-		<version>1.9.4</version>
+		<version>1.10.0</version>
 	</parent>
 
     <artifactId>aissemble-model-training-api-containers</artifactId>
 
 	<name>aiSSEMBLE::Extensions::Docker::Model Training APIs</name>
-	<description>Contains modules to build the aiSSEMBLE Model Training Sagemaker API service and Docker baseline image for both Sagemaker and Base Model Training</description>
+	<description>Contains the module to build the Docker baseline image for the Base Model Training</description>
 	<packaging>pom</packaging>
 
 	<modules>
 		<module>aissemble-model-training-api</module>
-		<module>aissemble-model-training-api-sagemaker</module>
 	</modules>
 
 </project>

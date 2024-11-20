@@ -14,8 +14,6 @@ import com.boozallen.aissemble.data.encryption.config.DataEncryptionConfiguratio
 import com.boozallen.aissemble.data.encryption.exception.AiopsEncryptException;
 
 import org.aeonbits.owner.KrauseningConfigFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -35,7 +33,6 @@ import java.util.Base64;
  */
 public class SimpleAesEncrypt implements AiopsEncrypt {
 
-    private static final Logger logger = LoggerFactory.getLogger(SimpleAesEncrypt.class);
     private static final DataEncryptionConfiguration config = KrauseningConfigFactory.create(DataEncryptionConfiguration.class);
 
     /**

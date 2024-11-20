@@ -69,6 +69,7 @@
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <!-- It seems the shaded jar only has javax.* providers at the moment. Re-evaluate after JDK 17 upgrade is complete. -->
                                     <resource>META-INF/services/javax.ws.rs.ext.Providers</resource>
                                 </transformer>
                                 #if ($pipeline.fileStores)
@@ -129,6 +130,10 @@
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-messaging-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
             <artifactId>extensions-data-delivery-spark</artifactId>
         </dependency>
         <dependency>
@@ -138,6 +143,13 @@
             <type>test-jar</type>
             <scope>test</scope>
             <version>${version.aissemble}</version>
+        </dependency>
+        <dependency>
+            <!-- Spark hasn't migrated to Jakarta packages yet. Will need to shade it if we want to fully migrate. -->
+            <!-- See https://github.com/apache/incubator-hugegraph-toolchain/issues/464 -->
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${version.javax.servlet}</version>
         </dependency>
         #if ($pipeline.isAlertingSupportNeeded())
         <dependency>
@@ -154,21 +166,21 @@
             <artifactId>extensions-authzforce</artifactId>
         </dependency>
         #if ($enableSedonaSupport)
-		<dependency>
-			<groupId>org.apache.sedona</groupId>
-			<artifactId>sedona-python-adapter-3.0_2.12</artifactId>
-			<version>${version.sedona}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.sedona</groupId>
-			<artifactId>sedona-viz-3.0_2.12</artifactId>
-			<version>${version.sedona}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.datasyslab</groupId>
-			<artifactId>geotools-wrapper</artifactId>
-			<version>${version.geotools.wrapper}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.sedona</groupId>
+            <artifactId>sedona-python-adapter-3.0_2.12</artifactId>
+            <version>${version.sedona}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sedona</groupId>
+            <artifactId>sedona-viz-3.0_2.12</artifactId>
+            <version>${version.sedona}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datasyslab</groupId>
+            <artifactId>geotools-wrapper</artifactId>
+            <version>${version.geotools.wrapper}</version>
+        </dependency>
         #end
         #if ($enablePostgresSupport)
         <dependency>
@@ -178,22 +190,22 @@
         #end
         #if ($enableElasticsearchSupport)
         <!-- Version must match the version set in the elasticsearch helm chart-->
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch-spark-30_2.12</artifactId>
-			<version>${version.elasticsearch}</version>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-spark-30_2.12</artifactId>
+            <version>${version.elasticsearch}</version>
             <scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>commons-compiler</artifactId>
-			<version>${version.janino}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>janino</artifactId>
-			<version>${version.janino}</version>
-		</dependency>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>commons-compiler</artifactId>
+            <version>${version.janino}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>${version.janino}</version>
+        </dependency>
         #end
         #if ($enableNeo4jSupport)
         <dependency>
@@ -218,18 +230,13 @@
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
         </dependency>
         #if ($pipeline.fileStores)
         <dependency>
             <groupId>org.apache.jclouds</groupId>
             <artifactId>jclouds-allblobstore</artifactId>
             <version>${version.jclouds}</version>
-        </dependency>
-        <!-- the Quarkus BOM uses gson 2.9.0, but JClouds is only compatible up to version 1.8.9-->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.9</version>
         </dependency>
         #end
         #if($enableSemanticDataSupport)
@@ -258,17 +265,18 @@
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-in-memory</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
+            <version>${version.awaitility}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
-            <version>${version.cucumber.reporting.plugin}</version>
             <scope>test</scope>
         </dependency>
         #if ($pipeline.fileStores)

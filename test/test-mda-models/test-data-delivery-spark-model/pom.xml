@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test-mda-models</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>test-data-delivery-spark-model</artifactId>
@@ -72,11 +72,10 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
-            <!--NB: inactive by default until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${version.exec.maven.plugin}</version>
                 <executions>
                     <execution>
                         <id>test-chart</id>
@@ -89,10 +88,7 @@
                             <arguments>
                                 <argument>template</argument>
                                 <argument>aissemble-spark-application-chart</argument>
-                                <argument>--repo</argument>
-                                <argument>${aissemble.helm.repo}</argument>
-                                <argument>--version</argument>
-                                <argument>${version.aissemble}</argument>
+                                <argument>${project.basedir}/../../../extensions/extensions-helm/aissemble-spark-application-chart</argument>
                                 <argument>--values</argument>
                                 <argument>
                                     src/main/resources/apps/spark-java-data-delivery-patterns-base-values.yaml,src/test/resources/apps/spark-java-data-delivery-patterns-test-values.yaml
@@ -120,94 +116,116 @@
         </plugins>
     </build>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.technologybrewery.krausening</groupId>
-			<artifactId>krausening</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>foundation-core-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>foundation-metadata-producer</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>extensions-data-delivery-spark</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>extensions-data-delivery-spark</artifactId>
-			<classifier>tests</classifier>
-			<type>test-jar</type>
-			<scope>test</scope>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>foundation-pdp-client-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.sedona</groupId>
-			<artifactId>sedona-python-adapter-3.0_2.12</artifactId>
-			<version>${version.sedona}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.sedona</groupId>
-			<artifactId>sedona-viz-3.0_2.12</artifactId>
-			<version>${version.sedona}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.datasyslab</groupId>
-			<artifactId>geotools-wrapper</artifactId>
-			<version>${version.geotools.wrapper}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>extensions-data-delivery-spark-postgres</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch-spark-30_2.12</artifactId>
-			<version>${version.elasticsearch}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>commons-compiler</artifactId>
-			<version>${version.janino}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>janino</artifactId>
-			<version>${version.janino}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>extensions-data-delivery-spark-neo4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.boozallen.aissemble</groupId>
-			<artifactId>foundation-alerting</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.boozallen.aissemble</groupId>
-			<artifactId>foundation-encryption-policy-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.boozallen.aissemble</groupId>
-			<artifactId>extensions-encryption-vault-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.boozallen.aissemble</groupId>
-			<artifactId>foundation-data-lineage-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.smallrye.reactive</groupId>
-			<artifactId>smallrye-reactive-messaging-kafka</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.technologybrewery.krausening</groupId>
+            <artifactId>krausening</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foundation-core-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foundation-metadata-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-messaging-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <!-- Spark hasn't migrated to Jakarta packages yet. Will need to shade it if we want to fully migrate. -->
+            <!-- See https://github.com/apache/incubator-hugegraph-toolchain/issues/464 -->
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foundation-pdp-client-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>extensions-authzforce</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sedona</groupId>
+            <artifactId>sedona-python-adapter-3.0_2.12</artifactId>
+            <version>${version.sedona}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sedona</groupId>
+            <artifactId>sedona-viz-3.0_2.12</artifactId>
+            <version>${version.sedona}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datasyslab</groupId>
+            <artifactId>geotools-wrapper</artifactId>
+            <version>${version.geotools.wrapper}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-data-delivery-spark-postgres</artifactId>
+        </dependency>
+        <!-- Version must match the version set in the elasticsearch helm chart-->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-spark-30_2.12</artifactId>
+            <version>${version.elasticsearch}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>commons-compiler</artifactId>
+            <version>${version.janino}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>${version.janino}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-data-delivery-spark-neo4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-alerting</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foundation-encryption-policy-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-encryption-vault-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foundation-data-lineage-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.reactive</groupId>
+            <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jclouds</groupId>
+            <artifactId>jclouds-allblobstore</artifactId>
+            <version>${version.jclouds}</version>
+        </dependency>
         <!-- Test dependencies: -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -233,12 +251,19 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
+            <version>${version.awaitility}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
             <version>${version.cucumber.reporting.plugin}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jclouds.api</groupId>
+            <artifactId>filesystem</artifactId>
+            <version>${version.jclouds}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

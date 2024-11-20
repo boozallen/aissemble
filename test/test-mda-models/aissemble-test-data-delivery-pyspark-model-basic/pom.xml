@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test-mda-models</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>aissemble-test-data-delivery-pyspark-model-basic</artifactId>
@@ -87,11 +87,10 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--NB: inactive by default until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${version.exec.maven.plugin}</version>
                 <executions>
                     <execution>
                         <id>test-chart</id>
@@ -104,10 +103,7 @@
                             <arguments>
                                 <argument>template</argument>
                                 <argument>aissemble-spark-application-chart</argument>
-                                <argument>--repo</argument>
-                                <argument>${aissemble.helm.repo}</argument>
-                                <argument>--version</argument>
-                                <argument>${version.aissemble}</argument>
+                                <argument>${project.basedir}/../../../extensions/extensions-helm/aissemble-spark-application-chart</argument>
                                 <argument>--values</argument>
                                 <argument>
                                     src/aissemble_test_data_delivery_pyspark_model_basic/resources/apps/pyspark-data-delivery-basic-base-values.yaml,tests/resources/apps/pyspark-data-delivery-basic-test-values.yaml
@@ -166,12 +162,11 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-reflect</artifactId>
-            <version>2.12.1</version>
+            <version>${version.scala}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.2</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

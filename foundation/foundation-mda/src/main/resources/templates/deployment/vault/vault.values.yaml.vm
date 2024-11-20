@@ -6,11 +6,10 @@ replicaCount: 1
 
 hostname: vault
 image:
-  name: ${projectName}-vault-docker
-  imagePullPolicy: Always
-  dockerRepo: ${dockerProjectRepositoryUrl}
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  name: boozallen/aissemble-vault
+  imagePullPolicy: IfNotPresent
+  dockerRepo: ghcr.io/
+  tag: "${versionTag}"
 
 service:
   spec:

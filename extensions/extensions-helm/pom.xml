@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>extensions-helm</artifactId>
@@ -62,32 +62,10 @@
             </properties>
         </profile>
         <profile>
-            <id>release</id>
+            <id>ci</id>
             <properties>
                 <overwrite.dependencies>true</overwrite.dependencies>
             </properties>
-        </profile>
-        <profile>
-            <id>integration-test</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>${group.helm.plugin}</groupId>
-                            <artifactId>helm-maven-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>simulates-an-install</id>
-                                    <phase>integration-test</phase>
-                                    <goals>
-                                        <goal>dry-run</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
     </profiles>
 
@@ -199,7 +177,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>${version.exec.maven.plugin}</version>
                     <executions>
                         <execution>
                             <id>run tests</id>
@@ -250,7 +228,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>run tests</id>

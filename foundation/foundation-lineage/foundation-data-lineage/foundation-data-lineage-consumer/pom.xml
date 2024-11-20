@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-data-lineage</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>foundation-data-lineage-consumer</artifactId>
@@ -33,8 +33,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>aissemble-quarkus-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -49,18 +49,14 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.boozallen.aissemble</groupId>
             <artifactId>foundation-messaging-java</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.openlineage</groupId>
+            <artifactId>openlineage-java</artifactId>
+            <version>${version.open.lineage.java}</version>
         </dependency>
 
         <!-- Test dependencies: -->
@@ -82,6 +78,7 @@
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-reactive-messaging-api</artifactId>
+            <version>${version.smallrye.reactive.messaging}</version>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>

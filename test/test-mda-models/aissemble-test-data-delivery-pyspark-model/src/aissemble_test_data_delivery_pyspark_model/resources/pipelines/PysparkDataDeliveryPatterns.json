@@ -252,7 +252,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -267,7 +267,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -282,7 +282,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -310,23 +310,23 @@
 			}
 		},
 		{
-			"name": "NativeInboundWithCustomRecordType",
+			"name": "NativeInboundWithCustomDataType",
 			"type": "synchronous",
 			"inbound": {
 				"type": "native",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
 		},
 		{
-			"name": "NativeInboundWithCustomRecordTypeAsync",
+			"name": "NativeInboundWithCustomDataTypeAsync",
 			"type": "asynchronous",
 			"inbound": {
 				"type": "native",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -341,7 +341,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}

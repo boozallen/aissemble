@@ -24,7 +24,7 @@
                 <artifactId>fermenter-mda</artifactId>
                 <configuration>
                     <basePackage>${moduleArtifactIdPythonCase}</basePackage>
-                    <profile>data-delivery-pyspark</profile>
+                    <profile>data-delivery-pyspark-pipeline</profile>
                     <propertyVariables>
                         <targetPipeline>${pipeline.name}</targetPipeline>
                         <behaveFeature>data_delivery</behaveFeature>
@@ -71,12 +71,11 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-reflect</artifactId>
-            <version>2.12.1</version>
+            <version>${version.scala}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.2</version>
         </dependency>
         <dependency>
             <groupId>com.boozallen.aissemble</groupId>

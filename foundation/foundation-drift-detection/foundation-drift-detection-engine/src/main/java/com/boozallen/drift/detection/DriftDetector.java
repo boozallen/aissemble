@@ -12,7 +12,7 @@ package com.boozallen.drift.detection;
 
 import java.util.List;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

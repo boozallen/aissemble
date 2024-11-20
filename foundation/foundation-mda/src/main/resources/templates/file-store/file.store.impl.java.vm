@@ -1,12 +1,11 @@
 package ${basePackage}.filestore;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * Utility for accessing the ${fileStore.name} file storage. To customize
  * the file store connection modify the environment variables as per the documentation at
- * https://boozallen.github.io/aissemble/current/pipeline-metamodel.html
- *
+ * https://boozallen.github.io/aissemble/aissemble/current/pipeline-metamodel.html
  * Please **DO** modify with your customizations, as appropriate.
  *
  * Originally generated from: ${templateName}

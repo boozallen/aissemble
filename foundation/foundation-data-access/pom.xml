@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>foundation-data-access</artifactId>
@@ -17,7 +17,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
+                <artifactId>aissemble-quarkus-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>

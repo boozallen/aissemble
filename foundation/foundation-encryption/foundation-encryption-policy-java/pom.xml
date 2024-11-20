@@ -5,25 +5,13 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-encryption</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>foundation-encryption-policy-java</artifactId>
 
     <name>aiSSEMBLE::Foundation::Encryption::Policy::Java</name>
     <description>Data encryption policy for java</description>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>

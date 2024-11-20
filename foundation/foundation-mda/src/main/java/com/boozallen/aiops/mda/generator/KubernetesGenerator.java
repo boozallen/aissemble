@@ -10,16 +10,8 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.ManualActionNotificationService;
-import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class KubernetesGenerator extends AbstractKubernetesGenerator {
     /*--~-~-~~
@@ -70,7 +62,6 @@ public class KubernetesGenerator extends AbstractKubernetesGenerator {
      * | mlflowArgoCDV2                                | deployment/argocd/v2/mlflow-ui.yaml.vm                                                    | templates/mlflow-ui.yaml                                                   |
      * | pipelineInvocationServiceArgoCD-v2            | deployment/argocd/v2/pipeline.invocation.service.yaml.vm                                  | templates/pipeline-invocation-service.yaml                                 |
      * | policyDecisionPointArgoCDV2                   | deployment/argocd/v2/policy-decision-point.yaml.vm                                        | templates/policy-decision-point.yaml                                       |
-     * | sealedSecretArgoCDFile                        | deployment/argocd/v2/sealed.secret.yaml.vm                                                | templates/sealed-secret.yaml                                               |
      * | sparkInfrastructureArgoCDFileV2               | deployment/argocd/v2/spark.infrastructure.yaml.vm                                         | templates/spark-infrastructure.yaml                                        |
      * | sparkOperatorArgoCDV2                         | deployment/argocd/v2/spark.operator.yaml.vm                                               | templates/spark-operator.yaml                                              |
      * | versioningArgoCDV2                            | deployment/argocd/v2/versioning.yaml.vm                                                   | templates/versioning.yaml                                                  |

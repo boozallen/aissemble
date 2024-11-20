@@ -1,0 +1,27 @@
+metadata:
+    name: spark-persist
+sparkApp:
+  spec:
+    sparkConf:
+      spark.executor.failuresValidityInterval: "2h"
+      spark.executor.maxNumFailures: 10
+    volumes: []
+    type: Java
+    deps:
+      packages:
+        - mysql:mysql-connector-java:8.0.30
+        - org.apache.hadoop:hadoop-aws:3.3.4
+        - com.amazonaws:aws-java-sdk-bundle:1.12.262
+      excludePackages: []
+    hadoopConf:
+    driver:
+      volumeMounts: []
+      cores: 1
+      coreLimit: "1200m"
+      memory: "2048m"
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"
+    executor:
+      volumeMounts: []
+      cores: 1
+      memory: "4096m"
+      javaOptions: "-DKRAUSENING_BASE=/opt/spark/krausening/base"

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-drift-detection-client-python"
-version = "1.9.4"
+version = "1.10.0"
 description = ""
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
@@ -10,10 +10,10 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
+python = ">=3.8"
 pydantic = ">=2.8.0"
 requests = ">=2.32.2"
-krausening = ">=19"
+krausening = ">=20"
 cryptography = ">=42.0.4"
 urllib3 = "^1.26.18"
 

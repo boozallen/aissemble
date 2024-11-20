@@ -13,7 +13,7 @@ package com.boozallen.aiops.data.delivery.messaging;
 import org.technologybrewery.krausening.Krausening;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class PipelineMessagingConfig implements ConfigSource, Extension {
         Map<String, String> map = new HashMap<>();
         for (String name : pipelineProperties.stringPropertyNames()) {
             String reactiveName = mapToReactiveProperty(name);
-            String value = pipelineProperties.getProperty(reactiveName);
+            String value = pipelineProperties.getProperty(name);
             map.put(reactiveName, value);
         }
         return map;

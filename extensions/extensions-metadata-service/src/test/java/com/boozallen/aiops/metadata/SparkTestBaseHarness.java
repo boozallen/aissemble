@@ -17,7 +17,7 @@ import io.cucumber.plugin.EventListener;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestRunStarted;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 import org.aeonbits.owner.KrauseningConfigFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.spark.sql.SparkSession;
@@ -73,8 +73,12 @@ public abstract class SparkTestBaseHarness implements EventListener {
 
             long tearDownStart = System.currentTimeMillis();
             InMemoryConnector.clear();
-            container.shutdown();
-            spark.close();
+            if (container != null) {
+                container.shutdown();
+            }
+            if (spark != null) {
+                spark.close();
+            }
             applyAfterTests();
             long tearDownStop = System.currentTimeMillis();
             logger.debug("Stopped test resources in {}ms", (tearDownStop - tearDownStart));

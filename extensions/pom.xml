@@ -6,7 +6,7 @@
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>build-parent</artifactId>
         <relativePath>../build-parent/pom.xml</relativePath>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>extensions</artifactId>
@@ -30,7 +30,6 @@
         <module>extensions-messaging</module>
         <module>extensions-metadata-service</module>
         <module>extensions-helm</module>
-        <module>aissemble-extensions-model-training-api-sagemaker</module>
         <module>extensions-pipeline-invocation-service</module>
     </modules>
 </project>

@@ -1,0 +1,71 @@
+# Default values for config-store-service
+aissemble-quarkus-chart:
+  app:
+    name: aissemble-configuration-store
+
+  deployment:
+    image:
+      repo: ghcr.io/
+      name: boozallen/aissemble-configuration-store
+      imagePullPolicy: IfNotPresent
+      tag: ""
+    hostname: configuration-store
+    restartPolicy: Always
+
+  # Specify 'certs' volume/volumeMounts and certificate confiMap supplementalQuarkusConfig under the toggleableConfiguration
+  # , which can be toggled alone with the webhook.enable flag while still enabling the downstream chart consumer to utilize
+  # the `supplementalVolumes` and `supplementalVolumeMounts` config options
+  toggleableConfiguration:
+    toggle: true
+    volumes:
+      - name: certs
+        secret:
+          secretName: aissemble-configuration-store-webhook-certs
+    volumeMounts:
+      - name: certs
+        mountPath: "/etc/webhook/cert"
+        readOnly: true
+    configMap:
+      supplementalQuarkusConfig:
+        - quarkus.http.ssl.certificate.files=/etc/webhook/cert/tls.crt
+        - quarkus.http.ssl.certificate.key-files=/etc/webhook/cert/tls.key
+
+    startupProbe:
+      httpGet:
+        path: /aissemble-properties/healthcheck
+        port: http
+      failureThreshold: 60
+      periodSeconds: 2
+  service:
+    ports:
+      - name: http
+        port: 8083
+        protocol: TCP
+        targetPort: 8080
+      - name: https
+        port: 443
+        protocol: TCP
+        targetPort: 8443
+  configMap:
+    name: configuration-store-quarkus-config
+
+webhook:
+  enable: true
+  name: boozallen.aissemble-configuration-store.webhook # must be at least three segments separated by dots
+
+  serviceAccount:
+    create: true
+    name: aissemble-configuration-store-webhook-sa
+
+  certSecret:
+    create: true
+    name: aissemble-configuration-store-webhook-certs
+
+configurationVolume:
+  enabled: true
+  name: "configuration-store"
+  storageType: "custom"
+  storageClass: ""
+  accessModes:
+    - ReadOnlyMany
+  size: 200Mi

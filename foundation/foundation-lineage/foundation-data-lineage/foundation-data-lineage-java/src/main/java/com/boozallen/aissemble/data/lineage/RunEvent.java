@@ -69,8 +69,7 @@ public class RunEvent {
             });
         }
 
-        return openLineage.newRunEvent(EventType.valueOf(this.eventType),
-                zTime,
+        return openLineage.newRunEvent(zTime, EventType.valueOf(this.eventType),
                 run.getOpenLineageRun(),
                 job.getOpenLineageJob(),
                 !olInputs.isEmpty() ? olInputs : null,

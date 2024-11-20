@@ -13,8 +13,6 @@ package com.boozallen.aissemble.alerting.slack;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import com.boozallen.aissemble.alerting.slack.cdi.SlackCdiContext;

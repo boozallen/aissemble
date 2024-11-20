@@ -35,10 +35,14 @@ spec:
         {{ toYaml .Values.deployment.labels }}
         {{- end }}
     spec:
+      {{- if .Values.deployment.affinity }}
+      affinity:
+      {{- toYaml .Values.deployment.affinity | nindent 8 }}
+      {{- end }}
       {{- if or (not (empty .Values.dependencies.packages)) (not (empty .Values.dependencies.jars)) }}
       initContainers:
         - name: "populate-jar-volume"
-          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           command: ["sh", "-c", "cp /opt/spark/jars/* /tmp/jars/"]
           volumeMounts:
@@ -46,7 +50,7 @@ spec:
               name: shs-jars
         {{- if not (empty .Values.dependencies.packages) }}
         - name: "install-spark-history-packages"
-          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           # Uses the Ivy jar packaged with spark to download dependency packages (and their transitive dependencies) to /tmp/jars/...
           # Specifically downloads the binaries-- Does not download supplemental classifiers, ie sources
@@ -57,7 +61,7 @@ spec:
         {{- end }}
         {{- if not (empty .Values.dependencies.jars) }}
         - name: "install-spark-history-jars"
-          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy | default "IfNotPresent" }}
           command: ["wget", "-P", "/tmp/jars/", {{ include "deps.jars" . }}]
           volumeMounts:
@@ -67,7 +71,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
-          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.deployment.image.imagePullPolicy }}
           command: {{ .Values.deployment.command }}
           env:
@@ -123,4 +127,8 @@ spec:
         {{- if .Values.deployment.volumes }}
         {{- toYaml .Values.deployment.volumes }}
         {{- end }}
+      {{- if .Values.deployment.tolerations }}
+      tolerations:
+      {{- toYaml .Values.deployment.tolerations | nindent 8 }}
+      {{- end }}
 {{- end }}

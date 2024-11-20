@@ -12,17 +12,16 @@ package com.boozallen.aissemble.messaging.python;
 
 import com.boozallen.aissemble.messaging.python.exception.TopicNotSupportedError;
 import com.boozallen.aissemble.messaging.python.transfer.Callback;
-import com.boozallen.aissemble.messaging.python.transfer.MessageHandle;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;

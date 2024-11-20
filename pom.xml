@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>aissemble-parent</artifactId>
-        <version>4</version>
+        <version>5</version>
         <relativePath />
     </parent>
 
     <artifactId>aissemble-root</artifactId>
-    <version>1.9.4</version>
+    <version>1.10.0</version>
     <packaging>pom</packaging>
 
     <name>aiSSEMBLE(TM)</name>
@@ -39,13 +39,16 @@
         <module>foundation</module>
         <module>extensions</module>
         <module>test</module>
+        <!--We are relying on the sequential build from Maven; if we ever use parallel builds, we would need to
+         ensure the report aggregator depends on all other modules-->
+        <module>cucumber-report-aggregator</module>
     </modules>
 
     <scm>
         <connection>scm:git:https://github.com/boozallen/aissemble.git</connection>
-        <developerConnection>scm:git:ssh://git@ssh.github.com:443/boozallen/aissemble.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/boozallen/aissemble.git</developerConnection>
         <url>https://github.com/boozallen/aissemble</url>
-        <tag>aissemble-root-1.9.4</tag>
+        <tag>aissemble-root-1.10.0</tag>
     </scm>
 
     <issueManagement>
@@ -59,16 +62,20 @@
         <ghcr.io.repo.url>https://maven.pkg.github.com/boozallen/aissemble</ghcr.io.repo.url>
         <version.avro>1.10.1</version.avro>
         <version.camel>2.7.0</version.camel>
-        <version.cucumber>6.10.4</version.cucumber>
+        <version.cucumber>7.4.1</version.cucumber>
         <version.feature.discovery>1.2.0</version.feature.discovery>
-        <version.gitflow-incremental-builder>4.4.1</version.gitflow-incremental-builder>
         <version.jersey>2.30</version.jersey>
         <version.junit>4.13.2</version.junit>
         <version.kafka>2.6.0</version.kafka>
         <version.pegasus>27.7.18</version.pegasus>
         <version.smile>2.6.0</version.smile>
-        <version.weld>3.1.4.Final</version.weld>
-        <version.cucumber.reporting.plugin>5.7.5</version.cucumber.reporting.plugin>
+        <version.weld>5.1.2.Final</version.weld>
+        <version.slf4j>2.0.16</version.slf4j>
+        <version.log4j>2.24.0</version.log4j>
+        <version.log4j.transform>0.1.0</version.log4j.transform>
+        <version.cucumber.reporting.plugin>5.8.1</version.cucumber.reporting.plugin>
+        <version.javax.inject>1</version.javax.inject>
+        <version.rest.assured>5.5.0</version.rest.assured>
     </properties>
 
     <dependencyManagement>
@@ -86,13 +93,48 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>3.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>4.4</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <version>3.17.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-exec</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.16.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${version.log4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${version.log4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j2-impl</artifactId>
+                <version>${version.log4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.haifengl</groupId>
@@ -125,6 +167,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${version.rest.assured}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -199,28 +247,6 @@
         </pluginRepository>
     </pluginRepositories>
     <profiles>
-        <profile>
-            <id>incremental</id>
-            <activation>
-                <property>
-                    <name>incremental</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.github.gitflow-incremental-builder</groupId>
-                        <artifactId>gitflow-incremental-builder</artifactId>
-                        <version>${version.gitflow-incremental-builder}</version>
-                        <extensions>true</extensions>
-                        <configuration />
-                    </plugin>
-                </plugins>
-            </build>
-            <properties>
-                <gib.referenceBranch>dev</gib.referenceBranch>
-            </properties>
-        </profile>
         <profile>
             <id>integration-test</id>
             <build>

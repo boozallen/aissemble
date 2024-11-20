@@ -15,8 +15,8 @@ import com.boozallen.aissemble.pipeline.invocation.service.util.exec.HelmCommand
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +101,7 @@ public class PipelineInvocationAgent {
         List<String> args = new ArrayList<>();
 
         args.add("--set");
-        args.add("spec.serviceEnabled=false");
+        args.add("service.enabled=false");
 
         for(Map.Entry<String, String> entry : request.getOverrideValues().entrySet()) {
             args.add("--set");

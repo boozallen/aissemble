@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-maven-plugins</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>mda-maven-plugin</artifactId>
@@ -20,7 +20,7 @@
         <!-- versions for plugin specific dependencies-->
         <version.mojo.executor>2.4.0</version.mojo.executor>
         <version.testing.harness>3.3.0</version.testing.harness>
-        <version.exec.plugin>3.1.0</version.exec.plugin>
+        <version.aether>1.1.0</version.aether>
     </properties>
 
     <dependencies>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>3.3.1</version>
+            <version>${version.plexus.util}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -61,16 +61,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>${version.maven.resources.plugin}</version>
-        </dependency>
-        <dependency>
             <groupId>org.technologybrewery.fermenter</groupId>
             <artifactId>fermenter-mda</artifactId>
             <version>${version.fermenter}</version>
@@ -86,22 +76,12 @@
             <version>${version.mojo.executor}</version>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
-        </dependency>
-
-        <!-- fix for resolver error -->
-        <dependency>
-            <groupId>org.eclipse.aether</groupId>
-            <artifactId>aether-connector-basic</artifactId>
-            <version>1.0.0.v20140518</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.aether</groupId>
-            <artifactId>aether-transport-http</artifactId>
-            <version>1.0.0.v20140518</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Test dependencies: -->
@@ -118,6 +98,33 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-connector-basic</artifactId>
+            <version>${version.aether}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-transport-http</artifactId>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

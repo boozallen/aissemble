@@ -22,12 +22,3 @@ Feature: Generating deployments
     When the MDA generation is run
     Then the user is notified to add a spark worker image deployment to tilt
     And the tilt deployment will handle building and reloading the spark worker image
-
-  Scenario Outline: Generate a placeholder SealedSecret for ArgoCD
-    When the deployment "<profile>" is generated
-    Then the placeholder SealedSecret is created
-
-    Examples:
-      | profile                               |
-      | mlflow-deploy-v2                      |
-      | aissemble-spark-infrastructure-deploy-v2 |

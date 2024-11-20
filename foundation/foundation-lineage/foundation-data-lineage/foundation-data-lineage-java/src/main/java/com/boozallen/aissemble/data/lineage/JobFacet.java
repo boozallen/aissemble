@@ -57,7 +57,7 @@ public abstract class JobFacet extends Facet<OpenLineage.JobFacet> {
         private final URI schemaUrl;
         
         public DefaultJobFacet(String schemaUrl, URI producer) {
-            super(producer);
+            super(producer, null);
             this.schemaUrl = URI.create(schemaUrl);
         }
         

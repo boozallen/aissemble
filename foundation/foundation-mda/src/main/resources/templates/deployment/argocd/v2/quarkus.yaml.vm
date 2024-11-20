@@ -21,7 +21,6 @@ spec:
   destination:
     namespace: argocd
     server: {{ .Values.spec.destination.server }}
-  {{- /* SKIP-MIGRATION: 'argocd-template-sync-policy-configuration-migration' */}}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
     {{- toYaml . | nindent 4 }}

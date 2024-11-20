@@ -26,7 +26,7 @@ import org.aeonbits.owner.KrauseningConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,7 +59,12 @@ public class VaultPropertyDao implements PropertyDao {
             final LogicalResponse readResponse = vault.logical()
                     .read(String.format("aissemble-properties/%s/%s", propertyKey.getGroupName(), propertyKey.getPropertyName()));
 
-            return new Property(propertyKey, readResponse.getData().get(propertyKey.getPropertyName()));
+            // If the config is not found then return null
+            if (readResponse.getData().get(propertyKey.getPropertyName()) != null) {
+                return new Property(propertyKey, readResponse.getData().get(propertyKey.getPropertyName()));
+            } else {
+                return null;
+            }
         } catch (VaultException e) {
             throw new PropertyDaoException(String.format("Unable to read from vault with groupName: %s and property name: %s.", propertyKey.getGroupName(), propertyKey.getPropertyName()), e);
         }

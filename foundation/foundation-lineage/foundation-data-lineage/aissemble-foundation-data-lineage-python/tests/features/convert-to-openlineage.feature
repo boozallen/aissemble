@@ -63,30 +63,14 @@ Feature: Baseline data lineage type wrappers can be converted to equivalent open
     When the Job is translated to an OpenLineage Job
     Then the Job namespace value is set to "myDefaultNamespace"
 
-  Scenario: If I do not set a namespace value for a job, it will use the set legacy namespace
+  Scenario: If I do not set a namespace value for a job, it will throw an exception
     Given the property "data.lineage.myJob.namespace" is not set
-    And I have configured the property "data.lineage.namespace" with the value "legacyNamespace"
-    And a valid Job object named "myJob"
-    When the Job is translated to an OpenLineage Job
-    Then the Job namespace value is set to "legacyNamespace"
-
-  Scenario: If I set no namespace values for a job and no legacy namespace, it will throw an exception
-    Given the property "data.lineage.myJob.namespace" is not set
-    And the property "data.lineage.namespace" is not set
     And a valid Job object named "myJob"
     When the Job is translated to an OpenLineage Job
     Then an exception is raised
 
-  Scenario: If I do not set a namespace value for a Dataset, it will use the set legacy namespace
+  Scenario: If I do not set a namespace value for a Dataset, it will throw an exception
     Given the property "data.lineage.myDataset.namespace" is not set
-    And I have configured the property "data.lineage.namespace" with the value "legacyNamespace"
-    And a valid Dataset object named "myDataset"
-    When the Dataset is translated to an OpenLineage Dataset
-    Then the namespace value of the Dataset is set to "legacyNamespace"
-
-  Scenario: If I do not set a namespace value for a Dataset and no legacy namespace, it will throw an exception
-    Given the property "data.lineage.myDataset.namespace" is not set
-    And the property "data.lineage.namespace" is not set
     And a valid Dataset object named "myDataset"
     When the Dataset is translated to an OpenLineage Dataset
     Then an exception is raised

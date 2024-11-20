@@ -11,8 +11,8 @@ authors = ["Your Name <you@example.com>"]
 include = ["src/${packageFolderName}/generated/**/*"]
 
 [tool.poetry.dependencies]
-python = "^3.11.4"
-krausening = ">=17"
+python = ">=3.8"
+krausening = ">=20"
 pyspark = "${versionSpark}"
 jsonpickle = "^2.1.0"
 pyyaml = "^6.0"

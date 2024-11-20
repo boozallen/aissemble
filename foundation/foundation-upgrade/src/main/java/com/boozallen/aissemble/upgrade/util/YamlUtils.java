@@ -20,9 +20,11 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.representer.Representer;
@@ -37,14 +40,32 @@ import org.yaml.snakeyaml.representer.Representer;
 public class YamlUtils {
     private static final String SPACE = " ";
     private static final int TAB = 2;
-    private static final String VALUE_FOR_KEY_IS_NOT = "Value for [%s] is not %s: %s";
+
+    /**
+     * Reads the YAML file into a {@link YamlObject}.  If the file contains a list at the root level, then the returned
+     * YamlObject will have one entry under the key "items" that is the resulting list. Multiple objects separated by
+     * dashes is not supported.
+     *
+     * @param file a YAML file to parse
+     * @return the {@link YamlObject} represented by the file
+     * @throws IOException if the file cannot be read
+     * @throws YAMLException if the file fails to parse to a valid YamlObject
+     */
     public static YamlObject loadYaml(File file) throws IOException {
         Yaml yaml = new Yaml();
         try (InputStream fileStream = Files.asByteSource(file).openStream()) {
-            Map<String, Object> contents = yaml.load(fileStream);
-            //If the file is empty or only contains comments, contents will be null
-            if (contents == null) {
+            Object data = yaml.load(fileStream);
+            Map<String, Object> contents;
+            //If the file is empty or only contains comments, data will be null
+            if (data == null) {
                 contents = Map.of();
+            } else if (data instanceof Map) {
+                //noinspection unchecked
+                contents = (Map<String, Object>) data;
+            } else if (data instanceof List) {
+                contents = Map.of("items", data);
+            } else {
+                throw new YAMLException("Unrecognized root data type [" + data.getClass().getName() + "] in file: " + file.getAbsolutePath());
             }
             return new YamlObject(contents);
         }
@@ -67,80 +88,71 @@ public class YamlUtils {
             this.contents = contents;
         }
 
-        public boolean hasString(String key) {
-            return containsKey(key) && get(key) instanceof String;
+        public boolean hasString(String... path) {
+            return hasValue(String.class, path);
         }
 
-        public String getString(String key) {
-            Object value = get(key);
-            if (!(value instanceof String)) {
-                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a string", value));
+        public String getString(String... path) {
+            return getValue(path);
+        }
+
+        public boolean hasInt(String... path) {
+            return hasValue(Integer.class, path);
+        }
+
+        public int getInt(String... path) {
+            return getValue(path);
+        }
+
+        public boolean hasDouble(String... path) {
+            return hasValue(Double.class, path);
+        }
+
+        public double getDouble(String... path) {
+            return getValue(path);
+        }
+
+        public boolean hasBoolean(String... path) {
+            return hasValue(Boolean.class, path);
+        }
+
+        public boolean getBoolean(String... path) {
+            return getValue(path);
+        }
+
+        public boolean hasObject(String... path) {
+            YamlObject obj = this;
+            for (String key : path) {
+                if (!obj.containsKey(key) || !(obj.get(key) instanceof Map)) {
+                    return false;
+                }
+                obj = obj.getObject(key);
             }
-            return (String) value;
+            return true;
         }
 
-        public boolean hasInt(String key) {
-            return containsKey(key) && get(key) instanceof Integer;
-        }
-        
-        public int getInt(String key) {
-            Object value = get(key);
-            if (!(value instanceof Integer)) {
-                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "an integer", value));
+        public YamlObject getObject(String... path) {
+            YamlObject obj = this;
+            for (String key : path) {
+                Object value = obj.get(key);
+                if (!(value instanceof Map)) {
+                    throw new IllegalArgumentException(String.format("Value for [%s] is not of type Map: %s", key, value));
+                }
+                obj = new YamlObject((Map<String, Object>) value);
             }
-            return (int) value;
+            return obj;
         }
 
-        public boolean hasDouble(String key) {
-            return containsKey(key) && get(key) instanceof Double;
+        public boolean hasList(String... path) {
+            return hasValue(List.class, path);
         }
 
-        public double getDouble(String key) {
-            Object value = get(key);
-            if (!(value instanceof Double)) {
-                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a double", value));
-            }
-            return (double) value;
+        public List<?> getList(String... path) {
+            return getValue(path);
         }
 
-        public boolean hasBoolean(String key) {
-            return containsKey(key) && get(key) instanceof Boolean;
-        }
-
-        public boolean getBoolean(String key) {
-            Object value = get(key);
-            if (!(value instanceof Boolean)) {
-                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a boolean", value));
-            }
-            return (boolean) value;
-        }
-
-        public boolean hasObject(String key) {
-            return containsKey(key) && get(key) instanceof Map;
-        }
-
-        public YamlObject getObject(String key) {
-            Object value = get(key);
-            if (!(value instanceof Map)) {
-                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a map", value));
-            }
-            return new YamlObject((Map<String, Object>) value);
-        }
-
-        public boolean hasList(String key) {
-            return containsKey(key) && get(key) instanceof List;
-        }
-
-        public List<?> getList(String key) {
-            Object value = get(key);
-            if (!(value instanceof List)) {
-                throw new IllegalArgumentException(String.format(VALUE_FOR_KEY_IS_NOT, key, "a list", value));
-            }
-            return (List<Object>) value;
-        }
-
-        public List<YamlObject> getListOfObjects(String key) {
-            List<?> list = getList(key);
+        public List<YamlObject> getListOfObjects(String... path) {
+            List<?> list = getList(path);
             if (list.stream().anyMatch(o -> !(o instanceof Map))) {
                 throw new IllegalArgumentException("List contains non-map elements: " + list);
             }
@@ -150,8 +162,8 @@ public class YamlUtils {
                     .collect(Collectors.toList());
         }
 
-        public List<String> getListOfStrings(String key) {
-            List<?> list = getList(key);
+        public List<String> getListOfStrings(String... path) {
+            List<?> list = getList(path);
             if (list.stream().anyMatch(o -> !(o instanceof String))) {
                 throw new IllegalArgumentException("List contains non-string elements: " + list);
             }
@@ -160,8 +172,8 @@ public class YamlUtils {
 
         @Nonnull
         public Object get(String key) {
-            if(!containsKey(key)) {
-                throw new IllegalArgumentException("Key not found: " + key);
+            if (!containsKey(key)) {
+                throw new NoSuchElementException("Key not found: " + key);
             }
             return contents.get(key);
         }
@@ -192,6 +204,36 @@ public class YamlUtils {
 
         public Set<Map.Entry<String, Object>> entrySet() {
             return contents.entrySet();
+        }
+
+        private <T> boolean hasValue(Class<T> type, String... path) {
+            YamlObject parent = getParentIfExists(path);
+            if (parent == null) {
+                return false;
+            }
+            String key = path[path.length - 1];
+            return parent.containsKey(key) && type.isInstance(parent.get(key));
+        }
+
+        private <T> T getValue(String... path) {
+            YamlObject parent = getParentIfExists(path);
+            if (parent == null) {
+                throw new NoSuchElementException("Parent object does not exist at " + Arrays.toString(path));
+            }
+            String key = path[path.length - 1];
+            return (T) parent.get(key);
+        }
+
+        private YamlObject getParentIfExists(String[] path) {
+            if (path.length == 0) {
+                throw new IllegalArgumentException("Root path is always an object");
+            }
+            String[] parentPath = Arrays.copyOf(path, path.length - 1);
+            YamlObject parent = null;
+            if (hasObject(parentPath)) {
+                parent = getObject(parentPath);
+            }
+            return parent;
         }
     }
 

@@ -6,11 +6,11 @@
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>build-parent</artifactId>
         <relativePath>../build-parent/pom.xml</relativePath>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>foundation</artifactId>
-    <version>1.9.4</version>
+    <version>1.10.0</version>
 
     <name>aiSSEMBLE::Foundation</name>
     <description>Root pom for foundational aspects of the aiSSEMBLE Solution Baseline</description>
@@ -29,7 +29,6 @@
         <module>foundation-data-access</module>
         <module>foundation-metadata</module>
         <module>foundation-transform</module>
-        <module>foundation-service-discovery</module>
         <module>foundation-messaging</module>
         <module>foundation-alerting</module>
         <module>foundation-drift-detection</module>

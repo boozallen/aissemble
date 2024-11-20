@@ -17,8 +17,6 @@ class DataLineageConfig:
     Configurations for data lineage capture
     """
 
-    __legacy_namespace_property = "data.lineage.namespace"
-
     def __init__(self) -> None:
         self.properties = PropertyManager.get_instance().get_properties(
             "data-lineage.properties"
@@ -68,14 +66,6 @@ class DataLineageConfig:
             return self.properties.getProperty(job_namespace_property)
         elif default_namespace is not None:
             return default_namespace
-        elif (
-            DataLineageConfig.__legacy_namespace_property
-            in self.properties.stringPropertyNames()
-        ):
-            # for legacy support
-            return self.properties.getProperty(
-                DataLineageConfig.__legacy_namespace_property
-            )
         else:
             raise ValueError(f"Could not find property {job_namespace_property}.")
 
@@ -88,14 +78,6 @@ class DataLineageConfig:
         dataset_namespace_property = f"data.lineage.{dataset_name}.namespace"
         if dataset_namespace_property in self.properties.stringPropertyNames():
             return self.properties.getProperty(dataset_namespace_property)
-        elif (
-            DataLineageConfig.__legacy_namespace_property
-            in self.properties.stringPropertyNames()
-        ):
-            # for legacy support
-            return self.properties.getProperty(
-                DataLineageConfig.__legacy_namespace_property
-            )
         else:
             raise ValueError(f"Could not find property {dataset_namespace_property}.")
 

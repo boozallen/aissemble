@@ -13,12 +13,14 @@ package com.boozallen.aissemble.kafka.context;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 import com.boozallen.aissemble.core.cdi.CdiContext;
 
 import io.smallrye.reactive.messaging.kafka.KafkaCDIEvents;
 import io.smallrye.reactive.messaging.kafka.KafkaConnector;
+import io.smallrye.reactive.messaging.kafka.commit.KafkaThrottledLatestProcessedCommit;
+import io.smallrye.reactive.messaging.kafka.fault.KafkaFailStop;
 
 /**
  * {@link KafkaConnectorCdiContext} contains the classes needed by CDI when
@@ -34,6 +36,8 @@ public class KafkaConnectorCdiContext implements CdiContext {
         List<Class<?>> classes = new ArrayList<>();
         classes.add(KafkaConnector.class);
         classes.add(KafkaCDIEvents.class);
+        classes.add(KafkaThrottledLatestProcessedCommit.Factory.class);
+        classes.add(KafkaFailStop.Factory.class);
         return classes;
     }
 

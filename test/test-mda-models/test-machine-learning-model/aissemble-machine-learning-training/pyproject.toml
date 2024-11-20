@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "aissemble-machine-learning-training"
-version = "1.9.4"
+version = "1.10.0"
 description = "Description of package"
 authors = ["Your Name <you@example.com>"]
 
@@ -15,8 +15,8 @@ aissemble-foundation-pdp-client-python = {path = "../../../../foundation/foundat
 onnxmltools = "^1.11.1"
 aissemble-foundation-core-python = {path = "../../../../foundation/aissemble-foundation-core-python", develop = true}
 aissemble-foundation-model-lineage = {path = "../../../../foundation/foundation-lineage/aissemble-foundation-model-lineage", develop = true}
-python = "^3.11.4"
-krausening = ">=19"
+python = ">=3.8"
+krausening = ">=20"
 mlflow = "^2.3.1"
 kafka-python = "^2.0.2"
 pandas = "^1.5.0"

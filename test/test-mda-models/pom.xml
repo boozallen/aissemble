@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
     <packaging>pom</packaging>
 
@@ -26,13 +26,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.boozallen.aissemble</groupId>
-                <artifactId>bom-component</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>com.boozallen.aissemble</groupId>
                 <artifactId>bom-instantiation</artifactId>
@@ -85,38 +78,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- NB: Temp workaround until https://github.com/boozallen/aissemble/issues/4 is resolved: -->
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <!-- Skip helm test-chart generation during a release, since the necessary helm charts won't be published -->
-            <id>skip-helm</id>
-            <properties>
-                <!-- skip tests since they rely on the generated test SparkApplication yaml that we are disabling -->
-                <skipTests>true</skipTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <id>test-chart</id>
-                                <configuration>
-                                    <skip>true</skip>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

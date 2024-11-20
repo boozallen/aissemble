@@ -25,9 +25,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
@@ -286,7 +286,7 @@ public class ConfigLoader {
             Property statusProperty = propertyDao.read(new PropertyKey("load-status", "fully-loaded"));
             return statusProperty != null && BooleanUtils.toBoolean(statusProperty.getValue());
         } catch (Exception e) {
-            logger.warn("Properties are not loaded previously, continue", e);
+            logger.warn("Unable to determine load status", e);
             return false;
         }
     }

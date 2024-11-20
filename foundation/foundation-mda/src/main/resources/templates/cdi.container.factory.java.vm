@@ -8,6 +8,8 @@ import org.jboss.weld.environment.se.WeldContainer;
 
 import com.boozallen.aissemble.core.cdi.CdiContainer;
 import com.boozallen.aissemble.core.cdi.CdiContext;
+import com.boozallen.aissemble.messaging.core.cdi.MessagingCdiContext;
+import com.boozallen.aissemble.kafka.context.KafkaConnectorCdiContext;
 #if ($pipeline.isAlertingSupportNeeded())
 import com.boozallen.aissemble.alerting.core.cdi.AlertingCdiContext;
 #end
@@ -57,11 +59,15 @@ public final class CdiContainerFactory {
     protected static List<CdiContext> getContexts() {
         List<CdiContext> contexts = new ArrayList<>();
         contexts.add(new PipelinesCdiContext());
+## TODO: would be nice to only include if we need messaging, but right now we assume kafka messaging everywhere
+        contexts.add(new MessagingCdiContext());
+        contexts.add(new KafkaConnectorCdiContext());
+## TODO: pull generated functionality into an overwritable template so we can adapt to MDA model changes
         #if ($pipeline.isAlertingSupportNeeded())
-            contexts.add(new AlertingCdiContext());
+        contexts.add(new AlertingCdiContext());
         #end
         #if ($pipeline.getDataLineage())
-            contexts.add(DataLineageCdiSelector.getDataLineageCdiContext());
+        contexts.add(DataLineageCdiSelector.getDataLineageCdiContext());
         #end
 
         return contexts;

@@ -22,7 +22,6 @@ import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryMana
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -157,6 +156,10 @@ public class JavaStep extends BaseStepDecorator {
 
     public boolean hasVoidOutbound() {
         return isVoid(getOutbound());
+    }
+
+    public boolean useEmitter() {
+        return hasNativeInbound() || hasVoidInbound();
     }
 
     public Set<String> getBaseImports() {

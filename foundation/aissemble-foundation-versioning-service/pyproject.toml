@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-versioning-service"
-version = "1.9.4"
+version = "1.10.0"
 description = ""
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
@@ -13,12 +13,13 @@ packages = [
 # the versioning_api.py module within aissemble-versioning-docker are defined here and installed when the corresponding
 # wheel for aissemble-versioning-service is installed.
 [tool.poetry.dependencies]
-python = ">=3.11.4, <3.12"
+python = ">=3.8"
 mlflow = "^2.3.1"
 fastapi = ">=0.95.0"
 uvicorn = {version = "^0.18.0", extras = ["standard"]}
-pydantic = ">=2.8.0"
-starlette = ">=0.25.0"
+
+# Poetry export-without-path-deps fails due to a "Dependency walk failed at urllib3 (>=1.26.0)"
+# Adding to resolve the issue; Poetry changes the value from >= -> ^
 urllib3 = "^1.26.18"
 
 aissemble-foundation-core-python = {path = "../aissemble-foundation-core-python/", develop = true}

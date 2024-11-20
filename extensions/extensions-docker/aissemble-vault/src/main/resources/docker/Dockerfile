@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM docker.io/alpine:3.20
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
@@ -83,23 +83,21 @@ RUN apk update \
     && apk upgrade \
     && apk add curl
 
-# Install python/pip.  Needed to run our bootstrap unsealing for aiops encryption
+# Install python.  Needed to run our bootstrap unsealing for aiops encryption
 RUN export PYTHONUNBUFFERED=1 \
-    && apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python \
-    && python3 -m ensurepip \
-    && pip3 install --no-cache --upgrade pip setuptools \
-    && apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+    && apk add --update --no-cache python3 py3-setuptools && ln -sf python3 /usr/bin/python
 
-RUN pip install hvac==0.11.0
+# Create a virtual environment to install dependencies - PEP 668
+RUN python3 -m venv venv \
+    && ./venv/bin/pip install hvac==0.11.0
 
 COPY ./src/main/resources/vault/config.hcl /vault/setup/config.hcl
 COPY ./src/main/resources/scripts/init_encrypt.py /vault/setup/init_encrypt.py
 
 RUN export VAULT_ADDR='https://0.0.0.0:8200' \
-    && python3 /vault/setup/init_encrypt.py
+    && ./venv/bin/python3 /vault/setup/init_encrypt.py
 
-COPY ./src/main/resources/vault/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY --chmod=755 ./src/main/resources/vault/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chown -R vault:vault /vault
 

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>test-mda-models</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>test-machine-learning-model</artifactId>
@@ -19,7 +19,6 @@
         These should also not be added until after your first run of ./mvnw clean install so that the modules are generated first. -->
         <module>aissemble-machine-learning-training</module>
         <module>aissemble-machine-learning-inference</module>
-        <module>aissemble-machine-learning-sagemaker-training</module>
     </modules>
 
     <build>

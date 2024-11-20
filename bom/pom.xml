@@ -5,7 +5,7 @@
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>build-parent</artifactId>
         <relativePath>../build-parent/pom.xml</relativePath>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>bom</artifactId>
@@ -14,8 +14,8 @@
     <name>aiSSEMBLE::Bill of Materials</name>
 
     <modules>
-        <module>bom-component</module>
         <module>bom-instantiation</module>
+        <module>aissemble-quarkus-bom</module>
     </modules>
 
 </project>

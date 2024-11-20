@@ -10,7 +10,7 @@ package com.boozallen.aissemble.data.lineage.cdi;
  * #L%
  */
 import com.boozallen.aissemble.messaging.core.cdi.MessagingCdiContext;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 import java.util.ArrayList;
 import java.util.List;
 

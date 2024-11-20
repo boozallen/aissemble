@@ -34,6 +34,8 @@ tests:
           name: test
           containerPort: 8081
           protocol: test
+        imagePullSecrets:
+          - name: regcred
     asserts:
       - equal:
           path: spec.template.spec.containers[0].ports.name
@@ -44,3 +46,8 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].ports.protocol
           value: test
+      - contains:
+          path: spec.template.spec.imagePullSecrets
+          any: true
+          content:
+            name: regcred

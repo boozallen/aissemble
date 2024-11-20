@@ -21,7 +21,6 @@ spec:
         - {{ . }}
         {{- end }}    
     {{ end }}
-  {{- /* SKIP-MIGRATION: 'argocd-template-sync-policy-configuration-migration' */}}
   syncPolicy:
     {{- with .Values.spec.syncPolicy }}
       {{- if .automated }}

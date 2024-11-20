@@ -19,9 +19,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-universe-bom</artifactId>
-                <version>${version.quarkus.plugin}</version>
+                <groupId>com.boozallen.aissemble</groupId>
+                <artifactId>aissemble-quarkus-bom</artifactId>
+                <version>${version.aissemble}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -76,12 +76,6 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka-clients</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -91,12 +85,6 @@
             <groupId>stax</groupId>
             <artifactId>stax</artifactId>
             <version>1.2.0</version>
-        </dependency>
-        <!-- vertx-kafka-client currently bound to 2.x versions -->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>2.8.1</version>
         </dependency>
 
         <!-- test dependencies -->

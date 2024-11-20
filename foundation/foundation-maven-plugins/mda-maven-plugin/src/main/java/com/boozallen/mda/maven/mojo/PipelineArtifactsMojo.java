@@ -86,9 +86,6 @@ public class PipelineArtifactsMojo extends AbstractMojo {
     @Parameter(required = true, defaultValue = "${project.build.directory}/")
     private String outputDirectory;
 
-    @Parameter(defaultValue = "${project.build.directory}")
-    private String projectBuildDirectory;
-
     /**
      * Which artifact types to retrieve as part of plugin execution.  See ArtifactType.java for valid options.
      */
@@ -96,9 +93,9 @@ public class PipelineArtifactsMojo extends AbstractMojo {
     private List<ArtifactType> targetArtifactTypes;
 
     /**
-     * Configure the plugin to target only certain pipeline types, defaults to {"data-flow", "machine-learning-training", "sagemaker-training"}
+     * Configure the plugin to target only certain pipeline types, defaults to {"data-flow", "machine-learning-training"}
      */
-    @Parameter(defaultValue = "data-flow,machine-learning-training,sagemaker-training")
+    @Parameter(defaultValue = "data-flow,machine-learning-training")
     private List<String> targetPipelineTypes;
 
     /**
@@ -341,7 +338,7 @@ public class PipelineArtifactsMojo extends AbstractMojo {
                 throw new NoSuchFileException("No archive present in directory " + archiveDir);
             }
             Path archive = archiveOpt.get();
-            FileSystem fileSystem = FileSystems.newFileSystem(archive, null);
+            FileSystem fileSystem = FileSystems.newFileSystem(archive, (ClassLoader) null);
             Path appsDirToExtract = fileSystem.getPath(getPathToValuesFileDir(implType, pipelineName));
             Files.walk(appsDirToExtract, 1).forEach((fileToExtract -> {
                 try {

@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>foundation-maven-plugins</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
     <groupId>com.boozallen.aissemble</groupId>
     <artifactId>artifacts-maven-plugin</artifactId>
@@ -14,10 +14,9 @@
 
     <properties>
         <!-- versions for plugin specific dependencies-->
-        <version.mojo.executor>2.4.0</version.mojo.executor>
         <version.testing.harness>3.3.0</version.testing.harness>
-        <version.exec.plugin>3.1.0</version.exec.plugin>
         <version.cucumber>7.17.0</version.cucumber>
+        <version.aether>1.1.0</version.aether>
     </properties>
 
     <build>
@@ -35,16 +34,9 @@
     </build>
 
     <dependencies>
-        <!-- Explicitly declared due to breaking change for Maven 3.9.0 https://maven.apache.org/docs/3.9.0/release-notes.html -->
         <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -61,19 +53,19 @@
         <dependency>
             <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-connector-basic</artifactId>
-            <version>1.0.0.v20140518</version>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-transport-file</artifactId>
-            <version>1.0.0.v20140518</version>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-transport-http</artifactId>
-            <version>1.0.0.v20140518</version>
+            <version>${version.aether}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -105,6 +97,10 @@
             <version>${version.maven.resources.plugin}</version>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
         </dependency>
@@ -112,45 +108,19 @@
         <!-- Test dependencies: -->
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>messages</artifactId>
-            <version>24.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${version.cucumber}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <!-- oddly points to a -SNAPSHOT dependency that is not resolvable, so manually overriding above: -->
-                    <groupId>io.cucumber</groupId>
-                    <artifactId>messages</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${version.cucumber}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <!-- oddly points to a -SNAPSHOT dependency that is not resolvable, so manually overriding above: -->
-                    <groupId>io.cucumber</groupId>
-                    <artifactId>messages</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.8.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

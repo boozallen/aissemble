@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-transform-core-python"
-version = "1.9.4"
+version = "1.10.0"
 description = "Contains the core Python implementation of data transform"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
@@ -9,10 +9,10 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
+python = ">=3.8"
 aissemble-foundation-core-python = {path = "../../aissemble-foundation-core-python", develop = true}
 pydantic = ">=2.8.0"
-krausening = ">=19"
+krausening = ">=20"
 cryptography = ">=42.0.4"
 
 [tool.poetry.group.dev.dependencies]

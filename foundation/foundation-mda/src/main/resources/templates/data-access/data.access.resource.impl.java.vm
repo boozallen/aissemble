@@ -1,8 +1,8 @@
 package ${basePackage};
 
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 
 import io.quarkus.runtime.StartupEvent;

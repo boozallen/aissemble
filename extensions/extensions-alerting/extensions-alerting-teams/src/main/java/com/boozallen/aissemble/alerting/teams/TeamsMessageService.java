@@ -13,8 +13,8 @@ package com.boozallen.aissemble.alerting.teams;
 import com.boozallen.aissemble.alerting.teams.models.CardMessage;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Service to send messages to Microsoft Teams

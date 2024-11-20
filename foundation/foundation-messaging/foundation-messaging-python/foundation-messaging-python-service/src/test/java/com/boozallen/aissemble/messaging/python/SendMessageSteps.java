@@ -17,12 +17,10 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.spi.CDI;
-
-import java.util.HashMap;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.spi.CDI;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -31,7 +29,6 @@ public class SendMessageSteps {
 
     MessagingService gateway;
     Exception foundError;
-    HashMap<String, String> channelMap = new HashMap<>();
 
     @Before("@send")
     public void setup() {

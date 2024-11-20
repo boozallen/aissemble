@@ -16,7 +16,6 @@ Feature: As an aiSSEMBLE user, I want pipeline artifacts derived from MDA models
       | data-delivery-pyspark   | data-flow                 | VALUES_FILES         | .yaml               |
       | data-delivery-spark     | data-flow                 | VALUES_FILES         | .yaml               |
       | machine-learning-mlflow | machine-learning-training | DEFAULT              | .tar.gz,.txt        |
-      | machine-learning-mlflow | sagemaker-training        | DEFAULT              | .tar.gz,.txt        |
 
   Scenario: Copy python data-record artifacts
     Given a "data-delivery-pyspark" pipeline model

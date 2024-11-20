@@ -99,15 +99,6 @@ ${step.encryptionSignature} {
                         datasetWithEncryptionPolicyApplied = ds;
                         #end
                         #end
-                        #elseif ($step.hasMessagingInbound())
-                        ## Input was a message
-                        #if ($step.hasInboundRecordType())
-                        ## Input was a message with custom record
-                        Encoder<${step.inbound.recordType.name}> recordEncoder = Encoders.bean(${step.inbound.recordType.name}.class);
-                        datasetWithEncryptionPolicyApplied = (${step.inbound.recordType.name}) ds.as(recordEncoder).collect();
-                        #else
-                        ## Input was a message with string
-                        #end
                         #end
                     }
                 }

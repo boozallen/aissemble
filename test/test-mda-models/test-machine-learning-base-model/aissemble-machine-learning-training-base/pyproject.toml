@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-machine-learning-training-base"
-version = "1.9.4"
+version = "1.10.0"
 description = "Description of package"
 authors = ["Your Name <you@example.com>"]
 
@@ -10,8 +10,8 @@ include = ["src/aissemble_machine_learning_training_base/generated/**/*"]
 [tool.poetry.dependencies]
 aissemble-foundation-pdp-client-python = {path = "../../../../foundation/foundation-security/aissemble-foundation-pdp-client-python", develop = true}
 aissemble-foundation-core-python = {path = "../../../../foundation/aissemble-foundation-core-python", develop = true}
-python = "^3.11.4"
-krausening = ">=19"
+python = ">=3.8"
+krausening = ">=20"
 mlflow = "^2.3.1"
 kafka-python = "^2.0.2"
 pandas = "^1.5.0"

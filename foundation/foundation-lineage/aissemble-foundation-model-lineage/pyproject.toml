@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-model-lineage"
-version = "1.9.4"
+version = "1.10.0"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 description = "Model lineage API"
 readme = "README.md"
@@ -9,7 +9,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
+python = ">=3.8"
 openlineage-python = {version = "^0.21.1"}
 
 #[tool.poetry.group.monorepo.dependencies]

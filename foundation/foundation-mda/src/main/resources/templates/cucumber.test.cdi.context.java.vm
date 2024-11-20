@@ -4,19 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 import com.boozallen.aissemble.core.cdi.CdiContext;
 
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
-import io.smallrye.reactive.messaging.providers.connectors.ExecutionHolder;
-import io.smallrye.reactive.messaging.providers.extension.ChannelProducer;
-import io.smallrye.reactive.messaging.providers.extension.HealthCenter;
-import io.smallrye.reactive.messaging.providers.impl.InternalChannelRegistry;
-import io.smallrye.reactive.messaging.providers.MediatorFactory;
-import io.smallrye.reactive.messaging.providers.extension.MediatorManager;
-import io.smallrye.reactive.messaging.providers.wiring.Wiring;
-import io.smallrye.reactive.messaging.providers.connectors.WorkerPoolRegistry; 
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
 
 /**
@@ -30,16 +22,8 @@ public class TestCdiContext implements CdiContext {
 
 	@Override
 	public List<Class<?>> getCdiClasses() {
-		List<Class<?>> classes = new ArrayList<>();
+		List<Class<?>> classes = new ArrayList<Class<?>>();
 		classes.add(InMemoryConnector.class);
-		classes.add(ExecutionHolder.class);
-		classes.add(ChannelProducer.class);
-		classes.add(HealthCenter.class);
-		classes.add(InternalChannelRegistry.class);
-		classes.add(MediatorFactory.class);
-		classes.add(MediatorManager.class);
-		classes.add(Wiring.class);
-		classes.add(WorkerPoolRegistry.class); 
 		return classes;
 	}
 
@@ -47,5 +31,4 @@ public class TestCdiContext implements CdiContext {
 	public List<Extension> getExtensions() {
 		return Collections.emptyList();
 	}
-
 }

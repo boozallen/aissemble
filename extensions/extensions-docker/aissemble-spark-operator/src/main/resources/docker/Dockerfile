@@ -16,7 +16,7 @@
 ARG DOCKER_BASELINE_REPO_ID
 ARG VERSION_AISSEMBLE
 
-FROM kubeflow/spark-operator:v1beta2-1.6.2-3.5.0 AS builder
+FROM docker.io/kubeflow/spark-operator:v1beta2-1.6.2-3.5.0 AS builder
 
 # We would be able to use the kubeflow image directly, except that it is on Spark 3.5 instead of 3.4
 FROM ${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-spark:${VERSION_AISSEMBLE}

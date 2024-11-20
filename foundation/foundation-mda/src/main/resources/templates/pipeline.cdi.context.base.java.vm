@@ -3,7 +3,7 @@ package ${basePackage}.cdi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.Extension;
+import jakarta.enterprise.inject.spi.Extension;
 
 #foreach ($step in $pipeline.steps)
 import ${basePackage}.${step.capitalizedName};
@@ -11,27 +11,10 @@ import ${basePackage}.${step.capitalizedName};
 #foreach ($store in $pipeline.fileStores)
 import ${basePackage}.filestore.${store.fullName};
 #end
+
 import com.boozallen.aissemble.core.cdi.CdiContext;
-
-#if ($pipeline.isAlertingSupportNeeded())
-import com.boozallen.aissemble.alerting.core.consumer.AlertLogger;
-import com.boozallen.aissemble.alerting.core.AlertProducer;
-#end
-
-import io.smallrye.config.inject.ConfigExtension;
-import io.smallrye.reactive.messaging.providers.extension.ReactiveMessagingExtension;
 import com.boozallen.aiops.data.delivery.messaging.PipelineMessagingConfig;
 
-import io.smallrye.reactive.messaging.providers.extension.ChannelProducer;
-import io.smallrye.reactive.messaging.providers.connectors.ExecutionHolder;
-import io.smallrye.reactive.messaging.providers.extension.HealthCenter;
-import io.smallrye.reactive.messaging.providers.impl.InternalChannelRegistry;
-import io.smallrye.reactive.messaging.providers.MediatorFactory;
-import io.smallrye.reactive.messaging.providers.extension.MediatorManager;
-import io.smallrye.reactive.messaging.providers.wiring.Wiring;
-import io.smallrye.reactive.messaging.providers.connectors.WorkerPoolRegistry;
-import io.smallrye.reactive.messaging.providers.impl.ConfiguredChannelFactory;
-import io.smallrye.reactive.messaging.providers.impl.ConnectorFactories;
 
 /**
  * Configures the CDI context for this application.
@@ -56,22 +39,6 @@ public abstract class PipelinesCdiContextBase implements CdiContext {
         customBeans.add(${store.fullName}.class);
 #end
 
-        #if ($pipeline.isAlertingSupportNeeded())
-        customBeans.add(AlertLogger.class);
-        customBeans.add(AlertProducer.class);
-        #end
-
-        customBeans.add(ChannelProducer.class);
-        customBeans.add(ExecutionHolder.class);
-        customBeans.add(HealthCenter.class);
-        customBeans.add(InternalChannelRegistry.class);
-        customBeans.add(MediatorFactory.class);
-        customBeans.add(MediatorManager.class);
-        customBeans.add(Wiring.class);
-        customBeans.add(WorkerPoolRegistry.class);
-        customBeans.add(ConfiguredChannelFactory.class);
-        customBeans.add(ConnectorFactories.class);
-
         return customBeans;
     }
 
@@ -81,12 +48,7 @@ public abstract class PipelinesCdiContextBase implements CdiContext {
     @Override
     public List<Extension> getExtensions() {
         List<Extension> extensions = new ArrayList<>();
-
-        // TODO: remove once alerting module aligned with aissemble:
-        extensions.add(new ConfigExtension());
-        extensions.add(new ReactiveMessagingExtension());
         extensions.add(new PipelineMessagingConfig());
-
         return extensions;
     }
 

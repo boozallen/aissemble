@@ -16,7 +16,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class HelmCommandExecutor {
      * @throws ShellExecutionException
      */
     public int executeAndLogOutput(List<String> arguments) throws ShellExecutionException {
-        logger.error("Executing Helm command: {} {}", HELM_COMMAND, StringUtils.join(arguments, " "));
+        logger.info("Executing Helm command: {} {}", HELM_COMMAND, StringUtils.join(arguments, " "));
 
         ProcessExecutor executor = createHelmExecutor(arguments);
         return executor.executeAndRedirectOutput(logger);

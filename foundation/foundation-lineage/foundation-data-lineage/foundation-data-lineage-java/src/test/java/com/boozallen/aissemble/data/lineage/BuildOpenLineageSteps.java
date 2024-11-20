@@ -130,7 +130,7 @@ public class BuildOpenLineageSteps {
     @Given("a valid Job object")
     public void a_valid_job_object() {
         testJob = new Job(
-                "test_name",
+                "test_job",
                 createTestFacets("testJobFacet", new TestJobFacet()),
                 "test_namespace"
         );
@@ -180,7 +180,7 @@ public class BuildOpenLineageSteps {
 
     @Given("a valid Input Dataset object with an input facet")
     public void a_valid_input_dataset_object_with_a_defined_input_facet() {
-        testInputDatasetWithInputFacet = new InputDataset("test input name", createTestFacets("testInputDatasetFacet", new TestDatasetFacet()), createTestFacets("testInputDatasetInputFacet", new TestInputDatasetFacet()));
+        testInputDatasetWithInputFacet = new InputDataset("test_input_dataset", createTestFacets("testInputDatasetFacet", new TestDatasetFacet()), createTestFacets("testInputDatasetInputFacet", new TestInputDatasetFacet()));
     }
 
     @When("the Input Dataset's function to build an OpenLineage object is called with an input facet")
@@ -201,7 +201,7 @@ public class BuildOpenLineageSteps {
 
     @Given("a valid Output Dataset object")
     public void a_valid_output_dataset_object() {
-        testOutputDataset = new OutputDataset("test name", createTestFacets("testOutputDatasetFacet", new TestDatasetFacet()));
+        testOutputDataset = new OutputDataset("test_output_dataset", createTestFacets("testOutputDatasetFacet", new TestDatasetFacet()));
     }
 
     @When("the Output Dataset's function to build an OpenLineage object is called")
@@ -222,7 +222,7 @@ public class BuildOpenLineageSteps {
 
     @Given("a valid Output Dataset object with a defined output facet")
     public void a_valid_output_dataset_object_with_a_defined_output_facet() {
-        testOutputDatasetWithOutputFacet = new OutputDataset("test name", createTestFacets("testOutputDatasetFacet", new TestDatasetFacet()), createTestFacets("testOutputDatasetOutputFacet", new TestOutputDatasetFacet()));
+        testOutputDatasetWithOutputFacet = new OutputDataset("test_output_dataset", createTestFacets("testOutputDatasetFacet", new TestDatasetFacet()), createTestFacets("testOutputDatasetOutputFacet", new TestOutputDatasetFacet()));
     }
 
     @When("the Output Dataset's function to build an OpenLineage object is called with a defined output facet")
@@ -247,13 +247,13 @@ public class BuildOpenLineageSteps {
         testRun = new Run(UUID.randomUUID(), createTestFacets("runFacet", testRunFacet));
 
         testJobFacet = new TestJobFacet();
-        testJob = new Job("test-name", createTestFacets("jobFacet", testJobFacet));
+        testJob = new Job("test_job", createTestFacets("jobFacet", testJobFacet));
 
         DatasetFacet inputDatasetFacet = new TestDatasetFacet();
-        testInputDataset = new InputDataset("test/name", createTestFacets("inputDatasetFacet", inputDatasetFacet));
+        testInputDataset = new InputDataset("test_input_dataset", createTestFacets("inputDatasetFacet", inputDatasetFacet));
 
         DatasetFacet outputDatasetFacet = new TestDatasetFacet();
-        testOutputDataset = new OutputDataset("test/name", createTestFacets("outputDatasetFacet", outputDatasetFacet));
+        testOutputDataset = new OutputDataset("test_output_dataset", createTestFacets("outputDatasetFacet", outputDatasetFacet));
 
         testRunEvent = new RunEvent(testRun, testJob, "COMPLETE");
         testRunEvent.setInputs(Collections.singletonList(testInputDataset));

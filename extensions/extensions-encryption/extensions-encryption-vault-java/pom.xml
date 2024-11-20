@@ -4,17 +4,13 @@
     <parent>
         <groupId>com.boozallen.aissemble</groupId>
         <artifactId>extensions-encryption</artifactId>
-        <version>1.9.4</version>
+        <version>1.10.0</version>
     </parent>
 
     <artifactId>extensions-encryption-vault-java</artifactId>
 
     <name>aiSSEMBLE::Extensions::Encryption::Vault::Java</name>
     <description>Vault data encryption classes (java)</description>
-
-    <properties>
-        <version.vault>5.1.0</version.vault>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -40,23 +36,6 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>1.2.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -72,17 +51,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Logging Dependencies (from aiops-parent pom) -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>

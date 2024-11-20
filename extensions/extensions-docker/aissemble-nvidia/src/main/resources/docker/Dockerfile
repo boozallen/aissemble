@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.1.1-base-ubuntu22.04
+FROM docker.io/nvidia/cuda:12.6.2-base-ubuntu22.04
 
 LABEL org.opencontainers.image.source="https://github.com/boozallen/aissemble"
 
@@ -11,7 +11,7 @@ RUN chmod 755 /bin/uname
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y openjdk-11-jdk \
+    && apt-get install -y openjdk-17-jdk \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean

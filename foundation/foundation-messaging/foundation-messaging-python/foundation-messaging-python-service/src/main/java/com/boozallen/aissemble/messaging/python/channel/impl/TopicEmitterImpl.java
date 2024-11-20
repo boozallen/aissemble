@@ -11,8 +11,8 @@ package com.boozallen.aissemble.messaging.python.channel.impl;
  */
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 

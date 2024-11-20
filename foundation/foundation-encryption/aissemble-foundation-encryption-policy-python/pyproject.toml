@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aissemble-foundation-encryption-policy-python"
-version = "1.9.4"
+version = "1.10.0"
 description = "Data encryption policy for Python scripts"
 authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
 readme = "README.md"
@@ -9,8 +9,8 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.11.4, <4"
-krausening = ">=19"
+python = ">=3.8"
+krausening = ">=20"
 cryptography = ">=42.0.4"
 urllib3 = "^1.26.18"
 

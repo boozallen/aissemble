@@ -11,7 +11,7 @@ tests:
           value: "placeholder"
       - equal:
           path: spec.sparkVersion
-          value: 3.4.0
+          value: 3.5.2
       - equal:
           path: spec.dynamicAllocation.enabled
           value: true
@@ -44,7 +44,7 @@ tests:
           value: "512m"
       - equal:
           path: spec.executor.labels.version
-          value: 3.4.0
+          value: 3.5.2
 
   - it: Should set nodeSelector and gpu appropriately
     set:

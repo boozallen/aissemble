@@ -16,7 +16,7 @@ import com.boozallen.aissemble.alerting.core.AlertProducer;
 import com.boozallen.aissemble.common.Constants;
 #end
 
-import io.smallrye.reactive.messaging.providers.connectors.InMemoryConnector;
+import io.smallrye.reactive.messaging.memory.InMemoryConnector;
 
 /**
  * Sets up Spark to run within Cucumber.

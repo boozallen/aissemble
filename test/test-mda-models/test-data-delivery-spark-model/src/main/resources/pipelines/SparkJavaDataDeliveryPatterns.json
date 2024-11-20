@@ -69,14 +69,6 @@
 			}
 		},
 		{
-			"name": "VoidInboundAndMessagingOutboundAsync",
-			"type": "asynchronous",
-			"outbound": {
-				"type": "messaging",
-				"channelName": "outboundChannel"
-			}
-		},
-		{
 			"name": "MessagingInboundAndVoidOutbound",
 			"type": "synchronous",
 			"inbound": {
@@ -242,7 +234,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -257,7 +249,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -272,7 +264,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -287,7 +279,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -315,23 +307,23 @@
 			}
 		},
 		{
-			"name": "NativeInboundWithCustomRecordType",
+			"name": "NativeInboundWithCustomDataType",
 			"type": "synchronous",
 			"inbound": {
 				"type": "native",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
 		},
 		{
-			"name": "NativeInboundWithCustomRecordTypeAsync",
+			"name": "NativeInboundWithCustomDataTypeAsync",
 			"type": "asynchronous",
 			"inbound": {
 				"type": "native",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -346,7 +338,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -361,7 +353,7 @@
 					"package": "com.boozallen.aiops.mda.pattern.dictionary"
 				},
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -373,7 +365,7 @@
 				"type": "messaging",
 				"channelName": "inboundChannel",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -385,9 +377,17 @@
 				"type": "messaging",
 				"channelName": "inboundChannel",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
+			}
+		},
+		{
+			"name": "VoidInboundAndMessagingOutboundAsync",
+			"type": "asynchronous",
+			"outbound": {
+				"type": "messaging",
+				"channelName": "outboundChannel"
 			}
 		},
 		{
@@ -397,7 +397,7 @@
 				"type": "messaging",
 				"channelName": "outboundChannel",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
@@ -409,55 +409,55 @@
 				"type": "messaging",
 				"channelName": "outboundChannel",
 				"recordType": {
-					"name": "CustomRecord",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
 		},
 		{
-			"name": "MessagingOutboundWithCustomRec",
+			"name": "MessagingOutboundWithCustomData",
 			"type": "synchronous",
 			"outbound": {
 				"type": "messaging",
 				"channelName": "outboundChannel",
 				"recordType": {
-					"name": "CustomRec",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
 		},
 		{
-			"name": "MessagingOutboundWithCustomRecAsync",
+			"name": "MessagingOutboundWithCustomDataAsync",
 			"type": "asynchronous",
 			"outbound": {
 				"type": "messaging",
 				"channelName": "outboundChannel",
 				"recordType": {
-					"name": "CustomRec",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
 		},
 		{
-			"name": "MessagingInboundWithCustomRec",
+			"name": "MessagingInboundWithCustomData",
 			"type": "synchronous",
 			"outbound": {
 				"type": "messaging",
 				"channelName": "inboundChannel",
 				"recordType": {
-					"name": "CustomRec",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
 		},
 		{
-			"name": "MessagingInboundWithCustomRecAsync",
+			"name": "MessagingInboundWithCustomDataAsync",
 			"type": "asynchronous",
 			"inbound": {
 				"type": "messaging",
 				"channelName": "inboundChannel",
 				"recordType": {
-					"name": "CustomRec",
+					"name": "CustomData",
 					"package": "com.boozallen.aiops.mda.pattern.record"
 				}
 			}
