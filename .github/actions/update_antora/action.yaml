@@ -24,7 +24,7 @@ runs:
       run: |
         sed -i "s/^version: .*/version: ${{ inputs.patch-version }}/" docs/antora.yml
         version=$( ${{ inputs.is-pre-release }} && echo ${{ inputs.version }} || echo ${{ inputs.major-minor-version }} )
-        sed -i "s/^display_version: .*/display_version: $version/" docs/antora.yml
+        sed -i "s/^display_version: .*/display_version: \"$version\"/" docs/antora.yml
         sed -i "s/^prerelease: .*/prerelease: ${{ inputs.is-pre-release }}/" docs/antora.yml
         sed -i "s/^    is-pre-release: .*/    is-pre-release: ${{ inputs.is-pre-release }}/" docs/antora.yml
         find docs/modules/ROOT/attachments/ -type f -exec sed -i 's|${{ inputs.custom-facet-old-version }}|${{ inputs.custom-facet-new-version }}|g' {} +
