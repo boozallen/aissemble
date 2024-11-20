@@ -27,6 +27,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.slf4j.LoggerFactory;
 
 
+import org.technologybrewery.fermenter.mda.exception.FermenterException;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -216,12 +217,12 @@ public class MavenUtil {
     }
 
     /**
-     * Reads the given POM file to determine what profile is used for pyspark data delivery pipeline
+     * Reads the given POM file to determine whether Records Generates under Pipeline Module or not.
      *
      * @param context GenerationContext
-     * @return the profile for pyspark data delivery pipeline
+     * @return boolean flag isRecordGenerationInPipelineModule
      */
-    public static String getPySparkDataDeliveryProfileName(GenerationContext context) {
+    public static boolean isRecordGenerationInPipelineModule(GenerationContext context) {
 
         File pomFile = new File(context.getProjectDirectory() + File.separator + "pom.xml");
 
@@ -240,17 +241,16 @@ public class MavenUtil {
 
                     Element element = (Element) node;
                     String field = element.getTextContent();
-                    if(field.equals("data-delivery-pyspark") || field.equals("data-delivery-pyspark-pipeline") )
+                    if(field.equals("data-delivery-pyspark"))
                     {
-                        return field;
+                        return true;
                     }
                 }
             }
         } catch (Exception e){
-            logger.error("Unable to find profileName", e);
-            throw new NoSuchElementException("No profile name identified within " + pomFile.getPath());
+            throw new FermenterException("Failed to locate pipeline generation Fermenter profile in " + pomFile.getPath(), e);
         }
-        return null;
+        return false;
     }
 }
 
