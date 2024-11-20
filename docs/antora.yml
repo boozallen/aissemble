@@ -1,7 +1,7 @@
 name: aissemble
 title: aiSSEMBLE
 version: 1.10.0
-display_version: 1.10
+display_version: "1.10"
 prerelease: false
 nav:
   - modules/ROOT/nav.adoc
