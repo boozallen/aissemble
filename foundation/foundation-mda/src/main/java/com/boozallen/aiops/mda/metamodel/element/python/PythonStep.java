@@ -29,7 +29,7 @@ import java.util.TreeSet;
  */
 public class PythonStep extends BaseStepDecorator {
 
-    private String profileName;
+    private boolean isRecordGenerationInPipelineModule;
     private String rootArtifactId;
     protected static final String DATAFRAME_TYPE = "pysparkDataFrame";
     private static final String NONE = "None";
@@ -140,12 +140,12 @@ public class PythonStep extends BaseStepDecorator {
         for (String moduleImport : imports) {
             if (moduleImport.startsWith("from record.")
                     || moduleImport.startsWith("from dictionary.")) {
-                if(profileName.equals("data-delivery-pyspark"))
+                if(isRecordGenerationInPipelineModule)
                 {
                     importsSet.add(moduleImport.replace("from ",
                             isImplModule ? "from .." : "from ..."));
-                }else if(profileName.equals("data-delivery-pyspark-pipeline")){
-                    String rootArtifact = rootArtifactId.replace("-", "_");
+                }else{
+                    String rootArtifact = PipelineUtils.deriveLowerSnakeCaseNameFromHyphenatedString(rootArtifactId);
                     importsSet.add(moduleImport.replace("from ",
                             "from " + rootArtifact + "_data_records."));
                 }
@@ -221,8 +221,8 @@ public class PythonStep extends BaseStepDecorator {
         return createSignature("get_fields_list", inputType, outputType, false);
     }
 
-    public void setProfileName(String profileName){
-        this.profileName = profileName;
+    public void setRecordGenerationInPipelineModule(boolean isRecordGenerationInPipelineModule){
+        this.isRecordGenerationInPipelineModule = isRecordGenerationInPipelineModule;
     }
 
     public void setRootArtifactId(String rootArtifactId){

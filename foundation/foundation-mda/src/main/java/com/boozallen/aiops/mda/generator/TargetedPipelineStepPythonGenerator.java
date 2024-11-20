@@ -38,10 +38,9 @@ public abstract class TargetedPipelineStepPythonGenerator extends AbstractPython
         for (Step step : pythonTargetPipeline.getSteps()) {
             if (shouldGenerateStep(step, generationContext)) {
                 VelocityContext vc = getNewVelocityContext(generationContext);
-                String profileName = MavenUtil.getPySparkDataDeliveryProfileName(generationContext);
                 PythonStep pythonStep = new PythonStep(step);
                 pythonStep.validate();
-                pythonStep.setProfileName(profileName);
+                pythonStep.setRecordGenerationInPipelineModule(MavenUtil.isRecordGenerationInPipelineModule(generationContext));
                 pythonStep.setRootArtifactId(generationContext.getRootArtifactId());
                 vc.put(VelocityProperty.STEP, pythonStep);
                 vc.put(VelocityProperty.PIPELINE, pythonTargetPipeline);
