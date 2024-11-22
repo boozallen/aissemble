@@ -1,0 +1,26 @@
+suite: Update the service port number
+tests:
+  - it: Should update the worker service to use the correct port
+    template: charts/trino/templates/service-worker.yaml
+    asserts:
+      - equal:
+          path: spec.ports[0].port
+          value: 8084
+  - it: Should update the coordinator service to use the correct port
+    template: charts/trino/templates/service-coordinator.yaml
+    asserts:
+      - equal:
+          path: spec.ports[0].port
+          value: 8084
+  - it: Should update the worker deployment to use the correct container port
+    template: charts/trino/templates/deployment-worker.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].ports[0].containerPort
+          value: 8084
+  - it: Should update the coordinator deployment to use the correct container port
+    template: charts/trino/templates/deployment-coordinator.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].ports[0].containerPort
+          value: 8084

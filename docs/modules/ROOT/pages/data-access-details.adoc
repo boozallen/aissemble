@@ -1,0 +1,36 @@
+= Data Access
+
+== Overview
+Data access is the process of exposing data to external consumers. aiSSEMBLE(TM) supports this through generated Kubernetes resources.
+
+== What Gets Generated
+Data access can be xref:containers.adoc#_available_v2_profiles_kubernetes[optionally enabled] for any project. When enabled,
+aiSSEMBLE generates the necessary Kubernetes artifacts for deploying https://trino.io/docs/current/index.html[Trino,role=external,window=_blank] to your projects environment.
+
+|===
+|Generated file | Description
+
+|`<project>/<project>-deploy/src/main/resources/trino/Chart.yaml`
+|Creates a Helm chart dependent on the pre-configured aiSSEMBLE Trino Helm chart.
+
+|`<project>/<project>-deploy/src/main/resources/trino/values.yaml`
+|Helm chart overrides specific to your project's overall environment.
+
+|`<project>/<project>-deploy/src/main/resources/trino/values-dev.yaml`
+|Helm chart overrides specific to your project's dev environment.
+
+|`<project>/<project>-deploy/src/main/resources/trino/values-ci.yaml`
+|Helm chart overrides specific to your project's ci environment.
+|===
+
+== Trino Interface
+
+By default, Trino is configured to connect to your Apache Hive data warehouse. For more details on connecting Trino to a different
+data source, see the list of https://trino.io/docs/current/connector.html[supported data source connectors,role=external,window=_blank]
+and the documentation for https://trino.io/docs/current/installation/kubernetes.html#adding-catalogs[defining data source connectors,role=external,window=_blank] within your Helm chart.
+
+Trino provides two methods of interacting with your connected data sources: a https://trino.io/docs/current/client/cli.html[Command Line Interface (CLI),role=external,window=_blank] 
+and a https://trino.io/docs/current/client/jdbc.html[Java Database Connectivity (JDBC) driver,role=external,window=_blank]. Once connected, refer to the https://trino.io/docs/current/functions.html[Trino SQL documentation,role=external,window=_blank]
+for the full list of supported functions and operators.
+
+NOTE: When deploying Trino locally, the connection URL is `localhost:8084`

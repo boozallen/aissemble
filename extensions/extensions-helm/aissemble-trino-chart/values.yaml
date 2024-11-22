@@ -1,0 +1,10 @@
+# Default vaulues for Trino
+trino:
+  service:
+    port: 8084
+
+  server: 
+    workers: 1
+    autoscaling:
+      enabled: true
+      maxReplicas: 5

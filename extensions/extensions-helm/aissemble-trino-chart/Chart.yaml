@@ -1,0 +1,13 @@
+name: aissemble-trino-chart
+description: Baseline chart for deploying Trino
+apiVersion: v2
+# The following versions are automatically set by the helm maven plugin so these are only a placeholder
+version: 1.0.0
+appVersion: 1.0.0
+sources:
+  - https://github.com/boozallen/aissemble
+
+dependencies:
+  - name: trino
+    version: 0.33.0
+    repository: https://trinodb.github.io/charts

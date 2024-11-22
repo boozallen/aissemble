@@ -2692,5 +2692,36 @@
 				"name": "mlflowArgoCDV2"
 			}
 		]
+	},
+	{
+		"name": "data-access-trino-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "data-access-trino-deploy-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "data-access-trino-deploy-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "trinoHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "trinoValuesFileV2"
+			},
+			{
+				"name": "trinoValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "trinoArgoCDV2"
+			}
+		]
 	}
 ]
