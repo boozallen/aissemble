@@ -55,12 +55,6 @@ namespacing (e.g., package in Java, namespace in XSD).
 | None
 | A description of the record being specified.
 
-| `dataAccess` (xref:#_data_access_options[details])
-| No
-| Yes
-| By default, xref:data-access-details.adoc[data access] is enabled for the record. Specifying this element allows for
-data access to be disabled or enabled, if desired.
-
 | `frameworks`
 | No
 | None
@@ -71,31 +65,6 @@ PySpark support methods.
 | Yes
 | None
 | A list of fields in your record. At least one field is required within `fields`.
-
-|===
-
-[#_data_access_options]
-=== Record Data Access Options
-The following options are available on the `dataAccess` record element:
-
-.Data Access Location
-[source,json]
-----
-{
-    "dataAccess": {
-        ...
-    }
-}
-----
-.Data Access Metamodel Options
-[cols="2a,1a,1a,4a"]
-|===
-| Element Name | Required? | Default | Use
-
-| `dataAccess/enabled`
-| Yes
-| None
-| Setting `enabled` to false will disable xref:data-access-details.adoc[data access] for the record.
 
 |===
 

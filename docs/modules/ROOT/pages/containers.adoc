@@ -191,7 +191,6 @@ TIP: If your project is under version control, we recommend using a diff tool to
 |======
 |Application                            | Fermenter Profile                         | ReadMe
 |Airflow                                | `airflow-deploy-v2`                       |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-airflow-chart/README.md[Airflow,role=external,window=_blank]
-|Data Access                            | `data-access-deploy-v2`                   |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-data-access-chart/README.md[Data Access,role=external,window=_blank]
 |Kafka                                  | `kafka-deploy-v2`                         |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-kafka-chart/README.md[Kafka,role=external,window=_blank]
 |Metadata                               | `metadata-deploy-v2`                      |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-metadata-chart/README.md[Metadata,role=external,window=_blank]
 |MLflow                                 | `mlflow-deploy-v2`                        |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-mlflow-chart/README.md[MLFlow,role=external,window=_blank]
