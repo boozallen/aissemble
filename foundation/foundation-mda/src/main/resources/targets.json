@@ -3092,5 +3092,37 @@
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
+  },
+  {
+    "name": "trinoHelmChartFileV2",
+    "templateName": "templates/deployment/trino/v2/trino.chart.yaml.vm",
+    "outputFile": "apps/${appName}/Chart.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trinoValuesFileV2",
+    "templateName": "templates/deployment/trino/v2/trino.values.yaml.vm",
+    "outputFile": "apps/${appName}/values.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trinoValuesDevFileV2",
+    "templateName": "templates/deployment/trino/v2/trino.values-dev.yaml.vm",
+    "outputFile": "apps/${appName}/values-dev.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "trinoArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/trino.yaml.vm",
+    "outputFile": "templates/trino-ui.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
   }
 ]

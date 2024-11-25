@@ -1,151 +1,36 @@
 = Data Access
 
 == Overview
-Data access is the process of exposing data to external consumers. aiSSEMBLE(TM) supports this through generated
-services and records.
+Data access is the process of exposing data to external consumers. aiSSEMBLE(TM) supports this through generated Kubernetes resources.
 
 == What Gets Generated
-Data access is xref:pipeline-metamodel.adoc#_pipeline_metamodel[enabled by default] for projects that include at least
-one record. When enabled, aiSSEMBLE generates a https://graphql.org/learn/[GraphQL,role=external,window=_blank] query
-service with endpoints for retrieving records from ingested datasets.
+Data access can be xref:containers.adoc#_available_v2_profiles_kubernetes[optionally enabled] for any project. When enabled,
+aiSSEMBLE generates the necessary Kubernetes artifacts for deploying https://trino.io/docs/current/index.html[Trino,role=external,window=_blank] to your projects environment.
 
 |===
 |Generated file | Description
 
-|`<project>/<project>-pipelines/<project>-data-access/pom.xml`
-|Creates the Maven module that builds the generated query service.
+|`<project>/<project>-deploy/src/main/resources/trino/Chart.yaml`
+|Creates a Helm chart dependent on the pre-configured aiSSEMBLE Trino Helm chart.
 
-|`<project>/<project>-pipelines/<project>-data-access/src/main/resources/application.properties`
-|https://quarkus.io/guides/config[Quarkus,role=external,window=_blank] configuration of the query service.
+|`<project>/<project>-deploy/src/main/resources/trino/values.yaml`
+|Helm chart overrides specific to your project's overall environment.
 
-|`<project>/<project>-pipelines/<project>-data-access/src/main/java/com/test/DataAccessResource.java`
-|GraphQL resource that exposes the /graphql REST endpoint for data access requests.
+|`<project>/<project>-deploy/src/main/resources/trino/values-dev.yaml`
+|Helm chart overrides specific to your project's dev environment.
+
+|`<project>/<project>-deploy/src/main/resources/trino/values-ci.yaml`
+|Helm chart overrides specific to your project's ci environment.
 |===
 
-=== GraphQL API
-GraphQL queries are generated based on the record metamodel(s) in `<project>/<project>-pipeline-models/src/main/resources/records/`.
-By default, two queries are generated for each record metamodel: one for retrieving all the results from a table, and
-one for retrieving a limited number of results from a table. The methods that implement these queries can be found in
-`<project>/<project>-pipelines/<project>-data-access/src/generated/java/<user-defined-package>/DataAccessResourceBase.java`.
-These methods can be overridden, or new queries can be added by modifying
-`<project>/<project>-pipelines/<project>-data-access/src/main/java/<user-defined-package>/DataAccessResource.java`
+== Trino Interface
 
+By default, Trino is configured to connect to your Apache Hive data warehouse. For more details on connecting Trino to a different
+data source, see the list of https://trino.io/docs/current/connector.html[supported data source connectors,role=external,window=_blank]
+and the documentation for https://trino.io/docs/current/installation/kubernetes.html#adding-catalogs[defining data source connectors,role=external,window=_blank] within your Helm chart.
 
-.GraphQL query to pull records from a given table:
-[source,json]
-----
-query auditList {
-    TaxPayer(table: delinquent_tax_payers)
-    {
-        id
-    }
-}
-----
+Trino provides two methods of interacting with your connected data sources: a https://trino.io/docs/current/client/cli.html[Command Line Interface (CLI),role=external,window=_blank] 
+and a https://trino.io/docs/current/client/jdbc.html[Java Database Connectivity (JDBC) driver,role=external,window=_blank]. Once connected, refer to the https://trino.io/docs/current/functions.html[Trino SQL documentation,role=external,window=_blank]
+for the full list of supported functions and operators.
 
-|===
-|Element | Element Type | Element Description
-
-|`auditList`
-|Operation name
-|Name of the query. The name assigned to this operation has no correlation to the pipeline or metamodel, this is
-simply based on your choosing.
-
-|`TaxPayer`
-|Query object
-|The type of record that you are pulling from data store. This name is derived from your record metamodel.
-
-|`delinquent_tax_payers`
-|Argument
-|Name of the table being queried. In the execution of the data pipeline, your records are stored in a table with the
-name you specified in your step implementation.
-
-|`id` (String)
-|Variable
-|Field from the record type being returned. The available fields correspond with the fields within your record metamodel.
-|===
-
-.GraphQL query to pull records from a given table with a limit:
-[source,json]
-----
-query auditList {
-    TaxPayerLimited(table: delinquent_tax_payers, limit: 10)
-    {
-        id
-    }
-}
-----
-
-|===
-|Element | Element Type | Element Description
-
-|`auditList`
-|Operation name
-|Name of the query. The name assigned to this operation has no correlation to the pipeline or metamodel, this is
-simply based on your choosing.
-
-|`TaxPayerLimited`
-|Query object
-|The type of record that you are pulling from data store. This name is derived from your record metamodel.
-
-|`delinquent_tax_payers`
-|Argument
-|Name of the table being queried. In the execution of the data pipeline, your records are stored in a table with the name
-you specified in your step implementation.
-
-|`limit` (int)
-|Argument
-|Field from the record type being returned. The available fields correspond with the fields within your record metamodel.
-
-|`id` (String)
-|Variable
-|Limit on how many records is to be returned from the query.
-|===
-
-To invoke the GraphQL query, you will need to do so via a REST API call.
-
-=== POST/graphql
-.Returns the records for the given GraphQL query.
-[%collapsible]
-====
-// .POST/graphql
-// Returns the records for the given GraphQL query.
-
-*Parameters*
-
-|===
-|*Name* | *Description*
-|`query`
-|https://graphql.org/learn/queries/[GraphQL query,role=external,window=_blank] executed to retrieve the data.
-|===
-
-*Return*
-[cols="1,1"]
-|===
-|`\{record-name}` records.
-|List of records. The record will be based on your record metamodel.
-|===
-
-
-.Sample data input:
-[source,JSON]
-----
-{
-    "query": "{ ExampleDataLimited(table: \" example_table \", limit: 10) { id } }"
-}
-----
-
-.Sample data output:
-[source,JSON]
-----
-{
-    "data": {
-        "ExampleData": []
-    }
-}
-----
-====
-
-=== Deployment Artifacts
-Once a data access record has been defined, aiSSEMBLE will also generate deployment artifacts like Docker images,
-Kubernetes manifests, and Tilt configurations. For more information, see the
-xref:containers.adoc#_containers[Containers] page.
+NOTE: When deploying Trino locally, the connection URL is `localhost:8084`

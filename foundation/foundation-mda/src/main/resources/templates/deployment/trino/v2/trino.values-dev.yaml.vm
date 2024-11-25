@@ -1,0 +1,14 @@
+#[[#################################################################################
+## CONFIG | Trino Configs                                                      ##
+## See aiSSEMBLE aissemble-trino-chart: README for more details.               ##
+## https://github.com/boozallen/aissemble/                                     ##
+################################################################################]]##
+aissemble-trino-chart:
+  trino:
+    service:
+      type: LoadBalancer
+    server: 
+      autoscaling:
+        enabled: false
+      node:
+        environment: dev

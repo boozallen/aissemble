@@ -1,0 +1,24 @@
+suite: Update initial number of workers
+tests:
+  - it: Should include the autoscaler template
+    template: charts/trino/templates/autoscaler.yaml
+    asserts:
+      - hasDocuments:
+          count: 1
+  - it: Should update the autoscaler to have a maximum of 5
+    template: charts/trino/templates/autoscaler.yaml
+    asserts:
+      - equal:
+          path: spec.maxReplicas
+          value: 5
+  - it: Should update the autoscaler to have a minimum of 1
+    template: charts/trino/templates/autoscaler.yaml
+    asserts:
+      - equal:
+          path: spec.minReplicas
+          value: 1
+  - it: Should include the worker config map
+    template: charts/trino/templates/configmap-worker.yaml
+    asserts:
+      - hasDocuments:
+          count: 2

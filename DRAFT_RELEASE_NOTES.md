@@ -1,5 +1,8 @@
 # Major Additions
 
+## Data Access Upgrade
+Data access through [GraphQL](https://graphql.org/) has been deprecated and replaced with [Trino](https://trino.io/). Trino is optimized for performing queries against large datasets by leveraging a distributed architecture that processes queries in parallel, enabling fast and scalable data retrieval.
+
 # Breaking Changes
 _Note: instructions for adapting to these changes are outlined in the upgrade instructions below._
 

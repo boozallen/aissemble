@@ -27,7 +27,7 @@
 ** xref:drift-detection.adoc[]
 ** xref:file-storage-details.adoc[]
 ** Lineage Metadata
-*** xref:lineage-medatada-capture-overview.adoc[]
+*** xref:lineage-metadata-capture-overview.adoc[]
 *** xref:data-lineage.adoc[]
 *** xref:model-lineage.adoc[]
 ** xref:messaging-details.adoc[]

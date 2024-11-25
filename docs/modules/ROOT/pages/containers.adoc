@@ -141,9 +141,7 @@ list of available profiles that Foundation supports for Kubernetes generation.
 |Inference                              | `inference-deploy`
 |Kafka Connect                          | `kafka-connect-deploy`
 |Keycloak                               | `keycloak-deploy`
-|Lineage HTTP Consumer                  | `lineage-http-consumer-deploy-v2`
 |Nexus                                  | `nexus-deploy`
-|Pipeline Invocation Service            | `pipeline-invocation-service-v2`
 |Spark Infrastructure                   | `aissemble-spark-infrastructure-deploy`
 |Spark Operator                         | `aissemble-spark-operator-deploy`
 |Model Training API                     | `training-deploy`
@@ -189,17 +187,19 @@ TIP: If your project is under version control, we recommend using a diff tool to
 ==== Available V2 Profiles (Kubernetes)
 [width="100%",options="header"]
 |======
-|Application                            | Fermenter Profile                         | ReadMe
-|Airflow                                | `airflow-deploy-v2`                       |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-airflow-chart/README.md[Airflow,role=external,window=_blank]
-|Data Access                            | `data-access-deploy-v2`                   |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-data-access-chart/README.md[Data Access,role=external,window=_blank]
-|Kafka                                  | `kafka-deploy-v2`                         |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-kafka-chart/README.md[Kafka,role=external,window=_blank]
-|Metadata                               | `metadata-deploy-v2`                      |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-metadata-chart/README.md[Metadata,role=external,window=_blank]
-|MLflow                                 | `mlflow-deploy-v2`                        |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-mlflow-chart/README.md[MLFlow,role=external,window=_blank]
-|Policy Decision Point                  | `policy-decision-point-deploy-v2`         |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-policy-decision-point-chart/README.md[Policy Decision Point,role=external,window=_blank]
-|S3 Local                               | `s3local-deploy-v2`                       |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-localstack-chart/README.md[S3 Local,role=external,window=_blank]
-|Configuration Store                    | `configuration-store-deploy-v2`           |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-configuration-store-chart/README.md[Configuration Store,role=external,window=_blank]
-|Spark Operator                         | `aissemble-spark-operator-deploy-v2`      |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-spark-operator-chart/README.md[Spark Operator,role=external,window=_blank]
+|Application                            | Fermenter Profile                          | ReadMe
+|Airflow                                | `airflow-deploy-v2`                        |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-airflow-chart/README.md[Airflow,role=external,window=_blank]
+|Configuration Store                    | `configuration-store-deploy-v2`            |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-configuration-store-chart/README.md[Configuration Store,role=external,window=_blank]
+|Data Access                            | `data-access-trino-deploy-v2`              |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-trino-chart/README.md[Trino,role=external,window=_blank]
+|Kafka                                  | `kafka-deploy-v2`                          |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-kafka-chart/README.md[Kafka,role=external,window=_blank]
+|Lineage HTTP Consumer                  | `lineage-http-consumer-deploy-v2`          |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-lineage-http-consumer-chart/README.md[Lineage HTTP Consumer,role=external,window=_blank]
+|Metadata                               | `metadata-deploy-v2`                       |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-metadata-chart/README.md[Metadata,role=external,window=_blank]
+|MLflow                                 | `mlflow-deploy-v2`                         |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-mlflow-chart/README.md[MLFlow,role=external,window=_blank]
+|Pipeline Invocation Service            | `pipeline-invocation-service-v2`           |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart/README.md[Pipeline Invocation Service,role=external,window=_blank]
+|Policy Decision Point                  | `policy-decision-point-deploy-v2`          |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-policy-decision-point-chart/README.md[Policy Decision Point,role=external,window=_blank]
+|S3 Local                               | `s3local-deploy-v2`                        |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-localstack-chart/README.md[S3 Local,role=external,window=_blank]
 |Spark Infrastructure                   | `aissemble-spark-infrastructure-deploy-v2` |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/extensions-helm-spark-infrastructure/README.md[Spark Infrastructure,role=external,window=_blank]
+|Spark Operator                         | `aissemble-spark-operator-deploy-v2`       |https://github.com/boozallen/aissemble/blob/{git-tree}/extensions/extensions-helm/aissemble-spark-operator-chart/README.md[Spark Operator,role=external,window=_blank]
 |======
 
 //todo drop example file replace with link to dockerfile build docs

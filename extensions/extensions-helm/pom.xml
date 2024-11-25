@@ -37,6 +37,7 @@
         <module>aissemble-sealed-secrets-chart</module>
         <module>aissemble-configuration-store-chart</module>
         <module>aissemble-infrastructure-chart</module>
+        <module>aissemble-trino-chart</module>
     </modules>
 
     <properties>
@@ -170,6 +171,10 @@
                             <helmRepo>
                                 <name>ingress-nginx</name>
                                 <url>https://kubernetes.github.io/ingress-nginx</url>
+                            </helmRepo>
+                            <helmRepo>
+                                <name>trino</name>
+                                <url>https://trinodb.github.io/charts</url>
                             </helmRepo>
                         </helmExtraRepos>
                     </configuration>

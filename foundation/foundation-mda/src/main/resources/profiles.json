@@ -229,7 +229,9 @@
 			{
 				"name": "dataAccessResourceImpl"
 			}
-		]
+		],
+		"deprecated": "true",
+		"warningMessage": "Data Access using GraphQL is deprecated, please see the latest documentation for details on using Trino for Data Access: https://boozallen.github.io/aissemble/aissemble/current/data-access-details.html"
 	},
 	{
 		"name": "aissemble-data-access-docker",
@@ -237,7 +239,8 @@
 			{
 				"name": "dataAccessDockerFile"
 			}
-		]
+		],
+		"deprecated": "true"
 	},
 	{
 		"name": "aissemble-spark-worker-docker",
@@ -862,7 +865,8 @@
 			{
 				"name": "data-access-kubernetes"
 			}
-		]
+		],
+		"deprecated": "true"
 	},
 	{
 		"name": "data-access-deploy-v2",
@@ -870,7 +874,8 @@
 			{
 				"name": "data-access-kubernetes-v2"
 			}
-		]
+		],
+		"deprecated": "true"
 	},
 	{
 		"name": "data-access-kubernetes-v2",
@@ -2685,6 +2690,37 @@
 			},
 			{
 				"name": "mlflowArgoCDV2"
+			}
+		]
+	},
+	{
+		"name": "data-access-trino-deploy-v2",
+		"profileReferences": [
+			{
+				"name": "data-access-trino-deploy-kubernetes-v2"
+			}
+		]
+	},
+	{
+		"name": "data-access-trino-deploy-kubernetes-v2",
+		"targetReferences": [
+			{
+				"name": "trinoHelmChartFileV2"
+			},
+			{
+				"name": "helmIgnoreFile"
+			},
+			{
+				"name": "trinoValuesFileV2"
+			},
+			{
+				"name": "trinoValuesDevFileV2"
+			},
+			{
+				"name": "valuesCIFile"
+			},
+			{
+				"name": "trinoArgoCDV2"
 			}
 		]
 	}
