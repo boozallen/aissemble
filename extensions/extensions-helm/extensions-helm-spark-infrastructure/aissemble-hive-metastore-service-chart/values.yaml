@@ -15,11 +15,16 @@ image:
   dockerRepo: "ghcr.io/"
 
 mysql:
+  commonLabels:
+    aissemble-configuration-store: enabled
   enabled: true
   fullnameOverride: "hive-metastore-db"
   auth:
     # The schematool for the metastore service will create the database for us.
     database: "metastore"
+    # Note: Changing these values requires removal of the `hive-metastore-db-0` PVC, or manual modification of the
+    # persisted database.
+    username: $getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)
 
 hive:
   dbType: "mysql"
@@ -58,6 +63,9 @@ service:
 
 # hive-metastore-service Config Map
 configMap:
+  metadata:
+    labels:
+      configStore: enabled
   metastoreServiceConfig:
     baseProperties:
       - name: metastore.thrift.uris
@@ -72,4 +80,7 @@ configMap:
       - name: javax.jdo.option.ConnectionURL
         value: jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false
         description: JDBC connect string for a JDBC metastore
+      - name: javax.jdo.option.ConnectionUserName
+        value: $getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)
+        description: Username to use against metastore database
     properties: {}
