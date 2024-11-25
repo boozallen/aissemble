@@ -2414,6 +2414,22 @@
     "overwritable": false
   },
   {
+    "name": "baseSparkInfrastructureProperties",
+    "templateName": "templates/deployment/spark-infrastructure/configurations/base/spark-infrastructure.properties.vm",
+    "outputFile": "configurations/base/spark-infrastructure.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "envSparkInfrastructureProperties",
+    "templateName": "templates/deployment/spark-infrastructure/configurations/env/spark-infrastructure.properties.vm",
+    "outputFile": "configurations/env/spark-infrastructure.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
     "name": "generatedPostActionInit",
     "templateName": "templates/python.init.py.vm",
     "outputFile": "post_action/__init__.py",
