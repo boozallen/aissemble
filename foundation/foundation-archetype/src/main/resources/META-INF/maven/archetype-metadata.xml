@@ -61,6 +61,7 @@
 			<directory/>
 			<includes>
 				<include>Tiltfile</include>
+				<include>deploy.sh</include>
 				<include>.tiltignore</include>
 				<include>devops/**</include>
 				<include>jenkinsPipelineSteps.groovy</include>
@@ -103,6 +104,20 @@
 					<includes>
 						<include>*/**</include>
 					</includes>
+				</fileSet>
+			</fileSets>
+		</module>
+		<module id="${rootArtifactId}-infrastructure"
+				dir="__rootArtifactId__-infrastructure" name="${rootArtifactId}-infrastructure">
+			<fileSets>
+				<fileSet filtered="true" encoding="UTF-8">
+					<directory/>
+					<includes>
+						<include>*/**</include>
+					</includes>
+					<excludes>
+						<exclude>pom.xml</exclude>
+					</excludes>
 				</fileSet>
 			</fileSets>
 		</module>
