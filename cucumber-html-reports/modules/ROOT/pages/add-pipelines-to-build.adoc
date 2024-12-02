@@ -1,0 +1,64 @@
+[#_adding_a_pipeline]
+= Adding a Pipeline
+
+Once you have generated your new project, it is time to add a pipeline. Pipelines are the core of most projects and are
+responsible for major data delivery and machine learning tasks. The following content walks through the process of
+standing up a pipeline at a very high level.
+
+== Process
+
+=== Step 1: Creating the pipeline model file
+aiSSEMBLE(TM) uses Model Driven Architecture (MDA) to accelerate development. Pipeline models are JSON files used to
+drive the generation of multiple aspects in your project - including the pipeline code module and deployment modules.
+
+. Create a new JSON file in your project's `pipeline-model` directory.
+** Sample path: `test-project/test-project-pipeline-models/src/main/resources/pipelines` +
+. Create the model pipeline data within the newly added JSON file. For detailed options, see the pipeline
+xref:pipeline-metamodel.adoc[metamodel documentation].
+.. *Note:* Ensure the name of the JSON file matches the `"name"` of the pipeline.
+
+*_Example:* Shown below is the SimpleDataDeliveryExample pipeline._
+
+._View SimpleDataDeliveryExample.json_
+[%collapsible]
+====
+[source]
+----
+{
+   "name":"SimpleDataDeliveryExample",
+   "package":"com.boozallen.aissemble.documentation",
+   "type":{
+      "name":"data-flow",
+      "implementation":"data-delivery-spark"
+   },
+   "steps":[
+      {
+         "name":"IngestData",
+         "type":"synchronous",
+         "dataProfiling":{
+            "enabled":false
+         }
+      }
+   ]
+}
+----
+====
+
+=== Step 2: Generating the pipeline code
+After creating your model pipeline, execute the build to trigger the creation of the Maven modules that accompany it.
+
+. Run the maven build to execute the MDA generation engine.
+.. `./mvnw clean install`
+
+. The MDA generator will take several build iterations to fully generate your project, and requires that you modify
+certain files to enable this generation. These *Manual Actions* are meant to guide you through that process, and will
+only need to be performed after changes to your pipeline model(s).
+[source]
+----
+***********************************************************************
+*** MANUAL ACTION NEEDED!                                           ***
+***********************************************************************
+----
+
+[start=3]
+. Re-run the build and address all manual actions until they have been resolved.

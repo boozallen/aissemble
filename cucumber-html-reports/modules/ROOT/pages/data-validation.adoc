@@ -1,0 +1,125 @@
+= Data Validation
+
+The Data Validation component ensures the quality, feasibility, and accuracy of data before it is used for machine
+learning. Validation boosts machine learning confidence by ensuring data is cleansed, standardized, and ready for use.
+By leveraging data validation from the  xref:semantic-data.adoc#_semantic_data[semantic data model], consistent data
+validation rules are applied throughout the entire project. This page will walk you through how to leverage data
+validation.
+
+== What Gets Generated
+For each record metamodel, a handful of methods are generated (outlined below) that can be leveraged in the
+implementation logic of your pipeline steps to apply data validation.  These methods have default logic implemented in
+generated base classes but can be customized by overriding them in the corresponding implementation class.
+
+For the following method documentation, assume the record name is `TaxPayer` and the dictionary type is `Ssn`.
+
+=== Java Implementation
+****
+.TaxPayerSchema.java
+[source,java]
+----
+/**
+ * Spark-optimized application of the record validation. This should be the preferred method for validating your
+ * dataset in a Spark pipeline.  Override this method to customize how data should be validated for the dataset.
+ */
+public Dataset<Row> validateDataFrame(Dataset<Row>  data)
+----
+_Parameters:_
+
+* `data` – dataset to be filtered
+
+_Return:_ `validData` – dataset with invalid records removed
+****
+
+****
+.Ssn.java
+[source,java]
+----
+/**
+ * Applies validation in the dictionary metamodels to a specific field.
+ * Override this method to customize how the dictionary type should be validated.
+ */
+public void validate()
+----
+
+_Parameters:_ None
+
+_Return:_ None
+
+_Throws:_
+
+* `ValidationException` - if the field fails to meet the validation rules
+****
+
+****
+.TaxPayer.java
+[source,java]
+----
+/**
+ * Applies validation described in the record metamodel and applies validation in the dictionary to any relevant fields.
+ * Override this method to customize how record should be validated.
+ */
+public void validate()
+----
+
+_Parameters:_ None
+
+_Return:_ None
+
+_Throws:_
+
+* `ValidationException` - if the field fails to meet the validation rules
+****
+
+=== Python Implementation
+****
+.tax_payer_schema.py
+[source,python]
+----
+# Spark-optimized application of the record validation. This should be the preferred method for validating your dataset in a PySpark pipeline.
+# Override this method to customize how data should be validated for the dataset.
+def validate_dataset(ingest_dataset: DataFrame)
+----
+
+_Parameters:_
+
+* `DataFrame` – dataset filtered
+
+_Return:_ `valid_data` – dataset with invalid records removed
+****
+
+****
+.ssn.py
+[source,python]
+----
+# Applies validation in the dictionary metamodels to a specific field.
+# Override this method to customize how the dictionary type should be validated.
+def validate()
+----
+
+_Parameters:_ None
+
+_Return:_ None
+
+_Throws:_
+
+* `ValueError` - throws error when the value does not match any valid formats
+****
+
+****
+.tax_payer.py
+[source,python]
+----
+# Applies validation described in the record metamodel and applies validation in the dictionary to any relevant fields.
+# Override this method to customize how record should be validated.
+def validate()
+----
+
+_Parameters:_ None
+
+_Return:_ None
+
+_Throws:_
+
+* `ValueError` - throws error when the value does not match any valid formats.
+****

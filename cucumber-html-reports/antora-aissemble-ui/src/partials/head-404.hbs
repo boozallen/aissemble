@@ -1,0 +1,120 @@
+<script>
+    // Function must be on load, otherwise will result in Chrome STATUS_ACCESS_VIOLATION
+    // https://stackoverflow.com/questions/71339327/redirect-to-other-page-front-end-error-code-status-access-violation
+    window.onload = function () {
+
+        // Function to parse the version parameter and file name from the URL
+        function parseLineageSchemaAndVersion(url) {
+            // Regex to capture the json file name
+            var schemaMatch = url.match(/\/([^\/]+\.json)$/);
+
+            // Regex to capture the requested version. Must be major.minor.patch or major.minor.patch-SNAPSHOT
+            var versionMatch = url.match(/\/(\d+\.\d+\.\d+)(-SNAPSHOT)?\//);
+
+            var schema = schemaMatch ? schemaMatch[1] : null;
+            var version = versionMatch ? versionMatch[1] : null;
+
+            return [schema, version];
+        }
+
+        // Function to check if the requested version exists in the list of versions and return its URL equivalent
+        // 1.1.0-SNAPSHOT -> current-dev
+        // 1.0.0 -> current
+        // 0.9.3 -> 0.9.3
+        async function versionExists(version) {
+            var versions = await waitForElement('.versions li a');
+
+            // Check the request version against the versions in the nav menu
+            for (var i = 0; i < versions.length; i++) {
+                if (versions[i].id === version) {
+                    // Get the redirect url from the href and remove the index.html
+                    return versions[i].getAttribute('href').replace("index.html", "");
+                }
+            }
+            return null;
+        }
+
+        // Function to wait for an element to exist in the DOM
+        async function waitForElement(selector) {
+            return new Promise(resolve => {
+                if (document.querySelectorAll(selector).length) {
+                    return resolve(document.querySelectorAll(selector));
+                }
+
+                const observer = new MutationObserver(mutations => {
+                    if (document.querySelectorAll(selector).length) {
+                        observer.disconnect();
+                        resolve(document.querySelectorAll(selector));
+                    }
+                });
+
+                observer.observe(document.documentElement, {
+                    childList: true,
+                    subtree: true
+                });
+            });
+        }
+
+
+        async function redirectOpenlineageSchema() {
+            // Extract version and file name from the URL
+            var [requestSchema, requestVersion] = parseLineageSchemaAndVersion(requestURL);
+
+            if (requestSchema !== null && requestVersion !== null) {
+                // Check if the version exists and get the url equivalent version
+                var redirectPath = await versionExists(requestVersion);
+
+                // Redirect to the requested file
+                if (redirectPath !== null) {
+                    redirectPath +=  `_attachments/${requestSchema}`;
+                    window.location.replace(redirectPath);
+                }
+                // Update page text with instructions for the invalid version
+                else {
+                    document.querySelector('h1.page').textContent = 'Schema Version Not Found'
+
+                    document.querySelectorAll('div.paragraph')[0].innerHTML = `The requested version "${requestVersion}" was not found. ` +
+                    'Please use one of the versions listed in the navigation bar on the left. Version must be 1.7.0 or higher.';
+                }
+            }
+            // Update page text content with instructions for invalid schema request
+            else {
+                document.querySelector('h1.page').textContent = 'Invalid Schema Request'
+                var schemaInstructions = '';
+
+                if (requestVersion === null) {
+                    schemaInstructions += 'The version parameter included in this request was invalid. The version parameter should be in ' +
+                    ' MAJOR.MINOR.PATCH or MAJOR.MINOR.PATCH-SNAPSHOT format.<br/>Valid examples include:<br/>' +
+                    ' 1.0.0<br/>1.1.0-SNAPSHOT<br/><br/>';
+                }
+
+                if (requestSchema === null) {
+                    schemaInstructions += 'The filename parameter included in this request was invalid. The filename parameter should be in ' +
+                    ' [YOUR-FILE-NAME].json format and be included at the end of the request without a trailing "/".<br/><br/>';
+                }
+
+                schemaInstructions += 'Here are some example schema requests you can make:<br/>' +
+                'https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0/HardwareDetailsRunFacet.json<br/>' +
+                'https://boozallen.github.io/aissemble/openlineage/schemas/1.7.0-SNAPSHOT/HardwareDetailsRunFacet.json';
+
+                document.querySelectorAll('div.paragraph')[0].innerHTML = schemaInstructions;
+            }
+        }
+
+        // Request URL
+        var requestURL = window.location.href;
+
+        // check if URL is an openlineage schema request
+        if (requestURL.includes('/openlineage/schemas/')) {
+            redirectOpenlineageSchema();
+        }
+        // check if URL is an invalid file request
+        else if (requestURL.includes('/_attachments/')) {
+            document.querySelector('h1.page').textContent = 'File Not Found'
+
+            document.querySelectorAll('div.paragraph')[0].innerHTML = `The requested file was not found. ` +
+            'Please ensure you have the filename spelled correctly and the requested version is 1.7.0 or higher.';
+        }
+        // else show the standard 404 page
+    }
+</script>

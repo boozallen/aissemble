@@ -1,0 +1,126 @@
+// (NB: OSS: Update when public artifact warehouse is available)
+
+= Configuring Maven
+
+== Install/Configure Maven
+To use the current version {page-version}, install Maven 3.9.x. For additional information on installing and/or updating
+Maven, please see the https://maven.apache.org/install.html[official Maven website,role=external,window=_blank].
+
+Alternatively, you can use maven wrapper to build aiSSEMBLE which does not require you to have maven installed. For more
+information on maven wrapper, please see the https://maven.apache.org/wrapper/[official Maven wrapper website,role=external,window=_blank].
+
+Once the latest version of Maven is installed on your machine, follow the steps below to configure it for
+working with Solution Baseline artifacts.
+
+=== Private Maven Repository Configuration (OPTIONAL)
+The Maven `settings.xml` contains common configuration values you will use across all your Maven projects, often
+representing localized configurations.  This file is the best way to configure access to a remote Maven repository
+https://maven.apache.org/settings.html[see for more information the settings page of the official Maven
+website,role=external,window=_blank].
+
+1.  Create a `settings.xml` file in the `.m2` directory within your user directory.
+* If the directory does not exist, create it first: `mkdir ~/.m2`
+* You may have to set your computer to display invisible files and folders to see this directory.
+2. Copy the following into your new `settings.xml` file:
+
+[source,xml]
+----
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <profiles>
+    <profile>
+      <id>standard-extra-repos</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>GIVE YOUR REPOSITORY AN ID</id>
+          <name>GIVE YOUR REPOSITORY A NAME</name>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+          <url>ENTER YOUR MAVEN REPOSITORY HERE</url>
+          <layout>default</layout>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>standard-extra-repos</activeProfile>
+  </activeProfiles>
+</settings>
+----
+
+NOTE: If you want to create a project from a snapshot version of aiSSEMBLE, you will also need to add an archetype repository for `ghcr.io` with the following url: `https://maven.pkg.github.com/boozallen/aissemble`.
+
+=== Maven Security Settings (OPTIONAL)
+
+NOTE: The below Maven security settings are recommended if you are working on a project with its own private
+repository.
+
+1. Open a terminal or command line and create a master password to seed password encryption capabilities.
+2. Type: `./mvnw -emp`
+* You should see a message similar to the following: `You will be prompted for the password.`
+* Enter your chosen password
+* You will receive an encrypted master password. Copy the encrypted master password.
+3. Create a `settings-security.xml` file within your `.m2` directory and substitute your encrypted master password in
+this file. **You must include the curly braces.** An example of the content is shown below.
+[source,xml]
+    ----
+      <settingsSecurity>
+        <master>INSERT YOUR ***ENCRYPTED*** MASTER PASSWORD HERE</master>
+      </settingsSecurity>
+    ----
+4. Encrypt the password that you will use to authenticate against the private Maven repository:
+* In your terminal or command line, execute the `./mvnw -ep` command
+* You should see a message stating `You will be prompted for the password.`
+* Enter your BAH SSO password. **NOTE: If your password contains a special character you will need to enclose it in single quotes.**
+* You will receive an encrypted password. Copy the encrypted password.
+5. Update your `.m2/settings.xml` with the encrypted password by adding the corresponding `<server>` configuration
+(place the below content within the `<settings>` element, but outside the `<profiles>` section)
+
+[source,xml]
+----
+<settings>
+  <profiles>
+  ...
+  </profiles>
+
+  <!-- START private repository credentials configuration -->
+  <servers>
+    <server>
+      <id>USE YOUR REPOSITORY ID HERE</id>
+      <username>INSERT YOUR USER NAME</username>
+      <password>INSERT YOUR ***ENCRYPTED*** PASSWORD HERE</password>
+    </server>
+  </servers>
+  <!-- END private repository credentials configuration -->
+
+</settings>
+----
+
+== Configure Maven Truststore for SSL Connections (OPTIONAL)
+
+NOTE: This configuration may not be necessary and is dependent on the specific JDK distribution used along with the SSL
+certificates that are automatically installed into your local environment's trust chain.
+
+If you see similar SSL errors when executing `./mvnw clean install` commands, you may need to follow the steps outlined on
+the https://maven.apache.org/guides/mini/guide-repository-ssl.html[maven website,role=external,window=_blank].
+```
+Caused by: org.eclipse.aether.transfer.ArtifactTransferException: Could not transfer artifact org.apache.maven.plugins:maven-clean-plugin:pom:2.5 from/to xxxxx: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+    ...
+    Caused by: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+    ...
+    Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+            at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:196)
+            at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:268)
+            at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:380)
+            ... 33 more
+```

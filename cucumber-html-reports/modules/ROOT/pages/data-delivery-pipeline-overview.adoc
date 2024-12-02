@@ -1,0 +1,173 @@
+[#_data_delivery_pipeline_overview]
+= Data Delivery Pipelines Overview
+
+== Overview
+Data Delivery covers activities including ingestion, storage, transformation, augmentation, and delivery of data. Data
+and its cleanliness are essential for machine learning because it ensures accurate, reliable, and unbiased input,
+leading to better model performance and trustworthy results. Data Delivery can also be applied in any system that is
+looking for a consistent mechanism to handle and prepare data for any use. The following sections are to assist in
+understanding and determining where to modify and customize elements to suit your specific implementation.
+
+== What are Data Delivery Pipelines
+The purpose of a data delivery pipeline is to process data into derivative forms. To simplify the incorporation of
+commonly used pipeline components, pre-constructed patterns have been developed and can be included in your project.
+If you are adding a data delivery pipeline to your project, there are only a few steps necessary to incorporate generated
+code for the major data actions, such as ingest, transform, and enrich. At the abstract level, Data Delivery consists of
+two primary concepts:
+
+. Coordinating Data Flow Steps: coordinating any two or more Data Actions together to achieve some data result.
+. Performing a Data Action: any action on data (e.g., enrich, validate, transform).
+
+There are two data delivery implementations that aiSSEMBLE supports out of the box: Java Spark and PySpark.
+
+== What Gets Generated
+=== Docker Image
+The generation process will create a new submodule under the `<project-name>-docker module`, called
+`<project-name>-spark-worker-docker`. This is responsible for creating a Docker image for Data Delivery activities.
+
+|===
+|Generated file | Description
+
+|`<project-name>/<project-name>-docker/<project-name>-spark-worker-docker/src/main/resources/docker/Dockerfile`
+|Encapsulation for all fields for a specific type.
+|===
+
+=== SparkApplication YAML
+aiSSEMBLE packages a https://helm.sh/[Helm,role=external,window=_blank] chart to support the execution of data-delivery
+pipelines as Spark Application deployments through Spark Operator. Read the Configuring and
+xref:guides/guides-spark-job.adoc#_configuring_and_executing_spark_jobs[Configuring and Executing Spark Jobs]
+guide for more information on configuring the execution for different environments.
+
+|===
+|Generated file | Description
+
+|`<project-name>-pipelines/<pipeline-name>/src/main/resources/apps/<pipeline-name>-base-values.yaml`
+|Base configuration common to all execution environments.
+
+|`<project-name>-pipelines/<pipeline-name>/src/main/resources/apps/<pipeline-name>-ci-values.yaml`
+|Configuration for executing the pipeline in a continuous integration environment.
+
+|`<project-name>-pipelines/<pipeline-name>/src/main/resources/apps/<pipeline-name>-debug-values.yaml`
+|Configures the pipeline for local debugging.
+|===
+
+=== Invocation Service
+Invocation Service is an additional option that can be added for executing pipelines. This is generated into
+`<project-name>-deploy/src/main/resources/apps/pipeline-invocation-service`. The deployment will set up the service to
+submit spark applications to Kubernetes by sending the name of the pipeline to be executed. Additionally, the service
+can be accessed through HTTP POST requests or through the xref:/messaging-details.adoc#_messaging_details[messaging module].
+
+To use the service to execute a pipeline, you simply need to send a request to the Invocation Service’s
+`start-spark-operator-job` endpoint, like the following:
+
+
+=== POST/invoke-pipeline/start-spark-operator-job
+Creates and submits a SparkApplication invocation for a specific pipeline to the Kubernetes cluster by leveraging the
+pipeline’s values files to configure the
+https://github.com/boozallen/aissemble/tree/dev/extensions/extensions-helm/aissemble-spark-application-chart[aissemble-spark-application ,role=external,window=_blank]
+Helm chart.
+[%collapsible]
+====
+*Parameters*
+
+|===
+|*Name* | *Description*
+|`applicationName`
+|The name of the pipeline to invoke, in lower kebab case. (e.g. `my-pipeline`).
+
+|`profile`
+|Specified the execution profile, indicating the values files to layer together. One of "prod", "ci", or "dev".
+
+|`overrideValues`
+|Additional, individual values to layer on top of the profile's values files, corresponding to the `--values` Helm
+command line option.
+
+|===
+
+
+.Sample data input:
+[source,JSON]
+----
+{
+  "applicationName": "my-pipeline",
+  "profile": "ci",
+  "overrideValues": {
+    "metadata.name": "testapp"
+  }
+}
+----
+
+.Sample data output:
+[source,JSON]
+----
+Submitted my-pipeline
+----
+====
+
+=== GET/invoke-pipeline/healthcheck
+A health check endpoint that returns http `200` if the invocation service is up and running.
+
+[%collapsible]
+====
+*Parameters*
+|===
+|*Name* | *Description*
+| None
+| Not Applicable
+|===
+====
+
+Alternatively, you may emit a message through your message broker to the topic pipeline-invocation using the same body
+format shown above.
+
+
+==== Configuration
+The pipeline invocation service can be configured with the application options in the table below. See the Pipeline
+https://github.com/boozallen/aissemble/tree/dev/extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart#readme[Pipeline
+Invocation Chart documentation,role=external,window=_blank]
+README for information on how to provide this configuration.
+
+=== Application options
+|===
+|Value | Description | Default | Valid Options
+
+|`service.pipelineInvocation.failureStrategy.global`
+|Sets the global failure strategy in the event of a processing error.
+|`LOG`
+|`SILENT`, `LOG`, `EXCEPTIONAL`
+
+|`service.pipelineInvocation.failureStrategy.[pipeline-name]`
+|Override the global failure strategy for a specific pipeline.
+|None
+|`SILENT`, `LOG`, `EXCEPTIONAL`
+
+|`service.pipelineInvocation.execution.profile`
+|Default execution profile.
+|`dev`
+|`dev`, `ci`, `prod`
+|===
+
+See the https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/extensions-helm-pipeline-invocation/aissemble-pipeline-invocation-app-chart/README.md[Helm Chart documentation,role=external,window=_blank]
+README for guidance on application configurations for the service.
+
+== Configuring your Pipeline
+
+=== Persistence
+
+=== Connection to RDBMS
+
+IMPORTANT: The following instructions are applicable where the persist type specified for a pipeline is RDBMS.
+
+If the persist type specified for a pipeline is RDBMS (e.g., PostgreSQL, SQLite, MySQL), then a method is automatically
+added to your pipeline step’s base class (e.g., ingest_base.py) to retrieve the database connection.
+
+The primary use case is calling the function generated on the step base class to make a connection to the database to
+insert/update/select.
+
+Basic JDBC configurations for the connections and type of database can be made in `src/resources/configs/spark-rdbms.properties`. Default properties are configured for a local postgres instance.
+
+The configuration object can further be extended for databases that require additional properties in the `get_data_source_configs()` method that is generated in the in the main `ingest.py` file.
+
+**Note**: It is recommended to implement a secure configuration to enhance the security of your code and prevent committing
+sensitive connection values directly into the code. You may want to use https://pypi.org/project/krausening/[Krausening,role=external,window=_blank]
+to prevent committing sensitive connection values.

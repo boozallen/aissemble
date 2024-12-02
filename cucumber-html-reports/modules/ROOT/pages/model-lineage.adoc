@@ -1,0 +1,135 @@
+= Model Lineage
+== Overview
+Model lineage facilitates the tracking and management of lineage information related to machine learning models.
+Model Lineage data offers insights into the origins, modifications, and deployments of models, empowering data
+scientists and engineers with enhanced visibility into the model development process. Its granularity can vary and can
+be tailored to the needs of a particular project at a particular time.
+
+== Leveraging Model Lineage
+To integrate model lineage into your aiSSEMBLE(TM)-based project, simply build a machine learning pipeline as outlined
+following xref:pipeline-metamodel.adoc#_pipeline_type_options[detailed pipeline options]. The aiSSEMBLE factory will
+then create your pipeline with the necessary dependencies, along with convenient stubs. Model lineage is a rapidly
+evolving industry topic, marked by emerging standards and formats. Our platform offers generic types capable of
+capturing and retrieving custom model lineage metadata, in adherence to the https://openlineage.io[OpenLineage]
+standard. Additionally, we provide functions to convey your model lineage throughout your aiSSEMBLE-powered ecosystem,
+including via Kafka messaging.
+
+=== Understanding OpenLineage Concepts and Custom Facets
+Before delving into how to leverage model lineage to capture metadata, let's briefly introduce the
+https://openlineage.io/docs/spec/object-model/[foundational elements] of OpenLineage, which include jobs, runs, and
+datasets. Understanding these concepts will lay a solid groundwork for comprehending how model lineage captures
+metadata with the OpenLineage framework.
+
+==== Model Lineage Types and Objects
+1. `Jobs`: Jobs are units of work that consume or produce Datasets, and can be repeated. In model lineage, Jobs represent
+the training of a specific model.
+2. `Runs`: Runs are specific executions of a Job. In model lineage, Runs represent the actual executions training to
+produce or modify a machine learning model.
+3. `Datasets`: Datasets are abstract representations of data, and are the input and/or output to a Job. In model lineage,
+Datasets represent the data used to train, test and validate a model.
+
+===== Facet
+In the domain of model lineage, facets serve as vital components that encapsulate crucial aspects of a model's
+lifecycle. They are associated with Runs, Jobs, and Datasets, providing granular details about each entity. For
+example, one could construct a Facet to represent the source code type of a given Job.
+
+We've provided the following custom facets for common use cases:
+
+* `SourceCodeDirectoryJobFacet`
+* `MLflowRunFacet`
+* `HardwareDetailsRunFacet`
+* `HyperparameterFacet`
+
+[cols="a,a,a,a"]
+|===
+| Facet Name | Description | Input Parameters | Example
+
+| `SourceCodeDirectoryJobFacet`
+| This Job Facet that captures the location of the source code used to produce a machine learning model.
+|
+* `sourceType:` The type of source code management, e.g. Git.
+* `url:` The source code repository URL that houses the source code.
+* `path:` Path to the relevant source code within the repository.
+|
+[source]
+----
+SourceCodeDirectoryJobFacet(
+  sourceType="git",
+  url="https://github.com/example/repository",
+  path="/path/to/source/code",
+)
+----
+
+| `MLflowRunFacet`
+| This Run Facet that facilitates the connection of lineage metadata with the information captured by MLflow by
+capturing the unique MLflow run ID.
+[NOTE]
+In this context, a `run` refers to the execution instance of an MLflow experiment within the MLflow platform and not
+the associated but distinct lineage run object.
+|
+* `runUUID`: Unique identifier for the MLflow run.
+|
+[source]
+----
+MLflowRunFacet(
+  runUUID="12345",
+)
+----
+
+| `HardwareDetailsRunFacet`
+| This Run Facet that captures details about the hardware components utilized during model training.
+|
+* `hardware:` List of hardware components with specifications
+|
+[source]
+----
+hardware_components = [
+  HardwareComponent(
+    component="GPU",
+    spec="NVIDIA GeForce RTX 3090"
+  ),
+  HardwareComponent(
+    component="CPU",
+    spec="Intel Core i9-11900K"
+  )
+]
+hardware_facet = HardwareDetailsRunFacet(hardware=hardware_components)
+----
+| `HyperparameterRunFacet`
+| This Run Facet that tracks the hyperparameters used to train the model.
+|
+* `hyperparameters:` List of Hyperparameter objects that tracks the parameter's name and the configured value
+|
+[source]
+----
+HyperparameterRunFacet(
+  Hyperparameter(
+    parameter="n_estimator",
+    value=100
+  )
+)
+----
+| `PerformanceMetricRunFacet`
+| This  Run Facet that tracks the performance of the trained model.
+|
+* `performance`: List of PerformanceMetric objects that track the performance metric's name and value.
+|
+[source]
+----
+PerformanceMetricRunFacet(
+  PerformanceMetric(
+    metric="accuracy",
+    value="0"
+  )
+)
+----
+|===
+
+TIP: Leverage the `LineageBuilder` class from aiSSEMBLE's `aissemble-foundation-model-lineage` package for a
+structured approach to populating the facets that aiSSEMBLE captures by default.
+
+== Additional Resources
+The full aiSSEMBLE model lineage source code can be reviewed on
+https://github.com/boozallen/aissemble/tree/dev/foundation/foundation-lineage/aissemble-foundation-model-lineage[GitHub].
+Methods for tracking that generate minimal instances of Run, Job, and RunEvent for emission are described in
+`src/<pipeline-name>/generated/step/<training-name>_base.py`

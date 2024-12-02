@@ -1,0 +1,274 @@
+= Lineage Overview
+
+== Overview
+Lineage metadata plays a crucial role in understanding the journey of both data and machine learning models within an
+organization. It encompasses the tracking and management of data and model lineage, offering insights into their
+origins, transformations, movements, and flows. By leveraging lineage metadata, users gain valuable visibility into
+the complete lifecycle of data and models, empowering informed decision-making processes and ensuring data quality
+and model reliability.
+
+== What is Lineage Metadata
+In the aiSSEMBLE(TM) context, lineage metadata refers to detailed information that traces the origins, transformations,
+movements, and flows of both data and models. aiSSEMBLE supports two lineage metadata implementations out of the box:
+
+*  xref:data-lineage.adoc[Data Lineage]: Focuses on tracing the origins, transformations, and movements of data.
+It provides visibility into the full data lifecycle, from its source to its usage and consumption. Data lineage ensures
+data quality, regulatory compliance, and effective data governance.
+* xref:model-lineage.adoc[Model Lineage]: Facilitates tracking and management of lineage information related to machine
+learning training models. It encompasses tracking of parameters, model performance, hardware details, and source code
+information.
+
+=== What Gets Generated
+aiSSEMBLE will take care of most basic lineage tracking tasks on your behalf. Our factory-generated code will
+automatically track the start, and successful or failed completion of your pipeline steps, and by default, will emit
+those events to messaging on the `lineage` topic.
+
+The aiSSEMBLE generated code includes convenient methods which are provided such that they can be overridden with any
+customizations or project  specific logic that may be needed.
+
+[NOTE]
+See the implementation specific page for details on how to access these methods.
+xref:data-lineage.adoc[data lineage] has Java and Python implementations, whereas
+xref:model-lineage.adoc[model lineage] has only Python.
+
+[cols="2a,2a,2a"]
+|===
+| Python Method Signature
+| Java Method Signature
+| Purpose
+
+|
+```python
+create_lineage_start_event(self, run_id: UUID = None, job_name: str = "", parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent
+```
+|
+```java
+RunEvent createLineageStartEvent(UUID runId, String jobName, ParentRunFacet parentRunFacet, LineageEventData eventData, Map<String, Object> params)
+```
+| Creates the Start RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
+To customize the event, override the customize_lineage_start_event(...)/customizeLineageStartEvent(...) function.
+The customize_run_event() function is now deprecated and should no longer be used for customizations.
+
+|
+```python
+create_lineage_complete_event(self, run_id: UUID = None, job_name: str = "", parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent
+```
+|
+```java
+RunEvent createLineageCompleteEvent(UUID runId, String jobName, ParentRunFacet parentRunFacet, LineageEventData eventData, Map<String, Object> params)
+```
+| Creates the Complete RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
+To customize the event, override the customize_lineage_complete_event(...)/customizedLineageCompleteEvent(...) function.
+The customize_run_event() function is now deprecated and should no longer be used for customizations.
+
+|
+```python
+create_lineage_fail_event(self, run_id: UUID = None, job_name: str = "", parent_run_facet: ParentRunFacet = None, event_data: LineageEventData = None, **kwargs) -> RunEvent
+```
+|
+```java
+RunEvent createLineageFailEvent(UUID runId, String jobName, ParentRunFacet parentRunFacet, LineageEventData eventData, Map<String, Object> params)
+```
+| Creates the Fail RunEvent with given uuid, parent run facet, job name, lineage data event or any input parameters
+To customize the event, override the customize_lineage_fail_event(...)/customizedLineageFailEvent(...) function.
+The customize_run_event() function is now deprecated and should no longer be used for customizations.
+
+|
+```python
+create_base_lineage_event_data(self) -> LineageEventData
+```
+|
+```java
+LineageEventData createBaseEventData()
+```
+| Create lineage event data, such as job facets and run facets, that can be included in the pipeline start/complete/fail
+event.
+
+|
+```python
+customize_lineage_start_event(self, event: RunEvent, **kwargs) -> RunEvent
+```
+|
+```java
+RunEvent customizeLineageStartEvent(RunEvent event, Map<String, Object> params)
+```
+| Override this method to customize the Start run event with given input parameters.
+
+|
+```python
+customize_lineage_complete_event(self, event: RunEvent, **kwargs) -> RunEvent
+```
+|
+```java
+RunEvent customizeLineageCompleteEvent(RunEvent event, Map<String, Object> params)
+```
+| Override this method to customize the Complete run event with given input parameters.
+
+|
+```python
+customize_lineage_fail_event(self, event: RunEvent, **kwargs) -> RunEvent
+```
+|
+```java
+RunEvent customizeLineageFailEvent(RunEvent event, Map<String, Object> params)
+```
+| Override this method to customize the Fail run event with given input parameters.
+
+|
+```python
+customize_run_event(self, event: RunEvent) -> RunEvent
+```
+|
+```java
+RunEvent customizeRunEvent(RunEvent event)
+```
+| Override this method to modify the created RunEvent.  Provides an opportunity for adding customizations,
+such as Input or Output Datasets. customize_run_event(...) is deprecated.
+
+|
+```python
+get_job_name(self) -> str
+```
+|
+```java
+String getJobName()
+```
+| The default job name is the step class name, but can be overridden with this method.
+
+
+|===
+Python methods are detailed in  `src/<pipeline-name>/generated/step/abstract_data_action.py`.
+
+Java methods are detailed in `src/generated/java/<package-name>/AbstractPipelineStep.java`.
+
+aiSSEMBLE also provides a utility class to create the Run, Job, and RunEvent instances for emission.
+
+
+=== Transport Options
+aiSSEMBLE emits all data lineage events as messages using the configuration provided in your pipeline's
+`microprofile-config.properties` file. For more information on messaging in aiSSEMBLE, refer to
+xref:messaging-details.adoc[the Messaging documentation].
+
+By default, emitted events will also be logged to the executing pipeline's standard output. This can be opted out of
+through configuration choices.
+
+==== Consumers
+aiSSEMBLE provides a limited number of deployable Data Lineage event consumers, and fully supports creation and deployment
+of custom consumers. All of these consumers are opt-in only,
+and require triggering their generation through the steps detailed in
+xref:containers.adoc#_generating_kubernetes_artifacts_directly[the Containers documentation]. Specifically, the following
+consumers are provided:
+
+===== HTTP Consumer
+- fermenter-mda profile: `lineage-http-consumer-deploy-v2`
+
+This consumer is designed to receive events that have been emitted to the message broker, and then re-publish them to an
+HTTP endpoint, such as https://marquezproject.ai[Marquez].
+
+The consumer can be configured through the Helm chart values file, providing the options detailed in the
+https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/aissemble-lineage-http-consumer-chart/README.md[chart's README].
+
+===== Custom Consumer
+In the event that custom consumer behavior is required, aiSSEMBLE will aid your project in creating a consumer deployment.
+You need only add a fermenter-mda execution to `<your-project>-shared/pom.xml` invoking the `aissemble-data-lineage-custom-consumer-module`
+profile. A new Quarkus microservice module will be generated, with hooks for handling the received event in multiple formats.
+aiSSEMBLE provides scaffolding which will automatically handle acknowledgment and concurrency on your behalf.
+
+The consumer can be configured through the Helm chart values file, providing the options detailed in the
+https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/aissemble-quarkus-chart/README.md[chart's README],
+or directly via `src/main/resources/application.properties`.
+
+=== Configuration
+
+Data lineage behavior can be configured with the following properties by creating a data-lineage.properties file for
+https://pypi.org/project/krausening/[krausening] to consume. For further information on namespace naming conventions,
+refer to https://openlineage.io/docs/spec/naming/[OpenLineage's namespace guidance,role=external,window=_blank].
+
+[NOTE]
+The configurations discussed are relevant to both data lineage and deployment of machine learning models.
+While the names of configurations reference data lineage, the same properties are also used to configure model lineage.
+
+.Configuration Options
+[cols="1a,2a,3a,4a"]
+|===
+| Value | Description | Default | Valid Options
+
+| ``data.lineage.enabled``
+| Whether to emit data lineage events
+| `true`
+| `true`, `false`
+
+| ``data.lineage.producer``
+| The default producer value to write in data lineage events. Typically, the source location for the project producing them
+| The scm url from your project's root pom.xml file
+| Any valid String
+
+| ``data.lineage.<job-name>.producer``
+| The producer value to write in data lineage events to specify which job is the source of the event.
+| placeholder.com
+| Any valid String
+
+| ``data.lineage.schema.url``
+| The location of the schema defining the structure of captured events
+| https://openlineage.io/spec/1-0-5/OpenLineage.json
+| Any valid URL
+
+| ``data.lineage.<job-name>.namespace``
+| A Job's namespace to write events to in a downstream consumer--should be set to the name of the pipeline that the Job
+is a component of; note that a <job-name> can either be the pipeline Job name (pipeline-name) or a step Job name
+(pipeline-name.step-name)
+| <job's-pipeline-name>
+| Any valid String
+
+| ``data.lineage.<dataset-name>.namespace``
+| A Dataset's namespace to write events to in a downstream consumer; should be set to the Dataset's source
+| N/A
+| Any valid String
+
+| ``data.lineage.emission.console``
+| Whether to enable supplemental emission of events to the pipeline's standard out.
+| `true`
+| `true`, `false`
+
+| ``data.lineage.emission.messaging``
+| Whether to enable emission of lineage over messaging.
+| `true`
+| `true`, `false`
+
+|===
+
+Overrides to these properties can be made through a data-lineage.properties file added to your spark-worker module's
+resources, like the following example.
+
+```
+data.lineage.enabled=true
+data.lineage.producer=https://github.com/boozallen/aissemble
+data.lineage.schema.url=https://openlineage.io/spec/1-0-5/OpenLineage.json
+data.lineage.my-pipeline-job-name.namespace=my-namespace
+data.lineage.my-dataset-name.namespace=data-source-of-my-dataset
+```
+
+==== Message Emission Configuration
+Specific emission behavior can be provided through a `microprofile-config` file, as documented by the
+https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/3.3/index.html[smallrye reactive messaging project].
+
+.Default Configuration
+[cols="1a,2a"]
+|===
+| kafka.bootstrap.servers
+| kafka-cluster:9093
+| mp.messaging.outgoing.lineage-event-out.cloud-events
+| false
+| mp.messaging.outgoing.lineage-event-out.connector
+| smallrye-kafka
+| mp.messaging.outgoing.lineage-event-out.topic
+| lineage-event-out
+| mp.messaging.outgoing.lineage-event-out.key.serializer
+| org.apache.kafka.common.serialization.StringSerializer
+| mp.messaging.outgoing.lineage-event-out.value.serializer
+| org.apache.kafka.common.serialization.StringSerializer
+|===
+
+== Additional Resources
+The full aiSSEMBLE data lineage module source code can be reviewed on
+https://github.com/boozallen/aissemble/tree/dev/foundation/foundation-lineage/foundation-data-lineage[GitHub].

@@ -1,0 +1,31 @@
+site:
+  title: aiSSEMBLE
+  url: https://boozallen.github.io/aissemble
+  start_page: aissemble::index.adoc
+content:
+  edit_url: '{web_url}/blob/{refname}/{path}'
+  sources:
+    - url: https://github.com/boozallen/aissemble.git
+      branches:
+        - dev
+        - docs-*
+      start_path: docs
+ui:
+  bundle:
+    url: docs/antora-aissemble-ui/build/ui-bundle.zip
+    snapshot: true
+  supplemental_files:
+    - path: ui.yml
+      contents: |
+        static_files:
+        - .nojekyll
+    - path: .nojekyll
+urls:
+  latest_version_segment_strategy: redirect:to
+  latest_version_segment: current
+  latest_prerelease_version_segment: current-dev
+asciidoc:
+  attributes:
+    page-pagination: true
+runtime:
+  fetch: true

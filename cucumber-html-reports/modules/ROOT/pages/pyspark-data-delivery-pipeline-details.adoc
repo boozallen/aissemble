@@ -1,0 +1,80 @@
+= PySpark Data Delivery Pipelines
+
+For additional background and context, please read the parent page of
+xref:data-delivery-pipeline-overview.adoc#_data_delivery_pipeline_overview[Data Delivery Pipelines].
+The following page covers the Python implementation of Spark for the Data Delivery Pipelines.
+
+== What Gets Generated
+
+=== Python files
+
+[cols="2a,1a"]
+|===
+|Generated file | Description
+
+|`<project>/<project>-pipelines/<pipeline-name>/src/<pipeline-name>/step/<data-delivery-step>.py`
+|Performs the business logic for the data delivery step.
+
+|`<project>/<project>-pipelines/<pipeline-name>/src/<pipeline-name>/step/abstract_data_action_impl.py`
+|Performs custom business logic that is applied to every data delivery step.
+
+|`<project>/<project>-pipelines/<pipeline-name>/src/<pipeline-name>/step/abstract_pipeline_step.py`
+|Provides generated scaffolding common to all pipeline steps.
+
+|`<project>/<project>-pipelines/<pipeline-name>/src/<pipeline-name>/generated/step/<data-delivery-step>_base.py`
+|Provides generated scaffolding for step execution. Business logic is delegated to the subclass.
+
+|`<project>/<project>-pipelines/<pipeline-name>/src/<pipeline-name>/<pipeline-name>_driver.py`
+|Driver to run the Data Delivery pipeline.
+|===
+
+=== SparkApplication YAML
+The JSON file (`pipelines/ExampleDataDeliveryPySparkPipeline.json`) that is initially generated includes important
+details about the data delivery pipeline implemented for the project. Notice that the implementation is
+`data-delivery-pyspark` which tells us that the fabrication process will generate PySpark (Python) code based on how
+you define the JSON model. By defining and adding steps to the JSON model you can leverage the fabrication process
+to generate Spark code. (please see xref:pipeline-metamodel.adoc[Detailed Pipeline Options] for more details)
+
+[cols="2a,1a"]
+|===
+|Generated file | Description
+
+|`<project-name>-pipelines/<pipeline-name>/src/<package_name>/resources/apps/<pipeline-name>-base-values.yaml`
+|Any configuration values for the Spark Application Helm chart that are not specific to any deployment scenario.
+
+|`<project-name>-pipelines/<pipeline-name>/src/<package_name>/resources/apps/<pipeline-name>-ci-values.yaml`
+|A blank template for continuous integration environment values, to be filled out as needed for your project.
+
+|`<project-name>-pipelines/<pipeline-name>/src/<package_name>/resources/apps/<pipeline-name>-dev-values.yaml`
+|Used by Tilt and CLI executions.
+
+|`<project-name>-pipelines/<pipeline-name>/tests/resources/apps/<pipeline-name>-test-values.yaml`
+|Parsed to configure the spark session for unit testing.
+
+|`<project-name>-docker/<project-name>-airflow-docker/src/main/resources/jobs/dev/<pipeline-name>-ci-chart.yaml`
+|Only present if xref:pipeline-metamodel.adoc[opting into execution] through Airflow. Contains a combination of the base and ci values.
+
+|`<project-name>-docker/<project-name>-airflow-docker/src/main/resources/jobs/dev/<pipeline-name>-dev-chart.yaml`
+|Only present if xref:pipeline-metamodel.adoc[opting into execution] through Airflow. Contains a combination of the base and dev values.
+|===
+
+=== Test files
+aiSSEMBLE eases project testing via its dedicated testing modules that are automatically generated. To learn more, refer
+to the xref:testing.adoc#_testing_the_project[Testing your Project] page.
+
+[cols="2a,1a"]
+|===
+|Generated file | Description
+
+|`<project>/<project>-pipelines/<pipeline-name>/tests/features/data_delivery.feature`
+|Stores high-level description of scenarios and steps in the Gherkin language.
+
+|`<project>/<project>-pipelines/<pipeline-name>/tests/features/steps/data_delivery_steps.py`
+|Implementation steps for the feature file.
+|===
+
+== Related Pages
+* xref:add-pipelines-to-build.adoc#_adding_a_pipeline[Adding a Pipeline]
+* xref:testing.adoc#_testing_the_project[Testing the Project]
+* xref:guides/guides-spark-job.adoc#_configuring_and_executing_spark_jobs[Configuring and Executing Spark Jobs]
+* xref:pipeline-metamodel.adoc#_pipeline_metamodel[Pipeline Metamodel]
