@@ -2958,6 +2958,22 @@
     "overwritable": false
   },
   {
+    "name": "s3LocalArgoCDV2",
+    "templateName": "templates/deployment/argocd/v2/s3-local.yaml.vm",
+    "outputFile": "templates/s3-local.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "s3LocalArgoCD",
+    "templateName": "templates/deployment/argocd/s3-local.yaml.vm",
+    "outputFile": "templates/s3-local.yaml",
+    "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
     "name": "dataDeliverySparkDataPomFileJava",
     "templateName": "templates/data-delivery-data-records/data-delivery-data-spark.pom.xml.vm",
     "outputFile": "${project}data-records-spark${lang}/pom.xml",

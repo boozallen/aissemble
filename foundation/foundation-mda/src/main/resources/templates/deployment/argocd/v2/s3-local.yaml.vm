@@ -1,7 +1,8 @@
+{{- if .Values.s3LocalEnabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lineage-custom-consumer
+  name: s3-local
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,7 +12,7 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: ${projectName}-deploy/src/main/resources/apps/lineage-custom-consumer
+    path: ${projectName}-deploy/src/main/resources/apps/s3-local
     repoURL: {{ .Values.spec.repo }}
     targetRevision: {{ .Values.spec.targetRevision }}
     {{ if .Values.spec.helm.valueFiles }}
@@ -19,9 +20,10 @@ spec:
       valueFiles:
         {{- range .Values.spec.helm.valueFiles }}
         - {{ . }}
-        {{- end }}    
+        {{- end }}
     {{ end }}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+{{- end -}}

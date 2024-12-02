@@ -319,6 +319,9 @@
 			},
 			{
 				"name": "sparkInfrastructureArgoCDFileV2"
+			},
+			{
+				"name": "valuesCIFile"
 			}
 		]
 	},
@@ -1006,6 +1009,9 @@
 			},
 			{
 				"name": "valuesCIFile"
+			},
+			{
+				"name": "s3LocalArgoCDV2"
 			}
 		]
 	},
@@ -1042,6 +1048,9 @@
 			},
 			{
 				"name": "helmServiceFile"
+			},
+			{
+				"name": "s3LocalArgoCD"
 			}
 		]
 	},

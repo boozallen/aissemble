@@ -19,7 +19,7 @@ spec:
         {{- end }}    
     {{ end }}
   destination:
-    namespace: argocd
+    namespace: ${projectName}
     server: {{ .Values.spec.destination.server }}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
