@@ -100,6 +100,12 @@ jobs:
       - name: Run Archetype Tests
         run: |
           ./mvnw -B clean install -Parchetype-test -pl :foundation-archetype
+      - name: Publish aggregated Cucumber report
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./cucumber-report-aggregator/target/cucumber-reports/cucumber-html-reports
+          destination_dir: test-reports
       - name: Save docker build cache
         id: save-docker-build
         uses: runs-on/cache/save@v4
