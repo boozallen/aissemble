@@ -7,13 +7,10 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: ${projectName}
+    namespace: test-project
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: ${projectName}-deploy/src/main/resources/apps/pipeline-invocation-service
-    repoURL: {{ .Values.spec.repo }}
-    targetRevision: {{ .Values.spec.targetRevision }}
     {{ if .Values.spec.helm.valueFiles }}
     helm:
       valueFiles:
@@ -21,6 +18,9 @@ spec:
         - {{ . }}
         {{- end }}
     {{ end }}
+    path: test-project-deploy/src/main/resources/apps/pipeline-invocation-service
+    repoURL: {{ .Values.spec.repo }}
+    targetRevision: {{ .Values.spec.targetRevision }}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
     {{- toYaml . | nindent 4 }}

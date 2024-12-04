@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: pipeline-invocation-service
+    namespace: argocd
+    finalizers:
+        - resources-finalizer.argocd.argoproj.io
+spec:
+    destination:
+        namespace: test-project
+        server: {{ .Values.spec.destination.server }}
+    project: default
+    source:
+        {{ if .Values.spec.helm.valueFiles }}
+        helm:
+            valueFiles:
+                {{- range .Values.spec.helm.valueFiles }}
+                - {{ . }}
+                {{- end }}
+        {{ end }}
+        path: test-project-deploy/src/main/resources/apps/pipeline-invocation-service
+        repoURL: {{ .Values.spec.repo }}
+        targetRevision: {{ .Values.spec.targetRevision }}
+    {{- with .Values.spec.syncPolicy }}
+    syncPolicy:
+        {{- toYaml . | nindent 4 }}
+    {{- end }}
