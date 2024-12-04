@@ -1,9 +1,0 @@
-= aiSSEMBLE(TM) Baseline Process
-
-The following pages will walk through the process of creating your aiSSEMBLE-powered project, creating foundational
-components, then layering in more advanced concepts.
-
-Each page will provide a visual clue as to how it fits into the process graphic below to help map activities.
-
-.aiSSEMBLE Process
-image::solution-baseline-process-overview.png[align="center"]

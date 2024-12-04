@@ -1,7 +1,0 @@
-= Data Profiling
-
-WARNING: Data profiling is currently in an incubating state and is undergoing significant changes.  Stay
-tuned for information on our upcoming improved offerings!
-//Machine learning pipelines should not have data profiling defined in the metamodel
-
-
