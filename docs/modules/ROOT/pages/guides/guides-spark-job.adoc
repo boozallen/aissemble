@@ -10,7 +10,7 @@ Kubernetes cluster. Spark Operator will automatically detect the SparkApplicatio
 deploy, and execute the data flow pipeline as a Spark job.
 
 .Spark Operator Architecture Diagram (credit: KubeFlow Spark Operator repository)
-image::https://github.com/kubeflow/spark-operator/blob/master/docs/architecture-diagram.png?raw=true["Spark Operator Architecture"]
+image::https://www.kubeflow.org/docs/components/spark-operator/overview/architecture-diagram.png?raw=true["Spark Operator Architecture"]
 
 This guide will cover how to configure your data flow pipeline's deployment, which deployments are core to
 the aiSSEMBLE Spark ecosystem, and how to execute and interact with your pipeline within a Kubernetes cluster.
