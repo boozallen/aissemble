@@ -3,6 +3,17 @@
     "group": "v1-11-0-migrations",
     "type": "ordered",
     "migrations": [
+      {
+        "name": "pipeline-invocation-service-template-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_11_0.PipelineInvocationServiceTemplateMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "src/main/resources/templates/pipeline-invocation-service.yaml"
+            ]
+          }
+        ]
+      }
     ]
   },
   {
