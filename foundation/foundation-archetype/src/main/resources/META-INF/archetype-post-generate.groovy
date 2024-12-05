@@ -14,14 +14,8 @@ import javax.lang.model.SourceVersion
 final Logger logger = LoggerFactory.getLogger("com.boozallen.aissemble.foundation.archetype-post-generate")
 
 def dir = new File(new File(request.outputDirectory), request.artifactId)
-
-// code below fixes root pom. See links below
-// https://issues.apache.org/jira/browse/ARCHETYPE-587
-// https://issues.apache.org/jira/browse/ARCHETYPE-584
-file = new File(dir, "pom.xml")
-def contents = file.text
-contents = contents.replaceAll("\\n\\s*\\n", "\n")
-file.write(contents)
+file = new File(dir,"deploy.sh")
+file.setExecutable(true, false)
 
 def groupIdRegex = ~'^[a-z][a-z0-9]*(?:\\.[a-z][a-z0-9]*)*$' // lowercase letters, numbers, and periods
 def artifactIdRegex = ~'^[a-z][a-z0-9]*(?:-?[\\da-z]+)*$' // lowercase letters, numbers, and hyphens

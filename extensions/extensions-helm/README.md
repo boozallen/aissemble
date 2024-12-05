@@ -1,7 +1,10 @@
 # Extensions Helm
+
 Parent module for aiSSEMBLE&trade; Helm charts. 
 
+
 ## Requirements
+
 Each aiSSEMBLE Helm chart should contain the following
 1. A chart directly under the module folder 
 2. A README file with basic information on the chart including all values documented
@@ -10,50 +13,66 @@ Each aiSSEMBLE Helm chart should contain the following
 **Note**: The unit tests are built with https://github.com/helm-unittest/helm-unittest#install and it is required to 
 install both Helm and the plugin locally to run this module.
 
+
 ## Leveraging Extensions Helm
+
 After an aiSSEMBLE module's Helm migration has been completed, the following steps can be taken in a downstream project 
 to leverage the new Helm pattern for the aiSSEMBLE module at hand:
 * Add the aiSSEMBLE helm repo to your local repos: `helm repo add ghcr.io https://UPDATE_WITH_HELM_REPO`
 
-## For legacy aiSSEMBLE Projects
-* Delete the directory holding the module's existing Helm charts if they have already been generated:
-  * delete `<project-name>-deploy/src/main/resources/apps/<module-name>`
-  * Note: if any custom overrides/changes were made to any existing Helm artifacts, it is crucial to preserve these 
-    changes, prior to deleting this directory, so that they may be applied in the new Helm pattern
-* Update the deploy profile in the project's deploy pom file:
-  * in `<project-name>-deploy/pom.xml` replace `<profile><module-name>-deploy</profile>` with 
-    `<profile><module-name>-deploy-v2</profile>`, assuming the profile name corresponding to the new Helm pattern is 
-    noted with a "-v2" suffix
-* Rebuild the project
-* In `<project-name>-deploy/src/main/resources/apps/<module-name>/Chart.yaml`, update the `version` field to the 
-  corresponding aiSSEMBLE version
-* In the project's Tiltfile, make the following modifications:
-  * add the following lines above the module's `docker_build()` call:
-    * `local('helm dep update <project-name>-deploy/src/main/resources')`
-    * `local('helm dependency build <project-name>-deploy/src/main/resources/apps/<module-name>') `
-  * Below the module's corresponding `k8s_resource()` call, add the following line to manually build the docker image 
-    for the migrated module:
-    * `local('docker build -f <project-name>-docker/<project-name>-<module-name>-docker/target/Dockerfile -t <project-name>-<module-name>:latest <project-name>-docker/<project-name>-<module-name>-docker/ --build-arg VERSION_AISSEMBLE=<current aiSSEMBLE version>') `
-      * Note: this step is not always necessary, and only needed when the chart is dependent on an image being built in 
-        a downstream project
 
-After making these changes, the migrated module in the aiSSEMBLE project can properly leverage the new Helm pattern, 
-defined by the Extensions Helm module.
+## For legacy aiSSEMBLE Projects
+
+Follow the instructions in the [_Kubernetes Artifacts Upgrade_](https://boozallen.github.io/aissemble/aissemble/current/containers.html#_kubernetes_artifacts_upgrade)
+section of the _Path to Production > Container Support_ documentation page to update older projects to the new Extensions Helm baseline approach.
 
 ## Developing with Extension Helm
-* When completing and locally testing a migration of a module to Extensions Helm, the above steps can be taken.
-  * As a precursor to the above steps, it would be helpful to create a simple aiSSEMBLE project to use as a test-bed.
-* It is important to note that because the module's helm charts will not be published to the Helm Repository remote 
-  until a build via GitHub Actions is completed, the `repository` field in the module's `Chart.yaml` file must be updated 
-  to point to the local aiSSEMBLE baseline code. More specifically, in the test-bed project, the `repository` field in
-  `<project-name>-deploy/src/main/resources/apps/<module-name>/Chart.yaml` should have hold a value in the following form:
-`"file://../../../../../../../aissemble/extensions/extensions-helm/aissemble-<module-name>-chart"`
-  * the file path given is relative to the location of the `Chart.yaml` file, so 7 or more `../` prefixes will be 
-    required to reach wherever the local aiSSEMBLE baseline is stored on your local machine
-  * in this example 7 `../` prefixes are added to the relative path, as the test-bed project sits in the same directory 
-    as the local `aissemble` baseline code.
-* Additionally, for local development only, the application's `Chart.yaml` in its corresponding `aissemble-<app-name>-chart` 
-  should set the `version` and `appVersion` field to whatever the current aiSSEMBLE version is; this will allow for 
-  testing of the local deployment when leveraging tilt
-  * If making use of additional aiSSEMBLE charts within your application's dependencies, the dependent subcharts should 
-  have their `version` and `appVersion` updated to the current aiSSEMBLE version as well
+
+When testing modifications to a Helm chart in a downstream project, special steps have to be taken as Helm charts are not published to the remote Helm Repository until a build
+via GitHub Actions is completed. Firstly, all modifications to the aiSSEMBLE chart need to be committed and pushed to GitHub. Then, the chart downstream dependency needs to be
+updated to point to the modified chart on your branch in GitHub.  Unfortunately, this is [still not natively supported in
+Helm](https://github.com/boozallen/aissemble/issues/488#issuecomment-2518466847), so we need to do some setup work to enable a plugin that provides this functionality.
+
+### Add the plugin to ArgoCD
+
+The repo server is responsible for running Helm commands to push changes into the cluster.  This is
+[documented](https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#using-initcontainers) in ArgoCD, however these instructions didn't work, at least with our current chart
+version of 7.4.1. (Note there were some discussions on the `argocd-helm` GitHub about a specific update causing a breaking change in this functionality, and the latest docs were
+the "fix" for the breaking change. So could be that the old instructions would have worked fine.) To do this, we'll add an init container to the repo server that installs the
+plugin to a shared volume mount.
+
+```yaml
+aissemble-infrastructure-chart:
+  argo-cd:
+    repoServer:
+      env:
+        - name: HELM_CACHE_HOME
+          value: /helm-working-dir/.cache #Work around for install issue where plugins and cache locations being the same conflicts
+      initContainers:
+        - name: helm-plugin-install
+          image: alpine/helm
+          env:
+            - name: HELM_PLUGINS
+              value: /helm-working-dir/plugins #Configure Helm to write to the volume mount that the repo server uses
+          volumeMounts:
+            - mountPath: /helm-working-dir
+              name: helm-working-dir
+          command: [ "/bin/sh", "-c" ]
+          args: # install plugin
+            - apk --no-cache add curl;
+              helm plugin install https://github.com/aslafy-z/helm-git --version 1.3.0;
+              chmod -R 777 $HELM_PLUGINS;
+```
+
+### Updating the chart dependency
+
+To use your modified chart in the downstream project, the following changes should be made to the `Chart.yaml` file that pulls in the modified chart as a dependency:
+
+ * Point `repository` to the modified chart on your branch in GitHub
+   * e.g.: `git+https://github.com/boozallen/aissemble/@extensions/extensions-helm/<modified-chart>?ref=<your-branch>`
+   * _**NB:** if the chart being tested is in a nested project under extensions-helm, update the repo path accordingly_
+ * Set `version` to `1.0.0`
+
+### Potential pitfalls
+
+ * There is an issue with committing Chart.lock files when using an explicit repository vs a repository alias, so Chart.lock files must not be committed.

@@ -5,23 +5,21 @@ INFRA_NAME=infrastructure
 
 print_usage() {
   echo "Usage: $0 [up|down|shutdown]"
-  echo "   up          deploy application (automatically starts deployment infrastructure if needed)"
-  echo "   down        tear down application"
-  echo "   shutdown    tear down deployment infrastructure"
+  echo "   startup      create/upgrade deployment infrastructure"
+  echo "   shutdown     tear down deployment infrastructure (tears down application if needed)"
+  echo "   up           deploy application (starts deployment infrastructure if needed)"
+  echo "   down         tear down application"
 }
 
 startup() {
-  echo "Checking for deployment infrastructure..."
-  helm status $INFRA_NAME > /dev/null 2>&1
-  if [ $? -ne 0 ]; then
-    helm upgrade --install $INFRA_NAME ${artifactId}-infrastructure \
-      --values ${artifactId}-infrastructure/values.yaml \
-      --values ${artifactId}-infrastructure/values-dev.yaml
-    if ! kubectl wait -A --for=condition=Ready pod -l app.kubernetes.io/name=argocd-server; then
-      exit $?
-    fi
-    argocd repo add ${projectGitUrl} --server localhost:30080 --plaintext --insecure-skip-server-verification
+  echo "Deploying infrastructure..."
+  helm upgrade --install $INFRA_NAME ${artifactId}-infrastructure \
+     --values ${artifactId}-infrastructure/values.yaml \
+     --values ${artifactId}-infrastructure/values-dev.yaml
+  if ! kubectl rollout status --namespace argocd deployment/argocd-server --timeout=30s; then
+    exit $?
   fi
+  argocd repo add ${projectGitUrl} --server localhost:30080 --plaintext --insecure-skip-server-verification
 }
 
 is_app_running() {
@@ -29,7 +27,11 @@ is_app_running() {
 }
 
 deploy() {
-  startup
+  echo "Checking for deployment infrastructure..."
+  helm status $INFRA_NAME > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    startup
+  fi
 
   if is_app_running; then
     echo "${artifactId} is deployed"
@@ -79,6 +81,8 @@ elif [ "$1" = "down" ]; then
   down
 elif [ "$1" = "shutdown" ]; then
   shutdown
+elif [ "$1" = "startup" ]; then
+  startup
 else
   print_usage
 fi
