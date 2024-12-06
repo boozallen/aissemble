@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @lineage_types</title>
+<title>Cucumber Reports (no 1) - Feature: Pyspark Pipeline Step -&amp;gt; Synchronous Inbound/Outbound Type Patterns</title>
 
 </head>
 <body>
@@ -89,7 +89,7 @@ $(document).ready(function() {
 
 <div id="report-lead" class="container-fluid">
   <div class="col-md-10 col-md-offset-1">
-    <h2>Tag Report</h2>
+    <h2>Feature Report</h2>
   </div>
 </div>
 
@@ -108,7 +108,7 @@ $(document).ready(function() {
     <th colspan="2">Features</th>
   </tr>
   <tr>
-    <th>Tag</th>
+    <th>Feature</th>
     <th class="passed">Passed</th>
     <th class="failed">Failed</th>
     <th class="skipped">Skipped</th>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@lineage_types</td>
-          <td      class="passed"    >26</td>
+          <td class="tagname">Pyspark Pipeline Step -&gt; Synchronous Inbound/Outbound Type Patterns</td>
+          <td      class="passed"    >31</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">26</td>
+          <td class="total">31</td>
 
           <td  class="passed"    >13</td>
           <td >0</td>
           <td class="total">13</td>
 
-          <td class="duration" data-value="3202440">0.003</td>
+          <td class="duration" data-value="125263214">0.125</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -167,28 +167,42 @@ $(document).ready(function() {
 <div class="container-fluid" id="report">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <div class="elements">
+      <div class="feature">
 
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_3988296456.html">@synchronous</a>
+       <a href="report-tag_3959935800.html">@inbound</a>
+       <a href="report-tag_2491591471.html">@outbound</a>
+</div>
+
+
+<div class="brief passed">
+  <span class="keyword indention">Feature</span>
+  <span class="name">Pyspark Pipeline Step -&gt; Synchronous Inbound/Outbound Type Patterns</span>
+
+
+</div>
+
+        <div class="description indention"></div>
+
+        <div class="elements inner-level">
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.003</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A RunEvent can be instantiated with valid, minimal args</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Void Inbound (with Non-Messaging Outbound) -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -222,9 +236,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a RunEvent is instantiated with minimal valid arguments</span>
+  <span class="name">a synchronous step with void inbound type and void outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.003</span>
 
 </div>
 
@@ -249,7 +263,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">all public RunEvent fields will contain appropriate values</span>
+  <span class="name">the step execution has no inbound parameter</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -283,24 +297,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-3">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Job can be instantiated with valid, minimal args</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Void Inbound (with Non-Messaging Outbound) -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -334,9 +344,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Job is instantiated with minimal valid arguments</span>
+  <span class="name">a synchronous step with void inbound type and native outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -361,7 +371,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">all public Job fields will contain appropriate values</span>
+  <span class="name">the step execution has no inbound parameter</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -395,24 +405,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Job is instantiated with an illegal (non-string) name</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Void Outbound (with Non-Messaging Inbound) -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -446,9 +452,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Job is instantiated with a non-string name</span>
+  <span class="name">a synchronous step with void inbound type and void outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -473,7 +479,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Job</span>
+  <span class="name">the step execution has no outbound return type</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -507,24 +513,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.003</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Facet can be instantiated with valid, minimal args</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Void Outbound (with Non-Messaging Inbound) -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -558,9 +560,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Facet is instantiated with minimal valid arguments</span>
+  <span class="name">a synchronous step with native inbound type and void outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.003</span>
 
 </div>
 
@@ -585,7 +587,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">all public Facet fields will contain appropriate values</span>
+  <span class="name">the step execution has no outbound return type</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -619,24 +621,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-9">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Facet is instantiated with an illegal schema_url</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Native Inbound (with Non-Messaging Outbound) -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -670,9 +668,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Facet is instantiated with an illegal schema_url</span>
+  <span class="name">a synchronous step with native inbound type and void outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -697,7 +695,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Facet</span>
+  <span class="name">the step execution has an inbound parameter of type &quot;DataFrame&quot;</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -731,24 +729,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-11">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Dataset can be instantiated with valid, minimal args</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Native Inbound (with Non-Messaging Outbound) -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -782,9 +776,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Dataset is instantiated with minimal valid arguments</span>
+  <span class="name">a synchronous step with native inbound type and native outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -809,7 +803,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">all public Dataset fields will contain appropriate values</span>
+  <span class="name">the step execution has an inbound parameter of type &quot;DataFrame&quot;</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -843,24 +837,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.003</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Dataset is instantiated with an illegal (non-string) name</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Native Outbound (with Non-Messaging Inbound) -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -894,9 +884,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Dataset is instantiated with a non-string name</span>
+  <span class="name">a synchronous step with void inbound type and native outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.003</span>
 
 </div>
 
@@ -921,7 +911,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Dataset</span>
+  <span class="name">the step execution has an outbound return type of &quot;DataFrame&quot;</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -955,24 +945,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-15">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">An InputDataset is instantiated with an illegal input_facet</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Native Outbound (with Non-Messaging Inbound) -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1006,9 +992,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">an InputDataset is instantiated with an illegal input_facet dict</span>
+  <span class="name">a synchronous step with native inbound type and native outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -1033,7 +1019,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Dataset</span>
+  <span class="name">the step execution has an outbound return type of &quot;DataFrame&quot;</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1067,24 +1053,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.006</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-17">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">An OutputDataset is instantiated with an illegal output_facet</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Messaging Inbound -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1118,9 +1100,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">an OutputDataset is instantiated with an illegal output_facet dict</span>
+  <span class="name">a synchronous step with messaging inbound type and void outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.006</span>
 
 </div>
 
@@ -1145,7 +1127,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Dataset</span>
+  <span class="name">the step execution base has no inbound parameter because it consumes the inbound from kafka</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the step execution implementation has an inbound parameter of &quot;str&quot; to handle the inbound from kafka</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1179,24 +1188,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.009</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-19">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Run is instantiated with valid, minimal args</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Messaging Inbound -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1230,9 +1235,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Run is instantiated with minimal valid arguments</span>
+  <span class="name">a synchronous step with messaging inbound type and messaging outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.008</span>
 
 </div>
 
@@ -1257,7 +1262,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">all public Run fields will contain appropriate values</span>
+  <span class="name">the step execution base has no inbound parameter because it consumes the inbound from kafka</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the step execution implementation has an inbound parameter of &quot;str&quot; to handle the inbound from kafka</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1291,24 +1323,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.009</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-21">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A basic Run is instantiated with an illegal run_id</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Messaging Outbound -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1342,9 +1370,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a Run is instantiated with a non-UUID run_id</span>
+  <span class="name">a synchronous step with void inbound type and messaging outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.007</span>
 
 </div>
 
@@ -1369,7 +1397,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Run</span>
+  <span class="name">the step execution base has no outbound return type because it sends the outbound to kafka</span>
+
+  <span class="lead-duration duration">0.002</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the step execution implementation has an outbound return type of &quot;str&quot; to send to kafka</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1403,24 +1458,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.006</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-23">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A Lineage object is created with an illegal facet dict value</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Messaging Outbound -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1454,9 +1505,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a lineage object is instantiated with a facet dict containing an illegal value</span>
+  <span class="name">a synchronous step with native inbound type and messaging outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.005</span>
 
 </div>
 
@@ -1481,7 +1532,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Lineage Object</span>
+  <span class="name">the step execution base has no outbound return type because it sends the outbound to kafka</span>
+
+  <span class="lead-duration duration">0.001</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the step execution implementation has an outbound return type of &quot;str&quot; to send to kafka</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1515,24 +1593,20 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_36_1090875135.html">Baseline data lineage type wrappers can be instantiated, and validate their parameters appropriately.</a>
-    </div>
 
 
 <div class="tags indention">
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.058</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-25">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">A Lineage object is created with an illegal facet dict key</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Messaging Outbound -- @1.3 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1566,9 +1640,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a lineage object is instantiated with a facet dict containing an illegal key</span>
+  <span class="name">a synchronous step with messaging inbound type and messaging outbound type is defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.056</span>
 
 </div>
 
@@ -1593,7 +1667,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a ValueError will be raised during the construction of the Lineage Object</span>
+  <span class="name">the step execution base has no outbound return type because it sends the outbound to kafka</span>
+
+  <span class="lead-duration duration">0.001</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the step execution implementation has an outbound return type of &quot;str&quot; to send to kafka</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1625,6 +1726,7 @@ $(document).ready(function() {
   </div>
 </div>
 
+        </div>
 
       </div>
     </div>
