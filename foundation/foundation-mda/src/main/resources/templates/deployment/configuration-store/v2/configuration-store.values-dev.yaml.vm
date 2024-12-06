@@ -9,8 +9,6 @@ aissemble-configuration-store-chart:
     deployment:
       image:
         imagePullPolicy: IfNotPresent
-    service:
-      type: LoadBalancer
 
   # Update 'volumePathOnNode' with the absolute path of the config files to be loaded into the configuration store. 
   # Example '/Users/MyUser/my-project/resources/configs'

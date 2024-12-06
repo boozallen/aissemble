@@ -33,6 +33,11 @@ tests:
                   <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
                   <description>JDBC connect string for a JDBC metastore</description>
                 </property>
+                <property>
+                  <name>javax.jdo.option.ConnectionUserName</name>
+                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <description>Username to use against metastore database</description>
+                </property>
               </configuration>
   - it: Should override default properties appropriately
     set:
@@ -91,6 +96,11 @@ tests:
                   <description>JDBC connect string for a JDBC metastore</description>
                 </property>
                 <property>
+                  <name>javax.jdo.option.ConnectionUserName</name>
+                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <description>Username to use against metastore database</description>
+                </property>
+                <property>
                   <name>propertyName1</name>
                   <value>value1</value>
                   <description>Optional description</description>
@@ -100,3 +110,48 @@ tests:
                   <value>value2</value>
                 </property>
               </configuration>
+  - it: Should override baseProperties with properties appropriately
+    set:
+      configMap:
+        metastoreServiceConfig:
+          properties:
+            - name: metastore.thrift.uris
+              value: thrift://0.0.0.0:8081
+              description: Overridden metastore.thrift.uris
+            - name: metastore.task.threads.always
+              value: overridden metastore.task.threads.always
+    asserts:
+      - equal:
+          path: data
+          value:
+            metastore-site.xml: |
+              <configuration>
+                <property>
+                  <name>metastore.expression.proxy</name>
+                  <value>org.apache.hadoop.hive.metastore.DefaultPartitionExpressionProxy</value>
+                </property>
+                <property>
+                  <name>javax.jdo.option.ConnectionDriverName</name>
+                  <value>com.mysql.cj.jdbc.Driver</value>
+                </property>
+                <property>
+                  <name>javax.jdo.option.ConnectionURL</name>
+                  <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
+                  <description>JDBC connect string for a JDBC metastore</description>
+                </property>
+                <property>
+                  <name>javax.jdo.option.ConnectionUserName</name>
+                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <description>Username to use against metastore database</description>
+                </property>
+                <property>
+                  <name>metastore.thrift.uris</name>
+                  <value>thrift://0.0.0.0:8081</value>
+                  <description>Overridden metastore.thrift.uris</description>
+                </property>
+                <property>
+                  <name>metastore.task.threads.always</name>
+                  <value>overridden metastore.task.threads.always</value>
+                </property>
+              </configuration>
+              
