@@ -2,7 +2,10 @@
 ## CONFIG | Kafka Configs
 ########################################
 kafka:
-  fullnameOverride: kafka-cluster
+  fullnameOverride: kafka-cluster-demo
+  metrics:
+    kafka:
+      enabled: true
   # Container Ports Configuration
   containerPorts:
     client: 9093
