@@ -28,11 +28,12 @@ The following steps will upgrade your project to `1.11`. These instructions cons
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                     | Description                                                                                                                                                                  |
-|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration       | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                 |
-| upgrade-v2-chart-files-aissemble-version-migration | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE |
-| upgrade-v1-chart-files-aissemble-version-migration | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE       |
+| Migration Name                                       | Description                                                                                                                                                                 |
+|------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| upgrade-tiltfile-aissemble-version-migration         | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                |
+| upgrade-v2-chart-files-aissemble-version-migration   | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE |
+| upgrade-v1-chart-files-aissemble-version-migration   | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE      |
+| spark-infrastructure-universal-config-yaml-migration | Removes the default hive username (if present) from hive-metastore-service values.yaml so that it can be set by the configuration store service                             |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 

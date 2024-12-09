@@ -48,6 +48,7 @@ configuration options.
 |------------------|---------------------|
 | fullnameOverride | "hive-metastore-db" |
 | auth.database    | "metastore"         |
+| auth.username    | "hive"              |
 
 # Migration from aiSSEMBLE v1 Helm Charts
 
@@ -66,17 +67,17 @@ In the table below, the notation `env[KEY]` refers the `env` list item whose `na
 
 **Note**: *all new property locations include the prefix `aissemble-hive-metastore-service-chart`*
 
-| Old Property Location                                                                          | New Property Location                                                                  | Additional Notes |
-|------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|------------------|
-| hive-metastore-db.service.spec.ports[].port                                                    | mysql.primary.service.ports.mysql                                                      | Default to 3306  |
-| deployment.env[HADOOP_CLASSPATH]                                                               | deployment.baseEnv[HADOOP_CLASSPATH]                                                   |                  |
-| deployment.env[JAVA_HOME]                                                                      | deployment.baseEnv[JAVA_HOME]                                                          |                  |
-| configMap.metastoreServiceConfig.configuration.property[metastore.thrift.uris]                 | configMap.metastoreServiceConfig.baseProperties[metastore.thrift.uris]                 |                  |
-| configMap.metastoreServiceConfig.configuration.property[metastore.task.threads.always]         | configMap.metastoreServiceConfig.baseProperties[metastore.task.threads.always]         |                  |
-| configMap.metastoreServiceConfig.configuration.property[metastore.expression.proxy]            | configMap.metastoreServiceConfig.baseProperties[metastore.expression.proxy]            |                  |
-| configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionDriverName] | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionDriverName] |                  |
-| configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionURL]        | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionURL]        |                  |
-
+| Old Property Location                                                                          | New Property Location                                                                  | Additional Notes                                       |
+|------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------------|
+| hive-metastore-db.service.spec.ports[].port                                                    | mysql.primary.service.ports.mysql                                                      | Default to 3306                                        |
+| deployment.env[HADOOP_CLASSPATH]                                                               | deployment.baseEnv[HADOOP_CLASSPATH]                                                   |                                                        |
+| deployment.env[JAVA_HOME]                                                                      | deployment.baseEnv[JAVA_HOME]                                                          |                                                        |
+| configMap.metastoreServiceConfig.configuration.property[metastore.thrift.uris]                 | configMap.metastoreServiceConfig.baseProperties[metastore.thrift.uris]                 |                                                        |
+| configMap.metastoreServiceConfig.configuration.property[metastore.task.threads.always]         | configMap.metastoreServiceConfig.baseProperties[metastore.task.threads.always]         |                                                        |
+| configMap.metastoreServiceConfig.configuration.property[metastore.expression.proxy]            | configMap.metastoreServiceConfig.baseProperties[metastore.expression.proxy]            |                                                        |
+| configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionDriverName] | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionDriverName] |                                                        |
+| configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionURL]        | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionURL]        |                                                        |
+| configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionUserName]   | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionUserName]   | Using Configuration store Service to inject this value |
 ## Property Removed
 
 The following properties no longer exist.
