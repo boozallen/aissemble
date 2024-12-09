@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Feature: Validation</title>
+<title>Cucumber Reports (no 1) - Feature: client-server integration</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>aiSSEMBLE</td>
         <td>1</td>
-      <td>09 Dec 2024, 07:48</td>
+      <td>09 Dec 2024, 19:36</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">Validation</td>
-          <td      class="passed"    >24</td>
+          <td class="tagname">client-server integration</td>
+          <td      class="passed"    >23</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">24</td>
+          <td class="total">23</td>
 
-          <td  class="passed"    >8</td>
+          <td  class="passed"    >6</td>
           <td >0</td>
-          <td class="total">8</td>
+          <td class="total">6</td>
 
-          <td class="duration" data-value="2202507">0.002</td>
+          <td class="duration" data-value="9827761172">9.827</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -171,13 +171,13 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4028791651.html">@pyspark_validation</a>
+       <a href="report-tag_344413221.html">@IntegrationTest</a>
 </div>
 
 
 <div class="brief passed">
   <span class="keyword indention">Feature</span>
-  <span class="name">Validation</span>
+  <span class="name">client-server integration</span>
 
 
 </div>
@@ -193,14 +193,14 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.566</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.1 </span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">I can subscribe to an existing messaging topic</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -234,9 +234,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;100&quot; and &quot;999&quot;</span>
+  <span class="name">a messaging topic &quot;TopicA&quot; that exists in the service</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.152</span>
 
 </div>
 
@@ -261,9 +261,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;100&quot; typed as a string</span>
+  <span class="name">the messaging client subscribes to &quot;TopicA&quot;</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.413</span>
 
 </div>
 
@@ -288,7 +288,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;true&quot;</span>
+  <span class="name">the messaging client confirms the subscription to &quot;TopicA&quot;</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -328,14 +328,14 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.597</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-3">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.2 </span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">I cannot subscribe to a non-existent topic</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -369,7 +369,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;100&quot; and &quot;999&quot;</span>
+  <span class="name">a messaging topic &quot;TopicA&quot; that exists in the service</span>
+
+  <span class="lead-duration duration">0.168</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">a messaging topic &quot;TopicD&quot; that does not exist in the service</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -396,9 +423,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;999&quot; typed as a string</span>
+  <span class="name">the messaging client subscribes to &quot;TopicD&quot;</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.428</span>
 
 </div>
 
@@ -423,7 +450,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;true&quot;</span>
+  <span class="name">I receive a NoTopicSupportedError</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -463,14 +490,14 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.612</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.3 </span>
+  <span class="name">Message is Received from Broker and Processed Successfully -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -504,9 +531,36 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;100&quot; and &quot;999&quot;</span>
+  <span class="name">consumer subscribe to a topic named &quot;TopicA&quot;</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.600</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the MANUAL strategy</span>
+
+  <span class="lead-duration duration">0.003</span>
 
 </div>
 
@@ -531,9 +585,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;0&quot; typed as a string</span>
+  <span class="name">a message is sent to the topic</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.007</span>
 
 </div>
 
@@ -558,7 +612,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;false&quot;</span>
+  <span class="name">the message is processed successfully by the consumer</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -598,14 +652,14 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.687</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.4 </span>
+  <span class="name">Message is Received from Broker and Processed Successfully -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -639,9 +693,36 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;100&quot; and &quot;999&quot;</span>
+  <span class="name">consumer subscribe to a topic named &quot;TopicA&quot;</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.674</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the POSTPROCESSING strategy</span>
+
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -666,9 +747,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;1001&quot; typed as a string</span>
+  <span class="name">a message is sent to the topic</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.009</span>
 
 </div>
 
@@ -693,7 +774,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;false&quot;</span>
+  <span class="name">the message is processed successfully by the consumer</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -730,17 +811,19 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.605</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-9">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.5 </span>
+  <span class="name">Manual Acknowledgement of Message Receipt -- @1.1 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -774,9 +857,36 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;12.345&quot; and &quot;100.0&quot;</span>
+  <span class="name">consumer subscribe to a topic named &quot;TopicA&quot;</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.589</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the MANUAL strategy</span>
+
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -801,9 +911,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;12.345&quot; typed as a string</span>
+  <span class="name">the consumer ack the message</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.010</span>
 
 </div>
 
@@ -828,7 +938,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;true&quot;</span>
+  <span class="name">the ack is sent to the broker</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -865,17 +975,19 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.759</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-11">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.6 </span>
+  <span class="name">Manual Acknowledgement of Message Receipt -- @1.2 </span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -909,9 +1021,36 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;12.345&quot; and &quot;100.0&quot;</span>
+  <span class="name">consumer subscribe to a topic named &quot;TopicA&quot;</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">1.744</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the MANUAL strategy</span>
+
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -936,9 +1075,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;100.0&quot; typed as a string</span>
+  <span class="name">the consumer nack the message</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.009</span>
 
 </div>
 
@@ -963,277 +1102,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;true&quot;</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-  </div>
-</div>
-
-
-
-
-
-  </div>
-</div>
-
-
-<div class="element">
-
-
-<div class="tags indention">
-</div>
-
-
-  <span class="lead-duration duration">0.000</span>
-
-
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
-
-<div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.7 </span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </span>
-  <div class="description indention"></div>
-
-  <div id="element-13" class="collapse collapsable-details ">
-
-
-
-
-
-<div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-14">
-
-<div class="brief passed">
-  <span class="keyword indention">Steps</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </div>
-
-  <div id="steps-14" class="inner-level collapse collapsable-details ">
-      <div class="step">
-
-
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;12.345&quot; and &quot;100.0&quot;</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;12&quot; typed as a string</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-Then passed">
-  <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;false&quot;</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-  </div>
-</div>
-
-
-
-
-
-  </div>
-</div>
-
-
-<div class="element">
-
-
-<div class="tags indention">
-</div>
-
-
-  <span class="lead-duration duration">0.000</span>
-
-
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-15">
-
-<div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Type coercion for validate -- @1.8 </span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </span>
-  <div class="description indention"></div>
-
-  <div id="element-15" class="collapse collapsable-details ">
-
-
-
-
-
-<div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-16">
-
-<div class="brief passed">
-  <span class="keyword indention">Steps</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </div>
-
-  <div id="steps-16" class="inner-level collapse collapsable-details ">
-      <div class="step">
-
-
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a dictionary type with range validation &quot;12.345&quot; and &quot;100.0&quot;</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">validation occurs on a &quot;100.1&quot; typed as a string</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-Then passed">
-  <span class="keyword indention">Then</span>
-  <span class="name">validation is &quot;false&quot;</span>
+  <span class="name">the nack is sent to the broker</span>
 
   <span class="lead-duration duration">0.000</span>
 

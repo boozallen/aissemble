@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Feature: Generating spark application pipeline resources</title>
+<title>Cucumber Reports (no 1) - Feature: Configure messaging topics and channels</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>aiSSEMBLE</td>
         <td>1</td>
-      <td>09 Dec 2024, 07:48</td>
+      <td>09 Dec 2024, 19:36</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">Generating spark application pipeline resources</td>
-          <td      class="passed"    >15</td>
+          <td class="tagname">Configure messaging topics and channels</td>
+          <td      class="passed"    >12</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">15</td>
+          <td class="total">12</td>
 
-          <td  class="passed"    >3</td>
+          <td  class="passed"    >4</td>
           <td >0</td>
-          <td class="total">3</td>
+          <td class="total">4</td>
 
-          <td class="duration" data-value="234012920">0.234</td>
+          <td class="duration" data-value="1512065026">1.512</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -171,13 +171,13 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_949408484.html">@spark-application-generation</a>
+       <a href="report-tag_1651092133.html">@configure</a>
 </div>
 
 
 <div class="brief passed">
   <span class="keyword indention">Feature</span>
-  <span class="name">Generating spark application pipeline resources</span>
+  <span class="name">Configure messaging topics and channels</span>
 
 
 </div>
@@ -191,20 +191,18 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_949408484.html">@spark-application-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
+       <a href="report-tag_1651092133.html">@configure</a>
 </div>
 
 
-  <span class="lead-duration duration">0.081</span>
+  <span class="lead-duration duration">1.511</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Pipeline generates file store environment variables necessary for accessing a single configured file store</span>
+  <span class="name">I can create custom messaging topics</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -233,7 +231,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.SparkApplicationStep.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -270,63 +268,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a spark project named <span class="argument">&quot;example&quot;</span></span>
+  <span class="name">I have configured the messaging library to connect to <span class="argument">&quot;TopicA&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a data-flow pipeline using data-delivery-spark</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a file store named <span class="argument">&quot;s3TestModelOne&quot;</span></span>
-
-  <span class="lead-duration duration">0.002</span>
 
 </div>
 
@@ -351,9 +295,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the profile data-delivery-spark-pipeline is generated</span>
+  <span class="name">the messaging service starts</span>
 
-  <span class="lead-duration duration">0.076</span>
+  <span class="lead-duration duration">1.509</span>
 
 </div>
 
@@ -378,7 +322,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;s3TestModelOne_FS_PROVIDER&quot;</span>, <span class="argument">&quot;s3TestModelOne_FS_ACCESS_KEY_ID&quot;</span>, and <span class="argument">&quot;s3TestModelOne_FS_SECRET_ACCESS_KEY&quot;</span> configurations <span class="argument">&quot;are&quot;</span> generated</span>
+  <span class="name">the service creates a new emitter for <span class="argument">&quot;TopicA&quot;</span></span>
 
   <span class="lead-duration duration">0.001</span>
 
@@ -406,43 +350,8 @@ $(document).ready(function() {
 
 
 
-
-  </div>
-</div>
-
-
-<div class="element">
-
-
-<div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_949408484.html">@spark-application-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
-</div>
-
-
-  <span class="lead-duration duration">0.072</span>
-
-
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-4">
-
-<div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Pipeline does not generate file store environment variables for accessing a file store when it does not have a file store configured</span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </span>
-  <div class="description indention"></div>
-
-  <div id="element-4" class="collapse collapsable-details ">
-
-
-  <div class="inner-level hooks-element-before">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-5">
+  <div class="inner-level hooks-element-after">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-4">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -454,11 +363,76 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="before-5" class="inner-level collapse collapsable-details ">
+    <div id="after-4" class="inner-level collapse collapsable-details ">
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">After</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.cleanupMessaging()</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_1651092133.html">@configure</a>
+</div>
+
+
+  <span class="lead-duration duration">0.000</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">I can create multiple custom messaging topics</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-5" class="collapse collapsable-details ">
+
+
+  <div class="inner-level hooks-element-before">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-6">
+
+<div class="brief passed">
+  <span class="keyword indention">Hooks</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+    </div>
+
+    <div id="before-6" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.SparkApplicationStep.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -477,7 +451,7 @@ $(document).ready(function() {
 
 
 <div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-6">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-7">
 
 <div class="brief passed">
   <span class="keyword indention">Steps</span>
@@ -489,40 +463,13 @@ $(document).ready(function() {
 
   </div>
 
-  <div id="steps-6" class="inner-level collapse collapsable-details ">
+  <div id="steps-7" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a spark project named <span class="argument">&quot;example&quot;</span></span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a data-flow pipeline using data-delivery-spark</span>
+  <span class="name">I have configured the messaging library to connect to <span class="argument">3</span> topics</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -549,9 +496,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the profile data-delivery-spark-pipeline is generated</span>
+  <span class="name">the messaging service starts</span>
 
-  <span class="lead-duration duration">0.071</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -576,7 +523,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;s3TestModelOne_FS_PROVIDER&quot;</span>, <span class="argument">&quot;s3TestModelOne_FS_ACCESS_KEY_ID&quot;</span>, and <span class="argument">&quot;s3TestModelOne_FS_SECRET_ACCESS_KEY&quot;</span> configurations <span class="argument">&quot;aren't&quot;</span> generated</span>
+  <span class="name">the service creates an emitter for each topic</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -604,43 +551,8 @@ $(document).ready(function() {
 
 
 
-
-  </div>
-</div>
-
-
-<div class="element">
-
-
-<div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_949408484.html">@spark-application-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
-</div>
-
-
-  <span class="lead-duration duration">0.079</span>
-
-
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
-
-<div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Pipeline generates file store environment variables necessary for accessing multiple configured file stores</span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </span>
-  <div class="description indention"></div>
-
-  <div id="element-7" class="collapse collapsable-details ">
-
-
-  <div class="inner-level hooks-element-before">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-8">
+  <div class="inner-level hooks-element-after">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-8">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -652,11 +564,76 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="before-8" class="inner-level collapse collapsable-details ">
+    <div id="after-8" class="inner-level collapse collapsable-details ">
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">After</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.cleanupMessaging()</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_1651092133.html">@configure</a>
+</div>
+
+
+  <span class="lead-duration duration">0.000</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-9">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">I can listen to custom messaging topics</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-9" class="collapse collapsable-details ">
+
+
+  <div class="inner-level hooks-element-before">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-10">
+
+<div class="brief passed">
+  <span class="keyword indention">Hooks</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+    </div>
+
+    <div id="before-10" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.SparkApplicationStep.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -675,7 +652,7 @@ $(document).ready(function() {
 
 
 <div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-9">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-11">
 
 <div class="brief passed">
   <span class="keyword indention">Steps</span>
@@ -687,69 +664,15 @@ $(document).ready(function() {
 
   </div>
 
-  <div id="steps-9" class="inner-level collapse collapsable-details ">
+  <div id="steps-11" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a spark project named <span class="argument">&quot;example&quot;</span></span>
+  <span class="name">I have configured the messaging library to connect to <span class="argument">&quot;TopicA&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a data-flow pipeline using data-delivery-spark</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">two file stores named <span class="argument">&quot;s3TestModelOne&quot;</span> and <span class="argument">&quot;s3TestModelTwo&quot;</span></span>
-
-  <span class="lead-duration duration">0.002</span>
 
 </div>
 
@@ -774,34 +697,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the profile data-delivery-spark-pipeline is generated</span>
-
-  <span class="lead-duration duration">0.076</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-Then passed">
-  <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;s3TestModelOne_FS_PROVIDER&quot;</span>, <span class="argument">&quot;s3TestModelOne_FS_ACCESS_KEY_ID&quot;</span>, and <span class="argument">&quot;s3TestModelOne_FS_SECRET_ACCESS_KEY&quot;</span> configurations <span class="argument">&quot;are&quot;</span> generated</span>
+  <span class="name">the messaging service starts</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -826,9 +722,9 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the <span class="argument">&quot;s3TestModelTwo_FS_PROVIDER&quot;</span>, <span class="argument">&quot;s3TestModelTwo_FS_ACCESS_KEY_ID&quot;</span>, and <span class="argument">&quot;s3TestModelTwo_FS_SECRET_ACCESS_KEY&quot;</span> configurations <span class="argument">&quot;are&quot;</span> generated</span>
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the service creates a new listener for <span class="argument">&quot;TopicA&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -856,6 +752,239 @@ $(document).ready(function() {
 
 
 
+  <div class="inner-level hooks-element-after">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-12">
+
+<div class="brief passed">
+  <span class="keyword indention">Hooks</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+    </div>
+
+    <div id="after-12" class="inner-level collapse collapsable-details ">
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">After</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.cleanupMessaging()</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_1651092133.html">@configure</a>
+</div>
+
+
+  <span class="lead-duration duration">0.000</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">I can listen multiple custom messaging topics</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-13" class="collapse collapsable-details ">
+
+
+  <div class="inner-level hooks-element-before">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-14">
+
+<div class="brief passed">
+  <span class="keyword indention">Hooks</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+    </div>
+
+    <div id="before-14" class="inner-level collapse collapsable-details ">
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">Before</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.setup()</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </div>
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-15">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-15" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-Given passed">
+  <span class="keyword indention">Given</span>
+  <span class="name">I have configured the messaging library to connect to <span class="argument">4</span> topics</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the messaging service starts</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the service creates an listener for each topic</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+  <div class="inner-level hooks-element-after">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-16">
+
+<div class="brief passed">
+  <span class="keyword indention">Hooks</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+    </div>
+
+    <div id="after-16" class="inner-level collapse collapsable-details ">
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">After</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ConfigurationSteps.cleanupMessaging()</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </div>
 
   </div>
 </div>

@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @emission</title>
+<title>Cucumber Reports (no 1) - Feature: Receive messages through the messaging service</title>
 
 </head>
 <body>
@@ -89,7 +89,7 @@ $(document).ready(function() {
 
 <div id="report-lead" class="container-fluid">
   <div class="col-md-10 col-md-offset-1">
-    <h2>Tag Report</h2>
+    <h2>Feature Report</h2>
   </div>
 </div>
 
@@ -108,7 +108,7 @@ $(document).ready(function() {
     <th colspan="2">Features</th>
   </tr>
   <tr>
-    <th>Tag</th>
+    <th>Feature</th>
     <th class="passed">Passed</th>
     <th class="failed">Failed</th>
     <th class="skipped">Skipped</th>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@emission</td>
-          <td      class="passed"    >16</td>
+          <td class="tagname">Receive messages through the messaging service</td>
+          <td      class="passed"    >20</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">16</td>
+          <td class="total">20</td>
 
           <td  class="passed"    >5</td>
           <td >0</td>
           <td class="total">5</td>
 
-          <td class="duration" data-value="540049629">0.540</td>
+          <td class="duration" data-value="13165139">0.013</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -167,32 +167,42 @@ $(document).ready(function() {
 <div class="container-fluid" id="report">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <div class="elements">
+      <div class="feature">
 
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_4036377308.html">@receive-message</a>
+</div>
+
+
+<div class="brief passed">
+  <span class="keyword indention">Feature</span>
+  <span class="name">Receive messages through the messaging service</span>
+
+
+</div>
+
+        <div class="description indention"></div>
+
+        <div class="elements inner-level">
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_39_3366736176.html">Emit data lineage events</a>
-    </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_3434149318.html">@emission</a>
-       <a href="report-tag_523180974.html">@withoutConsole</a>
-       <a href="report-tag_2149488615.html">@cdi</a>
+       <a href="report-tag_4036377308.html">@receive-message</a>
 </div>
 
 
-  <span class="lead-duration duration">0.176</span>
+  <span class="lead-duration duration">0.011</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Events can be emitted via Messaging</span>
+  <span class="name">Message is Received from Broker and Processed Successfully</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -221,41 +231,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.reset()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.noConsole()</span>
-
-  <span class="lead-duration duration">0.810</span>
 
           </div>
 
@@ -290,7 +268,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a run event</span>
+  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -317,9 +295,36 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the event is emitted via messaging</span>
+  <span class="name">a message is sent to the topic</span>
 
-  <span class="lead-duration duration">0.176</span>
+  <span class="lead-duration duration">0.011</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the message is processed successfully by the consumer</span>
+
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -344,7 +349,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the event is sent over the outbound channel</span>
+  <span class="name">an ack is sent to broker</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -389,9 +394,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.cleanupCdi()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
 
-  <span class="lead-duration duration">0.005</span>
+  <span class="lead-duration duration">0.000</span>
 
           </div>
 
@@ -410,27 +415,23 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_39_3366736176.html">Emit data lineage events</a>
-    </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_3434149318.html">@emission</a>
-       <a href="report-tag_2149488615.html">@cdi</a>
+       <a href="report-tag_4036377308.html">@receive-message</a>
+       <a href="report-tag_3326046676.html">@nack-message</a>
 </div>
 
 
-  <span class="lead-duration duration">0.125</span>
+  <span class="lead-duration duration">0.000</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Events can be emitted via Console</span>
+  <span class="name">Message is Received from Broker and Not processed Successfully</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -459,7 +460,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -475,7 +476,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.reset()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setupNackMessageTest()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -512,7 +513,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a run event</span>
+  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">a message is sent to the topic</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -539,36 +567,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the ConsoleTransport class is added to the CDI container</span>
+  <span class="name">consumer failed to process the message</span>
 
-  <span class="lead-duration duration">0.120</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the event is emitted via messaging</span>
-
-  <span class="lead-duration duration">0.004</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -593,7 +594,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the event is received for logging to the console</span>
+  <span class="name">a nack is sent to broker</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -638,9 +639,25 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.cleanupCdi()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.resetConnector()</span>
 
-  <span class="lead-duration duration">0.001</span>
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">After</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
+
+  <span class="lead-duration duration">0.000</span>
 
           </div>
 
@@ -659,28 +676,23 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_39_3366736176.html">Emit data lineage events</a>
-    </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_3434149318.html">@emission</a>
-       <a href="report-tag_523180974.html">@withoutConsole</a>
-       <a href="report-tag_2149488615.html">@cdi</a>
+       <a href="report-tag_4036377308.html">@receive-message</a>
+       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
 </div>
 
 
-  <span class="lead-duration duration">0.002</span>
+  <span class="lead-duration duration">0.000</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-9">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Console emission can be disabled</span>
+  <span class="name">Manual Acknowledgement of Message Receipt</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -709,7 +721,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -725,25 +737,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.reset()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.configManualAcknowledgement()</span>
 
   <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.noConsole()</span>
-
-  <span class="lead-duration duration">0.135</span>
 
           </div>
 
@@ -778,7 +774,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a run event</span>
+  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the manual ack strategy</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -805,9 +828,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the event is emitted via messaging</span>
+  <span class="name">a message is received from the topic</span>
 
-  <span class="lead-duration duration">0.002</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -832,7 +855,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the event is not received for logging to the console</span>
+  <span class="name">the service does not ack or nack the message</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -877,9 +900,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.cleanupCdi()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
 
-  <span class="lead-duration duration">0.001</span>
+  <span class="lead-duration duration">0.000</span>
 
           </div>
 
@@ -898,27 +921,23 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_39_3366736176.html">Emit data lineage events</a>
-    </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_3434149318.html">@emission</a>
-       <a href="report-tag_2149488615.html">@cdi</a>
+       <a href="report-tag_4036377308.html">@receive-message</a>
+       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
 </div>
 
 
-  <span class="lead-duration duration">0.123</span>
+  <span class="lead-duration duration">0.000</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Console emission is automatically included based on configuration.</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Manual Acknowledgement of Message Receipt</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -947,7 +966,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -963,7 +982,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.reset()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.configManualAcknowledgement()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1000,7 +1019,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a configuration that opts into console emission</span>
+  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the manual ack strategy</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1027,9 +1073,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the CDI container is created with automatically selected context</span>
+  <span class="name">the consumer <span class="argument">&quot;ack&quot;</span> the message</span>
 
-  <span class="lead-duration duration">0.122</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -1054,7 +1100,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the ConsoleTransport class is available</span>
+  <span class="name">the <span class="argument">&quot;ack&quot;</span> is sent to the broker</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1099,9 +1145,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.cleanupCdi()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
 
-  <span class="lead-duration duration">0.001</span>
+  <span class="lead-duration duration">0.000</span>
 
           </div>
 
@@ -1120,27 +1166,23 @@ $(document).ready(function() {
 
 
 <div class="element">
-    <div class="indention">
-      <b>Feature:</b>
-      <a href="report-feature_39_3366736176.html">Emit data lineage events</a>
-    </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_3434149318.html">@emission</a>
-       <a href="report-tag_2149488615.html">@cdi</a>
+       <a href="report-tag_4036377308.html">@receive-message</a>
+       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
 </div>
 
 
-  <span class="lead-duration duration">0.112</span>
+  <span class="lead-duration duration">0.000</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-17">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Console emission is automatically excluded based on configuration.</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">Manual Acknowledgement of Message Receipt</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1169,7 +1211,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1185,7 +1227,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.reset()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.configManualAcknowledgement()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1222,7 +1264,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a configuration that opts out of console emission</span>
+  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the subscription is configured with the manual ack strategy</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1249,9 +1318,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the CDI container is created with automatically selected context</span>
+  <span class="name">the consumer <span class="argument">&quot;nack&quot;</span> the message</span>
 
-  <span class="lead-duration duration">0.109</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -1276,9 +1345,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the ConsoleTransport class is not available</span>
+  <span class="name">the <span class="argument">&quot;nack&quot;</span> is sent to the broker</span>
 
-  <span class="lead-duration duration">0.003</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -1321,9 +1390,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.data.lineage.SendOpenLineageSteps.cleanupCdi()</span>
+              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
 
-  <span class="lead-duration duration">0.001</span>
+  <span class="lead-duration duration">0.000</span>
 
           </div>
 
@@ -1340,6 +1409,7 @@ $(document).ready(function() {
   </div>
 </div>
 
+        </div>
 
       </div>
     </div>

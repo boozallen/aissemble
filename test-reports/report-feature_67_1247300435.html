@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Feature: Subscribe to a channel listener through the messaging service</title>
+<title>Cucumber Reports (no 1) - Feature: Utilities -&amp;gt; YAML</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>aiSSEMBLE</td>
         <td>1</td>
-      <td>09 Dec 2024, 07:48</td>
+      <td>09 Dec 2024, 19:36</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">Subscribe to a channel listener through the messaging service</td>
-          <td      class="passed"    >8</td>
+          <td class="tagname">Utilities -&gt; YAML</td>
+          <td      class="passed"    >13</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">8</td>
+          <td class="total">13</td>
 
           <td  class="passed"    >2</td>
           <td >0</td>
           <td class="total">2</td>
 
-          <td class="duration" data-value="215710">0.000</td>
+          <td class="duration" data-value="9218803">0.009</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -170,14 +170,12 @@ $(document).ready(function() {
       <div class="feature">
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_2970363145.html">@subscribe</a>
 </div>
 
 
 <div class="brief passed">
   <span class="keyword indention">Feature</span>
-  <span class="name">Subscribe to a channel listener through the messaging service</span>
+  <span class="name">Utilities -&gt; YAML</span>
 
 
 </div>
@@ -190,19 +188,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_2970363145.html">@subscribe</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.008</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">The messaging service subscribes to a topic</span>
+  <span class="name">I can load a YAML file with an object</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -231,7 +227,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.SubscribeSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -268,7 +264,80 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a messaging topic <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a YAML file:</span>
+
+  <span class="lead-duration duration">0.001</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+  <div class="inner-level">
+    <div class="docstring indention">
+      <div data-toggle="collapse" class="collapsable-control" data-target="#msg-4">
+          <a>Doc string</a>
+      </div>
+      <div id="msg-4" class="collapse collapsable-details">
+        <pre>name: test
+size: 7.5
+count: 12
+complete: True
+nested: {
+  size: 2.0
+}
+multiple:
+  - intvalue: 5
+  - intvalue: 7</pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the file is loaded</span>
+
+  <span class="lead-duration duration">0.002</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the string value of the property <span class="argument">&quot;name&quot;</span> is <span class="argument">&quot;test&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -295,7 +364,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">a valid callback and ack strategy</span>
+  <span class="name">the decimal value of the property <span class="argument">&quot;size&quot;</span> is <span class="argument">7.5</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -320,9 +389,9 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">the service creates a subscription to <span class="argument">&quot;TopicA&quot;</span></span>
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the integer value of the property <span class="argument">&quot;count&quot;</span> is <span class="argument">12</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -347,11 +416,119 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-Then passed">
-  <span class="keyword indention">Then</span>
-  <span class="name">the service is subscribed to <span class="argument">&quot;TopicA&quot;</span></span>
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the boolean value of the property <span class="argument">&quot;complete&quot;</span> is <span class="argument">&quot;true&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the property <span class="argument">&quot;nested&quot;</span> is an object</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the decimal value of the property <span class="argument">&quot;size&quot;</span> of the Object <span class="argument">&quot;nested&quot;</span> is <span class="argument">2.0</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the size of the list <span class="argument">&quot;multiple&quot;</span> is <span class="argument">2</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the <span class="argument">&quot;intvalue&quot;</span> of item <span class="argument">1</span> of the list <span class="argument">&quot;multiple&quot;</span> is <span class="argument">7</span></span>
+
+  <span class="lead-duration duration">0.002</span>
 
 </div>
 
@@ -386,19 +563,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_2970363145.html">@subscribe</a>
 </div>
 
 
   <span class="lead-duration duration">0.000</span>
 
 
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-4">
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">The messaging service cannot subscribe to a non-existent topic</span>
+  <span class="name">I can load a YAML file with a list</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -407,11 +582,11 @@ $(document).ready(function() {
   </span>
   <div class="description indention"></div>
 
-  <div id="element-4" class="collapse collapsable-details ">
+  <div id="element-5" class="collapse collapsable-details ">
 
 
   <div class="inner-level hooks-element-before">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-5">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-6">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -423,11 +598,11 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="before-5" class="inner-level collapse collapsable-details ">
+    <div id="before-6" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.SubscribeSteps.setup()</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -446,7 +621,7 @@ $(document).ready(function() {
 
 
 <div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-6">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-7">
 
 <div class="brief passed">
   <span class="keyword indention">Steps</span>
@@ -458,13 +633,13 @@ $(document).ready(function() {
 
   </div>
 
-  <div id="steps-6" class="inner-level collapse collapsable-details ">
+  <div id="steps-7" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a messaging topic <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a YAML file:</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -478,33 +653,18 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
-
+  <div class="inner-level">
+    <div class="docstring indention">
+      <div data-toggle="collapse" class="collapsable-control" data-target="#msg-8">
+          <a>Doc string</a>
       </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a valid callback and ack strategy</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
+      <div id="msg-8" class="collapse collapsable-details">
+        <pre>- red
+- blue
+- yellow</pre>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -518,7 +678,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the service creates a subscription to <span class="argument">&quot;TopicD&quot;</span></span>
+  <span class="name">the file is loaded</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -545,7 +705,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">an exception is thrown saying the topic does not exist</span>
+  <span class="name">the size of the list <span class="argument">&quot;items&quot;</span> is <span class="argument">3</span></span>
 
   <span class="lead-duration duration">0.000</span>
 

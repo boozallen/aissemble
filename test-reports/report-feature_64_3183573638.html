@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Feature: Minimum Python version can be set in the pyproject.toml.vm files.</title>
+<title>Cucumber Reports (no 1) - Feature: Tilt file upgrade migration</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>aiSSEMBLE</td>
         <td>1</td>
-      <td>09 Dec 2024, 07:48</td>
+      <td>09 Dec 2024, 19:36</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">Minimum Python version can be set in the pyproject.toml.vm files.</td>
-          <td      class="passed"    >24</td>
+          <td class="tagname">Tilt file upgrade migration</td>
+          <td      class="passed"    >21</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">24</td>
+          <td class="total">21</td>
 
-          <td  class="passed"    >6</td>
+          <td  class="passed"    >7</td>
           <td >0</td>
-          <td class="total">6</td>
+          <td class="total">7</td>
 
-          <td class="duration" data-value="258295109">0.258</td>
+          <td class="duration" data-value="26078527">0.026</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -170,14 +170,12 @@ $(document).ready(function() {
       <div class="feature">
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
 </div>
 
 
 <div class="brief passed">
   <span class="keyword indention">Feature</span>
-  <span class="name">Minimum Python version can be set in the pyproject.toml.vm files.</span>
+  <span class="name">Tilt file upgrade migration</span>
 
 
 </div>
@@ -190,21 +188,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.058</span>
+  <span class="lead-duration duration">0.007</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">The data-flow pipeline generates the correct pyproject.toml</span>
+  <span class="name">Migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE is less than the aissemble project version.</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -233,9 +227,9 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
-  <span class="lead-duration duration">0.002</span>
+  <span class="lead-duration duration">0.000</span>
 
           </div>
 
@@ -270,36 +264,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE is less than the project aiSSEMBLE version</span>
 
   <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a <span class="argument">&quot;data-flow&quot;</span> pipeline using the <span class="argument">&quot;data-delivery-pyspark&quot;</span> implementation</span>
-
-  <span class="lead-duration duration">0.001</span>
 
 </div>
 
@@ -324,9 +291,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the <span class="argument">&quot;pipeline&quot;</span> profile <span class="argument">&quot;data-delivery-pyspark-pipeline&quot;</span> is generated</span>
+  <span class="name">the Tiltfile version migration executes</span>
 
-  <span class="lead-duration duration">0.055</span>
+  <span class="lead-duration duration">0.005</span>
 
 </div>
 
@@ -351,9 +318,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+  <span class="name">the VERSION_AISSEMBLE is updated to the project version</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.001</span>
 
 </div>
 
@@ -388,21 +355,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.046</span>
+  <span class="lead-duration duration">0.002</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-4">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">The record metamodel with profile &quot;data-delivery-combined-data-records-python&quot; generates the correct pyproject.toml</span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Do not migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE version is greater than the project version.</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -431,7 +394,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -468,7 +431,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE is greater than the project version</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -493,38 +456,11 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a record model with a corresponding dictionary type defined</span>
-
-  <span class="lead-duration duration">0.001</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the <span class="argument">&quot;metadata&quot;</span> profile <span class="argument">&quot;data-delivery-combined-data-records-python&quot;</span> is generated</span>
+  <span class="name">the Tiltfile version migration executes</span>
 
-  <span class="lead-duration duration">0.044</span>
+  <span class="lead-duration duration">0.002</span>
 
 </div>
 
@@ -549,7 +485,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+  <span class="name">the VERSION_AISSEMBLE should not be migrated</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -586,21 +522,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.027</span>
+  <span class="lead-duration duration">0.002</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">The record metamodel with profile &quot;data-delivery-data-records-core-python&quot; generates the correct pyproject.toml</span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Do not migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE version is equal to the project version.</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -629,7 +561,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -666,7 +598,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE is equal to the project version</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -691,38 +623,11 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a record model with a corresponding dictionary type defined</span>
-
-  <span class="lead-duration duration">0.001</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the <span class="argument">&quot;metadata&quot;</span> profile <span class="argument">&quot;data-delivery-data-records-core-python&quot;</span> is generated</span>
+  <span class="name">the Tiltfile version migration executes</span>
 
-  <span class="lead-duration duration">0.025</span>
+  <span class="lead-duration duration">0.002</span>
 
 </div>
 
@@ -747,7 +652,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+  <span class="name">the VERSION_AISSEMBLE should not be migrated</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -784,21 +689,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.021</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-10">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">The record metamodel with profile &quot;data-delivery-data-pyspark&quot; generates the correct pyproject.toml</span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE is an older SNAPSHOT version to the project aiSSEMBLE version.</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -827,7 +728,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -864,34 +765,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a record model with a corresponding dictionary type defined</span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE is an older SNAPSHOT version than the project aiSSEMBLE version</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -918,9 +792,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the <span class="argument">&quot;metadata&quot;</span> profile <span class="argument">&quot;data-delivery-data-pyspark&quot;</span> is generated</span>
+  <span class="name">the Tiltfile version migration executes</span>
 
-  <span class="lead-duration duration">0.019</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -945,7 +819,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+  <span class="name">the VERSION_AISSEMBLE is updated to the specified version value from the Baton specifications in the Tiltfile</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -982,21 +856,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.039</span>
+  <span class="lead-duration duration">0.002</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">The machine-learning pipeline with the &quot;training&quot; step generates the correct pyproject.toml</span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Do not migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE is a greater version SNAPSHOT version.</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1025,7 +895,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1062,7 +932,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE SNAPSHOT is greater than the project version</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1087,9 +957,9 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a <span class="argument">&quot;machine-learning&quot;</span> pipeline with step type <span class="argument">&quot;training&quot;</span> using the <span class="argument">&quot;machine-learning-mlflow&quot;</span> implementation</span>
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the Tiltfile version migration executes</span>
 
   <span class="lead-duration duration">0.001</span>
 
@@ -1114,36 +984,9 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">the <span class="argument">&quot;pipeline&quot;</span> profile <span class="argument">&quot;machine-learning-training&quot;</span> is generated</span>
-
-  <span class="lead-duration duration">0.037</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+  <span class="name">the VERSION_AISSEMBLE should not be migrated</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1180,21 +1023,17 @@ $(document).ready(function() {
 
 
 <div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_893087316.html">@pyproject-generation</a>
-       <a href="report-tag_2617993442.html">@pipeline-generation</a>
-       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.066</span>
+  <span class="lead-duration duration">0.005</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-16">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario Outline</span>
-  <span class="name">The machine-learning pipeline with the &quot;inference&quot; step generates the correct pyproject.toml</span>
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE is less than the project aissemble version and the version in Tiltfile is x.x.xx format.</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1223,7 +1062,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1260,34 +1099,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
-
-  <span class="lead-duration duration">0.000</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">a <span class="argument">&quot;machine-learning&quot;</span> pipeline with step type <span class="argument">&quot;inference&quot;</span> using the <span class="argument">&quot;machine-learning-mlflow&quot;</span> implementation</span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE is less than the project aiSSEMBLE version in x.xx.xx format</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1314,9 +1126,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the <span class="argument">&quot;pipeline&quot;</span> profile <span class="argument">&quot;machine-learning-inference&quot;</span> is generated</span>
+  <span class="name">the Tiltfile version migration executes</span>
 
-  <span class="lead-duration duration">0.064</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -1341,7 +1153,174 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+  <span class="name">the VERSION_AISSEMBLE is updated to the project version</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+</div>
+
+
+  <span class="lead-duration duration">0.002</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-19">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Do not migrate the Tiltfile VERSION_AISSEMBLE when the VERSION_AISSEMBLE is greater than the project aissemble version and the version in Tiltfile is x.x.xx format.</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-19" class="collapse collapsable-details ">
+
+
+  <div class="inner-level hooks-element-before">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-20">
+
+<div class="brief passed">
+  <span class="keyword indention">Hooks</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+    </div>
+
+    <div id="before-20" class="inner-level collapse collapsable-details ">
+        <div class="hook">
+          <div class="brief passed">
+            <span class="keyword indention">Before</span>
+              <span class="location name">com.boozallen.aissemble.upgrade.migration.PoetryMigrationSteps.setTestFile()</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </div>
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-21">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-21" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-Given passed">
+  <span class="keyword indention">Given</span>
+  <span class="name">an existing Tiltfile with VERSION_AISSEMBLE is greater than the project aiSSEMBLE version in x.xx.xx format</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the Tiltfile version migration executes</span>
+
+  <span class="lead-duration duration">0.002</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the VERSION_AISSEMBLE should not be migrated</span>
 
   <span class="lead-duration duration">0.000</span>
 

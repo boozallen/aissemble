@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Feature: Receive messages through the messaging service</title>
+<title>Cucumber Reports (no 1) - Feature: Minimum Python version can be set in the pyproject.toml.vm files.</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>aiSSEMBLE</td>
         <td>1</td>
-      <td>09 Dec 2024, 07:48</td>
+      <td>09 Dec 2024, 19:36</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">Receive messages through the messaging service</td>
-          <td      class="passed"    >20</td>
+          <td class="tagname">Minimum Python version can be set in the pyproject.toml.vm files.</td>
+          <td      class="passed"    >24</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">20</td>
+          <td class="total">24</td>
 
-          <td  class="passed"    >5</td>
+          <td  class="passed"    >6</td>
           <td >0</td>
-          <td class="total">5</td>
+          <td class="total">6</td>
 
-          <td class="duration" data-value="13165139">0.013</td>
+          <td class="duration" data-value="275140201">0.275</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -171,13 +171,13 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4036377308.html">@receive-message</a>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
 </div>
 
 
 <div class="brief passed">
   <span class="keyword indention">Feature</span>
-  <span class="name">Receive messages through the messaging service</span>
+  <span class="name">Minimum Python version can be set in the pyproject.toml.vm files.</span>
 
 
 </div>
@@ -191,18 +191,20 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4036377308.html">@receive-message</a>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
+       <a href="report-tag_2617993442.html">@pipeline-generation</a>
+       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.011</span>
+  <span class="lead-duration duration">0.052</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Message is Received from Broker and Processed Successfully</span>
+  <span class="name">The data-flow pipeline generates the correct pyproject.toml</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -231,7 +233,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
+              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -268,7 +270,34 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">a <span class="argument">&quot;data-flow&quot;</span> pipeline using the <span class="argument">&quot;data-delivery-pyspark&quot;</span> implementation</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -295,36 +324,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a message is sent to the topic</span>
+  <span class="name">the <span class="argument">&quot;pipeline&quot;</span> profile <span class="argument">&quot;data-delivery-pyspark-pipeline&quot;</span> is generated</span>
 
-  <span class="lead-duration duration">0.011</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the message is processed successfully by the consumer</span>
-
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.050</span>
 
 </div>
 
@@ -349,7 +351,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">an ack is sent to broker</span>
+  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -377,38 +379,6 @@ $(document).ready(function() {
 
 
 
-  <div class="inner-level hooks-element-after">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-4">
-
-<div class="brief passed">
-  <span class="keyword indention">Hooks</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-    </div>
-
-    <div id="after-4" class="inner-level collapse collapsable-details ">
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-    </div>
-  </div>
 
   </div>
 </div>
@@ -419,19 +389,20 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4036377308.html">@receive-message</a>
-       <a href="report-tag_3326046676.html">@nack-message</a>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
+       <a href="report-tag_2617993442.html">@pipeline-generation</a>
+       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.043</span>
 
 
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-4">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Message is Received from Broker and Not processed Successfully</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">The record metamodel with profile &quot;data-delivery-combined-data-records-python&quot; generates the correct pyproject.toml</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -440,11 +411,11 @@ $(document).ready(function() {
   </span>
   <div class="description indention"></div>
 
-  <div id="element-5" class="collapse collapsable-details ">
+  <div id="element-4" class="collapse collapsable-details ">
 
 
   <div class="inner-level hooks-element-before">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-6">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-5">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -456,27 +427,11 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="before-6" class="inner-level collapse collapsable-details ">
+    <div id="before-5" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setupNackMessageTest()</span>
+              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -495,7 +450,7 @@ $(document).ready(function() {
 
 
 <div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-7">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-6">
 
 <div class="brief passed">
   <span class="keyword indention">Steps</span>
@@ -507,13 +462,13 @@ $(document).ready(function() {
 
   </div>
 
-  <div id="steps-7" class="inner-level collapse collapsable-details ">
+  <div id="steps-6" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -540,9 +495,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">a message is sent to the topic</span>
+  <span class="name">a record model with a corresponding dictionary type defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.001</span>
 
 </div>
 
@@ -567,9 +522,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">consumer failed to process the message</span>
+  <span class="name">the <span class="argument">&quot;metadata&quot;</span> profile <span class="argument">&quot;data-delivery-combined-data-records-python&quot;</span> is generated</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.042</span>
 
 </div>
 
@@ -594,7 +549,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">a nack is sent to broker</span>
+  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -622,54 +577,6 @@ $(document).ready(function() {
 
 
 
-  <div class="inner-level hooks-element-after">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-8">
-
-<div class="brief passed">
-  <span class="keyword indention">Hooks</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-    </div>
-
-    <div id="after-8" class="inner-level collapse collapsable-details ">
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.resetConnector()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-    </div>
-  </div>
 
   </div>
 </div>
@@ -680,19 +587,20 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4036377308.html">@receive-message</a>
-       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
+       <a href="report-tag_2617993442.html">@pipeline-generation</a>
+       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.042</span>
 
 
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-9">
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
 
 <div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Manual Acknowledgement of Message Receipt</span>
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">The record metamodel with profile &quot;data-delivery-data-records-core-python&quot; generates the correct pyproject.toml</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -701,11 +609,11 @@ $(document).ready(function() {
   </span>
   <div class="description indention"></div>
 
-  <div id="element-9" class="collapse collapsable-details ">
+  <div id="element-7" class="collapse collapsable-details ">
 
 
   <div class="inner-level hooks-element-before">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-10">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-8">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -717,27 +625,11 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="before-10" class="inner-level collapse collapsable-details ">
+    <div id="before-8" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.configManualAcknowledgement()</span>
+              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -756,7 +648,7 @@ $(document).ready(function() {
 
 
 <div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-11">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-9">
 
 <div class="brief passed">
   <span class="keyword indention">Steps</span>
@@ -768,13 +660,13 @@ $(document).ready(function() {
 
   </div>
 
-  <div id="steps-11" class="inner-level collapse collapsable-details ">
+  <div id="steps-9" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -801,9 +693,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">the subscription is configured with the manual ack strategy</span>
+  <span class="name">a record model with a corresponding dictionary type defined</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.001</span>
 
 </div>
 
@@ -828,9 +720,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">a message is received from the topic</span>
+  <span class="name">the <span class="argument">&quot;metadata&quot;</span> profile <span class="argument">&quot;data-delivery-data-records-core-python&quot;</span> is generated</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.041</span>
 
 </div>
 
@@ -855,7 +747,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the service does not ack or nack the message</span>
+  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -883,8 +775,43 @@ $(document).ready(function() {
 
 
 
-  <div class="inner-level hooks-element-after">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-12">
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
+       <a href="report-tag_2617993442.html">@pipeline-generation</a>
+       <a href="report-tag_103602359.html">@code-generation</a>
+</div>
+
+
+  <span class="lead-duration duration">0.030</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-10">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario Outline</span>
+  <span class="name">The record metamodel with profile &quot;data-delivery-data-pyspark&quot; generates the correct pyproject.toml</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-10" class="collapse collapsable-details ">
+
+
+  <div class="inner-level hooks-element-before">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-11">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -896,11 +823,11 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="after-12" class="inner-level collapse collapsable-details ">
+    <div id="before-11" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
-            <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
+            <span class="keyword indention">Before</span>
+              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -916,6 +843,137 @@ $(document).ready(function() {
     </div>
   </div>
 
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-12">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-12" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-Given passed">
+  <span class="keyword indention">Given</span>
+  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">a record model with a corresponding dictionary type defined</span>
+
+  <span class="lead-duration duration">0.001</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the <span class="argument">&quot;metadata&quot;</span> profile <span class="argument">&quot;data-delivery-data-pyspark&quot;</span> is generated</span>
+
+  <span class="lead-duration duration">0.029</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
   </div>
 </div>
 
@@ -925,19 +983,20 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4036377308.html">@receive-message</a>
-       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
+       <a href="report-tag_2617993442.html">@pipeline-generation</a>
+       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.042</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Manual Acknowledgement of Message Receipt</span>
+  <span class="name">The machine-learning pipeline with the &quot;training&quot; step generates the correct pyproject.toml</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -966,23 +1025,7 @@ $(document).ready(function() {
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.configManualAcknowledgement()</span>
+              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1019,7 +1062,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1046,9 +1089,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">the subscription is configured with the manual ack strategy</span>
+  <span class="name">a <span class="argument">&quot;machine-learning&quot;</span> pipeline with step type <span class="argument">&quot;training&quot;</span> using the <span class="argument">&quot;machine-learning-mlflow&quot;</span> implementation</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.001</span>
 
 </div>
 
@@ -1073,9 +1116,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the consumer <span class="argument">&quot;ack&quot;</span> the message</span>
+  <span class="name">the <span class="argument">&quot;pipeline&quot;</span> profile <span class="argument">&quot;machine-learning-training&quot;</span> is generated</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.040</span>
 
 </div>
 
@@ -1100,7 +1143,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;ack&quot;</span> is sent to the broker</span>
+  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1128,38 +1171,6 @@ $(document).ready(function() {
 
 
 
-  <div class="inner-level hooks-element-after">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-16">
-
-<div class="brief passed">
-  <span class="keyword indention">Hooks</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-    </div>
-
-    <div id="after-16" class="inner-level collapse collapsable-details ">
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-    </div>
-  </div>
 
   </div>
 </div>
@@ -1170,19 +1181,20 @@ $(document).ready(function() {
 
 <div class="tags indention">
     <b>Tags:</b>
-       <a href="report-tag_4036377308.html">@receive-message</a>
-       <a href="report-tag_851523122.html">@manual-acknowledgement</a>
+       <a href="report-tag_893087316.html">@pyproject-generation</a>
+       <a href="report-tag_2617993442.html">@pipeline-generation</a>
+       <a href="report-tag_103602359.html">@code-generation</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.062</span>
 
 
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-17">
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-16">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario Outline</span>
-  <span class="name">Manual Acknowledgement of Message Receipt</span>
+  <span class="name">The machine-learning pipeline with the &quot;inference&quot; step generates the correct pyproject.toml</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1191,11 +1203,11 @@ $(document).ready(function() {
   </span>
   <div class="description indention"></div>
 
-  <div id="element-17" class="collapse collapsable-details ">
+  <div id="element-16" class="collapse collapsable-details ">
 
 
   <div class="inner-level hooks-element-before">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-18">
+    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#before-17">
 
 <div class="brief passed">
   <span class="keyword indention">Hooks</span>
@@ -1207,27 +1219,11 @@ $(document).ready(function() {
 
     </div>
 
-    <div id="before-18" class="inner-level collapse collapsable-details ">
+    <div id="before-17" class="inner-level collapse collapsable-details ">
         <div class="hook">
           <div class="brief passed">
             <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.setup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">Before</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.configManualAcknowledgement()</span>
+              <span class="location name">com.boozallen.aiops.mda.generator.PyprojectGenerationSteps.setup(io.cucumber.java.Scenario)</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1246,7 +1242,7 @@ $(document).ready(function() {
 
 
 <div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-19">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-18">
 
 <div class="brief passed">
   <span class="keyword indention">Steps</span>
@@ -1258,13 +1254,13 @@ $(document).ready(function() {
 
   </div>
 
-  <div id="steps-19" class="inner-level collapse collapsable-details ">
+  <div id="steps-18" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
 <div class="brief step-name-Given passed">
   <span class="keyword indention">Given</span>
-  <span class="name">consumer subscribe to a topic named <span class="argument">&quot;TopicA&quot;</span></span>
+  <span class="name">a project with the name <span class="argument">&quot;example&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1291,7 +1287,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">the subscription is configured with the manual ack strategy</span>
+  <span class="name">a <span class="argument">&quot;machine-learning&quot;</span> pipeline with step type <span class="argument">&quot;inference&quot;</span> using the <span class="argument">&quot;machine-learning-mlflow&quot;</span> implementation</span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1318,9 +1314,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the consumer <span class="argument">&quot;nack&quot;</span> the message</span>
+  <span class="name">the <span class="argument">&quot;pipeline&quot;</span> profile <span class="argument">&quot;machine-learning-inference&quot;</span> is generated</span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.060</span>
 
 </div>
 
@@ -1345,7 +1341,7 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the <span class="argument">&quot;nack&quot;</span> is sent to the broker</span>
+  <span class="name">the <span class="argument">&quot;pyproject.toml&quot;</span> is generated with the minimum Python version, <span class="argument">&quot;&gt;=3.8&quot;</span></span>
 
   <span class="lead-duration duration">0.000</span>
 
@@ -1373,38 +1369,6 @@ $(document).ready(function() {
 
 
 
-  <div class="inner-level hooks-element-after">
-    <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#after-20">
-
-<div class="brief passed">
-  <span class="keyword indention">Hooks</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-    </div>
-
-    <div id="after-20" class="inner-level collapse collapsable-details ">
-        <div class="hook">
-          <div class="brief passed">
-            <span class="keyword indention">After</span>
-              <span class="location name">com.boozallen.aissemble.messaging.python.ReceiveMessageSteps.cleanup()</span>
-
-  <span class="lead-duration duration">0.000</span>
-
-          </div>
-
-
-
-
-
-
-
-        </div>
-    </div>
-  </div>
 
   </div>
 </div>
