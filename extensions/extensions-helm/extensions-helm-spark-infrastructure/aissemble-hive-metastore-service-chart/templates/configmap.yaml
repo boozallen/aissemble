@@ -3,35 +3,31 @@ kind: ConfigMap
 metadata:
   name: metastore-service-config
   labels:
-    aissemble-configuration-store: {{ .Values.configMap.metadata.labels.configStore}}
+    aissemble-configuration-store: {{ .Values.configMap.configStore}}
 data:
   # Add all the default properties from the local values.yaml to the ConfigMap
   # Then check if there are any downstream properties and add them as well
   metastore-site.xml: |
-    {{- $basePropDict := dict }}
     {{- $propDict := dict }}
-    {{- range $baseProperty := .Values.configMap.metastoreServiceConfig.baseProperties }}
-      {{- $basePropDict := set $basePropDict $baseProperty.name $baseProperty.value }}
-    {{- end }}
     {{- if .Values.configMap.metastoreServiceConfig.properties }}
       {{- range $property := .Values.configMap.metastoreServiceConfig.properties }}
-        {{- $propDict := set $propDict $property.name $property.value }}
+        {{- $propDict := set $propDict $property.name $property }}
       {{- end }}
     {{- end }}
     
     <configuration>
     {{- range $baseProperty := .Values.configMap.metastoreServiceConfig.baseProperties }}
-      {{- if and (hasKey $basePropDict $baseProperty.name) (not (hasKey $propDict $baseProperty.name))}}
+      {{- if not (hasKey $propDict $baseProperty.name) }}
       <property>
         <name>{{ $baseProperty.name }}</name>
         <value>{{ $baseProperty.value }}</value>
       {{- if $baseProperty.description }}
         <description>{{ $baseProperty.description }}</description>
-      {{- end }}
+      {{- end}}
       </property>
-      {{- end }}
-    {{- end }}
-
+      {{- end}}
+    {{- end}}
+    
     {{- if .Values.configMap.metastoreServiceConfig.properties }}
       {{- range $property := .Values.configMap.metastoreServiceConfig.properties }}
       <property>
