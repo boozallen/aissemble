@@ -3,25 +3,27 @@ kind: ConfigMap
 metadata:
   name: metastore-service-config
   labels:
-    aissemble-configuration-store: {{ .Values.configMap.metadata.labels.configStore}}
+    aissemble-configuration-store: {{ .Values.configMap.configStore}}
 data:
   # Add all the default properties from the local values.yaml to the ConfigMap
   # Then check if there are any downstream properties and add them as well
   metastore-site.xml: |
-    {{- $basePropDict := dict }}
-    {{- $propDict := dict }}
-    {{- range $baseProperty := .Values.configMap.metastoreServiceConfig.baseProperties }}
-      {{- $basePropDict := set $basePropDict $baseProperty.name $baseProperty.value }}
+    {{- define "hasProperty"}}
+    {{- range $property := $.Values.configMap.metastoreServiceConfig.properties }}
+      {{- if eq $property.name $.baseProp.name }}  
+        {{ "true" }}
+        {{- break }}
+      {{- else }}
+        {{"false"}}
+      {{- end }}  
     {{- end }}
-    {{- if .Values.configMap.metastoreServiceConfig.properties }}
-      {{- range $property := .Values.configMap.metastoreServiceConfig.properties }}
-        {{- $propDict := set $propDict $property.name $property.value }}
-      {{- end }}
     {{- end }}
     
     <configuration>
     {{- range $baseProperty := .Values.configMap.metastoreServiceConfig.baseProperties }}
-      {{- if and (hasKey $basePropDict $baseProperty.name) (not (hasKey $propDict $baseProperty.name))}}
+    {{- if $.Values.configMap.metastoreServiceConfig.properties }}
+      {{- $hasPropertyOverride :=  include "hasProperty" (dict "Values" $.Values "baseProp" $baseProperty) }}
+      {{- if not (contains "true" $hasPropertyOverride) }}
       <property>
         <name>{{ $baseProperty.name }}</name>
         <value>{{ $baseProperty.value }}</value>
@@ -30,8 +32,17 @@ data:
       {{- end }}
       </property>
       {{- end }}
+    {{- else }}
+      <property>
+        <name>{{ $baseProperty.name }}</name>
+        <value>{{ $baseProperty.value }}</value>
+      {{- if $baseProperty.description }}
+        <description>{{ $baseProperty.description }}</description>
+      {{- end }}
+      </property>
     {{- end }}
-
+    {{- end }}
+  
     {{- if .Values.configMap.metastoreServiceConfig.properties }}
       {{- range $property := .Values.configMap.metastoreServiceConfig.properties }}
       <property>
