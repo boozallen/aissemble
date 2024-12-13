@@ -92,25 +92,16 @@ public class SparkDockerPomGenerator extends AbstractMavenModuleGenerator {
 
             final String sparkOperatorAppName = "spark-operator";
             final String sparkInfrastructureAppName = "spark-infrastructure";
-            final String sparkWorkerAppName = "spark-worker-image";
 
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, sparkDockerArtifactId, "docker");
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-operator-deploy-v2", sparkOperatorAppName);
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-infrastructure-deploy-v2", sparkInfrastructureAppName);
-            manualActionNotificationService.addDeployPomMessage(context, "aissemble-spark-worker-deploy", sparkWorkerAppName);
-            manualActionNotificationService.addSparkWorkerDockerBuildTiltMessage(context, sparkWorkerAppName, sparkDockerArtifactId
-                    ,context.getArtifactId());
+            manualActionNotificationService.addSparkApplicationTiltMessage(context);
             String pipelineArtifactId;
             for (Pipeline pipeline: dataFlowPipelines) {
                 pipelineArtifactId = deriveArtifactIdFromCamelCase(pipeline.getName());
                 manualActionNotificationService.addSparkWorkerTiltResources(context, pipelinesArtifactId,
                         pipelineArtifactId, pipeline.getType().getImplementation());
-                if (pipeline.getType().getImplementation().equalsIgnoreCase("data-delivery-pyspark")) {
-                    manualActionNotificationService.addLocalResourceTiltFileMessage(context, context.getArtifactId(), sparkDockerArtifactId, pipelineArtifactId, pipelineArtifactId, false);
-                } else {
-                    manualActionNotificationService.addSparkWorkerDockerBuildTiltMessage(context, sparkWorkerAppName, sparkDockerArtifactId
-                    ,context.getArtifactId());
-                }
             }
 
             if (dataFlowStrategy.isMetadataNeeded()) {

@@ -1,5 +1,8 @@
 # Major Additions
 
+## Path to Production Alignment
+To better align development processes with processes in CI/CD and higher environments, we no longer recommend using Tilt for building and deploying projects.  As such, upgrading projects should consider removing or at least narrowing the scope of their Tiltfile. See _**How to Upgrade**_ for more information.
+
 ## Data Access Upgrade
 Data access through [GraphQL](https://graphql.org/) has been deprecated and replaced with [Trino](https://trino.io/). Trino is optimized for performing queries against large datasets by leveraging a distributed architecture that processes queries in parallel, enabling fast and scalable data retrieval.
 
@@ -11,6 +14,8 @@ _Note: instructions for adapting to these changes are outlined in the upgrade in
    |-------------------------------|------------------------------------|
    | `AIOpsModelInstanceRepostory` | `AissembleModelInstanceRepository` |
    | `AiopsMdaJsonUtils`           | `AissembleMdaJsonUtils`            |
+ - To improve the development cycle and docker build consistency, we have deprecated the docker_build() and local_resources() functions in the Tilt and enable maven docker build for the docker modules. Follow the instruction in the `Finalizing the Upgrade` to avoid duplicated docker image build.
+
 
 # Known Issues
 _There are no known issues with the 1.11 release._
@@ -32,12 +37,16 @@ The following steps will upgrade your project to `1.11`. These instructions cons
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-| Migration Name                                       | Description                                                                                                                                                                 |
-|------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| upgrade-tiltfile-aissemble-version-migration         | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                |
-| upgrade-v2-chart-files-aissemble-version-migration   | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE |
-| upgrade-v1-chart-files-aissemble-version-migration   | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE      |
-| spark-infrastructure-universal-config-yaml-migration | Removes the default hive username (if present) from hive-metastore-service values.yaml so that it can be set by the configuration store service                             |
+| Migration Name                                       | Description                                                                                                                                                                             |
+|------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| upgrade-tiltfile-aissemble-version-migration         | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                            |
+| upgrade-v2-chart-files-aissemble-version-migration   | Updates the Helm chart dependencies within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE            |
+| upgrade-v1-chart-files-aissemble-version-migration   | Updates the docker image tags within your project's deployment resources (`<YOUR_PROJECT>-deploy/src/main/resources/apps/`) to use the latest version of the aiSSEMBLE                  |
+| spark-infrastructure-universal-config-yaml-migration | Removes the default hive username (if present) from hive-metastore-service values.yaml so that it can be set by the configuration store service                                         |
+| pipeline-invocation-service-template-migrtion        | Include the helm.valueFiles param to ArgoCD pipeline-invocation-service template                                                                                                        |                                                                                                                                                      
+| docker-module-pom-dependency-type-migration          | Updates the maven pipeline dependency type within your project's sub docker module pom file(`<YOUR_PROJECT>-docker/*-docker/pom.xml`) to fix the build cache checksum calculation issue |
+| enable-maven-docker-build-migration                  | Remove the maven fabric8 plugin `skip` configuration within your project's docker module pom file(`<YOUR_PROJECT>-docker/pom.xml`) to enable the maven docker build                     |
+| spark-worker-docker-image-tag-migration              | Updated the worker docker image tag to use project version                                                                                                                              |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
@@ -62,6 +71,10 @@ To deactivate any of these migrations, add the following configuration to the `b
 ```
 
 ## Precondition Steps - Required for All Projects
+
+### Maven Docker Build
+To avoid duplicate docker builds, remove all the related `docker_build()` and `local_resources()` functions from your Tiltfile. Also, the `spark-worker-image.yaml` is no longer used 
+so `-deploy/src/main/resources/apps/spark-worker-image` directory ,and the related `k8s_yaml()` function from your Tiltfile can be removed.
 
 ### Beginning the Upgrade
 To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.11.0 version of the build-parent:

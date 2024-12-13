@@ -15,10 +15,9 @@ import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 public class NonHelmKubernetesGenerator extends AbstractKubernetesGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target              | Template                                                        | Generated File                           |
-     * |---------------------|-----------------------------------------------------------------|------------------------------------------|
-     * | trainingNoOpFile    | deployment/model-training-job/model-training-job.no-op.yaml.vm  | apps/${appName}/${appName}.yaml          |
-     * | sparkWorkerJobFile  | deployment/spark-worker-image/spark-worker-image.yaml.vm        | apps/${appName}/spark-worker-image.yaml  |
+     * | Target            | Template                                                        | Generated File                   |
+     * |-------------------|-----------------------------------------------------------------|----------------------------------|
+     * | trainingNoOpFile  | deployment/model-training-job/model-training-job.no-op.yaml.vm  | apps/${appName}/${appName}.yaml  |
      */
 
     @Override

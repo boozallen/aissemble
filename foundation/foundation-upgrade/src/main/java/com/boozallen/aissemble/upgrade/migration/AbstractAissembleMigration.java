@@ -44,9 +44,9 @@ public abstract class AbstractAissembleMigration extends AbstractMigration {
      *
      * @return the root project
      */
-    private MavenProject getRootProject() {
+    protected MavenProject getRootProject() {
         MavenProject project = getMavenProject();
-        while(project.getParent() != null && !AISSEMBLE_PARENT.equals(project.getParent().getArtifactId())) {
+        while(project != null && project.getParent() != null && !AISSEMBLE_PARENT.equals(project.getParent().getArtifactId())) {
             project = project.getParent();
         }
         return project;

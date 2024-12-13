@@ -326,37 +326,20 @@ public class ManualActionNotificationService {
      * Checks if there are deployment changes necessary in the Tiltfile for Spark Worker and
      * adds a message if so.
      *
-     * @param context                     the generation context
-     * @param appName                     the application name
-     * @param dockerApplicationArtifactId the docker application artifact ID
-     * @param dockerArtifactId            the docker artifact ID
-     * @param includeHelmBuild            whether to include the helm build in the message
-     * @param includeLatestTag            whether to include the latest tag as a tilt extra tag
+     * @param context the generation context
      */
-    public void addSparkWorkerDockerBuildTiltMessage(final GenerationContext context, final String appName, final String dockerApplicationArtifactId,
-                                                     final String dockerArtifactId) {
+    public void addSparkApplicationTiltMessage(final GenerationContext context) {
 
         final File rootDir = context.getExecutionRootDirectory();
         if (!rootDir.exists() || !tiltFileFound(rootDir)) {
             logger.warn("Unable to find Tiltfile. Will not be able to direct manual Spark Worker resources to Tiltfile");
         } else {
-            //creates the instructions for the spark worker image
-            DockerBuildParams params = new DockerBuildParams.ParamBuilder().setContext(context)
-                    .setAppName(appName)
-                    .setDockerApplicationArtifactId(dockerApplicationArtifactId)
-                    .setDockerArtifactId(dockerArtifactId)
-                    .setIncludeHelmBuild(false)
-                    .setIncludeLatestTag(true)
-                    .build();
-            addDockerBuildTiltFileMessage(params);
-
             final String tiltFilePath = rootDir.getAbsolutePath() + File.separator + "Tiltfile";
             final String text = "k8s_kind('SparkApplication'";
 
             boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, text);
             if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey("Tiltfile", "spark-worker-docker-build");
-
+                final String key = getMessageKey("Tiltfile", "pipeline-spark-application");
                 VelocityNotification notification = new VelocityNotification(key, GROUP_TILT, new HashSet<>(),
                         "templates/notifications/notification.spark.worker.docker.build.tilt.vm");
                 addManualAction(tiltFilePath, notification);

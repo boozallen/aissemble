@@ -54,12 +54,6 @@ public class VaultDockerModuleGenerator extends AbstractMavenModuleGenerator {
             generateFile(context, vc);
             final String appName = "vault";
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, artifactId, "docker");
-            DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                    .setContext(context)
-                    .setAppName(appName)
-                    .setDockerApplicationArtifactId(artifactId)
-                    .setDockerArtifactId(context.getArtifactId()).build();
-            manualActionNotificationService.addDockerBuildTiltFileMessage(params);
             manualActionNotificationService.addDeployPomMessage(context, "vault-deploy", appName);
         }
     }

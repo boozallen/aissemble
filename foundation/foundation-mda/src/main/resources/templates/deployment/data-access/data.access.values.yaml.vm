@@ -6,7 +6,7 @@ replicaCount: 1
 
 hostname: data-access
 image:
-  name: ${projectName}-data-access-docker:latest
+  name: ${projectName}-data-access-docker:${version}
   imagePullPolicy: Always
   dockerRepo: ${dockerProjectRepositoryUrl}
   # Overrides the image tag whose default is the chart appVersion.

@@ -54,12 +54,6 @@ public class PolicyDecisionPointDockerModuleGenerator extends AbstractMavenModul
             generateFile(context, vc);
             final String appName = "policy-decision-point";
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, artifactId, "docker");
-            DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                    .setContext(context)
-                    .setAppName(appName)
-                    .setDockerApplicationArtifactId(artifactId)
-                    .setDockerArtifactId(context.getArtifactId()).build();
-            manualActionNotificationService.addDockerBuildTiltFileMessage(params);
             manualActionNotificationService.addDeployPomMessage(context, "policy-decision-point-deploy-v2", appName);
         }
     }

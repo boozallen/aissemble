@@ -3,7 +3,7 @@ metadata:
 sparkApp:
   spec:
     type: ${sparkApplicationType}
-    image: "${dockerProjectRepositoryUrl}${projectName}-spark-worker-docker:latest"
+    image: "${dockerProjectRepositoryUrl}${projectName}-spark-worker-docker:${version}"
     #if (${isJavaPipeline})
     mainClass: ${mainClass}
     #end

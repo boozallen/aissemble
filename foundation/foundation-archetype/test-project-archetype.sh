@@ -195,10 +195,6 @@ echo "{
         ]
       }" > test-generator-pipeline-models/src/main/resources/pipelines/ExampleMachineLearningPipeline.json
 
-# Create build cache files to make builds more efficient, when possible - testing the parts of the archetype impacted by change:
-# ExampleDataDelivery.json
-cp ../../../../../.mvn/extensions.xml .mvn/extensions.xml
-cp ../../../src/test/resources/test-project-archetype-script/maven-build-cache-config.xml .mvn/maven-build-cache-config.xml
 
 # The tiltfile is only testable locally and not on the CI build
 # Thus not updating it with file contents with manual actions
