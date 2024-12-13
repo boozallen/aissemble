@@ -14,11 +14,10 @@ import com.boozallen.aiops.mda.DockerBuildParams;
 import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +44,7 @@ public class MlflowDockerPomGenerator extends AbstractMavenModuleGenerator {
      */
     @Override
     public void generate(GenerationContext context) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
 

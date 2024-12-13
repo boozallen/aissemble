@@ -12,7 +12,7 @@ package com.boozallen.mda.maven.mojo;
 
 import com.boozallen.aiops.mda.generator.common.PipelineImplementationEnum;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.mda.maven.ArtifactType;
 import com.boozallen.mda.maven.PipelineType;
 import com.boozallen.mda.maven.util.ArtifactCopier;
@@ -45,6 +45,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.*;
@@ -118,6 +120,12 @@ public class PipelineArtifactsMojo extends AbstractMojo {
     @Parameter(required = true)
     private String habushuArtifactVersion;
 
+    /**
+     * Config option for setting the metadata repository when using an extension of AissembleModelInstanceRepository
+     */
+    @Parameter(defaultValue = "com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository")
+    private String metadataRepositoryImpl;
+
     @Parameter()
     private String mavenDependencyPluginVersion;
 
@@ -166,6 +174,32 @@ public class PipelineArtifactsMojo extends AbstractMojo {
         return config;
     }
 
+    /**
+     * Helper method to retrieve and validate the ModelInstanceRepository implementation class.
+     * 
+     * @param config
+     * @return {@link AissembleModelInstanceRepository} repository
+     * @throws ClassNotFoundException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws MojoExecutionException
+     */
+    protected AissembleModelInstanceRepository buildModelInstanceRepository(ModelRepositoryConfiguration config) 
+            throws ClassNotFoundException,InvocationTargetException, NoSuchMethodException, InstantiationException, 
+                    IllegalAccessException, MojoExecutionException {
+        logger.info("Loading metamodel repository implementation: {}", metadataRepositoryImpl);
+
+        Class<?> repoImplClass = Class.forName(metadataRepositoryImpl);
+        Class<?>[] constructorParamTypes = { ModelRepositoryConfiguration.class };
+        Constructor<?> constructor = repoImplClass.getConstructor(constructorParamTypes);
+        Object[] params = { config };
+        AissembleModelInstanceRepository repository = (AissembleModelInstanceRepository) constructor.newInstance(params);
+        ModelInstanceRepositoryManager.setRepository(repository);
+
+        return repository;
+    }
 
     /**
      * Reads in the MDA models and calls the appropriate helper function based on the implementation type
@@ -180,9 +214,14 @@ public class PipelineArtifactsMojo extends AbstractMojo {
         //caller helper function for setting up the config
         ModelRepositoryConfiguration config = setupConfig();
 
-        //Create a model repository from the config
-        AIOpsModelInstanceRepostory repository = new AIOpsModelInstanceRepostory(config);
-        ModelInstanceRepositoryManager.setRepository(repository);
+        AissembleModelInstanceRepository repository;
+        try {
+            //Create a model repository from the config
+            repository = buildModelInstanceRepository(config);
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
+                IllegalAccessException | InvocationTargetException e) {
+            throw new MojoExecutionException("Could not successfully load metamodel repository", e);
+        }
 
         //Load and validate the models
         repository.load();
@@ -651,5 +690,9 @@ public class PipelineArtifactsMojo extends AbstractMojo {
 
     public void setDataRecordModules(List<String> dataRecordModules) {
         this.dataRecordModules = dataRecordModules;
+    }
+
+    public void setMetadataRepositoryImpl(String metadataRepositoryImpl) {
+        this.metadataRepositoryImpl = metadataRepositoryImpl;
     }
 }

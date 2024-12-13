@@ -16,6 +16,7 @@ import java.util.Map;
 import org.technologybrewery.fermenter.mda.metamodel.AbstractMetamodelManager;
 
 import com.boozallen.aiops.mda.metamodel.element.Dictionary;
+import com.boozallen.aiops.mda.metamodel.element.DictionaryElement;
 import com.boozallen.aiops.mda.metamodel.element.DictionaryType;
 
 /**
@@ -49,8 +50,8 @@ class DictionaryModelInstanceManager extends AbstractMetamodelManager<Dictionary
     }
 
     @Override
-    protected Class<Dictionary> getMetamodelClass() {
-        return Dictionary.class;
+    protected Class<DictionaryElement> getMetamodelClass() {
+        return DictionaryElement.class;
     }
 
     @Override

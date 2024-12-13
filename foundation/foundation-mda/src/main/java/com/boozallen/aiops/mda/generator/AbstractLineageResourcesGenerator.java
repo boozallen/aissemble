@@ -13,7 +13,7 @@ package com.boozallen.aiops.mda.generator;
 import com.boozallen.aiops.mda.generator.common.PipelineEnum;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.BasePipelineDecorator;
 import com.boozallen.aiops.mda.metamodel.element.BaseStepDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
@@ -23,7 +23,6 @@ import org.apache.velocity.VelocityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 import org.apache.maven.model.Model;
 
 import java.nio.file.Paths;
@@ -47,8 +46,7 @@ public abstract class AbstractLineageResourcesGenerator extends AbstractResource
     @Override
     public void generate(GenerationContext generationContext) {
         VelocityContext vc = getNewVelocityContext(generationContext);
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
         List<Pipeline> pipelines = new ArrayList<>(pipelineMap.values());

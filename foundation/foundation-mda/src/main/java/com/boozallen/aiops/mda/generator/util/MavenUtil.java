@@ -129,8 +129,8 @@ public class MavenUtil {
             defaultModulePath = projectRoot.resolve(Path.of(defaultDataRecords));
         }
         Language defaultLanguage = getModuleLanguage(defaultModulePath.resolve("pom.xml"));
-        if (SemanticDataUtil.arePythonDataRecordsNeeded(metadataContext)
-                && SemanticDataUtil.areJavaDataRecordsNeeded(metadataContext)
+        if (SemanticDataUtil.arePythonDataRecordsNeeded(context, metadataContext)
+                && SemanticDataUtil.areJavaDataRecordsNeeded(context, metadataContext)
                 && !language.equals(defaultLanguage)) {
             return defaultDataRecords + "-" + language.getLanguageName();
         } else {

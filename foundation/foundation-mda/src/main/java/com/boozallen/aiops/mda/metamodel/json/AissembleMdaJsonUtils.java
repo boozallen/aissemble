@@ -70,9 +70,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 /**
  * Configures Json marshalling and unmarshalling to leverage metemodel classes.
  */
-public final class AiopsMdaJsonUtils {
+public final class AissembleMdaJsonUtils {
 
-    private AiopsMdaJsonUtils() {
+    private AissembleMdaJsonUtils() {
         // prevent local instantiation of all static class
     }
 

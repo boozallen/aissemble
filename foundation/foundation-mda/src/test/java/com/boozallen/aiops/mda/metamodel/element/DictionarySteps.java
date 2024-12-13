@@ -30,7 +30,7 @@ import org.technologybrewery.fermenter.mda.util.JsonUtils;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
 
 import com.boozallen.aiops.mda.metamodel.LoggerDelegateImpl;
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -48,7 +48,7 @@ public class DictionarySteps extends AbstractModelInstanceSteps {
 
     @Before("@dictionary")
     public void setUpObjectMapper() {
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
 
         MessageTracker messageTracker = MessageTracker.getInstance();
         messageTracker.clear();
@@ -390,7 +390,7 @@ public class DictionarySteps extends AbstractModelInstanceSteps {
     private void createDictionaryWithTypes(List<DictionaryTypeElement> dictionaryTypes) throws Exception {
         DictionaryElement newDictionary = new DictionaryElement();
         newDictionary.setPackage(BOOZ_ALLEN_PACKAGE);
-        String name = "test-" + RandomStringUtils.randomAlphabetic(5);
+        String name = "test-" + RandomStringUtils.insecure().nextAlphabetic(5);
         newDictionary.setName(name);
         for (DictionaryTypeElement dictionaryType : dictionaryTypes) {
             newDictionary.addDictionaryType(dictionaryType);
@@ -401,7 +401,7 @@ public class DictionarySteps extends AbstractModelInstanceSteps {
 
     private void createDictionaryWithMinAndMaxLengths(Integer minLength, Integer maxLength) throws Exception {
         DictionaryTypeElement lengthDictionaryTestType = new DictionaryTypeElement();
-        lengthDictionaryTestType.setName("length" + RandomStringUtils.randomAlphabetic(5));
+        lengthDictionaryTestType.setName("length" + RandomStringUtils.insecure().nextAlphabetic(5));
         lengthDictionaryTestType.setSimpleType("string");
 
         ValidationElement validation = new ValidationElement();
@@ -414,7 +414,7 @@ public class DictionarySteps extends AbstractModelInstanceSteps {
 
     private void createDictionaryWithMinAndMaxRange(String minValue, String maxValue) throws Exception {
         DictionaryTypeElement rangeDictionaryTestType = new DictionaryTypeElement();
-        rangeDictionaryTestType.setName("range" + RandomStringUtils.randomAlphabetic(5));
+        rangeDictionaryTestType.setName("range" + RandomStringUtils.insecure().nextAlphabetic(5));
         if (minValue.contains(".") || maxValue.contains(".")) {
             rangeDictionaryTestType.setSimpleType("decimal");
         } else {

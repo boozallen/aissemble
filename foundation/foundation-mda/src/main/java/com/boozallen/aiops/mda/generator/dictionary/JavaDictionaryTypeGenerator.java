@@ -12,10 +12,9 @@ package com.boozallen.aiops.mda.generator.dictionary;
 
 import java.util.Map;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import com.boozallen.aiops.mda.generator.AbstractJavaGenerator;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -41,8 +40,7 @@ public class JavaDictionaryTypeGenerator extends AbstractJavaGenerator {
     public void generate(GenerationContext generationContext) {
         VelocityContext vc = getNewVelocityContext(generationContext);
 
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Dictionary> dictionaryMap = metamodelRepository.getDictionariesByContext(metadataContext);
 

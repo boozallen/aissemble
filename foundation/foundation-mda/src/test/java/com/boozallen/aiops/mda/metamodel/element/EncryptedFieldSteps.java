@@ -10,7 +10,7 @@ package com.boozallen.aiops.mda.metamodel.element;
  * #L%
  */
 
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -32,7 +32,7 @@ public class EncryptedFieldSteps extends AbstractModelInstanceSteps {
 
     @Before("@encryptfield")
     public void setUpObjectMapper() throws Exception {
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
 
         MessageTracker messageTracker = MessageTracker.getInstance();
         messageTracker.clear();

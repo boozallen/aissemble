@@ -18,9 +18,11 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
 
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import com.google.common.collect.Maps;
 
 import io.cucumber.java.Before;
@@ -36,7 +38,7 @@ public class CompositeSteps extends AbstractModelInstanceSteps {
 
     @Before("@composite")
     public void setUpObjectMapper() throws Exception {
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
 
         MessageTracker messageTracker = MessageTracker.getInstance();
         messageTracker.clear();

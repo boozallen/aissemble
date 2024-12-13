@@ -28,7 +28,7 @@ public abstract class TargetedPipelinePyProjectGenerator extends AbstractPyProje
     public void doGenerateFile(GenerationContext generationContext, VelocityContext velocityContext) {
         Pipeline pipeline = PipelineUtils.getTargetedPipeline(generationContext, metadataContext);
         velocityContext.put(VelocityProperty.PIPELINE, new BasePipelineDecorator(pipeline));
-        velocityContext.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(metadataContext));
+        velocityContext.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(generationContext, metadataContext));
         doGenerateFile(generationContext, velocityContext, pipeline);
     }
 

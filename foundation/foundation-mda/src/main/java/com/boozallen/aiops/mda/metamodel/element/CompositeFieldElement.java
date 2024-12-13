@@ -10,7 +10,7 @@ package com.boozallen.aiops.mda.metamodel.element;
  * #L%
  */
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
@@ -25,8 +25,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "ethicsPolicy", "driftPolicy" })
 public class CompositeFieldElement extends AbstractFieldElement implements CompositeField {
 
-    private AIOpsModelInstanceRepostory modelRepository = ModelInstanceRepositoryManager
-            .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+    private AissembleModelInstanceRepository modelRepository = ModelInstanceRepositoryManager
+            .getMetamodelRepository(AissembleModelInstanceRepository.class);
 
     @JsonInclude(Include.NON_NULL)
     private String description;

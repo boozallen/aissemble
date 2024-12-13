@@ -14,7 +14,7 @@ import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineEnum;
 import com.boozallen.aiops.mda.generator.post.action.ModelConversionType;
 import com.boozallen.aiops.mda.generator.post.action.PostActionType;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.PostAction;
 import com.boozallen.aiops.mda.metamodel.element.Step;
@@ -22,7 +22,6 @@ import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationException;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +60,7 @@ public final class PipelineUtils {
         String targetPipelineName = generationPropertyVariables.get(TARGET_PIPELINE);
         assertTargetPipelineConfigurationFound(targetPipelineName);
 
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
         Pipeline targetPipeline = pipelineMap.get(targetPipelineName);
@@ -218,19 +216,20 @@ public final class PipelineUtils {
     /**
      * Returns the list of pipelines for the current metadata context.
      *
-     * @return the list of pipelines
+     * @param generationContext
      * @param metadataContext
+     * 
+     * @return the list of pipelines
      */
-    public static List<Pipeline> getPipelines(String metadataContext) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+    public static List<Pipeline> getPipelines(GenerationContext generationContext, String metadataContext) {
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
         return new ArrayList<>(pipelineMap.values());
     }
 
-    public static DataFlowStrategy getDataFlowPipelines(String metadataContext) {
-        return new DataFlowStrategy(getPipelines(metadataContext));
+    public static DataFlowStrategy getDataFlowPipelines(GenerationContext generationContext, String metadataContext) {
+        return new DataFlowStrategy(getPipelines(generationContext, metadataContext));
     }
 
     /**

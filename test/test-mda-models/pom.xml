@@ -44,7 +44,7 @@
                     <artifactId>fermenter-mda</artifactId>
                     <version>${version.fermenter}</version>
                     <configuration>
-                        <metadataRepositoryImpl>com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory
+                        <metadataRepositoryImpl>com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository
                         </metadataRepositoryImpl>
                     </configuration>
                     <executions>

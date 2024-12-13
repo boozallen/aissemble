@@ -24,7 +24,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
 
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import com.google.common.collect.Maps;
 
 import io.cucumber.java.Before;
@@ -40,7 +40,7 @@ public class RecordSteps extends AbstractModelInstanceSteps {
 
     @Before("@record")
     public void setUpObjectMapper() throws Exception {
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
 
         MessageTracker messageTracker = MessageTracker.getInstance();
         messageTracker.clear();
@@ -181,7 +181,7 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         CompositeElement composite = new CompositeElement();
         composite.setName(compositeName);
         composite.setPackage(BOOZ_ALLEN_PACKAGE);
-        for (int i = 0; i < RandomUtils.nextInt(2, 5); i++) {
+        for (int i = 0; i < RandomUtils.insecure().randomInt(2, 5); i++) {
             CompositeFieldElement field = new CompositeFieldElement();
             field.setName("field" + i);
             DictionaryTypeElement type = new DictionaryTypeElement();

@@ -42,7 +42,7 @@ public abstract class DataRecordsPomGenerator extends AbstractMavenModuleGenerat
         vc.put(VelocityProperty.PYTHON_DATA_RECORDS, getPythonDataRecordModule(context, DataRecordModule.CORE));
         populateVelocityContext(context, vc);
 
-        if (shouldGenerate()) {
+        if (shouldGenerate(context)) {
             generateFile(context, vc);
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, artifactId, "shared");
         }
@@ -51,9 +51,10 @@ public abstract class DataRecordsPomGenerator extends AbstractMavenModuleGenerat
     /**
      * Controls whether the POM file is generated.
      *
+     * @param context the generation context
      * @return whether the POM file should be generated
      */
-    protected abstract boolean shouldGenerate();
+    protected abstract boolean shouldGenerate(GenerationContext context);
 
     /**
      * Populates the specified {@code vc} with attributes that are specific to the module being generated.

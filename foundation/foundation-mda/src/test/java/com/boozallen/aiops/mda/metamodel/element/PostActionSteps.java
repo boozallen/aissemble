@@ -22,7 +22,7 @@ import org.technologybrewery.fermenter.mda.util.JsonUtils;
 
 import com.boozallen.aiops.mda.generator.post.action.PostActionType;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -41,7 +41,7 @@ public class PostActionSteps extends AbstractModelInstanceSteps {
 
     @Before("@postAction")
     public void setUp() {
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
     }
 
     @After("@postAction")
@@ -69,7 +69,7 @@ public class PostActionSteps extends AbstractModelInstanceSteps {
     public void an_otherwise_valid_pipeline_with_a_step_containing_a_model_conversion_post_action_with_model_source_and_model_target(
             String modelSource, String modelTarget) throws Exception {
         PostActionElement postAction = new PostActionElement();
-        postAction.setName(RandomStringUtils.randomAlphabetic(8));
+        postAction.setName(RandomStringUtils.insecure().nextAlphabetic(8));
         postAction.setType(PostActionType.MODEL_CONVERSION.getValue());
         if (StringUtils.isNotBlank(modelSource)) {
             postAction.setModelSource(modelSource);
