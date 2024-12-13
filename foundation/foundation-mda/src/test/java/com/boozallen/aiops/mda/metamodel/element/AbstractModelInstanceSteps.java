@@ -24,8 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
+
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;
@@ -61,7 +62,7 @@ public abstract class AbstractModelInstanceSteps {
     protected File pipelinesDirectory = new File(GENERATED_METADATA_DIRECTORY, "pipelines");
 
     protected ObjectMapper objectMapper = new ObjectMapper();
-    protected AIOpsModelInstanceRepostory metadataRepo;
+    protected AissembleModelInstanceRepository metadataRepo;
     protected Path projectDir;
     protected String projectName;
     protected PipelineElement pipeline;
@@ -93,7 +94,7 @@ public abstract class AbstractModelInstanceSteps {
         List<String> targetedInstances = config.getTargetModelInstances();
         targetedInstances.add(artifactId);
 
-        metadataRepo = new AIOpsModelInstanceRepostory(config);
+        metadataRepo = new AissembleModelInstanceRepository(config);
         ModelInstanceRepositoryManager.setRepository(metadataRepo);
         metadataRepo.load();
         metadataRepo.validate();
@@ -153,6 +154,14 @@ public abstract class AbstractModelInstanceSteps {
         saveDictionaryToFile(dictionary);
     }
 
+    protected DictionaryTypeElement createDictionaryType(String name, String type) {
+        DictionaryTypeElement protectionPolicyDictionaryTestType = new DictionaryTypeElement();
+        protectionPolicyDictionaryTestType.setName(name);
+        protectionPolicyDictionaryTestType.setSimpleType(type);
+
+        return protectionPolicyDictionaryTestType;
+    }
+
     protected void createSampleDictionary(List<DictionaryTypeElement> dictionaryTypes) throws Exception {
         DictionaryElement dictionary = new DictionaryElement();
         dictionary.setName("TestDictionaryWithTypeList");
@@ -164,12 +173,29 @@ public abstract class AbstractModelInstanceSteps {
         saveDictionaryToFile(dictionary);
     }
 
-    protected DictionaryTypeElement createDictionaryType(String name, String type) {
-        DictionaryTypeElement protectionPolicyDictionaryTestType = new DictionaryTypeElement();
-        protectionPolicyDictionaryTestType.setName(name);
-        protectionPolicyDictionaryTestType.setSimpleType(type);
 
-        return protectionPolicyDictionaryTestType;
+    protected void createSampleRecord(List<RecordFieldElement> fieldElements) {
+        RecordElement record = new RecordElement();
+        record.setName("TestRecordWithFieldList");
+        record.setPackage(BOOZ_ALLEN_PACKAGE);
+
+        for(RecordFieldElement fieldElement: fieldElements) {
+            record.addField(fieldElement);
+        }
+
+        saveRecordToFile(record);
+    }
+
+    protected void createSampleComposite(List<CompositeFieldElement> fieldElements) {
+        CompositeElement composite = new CompositeElement();
+        composite.setName("TestCompositeWithFieldList");
+        composite.setPackage(BOOZ_ALLEN_PACKAGE);
+
+        for(CompositeFieldElement fieldElement: fieldElements) {
+            composite.addField(fieldElement);
+        }
+
+        saveCompositeToFile(composite);
     }
 
     protected void saveCompositeToFile(CompositeElement newComposite) {
@@ -208,6 +234,7 @@ public abstract class AbstractModelInstanceSteps {
         engine.setProperty("resource.loader.class.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         engine.init();
         GenerationContext context = new GenerationContext(target);
+        context.setModelInstanceRepository(metadataRepo);
         context.setBasePackage(BOOZ_ALLEN_PACKAGE);
         context.setProjectDirectory(projectDir.toFile());
         context.setGeneratedSourceDirectory(projectDir.resolve("generated").toFile());

@@ -15,12 +15,11 @@ import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.util.PythonGeneratorUtils;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil.DataRecordModule;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.BasePipelineDecorator;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.Map;
 
@@ -42,8 +41,7 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
      */
     @Override
     public void generate(GenerationContext context) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
 
@@ -83,7 +81,7 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
             vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, pipelineDecorator.isRdbmsSupportNeeded());
             vc.put(VelocityProperty.ENABLE_ELASTICSEARCH_SUPPORT, enableElasticsearchSupport);
             vc.put(VelocityProperty.ENABLE_NEO4J_SUPPORT, enableNeo4jSupport);
-            vc.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(metadataContext));
+            vc.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(context, metadataContext));
             vc.put(VelocityProperty.PROJECT_NAME, context.getRootArtifactId());
             vc.put(VelocityProperty.JAVA_DATA_RECORDS, getJavaDataRecordModule(context, DataRecordModule.COMBINED));
             vc.put(VelocityProperty.PYTHON_DATA_RECORDS, getPythonDataRecordModule(context, DataRecordModule.COMBINED));

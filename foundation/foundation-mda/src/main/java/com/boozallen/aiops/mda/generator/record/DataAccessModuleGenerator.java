@@ -12,10 +12,9 @@ package com.boozallen.aiops.mda.generator.record;
 
 import java.util.Map;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import com.boozallen.aiops.mda.generator.AbstractMavenModuleGenerator;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -41,7 +40,7 @@ public class DataAccessModuleGenerator extends AbstractMavenModuleGenerator {
      */
     @Override
     public void generate(GenerationContext context) {
-        if (shouldGenerateModule()) {
+        if (shouldGenerateModule(context)) {
             VelocityContext vc = getNewVelocityContext(context);
 
             String rootArtifactId = context.getRootArtifactId();
@@ -77,11 +76,10 @@ public class DataAccessModuleGenerator extends AbstractMavenModuleGenerator {
         return parentArtifactId.replace("pipelines", APP_NAME);
     }
 
-    private boolean shouldGenerateModule() {
+    private boolean shouldGenerateModule(GenerationContext context) {
         boolean shouldGenerateModule = false;
 
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Record> recordMap = metamodelRepository.getRecordsByContext(metadataContext);
         if (!recordMap.isEmpty()) {

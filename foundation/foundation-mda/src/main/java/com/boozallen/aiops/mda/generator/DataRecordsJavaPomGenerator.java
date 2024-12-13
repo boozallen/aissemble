@@ -30,8 +30,8 @@ public class DataRecordsJavaPomGenerator extends DataRecordsPomGenerator {
 
 
     @Override
-    protected boolean shouldGenerate() {
-        return SemanticDataUtil.areJavaDataRecordsNeeded(metadataContext);
+    protected boolean shouldGenerate(GenerationContext generationContext) {
+        return SemanticDataUtil.areJavaDataRecordsNeeded(generationContext, metadataContext);
     }
 
     @Override

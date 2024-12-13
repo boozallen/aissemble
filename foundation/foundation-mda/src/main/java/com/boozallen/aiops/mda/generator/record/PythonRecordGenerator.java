@@ -13,14 +13,13 @@ package com.boozallen.aiops.mda.generator.record;
 import com.boozallen.aiops.mda.generator.AbstractPythonGenerator;
 import com.boozallen.aiops.mda.generator.common.FrameworkEnum;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Framework;
 import com.boozallen.aiops.mda.metamodel.element.Record;
 import com.boozallen.aiops.mda.metamodel.element.pyspark.PySparkRecord;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonRecord;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.Map;
 import java.util.Optional;
@@ -46,8 +45,7 @@ public class PythonRecordGenerator extends AbstractPythonGenerator {
     public void generate(GenerationContext generationContext) {
         VelocityContext vc = getNewVelocityContext(generationContext);
 
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Record> recordMap = metamodelRepository.getRecordsByContext(metadataContext);
 

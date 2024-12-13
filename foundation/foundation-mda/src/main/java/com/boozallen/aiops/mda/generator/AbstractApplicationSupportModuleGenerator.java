@@ -11,7 +11,7 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
@@ -50,8 +50,8 @@ public abstract class AbstractApplicationSupportModuleGenerator extends Abstract
      * @return
      */
     protected boolean isDataProfilingEnabled() {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = ModelInstanceRepositoryManager
+                .getMetamodelRepository(AissembleModelInstanceRepository.class);
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
         return Pipeline.aPipelineExistsWhere(pipelineMap.values(), Pipeline::isDataProfilingEnabled);

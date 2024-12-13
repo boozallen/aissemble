@@ -10,10 +10,11 @@ package com.boozallen.aiops.mda.generator.util;
  * #L%
  */
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Dictionary;
 import com.boozallen.aiops.mda.metamodel.element.Record;
 import org.apache.commons.collections4.MapUtils;
+import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.Map;
@@ -27,12 +28,12 @@ public class SemanticDataUtil {
     /**
      * Returns true if the specified {@code context} has any semantic data, including Dictionary and Record metamodels.
      *
+     * @param generationContext the current generation context
      * @param metadataContext the current generation metadata context
      * @return whether semantic data is present
      */
-    public static boolean hasSemanticDataByContext(String metadataContext) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+    public static boolean hasSemanticDataByContext(GenerationContext generationContext, String metadataContext) {
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Dictionary> dictionaryMap = metamodelRepository.getDictionariesByContext(metadataContext);
         Map<String, Record> recordMap = metamodelRepository.getRecordsByContext(metadataContext);
@@ -46,22 +47,23 @@ public class SemanticDataUtil {
      * @return whether semantic data is present
      */
     public static boolean hasSemanticDataByArtifactId(String artifactId) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        // Must use ModelInstanceRepositoryManager as this method does not have access to the GenerationContext
+        AissembleModelInstanceRepository metamodelRepository = ModelInstanceRepositoryManager
+            .getMetamodelRepository(AissembleModelInstanceRepository.class);
 
         Map<String, Dictionary> dictionaryMap = metamodelRepository.getDictionariesByArtifactId(artifactId);
         Map<String, Record> recordMap = metamodelRepository.getRecordsByArtifactId(artifactId);
         return !MapUtils.isEmpty(dictionaryMap) || !MapUtils.isEmpty(recordMap);
     }
 
-    public static boolean arePythonDataRecordsNeeded(String metadataContext) {
-        return hasSemanticDataByContext(metadataContext)
-                && PipelineUtils.getDataFlowPipelines(metadataContext).hasPySparkPipelines();
+    public static boolean arePythonDataRecordsNeeded(GenerationContext generationContext, String metadataContext) {
+        return hasSemanticDataByContext(generationContext, metadataContext)
+                && PipelineUtils.getDataFlowPipelines(generationContext, metadataContext).hasPySparkPipelines();
     }
 
-    public static boolean areJavaDataRecordsNeeded(String metadataContext) {
-        return hasSemanticDataByContext(metadataContext)
-                && PipelineUtils.getDataFlowPipelines(metadataContext).hasSparkPipelines();
+    public static boolean areJavaDataRecordsNeeded(GenerationContext generationContext, String metadataContext) {
+        return hasSemanticDataByContext(generationContext, metadataContext)
+                && PipelineUtils.getDataFlowPipelines(generationContext, metadataContext).hasSparkPipelines();
     }
 
     public enum DataRecordModule {

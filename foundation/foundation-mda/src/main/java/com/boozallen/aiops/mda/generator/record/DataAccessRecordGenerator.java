@@ -1,5 +1,7 @@
 package com.boozallen.aiops.mda.generator.record;
 
+import org.technologybrewery.fermenter.mda.generator.GenerationContext;
+
 /*-
  * #%L
  * AIOps Foundation::AIOps MDA
@@ -29,7 +31,7 @@ public class DataAccessRecordGenerator extends JavaRecordGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected boolean shouldGenerateFile(Record currentRecord) {
+    protected boolean shouldGenerateFile(GenerationContext generationContext, Record currentRecord) {
         return currentRecord.getDataAccess() == null || currentRecord.getDataAccess().isEnabled();
     }
 }

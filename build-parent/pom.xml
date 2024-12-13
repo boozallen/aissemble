@@ -32,7 +32,7 @@
         <version.buildhelper.plugin>3.6.0</version.buildhelper.plugin>
         <version.buildnumber.plugin>3.2.1</version.buildnumber.plugin>
         <version.failsafe.plugin>${version.maven.surefire.plugin}</version.failsafe.plugin>
-        <version.fermenter>2.10.3</version.fermenter>
+        <version.fermenter>2.10.5</version.fermenter>
         <version.fermenter.legacy.tools>2.8.0</version.fermenter.legacy.tools>
         <version.habushu.plugin>2.17.0</version.habushu.plugin>
         <version.python>3.11.4</version.python>
@@ -386,7 +386,7 @@
                     <artifactId>fermenter-mda</artifactId>
                     <version>${version.fermenter}</version>
                     <configuration>
-                        <metadataRepositoryImpl>com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory
+                        <metadataRepositoryImpl>com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository
                         </metadataRepositoryImpl>
                     </configuration>
                     <executions>

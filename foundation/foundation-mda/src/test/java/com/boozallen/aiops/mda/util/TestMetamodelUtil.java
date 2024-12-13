@@ -29,8 +29,8 @@ public class TestMetamodelUtil {
      */
     public static StepElement getRandomStep() {
         StepElement step = new StepElement();
-        step.setName(RandomStringUtils.randomAlphabetic(10));
-        step.setType(RandomStringUtils.randomAlphabetic(5));
+        step.setName(RandomStringUtils.insecure().nextAlphabetic(10));
+        step.setType(RandomStringUtils.insecure().nextAlphabetic(5));
         return step;
     }
 

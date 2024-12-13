@@ -16,11 +16,10 @@ import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import com.boozallen.aiops.mda.generator.AbstractJavaGenerator;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Record;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaRecord;
 
@@ -42,8 +41,7 @@ public class DataAccessJavaGenerator extends AbstractJavaGenerator {
      */
     @Override
     public void generate(GenerationContext context) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Record> recordMap = metamodelRepository.getRecordsByContext(metadataContext);
         List<JavaRecord> dataAccessEnabledRecords = getDataAccessEnabledRecords(recordMap);

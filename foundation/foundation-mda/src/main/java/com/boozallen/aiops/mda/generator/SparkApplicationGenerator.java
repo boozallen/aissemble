@@ -16,7 +16,7 @@ import com.boozallen.aiops.mda.generator.common.SparkStorageEnum;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.config.deployment.spark.SparkDependencyConfiguration;
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaPipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonPipeline;
@@ -24,7 +24,6 @@ import com.boozallen.aiops.mda.metamodel.element.BaseFileStoreDecorator;
 import com.boozallen.aiops.mda.metamodel.element.FileStore;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,8 +75,7 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
 
     @Override
     public void generate(GenerationContext context) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         VelocityContext vc = getNewVelocityContext(context);
         Pipeline pipeline = PipelineUtils.getTargetedPipeline(context, metadataContext);

@@ -14,7 +14,7 @@ import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineContext;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -68,7 +68,7 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
 
     @Before("@pipeline")
     public void setUp() {
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
         testStep = new StepElement();
     }
 
@@ -432,7 +432,7 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
         int numberOfPlatforms = new Random().nextInt(5) + 1;
         for (int i = 0; i < numberOfPlatforms; i++) {
             PlatformElement platform = new PlatformElement();
-            platform.setName(RandomStringUtils.randomAlphabetic(5));
+            platform.setName(RandomStringUtils.insecure().nextAlphabetic(5));
             testPlatforms.add(platform);
         }
 
@@ -909,10 +909,10 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
             outbound.setChannelType("queue");
             step.setOutbound(outbound);
 
-            for (int j = 0; j < RandomUtils.nextInt(0, 4); j++) {
+            for (int j = 0; j < RandomUtils.insecure().randomInt(0, 4); j++) {
                 ConfigurationItemElement configurationItem = new ConfigurationItemElement();
-                configurationItem.setKey(RandomStringUtils.randomAlphanumeric(3));
-                configurationItem.setValue(RandomStringUtils.randomAlphanumeric(10));
+                configurationItem.setKey(RandomStringUtils.insecure().nextAlphanumeric(3));
+                configurationItem.setValue(RandomStringUtils.insecure().nextAlphanumeric(10));
                 step.addConfigurationItem(configurationItem);
             }
 

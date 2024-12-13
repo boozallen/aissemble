@@ -12,10 +12,9 @@ package com.boozallen.aiops.mda.generator;
 
 import com.boozallen.aiops.mda.generator.common.SparkStorageEnum;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 public class SparkInfrastructureGenerator extends KubernetesGenerator {
     /*--~-~-~~
@@ -31,8 +30,7 @@ public class SparkInfrastructureGenerator extends KubernetesGenerator {
     public void generate(GenerationContext context) {
         VelocityContext vc = super.configureWithoutGeneration(context);
 
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         if (metamodelRepository.getDeploymentConfigurationManager().getSparkDeploymentConfiguration().getStorageType() == SparkStorageEnum.S3LOCAL) {
             vc.put(VelocityProperty.USE_S3_LOCAL, true);

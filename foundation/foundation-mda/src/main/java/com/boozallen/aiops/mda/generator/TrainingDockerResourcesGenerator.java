@@ -11,7 +11,7 @@ package com.boozallen.aiops.mda.generator;
  */
 
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 import org.slf4j.Logger;
@@ -23,7 +23,6 @@ import com.boozallen.aiops.mda.generator.util.PythonGeneratorUtils;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineStepPair;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +60,7 @@ public class TrainingDockerResourcesGenerator extends AbstractResourcesGenerator
             vc.put(VelocityProperty.TRAINING_MODULE, trainingModule);
             vc.put(VelocityProperty.TRAINING_MODULE_SNAKE_CASE, PythonGeneratorUtils.normalizeToPythonCase(trainingModule));
 
-            AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+            AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
             Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
             List<Pipeline> pipelines = new ArrayList<>(pipelineMap.values());

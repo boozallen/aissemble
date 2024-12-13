@@ -14,11 +14,10 @@ import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.util.SemanticDataUtil;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +41,7 @@ public class SparkDockerPomGenerator extends AbstractMavenModuleGenerator {
      */
     @Override
     public void generate(GenerationContext context) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
 
@@ -85,7 +83,7 @@ public class SparkDockerPomGenerator extends AbstractMavenModuleGenerator {
             vc.put(VelocityProperty.ENABLE_RDBMS_SUPPORT, postgresSupportIsNeeded);
 
             vc.put(VelocityProperty.ENABLE_SEDONA_SUPPORT, dataFlowStrategy.isSedonaSupportNeeded());
-            vc.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(metadataContext));
+            vc.put(VelocityProperty.ENABLE_SEMANTIC_DATA_SUPPORT, SemanticDataUtil.hasSemanticDataByContext(context, metadataContext));
 
             fileName = replace(VelocityProperty.MODULE_ARTIFACT_ID, basefileName, sparkDockerArtifactId);
             context.setOutputFile(fileName);

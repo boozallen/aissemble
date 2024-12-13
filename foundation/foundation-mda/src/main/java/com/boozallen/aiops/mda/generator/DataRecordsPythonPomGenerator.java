@@ -32,8 +32,8 @@ public class DataRecordsPythonPomGenerator extends DataRecordsPomGenerator {
 
 
     @Override
-    protected boolean shouldGenerate() {
-        return SemanticDataUtil.arePythonDataRecordsNeeded(metadataContext);
+    protected boolean shouldGenerate(GenerationContext generationContext) {
+        return SemanticDataUtil.arePythonDataRecordsNeeded(generationContext, metadataContext);
     }
 
     @Override

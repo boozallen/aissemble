@@ -14,13 +14,12 @@ import com.boozallen.aiops.mda.generator.common.PipelineContext;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineStepPair;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonPipeline;
 import com.boozallen.aiops.mda.metamodel.element.python.PythonStep;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +42,7 @@ public class MachineLearningDagGenerator extends AbstractPythonGenerator {
 	 */
 	@Override
 	public void generate(GenerationContext generationContext) {
-		 AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-	                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+		 AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
 		Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
 

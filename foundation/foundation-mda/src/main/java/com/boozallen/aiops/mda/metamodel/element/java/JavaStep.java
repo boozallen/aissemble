@@ -11,7 +11,7 @@ package com.boozallen.aiops.mda.metamodel.element.java;
  */
 
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.*;
 import com.boozallen.aiops.mda.metamodel.element.Record;
 import com.boozallen.aiops.mda.metamodel.element.util.JavaElementUtils;
@@ -43,7 +43,8 @@ public class JavaStep extends BaseStepDecorator {
      */
     private static final String IO_SMALLRYE_MUTINY_UNI = "io.smallrye.mutiny.Uni";
     private Set<String> imports = new TreeSet<>();
-    private AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager.getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+    private AissembleModelInstanceRepository metamodelRepository = ModelInstanceRepositoryManager
+            .getMetamodelRepository(AissembleModelInstanceRepository.class);
 
     /**
      * {@inheritDoc}

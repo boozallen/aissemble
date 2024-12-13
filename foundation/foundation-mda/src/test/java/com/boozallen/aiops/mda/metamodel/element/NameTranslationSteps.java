@@ -12,7 +12,7 @@ package com.boozallen.aiops.mda.metamodel.element;
 
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -38,7 +38,7 @@ public class NameTranslationSteps {
 
 	@Before("@nametranslation")
 	public void setUp() {
-		AiopsMdaJsonUtils.configureCustomObjectMappper();
+		AissembleMdaJsonUtils.configureCustomObjectMappper();
 		testStep = new StepElement();
 	}
 

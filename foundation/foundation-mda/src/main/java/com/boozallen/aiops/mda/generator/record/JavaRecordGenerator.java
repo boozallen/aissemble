@@ -12,10 +12,9 @@ package com.boozallen.aiops.mda.generator.record;
 
 import java.util.Map;
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 
 import com.boozallen.aiops.mda.generator.AbstractJavaGenerator;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -41,15 +40,14 @@ public class JavaRecordGenerator extends AbstractJavaGenerator {
     public void generate(GenerationContext generationContext) {
         VelocityContext vc = getNewVelocityContext(generationContext);
 
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) generationContext.getModelInstanceRepository();
 
         Map<String, Record> recordMap = metamodelRepository.getRecordsByContext(metadataContext);
 
         String baseOutputFile = generationContext.getOutputFile();
 
         for (Record currentRecord : recordMap.values()) {
-            if (shouldGenerateFile(currentRecord)) {
+            if (shouldGenerateFile(generationContext, currentRecord)) {
                 JavaRecord javaRecord = getJavaRecord(currentRecord);
                 vc.put(VelocityProperty.BASE_PACKAGE, javaRecord.getPackage());
                 vc.put(VelocityProperty.RECORD, javaRecord);
@@ -75,11 +73,13 @@ public class JavaRecordGenerator extends AbstractJavaGenerator {
     /**
      * Whether the file should be generated for a record.
      * 
+     * @param context
+     *            the current generation context
      * @param currentRecord
      *            the record to check
      * @return true if the file should be generated for a record
      */
-    protected boolean shouldGenerateFile(Record currentRecord) {
+    protected boolean shouldGenerateFile(GenerationContext context, Record currentRecord) {
         return true;
     }
 

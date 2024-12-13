@@ -6,7 +6,11 @@ Data access through [GraphQL](https://graphql.org/) has been deprecated and repl
 # Breaking Changes
 _Note: instructions for adapting to these changes are outlined in the upgrade instructions below._
 
- - _There are no breaking changes in teh 1.11 release._
+ - The following Java classes have been renamed:
+   | Old Java Class                | New Java Class                     |
+   |-------------------------------|------------------------------------|
+   | `AIOpsModelInstanceRepostory` | `AissembleModelInstanceRepository` |
+   | `AiopsMdaJsonUtils`           | `AissembleMdaJsonUtils`            |
 
 # Known Issues
 _There are no known issues with the 1.11 release._

@@ -10,14 +10,15 @@ package com.boozallen.aiops.mda.generator.record;
  * #L%
  */
 
-import com.boozallen.aiops.mda.metamodel.AIOpsModelInstanceRepostory;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.Record;
 import com.boozallen.aiops.mda.metamodel.element.StepDataRecordType;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaPipeline;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaStep;
 import com.boozallen.aiops.mda.metamodel.element.java.JavaStepDataBinding;
-import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
+
+import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
 import java.util.Map;
 
@@ -37,9 +38,8 @@ public class JavaRecordSerializationGenerator extends JavaRecordGenerator {
      */
 
     @Override
-    protected boolean shouldGenerateFile(Record currentRecord) {
-        AIOpsModelInstanceRepostory metamodelRepository = ModelInstanceRepositoryManager
-                .getMetamodelRepository(AIOpsModelInstanceRepostory.class);
+    protected boolean shouldGenerateFile(GenerationContext context, Record currentRecord) {
+        AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
         return pipelineMap.values().stream()

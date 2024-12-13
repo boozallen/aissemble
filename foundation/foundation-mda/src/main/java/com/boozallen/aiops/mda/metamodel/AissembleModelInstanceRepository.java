@@ -31,14 +31,14 @@ import com.boozallen.aiops.mda.metamodel.element.Dictionary;
 import com.boozallen.aiops.mda.metamodel.element.DictionaryType;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import com.boozallen.aiops.mda.metamodel.element.Record;
-import com.boozallen.aiops.mda.metamodel.json.AiopsMdaJsonUtils;
+import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 
 /**
  * Loads the AIOps metamodel constructs that will later be used for code generation.
  */
-public class AIOpsModelInstanceRepostory extends AbstractModelInstanceRepository {
+public class AissembleModelInstanceRepository extends AbstractModelInstanceRepository {
     private static final String DEPLOYMENT_CONFIG_FILE_NAME = "deployment-config.json";
-    private static final Logger logger = LoggerFactory.getLogger(AIOpsModelInstanceRepostory.class);
+    private static final Logger logger = LoggerFactory.getLogger(AissembleModelInstanceRepository.class);
 
     private DictionaryModelInstanceManager dictionaryManager = DictionaryModelInstanceManager.getInstance();
     private CompositeModelInstanceManager compositeManager = CompositeModelInstanceManager.getInstance();
@@ -49,9 +49,9 @@ public class AIOpsModelInstanceRepostory extends AbstractModelInstanceRepository
     /**
      * {@inheritDoc}
      */
-    public AIOpsModelInstanceRepostory(ModelRepositoryConfiguration config) {
+    public AissembleModelInstanceRepository(ModelRepositoryConfiguration config) {
         super(config);
-        AiopsMdaJsonUtils.configureCustomObjectMappper();
+        AissembleMdaJsonUtils.configureCustomObjectMappper();
     }
 
     /**
