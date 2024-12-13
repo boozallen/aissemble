@@ -63,9 +63,7 @@ service:
 
 # hive-metastore-service Config Map
 configMap:
-  metadata:
-    labels:
-      configStore: enabled
+  configStore: enabled
   metastoreServiceConfig:
     baseProperties:
       - name: metastore.thrift.uris
