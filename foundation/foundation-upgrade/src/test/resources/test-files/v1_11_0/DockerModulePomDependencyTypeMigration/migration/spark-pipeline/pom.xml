@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Upgrade
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>${groupId}</groupId>
-        <artifactId>${parentArtifactId}</artifactId>
-        <version>${version}</version>
+        <groupId>org.test</groupId>
+        <artifactId>test-docker</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>test-spark-worker-docker</artifactId>
 
     <packaging>docker-build</packaging>
 
-    <name>${parentDescriptiveName}::Spark</name>
+    <name>Test 421::Docker::Spark</name>
     <description>Build for a Spark Docker container which contains all pipelines</description>
     <modelVersion>4.0.0</modelVersion>
 
@@ -62,8 +72,8 @@
                 </executions>
                 <configuration>
                     <groupId>${project.groupId}</groupId>
-                    <modelsArtifactId>${rootArtifactId}-pipeline-models</modelsArtifactId>
-                    <pipelinesDirectory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/</pipelinesDirectory>
+                    <modelsArtifactId>test-pipeline-models</modelsArtifactId>
+                    <pipelinesDirectory>${project.parent.parent.basedir}/test-pipelines/</pipelinesDirectory>
                     <outputDirectory>${project.build.directory}/dockerbuild/</outputDirectory>
                     <habushuArtifactVersion>${version.habushu.dist.artifact}</habushuArtifactVersion>
                     <targetPipelineTypes>
@@ -73,7 +83,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>${project.groupId}</groupId>
-                        <artifactId>${rootArtifactId}-pipeline-models</artifactId>
+                        <artifactId>test-pipeline-models</artifactId>
                         <version>${project.version}</version>
                     </dependency>
                 </dependencies>
@@ -85,21 +95,12 @@
         </plugins>
     </build>
     <dependencies>
-    #foreach($pipeline in $sparkPipelines)
         <dependency>
-            <groupId>#[[${project.groupId}]]#</groupId>
-            <artifactId>${pipeline}</artifactId>
-            <version>#[[${project.version}]]#</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>spark-pipeline</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
         </dependency>
-    #end
-    #foreach($pipeline in $pysparkPipelines)
-        <dependency>
-            <groupId>#[[${project.groupId}]]#</groupId>
-            <artifactId>${pipeline}</artifactId>
-            <version>#[[${project.version}]]#</version>
-            <type>habushu</type>
-        </dependency>
-    #end
     </dependencies>
 </project>
 

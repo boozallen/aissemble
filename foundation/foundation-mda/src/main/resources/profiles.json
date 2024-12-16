@@ -2439,14 +2439,6 @@
 		]
 	},
 	{
-		"name": "aissemble-spark-worker-deploy",
-		"targetReferences": [
-			{
-				"name": "sparkWorkerJobFile"
-			}
-		]
-	},
-	{
 		"name": "aissemble-data-lineage-custom-consumer-module",
 		"targetReferences": [
 			{

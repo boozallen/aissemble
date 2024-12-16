@@ -34,12 +34,6 @@ public class DataAccessDockerModuleGenerator extends DataAccessModuleGenerator {
     @Override
     protected void addBuildNotices(GenerationContext context, String moduleArtifactId, String appName) {
         manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, moduleArtifactId, "docker");
-        DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                .setContext(context)
-                .setAppName(appName)
-                .setDockerApplicationArtifactId(moduleArtifactId)
-                .setDockerArtifactId(context.getArtifactId()).build();
-        manualActionNotificationService.addDockerBuildTiltFileMessage(params);
         manualActionNotificationService.addDeployPomMessage(context, appName + "-deploy-v2", appName);
     }
 

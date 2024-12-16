@@ -1726,14 +1726,6 @@
     "overwritable": false
   },
   {
-    "name": "sparkWorkerJobFile",
-    "templateName": "templates/deployment/spark-worker-image/spark-worker-image.yaml.vm",
-    "outputFile": "apps/${appName}/spark-worker-image.yaml",
-    "generator": "com.boozallen.aiops.mda.generator.NonHelmKubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
     "name": "sparkInfrastructureValuesFile",
     "templateName": "templates/deployment/spark-infrastructure/spark.infrastructure.values.yaml.vm",
     "outputFile": "apps/${appName}/values.yaml",

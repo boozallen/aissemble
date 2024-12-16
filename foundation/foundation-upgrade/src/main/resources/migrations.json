@@ -13,6 +13,36 @@
             ]
           }
         ]
+      },
+      {
+        "name": "enable-maven-docker-build-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_11_0.EnableMavenDockerBuildMigration",
+        "fileSets": [
+          {
+            "includes": ["*-docker/pom.xml"]
+          }
+        ]
+      },
+      {
+        "name": "docker-module-pom-dependency-type-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_11_0.DockerModulePomDependencyTypeMigration",
+        "fileSets": [
+          {
+            "includes": ["*-docker/pom.xml"]
+          }
+        ]
+      },
+      {
+        "name": "spark-worker-docker-image-tag-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_11_0.SparkWorkerDockerImageTagMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-pipelines/*/src/*/resources/apps/*-values.yaml",
+              "*-pipelines/*/src/main/resources/apps/*-values.yaml"
+            ]
+          }
+        ]
       }
     ]
   },

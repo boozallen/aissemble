@@ -15,10 +15,3 @@ Feature: Generating deployments
     Then the user is notified to add the hive metastore service deployment to tilt
     And the user is notified to add the hive metastore db deployment to tilt
     And the tilt deployment for hive metastore service depends on hive metastore db
-
-  @manual
-  Scenario: The spark worker docker image is managed by tilt
-    Given a pipeline that is deployed through spark operator
-    When the MDA generation is run
-    Then the user is notified to add a spark worker image deployment to tilt
-    And the tilt deployment will handle building and reloading the spark worker image

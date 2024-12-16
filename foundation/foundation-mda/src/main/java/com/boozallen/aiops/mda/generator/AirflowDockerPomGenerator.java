@@ -87,13 +87,6 @@ public class AirflowDockerPomGenerator extends AbstractMavenModuleGenerator {
             generateFile(context, vc);
 
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, airflowDockerArtifactId, "docker");
-            DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                    .setContext(context)
-                    .setAppName("airflow")
-                    .setDockerApplicationArtifactId(airflowDockerArtifactId)
-                    .setDockerArtifactId(context.getArtifactId())
-                    .setIncludeLatestTag(true).build();
-            manualActionNotificationService.addDockerBuildTiltFileMessage(params);
             manualActionNotificationService.addDeployPomMessage(context,"airflow-deploy-v2", "airflow");
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-shared-infrastructure-deploy", "shared-infrastructure");
         }

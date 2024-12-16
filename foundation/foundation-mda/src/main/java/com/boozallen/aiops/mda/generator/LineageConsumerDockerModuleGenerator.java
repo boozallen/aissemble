@@ -44,14 +44,6 @@ public class LineageConsumerDockerModuleGenerator extends AbstractMavenModuleGen
         generateFile(context, vc);
         final String appName = "lineage-custom-consumer";
         manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, artifactId, "docker");
-        DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                .setContext(context)
-                .setAppName(appName)
-                .setDockerApplicationArtifactId(artifactId)
-                .setDockerArtifactId(context.getArtifactId())
-                .setDeployedAppName(appName)
-                .setIncludeHelmBuild(true).build();
-        manualActionNotificationService.addDockerBuildTiltFileMessage(params);
         manualActionNotificationService.addDeployPomMessage(context, "aissemble-custom-lineage-consumer-deploy-v2", appName);
     }
 }
