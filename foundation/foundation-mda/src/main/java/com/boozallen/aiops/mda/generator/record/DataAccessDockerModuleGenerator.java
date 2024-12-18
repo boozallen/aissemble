@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator.record;
  * #L%
  */
 
-import com.boozallen.aiops.mda.DockerBuildParams;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
 /**

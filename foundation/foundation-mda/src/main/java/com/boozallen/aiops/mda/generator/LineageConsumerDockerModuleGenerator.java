@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.DockerBuildParams;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;

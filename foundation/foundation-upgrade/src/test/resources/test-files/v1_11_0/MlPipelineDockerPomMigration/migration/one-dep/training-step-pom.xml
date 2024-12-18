@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Upgrade
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>${groupId}</groupId>
-        <artifactId>${parentArtifactId}</artifactId>
-        <version>${version}</version>
+        <groupId>org.test</groupId>
+        <artifactId>test-docker</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>test-training-step-docker</artifactId>
 
     <packaging>docker-build</packaging>
 
-    <name>${parentDescriptiveName}::Inference</name>
-    <description>Build for an Inference Docker container to run a compliant inference service</description>
+    <name>Test Project::Docker::Training</name>
+    <description>Build for a Training Docker container to run a model training job</description>
 
     <build>
         <plugins>
@@ -23,11 +33,8 @@
                 <groupId>org.technologybrewery.fermenter</groupId>
                 <artifactId>fermenter-mda</artifactId>
                 <configuration>
-                    <basePackage>${basePackage}</basePackage>
-                    <profile>aissemble-inference-docker</profile>
-                    <propertyVariables>
-                        <dockerProjectRepositoryUrl>${docker.project.repository.url}</dockerProjectRepositoryUrl>
-                    </propertyVariables>
+                    <basePackage>org.test</basePackage>
+                    <profile>aissemble-training-docker</profile>
                 </configuration>
             </plugin>
             <plugin>
@@ -50,16 +57,18 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-${inferencePipeline.stepArtifactId}</id>
+                        <id>copy-training-step</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${inferencePipeline.stepArtifactId}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/training-step</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/${inferencePipeline.pipelineArtifactId}/${inferencePipeline.stepArtifactId}</directory>
+                                    <directory>
+                                        ${project.parent.parent.basedir}/test-pipelines/classification-training/training-step
+                                    </directory>
                                     <filtering>false</filtering>
                                     <includes>
                                         <include>dist/requirements.txt</include>
@@ -79,7 +88,9 @@
                             <outputDirectory>${project.build.directory}/krausening/base</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/${inferencePipeline.pipelineArtifactId}/${inferencePipeline.stepArtifactId}/src/${inferenceModuleSnakeCase}/resources/krausening/base</directory>
+                                    <directory>
+                                        ${project.parent.parent.basedir}/test-pipelines/classification-training/training-step/src/training_step/resources/krausening/base
+                                    </directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
@@ -95,10 +106,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>#[[${project.groupId}]]#</groupId>
-            <artifactId>${inferencePipeline.stepArtifactId}</artifactId>
-            <version>#[[${project.version}]]#</version>
-            <type>habushu</type>
+            <groupId>abc</groupId>
+            <artifactId>xyz</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

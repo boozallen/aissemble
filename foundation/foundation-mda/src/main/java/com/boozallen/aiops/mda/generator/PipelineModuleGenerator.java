@@ -10,6 +10,7 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
+import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PersistType;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
 import com.boozallen.aiops.mda.generator.util.PythonGeneratorUtils;
@@ -21,6 +22,8 @@ import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 import org.apache.velocity.VelocityContext;
 import org.technologybrewery.fermenter.mda.generator.GenerationContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,7 +47,6 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
         AissembleModelInstanceRepository metamodelRepository = (AissembleModelInstanceRepository) context.getModelInstanceRepository();
 
         Map<String, Pipeline> pipelineMap = metamodelRepository.getPipelinesByContext(metadataContext);
-
         String fileName;
         String originalTemplateName = context.getTemplateName();
         String basefileName = context.getOutputFile();
@@ -53,6 +55,10 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
         if (pipelineMap.isEmpty()) {
             manualActionNotificationService.addNoticeToAddPipelines(context);
         }
+
+        MachineLearningStrategy mlStrategy = new MachineLearningStrategy(new ArrayList<>(pipelineMap.values()));
+        List<String> inferenceModules = mlStrategy.getInferenceModules();
+        List<String> trainingModules = mlStrategy.getTrainingModules();
 
         for (Pipeline pipeline : pipelineMap.values()) {
             VelocityContext vc = new VelocityContext();
@@ -96,6 +102,17 @@ public class PipelineModuleGenerator extends AbstractMavenModuleGenerator {
             String pipelineSpecificTemplateName = replace("pipelineImplementation", originalTemplateName,
                     pipelineImplementation);
             context.setTemplateName(pipelineSpecificTemplateName);
+
+            if ("machine-learning".equals(pipeline.getType().getName())) {
+                List<String> pipelineStepModules = new ArrayList<>();
+                if (!trainingModules.isEmpty()) {
+                    pipelineStepModules.addAll(trainingModules);
+                }
+                if (!inferenceModules.isEmpty()) {
+                    pipelineStepModules.addAll(inferenceModules);
+                }
+                vc.put(VelocityProperty.MACHINE_LEARNING_PIPELINE_ARTIFACT_IDS, pipelineStepModules);
+            }
 
             generateFile(context, vc);
 

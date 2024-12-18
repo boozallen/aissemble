@@ -140,86 +140,6 @@ public class ManualActionNotificationService {
     }
 
     /**
-     * Checks if there are deployment changes necessary for the live update feature in
-     * Tiltfile and adds a message if so.
-     *
-     * @param context                     the generation context
-     * @param dockerArtifactId            the docker artifact ID
-     * @param dockerApplicationArtifactId the docker application artifact ID
-     * @param pipelineName                the pipeline's name
-     * @param stepName                    the pipeline step's name
-     * @param includeHelmBuild whether to include the helm build in the message
-     */
-    public void addDockerBuildWithLiveUpdateTiltFileMessage(final GenerationContext context, final String dockerArtifactId, final String dockerApplicationArtifactId, 
-                                                            final String pipelineName, final String stepName, final boolean includeHelmBuild) {
-        final File rootDir = context.getExecutionRootDirectory();
-        if (!rootDir.exists() || !tiltFileFound(rootDir)) {
-            logger.warn("Unable to find Tiltfile. Will not be able to direct manual Dockerbuild updates to Tiltfile");
-        } else {
-            final String tiltFilePath = rootDir.getAbsolutePath() + File.separator + "Tiltfile";
-            final String pipelineArtifactId = dockerArtifactId.replace("-docker", "-pipelines");
-            final String stepNameSnakeCase = PipelineUtils.deriveLowerSnakeCaseNameFromHyphenatedString(stepName);
-            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, dockerApplicationArtifactId);
-            if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey("Tiltfile", "docker-build", dockerApplicationArtifactId);
-
-                addLocalResourceTiltFileMessage(context, dockerArtifactId, dockerApplicationArtifactId, stepName, pipelineName + "/" + stepName, true);
-
-                VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.docker.live.vm");
-                notification.addToVelocityContext("dockerApplicationArtifactId", dockerApplicationArtifactId);
-                notification.addToVelocityContext("stepName", stepName);
-                notification.addToVelocityContext("pipelineArtifactId", pipelineArtifactId);
-                notification.addToVelocityContext("pipelineName", pipelineName);
-                notification.addToVelocityContext("dockerArtifactId", dockerArtifactId);
-                notification.addToVelocityContext("referenceName", dockerApplicationArtifactId);
-                notification.addToVelocityContext("stepNameSnakeCase", stepNameSnakeCase);
-                notification.addToVelocityContext("includeHelmBuild", includeHelmBuild);
-                addManualAction(tiltFilePath, notification);
-            }
-        }
-    }
-
-    /**
-     * Checks if there are deployment changes necessary in either the Maven POM file or Tiltfile and
-     * adds a message if so.
-     *
-     * @param context                     the generation context
-     * @param appName                     the application name
-     * @param dockerApplicationArtifactId the docker application artifact ID
-     * @param dockerArtifactId            the docker artifact ID
-     * @param dockerImage                 use custom image instead of dockerApplicationArtifactId
-     * @param deployedAppName             the application name after deployment
-     * @param includeHelmBuild            whether to include the helm build in the message
-     * @param includeLatestTag            whether to include the latest tag as a tilt extra tag
-     */
-    public void addDockerBuildTiltFileMessage(DockerBuildParams params) {
-
-        final File rootDir = params.getContext().getExecutionRootDirectory();
-
-        if (!rootDir.exists() || !tiltFileFound(rootDir)) {
-            logger.warn("Unable to find Tiltfile. Will not be able to direct manual Dockerbuild updates to Tiltfile");
-        } else {
-            final String tiltFilePath = rootDir.getAbsolutePath() + File.separator + "Tiltfile";
-            final String deployArtifactId = params.getDockerArtifactId().replace("-docker", "-deploy");
-            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, params.getDockerApplicationArtifactId());
-
-            if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey("Tilefile", "docker-build", params.getDockerApplicationArtifactId());
-                VelocityNotification notification = new VelocityNotification(key,
-                        GROUP_TILT, new HashSet<>(), "templates/notifications/notification.docker.tilt.vm");
-                notification.addToVelocityContext("appNameTitle", params.getAppName());
-                notification.addToVelocityContext("dockerArtifactId", params.getDockerArtifactId());
-                notification.addToVelocityContext("dockerApplicationArtifactId", params.getDockerApplicationArtifactId());
-                notification.addToVelocityContext("includeHelmBuild", params.isIncludeHelmBuild());
-                notification.addToVelocityContext("appName", params.getDeployedAppName());
-                notification.addToVelocityContext("deployArtifactId", deployArtifactId);
-                notification.addToVelocityContext("includeLatestTag", params.isIncludeLatestTag());
-                addManualAction(tiltFilePath, notification);
-            }
-        }
-    }
-
-    /**
      * Notification to add the function which sets the habushu dist artifact version property in the root pom for
      * access across modules.
      *
@@ -285,43 +205,6 @@ public class ManualActionNotificationService {
         addHabushuRegexPluginInvocation(context);
     }
 
-    // TODO: Standardize the spark, inference, and training docker folders and dockerfile to use the same structure so
-    // that live updates can be applied with the same pattern copyFullPath variable should be removed after the
-    // structure for target folder is established.
-    /**
-     * Checks if there are deployment changes necessary for live updating a specific python step module's source code in
-     * Tiltfile and adds a message if not.
-     *
-     * @param context                     the generation context
-     * @param dockerArtifactId            the project's docker module
-     * @param dockerApplicationArtifactId the docker image module that should be live-updated with changes
-     * @param moduleName                  the module name to compile for live updates
-     * @param pipelinesModulePath         the path to the module under the project's "pipelines" module (e.g. "ml-pipeline/training-step")
-     * @param copyFullPath                this variable is temporary and should be removed (see TODO); determines whether to copy the generated output to a different folder path
-     */
-    public void addLocalResourceTiltFileMessage(final GenerationContext context, final String dockerArtifactId,
-                                                final String dockerApplicationArtifactId, final String moduleName,
-                                                final String pipelinesModulePath, final boolean copyFullPath) {
-        final File rootDir = context.getExecutionRootDirectory();
-        if (!rootDir.exists() || !tiltFileFound(rootDir)) {
-            logger.warn("Unable to find Tiltfile. Will not be able to direct manual Dockerbuild updates to Tiltfile");
-        } else {
-            final String tiltFilePath = rootDir.getAbsolutePath() + File.separator + "Tiltfile";
-            final String pipelinesArtifactId = dockerArtifactId.replace("-docker", "-pipelines");
-            boolean tiltFileContainsArtifact = existsInFile(tiltFilePath, "compile-" + moduleName);
-            if (!tiltFileContainsArtifact && showWarnings(tiltFilePath)) {
-                final String key = getMessageKey("Tiltfile", "local-resource", moduleName);
-
-                VelocityNotification notification = new VelocityNotification(key, new HashSet<>(), "templates/notifications/notification.local.resource.tilt.vm");
-                notification.addToVelocityContext("srcModuleName", moduleName);
-                notification.addToVelocityContext("srcModulePath", pipelinesArtifactId + "/" + pipelinesModulePath);
-                notification.addToVelocityContext("dockerModulePath", dockerArtifactId + "/" + dockerApplicationArtifactId);
-                notification.addToVelocityContext("copyFullPath", copyFullPath);
-                addManualAction(tiltFilePath, notification);
-            }
-        }
-    }
-
     /**
      * Checks if there are deployment changes necessary in the Tiltfile for Spark Worker and
      * adds a message if so.
@@ -353,7 +236,6 @@ public class ManualActionNotificationService {
      * @param context          the generation context
      * @param appName          the application name
      * @param deployArtifactId the deploy artifact ID
-     * @param isConfigStore    whether the deployment is the config store
      */
     public void addHelmTiltFileMessage(final GenerationContext context, final String appName,
                                        final String deployArtifactId) {

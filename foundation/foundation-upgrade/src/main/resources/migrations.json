@@ -38,9 +38,18 @@
         "fileSets": [
           {
             "includes": [
-              "*-pipelines/*/src/*/resources/apps/*-values.yaml",
-              "*-pipelines/*/src/main/resources/apps/*-values.yaml"
+              "*-pipelines/*/src/*/resources/apps/*-base-values.yaml",
+              "*-pipelines/*/src/main/resources/apps/*-dev-values.yaml"
             ]
+          }
+        ]
+      },
+      {
+        "name": "ml-pipeline-docker-pom-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_11_0.MlPipelineDockerPomMigration",
+        "fileSets": [
+          {
+            "includes": ["*-docker/pom.xml"]
           }
         ]
       }

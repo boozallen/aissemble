@@ -74,9 +74,6 @@ public class InferenceDockerModuleGenerator extends AbstractMavenModuleGenerator
 
                 // notifications for inference docker module
                 manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, inferenceDockerArtifactId, "docker");
-                String pipelineModule = deriveArtifactIdFromCamelCase(pipelineStepPair.getPipeline().getName());
-                manualActionNotificationService.addDockerBuildWithLiveUpdateTiltFileMessage(context, 
-                        context.getArtifactId(), inferenceDockerArtifactId, pipelineModule, inferenceModule, false);
                 String deployArtifactId = context.getArtifactId().replace("-docker", "-deploy");
                 manualActionNotificationService.addHelmTiltFileMessage(context, inferenceModule, deployArtifactId);
                 manualActionNotificationService.addDeployPomMessage(context, APP_NAME + "-deploy", inferenceModule);
