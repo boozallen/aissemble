@@ -6,6 +6,11 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  ignoreDifferences:
+    - group: "*"
+      kind: "*"
+      managedFieldsManagers:
+        - argocd-controller
   destination:
     namespace: ${projectName}
     server: {{ .Values.spec.destination.server }}
