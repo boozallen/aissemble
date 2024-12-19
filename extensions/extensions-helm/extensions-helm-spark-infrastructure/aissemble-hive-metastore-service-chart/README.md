@@ -56,7 +56,6 @@ configuration options.
 By Default, username and passwords are being injected from [Universal Configuration Store](https://boozallen.github.io/aissemble/aissemble/current/configuration-store.html).
 Configuration Store will look for $getConfigValue(...) and find properties file to inject values from corresponding groupName and propertyName.
 
-
 # Migration from aiSSEMBLE v1 Helm Charts
 
 If you are migrating from the v1 version of the hive-metastore-service chart, use the tables below to apply any
