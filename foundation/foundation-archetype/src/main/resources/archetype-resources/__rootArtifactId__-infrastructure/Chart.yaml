@@ -1,0 +1,9 @@
+apiVersion: v2
+name: "${parentArtifactId}"
+version: "${version}"
+appVersion: "${version}"
+
+dependencies:
+  - name: aissemble-infrastructure-chart
+    version: ${archetypeVersion}
+    repository: oci://ghcr.io/boozallen
