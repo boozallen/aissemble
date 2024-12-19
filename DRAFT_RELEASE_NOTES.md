@@ -1,7 +1,7 @@
 # Major Additions
 
 ## Path to Production Alignment
-To better align development processes with processes in CI/CD and higher environments, we no longer recommend using Tilt live-reloading.  As such, upgrading projects should consider narrowing the scope of their Tiltfile. See _**How to Upgrade**_ for more information.
+To better align development processes with processes in CI/CD and higher environments, we no longer recommend using Tilt for building and deploying projects.  As such, upgrading projects should consider removing or at least narrowing the scope of their Tiltfile. See _**How to Upgrade**_ for more information.
 
 ## Data Access Upgrade
 Data access through [GraphQL](https://graphql.org/) has been deprecated and replaced with [Trino](https://trino.io/). Trino is optimized for performing queries against large datasets by leveraging a distributed architecture that processes queries in parallel, enabling fast and scalable data retrieval.
@@ -79,6 +79,10 @@ To deactivate any of these migrations, add the following configuration to the `b
 
 ## Precondition Steps - Required for All Projects
 
+### Maven Docker Build
+To avoid duplicate docker builds, remove all the related `docker_build()` and `local_resources()` functions from your Tiltfile. Also, the `spark-worker-image.yaml` is no longer used 
+so `-deploy/src/main/resources/apps/spark-worker-image` directory ,and the related `k8s_yaml()` function from your Tiltfile can be removed.
+
 ### Beginning the Upgrade
 To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.11.0 version of the build-parent:
 ```xml
@@ -89,10 +93,10 @@ To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.11.0
 </parent>
 ```
 
-### Tilt Docker Builds
-To avoid duplicate docker builds, remove all the related `docker_build()` and `local_resources()` functions from your Tiltfile. Also, the `spark-worker-image.yaml` is no longer used so the `-deploy/src/main/resources/apps/spark-worker-image` directory and the related `k8s_yaml()` function from your Tiltfile can be removed.
-
 ## Conditional Steps
+
+### For Projects Intending to Keep Tilt
+To avoid duplicate docker builds, remove all the related `docker_build()` and `local_resources()` functions from your Tiltfile. Also, the `spark-worker-image.yaml` is no longer used so the `-deploy/src/main/resources/apps/spark-worker-image` directory and the related `k8s_yaml()` function from your Tiltfile can be removed.
 
 ## Final Steps - Required for All Projects
 ### Finalizing the Upgrade

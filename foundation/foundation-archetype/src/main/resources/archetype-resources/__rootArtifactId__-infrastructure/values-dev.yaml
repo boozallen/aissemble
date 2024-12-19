@@ -1,0 +1,21 @@
+# Deploys ArgoCD with anonymous admin access enabled.
+# ArgoCD will be available at http://localhost:30080/
+aissemble-infrastructure-chart:
+  jenkins:
+    enabled: false
+  ingress-nginx:
+    enabled: false
+  argo-cd:
+    crds:
+      keep: false
+    configs:
+      cm:
+        admin.enabled: false
+        users.anonymous.enabled: true
+      rbac:
+        policy.default: "role:admin"
+    server:
+      ingress:
+        enabled: false
+      service:
+        type: "NodePort"
