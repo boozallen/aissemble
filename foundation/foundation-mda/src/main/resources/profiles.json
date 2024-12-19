@@ -4,6 +4,7 @@
     "targetReferences": [
       {
         "name": "pipelinePomFile"
+				"name": "pipelinePomFile"
       }
     ],
     "profileReferences": [
@@ -285,6 +286,12 @@
       },
       {
         "name": "valuesCIFile"
+			},
+			{
+				"name": "baseSparkInfrastructureProperties"
+			},
+			{
+				"name": "envSparkInfrastructureProperties"
       }
     ]
   },

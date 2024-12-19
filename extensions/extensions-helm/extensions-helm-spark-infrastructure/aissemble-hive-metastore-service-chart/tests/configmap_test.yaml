@@ -33,6 +33,11 @@ tests:
                   <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
                   <description>JDBC connect string for a JDBC metastore</description>
                 </property>
+                <property>
+                  <name>javax.jdo.option.ConnectionUserName</name>
+                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <description>Username to use against metastore database</description>
+                </property>
               </configuration>
   - it: Should override default properties appropriately
     set:
@@ -91,6 +96,11 @@ tests:
                   <description>JDBC connect string for a JDBC metastore</description>
                 </property>
                 <property>
+                  <name>javax.jdo.option.ConnectionUserName</name>
+                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <description>Username to use against metastore database</description>
+                </property>
+                <property>
                   <name>propertyName1</name>
                   <value>value1</value>
                   <description>Optional description</description>
@@ -128,6 +138,11 @@ tests:
                   <name>javax.jdo.option.ConnectionURL</name>
                   <value>jdbc:mysql://hive-metastore-db:3306/metastore?createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</value>
                   <description>JDBC connect string for a JDBC metastore</description>
+                </property>
+                <property>
+                  <name>javax.jdo.option.ConnectionUserName</name>
+                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <description>Username to use against metastore database</description>
                 </property>
                 <property>
                   <name>metastore.thrift.uris</name>

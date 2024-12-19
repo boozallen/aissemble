@@ -1,5 +1,9 @@
 # Major Additions
 
+## UNIVERSAL CONFIG UPDATES
+### migrations
+| spark-infrastructure-universal-config-yaml-migration | Removes the default hive username (if present) from hive-metastore-service values.yaml so that it can be set by the configuration store service |
+
 ## Helmfile Integration
 Given that the local and higher environment deployment methods not aligned can cause hard-to-diagnose bugs and slow development, in an effort to have one tool to deploy to all environments, going forward aiSSEMBLE will support [Helmfile](https://helmfile.readthedocs.io/en/latest/) instead of Tilt and ArgoCD. New project will be generated with Helmfile and existing projects are encouraged to use it but are not required to. Follow **Finalizing the Upgrade** section for migration instructions.
 
