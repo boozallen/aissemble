@@ -34,6 +34,7 @@ helm install hive-metastore-service oci://ghcr.io/boozallen/aissemble-hive-metas
 | deployment.volumes                              | The deployment volumes                                                                                                                                  | No                | &emsp; - name: metastore-service-config <br/>&emsp;&emsp;configMap: <br/>&emsp;&emsp;&emsp;name: metastore-service-config <br/>&emsp;&emsp;&emsp;items: <br/>&emsp;&emsp;&emsp;&emsp; - key: metastore-site.xml <br/>&emsp;&emsp;&emsp;&emsp;&emsp;path: metastore-site.xml |
 | service.spec.ports                              | The service spec ports                                                                                                                                  | No                | &emsp; - name: "thrift" <br/>&emsp;&emsp;port: 9083 <br/>&emsp;&emsp;targetPort: 9083                                                                                                                                                                                       |
 | mysql.enabled                                   | Whether to use mysql as the backing database                                                                                                            | No                | true                                                                                                                                                                                                                                                                        |
+| configMap.configStore                           | Whether to use Configuration Store to inject property values                                                                                            | No                | enabled                                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                            
 | configMap.metastoreServiceConfig.baseProperties | Default configuration for the metastore service                                                                                                         | No                | See [values.yaml](./values.yaml)                                                                                                                                                                                                                                            |
 | configMap.metastoreServiceConfig.properties     | Optional configuration for the metastore service. Properties added here will be included in the configuration without overriding the default properties | No                |                                                                                                                                                                                                                                                                             |
 
@@ -48,6 +49,7 @@ configuration options.
 |------------------|---------------------|
 | fullnameOverride | "hive-metastore-db" |
 | auth.database    | "metastore"         |
+| auth.username    | "hive"              |
 
 # Migration from aiSSEMBLE v1 Helm Charts
 
@@ -76,7 +78,7 @@ In the table below, the notation `env[KEY]` refers the `env` list item whose `na
 | configMap.metastoreServiceConfig.configuration.property[metastore.expression.proxy]            | configMap.metastoreServiceConfig.baseProperties[metastore.expression.proxy]            |                                                        |
 | configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionDriverName] | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionDriverName] |                                                        |
 | configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionURL]        | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionURL]        |                                                        |
-
+| configMap.metastoreServiceConfig.configuration.property[javax.jdo.option.ConnectionUserName]   | configMap.metastoreServiceConfig.baseProperties[javax.jdo.option.ConnectionUserName]   | Using Configuration store Service to inject this value |
 ## Property Removed
 
 The following properties no longer exist.
