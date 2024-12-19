@@ -322,6 +322,12 @@
 			},
 			{
 				"name": "valuesCIFile"
+			},
+			{
+				"name": "baseSparkInfrastructureProperties"
+			},
+			{
+				"name": "envSparkInfrastructureProperties"
 			}
 		]
 	},
