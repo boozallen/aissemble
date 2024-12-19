@@ -14,6 +14,9 @@ aissemble-thrift-server-chart:
       - org.apache.hadoop:hadoop-aws:3.3.4
 
   deployment:
+    metadata:
+      labels:
+        aissemble-configuration-store: enabled
     envFromSecret:
       AWS_ACCESS_KEY_ID:
         secretName: remote-auth-config
@@ -24,8 +27,8 @@ aissemble-thrift-server-chart:
 
   sparkConf: |
     spark.hadoop.fs.s3a.endpoint=http://s3-local:4566
-    spark.hadoop.fs.s3a.access.key=#[[${env:AWS_ACCESS_KEY_ID}]]#
-    spark.hadoop.fs.s3a.secret.key=#[[${env:AWS_SECRET_ACCESS_KEY}]]#
+    spark.hadoop.fs.s3a.access.key=$getConfigValue(groupName=aws-credentials;propertyName=AWS_SECRET_ACCESS_KEY)
+    spark.hadoop.fs.s3a.secret.key=$getConfigValue(groupName=aws-credentials;propertyName=AWS_SECRET_ACCESS_KEY)
     spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
     spark.hive.server2.thrift.port=10000
     spark.hive.server2.thrift.http.port=10001
@@ -50,6 +53,8 @@ aissemble-hive-metastore-service-chart:
     auth:
       # Note: Changing these values requires removal of the `hive-metastore-db-0` PVC, or manual modification of the
       # persisted database.
+      username: hive
+      # NB: UCS
       rootPassword: hive
       replicationPassword: hive
       password: hive
@@ -67,11 +72,12 @@ aissemble-hive-metastore-service-chart:
             name: remote-auth-config
             key: AWS_ACCESS_KEY_ID
   configMap:
-    metadata:
-      labels:
-        configStore: enabled
     metastoreServiceConfig:
       properties:
+        - name: javax.jdo.option.ConnectionUserName
+          value: hive
+          description: Username to use against metastore database
+          # NB: UCS
         - name: javax.jdo.option.ConnectionPassword
           value: hive
           description: Password to use against metastore database

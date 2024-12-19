@@ -54,6 +54,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | docker-module-pom-dependency-type-migration          | Updates the maven pipeline dependency type within your project's sub docker module pom file(`<YOUR_PROJECT>-docker/*-docker/pom.xml`) to fix the build cache checksum calculation issue |
 | enable-maven-docker-build-migration                  | Remove the maven fabric8 plugin `skip` configuration within your project's docker module pom file(`<YOUR_PROJECT>-docker/pom.xml`) to enable the maven docker build                     |
 | spark-worker-docker-image-tag-migration              | Updated the worker docker image tag to use project version                                                                                                                              |
+| spark-infrastructure-universal-config-yaml-migration | Removes the default hive username (if present) from hive-metastore-service values.yaml so that it can be set by the configuration store service                                         |
 
 To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
