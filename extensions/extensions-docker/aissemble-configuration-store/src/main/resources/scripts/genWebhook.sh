@@ -143,7 +143,7 @@ STATUS=$(curl -ik \
       },
       "rules": [
         {
-          "operations": ["CREATE"],
+          "operations": ["CREATE", "UPDATE"],
           "apiGroups": ["", "apps"],
           "apiVersions": ["*"],
           "resources": ["*"],
