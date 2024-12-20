@@ -50,6 +50,7 @@ aissemble-hive-metastore-service-chart:
     auth:
       # Note: Changing these values requires removal of the `hive-metastore-db-0` PVC, or manual modification of the
       # persisted database.
+      username: hive
       rootPassword: hive
       replicationPassword: hive
       password: hive
@@ -67,11 +68,11 @@ aissemble-hive-metastore-service-chart:
             name: remote-auth-config
             key: AWS_ACCESS_KEY_ID
   configMap:
-    metadata:
-      labels:
-        configStore: enabled
     metastoreServiceConfig:
       properties:
+        - name: javax.jdo.option.ConnectionUserName
+          value: hive
+          description: Username to use against metastore database
         - name: javax.jdo.option.ConnectionPassword
           value: hive
           description: Password to use against metastore database

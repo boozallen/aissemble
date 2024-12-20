@@ -13,10 +13,6 @@ import javax.lang.model.SourceVersion
 
 final Logger logger = LoggerFactory.getLogger("com.boozallen.aissemble.foundation.archetype-post-generate")
 
-def dir = new File(new File(request.outputDirectory), request.artifactId)
-file = new File(dir,"deploy.sh")
-file.setExecutable(true, false)
-
 def groupIdRegex = ~'^[a-z][a-z0-9]*(?:\\.[a-z][a-z0-9]*)*$' // lowercase letters, numbers, and periods
 def artifactIdRegex = ~'^[a-z][a-z0-9]*(?:-?[\\da-z]+)*$' // lowercase letters, numbers, and hyphens
 def versionRegex = ~'^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$' // Semantic Versioning

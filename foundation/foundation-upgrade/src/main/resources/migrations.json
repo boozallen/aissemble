@@ -82,17 +82,6 @@
             ]
           }
         ]
-      },
-      {
-        "name": "spark-infrastructure-universal-config-yaml-migration",
-        "implementation": "com.boozallen.aissemble.upgrade.migration.v1_11_0.SparkInfrastructureUniversalConfigYAMLMigration",
-        "fileSets": [
-          {
-            "includes": [
-              "*-deploy/src/main/resources/apps/spark-infrastructure/values.yaml"
-            ]
-          }
-        ]
       }
     ]
   }
