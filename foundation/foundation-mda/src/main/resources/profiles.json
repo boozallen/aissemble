@@ -8,6 +8,11 @@
 			{
 				"name": "dataAccessPomFile"
 			}
+		],
+		"profileReferences": [
+			{
+				"name": "machine-learning-pipeline"
+			}
 		]
 	},
 	{
@@ -545,6 +550,9 @@
 			},
 			{
 				"name": "mlflowLineageProperties"
+			},
+			{
+				"name": "trainingGitkeepFile"
 			}
 		]
 	},

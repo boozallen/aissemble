@@ -31,7 +31,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PyprojectGenerationSteps extends AbstractModelInstanceSteps {
@@ -108,12 +107,5 @@ public class PyprojectGenerationSteps extends AbstractModelInstanceSteps {
             }
         });
         return patternFound;    
-    }
-
-    private static StepElement createPipelineStep(String stepName, String stepType) throws IOException {
-        StepElement step = new StepElement();
-        step.setName(stepName);
-        step.setType(stepType);
-        return step;
     }
 }

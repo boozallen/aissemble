@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>${groupId}</groupId>
-		<artifactId>${parentArtifactId}</artifactId>
-		<version>${version}</version>
-	</parent>
+    <parent>
+        <groupId>${groupId}</groupId>
+        <artifactId>${parentArtifactId}</artifactId>
+        <version>${version}</version>
+    </parent>
 
-	<artifactId>${artifactId}</artifactId>
+    <artifactId>${artifactId}</artifactId>
 
-	<packaging>docker-build</packaging>
+    <packaging>docker-build</packaging>
 
-	<name>${parentDescriptiveName}::Training</name>
-	<description>Build for a Training Docker container to run a model training job</description>
+    <name>${parentDescriptiveName}::Training</name>
+    <description>Build for a Training Docker container to run a model training job</description>
 
     <build>
         <plugins>
@@ -40,7 +40,7 @@
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <resources>
                                 <resource>
-                                <directory>${project.basedir}/src/main/resources/docker</directory>
+                                    <directory>${project.basedir}/src/main/resources/docker</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
@@ -87,10 +87,15 @@
             <plugin>
                 <groupId>${group.fabric8.plugin}</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
-	</build>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>#[[${project.groupId}]]#</groupId>
+            <artifactId>${trainingPipeline.stepArtifactId}</artifactId>
+            <version>#[[${project.version}]]#</version>
+            <type>habushu</type>
+        </dependency>
+    </dependencies>
 </project>

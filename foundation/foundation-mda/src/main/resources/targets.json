@@ -307,7 +307,7 @@
   {
     "name": "pipelineStepPomFile",
     "templateName": "templates/general-mlflow/pipeline.step.pom.xml.vm",
-    "outputFile": "${stepArtifactId}/pom.xml",
+    "outputFile": "${pipelineArtifactId}/${stepArtifactId}/pom.xml",
     "generator": "com.boozallen.aiops.mda.generator.TargetedPipelineStepModuleGenerator",
     "metadataContext": "targeted",
     "overwritable": false

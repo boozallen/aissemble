@@ -256,6 +256,13 @@ public abstract class AbstractModelInstanceSteps {
         return context;
     }
 
+    protected GenerationContext createPipelinesRootPomContext(Target target) {
+        GenerationContext context = createGenerationContext(target);
+        // reset the targetPipeline for pipelines root pom
+        context.setPropertyVariables(null);
+        return context;
+    }
+
     protected static class NullSession extends MavenSession {
         @SuppressWarnings("deprecation") //all constructors are deprecated, and this is required for stubbing test session
         public NullSession() {
@@ -336,5 +343,12 @@ public abstract class AbstractModelInstanceSteps {
         }
         uniquenessCounter.put(name, i + 1);
         return uniqueName;
+    }
+
+    protected static StepElement createPipelineStep(String stepName, String stepType) throws IOException {
+        StepElement step = new StepElement();
+        step.setName(stepName);
+        step.setType(stepType);
+        return step;
     }
 }

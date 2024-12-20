@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.DockerBuildParams;
 import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -81,15 +80,9 @@ public class MlflowDockerPomGenerator extends AbstractMavenModuleGenerator {
             generateFile(context, vc);
 
             manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, mlflowDockerArtifactId, "docker");
-            DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                    .setContext(context)
-                    .setAppName("mlflow-ui")
-                    .setDockerApplicationArtifactId(mlflowDockerArtifactId)
-                    .setDockerArtifactId(context.getArtifactId()).build();
-            manualActionNotificationService.addDockerBuildTiltFileMessage(params);
             manualActionNotificationService.addDeployPomMessage(context, "s3local-deploy-v2", "s3-local");
             manualActionNotificationService.addDeployPomMessage(context, "aissemble-shared-infrastructure-deploy", "shared-infrastructure");
-            manualActionNotificationService.addNoticeToUpdateS3LocalConfig(context, "mlflow-models", Arrays.asList("mlflow-storage"));
+            manualActionNotificationService.addNoticeToUpdateS3LocalConfig(context, "mlflow-models", List.of("mlflow-storage"));
             if (mlStrategy.isPostgresNeeded() || mlStrategy.isRdbmsSupportNeeded()) {
                 manualActionNotificationService.addDeployPomMessage(context, "postgres-deploy", "postgres");
             }

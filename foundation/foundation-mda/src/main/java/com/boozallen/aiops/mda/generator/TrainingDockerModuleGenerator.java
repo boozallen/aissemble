@@ -10,7 +10,6 @@ package com.boozallen.aiops.mda.generator;
  * #L%
  */
 
-import com.boozallen.aiops.mda.DockerBuildParams;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineStepPair;
 import com.boozallen.aiops.mda.generator.common.VelocityProperty;
@@ -75,17 +74,6 @@ public class TrainingDockerModuleGenerator extends AbstractMavenModuleGenerator 
 
                 // notifications for training docker module
                 manualActionNotificationService.addNoticeToAddModuleToParentBuild(context, trainingDockerArtifactId, "docker");
-                DockerBuildParams params = new DockerBuildParams.ParamBuilder()
-                        .setContext(context)
-                        .setAppName(trainingDockerArtifactId)
-                        .setDockerApplicationArtifactId(trainingDockerArtifactId)
-                        .setDockerArtifactId(context.getArtifactId())
-                        .setDeployedAppName(trainingDockerArtifactId)
-                        .setIncludeHelmBuild(false)
-                        .setIncludeLatestTag(true).build();
-                manualActionNotificationService.addDockerBuildTiltFileMessage(params);
-                String pipelineModule = deriveArtifactIdFromCamelCase(pipelineStepPair.getPipeline().getName());
-                manualActionNotificationService.addLocalResourceTiltFileMessage(context, context.getArtifactId(), trainingDockerArtifactId, trainingModule, pipelineModule + "/" + trainingModule, true);
                 manualActionNotificationService.addDeployPomMessage(context, APP_NAME + "-job", trainingModule + "-image");
             }
             manualActionNotificationService.addDeployPomMessage(context, "training-deploy", "model-training-api");
