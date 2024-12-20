@@ -69,13 +69,9 @@ The following steps will build aiSSEMBLE. *You must follow the configuration gui
 ### Helpful Profiles
 The aiSSEMBLE baseline project provides several build profiles that may be helpful for different development environments.
 To activate each one, use the standard Maven syntax: `./mvnw clean install -P[profile_name]`, for
-instance, `./mvnw clean install -PnoRdAdmin`.  There are many profiles you can find in the root `pom.xml` file. The
+instance, `./mvnw clean install -Pintegration-test`.  There are many profiles you can find in the root `pom.xml` file. The
 following profiles are often useful when first starting with aiSSEMBLE:
 
-* *noRdAdmin*: For configurations that disallow granting administrator privileges to Rancher Desktop. Testing frameworks
-  leveraged by aiSSEMBLE may, at times, assume that the docker unix socket is located at `/var/run/docker.sock`, which is
-  not the case when presented with a non-elevated Rancher installation.  Activating this profile will override the
-  `DOCKER_HOST` seen by these dependencies, pointing it instead at `unix://$HOME/.rd/docker.sock`.
 * *integration-test*: Some integration tests require Docker and automatically start/stop Docker Compose services while
   executing tests (i.e. see the test/test-mda-models/test-data-delivery-pyspark-patterns module). **Note that the Maven
   build does not build the Docker images directly. The images are built within the Kubernetes cluster to speed up

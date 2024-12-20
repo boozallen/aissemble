@@ -137,7 +137,7 @@
                                     <name>DriftDetectionService</name>
                                     <workingDir>target</workingDir>
                                     <waitForInterrupt>false</waitForInterrupt>
-                                    <healthcheckUrl>http://localhost:8080/q/health/live</healthcheckUrl>
+                                    <healthcheckUrl>http://localhost:8080/invoke-drift/healthcheck</healthcheckUrl>
                                     <arguments>
                                         <argument>java</argument>
                                         <argument>-DKRAUSENING_BASE=${basedir}/src/test/resources/krausening/base</argument>
