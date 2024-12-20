@@ -11,6 +11,7 @@ package com.boozallen.drift.detection.service;
  */
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -61,4 +62,10 @@ public class DriftDetectionService {
         return driftDetector.detect(policyIdentifier, input, control);
     }
 
+    @GET
+    @Path("/healthcheck")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String healthCheck() {
+        return "Drift detection service is running...\n";
+    }
 }

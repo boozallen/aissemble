@@ -18,7 +18,15 @@ _Note: instructions for adapting to these changes are outlined in the upgrade in
 
 
 # Known Issues
-_There are no known issues with the 1.11 release._
+
+## Docker Module Build Failures
+When using a Docker daemon that does not reside in `/var/run` (e.g. running Rancher Desktop without admin privileges) the docker-maven-plugin will fail to build with the message below. To work around this failure, set the `DOCKER_HOST` variable to the location of the daemon socket file. For example, to make the docker-maven-plugin work with Rancher Desktop, run `export DOCKER_HOST=unix://$HOME/.rd/docker.sock`.
+
+```shell
+[ERROR] Failed to execute goal org.technologybrewery.fabric8:docker-maven-plugin:0.45-tb-0.1.0:build (default-build) on project final-513-spark-worker-docker:
+   Execution default-build of goal org.technologybrewery.fabric8:docker-maven-plugin:0.45-tb-0.1.0:build failed: 
+   No <dockerHost> given, no DOCKER_HOST environment variable, no read/writable '/var/run/docker.sock' or '//./pipe/docker_engine' and no external provider like Docker machine configured
+```
 
 # Known Vulnerabilities
 

@@ -38,7 +38,7 @@ def before_all(context):
     )
 
     # call to health check to verify Drift Detection Services are started
-    health_check_url = "http://localhost:8084/q/health/live"
+    health_check_url = "http://localhost:8084/invoke-drift/health-check"
     success = False
     retries = 1
     wait = 0.1
