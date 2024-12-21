@@ -93,31 +93,32 @@ public class ConfigStoreInit {
     }
 
     private void pullConfigs() throws IOException {
+        String krauseningPath = getBootstrapConfiguration(KRAUSENING_BASE);
         String basePropertyUri = getBootstrapConfiguration("BASE_PROPERTY");
-        if (StringUtils.isNotEmpty(basePropertyUri)) {
-            String krauseningPath = getBootstrapConfiguration(KRAUSENING_BASE);
-            Files.createDirectories(Paths.get(krauseningPath));
-            Path basePropertyPath = Paths.get(basePropertyUri);
+        if (StringUtils.isEmpty(basePropertyUri)) {
+            throw new RuntimeException("Base property location not provided. The BASE_PROPERTY env variable must be set " +
+                    "to the URI of the base properties files.");
+        }
+        copyPropertyFilesToLocal(krauseningPath, basePropertyUri);
+
+        krauseningPath = getBootstrapConfiguration(KRAUSENING_EXTENSIONS);
+        String environmentPropertyUri = getBootstrapConfiguration("ENVIRONMENT_PROPERTY");
+        if (StringUtils.isEmpty(environmentPropertyUri)) {
+            logger.warn("Environment property location not provided. Set the ENVIRONMENT_PROPERTY env " +
+                    "variable to the URI of the env properties files to provide environment-specific overrides.");
+        }
+        copyPropertyFilesToLocal(krauseningPath, environmentPropertyUri);
+    }
+
+    private void copyPropertyFilesToLocal(String localPath, String remotePath) throws IOException {
+        Files.createDirectories(Paths.get(localPath));
+        if (StringUtils.isNotEmpty(remotePath)) {
+            Path basePropertyPath = Paths.get(remotePath);
             try (Stream<Path> stream = Files.walk(basePropertyPath)) {
-                stream.forEach(source -> copy(source, Paths.get(krauseningPath)
+                stream.forEach(source -> copy(source, Paths.get(localPath)
                         .resolve(basePropertyPath.relativize(source))));
             } catch (IOException e) {
-                throw new RuntimeException("Failed to read from base property uri", e);
-            }
-        } else {
-            throw new RuntimeException("Undefined environment variables: BASE_PROPERTY");
-        }
-
-        String environmentPropertyUri = getBootstrapConfiguration("ENVIRONMENT_PROPERTY");
-        if (StringUtils.isNotEmpty(environmentPropertyUri)) {
-            String krauseningPath = getBootstrapConfiguration(KRAUSENING_EXTENSIONS);
-            Files.createDirectories(Paths.get(krauseningPath));
-            Path environmentPropertyPath = Paths.get(environmentPropertyUri);
-            try (Stream<Path> stream = Files.walk(environmentPropertyPath)) {
-                stream.forEach(source -> copy(source, Paths.get(krauseningPath)
-                        .resolve(environmentPropertyPath.relativize(source))));
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to read from extensions property uri", e);
+                throw new RuntimeException("Failed to copy property files from remote uri: " + remotePath, e);
             }
         }
     }
