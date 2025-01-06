@@ -9,17 +9,20 @@ package com.boozallen.aissemble.configuration.mutating.webhook;
  * This software package is licensed under the Booz Allen Public License. All Rights Reserved.
  * #L%
  */
- 
+
 import com.boozallen.aissemble.configuration.store.ConfigLoader;
 import com.boozallen.aissemble.configuration.store.Property;
 import com.boozallen.aissemble.configuration.store.PropertyKey;
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
 import io.fabric8.kubernetes.api.model.StatusBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +39,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
+
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +62,7 @@ public class ConfigMutatingWebhook {
 
     @Inject
     public ConfigLoader configLoader;
-    
+
     @POST
     @Path("/process")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -83,9 +87,18 @@ public class ConfigMutatingWebhook {
         AdmissionResponse response;
         try {
             String json = mapper.writeValueAsString(request.getObject());
+
+            //This scans to see if there's any config need to be injected and replace corresponding values and saves into updatedJson
             String updatedJson = replaceConfigStoreKeysWithConfigValue(json);
 
-            if (!updatedJson.isEmpty()) {
+            if(request.getKind().getKind().equals("Secret")) {
+                //if replaceConfigStoreKeysWithConfigValue doesn't have any injection it would return empty, so we need original json to scan.
+                String secretJson = updatedJson.isEmpty() ? json: updatedJson;
+                boolean plainTextInjectionUpdated = !updatedJson.isEmpty();
+                updatedJson = replaceSecretConfigStoreKeyWithConfigValue(secretJson, mapper, plainTextInjectionUpdated);
+            }
+
+            if (!updatedJson.isEmpty()){
                 JsonNode patch = JsonDiff.asJson(mapper.readTree(json), mapper.readTree(updatedJson));
                 response = new AdmissionResponseBuilder()
                         .withAllowed(true)
@@ -94,7 +107,7 @@ public class ConfigMutatingWebhook {
                         .withPatchType("JSONPatch")
                         .build();
                 logger.info("The kubernetes resource request has been updated.");
-            } else {
+            }else {
                 response = new AdmissionResponseBuilder()
                         .withAllowed(true)
                         .withUid(request.getUid())
@@ -129,9 +142,58 @@ public class ConfigMutatingWebhook {
         }
     }
 
+
+    /**
+     * This method is to inject values in the data fields for any encoded Configvalues from the properties file and save it as based64 encoded.
+     *
+     * @param json json string to scan
+     * @param mapper json object mapper
+     * @param plainTextInjectionUpdated boolean that plain text injection is updated.
+     * @return updatedJSON  If no injection, return empty.
+     */
+    private String replaceSecretConfigStoreKeyWithConfigValue(String json, ObjectMapper mapper, boolean plainTextInjectionUpdated) throws JsonProcessingException {
+        String updatedJSON = json;
+        JSONObject jsonObject = new JSONObject(json);
+        //If there's no data key, no injection can be done.
+        if(!jsonObject.has("data")) {
+            return plainTextInjectionUpdated ? json : "";
+        }
+        String dataString = jsonObject.getString("data");
+        Map<String, String> secretDataMap = mapper.readValue(dataString, new TypeReference<>() {});
+
+        //key being base64 val that has getConfigValue value being actual value to inject from property.
+        Map<String, String> injectionMap = new HashMap<>();
+
+        for(String secretDataVal : secretDataMap.values()) {
+            String decodedStr = new String(Base64.getDecoder().decode(secretDataVal));
+
+            if(decodedStr.startsWith(CONFIG_STORE_INJECT_START)) {
+                //trim out unnecessary strings
+                String[] injectionKeyValuePair = decodedStr.substring(CONFIG_STORE_INJECT_START.length(),decodedStr.length()-1).split(PROPERTY_KEY_DELIMITER);
+                Map<String, String> injectionKeyValueMap = convertToKeyMap(injectionKeyValuePair);
+                String propertyValue = getProperty(injectionKeyValueMap.get(GROUP_NAME), injectionKeyValueMap.get(PROPERTY_NAME));
+                injectionMap.put(secretDataVal, new String(Base64.getEncoder().encode(propertyValue.getBytes())));
+            }
+        }
+
+        for(Map.Entry<String, String> injection: injectionMap.entrySet()) {
+            updatedJSON = updatedJSON.replace(injection.getKey(), injection.getValue());
+        }
+
+        //We still need to carry out plain text injection differences.
+        if(plainTextInjectionUpdated) {
+            return updatedJSON.equals(json) ? json : updatedJSON;
+        }
+
+        //If there is no change in injection in both secret and plain text, return empty. If there are any change, return updated JSON.
+        return updatedJSON.equals(json) ? "" : updatedJSON;
+
+    }
+
     private String replaceConfigStoreKeysWithConfigValue(String json) {
         StringBuilder updatedJson = new StringBuilder();
         String[] data = json.split(Pattern.quote(CONFIG_STORE_INJECT_START));
+
         // if the config store key is found
         if (data.length > 1) {
             updatedJson.append(data[0]);
@@ -161,5 +223,4 @@ public class ConfigMutatingWebhook {
 
         return map;
     }
- }
- 
+}

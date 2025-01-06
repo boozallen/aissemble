@@ -54,7 +54,6 @@ The following steps will upgrade your project to `1.11`. These instructions cons
 ## Automatic Upgrades
 To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate the migration of some files to the new version.  These migrations run automatically when you build your project, and are included by default when you update the `build-parent` version in your root POM.  Below is a description of all of the Baton migrations that are included with this version of aiSSEMBLE.
 
-
 | Migration Name                                                        | Description                                                                                                                                                                             |
 |-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | upgrade-tiltfile-aissemble-version-migration                          | Updates the aiSSEMBLE version within your project's Tiltfile                                                                                                                            |
