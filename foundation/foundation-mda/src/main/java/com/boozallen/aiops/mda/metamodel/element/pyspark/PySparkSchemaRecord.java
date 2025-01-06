@@ -53,7 +53,7 @@ public class PySparkSchemaRecord extends PythonRecord {
                 fields.add(pySparkField);
             } else {
                 logger.warn(
-                        "PySpark schema does not support composite type - skip adding field '{}' to PySpark schema.",
+                        "PySpark schema does not support non-dictionary types - skip adding field '{}' to PySpark schema.",
                         pySparkField.getName());
             }
         }

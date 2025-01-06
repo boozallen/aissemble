@@ -81,24 +81,8 @@ public class BaseRecordFieldTypeDecorator implements RecordFieldType {
      * {@inheritDoc}
      */
     @Override
-    public boolean isCompositeTyped() {
-        return wrapped.isCompositeTyped();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public DictionaryType getDictionaryType() {
         return wrapped.getDictionaryType();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Composite getCompositeType() {
-        return wrapped.getCompositeType();
     }
 
 }

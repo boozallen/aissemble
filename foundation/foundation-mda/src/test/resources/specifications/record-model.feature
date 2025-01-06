@@ -181,17 +181,6 @@ Feature: Specify record of semantically defined types
       | singleSlaInDays              | oneZScorePlusAveragePolicy |
       | doubleSlaInDays              | noOpPolicy                 |
 
-  Scenario Outline: A record field can refer to a composite instance
-    Given a composite named "<compositeType>" with multiple fields
-    And a record with a field that has a field with a composite type of "<compositeType>"
-    When records are read
-    Then the record field is available and has a field with a composite type of "<compositeType>" containing multiple fields
-
-    Examples: 
-      | compositeType |
-      | Address       |
-      | Leaf          |
-
   Scenario: Data Access is enabled by default for a record
     Given a valid record with data access configuration
     When records are read

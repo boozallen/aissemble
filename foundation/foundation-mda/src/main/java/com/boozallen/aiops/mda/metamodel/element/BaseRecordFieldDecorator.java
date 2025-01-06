@@ -148,8 +148,6 @@ public class BaseRecordFieldDecorator implements RecordField {
             BaseDictionaryTypeDecorator dictionaryType = (BaseDictionaryTypeDecorator) fieldType.getDictionaryType();
             shortType = dictionaryType.isComplex() ? dictionaryType.getCapitalizedName()
                     : dictionaryType.getShortType();
-        } else if (fieldType.isCompositeTyped()) {
-            throw new GenerationException("Composite typed field not supported yet!");
         }
 
         return shortType;

@@ -60,7 +60,6 @@ public abstract class AbstractModelInstanceSteps {
     protected static final String TEST_RECORD_WITH_FIELD_LIST = "TestRecordWithFieldList";
 
     protected File dictionariesDirectory = new File(GENERATED_METADATA_DIRECTORY, "dictionaries");
-    protected File compositesDirectory = new File(GENERATED_METADATA_DIRECTORY, "composites");
     protected File recordsDirectory = new File(GENERATED_METADATA_DIRECTORY, "records");
     protected File pipelinesDirectory = new File(GENERATED_METADATA_DIRECTORY, "pipelines");
 
@@ -83,7 +82,6 @@ public abstract class AbstractModelInstanceSteps {
     protected void readMetadata(String artifactId) {
         // reduce debugging output by ensuring expected directories exist:
         dictionariesDirectory.mkdirs();
-        compositesDirectory.mkdirs();
         recordsDirectory.mkdirs();
         pipelinesDirectory.mkdirs();
 
@@ -106,10 +104,6 @@ public abstract class AbstractModelInstanceSteps {
 
     protected File getDictionaryFileByName(String name) {
         return createFileAndDirectories(dictionariesDirectory, name);
-    }
-
-    protected File getCompositeFileByName(String name) {
-        return createFileAndDirectories(compositesDirectory, name);
     }
 
     protected File getRecordFileByName(String name) {
@@ -176,7 +170,6 @@ public abstract class AbstractModelInstanceSteps {
         saveDictionaryToFile(dictionary);
     }
 
-
     protected void createSampleRecord(List<RecordFieldElement> fieldElements) {
         RecordElement record = new RecordElement();
         record.setName(TEST_RECORD_WITH_FIELD_LIST);
@@ -187,28 +180,6 @@ public abstract class AbstractModelInstanceSteps {
         }
 
         saveRecordToFile(record);
-    }
-
-    protected void createSampleComposite(List<CompositeFieldElement> fieldElements) {
-        CompositeElement composite = new CompositeElement();
-        composite.setName("TestCompositeWithFieldList");
-        composite.setPackage(BOOZ_ALLEN_PACKAGE);
-
-        for(CompositeFieldElement fieldElement: fieldElements) {
-            composite.addField(fieldElement);
-        }
-
-        saveCompositeToFile(composite);
-    }
-
-    protected void saveCompositeToFile(CompositeElement newComposite) {
-        File compositeFile = getCompositeFileByName(newComposite.getName());
-        try {
-            objectMapper.writeValue(compositeFile, newComposite);
-        } catch (IOException e) {
-            throw new RuntimeException("Problem saving composite file!", e);
-        }
-        assertTrue("Target not written to file!", compositeFile.exists());
     }
 
     public File savePipelineToFile(PipelineElement pipeline) throws IOException {

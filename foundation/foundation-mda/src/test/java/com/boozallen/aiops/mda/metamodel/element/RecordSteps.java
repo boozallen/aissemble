@@ -176,35 +176,6 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         saveRecordToFile(newRecord);
     }
 
-    @Given("a composite named {string} with multiple fields")
-    public void a_composite_named_with_multiple_fields(String compositeName) {
-        CompositeElement composite = new CompositeElement();
-        composite.setName(compositeName);
-        composite.setPackage(BOOZ_ALLEN_PACKAGE);
-        for (int i = 0; i < RandomUtils.insecure().randomInt(2, 5); i++) {
-            CompositeFieldElement field = new CompositeFieldElement();
-            field.setName("field" + i);
-            DictionaryTypeElement type = new DictionaryTypeElement();
-            type.setName("ssn");
-            field.setType(type);
-            composite.addField(field);
-        }
-        saveCompositeToFile(composite);
-    }
-
-    @Given("a record with a field that has a field with a composite type of {string}")
-    public void a_record_with_a_field_that_has_a_field_with_a_composite_type_of(String compositeType) {
-        RecordElement newRecord = createNewRecordWithNameAndPackage("CompositeTypedFieldTest", BOOZ_ALLEN_PACKAGE);
-        RecordFieldElement field = new RecordFieldElement();
-        field.setName("testPolicyOverride");
-        RecordFieldTypeElement type = new RecordFieldTypeElement();
-        type.setPackage(BOOZ_ALLEN_PACKAGE);
-        type.setName(compositeType);
-        field.setType(type);
-        newRecord.addField(field);
-        saveRecordToFile(newRecord);
-    }
-
     @Given("a valid record with data access configuration")
     public void a_valid_record_with_data_access_configuration() {
         RecordElement newRecord = createNewRecordWithNameAndPackage("DataAccessEnabledTest", BOOZ_ALLEN_PACKAGE);
@@ -332,18 +303,6 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         RecordField foundField = getAndValidateSingleField();
         assertEquals("Expected NO drift policy URN for field '" + foundField.getName() + "'!", null,
                 foundField.getDriftPolicy());
-    }
-
-    @Then("the record field is available and has a field with a composite type of {string} containing multiple fields")
-    public void the_record_field_is_available_and_has_a_field_with_a_composite_type_of_containing_multiple_fields(
-            String expectedCompositeType) {
-        
-        RecordField foundField = getAndValidateSingleField();
-        assertTrue("Expected to encounter a composite typed field!", foundField.getType().isCompositeTyped());
-        Composite foundComposite = foundField.getType().getCompositeType();
-        assertEquals("Unexpected composite type found!", expectedCompositeType, foundComposite.getName());
-        assertTrue("Expected multiple fields on the found composite!", foundComposite.getFields().size() > 1);
-
     }
 
     @Then("the record is available and has data access enabled")

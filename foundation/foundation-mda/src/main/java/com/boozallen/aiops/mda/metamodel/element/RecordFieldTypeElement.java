@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * Implements the {@link RecordFieldType} interface to support dictionary or composite field types for records.
+ * Implements the {@link RecordFieldType} interface to support dictionary type for records.
  */
 @JsonPropertyOrder({ "name", "package" })
 public class RecordFieldTypeElement extends NamespacedMetamodelElement implements RecordFieldType {
@@ -41,15 +41,6 @@ public class RecordFieldTypeElement extends NamespacedMetamodelElement implement
      */
     @JsonIgnore
     @Override
-    public boolean isCompositeTyped() {
-        return getCompositeType() != null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @JsonIgnore
-    @Override
     public DictionaryType getDictionaryType() {
         DictionaryType dictionaryType;
         if (StringUtils.isNotBlank(getPackage())) {
@@ -64,29 +55,13 @@ public class RecordFieldTypeElement extends NamespacedMetamodelElement implement
     /**
      * {@inheritDoc}
      */
-    @JsonIgnore
-    @Override
-    public Composite getCompositeType() {
-        Composite composite;
-        if (StringUtils.isNotBlank(getPackage())) {
-            composite = modelRepository.getComposite(getPackage(), getName());
-        } else {
-            composite = modelRepository.getComposite(getName());
-        }
-
-        return composite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void validate() {
         super.validate();
 
-        if (!isDictionaryTyped() && !isCompositeTyped()) {
+        if (!isDictionaryTyped()) {
             messageTracker.addErrorMessage(
-                    "Invalid record field type - neither dictionary type nor composite! (package:'" + getPackage() + "', name:'" + getName() + "')");
+                    "Invalid record field type! (package:'" + getPackage() + "', name:'" + getName() + "')");
         }
     }
 

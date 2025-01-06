@@ -26,7 +26,6 @@ import org.technologybrewery.fermenter.mda.util.MessageTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.boozallen.aiops.mda.metamodel.element.Composite;
 import com.boozallen.aiops.mda.metamodel.element.Dictionary;
 import com.boozallen.aiops.mda.metamodel.element.DictionaryType;
 import com.boozallen.aiops.mda.metamodel.element.Pipeline;
@@ -41,7 +40,6 @@ public class AissembleModelInstanceRepository extends AbstractModelInstanceRepos
     private static final Logger logger = LoggerFactory.getLogger(AissembleModelInstanceRepository.class);
 
     private DictionaryModelInstanceManager dictionaryManager = DictionaryModelInstanceManager.getInstance();
-    private CompositeModelInstanceManager compositeManager = CompositeModelInstanceManager.getInstance();
     private RecordModelInstanceManager recordManager = RecordModelInstanceManager.getInstance();
     private PipelineModelInstanceManager pipelineManager = PipelineModelInstanceManager.getInstance();
     private DeploymentConfigurationManager deploymentConfigurationManager;
@@ -61,7 +59,6 @@ public class AissembleModelInstanceRepository extends AbstractModelInstanceRepos
     public void load() {
         pipelineManager.reset();
         recordManager.reset();
-        compositeManager.reset();
         dictionaryManager.reset();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -76,7 +73,6 @@ public class AissembleModelInstanceRepository extends AbstractModelInstanceRepos
         for (ModelInstanceUrl modelInstanceUrl : modelInstanceUrls) {
             long start = System.currentTimeMillis();
             dictionaryManager.loadMetadata(modelInstanceUrl, config);
-            compositeManager.loadMetadata(modelInstanceUrl, config);
             recordManager.loadMetadata(modelInstanceUrl, config);
             pipelineManager.loadMetadata(modelInstanceUrl, config);
 
@@ -96,10 +92,6 @@ public class AissembleModelInstanceRepository extends AbstractModelInstanceRepos
     public void validate() {
         for (Dictionary dictionary : dictionaryManager.getMetadataElementWithoutPackage().values()) {
             dictionary.validate();
-        }
-
-        for (Composite composite : compositeManager.getMetadataElementWithoutPackage().values()) {
-            composite.validate();
         }
 
         for (Record recordInstance : recordManager.getMetadataElementWithoutPackage().values()) {
@@ -237,65 +229,6 @@ public class AissembleModelInstanceRepository extends AbstractModelInstanceRepos
      */
     public Map<String, Record> getRecordsByContext(String context) {
         return recordManager.getMetadataElementByContext(context);
-    }
-
-    /**
-     * Gets an composite by name from the current package.
-     * 
-     * @param name
-     *            name of the composite to look up
-     * @return instance of the {@link Composite} or null if none is found with the request name
-     */
-    public Composite getComposite(String name) {
-        return compositeManager.getMetadataElementByPackageAndName(config.getBasePackage(), name);
-
-    }
-
-    /**
-     * Gets an composite by name from the current package.
-     * 
-     * @param name
-     *            name of the composite to look up
-     * @param packageName
-     *            the package in which to look for the request element
-     * @return instance of the {@link Composite} or null if none is found with the request name
-     */
-    public Composite getComposite(String packageName, String name) {
-        return compositeManager.getMetadataElementByPackageAndName(packageName, name);
-
-    }
-
-    /**
-     * Gets all composites from the specified package.
-     * 
-     * @param packageName
-     *            the requested package
-     * @return all composites within the request package, keyed by name
-     */
-    public Map<String, Composite> getComposites(String packageName) {
-        return compositeManager.getMetadataElementByPackage(packageName);
-    }
-
-    /**
-     * Gets all composites from the specified artifact id.
-     * 
-     * @param artifactId
-     *            the requested artifact id
-     * @return all composites within the request artifact id, keyed by name
-     */
-    public Map<String, Composite> getCompositesByArtifactId(String artifactId) {
-        return compositeManager.getMetadataByArtifactIdMap(artifactId);
-    }
-
-    /**
-     * Retrieves composites based on a generation context.
-     * 
-     * @param context
-     *            type of generation target context being used
-     * @return map of composites
-     */
-    public Map<String, Composite> getCompositesByContext(String context) {
-        return compositeManager.getMetadataElementByContext(context);
     }
 
     /**

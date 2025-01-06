@@ -12,4 +12,3 @@ Feature: Extend foundation-mda so that you can modify existing metamodel schemas
       | dictionary | java-dictionary-type    |
       | record     | java-record             |
       | pipeline   | aissemble-maven-modules |
-      | composite  |                         | # Composite is not currently used in any generators

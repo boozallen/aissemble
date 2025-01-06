@@ -109,8 +109,6 @@ public class PythonRecord extends BaseRecordDecorator {
         if (fieldType.isDictionaryTyped()) {
             PythonDictionaryType dictionaryType = (PythonDictionaryType) fieldType.getDictionaryType();
             addDictionaryTypeImports(dictionaryType, forEnum);
-        } else if (fieldType.isCompositeTyped()) {
-            throw new GenerationException("Composite typed field not supported yet!");
         }
     }
 

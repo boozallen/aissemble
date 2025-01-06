@@ -61,9 +61,6 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
             case "pipeline":
                 this.createPipelineExtension();
                 break;
-            case "composite":
-                this.createCompositeExtension();
-                break;
         }
     }
 
@@ -71,16 +68,13 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
     public void the_profile_is_generated(String profile) {
         readMetadata();
 
-        // Skip the composite case as there is not a generation profile for it
-        if (!profile.isBlank()) {
-            try {
-                Map<String, ExpandedProfile> profiles = loadProfiles();
-                GenerateSourcesHelper.performSourceGeneration(profile, profiles, this::createGenerationContext, (missingProfile, foundProfiles) -> {
-                    throw new RuntimeException("Missing profile: " + missingProfile);
-                }, new Slf4jDelegate(logger), projectDir.toFile());
-            } catch (Exception exception) {
-                this.exception = exception;
-            }
+        try {
+            Map<String, ExpandedProfile> profiles = loadProfiles();
+            GenerateSourcesHelper.performSourceGeneration(profile, profiles, this::createGenerationContext, (missingProfile, foundProfiles) -> {
+                throw new RuntimeException("Missing profile: " + missingProfile);
+            }, new Slf4jDelegate(logger), projectDir.toFile());
+        } catch (Exception exception) {
+            this.exception = exception;
         }
     }
 
@@ -105,10 +99,6 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
             case "pipeline":
                 PipelineTypeElementExtension pipelineTypeElementExtension = (PipelineTypeElementExtension) this.metadataRepo.getPipeline("TestPipeline").getType();
                 this.validateExtension(metamodelType, pipelineTypeElementExtension.simpleField, pipelineTypeElementExtension.person);
-                break;
-            case "composite":
-                CompositeFieldElementExtension compositeFieldElementExtension = (CompositeFieldElementExtension) this.metadataRepo.getComposite("TestCompositeWithFieldList").getFields().get(0);
-                this.validateExtension(metamodelType, compositeFieldElementExtension.simpleField, compositeFieldElementExtension.person);
                 break;
         }
     }
@@ -174,25 +164,6 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
     }
 
     /*
-     * Create a basic composite using the custom extension class with a dictionary for the composite to reference as its type.
-     */
-    private void createCompositeExtension() throws Exception {
-        this.createProject("test-composite-extension", "shared");
-
-        DictionaryTypeElement dictionaryTypeElement = new DictionaryTypeElement();
-        dictionaryTypeElement.setName("StringField");
-        dictionaryTypeElement.setSimpleType("string");
-
-        CompositeFieldElementExtension compositeFieldElementExtension = new CompositeFieldElementExtension();
-        compositeFieldElementExtension.setName("CustomCompositeExtension");
-        compositeFieldElementExtension.setType(dictionaryTypeElement);
-        compositeFieldElementExtension.simpleField = "TestSimpleField";
-        compositeFieldElementExtension.person = new Person("Test Person", 50);
-
-        this.createSampleComposite(Arrays.asList(compositeFieldElementExtension));
-    }
-
-    /*
      * Validate the extension within the metamodel repo contains the expected new values
      */
     private void validateExtension(String type, String simpleFieldValue, Person complexField) {
@@ -228,11 +199,6 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
         public Person person;
     }
 
-    public static class CompositeFieldElementExtension extends CompositeFieldElement {
-        public String simpleField;
-        public Person person;
-    }
-
     /*
      * Class extending the aissemble metamodel repository with our custom classes
      */
@@ -255,9 +221,6 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
             module.addAbstractTypeMapping(RecordField.class, RecordFieldElementExtension.class);
             module.addAbstractTypeMapping(RecordFieldType.class, RecordFieldTypeElement.class);
 
-            // Add custom composite extension
-            module.addAbstractTypeMapping(CompositeField.class, CompositeFieldElementExtension.class);
-
             ObjectMapper localMapper = new ObjectMapper();
             localMapper.registerModule(module);
             JsonUtils.setObjectMapper(localMapper);
@@ -271,7 +234,6 @@ public class ExtendMetamodelSteps extends AbstractModelInstanceSteps {
     protected void readMetadata(String artifactId) {
         // reduce debugging output by ensuring expected directories exist:
         dictionariesDirectory.mkdirs();
-        compositesDirectory.mkdirs();
         recordsDirectory.mkdirs();
         pipelinesDirectory.mkdirs();
 

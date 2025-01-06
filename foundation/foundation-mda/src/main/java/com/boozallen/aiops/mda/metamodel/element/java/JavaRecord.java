@@ -137,7 +137,7 @@ public class JavaRecord extends BaseRecordDecorator {
                 addSimpleTypeImport(field);
             }
         } else {
-            throw new GenerationException("Composite typed field not supported yet!");
+            throw new GenerationException("Non-dictionary typed field not supported yet!");
         }
     }
 
