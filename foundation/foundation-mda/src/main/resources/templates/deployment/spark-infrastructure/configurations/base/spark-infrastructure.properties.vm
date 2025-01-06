@@ -2,3 +2,4 @@
 # Password and other sensitive information should be encrypted using krausening
 # (See Here: https://github.com/TechnologyBrewery/krausening/tree/dev/krausening/#krausening-in-four-pints-leveraging-jasypt-for-encryptingdecrypting-properties)
 metastore.db.username=hive
+metastore.db.password=hive

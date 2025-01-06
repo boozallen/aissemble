@@ -25,6 +25,7 @@ mysql:
     # Note: Changing these values requires removal of the `hive-metastore-db-0` PVC, or manual modification of the
     # persisted database.
     username: $getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)
+    password: $getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.password)
 
 hive:
   dbType: "mysql"

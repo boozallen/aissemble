@@ -52,7 +52,6 @@ aissemble-hive-metastore-service-chart:
       # persisted database.
       rootPassword: hive
       replicationPassword: hive
-      password: hive
 
   deployment:
     env:
