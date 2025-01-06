@@ -162,7 +162,7 @@ public class LoadConfigurationsSteps {
  
     @Then("augments the base with the environment properties")
     public void augmentsTheBaseWithTheEnvironmentConfigurations() {
-        assertEquals(13, TestPropertyDao.loadedProperties.size());
+        assertEquals(14, TestPropertyDao.loadedProperties.size());
         assertPropertySetsEqual(createExpectedProperties(), new HashSet<>(TestPropertyDao.loadedProperties.values()));
     }
 

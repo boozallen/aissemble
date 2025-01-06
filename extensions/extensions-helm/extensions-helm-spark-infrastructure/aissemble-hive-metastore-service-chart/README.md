@@ -45,11 +45,17 @@ helm install hive-metastore-service oci://ghcr.io/boozallen/aissemble-hive-metas
 See [the official bitnami documentation](https://github.com/bitnami/charts/tree/main/bitnami/mysql) for full
 configuration options.
 
-| Property         | Default             |
-|------------------|---------------------|
-| fullnameOverride | "hive-metastore-db" |
-| auth.database    | "metastore"         |
-| auth.username    | "hive"              |
+| Property         | Default                                                                            |
+|------------------|------------------------------------------------------------------------------------|
+| fullnameOverride | "hive-metastore-db"                                                                |
+| auth.database    | "metastore"                                                                        |
+| auth.username    | $getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username) |
+| auth.password    | $getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.password) |
+
+**Note**: 
+By Default, username and passwords are being injected from [Universal Configuration Store](https://boozallen.github.io/aissemble/aissemble/current/configuration-store.html).
+Configuration Store will look for $getConfigValue(...) and find properties file to inject values from corresponding groupName and propertyName.
+
 
 # Migration from aiSSEMBLE v1 Helm Charts
 

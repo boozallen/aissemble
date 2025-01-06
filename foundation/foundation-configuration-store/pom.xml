@@ -165,6 +165,11 @@
             <artifactId>jakarta.ws.rs-api</artifactId>
             <version>${version.jakarta.wr.rs}</version>
         </dependency>
+        <dependency>
+            <groupId>com.tdunning</groupId>
+            <artifactId>json</artifactId>
+            <version>1.8</version>
+        </dependency>
 
         <!-- quarkus dependencies -->
         <dependency>
