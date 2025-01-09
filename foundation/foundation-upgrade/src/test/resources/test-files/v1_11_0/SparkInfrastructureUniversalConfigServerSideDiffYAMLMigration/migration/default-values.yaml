@@ -1,0 +1,40 @@
+# This file contains the values for the aiSSEMBLE Spark Infrastructure Helm chart.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spark-infrastructure
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # This is intentional to ignore differences as Mutating Webhook alters values listed below and ArgoCD or any deployment could cause out of sync
+  # because desired and actual manifest differ upon injection of values See: https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/
+  ignoreDifferences:
+    - group: ""
+      kind: ConfigMap
+      jsonPointers:
+        - /data/metastore-site.xml
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/template/spec/containers/0/env/2/value
+  destination:
+    namespace: test-497
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    repoURL: {{ .Values.spec.repo }}
+    path: test-497-deploy/src/main/resources/apps/spark-infrastructure
+    targetRevision: {{ .Values.spec.targetRevision }}
+    {{ if .Values.spec.helm.valueFiles }}
+    helm:
+      valueFiles:
+        {{- range .Values.spec.helm.valueFiles }}
+        - {{ . }}
+        {{- end }}
+    {{ end }}
+  {{- with .Values.spec.syncPolicy }}
+  syncPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
