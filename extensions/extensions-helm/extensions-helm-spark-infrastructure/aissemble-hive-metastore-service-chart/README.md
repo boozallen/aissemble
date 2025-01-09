@@ -55,6 +55,7 @@ configuration options.
 **Note**: 
 By Default, username and passwords are being injected from [Universal Configuration Store](https://boozallen.github.io/aissemble/aissemble/current/configuration-store.html).
 Configuration Store will look for $getConfigValue(...) and find properties file to inject values from corresponding groupName and propertyName.
+Injected Config value except Secret will not show as out of sync as we enabled [Server-Side Diff Strategies.](https://argo-cd.readthedocs.io/en/stable/user-guide/diff-strategies/#server-side-diff)
 
 # Migration from aiSSEMBLE v1 Helm Charts
 

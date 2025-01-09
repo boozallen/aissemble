@@ -1,10 +1,10 @@
+# This file contains the values for the aiSSEMBLE Spark Infrastructure Helm chart.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: spark-infrastructure
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -20,19 +20,19 @@ spec:
       jsonPointers:
         - /spec/template/spec/containers/0/env/2/value
   destination:
-    namespace: ${projectName}
+    namespace: test-497
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
     repoURL: {{ .Values.spec.repo }}
-    path: ${projectName}-deploy/src/main/resources/apps/${appName}
+    path: test-497-deploy/src/main/resources/apps/spark-infrastructure
     targetRevision: {{ .Values.spec.targetRevision }}
     {{ if .Values.spec.helm.valueFiles }}
     helm:
       valueFiles:
         {{- range .Values.spec.helm.valueFiles }}
         - {{ . }}
-        {{- end }}    
+        {{- end }}
     {{ end }}
   {{- with .Values.spec.syncPolicy }}
   syncPolicy:
