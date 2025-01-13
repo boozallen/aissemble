@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Represents a record instance.
  */
-@JsonPropertyOrder({ "package", "name", "title", "description", "dataAccess", "featureRegistration", "fields", "frameworks" })
+@JsonPropertyOrder({ "package", "name", "title", "description", "dataAccess", "featureRegistration", "fields", "frameworks", "relations" })
 public class RecordElement extends NamespacedMetamodelElement implements Record {
 
     @JsonIgnore
@@ -47,6 +47,13 @@ public class RecordElement extends NamespacedMetamodelElement implements Record 
 
     @JsonInclude(Include.NON_NULL)
     private List<Framework> frameworks = new ArrayList<>();
+
+    @JsonInclude(Include.NON_EMPTY)
+    private List<Relation> relations = new ArrayList<>();
+
+    @JsonIgnore
+    protected List<Record> inverseRelations = new ArrayList<>();
+
 
     /**
      * {@inheritDoc}
@@ -105,6 +112,42 @@ public class RecordElement extends NamespacedMetamodelElement implements Record 
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Record> getInverseRelations() {
+        if (inverseRelations == null) {
+            inverseRelations = new ArrayList<>();
+        }
+        return inverseRelations;
+    }
+
+    public void addInverseRelation(Record reverseRelation) {
+        getInverseRelations().add(reverseRelation);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Relation getRelation(String type) {
+        for (Relation relation : getRelations()) {
+            if (relation.getType().equals(type)) {
+                return relation;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Relation> getRelations() {
+        return relations;
+    }
+
+    /**
      * Adds a framework to be supported.
      * @param framework the framework to add support for
      */
@@ -119,6 +162,9 @@ public class RecordElement extends NamespacedMetamodelElement implements Record 
     public void validate() {
         for (RecordField field : fields) {
             field.validate();
+        }
+        for (Relation relation : relations) {
+            relation.validate();
         }
         if (this.featureRegistration != null) {
             manualActionNotificationService.addSchemaElementDeprecationNotice("featureRegistration", "Record");
@@ -145,5 +191,15 @@ public class RecordElement extends NamespacedMetamodelElement implements Record 
 
     public void setFeatureRegistration(Object featureRegistration) {
         this.featureRegistration = featureRegistration;
+    }
+
+    /**
+     * Adds a relation to this entity.
+     *
+     * @param relation
+     *            relation to add
+     */
+    public void addRelation(Relation relation) {
+        relations.add(relation);
     }
 }

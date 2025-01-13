@@ -44,6 +44,8 @@ import com.boozallen.aiops.mda.metamodel.element.Provenance;
 import com.boozallen.aiops.mda.metamodel.element.ProvenanceElement;
 import com.boozallen.aiops.mda.metamodel.element.Record;
 import com.boozallen.aiops.mda.metamodel.element.RecordElement;
+import com.boozallen.aiops.mda.metamodel.element.Relation;
+import com.boozallen.aiops.mda.metamodel.element.RelationElement;
 import com.boozallen.aiops.mda.metamodel.element.RecordField;
 import com.boozallen.aiops.mda.metamodel.element.RecordFieldElement;
 import com.boozallen.aiops.mda.metamodel.element.RecordFieldType;
@@ -101,6 +103,7 @@ public final class AissembleMdaJsonUtils {
         module.addAbstractTypeMapping(Record.class, RecordElement.class);
         module.addAbstractTypeMapping(RecordField.class, RecordFieldElement.class);
         module.addAbstractTypeMapping(RecordFieldType.class, RecordFieldTypeElement.class);
+        module.addAbstractTypeMapping(Relation.class, RelationElement.class);
         module.addAbstractTypeMapping(DataAccess.class, DataAccessElement.class);
         module.addAbstractTypeMapping(Framework.class, FrameworkElement.class);
 

@@ -55,6 +55,15 @@ public interface Record extends NamespacedMetamodel {
     List<Framework> getFrameworks();
 
     /**
+     * Returns relations for this instance.
+     *
+     * @return list of relations
+     */
+    List<Relation> getRelations();
+
+    Relation getRelation(String type);
+
+    /**
      * Loops over all records until a record is found that tests true with predicate.
      * Otherwise, returns false.
      *
@@ -76,5 +85,14 @@ public interface Record extends NamespacedMetamodel {
 
         return result;
     }
+
+    /**
+     * Returns the entities that have specified this entity as a relation
+     *
+     * @param type
+     * @return
+     */
+    List<Record> getInverseRelations();
+
 
 }

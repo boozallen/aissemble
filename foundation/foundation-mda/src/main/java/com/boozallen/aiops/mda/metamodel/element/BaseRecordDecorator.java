@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.element.MetamodelUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -114,6 +115,23 @@ public class BaseRecordDecorator implements Record {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Relation getRelation(String type) {
+        return wrapped.getRelation(type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Relation> getRelations() {
+        return wrapped.getRelations();
+    }
+
+
+    /**
      * Returns the record name, capitalized.
      * 
      * @return capitalized name
@@ -163,5 +181,20 @@ public class BaseRecordDecorator implements Record {
                 .collect(Collectors.toList());
         return mapper.writeValueAsString(fieldSchemas);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Record> getInverseRelations() {
+        List<Record> wrappedInverseRelations = new ArrayList<>();
+        for (Record inverseRelation : wrapped.getInverseRelations()) {
+            Record wrappedInverseRelation = new BaseRecordDecorator(inverseRelation);
+            wrappedInverseRelations.add(wrappedInverseRelation);
+        }
+
+        return wrappedInverseRelations;
+    }
+
 
 }

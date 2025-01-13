@@ -51,6 +51,7 @@ public abstract class AbstractModelInstanceSteps {
     protected static final String BOOZ_ALLEN_PACKAGE = "com.boozallen.aiops.record";
     protected static final File GENERATED_METADATA_DIRECTORY = new File("target/temp-metadata");
     public static final String TEST_VERSION = "1.0.0-SNAPSHOT";
+    protected static final String RELATION_PACKAGE = "common.relation.package";
 
     private static final String AIOPS_MDA = "aiops-mda";
     protected static final String DICTIONARY_TYPE_TEST_STRING = "testString";
