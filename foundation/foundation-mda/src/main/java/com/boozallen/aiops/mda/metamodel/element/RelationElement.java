@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
-import java.util.Map;
 
 /**
  * Represents a reference on an record.
@@ -35,7 +34,7 @@ public class RelationElement implements Relation {
     protected String packageName;
 
     @JsonInclude(Include.NON_NULL)
-    protected String type;
+    protected String name;
 
     @JsonInclude(Include.NON_NULL)
     protected String documentation;
@@ -55,8 +54,16 @@ public class RelationElement implements Relation {
      * {@inheritDoc}
      */
     @Override
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    public String getFileName() {
+        throw new UnsupportedOperationException("This method is not implemented.");
     }
 
     /**
@@ -99,11 +106,11 @@ public class RelationElement implements Relation {
     /**
      * Sets the relation type.
      * 
-     * @param type
+     * @param name
      *            relation type
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -135,16 +142,8 @@ public class RelationElement implements Relation {
      * {@inheritDoc}
      */
     @Override
-    public Record getParentIdentifier(String parentRecordName) {
-        throw new UnsupportedOperationException("This method is not implemented.");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("type", type).toString();
+        return MoreObjects.toStringHelper(this).add("name", name).toString();
     }
 
 }

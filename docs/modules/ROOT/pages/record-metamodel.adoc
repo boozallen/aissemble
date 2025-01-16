@@ -66,6 +66,11 @@ PySpark support methods.
 | None
 | A list of fields in your record. At least one field is required within `fields`.
 
+| `relations` (xref:#_record_relation_options[details])
+| No
+| None
+| A list of relations from your record to other record types.
+
 |===
 
 [#_record_field_options]
@@ -207,4 +212,48 @@ The following options are available on the `dataProfiling` record element:
 | Setting `enabled` to false will disable xref:data-profiling-details.adoc[data profiling] for the field.
 
 |===
+
+[#_record_relation_options]
+=== Record Relation Options
+The following options are available on the `relations` record element:
+
+.Field Location
+[source,json]
+----
+{
+  "relations": [
+    {
+      ...
+    }
+  ]
+}
+----
+.Relation Metamodel Options
+[cols="2a,1a,1a,4a"]
+|===
+| Element Name | Required? | Default | Use
+
+| `relations/relation/name`
+| Yes
+| None
+| The name of the relation that is being modeled.
+
+| `relations/relation/package`
+| Yes
+| None
+| Provides a namespace that will be leveraged to differentiate between instances and provide language-specific
+namespacing (e.g., package in Java, namespace in XSD).
+
+| `relations/relation/documentation`
+| No
+| None
+| A description of the field.
+
+| `relations/relation/multiplicity`
+| No
+| One to Many (1-M)
+| Defines the multiplicity of the relation.  Options are ONE_TO_MANY (1-M), ONE_TO_ONE (1-1), and MANY_TO_ONE (M-1).
+
+|===
+
 \

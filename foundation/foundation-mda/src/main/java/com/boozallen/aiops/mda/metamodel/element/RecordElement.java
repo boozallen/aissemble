@@ -130,9 +130,9 @@ public class RecordElement extends NamespacedMetamodelElement implements Record 
      * {@inheritDoc}
      */
     @Override
-    public Relation getRelation(String type) {
+    public Relation getRelation(String name) {
         for (Relation relation : getRelations()) {
-            if (relation.getType().equals(type)) {
+            if (relation.getName().equals(name)) {
                 return relation;
             }
         }

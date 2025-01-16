@@ -84,7 +84,7 @@
 			"items": {
 				"type": "object",
 				"properties": {
-					"type": {
+					"name": {
 						"type": "string"
 					},
 					"package": {

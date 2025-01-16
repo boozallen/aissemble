@@ -91,7 +91,7 @@ class RecordModelInstanceManager extends AbstractMetamodelManager<Record> {
             relationValueInterator = (relationMap != null) ? relationMap.iterator() : Collections.emptyIterator();
             while (relationValueInterator.hasNext()) {
                 relation = (RelationElement) relationValueInterator.next();
-                relationType = relation.getType();
+                relationType = relation.getName();
                 // TODO: check 1-M and 1-1 only:
                 childRecord = (RecordElement) recordMap.get(relationType);
                 if (childRecord != null) {

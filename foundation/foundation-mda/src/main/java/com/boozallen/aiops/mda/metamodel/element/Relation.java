@@ -14,25 +14,26 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.element.Validatable;
 import org.technologybrewery.fermenter.mda.metamodel.element.Field;
+import org.technologybrewery.fermenter.mda.metamodel.element.NamespacedMetamodel;
 
 /**
  * Defines the contract for a record that has a child of another record.
  */
-public interface Relation extends Validatable {
+public interface Relation extends NamespacedMetamodel {
 
 	/**
 	 * Returns the type package of relation.
 	 *
 	 * @return relation type package
 	 */
-	String getPackage();
+//	String getPackage();
 
 	/**
 	 * Returns the type of relation.
 	 *
 	 * @return relation type
 	 */
-	String getType();
+//	String getName();
 
 	/**
 	 * Returns relation-level documentation.
@@ -122,11 +123,4 @@ public interface Relation extends Validatable {
 		}
 
 	}
-
-	/**
-	 * Gets the key fields that the child class will reference for this relation
-	 * @return The key fields
-	 */
-	public Record getParentIdentifier(String parentRecordName);
-
 }

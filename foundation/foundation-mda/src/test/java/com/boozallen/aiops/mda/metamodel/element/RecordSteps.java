@@ -14,14 +14,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.boozallen.aiops.mda.generator.common.FrameworkEnum;
-import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -464,7 +462,7 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         assertTrue("Parent record did not have a child", ARecord.getRelations().size() > 0);
         Relation relationToRecordB = ARecord.getRelations().get(0);
         assertTrue("Child record was not of type RecordB",
-                relationToRecordB.getType().equalsIgnoreCase("RecordB"));
+                relationToRecordB.getName().equalsIgnoreCase("RecordB"));
 
     }
     @Then("you can reference record A from record B")
@@ -492,7 +490,7 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         RecordElement newRecord = createNewRecordWithNameAndPackage(name, packageName);
 
         RelationElement recordRelation = new RelationElement();
-        recordRelation.setType(relation.type);
+        recordRelation.setName(relation.type);
         recordRelation.setPackage(relation.relationPackage);
         recordRelation.setDocumentation(relation.documentation);
         recordRelation.setMultiplicity(relation.multiplicity);
