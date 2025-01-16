@@ -29,7 +29,6 @@ aissemble-quarkus-chart:
       supplementalQuarkusConfig:
         - quarkus.http.ssl.certificate.files=/etc/webhook/cert/tls.crt
         - quarkus.http.ssl.certificate.key-files=/etc/webhook/cert/tls.key
-
     startupProbe:
       httpGet:
         path: /aissemble-properties/healthcheck
@@ -48,6 +47,18 @@ aissemble-quarkus-chart:
         targetPort: 8443
   configMap:
     name: configuration-store-quarkus-config
+
+baseconfigMap:
+  name: base-configuration-store-config
+  configFiles:
+    spark.properties: |-
+      metastore.db.username=hive
+      metastore.db.password=hive
+
+envconfigMap:
+  name: env-configuration-store-config
+  configFiles:
+    spark.properties: |-
 
 webhook:
   enable: true

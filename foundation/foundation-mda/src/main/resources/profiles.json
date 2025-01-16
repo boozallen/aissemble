@@ -329,10 +329,10 @@
 				"name": "valuesCIFile"
 			},
 			{
-				"name": "baseSparkInfrastructureProperties"
+				"name": "baseSparkProperties"
 			},
 			{
-				"name": "envSparkInfrastructureProperties"
+				"name": "envSparkProperties"
 			}
 		]
 	},

@@ -22,7 +22,6 @@ tests:
           supplementalQuarkusConfig:
             - file=/filepath
             - key-file=/keypath
-
     asserts:
       - equal:
           path: data

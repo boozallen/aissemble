@@ -24,6 +24,14 @@ spec:
         {{- if .Values.deployment.supplementalVolumes }}
           {{- toYaml .Values.deployment.supplementalVolumes | nindent 8}}
         {{- end }}
+        {{- if eq .Values.configMap.name "configuration-store-quarkus-config" }}
+        - name: baseconfig-volume
+          configMap:
+            name: base-configuration-store-config
+        - name: envconfig-volume
+          configMap:
+            name: env-configuration-store-config
+        {{- end }}
         {{- include "toggleable.configuration.volumes" . | nindent 8}}
       {{- with .Values.deployment.securityContext }}
       securityContext:
@@ -61,6 +69,12 @@ spec:
             {{- toYaml .Values.deployment.volumeMounts | nindent 12}}
             {{- if .Values.deployment.supplementalVolumeMounts }}
               {{- toYaml .Values.deployment.supplementalVolumeMounts | nindent 12}}
+            {{- end }}
+            {{- if eq .Values.configMap.name "configuration-store-quarkus-config" }}
+            - name: baseconfig-volume
+              mountPath: /configurations/base/
+            - name: envconfig-volume
+              mountPath: /configurations/env/
             {{- end }}
             {{- include "toggleable.configuration.volumeMounts" . | nindent 12 }}
       hostname: {{ .Values.deployment.hostname | default .Chart.Name }}

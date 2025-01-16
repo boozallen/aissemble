@@ -2398,17 +2398,17 @@
     "overwritable": false
   },
   {
-    "name": "baseSparkInfrastructureProperties",
-    "templateName": "templates/deployment/spark-infrastructure/configurations/base/spark-infrastructure.properties.vm",
-    "outputFile": "configurations/base/spark-infrastructure.properties",
+    "name": "baseSparkProperties",
+    "templateName": "templates/deployment/spark-infrastructure/configurations/base/spark.properties.vm",
+    "outputFile": "configurations/base/spark.properties",
     "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
   },
   {
-    "name": "envSparkInfrastructureProperties",
-    "templateName": "templates/deployment/spark-infrastructure/configurations/env/spark-infrastructure.properties.vm",
-    "outputFile": "configurations/env/spark-infrastructure.properties",
+    "name": "envSparkProperties",
+    "templateName": "templates/deployment/spark-infrastructure/configurations/env/spark.properties.vm",
+    "outputFile": "configurations/env/spark.properties",
     "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
     "metadataContext": "targeted",
     "overwritable": false

@@ -62,13 +62,13 @@ public class PropertiesStep extends AbstractModelInstanceSteps {
         }, new Slf4jDelegate(logger), projectDir.toFile());
     }
 
-    @Then("spark-infrastructure.properties file is generated in {string}")
+    @Then("spark.properties file is generated in {string}")
     public void properties_file_generated(String propertiesPath) {
         Path properties = projectDir.resolve(propertiesPath);
         assertTrue("File not created: " + properties, Files.exists(properties) && Files.isRegularFile(properties));
     }
 
-    @Then("spark-infrastructure.properties file generated in {string}, {string} properties are set to {string}")
+    @Then("spark.properties file generated in {string}, {string} properties are set to {string}")
     public void properties_set_values_correctly(String propertiesPath, String propertyName, String propertyValue) throws IOException {
         Path properties = projectDir.resolve(propertiesPath);
         List<String> lines = Files.readAllLines(properties);

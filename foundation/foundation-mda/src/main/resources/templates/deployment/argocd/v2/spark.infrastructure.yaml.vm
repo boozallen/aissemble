@@ -8,17 +8,6 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  # This is intentional to ignore differences as Mutating Webhook alters values listed below and ArgoCD or any deployment could cause out of sync
-  # because desired and actual manifest differ upon injection of values See: https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/
-  ignoreDifferences:
-    - group: ""
-      kind: ConfigMap
-      jsonPointers:
-        - /data/metastore-site.xml
-    - group: apps
-      kind: StatefulSet
-      jsonPointers:
-        - /spec/template/spec/containers/0/env/2/value
   destination:
     namespace: ${projectName}
     server: {{ .Values.spec.destination.server }}

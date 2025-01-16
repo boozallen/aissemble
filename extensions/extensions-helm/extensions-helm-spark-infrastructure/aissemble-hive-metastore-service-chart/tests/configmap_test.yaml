@@ -35,7 +35,7 @@ tests:
                 </property>
                 <property>
                   <name>javax.jdo.option.ConnectionUserName</name>
-                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <value>$getConfigValue(groupName=spark;propertyName=metastore.db.username)</value>
                   <description>Username to use against metastore database</description>
                 </property>
               </configuration>
@@ -97,7 +97,7 @@ tests:
                 </property>
                 <property>
                   <name>javax.jdo.option.ConnectionUserName</name>
-                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <value>$getConfigValue(groupName=spark;propertyName=metastore.db.username)</value>
                   <description>Username to use against metastore database</description>
                 </property>
                 <property>
@@ -141,7 +141,7 @@ tests:
                 </property>
                 <property>
                   <name>javax.jdo.option.ConnectionUserName</name>
-                  <value>$getConfigValue(groupName=spark-infrastructure;propertyName=metastore.db.username)</value>
+                  <value>$getConfigValue(groupName=spark;propertyName=metastore.db.username)</value>
                   <description>Username to use against metastore database</description>
                 </property>
                 <property>

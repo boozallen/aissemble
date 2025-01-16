@@ -71,6 +71,11 @@ secondary location for properties files that house the environment specific conf
 
 NOTE: Multiple configuration properties files can be stored at either location.
 
+The Configuration Store also support simplified way to provide configurations instead of mounting properties files.
+
+Under values.yaml, https://github.com/boozallen/aissemble/blob/dev/extensions/extensions-helm/aissemble-configuration-store-chart/README.md[specifying base and environment specific properties,role=external,window=_blank] can act as configuration properties file
+
+
 === Backend Storage Types
 By default, the Configuration Store uses Krausening for it backend property storage. This provides a more light weight but still robust 
 storage option perfect for smaller applications.
