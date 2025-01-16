@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Defines the contract for a record with one or more fields. A record field refers to a dictionary type.
+ * Defines the contract for a record with one or more fields and zero or more relations.
+ * A record field refers to a dictionary type.
  */
 public interface Record extends NamespacedMetamodel {
     /**

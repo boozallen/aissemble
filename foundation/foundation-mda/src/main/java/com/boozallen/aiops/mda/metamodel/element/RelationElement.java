@@ -17,12 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.StringUtils;
-//import org.technologybrewery.fermenter.mda.metamodel.DefaultModelInstanceRepository;
-//import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
 import org.technologybrewery.fermenter.mda.util.MessageTracker;
-//import org.technologybrewery.fermenter.mda.metamodel.element.Field;
-//import org.technologybrewery.fermenter.mda.metamodel.element.NamespacedMetamodelElement;
-
 import java.util.Map;
 
 /**

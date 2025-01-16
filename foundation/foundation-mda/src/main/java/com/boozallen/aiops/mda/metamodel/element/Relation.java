@@ -22,28 +22,28 @@ public interface Relation extends Validatable {
 
 	/**
 	 * Returns the type package of relation.
-	 * 
+	 *
 	 * @return relation type package
 	 */
 	String getPackage();
-	
+
 	/**
 	 * Returns the type of relation.
-	 * 
+	 *
 	 * @return relation type
 	 */
-	String getType();	
+	String getType();
 
 	/**
 	 * Returns relation-level documentation.
-	 * 
+	 *
 	 * @return relation documentation
 	 */
 	String getDocumentation();
 
 	/**
 	 * Returns multiplicity of this relation (e.g., 1-M, 1-1, M-M).
-	 * 
+	 *
 	 * @return multiplicity
 	 */
 	Multiplicity getMultiplicity();
@@ -64,7 +64,7 @@ public interface Relation extends Validatable {
 		/**
 		 * Returns the instance for the passed multiplicity value (ignoring case). If no
 		 * known match is found, null is returned.
-		 * 
+		 *
 		 * @param value string representation
 		 * @return instance
 		 */
@@ -99,10 +99,10 @@ public interface Relation extends Validatable {
 		public String toString() {
 			return value;
 		}
-		
+
 		/**
 		 * A comma-separated list of valid options.
-		 * 
+		 *
 		 * @return valid options
 		 */
 		public static String options() {
@@ -120,13 +120,13 @@ public interface Relation extends Validatable {
 
 			return sb.toString();
 		}
-		
+
 	}
 
 	/**
-     * Gets the key fields that the child class will reference for this relation
-     * @return The key fields
-     */
-    public Record getParentIdentifier(String parentRecordName);
+	 * Gets the key fields that the child class will reference for this relation
+	 * @return The key fields
+	 */
+	public Record getParentIdentifier(String parentRecordName);
 
 }
