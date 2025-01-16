@@ -56,8 +56,7 @@ public class SparkRecord extends JavaRecord {
             if (fieldType.isDictionaryTyped()) {
                 fields.add(sparkField);
             } else {
-                logger.warn("Spark schema does not support non-dictionary type - skip adding field '{}' to Spark schema.",
-                        sparkField.getName());
+                throw new IllegalArgumentException("Field type must be of type Dictionary");
             }
         }
 

@@ -33,8 +33,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.technologybrewery.fermenter.mda.metamodel.element.FieldElement;
+//import org.apache.commons.lang3.RandomStringUtils;
+//import org.technologybrewery.fermenter.mda.metamodel.element.FieldElement;
 
 public class RecordSteps extends AbstractModelInstanceSteps {
 
@@ -421,30 +421,36 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         assertFalse("Record does not contain the pyspark framework", found.isPresent());
     }
 
-    @Given("record A")
-    public void record_a() {
-        // Record A will be created with a relation to Record B after Record B is created
-    }
-
     @Given("record B")
     public void record_b() {
         RecordElement newRecord = createNewRecordWithNameAndPackage("RecordB", RELATION_PACKAGE);
         RecordFieldElement field = new RecordFieldElement();
         field.setName("FieldB");
         RecordFieldTypeElement type = new RecordFieldTypeElement();
-        type.setName("serial_num");
+        type.setName("phoneNumber");
         field.setType(type);
         newRecord.addField(field);
         saveRecordToFile(newRecord);
     }
 
-    @Given("record A references record B")
+    @Given("record A has a relation to record B")
     public void record_a_references_record_b() throws IOException {
         RelationInput relationInput = new RelationInput();
         relationInput.type = "RecordB";
         relationInput.relationPackage = RELATION_PACKAGE;
         relationInput.documentation = "Relation between Record A and Record B";
         createRecordWithRelation("RecordA", TEST_RECORD_RELATIONS, relationInput);
+    }
+
+    /**
+     * Uses to pass relation-level information into test steps
+     */
+    private static class RelationInput {
+        public String documentation;
+        public String type;
+        public String relationPackage;
+        public String multiplicity;
+        public String localColumn;
     }
 
     @Then("the records are successfully created")
@@ -472,17 +478,6 @@ public class RecordSteps extends AbstractModelInstanceSteps {
         assertTrue("Child record did not have a parent", BRecordInverseRelations.size() > 0);
         assertTrue("Parent record was not of type RecordA",
                 BRecordInverseRelations.get(0).getTitle().equalsIgnoreCase("RecordA"));
-    }
-
-    /**
-     * Uses to pass relation-level information into test steps
-     */
-    public static class RelationInput {
-        public String documentation;
-        public String type;
-        public String relationPackage;
-        public String multiplicity;
-        public String localColumn;
     }
 
     private RecordElement createRecordWithRelation(String name, String packageName, RelationInput relation)

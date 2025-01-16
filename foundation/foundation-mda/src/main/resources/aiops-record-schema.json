@@ -98,7 +98,7 @@
 					}
 				},
 				"required": [
-					"name","type"
+					"name","package"
 				]
 			}
 		}

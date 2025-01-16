@@ -83,7 +83,7 @@ class RecordModelInstanceManager extends AbstractMetamodelManager<Record> {
         // Get the complete metadata map - if I get only get current application, client transfer objects does not get
         // generated with parent references
         Map<String, Record> recordMap = getTargetMetadataMap();
-        recordMapIterator = (recordMap != null) ? recordMap.values().iterator() : Collections.emptyIterator();
+        recordMapIterator = recordMap.values().iterator();
         while (recordMapIterator.hasNext()) {
             record = (RecordElement) recordMapIterator.next();
             relationMap = record.getRelations();

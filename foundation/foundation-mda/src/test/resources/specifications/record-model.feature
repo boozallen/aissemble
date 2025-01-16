@@ -11,7 +11,6 @@ Feature: Specify record of semantically defined types
       | archivable      | boolean    |                  |                  | sampleMinimumPolicy      |
       | gender          | string     |                  |                  | genderDistributionPolicy |
       | binarydata      | byte[]     |                  |                  |                          |
-      | serial_num      | string     |                  |                  |                          |
 
   Scenario Outline: Create a valid record file
     Given a record described by "<name>", "<package>"
@@ -203,9 +202,8 @@ Feature: Specify record of semantically defined types
     Then the record is available and has Pyspark support disabled
 
   Scenario: A record can reference another record as a field
-    Given record A
     Given record B
-    Given record A references record B
+    Given record A has a relation to record B
     When records are read
     Then the records are successfully created
     And you can reference record B from record A

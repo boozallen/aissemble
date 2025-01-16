@@ -13,7 +13,7 @@ package com.boozallen.aiops.mda.metamodel.element;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 import org.technologybrewery.fermenter.mda.metamodel.element.Validatable;
-import org.technologybrewery.fermenter.mda.metamodel.element.Field;
+//import org.technologybrewery.fermenter.mda.metamodel.element.Field;
 import org.technologybrewery.fermenter.mda.metamodel.element.NamespacedMetamodel;
 
 /**

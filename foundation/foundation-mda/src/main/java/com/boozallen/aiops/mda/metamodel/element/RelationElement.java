@@ -96,8 +96,8 @@ public class RelationElement implements Relation {
     /**
      * Sets the relation type package.
      * 
-     * @param package
-     *            relation type package
+     * @param packageName
+     *            relation type packageName
      */
     public void setPackage(String packageName) {
         this.packageName = packageName;
@@ -132,7 +132,7 @@ public class RelationElement implements Relation {
     public void setMultiplicity(String multiplicityAsString) {
         this.multiplicity = Multiplicity.fromString(multiplicityAsString);
 
-        if (StringUtils.isNoneBlank(multiplicityAsString) && multiplicity == null) {
+        if (StringUtils.isNotBlank(multiplicityAsString) && multiplicity == null) {
             messageTracker.addErrorMessage("Could not map multiplicity '" + multiplicityAsString
                     + "' to one of the known multiplicity types! (" + Multiplicity.options() + ") ");
         }
