@@ -1,111 +1,108 @@
 #!/bin/sh
-###
-# #%L
-# aiSSEMBLE::Extensions::Docker::Spark
-# %%
-# Copyright (C) 2021 Booz Allen
-# %%
-# This software package is licensed under the Booz Allen Public License. All Rights Reserved.
-# #L%
-###
+set -euo pipefail 
+
+# constants
+
+SPARK_JARS="$1/jars"
+SPARK_VERSION="$2"
+HADOOP_VERSION="$3"
+
+echo "Starting Spark JAR updates for version: $SPARK_VERSION (Hadoop: $HADOOP_VERSION)"
 
 #---
-## Updates a Spark's JARs based on a list of Maven coordinates
-##
-## @Arguments: list of maven coordinates in `group:artifact:version:classifier` format where `:classifier` is optional
+## updates Spark JARs from Maven Central
+## @param: list of Maven coordinates (group:artifact:version:classifier)
 #---
 update_maven_jars() {
-  echo
-  echo "Updating jars in $SPARK_JARS ($SPARK_VERSION)"
-  echo
+  echo "Updating JARs in: $SPARK_JARS"
+  
   mvnjars="$1"
+  temp_dir=$(mktemp -d)
 
-  mkdir /tmp/jars || exit $?
   for gav in $mvnjars; do
-    #Parse GAV into separate variables, classifier may or may not be present as the last item
     group=$(echo "$gav" | cut -d : -f 1)
     artifact=$(echo "$gav" | cut -d : -f 2)
     version=$(echo "$gav" | cut -d : -f 3)
-    classifier=$(echo "$gav" | cut -d : -f 4)
+    classifier=$(echo "$gav" | cut -d : -f 4 || echo "")
+
     if [ -n "$classifier" ]; then
       classifier="-$classifier"
     fi
-    echo "-------------------------------------------"
-    echo "Replacing $group:$artifact with updated JAR"
 
-    # Fetch the updated JAR from Maven Central
     jar="$artifact-$version$classifier.jar"
     path=$(echo "$group" | sed 's|\.|/|g')
     url="https://repo1.maven.org/maven2/$path/$artifact/$version/$jar"
-    echo "Fetching $url"
-    wget -q "$url" -P /tmp/jars || exit $?
 
-    # Find the old jar that is being replaced
-    replaceable=$(find / -type f -regex "$SPARK_JARS/$artifact-[^-]*$classifier.jar" 2>/dev/null)
-    echo "Replacing '$replaceable'"
-    count=$(echo "$replaceable" | wc -w )
-    if [  "$count" -gt 1 ]; then
-      echo "Unexpected number of matches to replace!"
-      exit 1
+    echo "Fetching: $url"
+    wget -q "$url" -P "$temp_dir" || { echo "Failed to download $jar"; exit 1; }
+
+    replaceable=$(find "$SPARK_JARS" -maxdepth 1 -type f -name "$artifact-*" 2>/dev/null || echo "")
+
+    if [ -n "$replaceable" ]; then
+      echo "Replacing: $replaceable"
+      rm "$replaceable" || exit 1
     fi
 
-    # Delete the old JAR and move the new one into the Spark classpath
-  if [ -n "$replaceable" ]; then
-      rm "$replaceable" || exit $?
-    fi
-    mv "/tmp/jars/$jar" "$SPARK_JARS" || exit $?
-    echo
+    mv "$temp_dir/$jar" "$SPARK_JARS" || { echo "Failed to move $jar"; exit 1; }
+    echo "Updated: $artifact to version $version"
   done
+
+  rm -rf "$temp_dir"
 }
 
 #---
-## Updates Spark's jackson-mapper JAR to a RedHat version
-##
-## @param: the RedHat version name for the JAR
+## updates Jackson-mapper JAR to a RedHat patched version
+## @param: RedHat version name
 #---
 update_jackson() {
-  ### The codehaus version of Jackson is defunct, but RedHat has published a patched version
-  JACKSON_VER=$1
-  echo "Updating Jackson to $JACKSON_VER"
-  jackson="https://maven.repository.redhat.com/ga/org/codehaus/jackson/jackson-mapper-asl/$JACKSON_VER/jackson-mapper-asl-$JACKSON_VER.jar"
-  wget -q "$jackson" -P /tmp/jars || exit $?
-  rm $SPARK_JARS/jackson-mapper-asl-*.jar || exit $?
-  mv "/tmp/jars/jackson-mapper-asl-$JACKSON_VER.jar" "$SPARK_JARS" || exit $?
+  JACKSON_VER="$1"
+  echo "Updating Jackson to version: $JACKSON_VER"
+
+  temp_dir=$(mktemp -d)
+  jackson_url="https://maven.repository.redhat.com/ga/org/codehaus/jackson/jackson-mapper-asl/$JACKSON_VER/jackson-mapper-asl-$JACKSON_VER.jar"
+
+  wget -q "$jackson_url" -P "$temp_dir" || { echo "Failed to download Jackson JAR"; exit 1; }
+  
+  rm -f "$SPARK_JARS/jackson-mapper-asl-*.jar" || exit 1
+  mv "$temp_dir/jackson-mapper-asl-$JACKSON_VER.jar" "$SPARK_JARS" || exit 1
+
+  rm -rf "$temp_dir"
+  echo "Jackson updated successfully!"
 }
 
 #---
-## Removes all JARs supporting Mesos functionality from Spark's JARs
+## Removes Mesos-related JARs from Spark
 #---
 remove_mesos() {
-  echo "Remove Mesos JARs"
-  # Mesos support is being dropped in 4.0.0: https://issues.apache.org/jira/browse/SPARK-44442
-  find $SPARK_JARS -name '*mesos*.jar' -exec echo "Deleting {}" \; -exec rm {} \; || exit $?
+  echo "Removing Mesos JARs..."
+  find "$SPARK_JARS" -name '*mesos*.jar' -exec echo "Deleting: {}" \; -exec rm {} \; || exit 1
+  echo "Mesos JARs removed successfully!"
 }
 
 #---
-## Creates a Python package entry for the bundled PySpark installation
-##
-## @param: Spark's home directory
-## @param: the Spark version
+## Registers PySpark with Python Package Index
+## @param: Spark home directory
+## @param: Spark version
 #---
 register_pyspark() {
-  echo "Register PySpark installation with PIP"
-  # Following approach mentioned in https://github.com/pypa/pip/issues/10458
-  echo "\
-from setuptools import setup
+  SPARK_HOME="$1"
+  VERSION="$2"
+  echo "Registering PySpark installation for version: $VERSION"
 
+  cat <<EOF > "$SPARK_HOME/python/setup.py"
+from setuptools import setup
 setup(
     name='pyspark',
-    version='$2',
+    version='$VERSION',
     description='A dummy package representing the provided PySpark installation',
-)" > "$1/python/setup.py"
-  python3 -m pip install "$1/python"
+)
+EOF
+
+  python3 -m pip install "$SPARK_HOME/python" || { echo "Failed to register PySpark"; exit 1; }
+  echo "PySpark registered successfully!"
 }
 
-SPARK_JARS="$1/jars"
-SPARK_VERSION=$2
-HADOOP_VERSION=$3
-
+# Run updates
 update_maven_jars "com.google.code.gson:gson:2.8.9 \
                    com.google.guava:guava:33.3.1-jre \
                    com.squareup.okhttp3:okhttp:3.14.9 \
@@ -147,6 +144,9 @@ update_maven_jars "com.google.code.gson:gson:2.8.9 \
                    org.apache.parquet:parquet-common:1.15.0 \
                    org.apache.zookeeper:zookeeper-jute:3.9.3 \
                    org.apache.zookeeper:zookeeper:3.9.3"
-update_jackson '1.9.14.jdk17-redhat-00001'
+
+update_jackson "1.9.14.jdk17-redhat-00001"
 remove_mesos
-register_pyspark $SPARK_HOME $SPARK_VERSION
+register_pyspark "$SPARK_HOME" "$SPARK_VERSION"
+
+echo "Spark JAR updates completed successfully!"
