@@ -24,6 +24,9 @@ ${step.encryptionSignature} {
         Map<String, EncryptionPolicy> policies = encryptionPolicyManager.getEncryptPolicies();
 
         if(!policies.isEmpty()) {
+        #if (${step.hasInboundNativeCollectionTypeAndRelations()})
+            throw new UnsupportedOperationException("Encryption of records that contain relations is not yet supported.");
+        #else
             for(EncryptionPolicy encryptionPolicy: policies.values()) {
                 if(stepPhase.equalsIgnoreCase(encryptionPolicy.getEncryptPhase())){
                     List<String> encryptFields = encryptionPolicy.getEncryptFields();
@@ -103,6 +106,7 @@ ${step.encryptionSignature} {
                     }
                 }
             }
+        #end
         }
     }
     #if ($step.hasMessagingInbound())

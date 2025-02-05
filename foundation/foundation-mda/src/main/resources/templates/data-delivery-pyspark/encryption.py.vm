@@ -23,12 +23,15 @@
         policy_manager = DataEncryptionPolicyManager.getInstance()
         retrieved_policies = policy_manager.policies
 
+        #if (${step.hasInboundNativeCollectionTypeAndRelations()})
+        if(len(retrieved_policies.items()) > 0):
+            raise NotImplementedError("Encryption of records that contain relations is not yet supported.")
+        #else
         for key, encrypt_policy in retrieved_policies.items():
             # Encryption policies have a property called encryptPhase.
             # If that property is missing then we should ignore the policy.
             if encrypt_policy.encryptPhase:
                 if self.step_phase.lower() == encrypt_policy.encryptPhase.lower():
-
                     encrypt_fields = encrypt_policy.encryptFields
                     input_fields = self.get_fields_list(inbound)
                     field_intersection = list(set(encrypt_fields) & set(input_fields))
@@ -36,6 +39,7 @@
                     return_payload = self.apply_encryption_to_dataset(inbound, field_intersection, encrypt_policy.encryptAlgorithm)
                 else:
                     ${step.capitalizedName}Base.logger.info('Encryption policy does not apply to this phase: ' + self.step_phase)
+        #end
 
         return return_payload
        #end

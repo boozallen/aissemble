@@ -13,6 +13,7 @@ package com.boozallen.aiops.mda.metamodel.element;
 import com.boozallen.aiops.mda.generator.common.DataFlowStrategy;
 import com.boozallen.aiops.mda.generator.common.MachineLearningStrategy;
 import com.boozallen.aiops.mda.generator.common.PipelineContext;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.boozallen.aiops.mda.util.TestMetamodelUtil;
 import com.boozallen.aiops.mda.metamodel.json.AissembleMdaJsonUtils;
 import io.cucumber.java.After;
@@ -37,10 +38,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceRepositoryManager;
+import org.technologybrewery.fermenter.mda.metamodel.ModelRepositoryConfiguration;
+import org.technologybrewery.fermenter.mda.metamodel.ModelInstanceUrl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -56,6 +61,7 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
     public static final String DO_MODIFY_REGEX = "DO\\s+MODIFY";
     public static final String ABSTRACT_DATA_ACTION_IMPL_INHERIT_REGEX = "AbstractDataActionImpl\\(AbstractDataAction\\):";
     public static final String ABSTRACT_PIPELINE_STEP_INHERIT_REGEX = "AbstractPipelineStep\\(AbstractDataActionImpl\\)";
+    public static final String TEST_RECORD_RELATIONS = "test.record.relations";
 
     protected Pipeline pipeline;
     protected Pipeline dataFLowPipeline;
@@ -967,4 +973,110 @@ public class PipelineSteps extends AbstractModelInstanceSteps {
         return steps;
     }
 
+
+    @Given("a valid data delivery pipeline with native inbound type")
+    public void a_valid_data_delivery_pipeline_with_native_inbound_type() throws IOException {
+        RecordElement newRecordB = createNewRecordWithNameAndPackage("RecordB", RELATION_PACKAGE);
+        saveRecordToFile(newRecordB);
+
+        RecordElement nativeRecord = createNewRecordWithNameAndPackage("RecordA", TEST_RECORD_RELATIONS);
+
+        // Create relation from RecordA to RecordB
+        RelationElement recordRelation = new RelationElement();
+        recordRelation.setName("RecordB");
+        recordRelation.setPackage(RELATION_PACKAGE);
+        recordRelation.setColumn("FieldBParent");
+        recordRelation.setDocumentation("Some Documentation");
+        recordRelation.setMultiplicity("1-1");
+
+        nativeRecord.addRelation(recordRelation);
+        saveRecordToFile(nativeRecord);
+
+        PipelineElement newPipeline = TestMetamodelUtil.createPipelineWithType("nativeDataDelivery", "com.boozallen.aiops.test", "data-flow", "versioned-streaming-spark-java");
+
+        // Add steps to pipeline
+        StepElement step = new StepElement();
+        step.setName("inbound-step");
+        step.setType("synchronous");
+
+        PersistElement persist = new PersistElement();
+        persist.setType("delta-lake");
+        step.setPersist(persist);
+
+        StepDataBindingElement inbound = new StepDataBindingElement();
+        inbound.setType("native");
+        inbound.setChannelName("unit-test-inbound");
+        inbound.setChannelType("topic");
+
+        // Add a record type to the inbound
+        StepDataRecordTypeElement stepDataRecordTypeElement = new StepDataRecordTypeElement();
+        stepDataRecordTypeElement.setName("RecordA");
+        stepDataRecordTypeElement.setPackage(TEST_RECORD_RELATIONS);
+        inbound.setRecordType(stepDataRecordTypeElement);
+        step.setInbound(inbound);
+
+        StepDataBindingElement outbound = new StepDataBindingElement();
+        outbound.setType("messaging");
+        outbound.setChannelName("unit-test-outbound");
+        outbound.setChannelType("queue");
+        step.setOutbound(outbound);
+
+        for (int j = 0; j < RandomUtils.insecure().randomInt(0, 4); j++) {
+            ConfigurationItemElement configurationItem = new ConfigurationItemElement();
+            configurationItem.setKey(RandomStringUtils.insecure().nextAlphanumeric(3));
+            configurationItem.setValue(RandomStringUtils.insecure().nextAlphanumeric(10));
+            step.addConfigurationItem(configurationItem);
+        }
+
+        newPipeline.addStep(step);
+
+        pipelineFile = savePipelineToFile(newPipeline);
+    }
+
+    private RecordElement createNewRecordWithNameAndPackage(String name, String packageName) {
+        RecordElement newRecord = new RecordElement();
+        if (StringUtils.isNotBlank(name)) {
+            newRecord.setName(name);
+        }
+
+        if (StringUtils.isNotBlank(packageName)) {
+            newRecord.setPackage(packageName);
+        }
+
+        return newRecord;
+    }
+
+    @Then("the native inbound pipeline can be read with the associated record and relations")
+    public void the_native_inbound_pipeline_can_be_read() {
+        primeRecordRepo("example");
+
+        pipeline = JsonUtils.readAndValidateJson(pipelineFile, PipelineElement.class);
+        List<? extends Step> mySteps = pipeline.getSteps();
+
+        for(Step mystep: mySteps) {
+            StepDataBinding myInbound = mystep.getInbound();
+            StepDataRecordType stepDataRecordType = myInbound.getRecordType();
+            Record myRecord = stepDataRecordType.getRecordType();
+
+            assertTrue("Record Relations was empty.", myRecord.getRelations() != null && !myRecord.getRelations().isEmpty());
+        }
+    }
+
+    /***
+     * This method loads the metadataRepo for records.  The default metadataRepo does
+     * not set the correct ModelInstanceUrl, so calling this will prime the repo with the correct path.
+     * @param artifactId The name of the project
+     */
+    protected void primeRecordRepo(String artifactId) {
+        ModelRepositoryConfiguration config = new ModelRepositoryConfiguration();
+        config.setArtifactId(artifactId);
+        config.setBasePackage(BOOZ_ALLEN_PACKAGE);
+        Map<String, ModelInstanceUrl> metadataUrlMap = config.getMetamodelInstanceLocations();
+        metadataUrlMap.put(artifactId,
+                new ModelInstanceUrl(artifactId, recordsDirectory.getParentFile().toURI().toString()));
+
+        metadataRepo = new AissembleModelInstanceRepository(config);
+        ModelInstanceRepositoryManager.setRepository(metadataRepo);
+        metadataRepo.load();
+    }
 }

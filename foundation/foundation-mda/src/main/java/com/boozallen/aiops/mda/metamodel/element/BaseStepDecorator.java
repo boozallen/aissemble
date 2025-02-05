@@ -440,4 +440,21 @@ public class BaseStepDecorator implements Step {
 	public boolean isGeneric() {
 		return "generic".equalsIgnoreCase(getType());
 	}
+
+	/**
+	 * Whether or not the step has an inbound native collection type defined
+	 * and also contains relations.
+	 *
+	 * @return true if the step has an inbound native collection type defined and has relations.
+	 */
+	public boolean hasInboundNativeCollectionTypeAndRelations() {
+		boolean isNative = getInbound() != null && getInbound().getNativeCollectionType() != null;
+		boolean hasRelations = false;
+		if(getInbound() != null && getInbound().getRecordType() != null) {
+			Record thisRecord = getInbound().getRecordType().getRecordType();
+			hasRelations = thisRecord.getRelations() != null && !thisRecord.getRelations().isEmpty();
+		}
+
+		return isNative && hasRelations;
+	}
 }

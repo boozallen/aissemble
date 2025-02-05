@@ -35,8 +35,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-//import org.apache.commons.lang3.RandomStringUtils;
-//import org.technologybrewery.fermenter.mda.metamodel.element.FieldElement;
 
 public class RecordSteps extends AbstractModelInstanceSteps {
 
@@ -519,11 +517,11 @@ public class RecordSteps extends AbstractModelInstanceSteps {
 
     @Then("the relation has the correct default values")
     public void theRelationHasTheCorrectDefaultValues() {
-        Record parentRecord = this.metadataRepo.getRecord(TEST_RECORD_RELATIONS,"ParentRecord");
+        Record parentRecord = this.metadataRepo.getRecord(TEST_RECORD_RELATIONS, "ParentRecord");
         assertNotNull("Parent Record with relation was not created successfully", parentRecord);
         assertNotNull("Parent record does not have the appropriate relation",
                 parentRecord.getRelations());
-        for(Relation childRelation : parentRecord.getRelations()) {
+        for (Relation childRelation : parentRecord.getRelations()) {
             assertNull("Child relation should not be required", childRelation.isRequired());
             assertNull("Child relation should not have a description", childRelation.getDocumentation());
             assertNull("Child relation should not have a column", childRelation.getColumn());

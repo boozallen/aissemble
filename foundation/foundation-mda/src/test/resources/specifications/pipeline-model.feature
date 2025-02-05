@@ -194,3 +194,9 @@ Feature: Specify pipelines to be generated
     Given an otherwise valid data delivery pipeline with a step that has model lineage defined
     When pipelines are read
     Then there are validation error messages
+
+  Scenario: Pipeline with native inbound and record relations can be parsed
+    Given a valid data delivery pipeline with native inbound type
+    When pipelines are read
+    Then the native inbound pipeline can be read with the associated record and relations
+

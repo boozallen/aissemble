@@ -170,6 +170,12 @@
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.boozallen.aissemble</groupId>
+            <artifactId>foundation-encryption-policy-java</artifactId>
+            <version>${version.aissemble}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

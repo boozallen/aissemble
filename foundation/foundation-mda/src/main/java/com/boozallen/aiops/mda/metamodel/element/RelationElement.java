@@ -92,6 +92,15 @@ public class RelationElement extends NamespacedMetamodelElement implements Relat
         this.documentation = documentation;
     }
 
+    /***
+     * Sets the Column name.
+     * @param column the column name
+     */
+    public void setColumn(String column) {
+        // This method is used in testing. i.e. not normally set from the RelationElement directly
+        this.column = column;
+    }
+
     /**
      * Sets the multiplicity value.
      * 

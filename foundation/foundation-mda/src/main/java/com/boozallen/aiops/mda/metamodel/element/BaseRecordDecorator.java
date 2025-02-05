@@ -11,6 +11,7 @@ package com.boozallen.aiops.mda.metamodel.element;
  */
 
 import com.boozallen.aiops.mda.generator.util.PipelineUtils;
+import com.boozallen.aiops.mda.metamodel.AissembleModelInstanceRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -104,6 +105,14 @@ public class BaseRecordDecorator implements Record {
     @Override
     public List<RecordField> getFields() {
         return wrapped.getFields();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getFieldIds(AissembleModelInstanceRepository metadataRepo) {
+        return wrapped.getFieldIds(metadataRepo);
     }
 
     /**

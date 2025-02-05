@@ -203,7 +203,7 @@ Feature: Specify record of semantically defined types
 
   Scenario: A record can reference another record as a field
     Given record B
-    Given record A has a relation to record B
+    And record A has a relation to record B
     When records are read
     Then the records are successfully created
     And you can reference record B from record A
