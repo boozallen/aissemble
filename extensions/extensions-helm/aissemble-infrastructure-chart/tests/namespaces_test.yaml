@@ -2,29 +2,34 @@ suite: infrastructure
 templates:
   - namespaces.yaml
 tests:
-  - it: Should contain a Argo CD namespace
-    documentIndex: 0
-    asserts:
-      - containsDocument:
-          kind: Namespace
-          apiVersion: v1
-          name: argocd
   - it: Should contain a Jenkins Namespace
-    documentIndex: 1
+    documentIndex: 0
     asserts:
       - containsDocument:
           kind: Namespace
           apiVersion: v1
           name: jenkins
   - it: Should contain a Ingress Nginx namespace
-    documentIndex: 2
+    documentIndex: 1
     asserts:
       - containsDocument:
           kind: Namespace
           apiVersion: v1
           name: ingress-nginx
-  - it: Should be 3 namespaces in total
+  - it: Should be 2 namespaces in total by default
     asserts:
+      - hasDocuments:
+          count: 2
+  - it: Only contains a ArgoCD Namespace when enabled
+    set:
+      argo-cd:
+        enabled: true
+    documentIndex: 0
+    asserts:
+      - containsDocument:
+          kind: Namespace
+          apiVersion: v1
+          name: argocd
       - hasDocuments:
           count: 3
   - it: Does not produce namespaces if options are disabled

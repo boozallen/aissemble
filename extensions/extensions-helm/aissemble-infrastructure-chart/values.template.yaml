@@ -4,7 +4,7 @@
 
 # Default values for argocd
 argo-cd:
-  enabled: true
+  enabled: false
   fullnameOverride: argocd
   namespaceOverride: argocd
   crds:

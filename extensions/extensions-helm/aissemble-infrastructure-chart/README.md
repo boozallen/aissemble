@@ -25,9 +25,9 @@ The following properties are specific to the aiSSEMBLE Infrastructure chart and 
 
 | Property | Description | Default |
 |----------|-------------|---------|
-| argo-cd.enabled | Whether to include the Argo CD deployment | true |
-| jenkins.enabled | Whether to include the Jenkins deployment | true |
-| ingress-nginx.enabled | Whether to include the Nginx Ingress deployment | true |
+| argo-cd.enabled | Whether to include the Argo CD deployment | false      |
+| jenkins.enabled | Whether to include the Jenkins deployment | true    |
+| ingress-nginx.enabled | Whether to include the Nginx Ingress deployment | true    |
 
 # Overridden Inherited Properties
 
