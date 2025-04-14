@@ -5,6 +5,7 @@ Feature: Helmfile manual actions are displayed to users
     Given a project with name "example-helmfile" exists with a data-delivery pipeline
     When the "<profile>" is generated
     Then the manual action to add the helmfile release is displayed
+     And the ArgoCD template is not created
 
     Examples:
       | profile                                |

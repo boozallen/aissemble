@@ -252,9 +252,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "aissembleQuarkusArgoCD"
       }
     ]
   },
@@ -285,9 +282,6 @@
       },
       {
         "name": "sparkInfrastructureHelmValuesDevFileV2"
-      },
-      {
-        "name": "sparkInfrastructureArgoCDFileV2"
       },
       {
         "name": "valuesCIFile"
@@ -467,9 +461,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "airflowArgoCDV2"
       }
     ]
   },
@@ -529,9 +520,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "bomArgoCD"
       }
     ]
   },
@@ -746,9 +734,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "s3LocalArgoCDV2"
       }
     ]
   },
@@ -769,9 +754,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "kafkaArgoCDV2"
       }
     ]
   },
@@ -792,9 +774,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "sparkOperatorArgoCDV2"
       }
     ]
   },
@@ -823,9 +802,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "keycloakArgoCDV2"
       }
     ]
   },
@@ -872,9 +848,6 @@
       },
       {
         "name": "modelTrainingApiConfigMapFile"
-      },
-      {
-        "name": "modelTrainingApiArgoCD"
       }
     ]
   },
@@ -895,9 +868,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "postgresArgoCD"
       },
       {
         "name": "helmServiceFile"
@@ -944,9 +914,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "nexusArgoCD"
       }
     ]
   },
@@ -992,9 +959,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "versioningArgoCDV2"
       }
     ]
   },
@@ -1015,9 +979,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "elasticsearchArgoCDV2"
       }
     ]
   },
@@ -1046,9 +1007,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "lineageHttpConsumerArgoCD"
       }
     ]
   },
@@ -1077,9 +1035,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "elasticsearchOperatorArgoCDV2"
       }
     ]
   },
@@ -1114,9 +1069,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "neo4jArgoCD"
       }
     ]
   },
@@ -1153,9 +1105,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "metadataArgoCDV2"
       }
     ]
   },
@@ -1286,9 +1235,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "vaultArgoCDV2"
       }
     ]
   },
@@ -1437,9 +1383,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "inferenceArgoCDV2"
       }
     ]
   },
@@ -1477,9 +1420,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "inferenceArgoCD"
       }
     ]
   },
@@ -1622,9 +1562,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "sharedInfrastructureArgoCD"
       }
     ]
   },
@@ -1685,9 +1622,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "lineageCustomConsumerArgoCD"
       }
     ]
   },
@@ -1705,9 +1639,6 @@
       },
       {
         "name": "pipelineInvocationServiceValuesDevFile-v2"
-      },
-      {
-        "name": "pipelineInvocationServiceArgoCD-v2"
       },
       {
         "name": "valuesCIFile"
@@ -1742,9 +1673,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "policyDecisionPointArgoCDV2"
       }
     ]
   },
@@ -1833,9 +1761,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "aissembleConfigurationStoreArgoCDV2"
       }
     ]
   },
@@ -1864,9 +1789,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "mlflowArgoCDV2"
       }
     ]
   },
@@ -1895,9 +1817,6 @@
       },
       {
         "name": "valuesCIFile"
-      },
-      {
-        "name": "trinoArgoCDV2"
       }
     ]
   }

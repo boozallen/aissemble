@@ -21,33 +21,6 @@ public class KubernetesGenerator extends AbstractKubernetesGenerator {
      * | airflowHelmChartFileV2                      | deployment/airflow/v2/airflow.chart.yaml.vm                                               | apps/${appName}/Chart.yaml                     |
      * | airflowValuesDevFileV2                      | deployment/airflow/v2/airflow.values-dev.yaml.vm                                          | apps/${appName}/values-dev.yaml                |
      * | airflowValuesFileV2                         | deployment/airflow/v2/airflow.values.yaml.vm                                              | apps/${appName}/values.yaml                    |
-     * | bomArgoCD                                   | deployment/argocd/bom.yaml.vm                                                             | templates/bom.yaml                             |
-     * | inferenceArgoCD                             | deployment/argocd/inference.yaml.vm                                                       | templates/${appName}.yaml                      |
-     * | modelTrainingApiArgoCD                      | deployment/argocd/model-training-api.yaml.vm                                              | templates/model-training-api.yaml              |
-     * | neo4jArgoCD                                 | deployment/argocd/neo4j.yaml.vm                                                           | templates/neo4j.yaml                           |
-     * | nexusArgoCD                                 | deployment/argocd/nexus.yaml.vm                                                           | templates/nexus.yaml                           |
-     * | postgresArgoCD                              | deployment/argocd/postgres.yaml.vm                                                        | templates/postgres.yaml                        |
-     * | sharedInfrastructureArgoCD                  | deployment/argocd/shared-infrastructure.yaml.vm                                           | templates/shared-infrastructure.yaml           |
-     * | airflowArgoCDV2                             | deployment/argocd/v2/airflow.yaml.vm                                                      | templates/airflow.yaml                         |
-     * | aissembleConfigurationStoreArgoCDV2         | deployment/argocd/v2/configuration-store.yaml.vm                                          | templates/${appName}.yaml                      |
-     * | elasticsearchOperatorArgoCDV2               | deployment/argocd/v2/elasticsearch.operator.yaml.vm                                       | templates/elasticsearch-operator.yaml          |
-     * | elasticsearchArgoCDV2                       | deployment/argocd/v2/elasticsearch.yaml.vm                                                | templates/elasticsearch.yaml                   |
-     * | inferenceArgoCDV2                           | deployment/argocd/v2/inference.yaml.vm                                                    | templates/airflow.yaml                         |
-     * | kafkaArgoCDV2                               | deployment/argocd/v2/kafka.yaml.vm                                                        | templates/kafka.yaml                           |
-     * | keycloakArgoCDV2                            | deployment/argocd/v2/keycloak.yaml.vm                                                     | templates/keycloak.yaml                        |
-     * | lineageCustomConsumerArgoCD                 | deployment/argocd/v2/lineage.custom.consumer.yaml.vm                                      | templates/lineage-custom-consumer.yaml         |
-     * | lineageHttpConsumerArgoCD                   | deployment/argocd/v2/lineage.http.consumer.yaml.vm                                        | templates/lineage-http-consumer.yaml           |
-     * | metadataArgoCDV2                            | deployment/argocd/v2/metadata.yaml.vm                                                     | templates/metadata.yaml                        |
-     * | mlflowArgoCDV2                              | deployment/argocd/v2/mlflow-ui.yaml.vm                                                    | templates/mlflow-ui.yaml                       |
-     * | pipelineInvocationServiceArgoCD-v2          | deployment/argocd/v2/pipeline.invocation.service.yaml.vm                                  | templates/pipeline-invocation-service.yaml     |
-     * | policyDecisionPointArgoCDV2                 | deployment/argocd/v2/policy-decision-point.yaml.vm                                        | templates/policy-decision-point.yaml           |
-     * | aissembleQuarkusArgoCD                      | deployment/argocd/v2/quarkus.yaml.vm                                                      | templates/${appName}.yaml                      |
-     * | s3LocalArgoCDV2                             | deployment/argocd/v2/s3-local.yaml.vm                                                     | templates/s3-local.yaml                        |
-     * | sparkInfrastructureArgoCDFileV2             | deployment/argocd/v2/spark.infrastructure.yaml.vm                                         | templates/spark-infrastructure.yaml            |
-     * | sparkOperatorArgoCDV2                       | deployment/argocd/v2/spark.operator.yaml.vm                                               | templates/spark-operator.yaml                  |
-     * | trinoArgoCDV2                               | deployment/argocd/v2/trino.yaml.vm                                                        | templates/trino-ui.yaml                        |
-     * | vaultArgoCDV2                               | deployment/argocd/v2/vault.yaml.vm                                                        | templates/vault.yaml                           |
-     * | versioningArgoCDV2                          | deployment/argocd/v2/versioning.yaml.vm                                                   | templates/versioning.yaml                      |
      * | bomValuesDevFile                            | deployment/bom/bom.values-dev.yaml.vm                                                     | apps/${appName}/values-dev.yaml                |
      * | bomValuesFile                               | deployment/bom/bom.values.yaml.vm                                                         | apps/${appName}/values.yaml                    |
      * | aissembleConfigurationStoreHelmChartFileV2  | deployment/configuration-store/v2/configuration-store.chart.yaml.vm                       | apps/${appName}/Chart.yaml                     |

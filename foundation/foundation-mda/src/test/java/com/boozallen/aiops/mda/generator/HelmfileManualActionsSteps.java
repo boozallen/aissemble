@@ -13,6 +13,8 @@ package com.boozallen.aiops.mda.generator;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -88,5 +90,11 @@ public class HelmfileManualActionsSteps extends AbstractModelInstanceSteps {
         assertTrue("Failed to generate the helmfile release notification for the pipeline.",
                 fileNotifications.containsKey(
                 "helmfile_release_example-spark-pipeline"));
+    }
+
+    @Then("the ArgoCD template is not created")
+    public void theArgoCDTemplateIsNotCreated() {
+        Path templatesDir = this.projectDir.resolve("main/resources/templates");
+        assertTrue("Failed to verify ArgoCD template not created.", Files.notExists(templatesDir));
     }
 }
