@@ -9,7 +9,6 @@ package com.boozallen.aiops.mda.generator;/*-
  */
 
 import com.boozallen.aiops.mda.metamodel.element.*;
-import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;

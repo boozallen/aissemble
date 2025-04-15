@@ -4,7 +4,6 @@
     "targetReferences": [
       {
         "name": "pipelinePomFile"
-				"name": "pipelinePomFile"
       }
     ],
     "profileReferences": [
