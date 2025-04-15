@@ -41,9 +41,9 @@ public class HelmfileGenerationMigrationStep extends AbstractMigrationTest {
         setTestFileToVersionMigration("HelmfileGenerationMigration", "pom.xml");
     }
 
-    @Given("the pom does not have the migration in the deactivated list")
-    public void thePomDoesNotHaveTheMigrationInTheDeactivatedList() {
-        // Handled in the test pom.xml file
+    @Given("the system property `aissemble.enable.helmfile.migration` is set")
+    public void theSystemPropertyActivationKeyIsSet() {
+        System.setProperty("aissemble.enable.helmfile.migration", "true");
     }
 
     @Given("a projects has a helm file")
@@ -54,16 +54,17 @@ public class HelmfileGenerationMigrationStep extends AbstractMigrationTest {
         helmfile.createNewFile();
     }
 
+    @Given("the system property `aissemble.enable.helmfile.migration` is not set")
+    public void theSystemPropertyActivationKeyIsNotSet() {
+        setTestFileToVersionMigration("HelmfileGenerationMigration", "pom.xml");
+        System.clearProperty("aissemble.enable.helmfile.migration");
+    }
+
     @When("the helmfile generation migration is performed")
     public void theHelmfileGenerationMigrationIsPerformed() {
         performMigration(new HelmfileGenerationMigrationTest());
     }
 
-    @Then("the pom has the migration deactivated")
-    public void theHelmfileIsGeneratedAndThePomHasTheMigrationDeactivated() {
-        assertMigrationSuccess();
-        assertTestFileMatchesExpectedFile("Helmfile generation migration not disabled correctly in POM");
-    }
 
     @And("the helmfile is generated")
     public void theHelmfileIsGenerated() {
@@ -78,5 +79,10 @@ public class HelmfileGenerationMigrationStep extends AbstractMigrationTest {
                 "helmfile.yaml").toString());
         assertTrue("Helmfile was not found. It should not have been deleted.", helmfile.exists());
         assertEquals("Helmfile was modified when it should not have been", 0L, helmfile.length());
+    }
+
+    @Then("the helmfile generation is skipped")
+    public void theHelmGenerationIsSkipped() {
+        assertMigrationSkipped();
     }
 }

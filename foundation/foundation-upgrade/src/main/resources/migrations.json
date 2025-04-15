@@ -44,6 +44,17 @@
             "includes": ["pom.xml"]
           }
         ]
+      },
+      {
+        "name": "argocd-removal-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.ArgoCDRemovalMigration",
+        "fileSets": [
+          {
+            "includes": [
+              "*-deploy/**/templates/*.yaml"
+            ]
+          }
+        ]
       }
     ]
   },
