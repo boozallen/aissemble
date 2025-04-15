@@ -10,6 +10,8 @@
 /**
  * Common steps for pipelines
  */
+
+// TODO: the script should be replaced with helmfile syntax or deleted if it's not needed
 def argocdAuthenticate(argocdUrl, argocdPassword) {
     sh '''
         # Check if Argocd is installed

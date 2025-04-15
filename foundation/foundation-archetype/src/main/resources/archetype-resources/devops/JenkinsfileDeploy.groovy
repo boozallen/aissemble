@@ -4,13 +4,6 @@ def gitRepo = '${projectGitUrl}'
 def gitBranch = 'refs/heads/${branch}'
 def projectDirectory = '${rootArtifactId}'
 def jenkinsSteps
-// Set URL of ArgoCD server
-def argocdUrl = ''
-def argocdAppName = '${rootArtifactId}'
-def argocdNamespace = 'argocd'
-def argocdDestinationServer = 'https://kubernetes.default.svc'
-def argocdBranch = '${branch}'
-def argocdSyncLabel = 'argocd.argoproj.io/instance=${rootArtifactId}'
 
 node('master') {
     dir(projectDirectory) {
@@ -21,12 +14,13 @@ node('master') {
 
 stage("Authenticate") {
     node('master') {
-        withCredentials([string(credentialsId: 'argocdPassword', variable: 'argocdPassword')]) {
+        // TODO: replace the helmfilePassword with correct value
+        withCredentials([string(credentialsId: 'helmfilePassword', variable: 'helmfilePassword')]) {
             try {
                 dir(projectDirectory) {
                     slackSend color: "warning",
                             message: "${projectName} authenticating"
-                    jenkinsSteps.argocdAuthenticate(argocdUrl, '${argocdPassword}')
+                    // TODO: add helmfile authentication command
                 }
             } catch (err) {
                 slackSend color: "danger",
@@ -43,8 +37,7 @@ stage("Deploy") {
             dir(projectDirectory) {
                 slackSend color: "warning",
                         message: "${projectName} deploying"
-                jenkinsSteps.argocdDeploy(argocdAppName, argocdUrl, argocdDestinationServer, gitRepo, argocdBranch,
-                        argocdNamespace, ['values.yaml'])
+                // TODO: add the helmfile deploy comment
                 slackSend color: "good",
                         message: "${projectName} deployed successfully"
             }
@@ -72,7 +65,7 @@ stage("Teardown") {
             dir(projectDirectory) {
                 slackSend color: "warning",
                         message: "${projectName} shutting down"
-                jenkinsSteps.argocdTerminate(argocdAppName)
+                //TODO: add the helmfile terminate command
             }
         } catch (err) {
             slackSend color: "danger",
