@@ -39,20 +39,20 @@ comes packaged with critical tools such as Helm, Docker and Kubernetes. By deplo
 Rancher Desktop allows you to test integration points between the key components of your project.
 
 In order to ease testing in your local Kubernetes environment, there is a need for a simple Continuous Deployment (CD)
-tool that can deploy your entire project quickly. The aiSSEMBLE team encourages the usage of https://docs.tilt.dev/[Tilt,role=external,window=_blank]
-as your local CD for Kubernetes. By default, aiSSEMBLE will generate Tilt deployment files to get you started. Tilt can
-deploy your project (in its entirety or partially) with a single command and provides a user-friendly interface to
-monitor your container activity and logs. In addition, Tilt keeps the deployment up to date with the latest code changes
-with very little downtime.
+tool that can deploy your entire project quickly. The aiSSEMBLE team encourages the usage of
+https://helmfile.readthedocs.io/en/latest/[Helmfile,role=external,window=_blank] as your local CD for Kubernetes.
+Helmfile is a ultra-lightweight solution that introduces minimal maintenance overhead, acting as a thin wrapper around
+Helm deployments. By default, aiSSEMBLE will generate Helmfile deployment files to get you started.  Helmfile can deploy
+your project (in its entirety or partially) with a single command.
 
 === Remote Deployment
 Including continuous integration (CI) is a best practice for unit/integration testing and consistent builds. By default,
 aiSSEMBLE will include starter Jenkins CI pipelines for building, testing, packaging, and deploying your project.
 Jenkins is an open-source, automation, DevOps tool commonly used for CI.
 
-aiSSEMBLE enables standardized delivery and monitoring to drive consistency and reliability. ArgoCD is a CD tool which
-deploys and continuously monitors running applications and compares the current, live state against the desired target
-state. aiSSEMBLE promotes ArgoCD’s "app of apps" pattern in the Helm charts generated for your project.
+aiSSEMBLE enables standardized delivery and monitoring to drive consistency and reliability. Helmfile is a also CD tool
+which deploys and continuously monitors running applications and compares the current, live state against the desired target
+state.
 
 
 == Related Pages
