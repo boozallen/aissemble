@@ -1,0 +1,5 @@
+apiVersion: v2
+name: common-infrastructure
+type: application
+version: ${version}
+appVersion: ${version}

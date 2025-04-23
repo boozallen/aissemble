@@ -145,7 +145,6 @@ public class SparkApplicationGenerator extends AbstractResourcesGenerator {
             manualActionNotificationService.addPipelineInvocationServiceDeployment(context);
             manualActionNotificationService.addNoticeToUpdateKafkaConfig(context, "pipeline-invocation");
             manualActionNotificationService.addNoticeToUpdateS3LocalConfig(context, "spark-infrastructure", Arrays.asList("warehouse/"));
-
         }
 
         generateFile(context, vc);

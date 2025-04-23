@@ -12,8 +12,14 @@ package com.boozallen.aissemble.upgrade.migration;
 
 import org.apache.maven.project.MavenProject;
 import org.technologybrewery.baton.AbstractMigration;
+import org.technologybrewery.baton.BatonException;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public abstract class AbstractAissembleMigration extends AbstractMigration {
     protected static final String FIRST_REGEX_GROUPING = "$1";
@@ -50,5 +56,18 @@ public abstract class AbstractAissembleMigration extends AbstractMigration {
             project = project.getParent();
         }
         return project;
+    }
+
+    /**
+     * Deletes a directory if it's empty
+     * @param folderPath The directory to be deleted
+     * @throws IOException
+     */
+    protected static void deleteIfEmpty(Path folderPath) throws IOException {
+        try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(folderPath)) {
+            if (!dirStream.iterator().hasNext()) {
+                Files.delete(folderPath);
+            }
+        }
     }
 }

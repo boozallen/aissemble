@@ -69,22 +69,4 @@ public class ArgoCDRemovalMigration extends AbstractHelmfileMigration {
             throw new BatonException("Could not remove ArgoCD yaml files", e);
         }
     }
-
-    private boolean isArgoCDApplicationTemplate(File file) throws IOException {
-        List<String> content = readAllFileLines(file);
-        boolean isApplication = false;
-        boolean isArgoApiVersion = false;
-        for (String line : content) {
-            if (!isArgoApiVersion) {
-                isArgoApiVersion = line.trim().matches("apiVersion:\s*argoproj\\.io\\/v1alpha1");
-            }
-            if (!isApplication) {
-                isApplication = line.trim().matches("kind:\s*Application");
-            }
-            if (isApplication && isArgoApiVersion) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

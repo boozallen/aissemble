@@ -1,0 +1,5 @@
+spec:
+  helm:
+    valueFiles:
+      - values.yaml
+      - values-ci.yaml

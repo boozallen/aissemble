@@ -1,0 +1,17 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  targetRevision: dev
+  repo: test.org/test.git
+  helm:
+    valueFiles:
+      - values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+    automated: {}
+
+global:
+  imagePullPolicy: Always
+  dockerRepo: ghcr.io/

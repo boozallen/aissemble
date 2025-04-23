@@ -46,6 +46,24 @@
         ]
       },
       {
+        "name": "helm-root-chart-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.HelmRootChartMigration",
+        "fileSets": [
+          {
+            "includes": ["*-deploy/src/main/resources/*.yaml"]
+          }
+        ]
+      },
+      {
+        "name": "helm-templates-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.HelmTemplatesMigration",
+        "fileSets": [
+          {
+            "includes": ["*-deploy/src/main/resources/templates/*.yaml"]
+          }
+        ]
+      },
+      {
         "name": "argocd-removal-migration",
         "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.ArgoCDRemovalMigration",
         "fileSets": [

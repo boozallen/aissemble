@@ -32,4 +32,13 @@ helmDefaults:
 ---
 
 releases:
+  - name: common-infrastructure
+    namespace: ${artifactId}
+    chart: ${artifactId}-deploy/src/main/resources/apps/common-infrastructure
+    needs:
+      - ${artifactId}-config/configuration-store
+    values:
+      {{- range .Values.helm.valueFiles }}
+      - ${artifactId}-deploy/src/main/resources/apps/common-infrastructure/{{ . }}
+      {{- end }}
   # Add deployment releases here

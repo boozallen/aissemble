@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.technologybrewery.baton.BatonException;
@@ -35,6 +36,7 @@ public class HelmfileGenerationMigration extends AbstractHelmfileMigration {
 
     private static final Logger logger = LoggerFactory.getLogger(HelmfileGenerationMigration.class);
     private static final String VERSION_TAG_REGEX = "(.*)(\\$\\{archetypeVersion})";
+    private static final String ARTIFACT_ID_TAG_REGEX = "(.*)(\\$\\{artifactId})(.*)";
     private static final String HELMFILE_TEMPLATE_PATH = "version_specific/helmfile.yaml";
 
     /**
@@ -75,12 +77,14 @@ public class HelmfileGenerationMigration extends AbstractHelmfileMigration {
                 File helmfile = new File(helmfileLocation);
                 FileUtils.copyInputStreamToFile(initialHelmfile, helmfile);
                 updateVersion(helmfile);
+
+                MavenProject project = getRootProject();
+                updateParams(helmfile, ARTIFACT_ID_TAG_REGEX, project.getArtifactId());
             } catch (IOException e) {
                 throw new BatonException("Failed to instantiate the helmfile.yaml", e);
             }
             logger.info("Initialized root helmfile.yaml");
         }
-
     }
 
     private void updateVersion(File file) {
@@ -98,5 +102,10 @@ public class HelmfileGenerationMigration extends AbstractHelmfileMigration {
         } catch (IOException e) {
             throw new BatonException("Unable to modify the helmfile's artifact ID.", e);
         }
+    }
+
+    private void updateParams(File file, String regex, String replaceValue) throws IOException {
+        String substitution = "$1" + replaceValue + "$3";
+        replaceInFile(file, regex, substitution);
     }
 }
