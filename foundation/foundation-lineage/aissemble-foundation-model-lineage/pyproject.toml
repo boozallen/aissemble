@@ -1,15 +1,18 @@
 [tool.poetry]
-name = "aissemble-foundation-model-lineage"
-version = "1.13.0.dev"
-authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
-description = "Model lineage API"
-readme = "README.md"
 packages = [
     {include = "aissemble_model_lineage", from = "src"}
 ]
 
+[project]
+name = "aissemble-foundation-model-lineage"
+version = "1.13.0.dev"
+authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
+description = "Model lineage API"
+requires-python = ">=3.8"
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+
 [tool.poetry.dependencies]
-python = ">=3.8"
 openlineage-python = {version = "^0.21.1"}
 
 #[tool.poetry.group.monorepo.dependencies]
@@ -21,6 +24,7 @@ behave = "^1.2.6"
 nose = ">=1.3.7"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
+ruff = "^0.11.7"
 
 
 
@@ -28,3 +32,5 @@ pylint = "^3.1.0"
 [build-system]
 requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"
+
+

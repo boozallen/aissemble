@@ -1,16 +1,19 @@
 [tool.poetry]
-name = "aissemble-foundation-drift-detection-client-python"
-version = "1.13.0.dev"
-description = ""
-authors = ["aiSSEMBLE Baseline Community <aissemble@bah.com>"]
-readme = "README.md"
 packages = [
     {include = "config", from = "src"},
     {include = "drift", from = "src"}
 ]
 
+[project]
+name = "aissemble-foundation-drift-detection-client-python"
+version = "1.13.0.dev"
+description = ""
+authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
+requires-python = ">=3.8"
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+
 [tool.poetry.dependencies]
-python = ">=3.8"
 pydantic = ">=2.8.0"
 requests = ">=2.32.2"
 krausening = ">=20"
@@ -22,7 +25,10 @@ black = ">=22.1.0"
 behave = ">=1.2.6"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
+ruff = "^0.11.7"
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"
+
+
