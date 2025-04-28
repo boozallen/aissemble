@@ -44,9 +44,7 @@ class MessagingClient:
         self.gateway = JavaGateway(
             gateway_parameters=GatewayParameters(port=self.service_port)
         )
-        self.service_handle = (
-            self.gateway.jvm.com.boozallen.aissemble.messaging.python.MessagingService.getInstance()
-        )
+        self.service_handle = self.gateway.jvm.com.boozallen.aissemble.messaging.python.MessagingService.getInstance()
 
     def queueForSend(self, topic: str, msg: Message) -> Future:
         """

@@ -1,5 +1,6 @@
 # GENERATED STUB - PLEASE ***DO*** MODIFY
 # Generated from: templates/data-delivery-pyspark/pyproject.toml.vm
+
 [project]
 name = "aissemble-test-data-delivery-pyspark-model-basic"
 version = "1.13.0.dev"
@@ -36,7 +37,10 @@ testcontainers = [
 ]
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
+ruff = "^0.11.7"
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"
+
+

@@ -10,6 +10,7 @@
 """
 Contains base functionality common to various Data Lineage types.
 """
+
 from typing import List, Dict
 
 from .facet import Facet

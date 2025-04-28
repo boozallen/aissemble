@@ -63,7 +63,7 @@
                                 <dockerBuilderBase>docker.io/python:3.11</dockerBuilderBase>
                                 <dockerFinalBase>docker.io/python:3.11-slim</dockerFinalBase>
                                 <dockerUser>1001</dockerUser>
-                                <!-- Turning off the Dockerfile update so that we can remove the fixed version for poetry-plugin-bundle in the Dockerfiles. The latest version of poetry breaks the build. We will revert this change after we update Habushu to work with poetry version 2.x. -->
+                                <!-- TODO: Turning off the Dockerfile update so that we can remove the fixed version for poetry-plugin-bundle in the Dockerfiles. The latest version of poetry breaks the build. We will revert this change after we update Habushu to work with poetry version 2.x. -->
                                 <updateDockerfile>false</updateDockerfile>
                             </configuration>
                         </execution>
