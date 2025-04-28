@@ -32,6 +32,7 @@ grpcio-tools = "^1.50.0"
 grpcio-testing = "^1.50.0"
 kappa-maki = ">=1.0.1"
 pylint = "^3.1.0"
+ruff = "^0.11.7"
 
 [tool.pylint.MASTER]
 ignore-patterns = '.*pb2[\S]*.py'
@@ -39,3 +40,5 @@ ignore-patterns = '.*pb2[\S]*.py'
 [build-system]
 requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"
+
+

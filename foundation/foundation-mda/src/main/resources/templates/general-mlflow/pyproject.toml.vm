@@ -9,7 +9,7 @@ authors = [{name = "Your Name", email = "<you@example.com>"}]
 requires-python = ">=3.8"
 
 [tool.poetry]
-packages = [{include = "${artifactIdPythonCase}", from = "src"}]
+packages = [{include = "${artifactIdPythonCase}/generated/**/*", from = "src"}]
 
 [tool.poetry.dependencies]
 krausening = ">=20"
@@ -46,10 +46,8 @@ ${requirement}
 #end
 
 [tool.poetry.group.dev.dependencies]
-black = ">=22.1.0"
 behave = ">=1.2.6"
 nose = ">=1.3.7"
-pylint = "^3.1.0"
 
 #if ($aissembleVersion.endsWith("SNAPSHOT"))
 [[tool.poetry.source]]
