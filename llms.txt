@@ -1,0 +1,20 @@
+# aiSSEMBLE
+> A lean manufacturing approach for holistically designing, developing and fielding AI solutions across the engineering lifecycle from data processing to model building, tuning, and training to secure operational deployment.
+
+## Overview
+- Purpose: This repository consists of standardized components which make it easy for dev teams to quickly reuse and apply to their project to drive consistency, reliability and low delivery risk.
+- License: Booz Allen Public License v1.0
+- Organization: Booz Allen Public
+
+## Core Documentation
+- [README](https://github.com/boozallen/aissemble/blob/dev/README.md): Main project details and setup instructions.
+- [User Manual](https://boozallen.github.io/aissemble/aissemble/current/index.html): aiSSEMBLE User Manual.
+
+## Key Features
+- End-to-End AI Lifecycle Support.
+- Modular and Reusable Components.
+- Lean Manufacturing Approach.
+
+## Repository
+- [Source](https://github.com/boozallen/aissemble): Full codebase.
+- Latest Version: 1.12 (as of last update) with 1.13.0 being released soon.
