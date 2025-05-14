@@ -1,5 +1,4 @@
 # Disabling the no-self-argument as the validators are class methods. 
-# pylint: disable=no-self-argument
 
 """
     Base implementation of the request/response payloads for inference analytics.
