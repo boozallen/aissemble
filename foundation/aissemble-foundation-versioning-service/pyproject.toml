@@ -17,12 +17,7 @@ readme = "README.md"
 # the versioning_api.py module within aissemble-versioning-docker are defined here and installed when the corresponding
 # wheel for aissemble-versioning-service is installed.
 [tool.poetry.dependencies]
-<<<<<<< HEAD
 mlflow = "2.10.2"
-=======
-
-mlflow = "2.3.1"
->>>>>>> 44ee8940 ([#678] habushu upgrade + automatic updates + ruff lint ignore codes)
 fastapi = ">=0.95.0"
 uvicorn = {version = "^0.18.0", extras = ["standard"]}
 

@@ -170,6 +170,24 @@
             "includes": ["src/main/resources/apps/trino/values.yaml"]
           }
         ]
+      },
+      {
+        "name": "trino-delta-lake-connector-yaml-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.TrinoDeltaLakeConnectorYamlMigration",
+        "fileSets": [
+          {
+            "includes": ["src/main/resources/apps/trino/values.yaml"]
+          }
+        ]
+      },
+      {
+        "name": "ruff-toml-file-generation-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.RuffTomlFileGenerationMigration",
+        "fileSets": [
+          {
+            "includes": ["pom.xml"]
+          }
+        ]
       }
     ]
   }
