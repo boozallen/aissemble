@@ -14,9 +14,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 openlineage-python = {version = "^0.21.1"}
-
-[tool.poetry.dependencies]
-openlineage-python = {version = "^0.21.1"}
 aissemble-foundation-data-lineage-python = { path = "../foundation-data-lineage/aissemble-foundation-data-lineage-python", develop = true}
 
 [tool.poetry.group.dev.dependencies]
