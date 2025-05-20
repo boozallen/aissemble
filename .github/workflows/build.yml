@@ -100,7 +100,7 @@ jobs:
                                 --driver=kubernetes \
                                 --platform=linux/arm64 \
                                 --driver-opt="nodeselector=kubernetes.io/arch=arm64","image=docker.io/moby/buildkit:v0.19.0"
-          cp -R ~/.docker ~/.docker/fabric8
+          mkdir -p ~/.docker/fabric8/buildx && cp -R ~/.docker/buildx ~/.docker/fabric8/buildx
       # Generate the settings.xml for ghcr.io, pypi, & dev-pypi server profiles
       - name: Create settings.xml
         id: create-settings-xml
