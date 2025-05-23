@@ -19,6 +19,7 @@ jobs:
     env:
       RUNS_ON_S3_BUCKET_CACHE: aissemble-github-cache
       DOCKER_BUILDER_NAME: k8s-multiarch
+      SHELL: bash
     steps:
       - uses: actions/checkout@v4
         with:
