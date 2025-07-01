@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>extensions-docker</artifactId>
+        <version>1.13.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>aissemble-authzforce</artifactId>
+
+    <packaging>docker-build</packaging>
+
+    <name>aiSSEMBLE::Extensions::Docker::Authzforce Docker</name>
+    <description>A base image for authzforce server</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>${group.fabric8.plugin}</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+

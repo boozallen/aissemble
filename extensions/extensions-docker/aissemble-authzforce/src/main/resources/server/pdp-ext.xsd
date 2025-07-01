@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://authzforce.github.io/rest-api-model/xmlns/authzforce/ext" xmlns:tns="http://authzforce.github.io/rest-api-model/xmlns/authzforce/ext" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.0">
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			Schemas of enabled AuthzForce PDP engine extensions, such as attribute providers.
+		</xs:documentation>
+	</xs:annotation>
+	<!-- Do not specify schema locations here. Define the schema locations in the XML catalog instead (see file 'catalog.xml'). -->
+</xs:schema>

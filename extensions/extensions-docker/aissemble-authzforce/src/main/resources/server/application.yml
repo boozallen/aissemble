@@ -1,0 +1,18 @@
+# Active profile
+# spring.profiles.active: default
+
+# Server HTTP port
+#server.port=8080
+# JAX-RS server endpoint address (default is "/")
+# Spring Boot CXF JAX-RS configuration (more info: https://cxf.apache.org/docs/springboot.html )
+cxf.path: /
+cxf.jaxrs.server.path: /pdp
+# Do not use server.address to set service endpoint address as it is already used by Spring Boot
+
+# App configuration directory
+cfg.dir: .
+spring.beans.conf: file:${cfg.dir}/spring-beans.xml
+
+# LOGGING
+logging.config: file:${cfg.dir}/logback.xml
+spring.main.allow-bean-definition-overriding: true

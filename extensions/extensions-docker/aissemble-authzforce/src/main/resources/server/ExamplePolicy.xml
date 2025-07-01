@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  #%L
+  aiSSEMBLE::Open Inference Protocol::Docker::OIP Authzforce CE Docker
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIA1:policy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides"
+        Version="1.0">
+
+    <Description>
+        Policy to allow access only to the user 'alloweduser'.
+    </Description>
+
+    <Target/>
+
+    <Rule Effect="Permit" RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIA1:rule">
+        <Description>
+            Only 'alloweduser' is permitted access.
+        </Description>
+        <Target>
+            <AnyOf>
+                <AllOf>
+                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">alloweduser</AttributeValue>
+                        <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                             DataType="http://www.w3.org/2001/XMLSchema#string"
+                                             MustBePresent="false"/>
+                    </Match>
+                </AllOf>
+            </AnyOf>
+        </Target>
+    </Rule>
+
+    <Rule RuleId="DenyAll" Effect="Deny">
+        <Description>
+            Deny access by default if no other rule applies.
+        </Description>
+    </Rule>
+</Policy>

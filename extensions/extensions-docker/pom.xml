@@ -32,6 +32,7 @@
         <module>aissemble-data-lineage-http-consumer</module>
         <module>aissemble-pipeline-invocation</module>
         <module>aissemble-configuration-store</module>
+        <module>aissemble-authzforce</module>
     </modules>
 
     <dependencyManagement>

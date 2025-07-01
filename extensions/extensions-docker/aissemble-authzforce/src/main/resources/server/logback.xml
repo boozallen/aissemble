@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Open Inference Protocol::Docker::OIP Authzforce CE Docker
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	 <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		 <encoder>
+			 <pattern>%date{ISO8601} %-5level [%thread] %logger:%line: %msg%n</pattern>
+		 </encoder>
+	 </appender>
+	 <appender name="access" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		 <File>${catalina.base}/logs/authzforce-ce/access.log</File>
+		 <encoder>
+			 <pattern>%date{ISO8601}|%msg|%n</pattern>
+		 </encoder>
+		 <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			 <maxIndex>1</maxIndex>
+			 <FileNamePattern>${catalina.base}/logs/authzforce-ce/access.log.%i</FileNamePattern>
+		 </rollingPolicy>
+		 <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			 <MaxFileSize>100KB</MaxFileSize>
+		 </triggeringPolicy>
+	 </appender>
+	 <appender name="accessAsync" class="ch.qos.logback.classic.AsyncAppender"> <appender-ref ref="access" /> </appender>
+	 <logger name="RequestLoggerFilter.request" level="DEBUG" additivity="false">
+		 <appender-ref ref="access"/>
+	 </logger>
+	 <logger name="RequestLoggerFilter.response" level="DEBUG" additivity="false">
+		 <appender-ref ref="access"/>
+	 </logger>
+	 <logger name="RequestLoggerFilter.headers" level="INFO" additivity="false">
+	 	<appender-ref ref="access"/>
+	 </logger>
+
+	<logger name="org.ow2.authzforce" additivity="false" level="WARN">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="org.springframework" additivity="false" level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<root level="WARN">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
