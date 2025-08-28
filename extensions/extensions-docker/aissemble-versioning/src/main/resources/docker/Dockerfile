@@ -1,26 +1,14 @@
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (DO NOT MODIFY)
 FROM docker.io/python:3.11 AS habushu_builder
-
-# Install pipx
-RUN python -m ensurepip --upgrade
-RUN python -m pip install --user pipx
-
-# Poetry and supporting plugin installations
-RUN $HOME/.local/bin/pipx install poetry==2.0.1 && \
-    $HOME/.local/bin/poetry self add poetry-plugin-bundle@1.5.0
-
-WORKDIR /work-dir
-COPY --chown=1001 target/containerize-support ./containerize-support/
-RUN find . -type f -name pyproject.toml -exec sed -i 's|develop[[:blank:]]*=[[:blank:]]*true|develop = false|g' {} \;
-
+ARG WHEEL_HOUSE="/tmp/wheels"
 USER root
-WORKDIR /work-dir/containerize-support/foundation/aissemble-foundation-versioning-service
-ENV POETRY_CACHE_DIR="/.cache/pypoetry"
+RUN --mount=type=bind,source=target/containerize-support,target=${WHEEL_HOUSE} \
+    python3 -m venv /opt/venv && \
+    /opt/venv/bin/python -m ensurepip --upgrade && \
+    /opt/venv/bin/python -m pip install --no-deps \
+      -r ${WHEEL_HOUSE}/requirements.txt && \
+    /opt/venv/bin/python -m pip install --no-deps ${WHEEL_HOUSE}/aissemble_foundation_versioning_service-1.13.0.dev0-py3-none-any.whl
 
-# Export target project's virtual environment to /opt/venv
-RUN --mount=type=cache,target=${POETRY_CACHE_DIR} \
-    $HOME/.local/bin/poetry lock && \
-    $HOME/.local/bin/poetry bundle venv /opt/venv
 #HABUSHU_BUILDER_STAGE - HABUSHU GENERATED CODE (END)
 
 FROM docker.io/python:3.11 AS builder
