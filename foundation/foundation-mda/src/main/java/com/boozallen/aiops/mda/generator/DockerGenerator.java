@@ -32,18 +32,20 @@ import com.boozallen.aiops.mda.metamodel.element.Pipeline;
 public class DockerGenerator extends AbstractResourcesGenerator {
     /*--~-~-~~
      * Usages:
-     * | Target                                          | Template                                                               | Generated File                                 |
-     * |-------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------|
-     * | airflowDockerFile                               | general-docker/airflow.docker.file.vm                                  | docker/Dockerfile                              |
-     * | jenkinsControllerDockerFile                     | general-docker/jenkins.controller.docker.file.vm                       | docker/Dockerfile                              |
-     * | policyDecisionPointAissembleSecurityProperties  | general-docker/policy-decision-point.aissemble-security.properties.vm  | krausening/base/aissemble-security.properties  |
-     * | policyDecisionPointDockerFile                   | general-docker/policy.decision.point.docker.file.vm                    | docker/Dockerfile                              |
-     * | quarkusServiceDockerFile                        | general-docker/quarkus.service.docker.file.vm                          | docker/Dockerfile                              |
-     * | sparkWorkerDockerFile                           | general-docker/spark-worker.docker.file.vm                             | docker/Dockerfile                              |
-     * | versioningAuthProperties                        | general-docker/versioning.auth.properties.vm                           | krausening/base/auth.properties                |
-     * | versioningDockerFile                            | general-docker/versioning.docker.file.vm                               | docker/Dockerfile                              |
-     * | versioningMavenSettings                         | general-docker/versioning.docker.maven.settings.xml.vm                 | config/settings.xml                            |
-     * | versioningModelPomFile                          | general-docker/versioning.docker.model.pom.xml.vm                      | config/model-pom.xml                           |
+     * | Target                                          | Template                                                               | Generated File                                  |
+     * |-------------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------|
+     * | airflowDockerFile                               | general-docker/airflow.docker.file.vm                                  | docker/Dockerfile                               |
+     * | DockerfileBuilderStageTemplate                  | general-docker/dockerfile.builder.stage.template.vm                    | templates/dockerfile_builder_stage_template.vm  |
+     * | DockerfileFinalStageTemplate                    | general-docker/dockerfile.final.stage.template.vm                      | templates/dockerfile_final_stage_template.vm    |
+     * | jenkinsControllerDockerFile                     | general-docker/jenkins.controller.docker.file.vm                       | docker/Dockerfile                               |
+     * | policyDecisionPointAissembleSecurityProperties  | general-docker/policy-decision-point.aissemble-security.properties.vm  | krausening/base/aissemble-security.properties   |
+     * | policyDecisionPointDockerFile                   | general-docker/policy.decision.point.docker.file.vm                    | docker/Dockerfile                               |
+     * | quarkusServiceDockerFile                        | general-docker/quarkus.service.docker.file.vm                          | docker/Dockerfile                               |
+     * | sparkWorkerDockerFile                           | general-docker/spark-worker.docker.file.vm                             | docker/Dockerfile                               |
+     * | versioningAuthProperties                        | general-docker/versioning.auth.properties.vm                           | krausening/base/auth.properties                 |
+     * | versioningDockerFile                            | general-docker/versioning.docker.file.vm                               | docker/Dockerfile                               |
+     * | versioningMavenSettings                         | general-docker/versioning.docker.maven.settings.xml.vm                 | config/settings.xml                             |
+     * | versioningModelPomFile                          | general-docker/versioning.docker.model.pom.xml.vm                      | config/model-pom.xml                            |
      */
 
     /**

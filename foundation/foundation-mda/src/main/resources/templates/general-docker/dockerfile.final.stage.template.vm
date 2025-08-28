@@ -1,0 +1,7 @@
+#[[
+FROM $finalBaseImage AS final
+
+# Copy venv from builder and activate by adding to the path
+COPY --from=habushu_builder $chownPlaceholder $chmodPlaceholder /opt/venv /opt/venv/
+ENV PATH="/opt/venv/bin:$PATH"
+]]#

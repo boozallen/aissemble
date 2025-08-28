@@ -1,0 +1,14 @@
+#[[
+FROM $builderBaseImage AS habushu_builder
+USER root
+RUN --mount=type=bind,source=$stagingDirectory,target=/tmp/wheels \
+    python3 -m venv /opt/venv && \
+    /opt/venv/bin/python -m ensurepip --upgrade && \
+    /opt/venv/bin/python -m pip install --extra-index-url https://test.pypi.org/simple/ --pre \
+#foreach($wheel in $extraWheels)
+    /tmp/wheels/$wheel \
+#end
+#foreach($wheel in $projectWheels)
+    /tmp/wheels/$wheel #if(!$foreach.last)\\#end
+#end
+]]#
