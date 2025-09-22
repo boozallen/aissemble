@@ -27,7 +27,6 @@ public class ModelAgnosticResourcesGenerator extends AbstractModelAgnosticGenera
      * | cdiBeansXml                     | beans.xml.vm                                      | META-INF/beans.xml                              |
      * | cucumberPipelineFeature         | cucumber.pipeline.feature.vm                      | specifications/pipeline.feature                 |
      * | cucumberProperties              | cucumber.properties.vm                            | cucumber.properties                             |
-     * | mlflowStartScript               | general-docker/mlflow.start.sh.vm                 | start.sh                                        |
      * | sparkDataDeliveryProperties     | general-docker/spark.data.delivery.properties.vm  | krausening/base/spark-data-delivery.properties  |
      * | authConfigResource              | general-mlflow/auth.properties.vm                 | krausening/base/auth.properties                 |
      * | inferenceConfigResource         | general-mlflow/inference.config.properties.vm     | krausening/base/inference.properties            |

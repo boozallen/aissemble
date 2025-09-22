@@ -14,6 +14,9 @@ helm install sealed-secrets oci://ghcr.io/boozallen/aissemble-sealed-secrets-cha
 
 The following properties are inherited from the [base SealedSecrets chart](https://github.com/bitnami-labs/sealed-secrets/tree/main/helm/sealed-secrets), but with updated default values.
 
+**Note**: following the [changes to the Bitnami catalog](https://github.com/bitnami/charts/issues/35164), all existing container images are moved from the public catalog (docker.io/bitnami) to the Bitnami Legacy repository (docker.io/bitnamilegacy)
+
+
 | Property             | Description                                      | Required Override | Default                             |
 |----------------------|--------------------------------------------------|-------------------|-------------------------------------|
 | fullnameOverride     | String to fully override sealed-secrets.fullname | No                | aissemble-sealed-secrets-controller |

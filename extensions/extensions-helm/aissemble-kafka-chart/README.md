@@ -12,6 +12,8 @@ helm install kafka oci://ghcr.io/boozallen/aissemble-kafka-chart --version <AISS
 
 The following properties are inherited from the base [Kafka chart](https://github.com/bitnami/charts/blob/kafka/23.0.7/bitnami/kafka/README.md), but with updated default values.
 
+**Note**: following the [changes to the Bitnami catalog](https://github.com/bitnami/charts/issues/35164), all existing container images are moved from the public catalog (docker.io/bitnami) to the Bitnami Legacy repository (docker.io/bitnamilegacy)
+
 | Property                    | Default                                                                                 |
 |-----------------------------|-----------------------------------------------------------------------------------------|
 | fullnameOverride            | kafka-cluster                                                                           |

@@ -11,6 +11,8 @@ helm install mlflow oci://ghcr.io/boozallen/aissemble-mlflow-chart --version <AI
 # Properties
 The following properties are inherited from the base [MLflow chart](https://github.com/bitnami/charts/blob/mlflow/1.4.22/bitnami/mlflow/README.md), but with updated default values. 
 
+**Note**: following the [changes to the Bitnami catalog](https://github.com/bitnami/charts/issues/35164), all existing container images are moved from the public catalog (docker.io/bitnami) to the Bitnami Legacy repository (docker.io/bitnamilegacy) 
+
 | Property                    | Description                                                 | Default       |
 |-----------------------------|-------------------------------------------------------------|---------------|
 | image.tag                   | MLflow image version tag                                    | Chart.Version |
@@ -25,6 +27,7 @@ The following properties are inherited from the base [MLflow chart](https://gith
 | externalDatabase.user       | Non-root username                                           | postgres      |
 | externalDatabase.password   | Password for the non-root username                          | password      |
 | externalDatabase.database   | Database name                                               | db            |
+| global.security.allowInsecureImages           | To use bitnami legacy image, Set this option to true to make the chart skip the verification step (verify the original container images that were designed, tested, and validated are used) and proceed. | true                                                                                                                                                                                                                                                                      |
 
 All properties must be prefixed with the key `aissemble-mlflow-chart.mlflow` to override any values in the chart. See [helm documentation](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#overriding-values-from-a-parent-chart) for more info.
 
