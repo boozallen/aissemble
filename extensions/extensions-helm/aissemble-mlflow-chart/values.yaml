@@ -1,8 +1,47 @@
 mlflow:
+  # allow to use the legacy image
+  global:
+    security:
+      allowInsecureImages: true
   postgresql:
     enabled: false
+    # Update postgresql image to use bitnami legacy registry
+    image:
+      repository: bitnamilegacy/postgresql
+    volumePermissions:
+      image:
+        repository: bitnamilegacy/os-shell
+    metrics:
+      image:
+        repository: bitnamilegacy/postgres-exporter
+    annotations:
+      category: Database
+      images: |
+        - name: os-shell
+          image: docker.io/bitnamilegacy/os-shell:12-debian-12-r43
+        - name: postgres-exporter
+          image: docker.io/bitnamilegacy/postgres-exporter:0.17.1-debian-12-r6
+        - name: postgresql
+          image: docker.io/bitnamilegacy/postgresql:17.4.0-debian-12-r17
   minio:
     enabled: false
+    # Update minio image to use bitnami legacy registry
+    image:
+      repository: bitnamilegacy/minio
+    clientImage:
+      repository: bitnamilegacy/minio-client
+    volumePermissions:
+      image:
+        repository: bitnamilegacy/os-shell
+    annotations:
+      category: Infrastructure
+      images: |
+        - name: minio
+          image: docker.io/bitnamilegacy/minio:2025.4.22-debian-12-r0
+        - name: minio-client
+          image: docker.io/bitnamilegacy/minio-client:2025.4.16-debian-12-r0
+        - name: os-shell
+          image: docker.io/bitnamilegacy/os-shell:12-debian-12-r43
   run:
     enabled: false
   tracking:
@@ -18,3 +57,23 @@ mlflow:
     user: postgres
     password: password
     database: db
+  # Update mlflow image to use bitnami legacy registry
+  image:
+    repository: bitnamilegacy/mlflow
+  gitImage:
+    repository: bitnamilegacy/git
+  volumePermissions:
+    image:
+      repository: bitnamilegacy/os-shell
+  waitContainer:
+    image:
+      repository: bitnamilegacy/os-shell
+  annotations:
+    category: MachineLearning
+    images: |
+      - name: git
+        image: docker.io/bitnamilegacy/git:2.49.0-debian-12-r6
+      - name: mlflow
+        image: docker.io/bitnamilegacy/mlflow:2.22.0-debian-12-r3
+      - name: os-shell
+        image: docker.io/bitnamilegacy/os-shell:12-debian-12-r43

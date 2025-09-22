@@ -22,3 +22,34 @@ kafka:
       client: 9093
       controller: 9097
       external: 19092
+
+  # Update kafka image to use bitnami legacy registry
+  image:
+    repository: bitnamilegacy/kafka
+
+  externalAccess:
+    autoDiscovery:
+      image:
+        repository: bitnamilegacy/kubectl
+
+  volumePermissions:
+    image:
+      repository: bitnamilegacy/os-shell
+
+  metrics:
+    kafka:
+      image:
+        repository: bitnamilegacy/kafka-exporter-archived
+
+    jmx:
+      image:
+        repository: bitnamilegacy/jmx-exporter
+
+  zookeeper:
+    image:
+      repository: bitnamilegacy/zookeeper
+
+    volumePermissions:
+      image:
+        repository: bitnamilegacy/os-shell
+

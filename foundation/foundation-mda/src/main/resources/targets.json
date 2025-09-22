@@ -563,22 +563,6 @@
     "overwritable": false
   },
   {
-    "name": "mlflowDockerPomFile",
-    "templateName": "templates/general-docker/mlflow.docker.pom.xml.vm",
-    "outputFile": "${moduleArtifactId}/pom.xml",
-    "generator": "com.boozallen.aiops.mda.generator.MlflowDockerPomGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "mlflowDockerFile",
-    "templateName": "templates/general-docker/mlflow.docker.file.vm",
-    "outputFile": "docker/Dockerfile",
-    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
     "name": "mlflowHelmChartFileV2",
     "templateName": "templates/deployment/mlflow/v2/mlflow.chart.yaml.vm",
     "outputFile": "apps/${appName}/Chart.yaml",
@@ -647,14 +631,6 @@
     "templateName": "templates/deployment/model-training-api/model-training-api.configmap.yaml.vm",
     "outputFile": "apps/${appName}/templates/configmap.yaml",
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "mlflowStartScript",
-    "templateName": "templates/general-docker/mlflow.start.sh.vm",
-    "outputFile": "start.sh",
-    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
   },

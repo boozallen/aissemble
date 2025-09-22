@@ -36,7 +36,6 @@ public class DockerGenerator extends AbstractResourcesGenerator {
      * |-------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------|
      * | airflowDockerFile                               | general-docker/airflow.docker.file.vm                                  | docker/Dockerfile                              |
      * | jenkinsControllerDockerFile                     | general-docker/jenkins.controller.docker.file.vm                       | docker/Dockerfile                              |
-     * | mlflowDockerFile                                | general-docker/mlflow.docker.file.vm                                   | docker/Dockerfile                              |
      * | policyDecisionPointAissembleSecurityProperties  | general-docker/policy-decision-point.aissemble-security.properties.vm  | krausening/base/aissemble-security.properties  |
      * | policyDecisionPointDockerFile                   | general-docker/policy.decision.point.docker.file.vm                    | docker/Dockerfile                              |
      * | quarkusServiceDockerFile                        | general-docker/quarkus.service.docker.file.vm                          | docker/Dockerfile                              |

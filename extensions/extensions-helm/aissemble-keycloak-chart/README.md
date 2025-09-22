@@ -11,6 +11,8 @@ helm install keycloak oci://ghcr.io/boozallen/aissemble-keycloak-chart --version
 # Properties
 See the Keycloak packaged by Bitnami [GitHub page](https://github.com/bitnami/charts/tree/main/bitnami/keycloak) for installation, usage, and parameters.
 
+**Note**: following the [changes to the Bitnami catalog](https://github.com/bitnami/charts/issues/35164), all existing container images are moved from the public catalog (docker.io/bitnami) to the Bitnami Legacy repository (docker.io/bitnamilegacy)
+
 ## Persistent Volume Claim for PostgreSQL Deployment
 The Helm deployment of Keycloak through the Bitnami community charts also result in a PostgreSQL deployment, which expects a connection from the Keycloak deployment. A persistent volume claim is maintained for the PostgreSQL database. However, when conducting local testing, any subsequent deployments after a teardown will cause the new deployment pods to be out of sync with the persistent volume claim in terms of expected credentials, thus resulting in an inability to authenticate with the database. 
 

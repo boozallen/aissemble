@@ -426,17 +426,6 @@
     ]
   },
   {
-    "name": "aissemble-mlflow-docker",
-    "targetReferences": [
-      {
-        "name": "mlflowDockerFile"
-      },
-      {
-        "name": "mlflowStartScript"
-      }
-    ]
-  },
-  {
     "name": "airflow-deploy-v2",
     "profileReferences": [
       {
@@ -1298,14 +1287,6 @@
       },
       {
         "name": "inferenceGitkeepFile"
-      }
-    ]
-  },
-  {
-    "name": "docker-pom-mlflow",
-    "targetReferences": [
-      {
-        "name": "mlflowDockerPomFile"
       }
     ]
   },

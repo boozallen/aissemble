@@ -68,6 +68,7 @@ _Note: instructions for adapting to these changes are outlined in the upgrade in
 - Removed local deployment tool Tilt, and the remote deployment tool ArgoCD as we migrated to use Helmfile as the aiSSEMBLE deployment tool.
 - Habushu is now configured with [`usePyenv`](https://github.com/TechnologyBrewery/habushu/tree/3b885791b347de91b02124633b32b2b723cdd6e2/docs#usepyenv) set to `false` by default in the `ci` profile
 - Habushu has been updated to version `3.0.0`. Review the [Habushu 3.0.0 Release Notes](https://github.com/TechnologyBrewery/habushu/releases/tag/habushu-3.0.0) for details on breaking changes and instructions on how to address them.
+- Bitnami has made changes to its public bitnami catalog (docker.io/bitnami), it moves Debian-based images to the [Bitnami Legacy repository](https://hub.docker.com/u/bitnamilegacy). We have updated our related images to use the bitnami legacy repository accordingly.
 
 # Known Issues
 
