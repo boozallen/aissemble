@@ -11,6 +11,8 @@ dynamic = ["version", "dependencies"]
 
 [tool.poetry]
 packages = [{include ="aissemble_test_data_delivery_pyspark_model_basic", from = "src"}]
+# We have to explicitly include all source not just generated as it's all git-ignored in the test modules
+include = [{path = "src/aissemble_test_data_delivery_pyspark_model_basic/generated/**/*.py", format = ["wheel", "sdist"]}]
 
 [tool.poetry.dependencies]
 confluent-kafka = { version = "2.1.1", optional = true }

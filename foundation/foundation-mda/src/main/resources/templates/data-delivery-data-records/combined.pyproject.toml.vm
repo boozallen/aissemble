@@ -9,7 +9,7 @@ authors = [{name = "Your Name", email = "<you@example.com>"}]
 requires-python = ">=3.9"
 
 [tool.poetry]
-packages = [{include = "${artifactIdPythonCase}", from = "src"}]
+include = [{path = "${artifactIdPythonCase}/generated/**/*.py", format = ["sdist", "wheel"]}]
 
 [tool.poetry.dependencies]
 pyspark = "${versionSpark}"
