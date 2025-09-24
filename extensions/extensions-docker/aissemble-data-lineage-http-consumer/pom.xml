@@ -80,4 +80,55 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>${group.fabric8.plugin}</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <buildArchiveOnly>false</buildArchiveOnly>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>test-image</id>
+                                <phase>integration-test</phase>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <run>
+                                                <wait>
+                                                    <http>
+                                                        <url>http://localhost:8080/q/health</url>
+                                                        <method>GET</method>
+                                                        <status>200</status>
+                                                    </http>
+                                                </wait>
+                                                <ports>
+                                                    <port>8080:8080</port>
+                                                </ports>
+                                            </run>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>test-image-cleanup</id>
+                                <phase>post-integration-test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
