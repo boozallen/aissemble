@@ -8,6 +8,8 @@ dynamic = ["version", "dependencies"]
 
 [tool.poetry]
 packages = [{include = "aissemble_machine_learning_training_base", from = "src"}]
+# We have to explicitly include all source not just generated as it's all git-ignored in the test modules
+include = [{path = "src/aissemble_machine_learning_training_base/generated/**/*.py", format = ["wheel", "sdist"]}]
 
 [tool.poetry.dependencies]
 aissemble-foundation-pdp-client-python = {path = "../../../../foundation/foundation-security/aissemble-foundation-pdp-client-python", develop = true}
