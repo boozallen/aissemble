@@ -28,6 +28,7 @@ jobs:
       RELEASE_VERSION: ${{ inputs.releaseVersion }}
       NEXT_DEVELOPMENT_VERSION: ${{ inputs.developmentVersion }}
       RELEASE_BRANCH: ${{ inputs.releaseBranch }}
+      DOCKER_BUILDER_NAME: k8s-multiarch
 
     steps:
       - name: Import GPG key
@@ -69,6 +70,21 @@ jobs:
         with:
           docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
           docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Provision Docker builder
+        id: provision-docker-builder
+        run: |
+          docker builder create --name=$DOCKER_BUILDER_NAME \
+                                --bootstrap \
+                                --driver=kubernetes \
+                                --platform=linux/amd64 \
+                                --driver-opt="nodeselector=kubernetes.io/arch=amd64","image=docker.io/moby/buildkit:v0.19.0"
+          docker builder create --name=$DOCKER_BUILDER_NAME \
+                                --append \
+                                --bootstrap \
+                                --driver=kubernetes \
+                                --platform=linux/arm64 \
+                                --driver-opt="nodeselector=kubernetes.io/arch=arm64","image=docker.io/moby/buildkit:v0.19.0"
+          mkdir ~/.docker/fabric8 && cp -R ~/.docker/buildx ~/.docker/fabric8/buildx
       - name: Create settings.xml
         id: create-settings-xml
         run: |
@@ -113,4 +129,9 @@ jobs:
           is-pre-release: ${{ steps.split_version_development.outputs.is-pre-release }}
           release-branch: ${{ steps.split_version.outputs.release-branch }}
           custom-facet-new-version: ${{ env.NEXT_DEVELOPMENT_VERSION }}
+      - name: Teardown Docker builder
+        id: teardown-docker-builder
+        if: always()
+        run: |
+          docker builder rm -f $DOCKER_BUILDER_NAME
 

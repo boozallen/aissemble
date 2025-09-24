@@ -353,10 +353,8 @@
                         <!-- Because the release plugin doesn't build after updating to the next development snapshot,
                           the habushu-managed updates to pyproject.toml files lags behind. To prevent the first
                           committer after a release from needing to commit these files, we force the update here. -->
-                        <!-- NB: the scm:add was added after the 1.7.0 release as the updated pyproject.toml files weren't being
-                            added to the dev snapshot update commit. This wasn't noticed until now, because prior to this release
-                            we were manually bumping the dev version before we even cut the actual release. -->
                         <completionGoals>org.technologybrewery.habushu:habushu-maven-plugin:initialize-habushu scm:add</completionGoals>
+                        <preparationProfiles>aissemble-release</preparationProfiles>
                         <releaseProfiles>central-release,aissemble-release</releaseProfiles>
                     </configuration>
                 </plugin>
