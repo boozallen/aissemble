@@ -224,12 +224,6 @@
       },
       {
         "name": "dataLineageProperties"
-      },
-      {
-        "name": "DockerfileBuilderStageTemplate"
-      },
-      {
-        "name": "DockerfileFinalStageTemplate"
       }
     ]
   },
@@ -470,12 +464,6 @@
       },
       {
         "name": "trainingGitkeepFile"
-      },
-      {
-        "name": "DockerfileBuilderStageTemplate"
-      },
-      {
-        "name": "DockerfileFinalStageTemplate"
       }
     ]
   },
@@ -1299,12 +1287,6 @@
       },
       {
         "name": "inferenceGitkeepFile"
-      },
-      {
-        "name": "DockerfileBuilderStageTemplate"
-      },
-      {
-        "name": "DockerfileFinalStageTemplate"
       }
     ]
   },

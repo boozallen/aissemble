@@ -2035,21 +2035,5 @@
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
-  },
-  {
-    "name": "DockerfileBuilderStageTemplate",
-    "templateName": "templates/general-docker/dockerfile.builder.stage.template.vm",
-    "outputFile": "templates/dockerfile_builder_stage_template.vm",
-    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
-  },
-  {
-    "name": "DockerfileFinalStageTemplate",
-    "templateName": "templates/general-docker/dockerfile.final.stage.template.vm",
-    "outputFile": "templates/dockerfile_final_stage_template.vm",
-    "generator": "com.boozallen.aiops.mda.generator.DockerGenerator",
-    "metadataContext": "targeted",
-    "overwritable": false
   }
 ]
