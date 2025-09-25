@@ -167,6 +167,15 @@
             "includes": ["pom.xml"]
           }
         ]
+      },
+      {
+        "name": "poetry-2-include-migration",
+        "implementation": "com.boozallen.aissemble.upgrade.migration.version_specific.Poetry2IncludeMigration",
+        "fileSets": [
+          {
+            "includes": ["pyproject.toml"]
+          }
+        ]
       }
     ]
   },

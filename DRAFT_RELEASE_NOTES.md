@@ -104,7 +104,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | helm-root-chart-migration                          | Move the root Chart.yaml and values.yaml files into the apps/common-infrastructure directory                                                                                                                                                         | aissemble.enable.helmfile.migration |
 | spark-provided-dependency-migration                | Remove the Hadoop, Hive, and Spark dependencies from the pipeline shaded jar                                                                                                                                                                         |                                     |
 | maven-build-cache-migration                        | Updates build cache configuration to avoid stale Docker images                                                                                                                                                                                       |                                     |
-| my-sql-connector-yaml-migration                    | Update the my-sql-connector package to use the version with no vulnerabilities                                                                                                                                                                             |                                     |
+| my-sql-connector-yaml-migration                    | Update the my-sql-connector package to use the version with no vulnerabilities                                                                                                                                                                       |                                     |
 | trino-delta-lake-connector-yaml-migration          | Add the Delta Lake connector configuration in the Trino chart values.yaml file                                                                                                                                                                       |                                     |
 | ruff-toml-file-generation-migration                | Generates an initial ruff.toml file with a few lines of configuration to make the ruff linting and formatting consistent with prior linting and formatting.  This file can be configured using https://docs.astral.sh/ruff/configuration/ as a guide |                                     |
 | habushu-monorepo-dependency-migration              | Ensures that all dependencies from Habushu modules on other Habushu modules in the same project are type `habushu`                                                                                                                                   |                                     |
@@ -112,6 +112,7 @@ To reduce burden of upgrading aiSSEMBLE, the Baton project is used to automate t
 | spark-bom-dependency-migration                     | Adds the `aissemble-spark-bom` to data delivery pipelines for centralized Spark, Hadoop, and Hive dependency management and ensures version alignment with the `aissemble-spark` image                                                               |                                     |
 | ml-train-pipeline-docker-migration                 | Adds Habushu `containerize-dependencies` goal to relevant ML training pipeline docker pom files                                                                                                                                                      |                                     |
 | root-dependency-version-migration                  | Updates the hard coded aissemble versions within the projects root POM file dependencies                                                                                                                                                             |                                     |
+| poetry-2-include-migration                         | Updates pyproject.toml files so that generated source files are still included in wheels after upgrading to Poetry 2                                                                                                                                 |                                     |
 
 Migrations with arguments will not be executed unless that argument is provided (e.g. `./mvnw org.technologybrewery.baton:baton-maven-plugin:baton-migrate -D<argumentName>`). To deactivate any of these migrations, add the following configuration to the `baton-maven-plugin` within your root `pom.xml`:
 
@@ -301,6 +302,14 @@ COPY --chown=spark ./src/main/resources/krausening/ ${SPARK_HOME}/krausening/
 # Switch to the spark user (which *is* 1001)
 USER spark
 WORKDIR /opt/spark/work-dir/
+```
+
+### For projects using Python that have customized the tool.poetry.include configuration
+The automated migration to handle the include configuration updates for Poetry 2 may not work as intended if the configuration has been customized.  Due to [the change](https://python-poetry.org/blog/announcing-poetry-2.0.0/#consistent-include-behavior) in how `include` is handled in Poetry 2, it is recommended that all include configurations are updated to explicitly declare the formats for which they should be included. E.g.:
+
+```toml
+[tool.poetry]
+include = [{path = "my/include/path", format = ["sdist", "wheel"]}]
 ```
 
 ## Final Steps - Required for All Projects
