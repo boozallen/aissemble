@@ -7,17 +7,16 @@ version = "1.0.0.dev"#*Version is automatically updated by Habushu*#
 description = "PySpark support for data records"
 authors = [{name = "Your Name", email = "<you@example.com>"}]
 requires-python = ">=3.9"
+dynamic = ["version", "dependencies"]
 
 [tool.poetry]
 include = [{path = "src/${artifactIdPythonCase}/generated/**/*.py", format = ["sdist", "wheel"]}]
 
 [tool.poetry.dependencies]
+${pythonDataRecords} = {path = "../${pythonDataRecords}", develop = true}
 pyspark = "${versionSpark}"
 
 aissemble-extensions-data-delivery-spark-py = "${aissemblePythonVersion}"
-
-[tool.poetry.group.monorepo.dependencies]
-${pythonDataRecords} = {path = "../${pythonDataRecords}", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 behave = ">=1.2.6"

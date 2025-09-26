@@ -7,12 +7,16 @@ version = "1.0.0.dev"
 description = "${pipeline.description|'Description of package'}"
 authors = [{name = "Your Name", email = "<you@example.com>"}]
 requires-python = ">=3.9"
+dynamic = ["version", "dependencies"]
 
 [tool.poetry]
 include = [{path = "src/${artifactIdPythonCase}/generated/**/*.py", format = ["sdist", "wheel"]}]
 
 [tool.poetry.dependencies]
-krausening = ">=20"
+#if ($enableSemanticDataSupport)
+${pythonDataRecords} = {path = "../../${projectName}-shared/${pythonDataRecords}", develop = true}
+#end
+krausening = ">=21"
 pyspark = "${versionSpark}"
 jsonpickle = "^2.1.0"
 pyyaml = "^6.0"
@@ -32,11 +36,6 @@ kafka-python = "^2.0.2"
 apache-sedona = "~${versionSedona}"
 #end
 
-#if ($enableSemanticDataSupport)
-[tool.poetry.group.monorepo.dependencies]
-${pythonDataRecords} = {path = "../../${projectName}-shared/${pythonDataRecords}", develop = true}
-
-#end
 [tool.poetry.group.dev.dependencies]
 behave = ">=1.2.6"
 nose = ">=1.3.7"

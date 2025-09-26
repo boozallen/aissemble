@@ -20,7 +20,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 pydantic = ">=2.8.0"
-krausening = ">=20"
+krausening = ">=21"
 cryptography = ">=42.0.4"
 pyjwt = ">=2.3.0"
 pyjks = ">=20.0.0"

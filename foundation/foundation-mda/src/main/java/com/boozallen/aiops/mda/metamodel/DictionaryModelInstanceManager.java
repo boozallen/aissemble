@@ -24,7 +24,7 @@ import com.boozallen.aiops.mda.metamodel.element.DictionaryType;
  */
 class DictionaryModelInstanceManager extends AbstractMetamodelManager<Dictionary> {
 
-    private static final DictionaryModelInstanceManager instance = new DictionaryModelInstanceManager();
+    private static final ThreadLocal<DictionaryModelInstanceManager> instance = ThreadLocal.withInitial(DictionaryModelInstanceManager::new);
 
     private Map<String, DictionaryType> dictionaryTypesByFullyQualifiedName = new HashMap<>();
 
@@ -34,7 +34,7 @@ class DictionaryModelInstanceManager extends AbstractMetamodelManager<Dictionary
      * @return singleton
      */
     public static DictionaryModelInstanceManager getInstance() {
-        return instance;
+        return instance.get();
     }
 
     /**

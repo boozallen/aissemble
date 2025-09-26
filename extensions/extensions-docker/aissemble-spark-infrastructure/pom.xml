@@ -151,11 +151,14 @@
                                                 <wait>
                                                     <http>
                                                         <!-- History server check -->
-                                                        <url>http://localhost:18080</url>
+                                                        <url>http://localhost:${host.port}</url>
                                                     </http>
                                                     <!-- Thrift server check -->
                                                     <log>.*HiveThriftServer2 started.*</log>
                                                 </wait>
+                                                <ports>
+                                                    <port>host.port:18080</port>
+                                                </ports>
                                                 <volumes>
                                                     <bind>
                                                         <volume>${project.basedir}/src/test/resources:/tmp/test</volume>
