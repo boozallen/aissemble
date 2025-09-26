@@ -50,3 +50,9 @@ Feature: Habushu Containerization Migration
     And the fermenter-mda plugin has the profile aissemble-spark-worker-docker
     When the spark worker docker pom migration executes
     Then the spark worker docker pom migration was skipped
+
+  Scenario: Spark worker docker POM file has no Habushu packaged dependency, the migration should be skipped
+    Given a spark worker POM without Habushu packaged dependencies
+    And the fermenter-mda plugin has the profile aissemble-spark-worker-docker
+    When the spark worker docker pom migration executes
+    Then the spark worker docker pom migration was skipped

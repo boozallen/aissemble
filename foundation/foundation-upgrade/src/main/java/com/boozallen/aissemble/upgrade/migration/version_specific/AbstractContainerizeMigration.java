@@ -13,6 +13,7 @@ package com.boozallen.aissemble.upgrade.migration.version_specific;
 import static org.apache.commons.lang3.StringUtils.repeat;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
 import org.apache.maven.project.MavenProject;
@@ -26,6 +27,7 @@ public abstract class AbstractContainerizeMigration extends AbstractPomMigration
     private static final String FERMENTER_MDA_PLUGIN_ID = "org.technologybrewery.fermenter:fermenter-mda";
     private static final String DOCKER_BUILD_TYPE = "docker-build";
     private static final String PROFILE = "profile";
+    private static final String HABUSHU = "habushu";
 
     protected boolean containsHabushuContainerizeGoal(MavenProject mavenProject) {
         Plugin habushuPlugin = mavenProject.getPlugin(HABUSHU_MAVEN_PLUGIN_ID);
@@ -83,5 +85,19 @@ public abstract class AbstractContainerizeMigration extends AbstractPomMigration
                 .append(repeat(indent, indentCount+1)).append("</executions>\n")
                 .append(repeat(indent, indentCount)).append("</plugin>\n");
         return builder.toString();
+    }
+
+    /**
+     * Checks for and `habushu` packaged dependencies exists.
+     * @param mavenProject the maven project to check against
+     * @return true if any `habushu` packaged dependencies exist
+     */
+    protected boolean containerHabushuPackagedDependency(MavenProject mavenProject) {
+        for (Dependency dependency : mavenProject.getDependencies()) {
+            if(HABUSHU.equals(dependency.getType())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
