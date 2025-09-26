@@ -78,6 +78,12 @@
                         <goal>deploy</goal>
                     </goals>
                 </goalsList>
+                <!-- necessary for calculating the Python version string for use in Docker -->
+                <goalsList artifactId="build-helper-maven-plugin">
+                    <goals>
+                        <goal>regex-property</goal>
+                    </goals>
+                </goalsList>
             </goalsLists>
         </runAlways>
         <reconcile logAllProperties="true">

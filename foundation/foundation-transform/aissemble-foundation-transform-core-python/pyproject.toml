@@ -15,7 +15,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 aissemble-foundation-core-python = {path = "../../aissemble-foundation-core-python", develop = true}
 pydantic = ">=2.8.0"
-krausening = ">=20"
+krausening = ">=21"
 cryptography = ">=42.0.4"
 
 [tool.poetry.group.dev.dependencies]

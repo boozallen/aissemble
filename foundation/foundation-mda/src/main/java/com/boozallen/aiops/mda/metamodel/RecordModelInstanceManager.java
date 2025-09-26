@@ -29,7 +29,7 @@ import java.util.Map;
  */
 class RecordModelInstanceManager extends AbstractMetamodelManager<Record> {
 
-    private static final RecordModelInstanceManager instance = new RecordModelInstanceManager();
+    private static final ThreadLocal<RecordModelInstanceManager> instance = ThreadLocal.withInitial(RecordModelInstanceManager::new);
 
     /**
      * Returns the singleton instance of this class.
@@ -37,7 +37,7 @@ class RecordModelInstanceManager extends AbstractMetamodelManager<Record> {
      * @return singleton
      */
     public static RecordModelInstanceManager getInstance() {
-        return instance;
+        return instance.get();
     }
 
     /**

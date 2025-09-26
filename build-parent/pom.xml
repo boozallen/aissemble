@@ -31,7 +31,7 @@
         <version.hive>4.0.0</version.hive>
         <version.python>3.11.4</version.python>
         <version.help.plugin>3.5.0</version.help.plugin>
-        <version.krausening>20</version.krausening>
+        <version.krausening>21</version.krausening>
         <version.plugin.plugin>3.9.0</version.plugin.plugin>
         <version.quarkus>3.15.6</version.quarkus>
         <version.quarkus.plugin>${version.quarkus}</version.quarkus.plugin>
@@ -86,7 +86,7 @@
         <version.hadoop>3.4.1</version.hadoop>
         <version.neo4j>4.1.5_for_spark_3</version.neo4j>
         <version.aws.sdk.bundle>2.31.8</version.aws.sdk.bundle>
-        <version.baton>1.1.1</version.baton>
+        <version.baton>1.1.2</version.baton>
         <version.quarkus.cucumber>1.0.0</version.quarkus.cucumber>
         <version.quarkus.cucumber.java>${version.cucumber}</version.quarkus.cucumber.java>
 

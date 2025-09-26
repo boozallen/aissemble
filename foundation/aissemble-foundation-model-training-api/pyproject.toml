@@ -19,7 +19,7 @@ uvicorn = {version = "^0.18.0", extras = ["standard"]}
 pydantic = ">=2.8.0"
 kubernetes = ">=26.1.0"
 urllib3 = "^2.5.0"
-krausening = ">=20"
+krausening = ">=21"
 
 [tool.poetry.group.dev.dependencies]
 behave = ">=1.2.6"

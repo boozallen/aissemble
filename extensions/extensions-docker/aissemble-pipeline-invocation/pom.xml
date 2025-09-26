@@ -97,13 +97,13 @@
                                             <run>
                                                 <wait>
                                                     <http>
-                                                        <url>http://localhost:8080/invoke-pipeline/healthcheck</url>
+                                                        <url>http://localhost:${host.port}/invoke-pipeline/healthcheck</url>
                                                         <method>GET</method>
                                                         <status>200</status>
                                                     </http>
                                                 </wait>
                                                 <ports>
-                                                    <port>8080:8080</port>
+                                                    <port>host.port:8080</port>
                                                 </ports>
                                                 <volumes>
                                                     <bind>

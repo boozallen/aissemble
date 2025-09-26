@@ -21,7 +21,7 @@ import com.boozallen.aiops.mda.metamodel.element.PipelineElement;
  */
 class PipelineModelInstanceManager extends AbstractMetamodelManager<Pipeline> {
 
-	private static final PipelineModelInstanceManager instance = new PipelineModelInstanceManager();
+	private static final ThreadLocal<PipelineModelInstanceManager> instance = ThreadLocal.withInitial(PipelineModelInstanceManager::new);
 
 	/**
 	 * Returns the singleton instance of this class.
@@ -29,7 +29,7 @@ class PipelineModelInstanceManager extends AbstractMetamodelManager<Pipeline> {
 	 * @return singleton
 	 */
 	public static PipelineModelInstanceManager getInstance() {
-		return instance;
+		return instance.get();
 	}
 
 	/**

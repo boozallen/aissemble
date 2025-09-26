@@ -13,7 +13,7 @@ dynamic = ["version", "dependencies"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-krausening = ">=20"
+krausening = ">=21"
 pyspark = "3.5.5"
 pyyaml = "^6.0"
 
