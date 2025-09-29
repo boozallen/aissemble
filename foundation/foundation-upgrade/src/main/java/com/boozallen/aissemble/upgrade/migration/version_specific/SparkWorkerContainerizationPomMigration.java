@@ -29,8 +29,10 @@ public class SparkWorkerContainerizationPomMigration extends AbstractContaineriz
     @Override
     protected boolean shouldExecuteOnFile(File pomFile) {
         MavenProject mavenProject = getMavenProject();
-        return isDockerBuildPackage(mavenProject) && containsFermenterProfile(mavenProject, AISSEMBLE_SPARK_WORKER_DOCKER)
-                && !containsHabushuContainerizeGoal(mavenProject);
+        return isDockerBuildPackage(mavenProject)
+                && containsFermenterProfile(mavenProject, AISSEMBLE_SPARK_WORKER_DOCKER)
+                && !containsHabushuContainerizeGoal(mavenProject)
+                && containerHabushuPackagedDependency(mavenProject);
     }
 
     @Override

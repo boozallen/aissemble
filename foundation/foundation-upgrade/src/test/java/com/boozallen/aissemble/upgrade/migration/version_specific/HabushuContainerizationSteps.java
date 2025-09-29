@@ -55,12 +55,6 @@ public class HabushuContainerizationSteps extends AbstractMigrationTest {
         // Already covered by test POM file content
     }
 
-    @When("the training docker pom migration executes")
-    public void theTrainingDockerPomMigrationExecutes() {
-        performMigration(trainingDockerPomMigration);
-        habushuMonorepoDependencyMigration.addProject("habushu-library", "habushu");
-    }
-
     @Given("an inference POM without a Habushu containerize goal")
     public void anInferencePOMWithoutAHabushuContainerizeGoal() throws IOException, XmlPullParserException {
         setTestFileToVersionMigration("InferenceDockerPomMigration", "pom.xml");
@@ -99,6 +93,18 @@ public class HabushuContainerizationSteps extends AbstractMigrationTest {
     public void a_spark_worker_pom_without_a_habushu_containerize_goal() throws XmlPullParserException, IOException {
         setTestFileToVersionMigration("SparkWorkerContainerizationPomMigration", "pom.xml");
         sparkWorkerContainerizationPomMigration.setMavenProject(MigrationTestUtils.createMavenProjectFromPom(testFile));
+    }
+
+    @Given("a spark worker POM without Habushu packaged dependencies")
+    public void aSparkWorkerPOMWithoutHabushuPackagedDependencies() throws XmlPullParserException, IOException {
+        setTestFileToVersionMigration("SparkWorkerContainerizationPomMigration", "without-habushu-packaged-dependencies.xml");
+        sparkWorkerContainerizationPomMigration.setMavenProject(MigrationTestUtils.createMavenProjectFromPom(testFile));
+    }
+
+    @When("the training docker pom migration executes")
+    public void theTrainingDockerPomMigrationExecutes() {
+        performMigration(trainingDockerPomMigration);
+        habushuMonorepoDependencyMigration.addProject("habushu-library", "habushu");
     }
 
     @When("the inference docker pom migration executes")

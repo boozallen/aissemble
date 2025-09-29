@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  aiSSEMBLE::Foundation::Upgrade
+  %%
+  Copyright (C) 2021 Booz Allen
+  %%
+  This software package is licensed under the Booz Allen Public License. All Rights Reserved.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>${groupId}</groupId>
-        <artifactId>${parentArtifactId}</artifactId>
-        <version>${version}</version>
+        <groupId>org.test</groupId>
+        <artifactId>swc-docker</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>swc-spark-worker-docker</artifactId>
 
     <packaging>docker-build</packaging>
 
-    <name>${parentDescriptiveName}::Spark</name>
-    <description>Build for a Spark Docker container which contains all pipelines</description>
+    <name>Test Project::Docker::Spark</name>
+    <description>Build for a Spark Docker container which contains no Habushu packaged dependencies</description>
     <modelVersion>4.0.0</modelVersion>
 
     <build>
@@ -62,8 +72,8 @@
                 </executions>
                 <configuration>
                     <groupId>${project.groupId}</groupId>
-                    <modelsArtifactId>${rootArtifactId}-pipeline-models</modelsArtifactId>
-                    <pipelinesDirectory>${project.parent.parent.basedir}/${rootArtifactId}-pipelines/</pipelinesDirectory>
+                    <modelsArtifactId>swc-pipeline-models</modelsArtifactId>
+                    <pipelinesDirectory>${project.parent.parent.basedir}/swc-pipelines/</pipelinesDirectory>
                     <outputDirectory>${project.build.directory}/dockerbuild/</outputDirectory>
                     <habushuArtifactVersion>${version.habushu.dist.artifact}</habushuArtifactVersion>
                     <targetPipelineTypes>
@@ -73,7 +83,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>${project.groupId}</groupId>
-                        <artifactId>${rootArtifactId}-pipeline-models</artifactId>
+                        <artifactId>swc-pipeline-models</artifactId>
                         <version>${project.version}</version>
                     </dependency>
                 </dependencies>
@@ -82,49 +92,14 @@
                 <groupId>${group.fabric8.plugin}</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
             </plugin>
-            #if ($pysparkPipelines.size() > 0)
-            <plugin>
-                <groupId>org.technologybrewery.habushu</groupId>
-                <artifactId>habushu-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>dockerize</id>
-                        <goals>
-                            <goal>containerize-dependencies</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <dockerfile>src/main/resources/docker/Dockerfile</dockerfile>
-                            <!--The purpose of following config is so that we can switch the user from spark to root to allow -->
-                            <!--Habushu containerization to build correctly (correct permissions). -->
-                            <!-- Should be switched to aissemble-spark like the final image and the Dockerfile template should be -->
-                            <!-- updated to remove root_habushu_builder after TechnologyBrewery/habushu#389 -->
-                            <dockerBuilderBase>root_habushu_builder</dockerBuilderBase>
-                            <dockerFinalBase>${DOCKER_BASELINE_REPO_ID}boozallen/aissemble-spark:${VERSION_AISSEMBLE}</dockerFinalBase>
-                            <dockerUser>spark</dockerUser>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            #end
         </plugins>
     </build>
-
     <dependencies>
-    #foreach($pipeline in $sparkPipelines)
         <dependency>
-            <groupId>#[[${project.groupId}]]#</groupId>
-            <artifactId>${pipeline}</artifactId>
-            <version>#[[${project.version}]]#</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>my-spark-pipeline</artifactId>
+            <version>${project.version}</version>
         </dependency>
-    #end
-    #foreach($pipeline in $pysparkPipelines)
-        <dependency>
-            <groupId>#[[${project.groupId}]]#</groupId>
-            <artifactId>${pipeline}</artifactId>
-            <version>#[[${project.version}]]#</version>
-            <type>habushu</type>
-        </dependency>
-    #end
     </dependencies>
 </project>
+
