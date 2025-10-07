@@ -1,10 +1,18 @@
 [project]
 name = "aissemble-machine-learning-training-base"
 version = "1.13.0.dev"
-description = "Description of package"
-authors = [{name = "Your Name", email = "you@example.com"}]
+description = "Machine Learning Training Test Module"
+authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 requires-python = ">=3.9"
 dynamic = ["version", "dependencies"]
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+homepage = "https://github.com/boozallen/aissemble"
+documentation = "https://boozallen.github.io/aissemble"
+repository = "https://github.com/boozallen/aissemble"
 
 [tool.poetry]
 packages = [{include = "aissemble_machine_learning_training_base", from = "src"}]

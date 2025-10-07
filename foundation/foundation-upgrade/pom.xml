@@ -27,20 +27,15 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>update-file-header</id>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/*.json</exclude>
-                                <!-- These files are copied into the downstream project so we should exclude adding
-                                the aissemble license header -->
-                                <exclude>**/resources/version_specific/**</exclude>
-                                <exclude>**/resources/test-files/version-specific/HelmfileDeploymentScriptMigration/**</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.json</exclude>
+                        <!-- These files are copied into the downstream project so we should exclude adding
+                        the aissemble license header -->
+                        <exclude>**/resources/version_specific/**</exclude>
+                        <exclude>**/resources/test-files/version-specific/HelmfileDeploymentScriptMigration/**</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

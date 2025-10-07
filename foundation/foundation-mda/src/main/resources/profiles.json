@@ -1241,17 +1241,17 @@
   {
     "name": "integration-test-docker",
     "deprecated": "true",
-		"warningMessage": "The profile integration-test-data-pipeline is deprecated. Delete it from your POM to avoid build errors when it is removed.\n\u001B[31mThis profile will be **REMOVED** in aiSSEMBLE v1.14.0!\u001B[0m"
+		"warningMessage": "The profile integration-test-data-pipeline is deprecated. Delete it from your POM to avoid build errors when it is removed.\n\u001B[31mThis profile will be **REMOVED** in aiSSEMBLE v2.1.0!\u001B[0m"
   },
   {
     "name": "integration-test-chart",
     "deprecated": "true",
-		"warningMessage": "The profile integration-test-chart is deprecated. Delete it from your POM to avoid build errors when it is removed.\n\u001B[31mThis profile will be **REMOVED** in aiSSEMBLE v1.14.0!\u001B[0m"
+		"warningMessage": "The profile integration-test-chart is deprecated. Delete it from your POM to avoid build errors when it is removed.\n\u001B[31mThis profile will be **REMOVED** in aiSSEMBLE v2.1.0!\u001B[0m"
   },
   {
     "name": "integration-test-data-pipeline",
     "deprecated": "true",
-		"warningMessage": "The profile integration-test-data-pipeline is deprecated. Delete it from your POM to avoid build errors when it is removed.\n\u001B[31mThis profile will be **REMOVED** in aiSSEMBLE v1.14.0!\u001B[0m"
+		"warningMessage": "The profile integration-test-data-pipeline is deprecated. Delete it from your POM to avoid build errors when it is removed.\n\u001B[31mThis profile will be **REMOVED** in aiSSEMBLE v2.1.0!\u001B[0m"
   },
   {
     "name": "training-post-actions",

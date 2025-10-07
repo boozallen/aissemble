@@ -12,6 +12,13 @@ authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 requires-python = ">=3.9"
 dynamic = ["version", "dependencies"]
 readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+homepage = "https://github.com/boozallen/aissemble"
+documentation = "https://boozallen.github.io/aissemble"
+repository = "https://github.com/boozallen/aissemble"
 
 # NB Later iterations should improve this project and aissemble-versioning-docker's structure, as dependencies from
 # the versioning_api.py module within aissemble-versioning-docker are defined here and installed when the corresponding

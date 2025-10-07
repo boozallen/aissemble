@@ -959,12 +959,6 @@ To suppress enforce-helm-version rule, you must add following plugin to the root
                 </dependencies>
             </plugin>
 
-            <!-- Apply licenses automatically -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-            </plugin>
-
             <!-- Set properties containing the scm revision -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
