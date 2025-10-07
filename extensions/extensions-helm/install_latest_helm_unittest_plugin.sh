@@ -6,4 +6,4 @@ helm plugin uninstall unittest
 rm -rf "$(helm env HELM_CACHE_HOME)/plugins/https-github.com-helm-unittest-helm-unittest.git"
 
 # reinstall the helm unittest plugin latest version
-helm plugin install https://github.com/helm-unittest/helm-unittest.git
+helm plugin install --version "1.0.1" https://github.com/helm-unittest/helm-unittest.git
