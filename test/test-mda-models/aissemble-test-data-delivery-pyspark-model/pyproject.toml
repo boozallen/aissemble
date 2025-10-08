@@ -7,6 +7,14 @@ description = "Pyspark test module"
 authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 requires-python = ">=3.9"
 dynamic = ["version", "dependencies"]
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+homepage = "https://github.com/boozallen/aissemble"
+documentation = "https://boozallen.github.io/aissemble"
+repository = "https://github.com/boozallen/aissemble"
 
 [tool.poetry]
 packages = [{include = "aissemble_test_data_delivery_pyspark_model", from = "src" }]

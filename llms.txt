@@ -3,7 +3,7 @@
 
 ## Overview
 - Purpose: This repository consists of standardized components which make it easy for dev teams to quickly reuse and apply to their project to drive consistency, reliability and low delivery risk.
-- License: Booz Allen Public License v1.0
+- License: Apache License 2.0
 - Organization: Booz Allen Public
 
 ## Core Documentation

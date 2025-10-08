@@ -6,6 +6,7 @@
 
 [![Build](https://github.com/boozallen/aissemble/actions/workflows/build.yml/badge.svg)](https://github.com/boozallen/aissemble/actions/workflows/build.yml)
 [![Publish Docs](https://github.com/boozallen/aissemble/actions/workflows/publish.yml/badge.svg)](https://github.com/boozallen/aissemble/actions/workflows/publish.yml)
+[![License](https://img.shields.io/github/license/boozallen/aissemble-open-inference-protocol)](https://www.apache.org/licenses/LICENSE-2.0)
 ## aiSSEMBLE Overview
 
 ### Purpose of the aiSSEMBLE

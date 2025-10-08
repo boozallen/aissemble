@@ -1,12 +1,15 @@
 # Major Additions
 
+## aiSSEMBLE is now licensed under the Apache License
+The aiSSEMBLE baseline license has been updated from the Booz Allen Public License to the Apache License 2.0.
+
 ## Helmfile Integration
 Given that the local and higher environment deployment methods not aligned can cause hard-to-diagnose bugs and slow development, in an effort to have one tool to deploy to all environments, going forward aiSSEMBLE will support [Helmfile](https://helmfile.readthedocs.io/en/latest/) instead of Tilt and ArgoCD. New project will be generated with Helmfile and existing projects are encouraged to use it but are not required to. Follow **Finalizing the Upgrade** section for migration instructions.
 
 ## Removal of Integration Tests
-New projects generated on version 1.13.0 of aiSSEMBLE will no longer include an automatically generated `<project-name>-tests` module. If you upgrade an existing project to 1.13.0, your `<project-name>-tests` module will remain intact — but be aware that there will not be any further updates or enhancements to these integration tests going forward.
+New projects generated on version 2.0.0 of aiSSEMBLE will no longer include an automatically generated `<project-name>-tests` module. If you upgrade an existing project to 2.0.0, your `<project-name>-tests` module will remain intact — but be aware that there will not be any further updates or enhancements to these integration tests going forward.
 
-In addition, the following Fermenter profiles related to the integration tests module have been deprecated and will be removed in version 1.14.0 of aiSSEMBLE:
+In addition, the following Fermenter profiles related to the integration tests module have been deprecated and will be removed in version 2.1.0 of aiSSEMBLE:
 - `integration-test-docker`
 - `integration-test-chart`
 - `integration-test-data-pipeline`
@@ -17,7 +20,7 @@ To help ensure data delivery pipelines are compatible with the `aissemble-spark`
 Spark upgraded from 3.5.4 to 3.5.5. For upgrade information, see the Spark [release notes](https://spark.apache.org/news/spark-3-5-5-released.html).
 
 ## Poetry 2 Support and Minimum Python
-New projects generated on version 1.13.0 of aiSSEMBLE will use Poetry 2.x.  With this update, the minimum version of Python supported by aiSSEMBLE is updated from 3.8 to 3.9.
+New projects generated on version 2.0.0 of aiSSEMBLE will use Poetry 2.x.  With this update, the minimum version of Python supported by aiSSEMBLE is updated from 3.8 to 3.9.
 
 ## Habushu 3.0 upgrade
 Habushu has been upgraded to [version 3.0](https://github.com/TechnologyBrewery/habushu/releases/tag/habushu-3.0.0). Because Habushu 3 has dropped support for other containerization approaches, aiSSEMBLE will now use the [containerize-dependencies feature](https://github.com/TechnologyBrewery/habushu/blob/dev/docs/CONFIGURATION_README.md#containerization-configurations) to package PySpark and Machine Learning pipelines.  The Habushu project has [examples](https://github.com/TechnologyBrewery/habushu/blob/dev/examples/poetry/habushu-poetry-containerize/README.md) to help illustrate how containerization works.
@@ -71,7 +74,7 @@ _Note: instructions for adapting to these changes are outlined in the upgrade in
 - Bitnami has made changes to its public bitnami catalog (docker.io/bitnami), it moves Debian-based images to the [Bitnami Legacy repository](https://hub.docker.com/u/bitnamilegacy). We have updated our related images to use the bitnami legacy repository accordingly.
 
 # Known Issues
-_There are no known issues with the 1.13 release._
+_There are no known issues with the 2.0 release._
 
 # Known Vulnerabilities
 
@@ -80,7 +83,7 @@ _There are no known issues with the 1.13 release._
 
 # How to Upgrade
 
-The following steps will upgrade your project to `1.13`. These instructions consist of multiple phases:
+The following steps will upgrade your project to `2.0`. These instructions consist of multiple phases:
 - Automatic Upgrades - no manual action required
 - Precondition Steps - needed in all situations
 - Conditional Steps (e.g., Python steps, Java steps, if you use Metadata, etc)
@@ -147,12 +150,12 @@ mvn help:effective-pom -Doutput=effective-pom.xml
 ```
 
 ### Beginning the Upgrade
-To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 1.13.0 version of the build-parent:
+To start your aiSSEMBLE upgrade, update your project's pom.xml to use the 2.0.0 version of the build-parent:
 ```xml
 <parent>
     <groupId>com.boozallen.aissemble</groupId>
     <artifactId>build-parent</artifactId>
-    <version>1.13.0</version>
+    <version>2.0.0</version>
 </parent>
 ```
 

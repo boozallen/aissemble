@@ -1,15 +1,5 @@
 #!/bin/bash
 
-###
-# #%L
-# AIOps Foundation::Archetype::Project
-# %%
-# Copyright (C) 2021 Booz Allen
-# %%
-# This software package is licensed under the Booz Allen Public License. All Rights Reserved.
-# #L%
-###
-
 set -o pipefail
 echo -e "\n\n **** TESTING ARCHETYPE GENERATION **** \n\n"
 
