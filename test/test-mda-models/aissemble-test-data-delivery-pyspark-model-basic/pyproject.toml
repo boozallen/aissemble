@@ -3,7 +3,7 @@
 
 [project]
 name = "aissemble-test-data-delivery-pyspark-model-basic"
-version = "1.13.0.dev"
+version = "2.1.0.dev"
 description = "Pyspark test module"
 authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 requires-python = ">=3.9"

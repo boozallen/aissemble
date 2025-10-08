@@ -6,7 +6,7 @@ packages = [
 
 [project]
 name = "aissemble-foundation-drift-detection-client-python"
-version = "1.13.0.dev"
+version = "2.1.0.dev"
 description = ""
 authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 requires-python = ">=3.9"

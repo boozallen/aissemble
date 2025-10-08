@@ -1,6 +1,6 @@
 [project]
 name = "aissemble-foundation-data-lineage-python"
-version = "1.13.0.dev"
+version = "2.1.0.dev"
 description = "Data lineage API for Python scripts"
 authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 requires-python = ">=3.9"
