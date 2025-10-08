@@ -5,7 +5,7 @@ packages = [
 
 [project]
 name = "aissemble-foundation-model-lineage"
-version = "1.13.0.dev"
+version = "2.1.0.dev"
 authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
 description = "Model lineage API"
 requires-python = ">=3.9"
